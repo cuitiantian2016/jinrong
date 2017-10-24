@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="udesk_sdk_3.7.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/UdeskSDKUI/libs/udesk_sdk_3.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

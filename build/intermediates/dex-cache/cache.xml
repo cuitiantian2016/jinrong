@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b55f77f591f3a9cecbab862ca37a6846364171a7">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\4\classes_26d3c1081720d848c654b8b4b06d60e95e4e3909\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\weiboSDKCore_3.1.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2bc78160e85f56f81c91271dfa44bd8c8293cb94">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\weiboSDKCore_3.1.4_ff73b1265f7c0291e0735920a88a123895f15f35\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\SocialSDK_QQZone_3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ff910e5d3dfbefced3f8e1dcc1c63b732596589e">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\SocialSDK_QQZone_3_cc61705586d12d66df134c964d74bbc231fced6c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\app\libs\Xg_sdk_v3.0_20170301_1733.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a094b3459b0d605d27f8fd52c59064bc5bef8761">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\2\Xg_sdk_v3.0_20170301_1733_d9b956b790d18579d1b689c4082810976de206e5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\smart-refresh\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f84aba136449cdfc6ce91103c6317712749d9e1a">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\4\classes_317ea09d67cf07972f513be6205f1dc87ed2e948\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\app\libs\mid-core-sdk-3.7.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2d3570cc6c1a0e219ddb8e626273a7cb80cd030b">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\2\mid-core-sdk-3.7.2_78673391a3b306722f16a994682ff53a8213bc54\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\app\libs\umeng-analytics-v6.0.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="27238b0acdc4e764623a653d5776488783e9ae3f">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\2\umeng-analytics-v6.0.4_7f43f8d64d6a4c62ff773c2d9010b1c64b309bd4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\umeng_social_sdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a2c11b19978da9ed3b6b33eac668648f51498cd">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\umeng_social_sdk_981b6e58c3fe33cf089bfae8c4130301149d92fa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\SocialSDK_WeiXin_2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3c58b6706322d7171117de5614eab042cb2998ea">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\SocialSDK_WeiXin_2_652e7b1716f133880323883d9eadf978f2265b49\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\app\libs\jcore-android-1.1.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d68147a2495acffea57266427a8b76a1e99baea8">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\2\jcore-android-1.1.6_d113bac7f74f765c1169fde040ffb17bffbda943\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\SpinkitLoadingLib\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7194e6fbad51a34149088093477dd698f34d609f">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\4\classes_fa9484c4ad5a14085e85170e48537739d304ea92\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\app\libs\jpush-android-3.0.8.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c90213171bb7b8fd7ea5071a924aa4355589177f">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\2\jpush-android-3.0.8_03c2e4f50a53d7ed9bc357a367b257ec77e98f1f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\open_sdk_r5509.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a9aa09ddac7478e982b3ff55f7e32a7e51f67dbf">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\open_sdk_r5509_5779cec171cfdc0e415da8fe79db5e3e3f273255\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\UdeskSDKUI\build\intermediates\bundles\default\libs\udesk_sdk_3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4ce8b604924148cb428a17a5cb917801f3496635">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\udesk_sdk_3.7.0_c1c43c69c884b3e5b9aebb1ebe1eeb0e82000d6b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\UdeskSDKUI\build\intermediates\bundles\default\libs\udesk-asmack-8-4.0.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1013b231faea151d83fc47ce400ba45deea385fd">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\udesk-asmack-8-4.0.6_e57ddbddad7708ec358fe5b0bef4f32bb4f9b4bc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\SocialSDK_WeiXin_1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b5fe9dcdaca41bdb2874b503a628723c658346c8">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\SocialSDK_WeiXin_1_890805f3809d42130c3e93d3fc6127725d153628\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\PlatFormLibs\build\intermediates\bundles\default\libs\SocialSDK_Sina.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dcd692fb17016baefd40990545747698a966eb29">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\8\SocialSDK_Sina_164a0e4a516391c90bd6446426ff35ab7d5c8f33\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\future-for-android\UdeskSDKUI\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6e6a462c0b71a3f199e803cb958ae03780e6531a">
+        <dex dex="F:\future-for-android\app\build\intermediates\transforms\dex\official\debug\folders\1000\4\classes_2ae95df2408efd39b983437c04d806a204aef8cf\classes.dex" />
+    </item>
+
+</items>
