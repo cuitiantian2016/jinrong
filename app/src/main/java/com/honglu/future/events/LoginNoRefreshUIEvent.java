@@ -2,7 +2,7 @@ package com.honglu.future.events;
 
 import android.content.Context;
 
-import com.honglu.future.ui.mine.bean.UserInfoBean;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 
 public class LoginNoRefreshUIEvent extends BaseEvent {

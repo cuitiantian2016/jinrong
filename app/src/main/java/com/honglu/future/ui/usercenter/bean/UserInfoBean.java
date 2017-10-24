@@ -1,4 +1,4 @@
-package com.honglu.future.ui.mine.bean;
+package com.honglu.future.ui.usercenter.bean;
 
 //用户信息
 public class UserInfoBean {

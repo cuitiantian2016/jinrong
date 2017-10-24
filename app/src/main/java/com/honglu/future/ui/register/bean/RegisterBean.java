@@ -3,7 +3,7 @@ package com.honglu.future.ui.register.bean;/**
  */
 
 
-import com.honglu.future.ui.mine.bean.UserInfoBean;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 /**
  * Created by xiejingwen at 2017/2/16 0016

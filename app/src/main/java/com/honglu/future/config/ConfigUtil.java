@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.honglu.future.BuildConfig;
-import com.honglu.future.ui.mine.bean.UserInfoBean;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
 import com.orhanobut.logger.Logger;

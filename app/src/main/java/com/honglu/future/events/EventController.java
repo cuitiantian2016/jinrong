@@ -16,7 +16,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.ui.login.contract.LoginOutContract;
 import com.honglu.future.ui.login.presenter.LoginOutPresenter;
 import com.honglu.future.ui.main.activity.MainActivity;
-import com.honglu.future.ui.mine.bean.UserInfoBean;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
