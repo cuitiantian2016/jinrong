@@ -1,1 +1,1 @@
-include ':app', ':PlatFormLibs', ':SpinkitLoadingLib', ':UdeskSDKUI'
+include ':app', ':PlatFormLibs', ':SpinkitLoadingLib', ':UdeskSDKUI', ':smart-refresh'
