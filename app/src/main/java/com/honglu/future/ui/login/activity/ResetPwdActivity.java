@@ -1,15 +1,14 @@
-package com.honglu.future.ui.register.activity;
+package com.honglu.future.ui.login.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
-import com.honglu.future.ui.login.activity.LoginActivity;
-import com.honglu.future.ui.login.activity.ResetPwdActivity;
-import com.honglu.future.ui.register.contract.RegisterContract;
-import com.honglu.future.ui.register.presenter.RegisterPresenter;
+import com.honglu.future.ui.login.contract.ResetPwdContract;
+import com.honglu.future.ui.login.presenter.ResetPwdPresenter;
 import com.honglu.future.util.Tool;
 
 import butterknife.BindView;
@@ -19,7 +18,11 @@ import butterknife.OnClick;
  * Created by zq on 2017/10/24.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
+public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements ResetPwdContract.View {
+    @BindView(R.id.iv_close)
+    ImageView mClose;
+    @BindView(R.id.iv_back)
+    ImageView mBack;
     @BindView(R.id.tv_content)
     TextView mContent;
     @BindView(R.id.tv_login)
@@ -42,7 +45,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public int getLayoutId() {
-        return R.layout.acticity_register;
+        return R.layout.activity_reset_pwd;
     }
 
     @Override
@@ -52,23 +55,20 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void loadData() {
-        mContent.setText("注册");
-        mTvLogin.setText("登录");
+        mContent.setText("密码重置");
+        mClose.setVisibility(View.GONE);
+        mBack.setVisibility(View.VISIBLE);
+        mTvLogin.setVisibility(View.GONE);
     }
 
-    @OnClick({R.id.tv_login, R.id.btn_register, R.id.iv_close})
+    @OnClick({R.id.btn_reset_pwd, R.id.iv_back})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
-            case R.id.tv_login:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+            case R.id.btn_reset_pwd:
                 finish();
                 break;
-            case R.id.btn_register:
-                finish();
-                break;
-            case R.id.iv_close:
+            case R.id.iv_back:
                 finish();
                 break;
         }

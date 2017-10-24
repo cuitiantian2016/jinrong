@@ -109,7 +109,7 @@
                 android:layout_marginLeft="@dimen/dimen_15dp"
                 android:layout_weight="0.6"
                 android:background="@null"
-                android:hint="6-12位登录密码"
+                android:hint="设置6-12位新密码"
                 android:inputType="textPassword"
                 android:maxLength="12"
                 android:maxLines="1"
@@ -126,37 +126,15 @@
             android:background="@color/global_grey_divider_color" />
 
         <TextView
-            android:id="@+id/btn_register"
+            android:id="@+id/btn_reset_pwd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
             android:layout_marginTop="@dimen/dimen_30dp"
             android:background="@color/color_008EFF"
             android:gravity="center"
-            android:text="注册"
+            android:text="完成"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_18sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注册即代表同意"
-                android:textColor="@color/color_BFBFBF"
-                android:textSize="@dimen/dimen_14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="《用户协议》"
-                android:textColor="@color/color_008EFF"
-                android:textSize="@dimen/dimen_14sp" />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
