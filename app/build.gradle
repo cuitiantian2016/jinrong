@@ -25,7 +25,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('G:/newxnpacket/noblemetal.jks')
+            storeFile file('../noblemetal.jks')
             storePassword 'honglu'
             keyAlias 'xiaoniu'
             keyPassword 'honglu'
@@ -37,7 +37,7 @@ android {
             v2SigningEnabled true
             keyAlias 'xiaoniu'
             keyPassword 'honglu'
-            storeFile file('G:/newxnpacket/noblemetal.jks')
+            storeFile file('../noblemetal.jks')
             storePassword 'honglu'
         }
     }
