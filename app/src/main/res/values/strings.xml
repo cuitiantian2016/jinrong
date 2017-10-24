@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">小牛期货</string>
+    <item name="np__increment" type="id" />
+    <item name="np__decrement" type="id" />
+    <string name="app_short">xnsudai</string>
+    <!--额度-->
+    <string name="limit_hint">为保证提额申请顺利通过，请务必填写真实信息！</string>
+    <!--完善资料-->
+    <string name="perfect_information">认证中心</string>
+    <!--个人信息-->
+    <string name="personal_information">个人信息</string>>
+    <!--保存-->
+    <string name="save">保存</string>
+    <string name="text_certification_more_higher_credit_limit">认证越多，信用额度就会越高哦~</string>
+    <string name="text_amount">借款金额</string>
+    <string name="text_amount_time">借款期限</string>
+    <string name="text_quick_credit_analyst">快速信审费</string>
+    <string name="text_amount_management_fees">账户管理费</string>
+    <string name="text_interest_on_borrowings">借款利息</string>
+    <string name="text_to_book_value">到账金额</string>
+    <string name="text_face_recognition">人脸识别</string>
+    <string name="text_idcard_recognition">身份证识别</string>
+    <string name="text_name">姓名</string>
+    <string name="text_please_enter_your_realname">请输入真实姓名</string>
+    <string name="text_idcard">身份证</string>
+    <string name="text_current_residential_address">现居住地址</string>
+    <string name="hint_select_nowlives_cities">请选择现居城市</string>
+    <string name="hint_enter_detail_address">请输入详细地址</string>
+    <string name="text_immediate_family_membercontacts">直系亲属联系人</string>
+    <string name="text_other_contacts">其他联系人</string>
+    <string name="text_lose_password">忘记密码</string>
+    <string name="text_submit">提交</string>
+    <string name="text_change_trade_password">修改交易密码</string>
+    <string name="text_cardholder">持卡人</string>
+    <string name="text_belong_bank">所属银行</string>
+    <string name="text_verification_code">验证码</string>
+    <string name="text_input_verification_code">请输入验证码</string>
+    <string name="text_enter_bank_reserve_phone_number">请输入银行预留手机号</string>
+    <string name="text_input_bankcard">请输入银行卡号</string>
+    <string name="text_chose_bank">请选择银行</string>
+    <string name="text_register_or_login">您好，请注册/登录</string>
+    <string name="text_invitecode_optional">邀请码（选填）</string>
+    <string name="text_have_invitecode"><![CDATA[我有邀请码>]]></string>
+    <string name="text_register_next_agree">注册即同意</string>
+    <string name="text_register">注册</string>
+    <string name="text_login">登录</string>
+    <string name="text_input_login_password">请输入登录密码</string>
+    <string name="text_next">下一步</string>
+    <string name="text_find_password">找回密码</string>
+    <string name="text_input_phonenumber">请输入手机号</string>
+    <string name="text_send_verification">发送验证码</string>
+    <string name="text_input_new_password">请输入新密码</string>
+    <string name="text_determine_new_password">请确认新密码</string>
+    <string name="text_add_bankcard">添加银行卡</string>
+    <string name="text_save">保存</string>
+    <string name="text_me_know">我知道了</string>
+    <string name="text_weixin">微信</string>
+    <string name="text_frient_group">朋友圈</string>
+    <string name="text_qq">QQ</string>
+    <string name="text_qq_area">QQ空间</string>
+    <string name="text_close">关闭</string>
+    <string name="text_loan_agreement">《小牛秒借借款协议》</string>
+    <string name="text_platform_serve_agreement">《平台服务协议》</string>
+    <string name="text_message">消息中心</string>
+    <string name="text_now_no_payment_bill">当前无还款账单哦~</string>
+    <string name="text_loading_your_work_pic">上传你的工作证照</string>
+    <string name="text_onclick_add">点击添加</string>
+
+</resources>

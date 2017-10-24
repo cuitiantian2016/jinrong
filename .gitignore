@@ -1,0 +1,15 @@
+.gradle
+/.idea/
+/build/
+/calendar/build/
+/calendar/calendar.iml
+/smart-refresh/build/
+/smart-refresh/smart-refresh.iml
+/UdeskSDKUI/build/
+/UdeskSDKUI/UdeskSDKUI.iml
+/updateLib/build/
+/updateLib/updateLib.iml
+/zhitou-for-android.iml
+/app/app.iml
+local.properties
+/library/library.iml

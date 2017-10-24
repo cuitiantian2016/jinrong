@@ -1,0 +1,782 @@
+[
+    {
+        "outputFile": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 54,
+                    "endOffset": 105
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 54,
+                        "endOffset": 105
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 785,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1089
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 785,
+                        "endLine": 22,
+                        "endColumn": 12,
+                        "endOffset": 1089
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1094,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1199
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1094,
+                        "endLine": 25,
+                        "endColumn": 12,
+                        "endOffset": 1199
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 1204,
+                    "endLine": 28,
+                    "endColumn": 12,
+                    "endOffset": 1299
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1204,
+                        "endLine": 28,
+                        "endColumn": 12,
+                        "endOffset": 1299
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 1304,
+                    "endLine": 31,
+                    "endColumn": 12,
+                    "endOffset": 1403
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1304,
+                        "endLine": 31,
+                        "endColumn": 12,
+                        "endOffset": 1403
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 1408,
+                    "endLine": 34,
+                    "endColumn": 12,
+                    "endOffset": 1515
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1408,
+                        "endLine": 34,
+                        "endColumn": 12,
+                        "endOffset": 1515
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 35,
+                    "startColumn": 4,
+                    "startOffset": 1520,
+                    "endLine": 37,
+                    "endColumn": 12,
+                    "endOffset": 1627
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 1520,
+                        "endLine": 37,
+                        "endColumn": 12,
+                        "endOffset": 1627
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 1632,
+                    "endLine": 40,
+                    "endColumn": 12,
+                    "endOffset": 1737
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 4,
+                        "startOffset": 1632,
+                        "endLine": 40,
+                        "endColumn": 12,
+                        "endOffset": 1737
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 41,
+                    "startColumn": 4,
+                    "startOffset": 1742,
+                    "endLine": 46,
+                    "endColumn": 12,
+                    "endOffset": 1993
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 41,
+                        "startColumn": 4,
+                        "startOffset": 1742,
+                        "endLine": 46,
+                        "endColumn": 12,
+                        "endOffset": 1993
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 1998,
+                    "endLine": 49,
+                    "endColumn": 12,
+                    "endOffset": 2109
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 47,
+                        "startColumn": 4,
+                        "startOffset": 1998,
+                        "endLine": 49,
+                        "endColumn": 12,
+                        "endOffset": 2109
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 2114,
+                    "endLine": 52,
+                    "endColumn": 12,
+                    "endOffset": 2215
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 2114,
+                        "endLine": 52,
+                        "endColumn": 12,
+                        "endOffset": 2215
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 53,
+                    "startColumn": 4,
+                    "startOffset": 2220,
+                    "endLine": 55,
+                    "endColumn": 12,
+                    "endOffset": 2325
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 53,
+                        "startColumn": 4,
+                        "startOffset": 2220,
+                        "endLine": 55,
+                        "endColumn": 12,
+                        "endOffset": 2325
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 56,
+                    "startColumn": 4,
+                    "startOffset": 2330,
+                    "endLine": 58,
+                    "endColumn": 12,
+                    "endOffset": 2443
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 56,
+                        "startColumn": 4,
+                        "startOffset": 2330,
+                        "endLine": 58,
+                        "endColumn": 12,
+                        "endOffset": 2443
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 59,
+                    "startColumn": 4,
+                    "startOffset": 2448,
+                    "endLine": 61,
+                    "endColumn": 12,
+                    "endOffset": 2561
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 59,
+                        "startColumn": 4,
+                        "startOffset": 2448,
+                        "endLine": 61,
+                        "endColumn": 12,
+                        "endOffset": 2561
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 2566,
+                    "endLine": 64,
+                    "endColumn": 12,
+                    "endOffset": 2677
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 62,
+                        "startColumn": 4,
+                        "startOffset": 2566,
+                        "endLine": 64,
+                        "endColumn": 12,
+                        "endOffset": 2677
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 65,
+                    "startColumn": 4,
+                    "startOffset": 2682,
+                    "endLine": 67,
+                    "endColumn": 12,
+                    "endOffset": 2781
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 65,
+                        "startColumn": 4,
+                        "startOffset": 2682,
+                        "endLine": 67,
+                        "endColumn": 12,
+                        "endOffset": 2781
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 68,
+                    "startColumn": 4,
+                    "startOffset": 2786,
+                    "endLine": 70,
+                    "endColumn": 12,
+                    "endOffset": 2894
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 68,
+                        "startColumn": 4,
+                        "startOffset": 2786,
+                        "endLine": 70,
+                        "endColumn": 12,
+                        "endOffset": 2894
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 71,
+                    "startColumn": 4,
+                    "startOffset": 2899,
+                    "endLine": 73,
+                    "endColumn": 12,
+                    "endOffset": 3005
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 71,
+                        "startColumn": 4,
+                        "startOffset": 2899,
+                        "endLine": 73,
+                        "endColumn": 12,
+                        "endOffset": 3005
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 74,
+                    "startColumn": 4,
+                    "startOffset": 3010,
+                    "endLine": 76,
+                    "endColumn": 12,
+                    "endOffset": 3119
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 74,
+                        "startColumn": 4,
+                        "startOffset": 3010,
+                        "endLine": 76,
+                        "endColumn": 12,
+                        "endOffset": 3119
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 77,
+                    "startColumn": 4,
+                    "startOffset": 3124,
+                    "endLine": 79,
+                    "endColumn": 12,
+                    "endOffset": 3223
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 77,
+                        "startColumn": 4,
+                        "startOffset": 3124,
+                        "endLine": 79,
+                        "endColumn": 12,
+                        "endOffset": 3223
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 80,
+                    "startColumn": 4,
+                    "startOffset": 3228,
+                    "endLine": 82,
+                    "endColumn": 12,
+                    "endOffset": 3321
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 80,
+                        "startColumn": 4,
+                        "startOffset": 3228,
+                        "endLine": 82,
+                        "endColumn": 12,
+                        "endOffset": 3321
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 83,
+                    "startColumn": 4,
+                    "startOffset": 3326,
+                    "endLine": 85,
+                    "endColumn": 12,
+                    "endOffset": 3435
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 83,
+                        "startColumn": 4,
+                        "startOffset": 3326,
+                        "endLine": 85,
+                        "endColumn": 12,
+                        "endOffset": 3435
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 86,
+                    "startColumn": 4,
+                    "startOffset": 3440,
+                    "endLine": 91,
+                    "endColumn": 12,
+                    "endOffset": 3691
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 86,
+                        "startColumn": 4,
+                        "startOffset": 3440,
+                        "endLine": 91,
+                        "endColumn": 12,
+                        "endOffset": 3691
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 92,
+                    "startColumn": 4,
+                    "startOffset": 3696,
+                    "endLine": 94,
+                    "endColumn": 12,
+                    "endOffset": 3807
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 92,
+                        "startColumn": 4,
+                        "startOffset": 3696,
+                        "endLine": 94,
+                        "endColumn": 12,
+                        "endOffset": 3807
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 95,
+                    "startColumn": 4,
+                    "startOffset": 3812,
+                    "endLine": 97,
+                    "endColumn": 12,
+                    "endOffset": 3913
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 95,
+                        "startColumn": 4,
+                        "startOffset": 3812,
+                        "endLine": 97,
+                        "endColumn": 12,
+                        "endOffset": 3913
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 98,
+                    "startColumn": 4,
+                    "startOffset": 3918,
+                    "endLine": 100,
+                    "endColumn": 12,
+                    "endOffset": 4023
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 98,
+                        "startColumn": 4,
+                        "startOffset": 3918,
+                        "endLine": 100,
+                        "endColumn": 12,
+                        "endOffset": 4023
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 101,
+                    "startColumn": 4,
+                    "startOffset": 4028,
+                    "endLine": 103,
+                    "endColumn": 12,
+                    "endOffset": 4141
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 101,
+                        "startColumn": 4,
+                        "startOffset": 4028,
+                        "endLine": 103,
+                        "endColumn": 12,
+                        "endOffset": 4141
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 104,
+                    "startColumn": 4,
+                    "startOffset": 4146,
+                    "endLine": 106,
+                    "endColumn": 12,
+                    "endOffset": 4259
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 104,
+                        "startColumn": 4,
+                        "startOffset": 4146,
+                        "endLine": 106,
+                        "endColumn": 12,
+                        "endOffset": 4259
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 107,
+                    "startColumn": 4,
+                    "startOffset": 4264,
+                    "endLine": 109,
+                    "endColumn": 12,
+                    "endOffset": 4375
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 107,
+                        "startColumn": 4,
+                        "startOffset": 4264,
+                        "endLine": 109,
+                        "endColumn": 12,
+                        "endOffset": 4375
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 110,
+                    "startColumn": 4,
+                    "startOffset": 4380,
+                    "endLine": 112,
+                    "endColumn": 12,
+                    "endOffset": 4479
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 110,
+                        "startColumn": 4,
+                        "startOffset": 4380,
+                        "endLine": 112,
+                        "endColumn": 12,
+                        "endOffset": 4479
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 113,
+                    "startColumn": 4,
+                    "startOffset": 4484,
+                    "endLine": 115,
+                    "endColumn": 12,
+                    "endOffset": 4592
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 113,
+                        "startColumn": 4,
+                        "startOffset": 4484,
+                        "endLine": 115,
+                        "endColumn": 12,
+                        "endOffset": 4592
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 116,
+                    "startColumn": 4,
+                    "startOffset": 4597,
+                    "endLine": 118,
+                    "endColumn": 12,
+                    "endOffset": 4703
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 116,
+                        "startColumn": 4,
+                        "startOffset": 4597,
+                        "endLine": 118,
+                        "endColumn": 12,
+                        "endOffset": 4703
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 119,
+                    "startColumn": 4,
+                    "startOffset": 4708,
+                    "endLine": 121,
+                    "endColumn": 12,
+                    "endOffset": 4817
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 119,
+                        "startColumn": 4,
+                        "startOffset": 4708,
+                        "endLine": 121,
+                        "endColumn": 12,
+                        "endOffset": 4817
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 122,
+                    "startColumn": 4,
+                    "startOffset": 4822,
+                    "endLine": 124,
+                    "endColumn": 12,
+                    "endOffset": 4921
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 122,
+                        "startColumn": 4,
+                        "startOffset": 4822,
+                        "endLine": 124,
+                        "endColumn": 12,
+                        "endOffset": 4921
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 125,
+                    "startColumn": 4,
+                    "startOffset": 4926,
+                    "endLine": 127,
+                    "endColumn": 12,
+                    "endOffset": 5031
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 125,
+                        "startColumn": 4,
+                        "startOffset": 4926,
+                        "endLine": 127,
+                        "endColumn": 12,
+                        "endOffset": 5031
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 128,
+                    "startColumn": 4,
+                    "startOffset": 5036,
+                    "endLine": 130,
+                    "endColumn": 12,
+                    "endOffset": 5147
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 128,
+                        "startColumn": 4,
+                        "startOffset": 5036,
+                        "endLine": 130,
+                        "endColumn": 12,
+                        "endOffset": 5147
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 131,
+                    "startColumn": 4,
+                    "startOffset": 5152,
+                    "endLine": 133,
+                    "endColumn": 12,
+                    "endOffset": 5243
+                },
+                "from": {
+                    "file": "F:\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 131,
+                        "startColumn": 4,
+                        "startOffset": 5152,
+                        "endLine": 133,
+                        "endColumn": 12,
+                        "endOffset": 5243
+                    }
+                }
+            }
+        ]
+    }
+]
