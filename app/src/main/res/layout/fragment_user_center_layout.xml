@@ -1,8 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <include layout="@layout/layout_toolbar" />
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_toolbar" />
+
+        <TextView
+            android:id="@+id/tv_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/global_black_color"
+            android:textSize="@dimen/dimen_16sp"
+            android:text="@string/text_setup"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_10dp">
+
+            <com.honglu.future.widget.CircleImageView
+                android:id="@+id/iv_head"
+                android:layout_width="@dimen/dimen_70dp"
+                android:layout_height="@dimen/dimen_70dp"
+                android:src="@mipmap/img_head"/>
+
+            <TextView
+                android:id="@+id/tv_loginRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_30sp"
+                android:textColor="@color/global_black_color"
+                android:layout_marginLeft="@dimen/dimen_18sp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/text_login_register"/>
+
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/global_black_color"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/dimen_15sp"
+                android:text="13262645906"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_20sp"
+                android:textColor="@color/global_black_color"
+                android:layout_marginLeft="@dimen/dimen_18sp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/text_me_account"
+                android:layout_marginTop="@dimen/dimen_31dp"
+                android:layout_marginBottom="@dimen/dimen_31dp"
+                android:layout_weight="1"/>
+
+
+            <TextView
+                android:id="@+id/tv_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_18sp"
+                android:textColor="@color/color_008EFF"
+                android:layout_gravity="center_vertical"
+                android:drawableRight="@mipmap/ic_right_blue_arrow"
+                android:drawablePadding="@dimen/dimen_2dp"
+                android:text="登录期货账户"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_novice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:drawableLeft="@mipmap/ic_user_novice"
+            android:drawablePadding="@dimen/dimen_13dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/dimen_22dp"
+            android:paddingTop="@dimen/dimen_22dp"
+            android:text="@string/text_user_novice"
+            android:textColor="@color/global_black_color"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_E3E3E3"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+        <TextView
+            android:id="@+id/tv_kefu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_18sp"
+            android:textColor="@color/global_black_color"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:drawableLeft="@mipmap/ic_user_kefu"
+            android:drawablePadding="@dimen/dimen_13dp"
+            android:paddingTop="@dimen/dimen_22dp"
+            android:paddingBottom="@dimen/dimen_22dp"
+            android:gravity="center_vertical"
+            android:text="@string/text_user_kefu"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_E3E3E3"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:drawableLeft="@mipmap/ic_user_phone"
+            android:drawablePadding="@dimen/dimen_13dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/dimen_22dp"
+            android:paddingTop="@dimen/dimen_22dp"
+            android:text="@string/text_user_phone"
+            android:textColor="@color/global_black_color"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_E3E3E3"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+        <TextView
+            android:id="@+id/tv_aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_18sp"
+            android:textColor="@color/global_black_color"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:drawableLeft="@mipmap/ic_user_aboutus"
+            android:drawablePadding="@dimen/dimen_13dp"
+            android:paddingTop="@dimen/dimen_22dp"
+            android:paddingBottom="@dimen/dimen_22dp"
+            android:gravity="center_vertical"
+            android:text="@string/text_user_aboutus"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_E3E3E3"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_18sp"
+            android:textColor="@color/global_black_color"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:drawableLeft="@mipmap/ic_user_appupdate"
+            android:drawablePadding="@dimen/dimen_13dp"
+            android:paddingTop="@dimen/dimen_22dp"
+            android:paddingBottom="@dimen/dimen_22dp"
+            android:gravity="center_vertical"
+            android:text="@string/text_user_update"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

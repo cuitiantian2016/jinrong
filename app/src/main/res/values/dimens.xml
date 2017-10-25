@@ -105,6 +105,6 @@
     <dimen name="dimen_90dp">90dp</dimen>
     <dimen name="dimen_100dp">100dp</dimen>
     <dimen name="dimen_120dp">120dp</dimen>
-
+    <dimen name="dimen_line">0.5dp</dimen>
 
 </resources>
