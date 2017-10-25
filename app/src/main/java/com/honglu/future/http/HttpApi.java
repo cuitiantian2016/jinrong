@@ -1,6 +1,7 @@
 package com.honglu.future.http;
 
 import com.honglu.future.bean.BaseResponse;
+import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 
 import java.util.Map;

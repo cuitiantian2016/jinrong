@@ -30,7 +30,7 @@ public class BannerViewModel extends HomeContract.BannerView{
     private Context mContext;
 
     @BindView(R.id.banner)
-    private Banner mBanner;
+    public Banner mBanner;
     private AutoFlingBannerAdapter mAutoFlingBannerAdapter;
 
     public BannerViewModel(Context context){

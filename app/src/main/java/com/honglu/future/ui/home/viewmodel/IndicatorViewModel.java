@@ -18,14 +18,15 @@ public class IndicatorViewModel{
     private LinearLayout linearLayout;
     private int mPreNum = 0;
     private Context mContext;
-
-    public IndicatorViewModel(Context context){
+    View mView;
+    IndicatorViewModel(Context context, int mun){
         mContext = context;
-        View view = View.inflate(context, R.layout.view_indicator, null);
-        linearLayout = (LinearLayout) view.findViewById(R.id.ll_item_indicator);
+        mView = View.inflate(context, R.layout.view_indicator, null);
+        linearLayout = (LinearLayout) mView.findViewById(R.id.ll_item_indicator);
+        refreshNum(mun);
     }
 
-    public void refreshNum(int num) {
+    void refreshNum(int num) {
         if (mPreNum>0){//
             if (mPreNum!=num){
                 mPreNum = num;

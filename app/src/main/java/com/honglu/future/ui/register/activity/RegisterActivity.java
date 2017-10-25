@@ -30,7 +30,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     }
 
-    @Override
     public void stopLoading() {
 
     }
@@ -56,7 +55,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         mTvLogin.setText("登录");
     }
 
-    @OnClick({R.id.tv_login, R.id.btn_register, R.id.iv_close})
+    @OnClick({R.id.tv_login, R.id.iv_close})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -65,9 +64,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.btn_register:
-                finish();
-                break;
+//            case R.id.btn_register:
+//                finish();
+//                break;
             case R.id.iv_close:
                 finish();
                 break;
