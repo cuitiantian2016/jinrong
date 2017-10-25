@@ -65,5 +65,13 @@
     <string name="text_now_no_payment_bill">当前无还款账单哦~</string>
     <string name="text_loading_your_work_pic">上传你的工作证照</string>
     <string name="text_onclick_add">点击添加</string>
+    <string name="text_setup">设置</string>
+    <string name="text_login_register">登录/注册</string>
+    <string name="text_me_account">我的账户</string>
+    <string name="text_user_novice">新手入门</string>
+    <string name="text_user_kefu">在线客服</string>
+    <string name="text_user_phone">客服电话</string>
+    <string name="text_user_aboutus">关于我们</string>
+    <string name="text_user_update">版本检测</string>
 
 </resources>
