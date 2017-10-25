@@ -76,10 +76,10 @@ public  abstract class HttpSubscriber<T> extends Subscriber<T>{
         }
         _onCompleted();
     }
-    protected abstract void _onStart();
-    protected abstract void _onNext(T t);
-    protected abstract void _onError(String message);
-    protected abstract void _onCompleted();
+    protected void _onStart(){}
+    protected void _onNext(T t){}
+    protected void _onError(String message){};
+    protected void _onCompleted(){}
     protected void _onError(String message,int code){
         _onError(message);
     }

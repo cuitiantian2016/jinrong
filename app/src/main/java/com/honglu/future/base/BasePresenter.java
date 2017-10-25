@@ -30,6 +30,11 @@ public abstract class BasePresenter<T extends BaseView> {
 
     public final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject = PublishSubject.create();
 
+    public BasePresenter(){
+    }
+    public BasePresenter(T mView){
+        init(mView);
+    }
     public void init(T v) {
         this.mView = v;
         this.onStart();

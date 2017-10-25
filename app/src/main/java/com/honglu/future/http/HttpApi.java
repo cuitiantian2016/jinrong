@@ -48,4 +48,9 @@ public interface HttpApi {
                                                     @Field("user_from") String user_from,
                                                     @Field("captcha") String captcha);
 
+    //
+    @FormUrlEncoded
+    @GET("credit-user/register")
+    Observable<BaseResponse<BannerData>> getBannerData();
+
 }

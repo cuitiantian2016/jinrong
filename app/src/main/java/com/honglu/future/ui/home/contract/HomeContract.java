@@ -1,30 +1,19 @@
 package com.honglu.future.ui.home.contract;
 
 
-import com.honglu.future.base.BaseView;
-import com.honglu.future.ui.home.bean.HomeIndexResponseBean;
+import com.honglu.future.base.IBaseView;
+import com.honglu.future.ui.home.bean.BannerData;
 
 /**
  * Created by xiejingwen at 2017/2/15 0015
  */
 
 public interface HomeContract {
-    interface View extends BaseView {
-        void indexSuccess(HomeIndexResponseBean result, boolean isClickLend);
-        void confirmFailedSuccess();
+    abstract class BannerView extends IBaseView {//banner的界面组件
+       public abstract void bindData(BannerData bannerData);
     }
-    interface Presenter{
-        /**
-         * 首页数据
-         * @param isClickLend  是否刷新index接口以获取最新认证状态（用于点击借款按钮）
-         */
-        void loadIndex(boolean isClickLend);
 
-        /**
-         * 借款被拒 点击按钮调用。
-         *
-         * @param id
-         */
-        void confirmFailed(String id);
+    interface BannerPresenter{
+        void getBannerData();
     }
 }

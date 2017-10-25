@@ -116,8 +116,6 @@
     <color name="color_E6E4EA">#E6E4EA</color>
     <color name="color_F35B5A">#F35B5A</color>
     <color name="color_F3EFEB">#F3EFEB</color>
-    <color name="color_008EFF">#008EFF</color>
-    <color name="color_E3E3E3">#E3E3E3</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>
