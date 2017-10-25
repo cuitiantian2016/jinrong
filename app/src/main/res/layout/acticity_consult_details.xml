@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_news_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v4.widget.NestedScrollView
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@color/actionsheet_gray"/>
+            <TextView
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/dimen_20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="铁矿石：供需矛盾依旧，多空争夺激烈，需要加强风险"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_22sp" />
+            <include
+                layout="@layout/layout_consult_details_publish_man"/>
+            <View
+                style="@style/line_base_horizontal"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/dimen_20dp"
+                android:background="#FFE6E6E6" />
+            <WebView
+                android:id="@+id/webView_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/dimen_20dp"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <include
+        layout="@layout/layout_toolbar"/>
+</RelativeLayout>

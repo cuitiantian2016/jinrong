@@ -128,5 +128,12 @@
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>
+    <!--基础色-->
+    <color name="color_white">#FFFFFF</color>
+
+    <!--咨询详情页颜色-->
+    <color name="color_333333">#333333</color>
+    <color name="color_86A2B0">#86A2B0</color>
+    <color name="color_B1B1B3">#B1B1B3</color>
 
 </resources>
