@@ -28,6 +28,7 @@ import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
 import com.honglu.future.ui.main.presenter.ActivityPresenter;
+import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.util.DeviceUtils;
@@ -100,6 +101,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             case R.id.rb_home:
                 setPaddingAndFillStatusBar(HomeFragment.getInstance());
                 break;
+            case R.id.rb_market:
+                setPaddingAndFillStatusBar(MarketFragment.getInstance());
             case R.id.rb_trade:
                 setPaddingAndFillStatusBar(TradeFragment.getInstance());
                 break;
@@ -122,15 +125,15 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     /*Logs.e("首页111");*/
                     oldCheckId = R.id.rb_home;
                     break;
+                case R.id.rb_market:
+                    toTabIndex = FragmentFactory.FragmentStatus.Market;
+                    oldCheckId = R.id.rb_market;
+                    changeTab(FragmentFactory.FragmentStatus.Market);
+                    break;
                 case R.id.rb_trade:
                     toTabIndex = FragmentFactory.FragmentStatus.Trade;
                     oldCheckId = R.id.rb_trade;
-                    if (App.getConfig().getLoginStatus()) {
-                        changeTab(FragmentFactory.FragmentStatus.Trade);
-                    } else {
-                        toLogin();
-                        return;
-                    }
+                    changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_account:
                     toTabIndex = FragmentFactory.FragmentStatus.Account;
@@ -224,14 +227,17 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public int getCheckIdByStatus(FragmentFactory.FragmentStatus status) {
         int id = R.id.rb_home;
         switch (status) {
-            case Account:
-                id = R.id.rb_account;
-                break;
             case Home:
                 id = R.id.rb_home;
                 break;
+            case Market:
+                id = R.id.rb_market;
+                break;
             case Trade:
                 id = R.id.rb_trade;
+                break;
+            case Account:
+                id = R.id.rb_account;
                 break;
             default:
                 break;

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.honglu.future.ui.home.fragment.HomeFragment;
+import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.ui.usercenter.fragment.UserCenterFragment;
 
@@ -24,6 +25,7 @@ public class FragmentFactory {
     public enum FragmentStatus {
         None,
         Home,
+        Market,
         Trade,
         Account
     }
@@ -52,6 +54,9 @@ public class FragmentFactory {
                 return;
             case Home:
                 selectFragment = HomeFragment.getInstance();
+                break;
+            case Market:
+                selectFragment = MarketFragment.getInstance();
                 break;
             case Trade:
                 selectFragment = TradeFragment.getInstance();

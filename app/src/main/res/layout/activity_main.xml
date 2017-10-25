@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
     android:clipChildren="false"
-    >
+    android:orientation="vertical">
     <!--style="@style/MatchMatch.Vertical"
     app:divider="@drawable/divider_horizontal"
     app:showDividers="middle"-->
@@ -15,8 +13,9 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <RadioGroup
         android:id="@+id/group"
         android:layout_width="match_parent"
@@ -28,18 +27,25 @@
             android:id="@+id/rb_home"
             style="@style/menu_tab"
             android:text="首页"
-            app:rbDrawableTop="@drawable/selector_menu_1"/>
+            app:rbDrawableTop="@drawable/selector_menu_1" />
+
+        <com.honglu.future.widget.MyRadioButton
+            android:id="@+id/rb_market"
+            style="@style/menu_tab"
+            android:text="行情 "
+            app:rbDrawableTop="@drawable/selector_menu_2" />
 
         <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_trade"
             style="@style/menu_tab"
             android:text="交易"
-            app:rbDrawableTop="@drawable/selector_menu_2" />
+            app:rbDrawableTop="@drawable/selector_menu_3" />
+
         <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_account"
             style="@style/menu_tab"
             android:text="我的"
-            app:rbDrawableTop="@drawable/selector_menu_3" />
+            app:rbDrawableTop="@drawable/selector_menu_4" />
     </RadioGroup>
 
 </LinearLayout>
