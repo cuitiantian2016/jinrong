@@ -1,4 +1,4 @@
-package com.honglu.future.app.util;
+package com.honglu.future.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

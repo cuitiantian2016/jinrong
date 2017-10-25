@@ -315,4 +315,8 @@
     </attr>
     <!-- 设置字体全大写 -->
     <attr name="tl_textAllCaps" format="boolean"/>
+
+    <declare-styleable name="CountDownTextView">
+        <attr name="refer" format="reference"/>
+    </declare-styleable>
 </resources>

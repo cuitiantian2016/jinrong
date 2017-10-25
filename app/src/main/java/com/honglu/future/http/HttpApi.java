@@ -7,6 +7,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 import java.util.Map;
 import java.util.Objects;
@@ -31,28 +32,26 @@ import rx.Observable;
 public interface HttpApi {
 
     //所有需要的泛型 添加：BaseResponse<UserInfo>
-
-    //上传用户信息
+    //用户注册
     @FormUrlEncoded
-    @POST("credit-app/device-report")
-    Observable<BaseResponse> deviceReport(@Field("device_id") String device_id,
-                                          @Field("installed_time") String installed_time,
-                                          @Field("uid") String uid,
-                                          @Field("username") String username,
-                                          @Field("net_type") String net_type,
-                                          @Field("identifyID") String identifyID,
-                                          @Field("appMarket") String appMarket);
-
-    //注册
-    @FormUrlEncoded
-    @POST("credit-user/register")
-    Observable<BaseResponse<RegisterBean>> register(@Field("phone") String phone,
-                                                    @Field("code") String code,
+    @POST("mobileApi/user/info/register")
+    Observable<BaseResponse<RegisterBean>> register(@Field("code") String code,
+                                                    @Field("sourceId") String sourceId,
+                                                    @Field("mobileNum") String mobileNum,
                                                     @Field("password") String password,
-                                                    @Field("source") String source,
-                                                    @Field("invite_code") String invite_code,
-                                                    @Field("user_from") String user_from,
-                                                    @Field("captcha") String captcha);
+                                                    @Field("nickName") String nickName);
+
+    //用户注册发送验证码
+    @FormUrlEncoded
+    @POST("mobileApi/user/info/register/send/sms")
+    Observable<BaseResponse> getCode(@Field("sourceId") String sourceId,
+                                     @Field("mobileNum") String mobileNum);
+
+    //用户登录
+    @FormUrlEncoded
+    @POST("mobileApi/user/info/login")
+    Observable<BaseResponse<UserInfoBean>> login(@Field("mobileNum") String mobileNum,
+                                                 @Field("password") String password);
 
     //首页banner
     @GET("credit-user/register")

@@ -75,5 +75,6 @@
     <string name="text_user_update">版本检测</string>
     <string name="news_flash">24h快讯</string>
     <string name="news_column">最新资讯</string>
+    <string name="verify_get">获取验证码</string>
 
 </resources>

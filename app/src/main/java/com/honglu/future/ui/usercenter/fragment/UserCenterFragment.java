@@ -2,16 +2,16 @@ package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
-import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
-import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
 import com.honglu.future.util.LogUtils;
@@ -19,6 +19,11 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -27,6 +32,8 @@ import butterknife.OnClick;
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
         UserCenterContract.View {
+    @BindView(R.id.tv_loginRegister)
+    TextView mUserName;
 
     public static UserCenterFragment userCenterFragment;
 
@@ -87,10 +94,36 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_LOGIN) {//登录
+                // 数据刷新
+                if (App.getConfig().getLoginStatus()) {
+                    mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+                }
+            }
+        }
     }
 
     private void initView() {
         mTitle.setTitle(false, R.color.white, "我的");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+        userCenterFragment = null;
     }
 }

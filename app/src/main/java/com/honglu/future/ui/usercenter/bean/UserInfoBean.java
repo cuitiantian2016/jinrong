@@ -2,36 +2,44 @@ package com.honglu.future.ui.usercenter.bean;
 
 //用户信息
 public class UserInfoBean {
-    /**
-     * uid : 422
-     * username : 13120678525
-     * token : 3d17a21c0811f5b47d2fc019c2205ddb29743944111c0fbeb5c10034e1ac0ba5
-     * realname : 谢井文
-     * sessionid : 89D76DB739E5400F640E164A6D2BAD20
-     */
-
-    private int    uid;
-    private String username;
-    private String token;
-    private String realname;
-    private String sessionid;
-    private String idNumber;
-
-    public int getUid() {
-        return uid;
+    public String getAuthStatus() {
+        return authStatus;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setAuthStatus(String authStatus) {
+        this.authStatus = authStatus;
     }
 
-
-    public String getUsername() {
-        return username;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getMobileNum() {
+        return mobileNum;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum = mobileNum;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(String regTime) {
+        this.regTime = regTime;
     }
 
     public String getToken() {
@@ -42,29 +50,30 @@ public class UserInfoBean {
         this.token = token;
     }
 
-    public String getRealname() {
-        return realname;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRealname(String realname) {
-        this.realname = realname;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getSessionid() {
-        return sessionid;
-    }
+    /**
+     * uid : 422
+     * username : 13120678525
+     * token : 3d17a21c0811f5b47d2fc019c2205ddb29743944111c0fbeb5c10034e1ac0ba5
+     * realname : 谢井文
+     * sessionid : 89D76DB739E5400F640E164A6D2BAD20
+     */
 
-    public void setSessionid(String sessionid) {
-        this.sessionid = sessionid;
-    }
+    private String authStatus;
+    private String avatar;
+    private String mobileNum;
+    private String nickName;
+    private String regTime;
+    private String token;
+    private String userId;
 
-    public String getIdNumber() {
-        return idNumber;
-    }
-
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
-    }
 
 	/*private int id;
     private int uid;

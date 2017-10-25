@@ -8,20 +8,20 @@ public class AppInfo {
     private String packageName;
     private String versionName;
     private int versionCode;
-    private int userId;
+    private String userId;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
     public AppInfo(){
 
     }
-    public AppInfo(String packageName, String versionName, int versionCode, String appName, int userId) {
+    public AppInfo(String packageName, String versionName, int versionCode, String appName, String userId) {
         this.appName = appName;
         this.packageName = packageName;
         this.versionCode = versionCode;

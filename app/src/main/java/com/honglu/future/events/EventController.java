@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -16,8 +17,8 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.ui.login.contract.LoginOutContract;
 import com.honglu.future.ui.login.presenter.LoginOutPresenter;
 import com.honglu.future.ui.main.activity.MainActivity;
-import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.ui.register.activity.RegisterActivity;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -151,17 +152,19 @@ public class EventController {
      * @param userInfo
      */
     private void saveUserInfo(UserInfoBean userInfo, Context context) {
+        Log.i("testUrl","aaaaaaaaaaaaaaaaaaa");
         if (userInfo != null) {
-            SpUtil.putString(Constant.CACHE_TAG_USERNAME, userInfo.getUsername());
-            SpUtil.putString(Constant.CACHE_TAG_UID, userInfo.getUid() + "");
-            SpUtil.putString(Constant.CACHE_TAG_SESSIONID, userInfo.getSessionid());
-            SpUtil.putString(Constant.CACHE_TAG_REAL_NAME, userInfo.getRealname());
-
+            Log.i("testUrl","bbbbbbbbbbbbbbbbbbb");
+            SpUtil.putString(Constant.CACHE_TAG_MOBILE, userInfo.getMobileNum());
+            SpUtil.putString(Constant.CACHE_TAG_USERNAME, userInfo.getNickName());
+            SpUtil.putString(Constant.CACHE_TAG_UID, userInfo.getUserId() + "");
+            SpUtil.putString(Constant.CACHE_TAG_SESSIONID, userInfo.getToken());
+            Log.i("testUrl","cccccccccccccccccccc");
             App.getConfig().setUserInfo(userInfo);
 
             CookieSyncManager.createInstance(context);
             CookieManager cm = CookieManager.getInstance();
-            String cookie = "SESSIONID=" + userInfo.getSessionid() + ";UID=" + userInfo.getUid();
+            String cookie = "SESSIONID=" + userInfo.getToken() + ";UID=" + userInfo.getUserId();
             cm.setCookie(App.getConfig().getBaseUrl(), cookie);
             CookieSyncManager.getInstance().sync();
             cacheUserInfo(userInfo, context);
@@ -192,7 +195,7 @@ public class EventController {
                 tmpInfo.setVersionCode(packageInfo.versionCode);
                 tmpInfo.setVersionName(packageInfo.versionName);
                 if (App.getConfig().getUserInfo() != null) {
-                    tmpInfo.setUserId(App.getConfig().getUserInfo().getUid());
+                    tmpInfo.setUserId(App.getConfig().getUserInfo().getUserId());
                 }
                 appList.add(tmpInfo);
             } else {
@@ -209,11 +212,11 @@ public class EventController {
      * @param context
      */
     private void cacheUserInfo(UserInfoBean bean, Context context) {
-        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_REAL_NAME))) {
-            SpUtil.putString(Constant.CACHE_TAG_REAL_NAME, bean.getRealname());
+        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))) {
+            SpUtil.putString(Constant.CACHE_TAG_MOBILE, bean.getMobileNum());
         }
         if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_USERNAME))) {
-            SpUtil.putString(Constant.CACHE_TAG_USERNAME, bean.getUsername());
+            SpUtil.putString(Constant.CACHE_TAG_USERNAME, bean.getNickName());
         }
         String userListStr = SpUtil.getString(Constant.CACHE_USERLIST_KEY);
         List userList = null;
@@ -223,8 +226,8 @@ public class EventController {
             userList = ConvertUtil.StringToList(userListStr);
         }
 
-        if (userList.indexOf(bean.getUsername()) < 0) {
-            userList.add(bean.getUsername());
+        if (userList.indexOf(bean.getNickName()) < 0) {
+            userList.add(bean.getNickName());
         }
         SpUtil.putString(Constant.CACHE_USERLIST_KEY, ConvertUtil.ListToString(userList));
 
