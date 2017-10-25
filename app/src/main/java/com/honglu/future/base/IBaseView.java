@@ -1,9 +1,10 @@
 package com.honglu.future.base;
 
+
 /**
- * baseview
+ * hefei
  */
-public class IBaseView implements BaseView {
+public abstract class IBaseView<T> implements BaseView {
     /*******内嵌加载*******/
     /**
      * 开始加载dialog
@@ -25,4 +26,6 @@ public class IBaseView implements BaseView {
      *              PS：无需区分则可传null
      */
     public void showErrorMsg(String msg, String type){}
+
+    public abstract void bindData(T t);
 }

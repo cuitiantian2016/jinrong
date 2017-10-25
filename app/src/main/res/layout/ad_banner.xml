@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <com.honglu.calftrader.widget.banner.AutoFlingPager
+    <com.honglu.future.widget.banner.AutoFlingPager
         android:id="@+id/pager_adbanner"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,7 +34,7 @@
 
     </RelativeLayout>
 
-    <com.honglu.calftrader.widget.banner.GalleryIndicator xmlns:indicator="http://schemas.android.com/apk/res-auto"
+    <com.honglu.future.widget.banner.GalleryIndicator xmlns:indicator="http://schemas.android.com/apk/res-auto"
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

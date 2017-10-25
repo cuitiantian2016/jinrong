@@ -2,6 +2,7 @@ package com.honglu.future.http;
 
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.ui.home.bean.BannerData;
+import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 
 import java.util.Map;
@@ -49,9 +50,12 @@ public interface HttpApi {
                                                     @Field("user_from") String user_from,
                                                     @Field("captcha") String captcha);
 
-    //
-    @FormUrlEncoded
+    //首页banner
     @GET("credit-user/register")
     Observable<BaseResponse<BannerData>> getBannerData();
+
+    //首页市场行情
+    @GET("credit-user/register")
+    Observable<BaseResponse<MarketData>> getMarketData();
 
 }

@@ -80,4 +80,9 @@ public abstract class BasePresenter<T extends BaseView> {
         MultipartBody.Part body = MultipartBody.Part.createFormData(key, file.getName(), requestFile);
         return body;
     }
+
+    /**
+     * 默认获取数据的方法.不需要传参数
+     */
+    public void getData(){}
 }

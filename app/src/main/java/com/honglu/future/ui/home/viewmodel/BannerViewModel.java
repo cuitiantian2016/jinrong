@@ -6,7 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.honglu.future.R;
+import com.honglu.future.base.BasePresenter;
+import com.honglu.future.base.IBaseView;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
+import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.contract.HomeContract;
 import com.honglu.future.ui.home.presenter.HomePresenter;
 import com.honglu.future.util.ImageUtil;
@@ -23,24 +28,45 @@ import butterknife.ButterKnife;
  * banner的组件
  */
 
-public class BannerViewModel extends HomeContract.BannerView{
+public class BannerViewModel extends IBaseView<BannerData>{
     private static final String TAG = "BannerViewModel";
 
-    public View mBannerView;
+    public View mView;
     private Context mContext;
+    private BasePresenter mBannerPresenter;
 
-    @BindView(R.id.banner)
-    public Banner mBanner;
     private AutoFlingBannerAdapter mAutoFlingBannerAdapter;
+    private final Banner mBanner;
 
     public BannerViewModel(Context context){
         mContext = context;
-        mBannerView = View.inflate(context, R.layout.view_modle_banner,null);
-        ButterKnife.bind(mBannerView);
+        mView = View.inflate(context, R.layout.view_modle_banner,null);
+        mBanner = (Banner) mView.findViewById(R.id.banner);
         setAdapter();
-        HomePresenter.BannerPresenter mBannerPresenter = new HomePresenter.BannerPresenter(this);
-        mBannerPresenter.getBannerData();
+        refreshData();
+
     }
+    /**
+     * 刷新数据
+     */
+    private void refreshData() {
+        if (mBannerPresenter == null){
+            mBannerPresenter = new BasePresenter<IBaseView<BannerData>>(this){
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().getBannerData(), new HttpSubscriber<BannerData>() {
+                        @Override
+                        protected void _onNext(BannerData o) {
+                            mView.bindData(o);
+                        }
+                    });
+                }
+            };
+        }
+        mBannerPresenter.getData();
+    }
+
     private void setAdapter() {
         mAutoFlingBannerAdapter = new AutoFlingBannerAdapter(mContext);
         mAutoFlingBannerAdapter.setOnShowPicBannerListener(new AutoFlingBannerAdapter.OnShowPicBannerListener() {

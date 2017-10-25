@@ -57,6 +57,9 @@
     <color name="theme_line_color">#e6e6e6</color>
     <color name="theme_gray">#b7b7b7</color>
     <color name="dialog_cancel">#f0f0f0</color>
+    <color name="color_F8F9F9">#F8F9F9</color>
+    <color name="color_ff5376">#FF5376</color>
+    <color name="color_00ce64">#00CE64</color>
 
     <!-- 首页天数颜色 -->
     <color name="ad_color_yellow">#9000B8</color>
