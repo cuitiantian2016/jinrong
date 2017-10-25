@@ -4,6 +4,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
+import com.honglu.future.ui.home.viewmodel.HorizontalIconViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import butterknife.BindView;
 /**********
@@ -42,8 +43,10 @@ public class HomeFragment extends BaseFragment{
     private void initView() {
         BannerViewModel bannerViewModel = new BannerViewModel(getContext());
         HomeMarketPriceViewModel homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
+        HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
         mScrollView.addView(bannerViewModel.mView);//添加banner
         mScrollView.addView(homeMarketPriceViewModel.mView);//添加banner
+        mScrollView.addView(horizontalIconViewModel.mView);//添加banner
     }
 
     @Override

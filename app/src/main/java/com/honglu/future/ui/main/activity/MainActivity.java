@@ -84,8 +84,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         EventBus.getDefault().register(this);
         mGroup.setOnCheckedChangeListener(changeListener);
         check(FragmentFactory.FragmentStatus.Home);
-        setPaddingAndFillStatusBar(HomeFragment.getInstance());
-        //setPaddingAndFillStatusBar(HomeFragment.getInstance());
         //mPresenter.loadActivity(); //第一期不需要弹出活动
     }
 
@@ -99,7 +97,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         oldCheckId = 0;
         switch (oldCheckId) {
             case R.id.rb_home:
-                setPaddingAndFillStatusBar(HomeFragment.getInstance());
+               // setPaddingAndFillStatusBar(HomeFragment.getInstance());
                 break;
             case R.id.rb_market:
                 setPaddingAndFillStatusBar(MarketFragment.getInstance());

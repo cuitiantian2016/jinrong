@@ -2,6 +2,7 @@ package com.honglu.future.http;
 
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.ui.home.bean.BannerData;
+import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 
@@ -57,5 +58,8 @@ public interface HttpApi {
     //首页市场行情
     @GET("credit-user/register")
     Observable<BaseResponse<MarketData>> getMarketData();
+    //首页icon
+    @GET("credit-user/register")
+    Observable<BaseResponse<HomeIcon>> getHomeIcon();
 
 }
