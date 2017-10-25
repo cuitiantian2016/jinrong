@@ -3,7 +3,9 @@ package com.honglu.future.http;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
+import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
+import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 
 import java.util.Map;
@@ -19,6 +21,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 import rx.Observable;
 
 
@@ -61,5 +64,12 @@ public interface HttpApi {
     //首页icon
     @GET("credit-user/register")
     Observable<BaseResponse<HomeIcon>> getHomeIcon();
+
+    //首页新闻
+    @GET("credit-user/register")
+    Observable<BaseResponse<HomeMessageItem>> getNewsColumnData();
+    //首页24小时
+    @GET("credit-user/register")
+    Observable<BaseResponse<NewsFlashData>> geFlashNewData(@Query("page") int page);
 
 }

@@ -1,7 +1,7 @@
 /*
  * 
  */
-package com.honglu.future.app.util;
+package com.honglu.future.util;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
@@ -1061,5 +1061,19 @@ public class TimeUtil {
             exception.printStackTrace();
         }
         return 0;
+    }
+
+    //将序列化时间转成毫秒值
+    public static long dateToLong (String in) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(in);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.getTimeInMillis();
     }
 }

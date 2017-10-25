@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sel_item_normal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_36dp"
+        android:layout_marginBottom="@dimen/dimen_5dp"
+        android:layout_marginLeft="@dimen/dimen_12dp"
+        android:layout_marginTop="@dimen/dimen_17dp">
+
+        <com.honglu.future.widget.CircleImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/dimen_36dp"
+            android:layout_height="@dimen/dimen_36dp"
+            tools:src="@mipmap/user_avatar" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen_6dp"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:textColor="@color/color_febc18"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="bold"
+            tools:text="黄星星" />
+
+        <TextView
+            android:id="@+id/tv_user_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_name"
+            android:layout_marginLeft="@dimen/dimen_4dp"
+            android:layout_toRightOf="@+id/tv_name"
+            android:textColor="@color/color_b2b2b2"
+            android:textSize="@dimen/dimen_13sp"
+            android:layout_marginBottom="@dimen/dimen_1dp"
+            tools:text="分析师" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/ziti_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:paddingLeft="@dimen/dimen_12dp"
+        android:paddingRight="@dimen/dimen_12dp">
+
+        <ImageView
+            android:id="@+id/newest_content_iv"
+            android:layout_width="105dp"
+            android:layout_height="68dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/stragy_default" />
+
+        <RelativeLayout
+            android:id="@+id/rel_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dimen_13dp"
+            android:layout_toLeftOf="@+id/newest_content_iv"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_45dp"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.1"
+                android:maxLines="2"
+                android:textColor="@color/color_323232"
+                android:textSize="17sp"
+                tools:text="独守空房都没胃口发我发我发我发我份没看到我们我可没的口吻没看是否" />
+
+
+            <LinearLayout
+                android:id="@+id/line_b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="13:22"
+                    android:textColor="@color/color_b2b2b2"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_reply_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_b2b2b2"
+                    android:textSize="@dimen/dimen_12sp"
+                    tools:text="0条评论" />
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/profit_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_support_done" />
+
+                    <TextView
+                        android:id="@+id/tv_praise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="35"
+                        android:textColor="@color/color_b2b2b2"
+                        android:textSize="@dimen/dimen_12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_line" />
+
+</LinearLayout>

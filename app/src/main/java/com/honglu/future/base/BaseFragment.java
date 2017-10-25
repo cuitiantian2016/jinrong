@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * fragment基类
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView{
     protected View mView;
     public T mPresenter;
     public Context mContext;
@@ -229,5 +229,20 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
+    }
+
+    @Override
+    public void showLoading(String content) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+
     }
 }

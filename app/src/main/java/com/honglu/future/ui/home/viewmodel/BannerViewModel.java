@@ -95,4 +95,10 @@ public class BannerViewModel extends IBaseView<BannerData>{
         mBanner.changeIndicatorStyle(data.size(), 35, Color.TRANSPARENT);
         mBanner.start();
     }
+    /**
+     * 销毁
+     */
+    public void onDestory(){
+        mBannerPresenter.onDestroy();
+    }
 }

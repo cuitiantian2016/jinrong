@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sel_item_normal"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ziti_layout_typetwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_user_layout"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/newset_contenttype2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.3"
+                android:maxLines="3"
+                android:textColor="@color/color_323232"
+                android:textSize="16sp"
+                tools:text="内容内容内容内容内容内容容内容内容内122222容内容内容" />
+
+        </RelativeLayout>
+
+        <com.honglu.future.widget.RatioImageView
+            android:id="@+id/typetwonewest_content_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginRight="@dimen/dimen_10dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/stragy_default"
+            app:riv_ratio="0.45" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_timetype2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="13:22"
+                android:textColor="@color/color_b2b2b2"
+                android:textSize="@dimen/dimen_12sp" />
+            <TextView
+                android:id="@+id/tv_user_role2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="瑞雪老师"
+                android:textColor="@color/color_b2b2b2"
+                android:textSize="@dimen/dimen_12sp" />
+            <LinearLayout
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/profit_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/ic_support_done" />
+                <TextView
+                    android:id="@+id/tv_praisetype2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="35"
+                    android:textColor="@color/color_b2b2b2"
+                    android:textSize="@dimen/dimen_12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_line"
+        android:layout_marginTop="@dimen/dimen_15dp"/>
+</LinearLayout>

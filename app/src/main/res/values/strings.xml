@@ -73,5 +73,7 @@
     <string name="text_user_phone">客服电话</string>
     <string name="text_user_aboutus">关于我们</string>
     <string name="text_user_update">版本检测</string>
+    <string name="news_flash">24h快讯</string>
+    <string name="news_column">最新资讯</string>
 
 </resources>

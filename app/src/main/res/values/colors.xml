@@ -60,6 +60,9 @@
     <color name="color_F8F9F9">#F8F9F9</color>
     <color name="color_ff5376">#FF5376</color>
     <color name="color_00ce64">#00CE64</color>
+    <color name="grey">#969696</color>
+    <color name="color_b2b2b2">#B2B2B2</color>
+    <color name="color_febc18">#FEBC18</color>
 
     <!-- 首页天数颜色 -->
     <color name="ad_color_yellow">#9000B8</color>
@@ -135,5 +138,10 @@
     <color name="color_333333">#333333</color>
     <color name="color_86A2B0">#86A2B0</color>
     <color name="color_B1B1B3">#B1B1B3</color>
+
+    <!-- 项目中所有分割线统一颜色-->
+    <color name="color_line">#DFDFE0</color>
+    <color name="color_141414">#141414</color>
+    <color name="D7_D8_D8">#D7D8D8</color>
 
 </resources>
