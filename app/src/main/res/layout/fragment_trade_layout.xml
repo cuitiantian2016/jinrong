@@ -25,6 +25,7 @@
             app:tl_textSelectColor="@color/color_008EFF"
             app:tl_textUnselectColor="@color/color_323232"
             app:tl_textsize="@dimen/dimen_16sp"
+            app:tl_textBold="BOTH"
             app:tl_underline_color="@color/color_d8d7d7"
             app:tl_underline_height="@dimen/dimen_1dp_half" />
 
