@@ -131,6 +131,7 @@
     <color name="color_FB4F4F">#FB4F4F</color>
     <color name="color_A4A5A6">#A4A5A6</color>
     <color name="color_E6E6E6">#E6E6E6</color>
+    <color name="color_2CC593">#2CC593</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>
