@@ -1,6 +1,7 @@
 package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
+import com.honglu.future.util.UserUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,20 +48,25 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         return userCenterFragment;
     }
 
-    @OnClick({R.id.tv_loginRegister})
+    @OnClick({R.id.tv_loginRegister, R.id.tv_signin})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_loginRegister:
-                /*if (App.getConfig().getLoginStatus()) {
+                if (App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mActivity, ModifyUserActivity.class);
                     startActivity(intent);
                 } else {
                     toLogin();
-                }*/
+                }
+                break;
+            case R.id.tv_signin:
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("brokerId", "0101");
-                intent.putExtra("mobile", "13200000205");
+                String userMobile = UserUtil.getUserMobile();
+                if (!TextUtils.isEmpty(userMobile)){
+                    intent.putExtra("mobile", userMobile);
+                }
                 startActivity(intent);
                 break;
         }
