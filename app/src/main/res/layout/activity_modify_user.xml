@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="修改用户信息"
+        android:textSize="@dimen/dimen_20sp" />
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:src="@mipmap/user_avatar" />
+
+    <EditText
+        android:id="@+id/et_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_36dp"
+        android:layout_marginRight="@dimen/dimen_36dp"
+        android:layout_marginTop="@dimen/dimen_36dp"
+        android:background="@null"
+        android:hint="请输入昵称"
+        android:textColor="@color/global_black_color"
+        android:textColorHint="@color/color_BFBFBF"
+        android:textSize="@dimen/dimen_18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp_half"
+        android:layout_marginLeft="@dimen/dimen_36dp"
+        android:layout_marginRight="@dimen/dimen_36dp"
+        android:layout_marginTop="@dimen/dimen_5dp"
+        android:background="@color/global_grey_divider_color" />
+
+    <TextView
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dp"
+        android:layout_marginTop="@dimen/dimen_30dp"
+        android:layout_marginLeft="@dimen/dimen_36dp"
+        android:layout_marginRight="@dimen/dimen_36dp"
+        android:background="@color/color_008EFF"
+        android:gravity="center"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_18sp" />
+
+</LinearLayout>

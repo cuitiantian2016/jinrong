@@ -76,5 +76,9 @@
     <string name="news_flash">24h快讯</string>
     <string name="news_column">最新资讯</string>
     <string name="verify_get">获取验证码</string>
+    <string name="please_open_permission">请在应用管理中打开“%s”访问权限！</string>
+    <string name="camera">相机</string>
+    <string name="storage">存储</string>
+    <string name="sd_card_not_use">SD卡不可用</string>
 
 </resources>

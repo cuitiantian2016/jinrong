@@ -8,8 +8,12 @@ import com.honglu.future.base.BaseView;
 
 public interface ResetPwdContract {
     interface View extends BaseView {
-
+        void resetPwdSuccess();
     }
-    interface Presenter{
+
+    interface Presenter {
+        void getResetCode(String sourceId, String mobileNum);
+
+        void resetPwd(String mobileNum, String password, String code);
     }
 }

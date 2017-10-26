@@ -197,6 +197,8 @@ dependencies {
     compile project(':UdeskSDKUI')
     //刷新
     compile project(':smart-refresh')
+    //图片压缩
+    compile 'top.zibin:Luban:1.0.9'
 }
 
 //瓦力打包 https://github.com/Meituan-Dianping/walle

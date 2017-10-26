@@ -12,11 +12,13 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
+import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,17 +51,22 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_loginRegister:
-                toLogin();
+                if (App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mActivity, ModifyUserActivity.class);
+                    startActivity(intent);
+                } else {
+                    toLogin();
+                }
                 break;
         }
     }
 
     private void toLogin() {
-        String uName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
-        LogUtils.loge(uName);
-        if (!StringUtil.isBlank(uName) && StringUtil.isMobileNO(uName)) {
+        String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+        LogUtils.loge(userId);
+        if (!StringUtil.isBlank(userId)) {
             Intent intent = new Intent(mContext, LoginActivity.class);
-            intent.putExtra("phone", uName);
+            intent.putExtra("userId", userId);
             startActivity(intent);
         } else {
             Intent intent = new Intent(mContext, RegisterActivity.class);
@@ -118,6 +125,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     private void initView() {
         mTitle.setTitle(false, R.color.white, "我的");
+        if (App.getConfig().getLoginStatus()) {
+            mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+        }
     }
 
     @Override
