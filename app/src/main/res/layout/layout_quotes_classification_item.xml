@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginRight="@dimen/dimen_36dp"
+    android:layout_height="35dp">
+    <TextView
+        android:id="@+id/text_quotes_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/dimen_2dp"
+        android:text="自选"
+        android:textColor="@color/color_008EFF"
+        android:textSize="16sp"
+        />
+    <View
+        android:id="@+id/line_onclick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/text_quotes_name"
+        android:layout_alignRight="@+id/text_quotes_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_3dp"
+        android:background="@color/color_008EFF" />
+
+
+</RelativeLayout>

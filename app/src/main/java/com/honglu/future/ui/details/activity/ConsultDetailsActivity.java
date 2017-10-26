@@ -42,7 +42,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     @Override
     public void initPresenter() {
-
+        mPresenter.init(this);
     }
 
     @Override

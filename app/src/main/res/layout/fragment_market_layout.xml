@@ -1,7 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/layout_toolbar"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/dimen_20dp"
+        android:paddingRight="@dimen/dimen_10dp"
+        android:id="@+id/all_market_classification_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:visibility="visible">
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_marginRight="@dimen/dimen_50dp"
+        android:visibility="gone"
+        android:paddingTop="@dimen/dimen_12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_optional"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="29dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="#008EFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_recommend"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="29dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="#008EFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_market"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="29dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="#008EFF" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View style="@style/line_base_horizontal" />
+    <include
+        layout="@layout/layout_marketlist_item"/>
+    <View style="@style/line_base_horizontal"
+        />
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/market_smart_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/market_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            android:paddingBottom="5dp" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

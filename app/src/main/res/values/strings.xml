@@ -73,6 +73,14 @@
     <string name="text_user_phone">客服电话</string>
     <string name="text_user_aboutus">关于我们</string>
     <string name="text_user_update">版本检测</string>
+    <string name="text_optional">自选</string>
+    <string name="text_recommend">推荐</string>
+    <string name="text_market">市场</string>
+    <string name="text_contract_name">合约名称</string>
+    <string name="text_latest_price">最新价</string>
+    <string name="text_quote_change">涨跌幅</string>
+    <string name="text_haved_positions">持仓量</string>
+    <string name="text_add_qptional">添加自选</string>
     <string name="news_flash">24h快讯</string>
     <string name="news_column">最新资讯</string>
     <string name="verify_get">获取验证码</string>

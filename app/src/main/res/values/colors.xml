@@ -128,6 +128,9 @@
     <color name="color_d8d7d7">#d8d7d7</color>
     <color name="color_1BE1FF">#1BE1FF</color>
     <color name="color_0275FD">#0275FD</color>
+    <color name="color_FB4F4F">#FB4F4F</color>
+    <color name="color_A4A5A6">#A4A5A6</color>
+    <color name="color_E6E6E6">#E6E6E6</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>
@@ -143,5 +146,6 @@
     <color name="color_line">#DFDFE0</color>
     <color name="color_141414">#141414</color>
     <color name="D7_D8_D8">#D7D8D8</color>
+
 
 </resources>
