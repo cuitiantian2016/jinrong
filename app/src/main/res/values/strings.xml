@@ -93,4 +93,21 @@
     <string name="trade_closed">已平仓</string>
     <string name="trade_agent">委托中</string>
 
+
+    <string name="crh_app_name">期货开户云</string>
+    <string name="crh_server_domain">apptest.cfmmc.com</string>
+    <string name="crh_server_port">apptest.cfmmc.com</string>
+    <string name="crh_cookie_path">/</string>
+    <string name="crh_video_server_ip"></string>
+    <string name="crh_video_server_port"></string>
+    <string name="crh_video_ishttps">1</string>
+
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
+    <string name="button_ok">OK</string>
+    <string name="msg_redirect">Redirect</string>
+    <string name="msg_google_product">Google</string>
+    <string name="msg_google_books">Google</string>
+    <string name="msg_intent_failed">Sorry, the requested application could not be launched. The barcode contents may be invalid.</string>
+    <string name="msg_default_mms_subject">Hi</string>
+
 </resources>

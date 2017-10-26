@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
@@ -50,12 +51,16 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_loginRegister:
-                if (App.getConfig().getLoginStatus()) {
+                /*if (App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mActivity, ModifyUserActivity.class);
                     startActivity(intent);
                 } else {
                     toLogin();
-                }
+                }*/
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("brokerId", "0101");
+                intent.putExtra("mobile", "13200000205");
+                startActivity(intent);
                 break;
         }
     }
