@@ -10,13 +10,13 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.xulu.xnpacket"
+        applicationId "com.honglu.future"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
-        resValue "string", "tray__authority", "com.xulu.xnpacket.tray"
+        resValue "string", "tray__authority", "com.honglu.future.tray"
         ndk {
             // 设置支持的SO库架构
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'

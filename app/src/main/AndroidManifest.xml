@@ -307,7 +307,7 @@
         <!-- LLYT SDK END -->
         <!-- Glide 使用okhttp -->
         <meta-data
-            android:name="com.xulu.xnpacket.config.glide.OkHttpGlideModule"
+            android:name="com.honglu.future.config.glide.OkHttpGlideModule"
             android:value="GlideModule"/>
         <!-- <meta-data
              android:name="com.xulu.xnpacket.http.SimpleGlideModule"
@@ -336,7 +336,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService"/>
-                <category android:name="com.xulu.xnpacket"/>
+                <category android:name="com.honglu.future"/>
             </intent-filter>
         </service>
 
@@ -346,7 +346,7 @@
             android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
-                <category android:name="com.xulu.xnpacket"/>
+                <category android:name="com.honglu.future"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT"/>
@@ -371,7 +371,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.xulu.xnpacket"/>
+                <category android:name="com.honglu.future"/>
             </intent-filter>
         </activity>
         <!-- SDK核心功能-->
@@ -382,7 +382,7 @@
             android:theme="@style/MyDialogStyle">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.xulu.xnpacket"/>
+                <category android:name="com.honglu.future"/>
             </intent-filter>
         </activity>
 
