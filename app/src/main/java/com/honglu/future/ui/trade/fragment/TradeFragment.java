@@ -1,19 +1,37 @@
 package com.honglu.future.ui.trade.fragment;
 
-import android.view.View;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.honglu.future.R;
-import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
+import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.widget.tab.CommonTabLayout;
+import com.honglu.future.widget.tab.CustomTabEntity;
+import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
+import com.honglu.future.widget.tab.TabEntity;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
 
 /**
  * Created by zq on 2017/10/24.
  */
 
-public class TradeFragment extends BaseFragment<TradePresenter> implements View.OnClickListener,
-        TradeContract.View {
+public class TradeFragment extends BaseFragment<TradePresenter> implements TradeContract.View {
+    @BindView(R.id.trade_common_tab_layout)
+    CommonTabLayout mCommonTabLayout;
+    private ArrayList<CustomTabEntity> mTabList;
+    private ArrayList<Fragment> mFragments;
+    private OpenTransactionFragment mOpenTransactionFragment;
+    private PositionFragment mPositionFragment;
+    private ClosePositionFragment mClosePositionFragment;
+    private EntrustFragment mEntrustFragment;
+
+    private int currentPosition;
 
     public static TradeFragment tradeFragment;
 
@@ -24,10 +42,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements View.
         return tradeFragment;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     @Override
     public void showLoading(String content) {
@@ -51,7 +65,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements View.
 
     @Override
     public void initPresenter() {
-
+        mPresenter.init(this);
     }
 
     @Override
@@ -60,6 +74,43 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements View.
     }
 
     private void initView() {
-        mTitle.setTitle(false, R.color.white, "交易");
+        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
+        int indicatorWidth = (int) (screenWidthDip * 0.2f);
+        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
+        //添加tab实体
+        addTabEntities();
+        //添加fragment
+        addFragments();
+    }
+
+    private void addTabEntities() {
+        mTabList = new ArrayList<>();
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent)));
+    }
+
+    private void addFragments() {
+        if (mFragments == null) {
+            mFragments = new ArrayList<>();
+        }
+        mOpenTransactionFragment = new OpenTransactionFragment();//建仓
+        mFragments.add(mOpenTransactionFragment);
+        mPositionFragment = new PositionFragment();
+        mFragments.add(mPositionFragment);
+        mClosePositionFragment = new ClosePositionFragment();
+        mFragments.add(mClosePositionFragment);
+        mEntrustFragment = new EntrustFragment();
+        mFragments.add(mEntrustFragment);
+
+        mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);
+        mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                super.onTabSelect(position);
+                currentPosition = position;
+            }
+        });
     }
 }

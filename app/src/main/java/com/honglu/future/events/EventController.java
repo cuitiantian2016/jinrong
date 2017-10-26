@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -152,14 +151,12 @@ public class EventController {
      * @param userInfo
      */
     private void saveUserInfo(UserInfoBean userInfo, Context context) {
-        Log.i("testUrl","aaaaaaaaaaaaaaaaaaa");
         if (userInfo != null) {
-            Log.i("testUrl","bbbbbbbbbbbbbbbbbbb");
             SpUtil.putString(Constant.CACHE_TAG_MOBILE, userInfo.getMobileNum());
             SpUtil.putString(Constant.CACHE_TAG_USERNAME, userInfo.getNickName());
             SpUtil.putString(Constant.CACHE_TAG_UID, userInfo.getUserId() + "");
             SpUtil.putString(Constant.CACHE_TAG_SESSIONID, userInfo.getToken());
-            Log.i("testUrl","cccccccccccccccccccc");
+
             App.getConfig().setUserInfo(userInfo);
 
             CookieSyncManager.createInstance(context);

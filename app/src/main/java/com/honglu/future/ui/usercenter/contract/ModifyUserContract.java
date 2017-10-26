@@ -2,6 +2,8 @@ package com.honglu.future.ui.usercenter.contract;
 
 import com.honglu.future.base.BaseView;
 
+import java.io.File;
+
 /**
  * Created by zq on 2017/10/25.
  */

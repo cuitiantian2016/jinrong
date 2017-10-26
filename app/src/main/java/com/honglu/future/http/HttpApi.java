@@ -77,7 +77,7 @@ public interface HttpApi {
     @Multipart
     @POST("mobileApi/user/info/update/avatar")
     Observable<BaseResponse> uploadUserAvatar(
-            @Part MultipartBody.Part file , @Part("userId") RequestBody userId);
+            @Part MultipartBody.Part File, @Part("userId") RequestBody userId);
 
     //首页banner
     @GET("credit-user/register")

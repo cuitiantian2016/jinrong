@@ -7,6 +7,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.util.SpUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,7 @@ public class ModifyUserPresenter extends BasePresenter<ModifyUserContract.View> 
     @Override
     public void updateUserAvatar(String url) {
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), SpUtil.getString(Constant.CACHE_TAG_UID));
+
         toSubscribe(HttpManager.getApi().uploadUserAvatar(putFile("file", url), userId), new HttpSubscriber() {
             @Override
             public void _onStart() {

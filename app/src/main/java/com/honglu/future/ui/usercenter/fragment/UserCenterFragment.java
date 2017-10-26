@@ -18,7 +18,6 @@ import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
-import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
 
 import org.greenrobot.eventbus.EventBus;
