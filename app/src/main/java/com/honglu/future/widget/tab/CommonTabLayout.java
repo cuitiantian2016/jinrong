@@ -542,7 +542,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
                 }
                 mIndicatorDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
                 if (mIndicatorGravityBlue){
-                    mIndicatorDrawable.setColors(new int[]{Color.parseColor("#0275FD"),Color.parseColor("#1BE1FF")});
+                    mIndicatorDrawable.setColor(Color.parseColor("#008EFF"));
                 }else {
                     mIndicatorDrawable.setColor(mIndicatorColor);
                 }
@@ -562,7 +562,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mIndicatorHeight > 0) {
                 mIndicatorDrawable.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
                 if (mIndicatorGravityBlue){
-                    mIndicatorDrawable.setColors(new int[]{Color.parseColor("#0275FD"),Color.parseColor("#1BE1FF")});
+                    mIndicatorDrawable.setColor(Color.parseColor("#008EFF"));
                 }else {
                     mIndicatorDrawable.setColor(mIndicatorColor);
                 }
