@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dimen_20dp"
+    android:paddingRight="@dimen/dimen_20dp"
+    android:paddingTop="@dimen/dimen_20dp"
+    android:background="@color/color_E3E3E3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="@color/color_A4A5A6"
+            android:text="当日保证金"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="@color/color_white"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="5010"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="@color/color_A4A5A6"
+            android:layout_marginLeft="@dimen/dimen_38dp"
+            android:text="建仓手续费"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="@color/color_white"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="13.6"/>
+    </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_marginTop="@dimen/dimen_20dp">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="@dimen/dimen_14sp"
+              android:textColor="@color/color_A4A5A6"
+              android:text="当日保证金"/>
+
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="@dimen/dimen_14sp"
+              android:textColor="@color/color_white"
+              android:layout_marginLeft="@dimen/dimen_8dp"
+              android:text="2018-01-22(12-31 15:00前平仓）"/>
+
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@mipmap/ic_trade_tip"/>
+      </LinearLayout>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/dimen_line"
+          android:background="@color/white"
+          android:layout_marginTop="@dimen/dimen_20dp"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/color_white"
+               android:textSize="@dimen/dimen_16sp"
+               android:layout_gravity="center"
+               android:gravity="center_horizontal"
+               android:layout_weight="1"
+               android:text="持仓详情"/>
+
+             <View
+                 android:layout_width="@dimen/dimen_line"
+                 android:layout_height="@dimen/dimen_45dp"
+                 android:background="@color/white"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/color_FF8843"
+               android:textSize="@dimen/dimen_16sp"
+               android:layout_gravity="center"
+               android:gravity="center_horizontal"
+               android:layout_weight="1"
+               android:text="持仓详情"/>
+       </LinearLayout>
+</LinearLayout>

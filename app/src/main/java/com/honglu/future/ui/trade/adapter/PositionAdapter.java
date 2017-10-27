@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.widget.popupwind.PositionPopWind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,12 @@ public class PositionAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
+        holder.tvBuyCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PositionPopWind(mContext).showAsDropDown(v);
+            }
+        });
         return convertView;
     }
 
