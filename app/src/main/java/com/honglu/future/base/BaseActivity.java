@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -51,6 +52,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public Context mContext;
     public BaseActivity mActivity;
     private PermissionsListener mListener;
+    private Unbinder mUnbinder;
     protected TitleUtil mTitle;
     protected KeyboardNumberUtil input_controller;
     protected int type;
@@ -63,7 +65,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         AppManager.getInstance().addActivity(this);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         mContext = this;
         mActivity = this;
         mPresenter = TUtil.getT(this, 0);
@@ -351,6 +353,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mUnbinder !=null){
+            mUnbinder.unbind();
+        }
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }

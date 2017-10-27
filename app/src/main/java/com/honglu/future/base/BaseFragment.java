@@ -21,6 +21,7 @@ import com.honglu.future.widget.keyboard.KeyboardNumberUtil;
 import com.honglu.future.widget.refresh.base.SwipeToLoadLayout;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -34,12 +35,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public BaseActivity mActivity;
     protected TitleUtil mTitle;
     protected KeyboardNumberUtil input_controller;
+    private  Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getLayoutId(),null);
-        ButterKnife.bind(this, mView);
+        mUnbinder = ButterKnife.bind(this, mView);
         mContext = getContext();
         mActivity= (BaseActivity) getActivity();
         mPresenter = TUtil.getT(this, 0);
@@ -226,6 +228,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mUnbinder !=null){
+            mUnbinder.unbind();
+        }
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
