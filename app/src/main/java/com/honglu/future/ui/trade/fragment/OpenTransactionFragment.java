@@ -2,15 +2,12 @@ package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -23,15 +20,12 @@ import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
-import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
-import com.honglu.future.util.Tool;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by zq on 2017/10/26.

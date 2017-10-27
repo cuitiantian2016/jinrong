@@ -1,13 +1,19 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
+import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.Tool;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -16,6 +22,7 @@ import com.honglu.future.widget.tab.TabEntity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by zq on 2017/10/24.
@@ -113,4 +120,19 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             }
         });
     }
+
+    @OnClick({R.id.iv_rule})
+    public void onClick(View view) {
+        if (Tool.isFastDoubleClick()) return;
+        switch (view.getId()) {
+            case R.id.iv_rule:
+                //// TODO: 2017/10/27 跳转交易规则页面 
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("url", "http://www.baidu.com");
+                startActivity(intent);
+                break;
+        }
+    }
+
+
 }
