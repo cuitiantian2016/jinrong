@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CC000000"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dimen_38dp"
+    android:paddingRight="33dp"
+    android:paddingTop="@dimen/dimen_60dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="风险率："
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dimen_18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:text="风险率是一种风险控制指标，风险率越低，您的账户就越安全
+计算公式为：风险率=占有保证金／当前权益*100%（占用保证金是您建仓或持仓时所花费的保证金"
+        android:textColor="@color/color_B1B1B3"
+        android:textSize="@dimen/dimen_15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_27dp"
+        android:text="当前权益："
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dimen_18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:text="当前权益是指可用资金及仓单总价值
+计算公式为：当前权益=可用资金+占用保证金"
+        android:textColor="@color/color_B1B1B3"
+        android:textSize="@dimen/dimen_15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_27dp"
+        android:text="可用资金："
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dimen_18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:text="可用资金是指可用于新开仓使用的资金
+计算公式为：可用资金=当前权益-占用保证金"
+        android:textColor="@color/color_B1B1B3"
+        android:textSize="@dimen/dimen_15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_27dp"
+        android:text="总持仓盈亏："
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dimen_18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:text="总持仓盈亏是指您所持仓的当日总盈亏之和"
+        android:textColor="@color/color_B1B1B3"
+        android:textSize="@dimen/dimen_15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_40dp"
+            android:padding="@dimen/dimen_10dp"
+            android:src="@mipmap/ic_close_popup" />
+    </RelativeLayout>
+</LinearLayout>
