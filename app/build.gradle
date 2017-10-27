@@ -8,7 +8,7 @@ repositories {
 }
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.honglu.future"
         minSdkVersion 19
@@ -46,7 +46,6 @@ android {
         checkReleaseBuilds false
         disable 'Missing  Translation', 'ExtraTranslation'
     }
-
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -62,7 +61,7 @@ android {
             shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
+            /*applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
@@ -72,7 +71,7 @@ android {
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
-            }
+            }*/
         }
         debug {
             //混淆
@@ -199,6 +198,8 @@ dependencies {
     compile project(':smart-refresh')
     //图片压缩
     compile 'top.zibin:Luban:1.0.9'
+    //数据库
+    compile 'org.litepal.android:core:1.6.0'
 }
 
 //瓦力打包 https://github.com/Meituan-Dianping/walle
