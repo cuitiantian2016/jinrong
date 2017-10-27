@@ -206,8 +206,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             // TODO: 2017/10/27 判断期货交易所登录或者建仓
-            showOpenAccountWindow(view);
+            //showOpenAccountWindow(view);
+            showOpenTransactionWindow(view);
         }
+    }
+
+    private void showTipWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
+        showBottomWindow(view, layout, 1);
+        backgroundAlpha(0.5f);
     }
 
     private void showOpenAccountWindow(View view) {
@@ -216,9 +223,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         backgroundAlpha(0.5f);
     }
 
-    private void showTipWindow(View view) {
-        View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
-        showBottomWindow(view, layout, 1);
+    private void showOpenTransactionWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.open_transaction_popup_window, null);
+        showBottomWindow(view, layout, 3);
         backgroundAlpha(0.5f);
     }
 }

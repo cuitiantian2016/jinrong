@@ -88,7 +88,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_buy_down"
             android:gravity="center"
-            android:text="买涨1677"
+            android:text="买跌1677"
             android:textColor="@android:color/white"
             android:textSize="@dimen/dimen_16sp" />
 
