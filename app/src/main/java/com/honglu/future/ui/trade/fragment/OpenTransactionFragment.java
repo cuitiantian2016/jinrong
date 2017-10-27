@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -15,6 +16,7 @@ import android.widget.PopupWindow;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
@@ -31,7 +33,7 @@ import butterknife.BindView;
  * Created by zq on 2017/10/26.
  */
 
-public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View {
+public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
     private LinearLayout mTradeHeader;
@@ -69,6 +71,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     private void setListener() {
+        mOpenTransactionAdapter.setOnRiseDownClickListener(this);
         mTradeHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +85,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomWindow(mTradeTip);
+                showTipWindow(v);
             }
         });
     }
@@ -114,12 +117,12 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter.addData(mList);
     }
 
-    private void showBottomWindow(View view) {
+    private void showBottomWindow(View view, View layout, int flag) {
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             return;
         }
-        View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
-        mPopupWindow = new PopupWindow(headView,
+
+        mPopupWindow = new PopupWindow(layout,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         //点击空白处时，隐藏掉pop窗口
@@ -131,7 +134,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         view.getLocationOnScreen(location);
         mPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
         //添加按键事件监听
-        setButtonListeners(headView);
+        setButtonListeners(layout, flag);
         //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -140,16 +143,83 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         });
     }
 
-    private void setButtonListeners(View view) {
+    private void setButtonListeners(View view, int flag) {
         ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mPopupWindow != null && mPopupWindow.isShowing()) {
                     mPopupWindow.dismiss();
+                    backgroundAlpha(1f);
                 }
             }
         });
+        if (flag == 2) {
+            ImageView ivTip = (ImageView) view.findViewById(R.id.iv_open_account_tip);
+            ivTip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                        mPopupWindow.dismiss();
+                        backgroundAlpha(1f);
+                        showTipWindow(view);
+                    }
+                }
+            });
+        }
     }
 
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mActivity.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void onRiseClick(View view) {
+        if (!App.getConfig().getLoginStatus()) {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent);
+        } else {
+            // TODO: 2017/10/27 判断期货交易所登录或者建仓
+            showOpenAccountWindow(view);
+        }
+    }
+
+    @Override
+    public void onDownClick(View view) {
+        if (!App.getConfig().getLoginStatus()) {
+            new AlertFragmentDialog.Builder(mActivity).setContent("请登陆后再操作")
+                    .setRightBtnText("确定")
+                    .setLeftBtnText("取消")
+                    .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                        @Override
+                        public void dialogRightBtnClick() {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    }).build();
+        } else {
+            // TODO: 2017/10/27 判断期货交易所登录或者建仓
+            showOpenAccountWindow(view);
+        }
+    }
+
+    private void showOpenAccountWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.future_login_popup_window, null);
+        showBottomWindow(view, layout, 2);
+        backgroundAlpha(0.5f);
+    }
+
+    private void showTipWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
+        showBottomWindow(view, layout, 1);
+        backgroundAlpha(0.5f);
+    }
 }

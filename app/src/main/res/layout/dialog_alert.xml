@@ -63,7 +63,7 @@
             android:text="完成"
             android:paddingTop="@dimen/dimen_5dp"
             android:paddingBottom="@dimen/dimen_5dp"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/color_008EFF"
             android:textSize="18sp"/>
     </LinearLayout>
 </LinearLayout>

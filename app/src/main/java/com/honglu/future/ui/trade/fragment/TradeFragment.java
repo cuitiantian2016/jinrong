@@ -6,12 +6,10 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.honglu.future.R;
-import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
-import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.tab.CommonTabLayout;

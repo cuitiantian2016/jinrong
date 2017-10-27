@@ -1,11 +1,17 @@
 package com.honglu.future.ui.trade.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
+import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
@@ -17,6 +23,18 @@ import butterknife.ButterKnife;
  */
 
 public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionAdapter.ViewHolder, OpenTransactionListBean> {
+    public interface OnRiseDownClickListener {
+        void onRiseClick(View view);
+
+        void onDownClick(View view);
+    }
+
+    private OnRiseDownClickListener mListener;
+
+    public void setOnRiseDownClickListener(OnRiseDownClickListener listener) {
+        mListener = listener;
+    }
+
     @Override
     public ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_open_transaction, parent, false);
@@ -34,6 +52,19 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         if (item.getIsRest().equals("1")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         }
+        holder.mTvRise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onRiseClick(v);
+            }
+        });
+
+        holder.mTvDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDownClick(v);
+            }
+        });
     }
 
 
