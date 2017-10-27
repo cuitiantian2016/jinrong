@@ -139,6 +139,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                backgroundAlpha(1f);
             }
         });
     }
@@ -150,7 +151,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             public void onClick(View view) {
                 if (mPopupWindow != null && mPopupWindow.isShowing()) {
                     mPopupWindow.dismiss();
-                    backgroundAlpha(1f);
                 }
             }
         });
@@ -161,7 +161,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 public void onClick(View view) {
                     if (mPopupWindow != null && mPopupWindow.isShowing()) {
                         mPopupWindow.dismiss();
-                        backgroundAlpha(1f);
                         showTipWindow(view);
                     }
                 }
