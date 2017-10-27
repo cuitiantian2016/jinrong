@@ -65,4 +65,6 @@ public class Constant {
     public static final String CACHE_TAG_ACTIVITY_IMGURL = "activityImgUrl";
     public static final String CACHE_TAG_ACTIVITY_URL = "activityUrl";
 
+    public static final int OptionalQuotesLITEPALl = 0023;
+
 }

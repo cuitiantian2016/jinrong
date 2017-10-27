@@ -7,8 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="65dp">
     <TextView
+        android:id="@+id/text_add_qptional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_10dp"
         android:background="@drawable/shape_50dp_e6e6e6"
         android:drawableLeft="@mipmap/ic_add_qptional"
         android:drawablePadding="@dimen/dimen_7dp"

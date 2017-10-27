@@ -191,7 +191,7 @@ public abstract class BaseRecyclerAdapter<VH extends ViewHolder,T> extends Recyc
                 @Override
                 public boolean onLongClick(View v) {
                     int mPosition=holder.getLayoutPosition()-mHeaderViews.size();
-                    onLongItemClick.onLongItemClick(v,mPosition);
+                    onLongItemClick.onLongItemClick(v,holder,mPosition);
                     return true;
                 }
             });
@@ -276,7 +276,7 @@ public abstract class BaseRecyclerAdapter<VH extends ViewHolder,T> extends Recyc
      * xiejingwen
      */
     public interface OnLongItemClick {
-        void onLongItemClick(View view, int position);
+        void onLongItemClick(View view, ViewHolder holder, int position);
     }
 }
 

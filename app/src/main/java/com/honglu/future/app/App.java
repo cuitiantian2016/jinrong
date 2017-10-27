@@ -31,6 +31,7 @@ import com.umeng.socialize.PlatformConfig;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.litepal.LitePalApplication;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -44,7 +45,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
  * Created by zq on 2017/10/24.
  */
 
-public class App extends Application {
+public class App extends LitePalApplication {
     public static App mApp;
 
     @Override

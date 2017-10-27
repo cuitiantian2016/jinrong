@@ -67,6 +67,37 @@ public class TitleUtil {
     }
 
     /**
+     * 设置title与返回键样式
+     *
+     * @param isShowBack 是否显示返回按钮
+     * @param backID 返回键图片
+     * @param listener  返回按钮的点击事件，默认为传入null  销毁当前activity
+     * @param title 标题
+     */
+    public void setTitle(boolean isShowBack,int backID,View.OnClickListener listener,int toolbarColor,String title){
+        mTitle.setText(title);
+        mToolbar.setBackgroundResource(toolbarColor);
+        if (isShowBack){
+            Drawable left = ContextCompat.getDrawable(mActivity,backID);
+            left.setBounds(0,0,left.getMinimumWidth(),left.getMinimumHeight());
+            mLeft.setCompoundDrawables(left,null,null,null);
+            if (listener!=null){
+                mLeft.setOnClickListener(listener);
+            }else{
+                mLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mActivity.finish();
+                    }
+                });
+            }
+        }else{
+            mLeft.setCompoundDrawables(null,null,null,null);
+            mLeft.setClickable(false);
+        }
+    }
+
+    /**
      * 设置title与返回键
      *
      * @param isShowBack 是否显示返回按钮
@@ -149,6 +180,15 @@ public class TitleUtil {
      */
     public void setTitle(boolean isShowBack,int toolbarColor,String title){
         setTitle(isShowBack,null,toolbarColor,title);
+    }
+    /**
+     *
+     * 设置title与返回键,背景色
+     * @param isShowBack
+     * @param title
+     */
+    public void setTitle(boolean isShowBack,int backID,int toolbarColor,String title){
+        setTitle(isShowBack,backID,null,toolbarColor,title);
     }
     /**
      * 显示关闭按钮

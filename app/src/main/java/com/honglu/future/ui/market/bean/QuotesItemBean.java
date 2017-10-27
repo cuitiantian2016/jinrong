@@ -1,10 +1,12 @@
 package com.honglu.future.ui.market.bean;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by hc on 2017/10/25.
  */
 
-public class QuotesItemBean {
+public class QuotesItemBean extends DataSupport {
     private String contractName;//合约名称
     private String latestPrice;//最新价
     private String quoteChange;//涨幅量

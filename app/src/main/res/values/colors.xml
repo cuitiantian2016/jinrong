@@ -63,6 +63,7 @@
     <color name="grey">#969696</color>
     <color name="color_b2b2b2">#B2B2B2</color>
     <color name="color_febc18">#FEBC18</color>
+    <color name="base_bg">#F8F8F9</color>
 
     <!-- 首页天数颜色 -->
     <color name="ad_color_yellow">#9000B8</color>
