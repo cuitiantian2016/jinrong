@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@android:color/white"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/dimen_20dp"
     android:paddingRight="@dimen/dimen_20dp"
     android:paddingTop="@dimen/dimen_13dp">
@@ -21,6 +21,18 @@
             android:text="玉米1801"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_20sp" />
+
+        <TextView
+            android:id="@+id/tv_closed"
+            android:layout_width="@dimen/dimen_50dp"
+            android:layout_height="@dimen/dimen_22dp"
+            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:background="@drawable/shape_xiushi_bg"
+            android:gravity="center"
+            android:text="休市中"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_num_text"

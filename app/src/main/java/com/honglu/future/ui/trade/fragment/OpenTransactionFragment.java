@@ -65,6 +65,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 bean.setDownNum("买跌1677");
                 bean.setRiseRadio("50%");
                 bean.setDownRadio("50%");
+                bean.setIsRest("0");
                 mList.add(bean);
             } else {
                 bean.setProductName("甲醇1801");
@@ -73,6 +74,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 bean.setDownNum("买跌2645");
                 bean.setRiseRadio("0%");
                 bean.setDownRadio("100%");
+                bean.setIsRest("1");
                 mList.add(bean);
             }
         }

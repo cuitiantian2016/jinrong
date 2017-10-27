@@ -134,6 +134,7 @@
     <color name="color_2CC593">#2CC593</color>
     <color name="color_00A3CC">#00A3CC</color>
     <color name="color_A7A7A7">#A7A7A7</color>
+    <color name="color_CACCCB">#CACCCB</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>

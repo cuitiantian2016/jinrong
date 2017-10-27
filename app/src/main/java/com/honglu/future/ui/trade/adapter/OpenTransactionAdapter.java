@@ -1,12 +1,8 @@
 package com.honglu.future.ui.trade.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -35,6 +31,9 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         holder.mTvDown.setText(item.getDownNum());
         holder.mTvRiseRadio.setText(item.getRiseRadio());
         holder.mTvDownRadio.setText(item.getDownRadio());
+        if (item.getIsRest().equals("1")) {
+            holder.mTvClosed.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -51,6 +50,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         TextView mTvRiseRadio;
         @BindView(R.id.tv_down_radio)
         TextView mTvDownRadio;
+        @BindView(R.id.tv_closed)
+        TextView mTvClosed;
 
         ViewHolder(View view) {
             super(view);
