@@ -1,22 +1,29 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
+import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
+import com.honglu.future.util.Tool;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by zq on 2017/10/26.
@@ -25,6 +32,7 @@ import butterknife.BindView;
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
+    LinearLayout mTradeHeader;
     private OpenTransactionAdapter mOpenTransactionAdapter;
     private List<OpenTransactionListBean> mList;
 
@@ -50,8 +58,22 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mOpenTransactionAdapter = new OpenTransactionAdapter();
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.item_trade_list_header, null);
+        mTradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         mOpenTransactionAdapter.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);
+        setListener();
+    }
+
+    private void setListener() {
+        mTradeHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void initData() {

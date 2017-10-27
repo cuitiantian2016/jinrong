@@ -64,7 +64,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("brokerId", "0101");
                 String userMobile = UserUtil.getUserMobile();
-                if (!TextUtils.isEmpty(userMobile)){
+                if (!TextUtils.isEmpty(userMobile)) {
                     intent.putExtra("mobile", userMobile);
                 }
                 startActivity(intent);
@@ -75,14 +75,15 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     private void toLogin() {
         String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
         LogUtils.loge(userId);
-        if (!StringUtil.isBlank(userId)) {
+        if (StringUtil.isBlank(userId)) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             intent.putExtra("userId", userId);
             startActivity(intent);
-        } else {
-            Intent intent = new Intent(mContext, RegisterActivity.class);
-            startActivity(intent);
         }
+//        } else {
+//            Intent intent = new Intent(mContext, RegisterActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     @Override
