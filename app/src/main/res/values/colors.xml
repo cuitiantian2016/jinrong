@@ -133,11 +133,13 @@
     <color name="color_E6E6E6">#E6E6E6</color>
     <color name="color_2CC593">#2CC593</color>
     <color name="color_00A3CC">#00A3CC</color>
+    <color name="color_A7A7A7">#A7A7A7</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>
     <!--基础色-->
     <color name="color_white">#FFFFFF</color>
+    <color name="color_F8F8F9">#F8F8F9</color>
 
     <!--咨询详情页颜色-->
     <color name="color_333333">#333333</color>
