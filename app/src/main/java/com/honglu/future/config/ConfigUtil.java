@@ -107,7 +107,7 @@ public class ConfigUtil {
 
     //获取用户当前登录状态
     public boolean getLoginStatus() {
-        return true;
+        return isLogin;
         //        return true;
     }
 
