@@ -15,17 +15,11 @@ import com.honglu.future.R;
  * Created by zq on 2017/10/28.
  */
 
-public class BottomPopupWindow extends PopupWindow implements PopupWindow.OnDismissListener {
+public class BottomPopupWindow extends PopupWindow {
     private Context mContext;
 
     public BottomPopupWindow(Context context, View locationView, View rootView) {
         mContext = context;
-        initPopWindow(context, locationView, rootView);
-    }
-
-    public BottomPopupWindow(Context context, View locationView) {
-        mContext = context;
-        View rootView = View.inflate(context, R.layout.popupwind_posttion_layout, null);
         initPopWindow(context, locationView, rootView);
     }
 
@@ -40,12 +34,6 @@ public class BottomPopupWindow extends PopupWindow implements PopupWindow.OnDism
         int[] location = new int[2];
         locationView.getLocationOnScreen(location);
         showAtLocation(locationView, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
-        setOnDismissListener(this);
-    }
-
-    @Override
-    public void onDismiss() {
-        backgroundAlpha(1f);
     }
 
     /**

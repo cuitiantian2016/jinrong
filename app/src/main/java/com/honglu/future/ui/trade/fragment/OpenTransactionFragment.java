@@ -1,13 +1,10 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -135,10 +132,16 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             return;
         }
-        mPopupWindow = new BottomPopupWindow(mActivity,
-                view, layout);
+        mPopupWindow = new BottomPopupWindow(mActivity, view, layout);
         //添加按键事件监听
         setButtonListeners(layout, flag);
+        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+            }
+        });
     }
 
     private void showTipBottomWindow(View view, View layout, final int flag) {
@@ -149,6 +152,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 view, layout);
         //添加按键事件监听
         setButtonListeners(layout, flag);
+        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
+        mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (mPopupWindow == null || !mPopupWindow.isShowing()) {
+                    backgroundAlpha(1f);
+                }
+            }
+        });
     }
 
     private void setButtonListeners(View view, final int flag) {
