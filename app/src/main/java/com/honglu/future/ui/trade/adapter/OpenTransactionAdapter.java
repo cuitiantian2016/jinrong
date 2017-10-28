@@ -1,17 +1,11 @@
 package com.honglu.future.ui.trade.adapter;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.app.App;
-import com.honglu.future.dialog.AlertFragmentDialog;
-import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 

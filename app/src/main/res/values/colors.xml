@@ -140,6 +140,7 @@
     <color name="color_FF8843">#FF8843</color>
     <color name="color_F7F8F9">#F7F8F9</color>
     <color name="color_151515">#151515</color>
+    <color name="color_FA455B">#FA455B</color>
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->
     <drawable name="image_default_new">#D7D5D0</drawable>

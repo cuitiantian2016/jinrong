@@ -23,6 +23,7 @@ import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
+import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -41,8 +42,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private ImageView mTradeTip;
     private OpenTransactionAdapter mOpenTransactionAdapter;
     private List<OpenTransactionListBean> mList;
-    private PopupWindow mPopupWindow;
-    private PopupWindow mTipPopupWindow;
+    private BottomPopupWindow mPopupWindow;
+    private BottomPopupWindow mTipPopupWindow;
     private static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
     private static final String TRADE_BUY_DOWN = "TRADE_BUY_DOWN";
 
@@ -134,55 +135,20 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             return;
         }
-
-        mPopupWindow = new PopupWindow(layout,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        //点击空白处时，隐藏掉pop窗口
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        //添加弹出、弹入的动画
-        mPopupWindow.setAnimationStyle(R.style.Popupwindow);
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        mPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
+        mPopupWindow = new BottomPopupWindow(mActivity,
+                view, layout);
         //添加按键事件监听
         setButtonListeners(layout, flag);
-        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
-            }
-        });
     }
 
     private void showTipBottomWindow(View view, View layout, final int flag) {
         if (mTipPopupWindow != null && mTipPopupWindow.isShowing()) {
             return;
         }
-        mTipPopupWindow = new PopupWindow(layout,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        //点击空白处时，隐藏掉pop窗口
-        mTipPopupWindow.setFocusable(true);
-        mTipPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        //添加弹出、弹入的动画
-        mTipPopupWindow.setAnimationStyle(R.style.Popupwindow);
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        mTipPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
+        mTipPopupWindow = new BottomPopupWindow(mActivity,
+                view, layout);
         //添加按键事件监听
         setButtonListeners(layout, flag);
-        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
-        mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (mPopupWindow == null || !mPopupWindow.isShowing()) {
-                    backgroundAlpha(1f);
-                }
-            }
-        });
     }
 
     private void setButtonListeners(View view, final int flag) {
