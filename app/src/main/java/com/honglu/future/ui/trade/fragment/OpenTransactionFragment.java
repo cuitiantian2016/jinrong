@@ -43,7 +43,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private List<OpenTransactionListBean> mList;
     private PopupWindow mPopupWindow;
     private PopupWindow mTipPopupWindow;
-
+    private static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
+    private static final String TRADE_BUY_DOWN = "TRADE_BUY_DOWN";
 
     public static void tipClickCallBack(OnTipClickCallback onTipClickCallback) {
         onTipClickCallback.tipClick();
@@ -273,7 +274,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         } else {
             // TODO: 2017/10/27 判断期货交易所登录或者建仓
             //showOpenAccountWindow(view);
-            showOpenTransactionWindow(view);
+            showOpenTransactionWindow(view, TRADE_BUY_DOWN);
         }
     }
 
@@ -289,8 +290,16 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         backgroundAlpha(0.5f);
     }
 
-    private void showOpenTransactionWindow(View view) {
+    private void showOpenTransactionWindow(View view, String riseOrDown) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.open_transaction_popup_window, null);
+        TextView tvRiseOrDown = null;
+        if (riseOrDown.equals(TRADE_BUY_DOWN)) {
+            tvRiseOrDown = (TextView) layout.findViewById(R.id.tv_rise);
+        } else if (riseOrDown.equals(TRADE_BUY_RISE)) {
+            tvRiseOrDown = (TextView) layout.findViewById(R.id.tv_down);
+        }
+        tvRiseOrDown.setBackgroundResource(R.drawable.rise_down_bg_block);
+        tvRiseOrDown.setTextColor(mActivity.getResources().getColor(R.color.color_151515));
         showBottomWindow(view, layout, 3);
         backgroundAlpha(0.5f);
     }
