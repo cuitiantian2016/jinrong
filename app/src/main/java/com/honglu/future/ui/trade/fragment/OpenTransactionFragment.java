@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -41,6 +42,17 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private OpenTransactionAdapter mOpenTransactionAdapter;
     private List<OpenTransactionListBean> mList;
     private PopupWindow mPopupWindow;
+    private PopupWindow mTipPopupWindow;
+
+
+    public static void tipClickCallBack(OnTipClickCallback onTipClickCallback) {
+        onTipClickCallback.tipClick();
+    }
+
+    interface OnTipClickCallback {
+        void tipClick();
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -144,27 +156,81 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         });
     }
 
-    private void setButtonListeners(View view, int flag) {
+    private void showTipBottomWindow(View view, View layout, final int flag) {
+        if (mTipPopupWindow != null && mTipPopupWindow.isShowing()) {
+            return;
+        }
+        mTipPopupWindow = new PopupWindow(layout,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        //点击空白处时，隐藏掉pop窗口
+        mTipPopupWindow.setFocusable(true);
+        mTipPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //添加弹出、弹入的动画
+        mTipPopupWindow.setAnimationStyle(R.style.Popupwindow);
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        mTipPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
+        //添加按键事件监听
+        setButtonListeners(layout, flag);
+        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
+        mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (mPopupWindow == null || !mPopupWindow.isShowing()) {
+                    backgroundAlpha(1f);
+                }
+            }
+        });
+    }
+
+    private void setButtonListeners(View view, final int flag) {
         ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mPopupWindow != null && mPopupWindow.isShowing()) {
-                    mPopupWindow.dismiss();
+                if (flag == 1) {
+                    if (mTipPopupWindow != null && mTipPopupWindow.isShowing()) {
+                        mTipPopupWindow.dismiss();
+                    }
+                } else {
+                    if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                        mPopupWindow.dismiss();
+                    }
                 }
             }
         });
-        if (flag == 2) {
+
+        if (flag == 2 || flag == 3) {
             ImageView ivTip = (ImageView) view.findViewById(R.id.iv_open_account_tip);
             ivTip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mPopupWindow != null && mPopupWindow.isShowing()) {
-                        mPopupWindow.dismiss();
-                        showTipWindow(view);
-                    }
+                    tipClickCallBack(new OnTipClickCallback() {
+                        @Override
+                        public void tipClick() {
+                            showTipWindow(mTradeTip);
+                        }
+                    });
                 }
             });
+
+            if (flag == 3) {
+                TextView fastOpen = (TextView) view.findViewById(R.id.btn_fast_open);
+                fastOpen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new AlertFragmentDialog.Builder(mActivity).setTitle("确认建仓").setContent("玉米1080 买涨 1手 总计 ¥2511.68")
+                                .setRightBtnText("确定")
+                                .setLeftBtnText("取消")
+                                .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                                    @Override
+                                    public void dialogRightBtnClick() {
+                                    }
+                                }).build();
+                    }
+                });
+            }
         }
     }
 
@@ -213,7 +279,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     private void showTipWindow(View view) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
-        showBottomWindow(view, layout, 1);
+        showTipBottomWindow(view, layout, 1);
         backgroundAlpha(0.5f);
     }
 

@@ -395,6 +395,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/btn_fast_open"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"

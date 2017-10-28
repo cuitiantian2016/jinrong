@@ -442,6 +442,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         /**
          * 跳转到拨号页面，拨打传入的手机号码
+         *
          * @param tele PS:暂未使用到
          */
         @JavascriptInterface
@@ -485,12 +486,13 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         /**
          * 调用app的分享
+         *
          * @param shareBean 分享的json字符串
-         * int type;   //类型  如需要点击标题右上角“分享"按钮再分享 ，则传入1。  否则传入其他  会直接弹出分享弹窗
-         * String share_title; //分享标题
-         * String share_body;  //分享的内容
-         * String share_url;   //分享后点击打开的地址
-         * String share_logo;  //分享的图标
+         *                  int type;   //类型  如需要点击标题右上角“分享"按钮再分享 ，则传入1。  否则传入其他  会直接弹出分享弹窗
+         *                  String share_title; //分享标题
+         *                  String share_body;  //分享的内容
+         *                  String share_url;   //分享后点击打开的地址
+         *                  String share_logo;  //分享的图标
          */
         @JavascriptInterface
         public void shareMethod(String shareBean) {
@@ -534,7 +536,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         }
     }
 
-   // private void shareStart(WebShareBean bean){
+    // private void shareStart(WebShareBean bean){
        /* new ShareAction(mActivity)
                 .setPlatform(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
                         SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
@@ -556,7 +558,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 .withMedia(web)
                 .setCallback(umShareListener)
                 .share();*/
-   // }
+    // }
 
 //    private void showShareDialog() {
 //        dialog = new Dialog(WebViewActivity.this, R.style.alert_dialog);
@@ -700,7 +702,9 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            mProgressBar.setVisibility(View.VISIBLE);
+            if (mProgressBar != null) {
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -716,7 +720,9 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             super.onPageFinished(view, url);
             mUrl = url;
             LogUtils.loge(mUrl);
-            mProgressBar.setVisibility(View.GONE);
+            if (mProgressBar != null) {
+                mProgressBar.setVisibility(View.GONE);
+            }
             if (view.canGoBack()) { //如果当前不是初始页面则显示关闭按钮
                 mTitle.showClose(new OnClickListener() {
                     @Override
@@ -761,7 +767,9 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     class MyWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            mProgressBar.setProgress(newProgress);
+            if (mProgressBar != null) {
+                mProgressBar.setProgress(newProgress);
+            }
         }
 
         @Override
