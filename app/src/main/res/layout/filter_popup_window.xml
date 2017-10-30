@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#B3000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingBottom="@dimen/dimen_13dp"
+        android:paddingLeft="@dimen/dimen_20dp"
+        android:paddingRight="@dimen/dimen_20dp"
+        android:paddingTop="@dimen/dimen_2dp">
+
+        <TextView
+            android:id="@+id/tv_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/stroke_radio_button_bg"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen_8dp"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:paddingTop="@dimen/dimen_8dp"
+            android:text="查看全部"
+            android:textColor="@color/color_333333" />
+
+        <TextView
+            android:id="@+id/tv_build"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/fiter_radio_button_unselect_bg"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen_8dp"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_20dp"
+            android:paddingTop="@dimen/dimen_8dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:text="只看建仓"
+            android:textColor="@color/color_A4A5A6" />
+
+        <TextView
+            android:id="@+id/tv_closed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/fiter_radio_button_unselect_bg"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen_8dp"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_20dp"
+            android:paddingTop="@dimen/dimen_8dp"
+            android:text="只看平仓"
+            android:textColor="@color/color_A4A5A6" />
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -2,22 +2,25 @@ package com.honglu.future.ui.trade.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
-import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
-import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.contract.EntrustContract;
 import com.honglu.future.ui.trade.presenter.EntrustPresenter;
-import com.honglu.future.widget.popupwind.BottomPopupWindow;
+import com.honglu.future.util.Tool;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by zq on 2017/10/26.
@@ -26,8 +29,18 @@ import butterknife.BindView;
 public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View {
     @BindView(R.id.rv_entrust_list_view)
     RecyclerView mEntrustListView;
+    @BindView(R.id.ll_filter)
+    LinearLayout mLlFilter;
+    @BindView(R.id.tv_all)
+    TextView mAll;
+    @BindView(R.id.tv_build)
+    TextView mBuild;
+    @BindView(R.id.tv_closed)
+    TextView mClosed;
+
     private EntrustAdapter mEntrustAdapter;
     private List<EntrustBean> mList;
+    private boolean mIsShowFilter;
 
     @Override
     public int getLayoutId() {
@@ -43,6 +56,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     public void loadData() {
         initView();
         initData();
+        setButtonListeners();
     }
 
     private void initView() {
@@ -80,4 +94,60 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         }
         mEntrustAdapter.addData(mList);
     }
+
+    @OnClick({R.id.tv_see_all})
+    public void onClick(View view) {
+        if (Tool.isFastDoubleClick()) return;
+        switch (view.getId()) {
+            case R.id.tv_see_all:
+                if (!mIsShowFilter) {
+                    mLlFilter.setVisibility(View.VISIBLE);
+                    mIsShowFilter = true;
+                } else {
+                    mLlFilter.setVisibility(View.GONE);
+                    mIsShowFilter = false;
+                }
+                break;
+        }
+    }
+
+
+    private void setButtonListeners() {
+        mAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAll.setBackgroundResource(R.drawable.stroke_radio_button_bg);
+                mAll.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
+                mBuild.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mClosed.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+            }
+        });
+
+        mBuild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAll.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mAll.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mBuild.setBackgroundResource(R.drawable.stroke_radio_button_bg);
+                mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
+                mClosed.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+            }
+        });
+
+        mClosed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAll.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mAll.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mBuild.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
+                mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mClosed.setBackgroundResource(R.drawable.stroke_radio_button_bg);
+                mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
+            }
+        });
+    }
+
 }

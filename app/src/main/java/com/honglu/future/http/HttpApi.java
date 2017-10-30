@@ -35,7 +35,7 @@ public interface HttpApi {
     //所有需要的泛型 添加：BaseResponse<UserInfo>
     //用户注册
     @FormUrlEncoded
-    @POST("mobileApi/user/info/register")
+    @POST("futures-mobile-api/user/info/register")
     Observable<BaseResponse<RegisterBean>> register(@Field("code") String code,
                                                     @Field("sourceId") String sourceId,
                                                     @Field("mobileNum") String mobileNum,
@@ -44,38 +44,38 @@ public interface HttpApi {
 
     //用户注册发送验证码
     @FormUrlEncoded
-    @POST("mobileApi/user/info/register/send/sms")
+    @POST("futures-mobile-api/user/info/register/send/sms")
     Observable<BaseResponse> getCode(@Field("sourceId") String sourceId,
                                      @Field("mobileNum") String mobileNum);
 
     //找回密码(重置密码)发送验证码
     @FormUrlEncoded
-    @POST("mobileApi/user/info/retrieve/password/send/sms")
+    @POST("futures-mobile-api/user/info/retrieve/password/send/sms")
     Observable<BaseResponse> getResetCode(@Field("sourceId") String sourceId,
                                           @Field("mobileNum") String mobileNum);
 
     //找回密码
     @FormUrlEncoded
-    @POST("mobileApi/user/info/retrieve/password")
+    @POST("futures-mobile-api/user/info/retrieve/password")
     Observable<BaseResponse> resetPwd(@Field("mobileNum") String mobileNum,
                                       @Field("password") String password,
                                       @Field("code") String code);
 
     //用户登录
     @FormUrlEncoded
-    @POST("mobileApi/user/info/login")
+    @POST("futures-mobile-api/user/info/login")
     Observable<BaseResponse<UserInfoBean>> login(@Field("mobileNum") String mobileNum,
                                                  @Field("password") String password);
 
     //修改昵称
     @FormUrlEncoded
-    @POST("mobileApi/user/info/update/nickName")
+    @POST("futures-mobile-api/user/info/update/nickName")
     Observable<BaseResponse> updateNickName(@Field("nickName") String nickName,
                                       @Field("userId") String userId);
 
     /*******************************    上传图片   *****************************************/
     @Multipart
-    @POST("mobileApi/user/info/update/avatar")
+    @POST("futures-mobile-api/user/info/update/avatar")
     Observable<BaseResponse> uploadUserAvatar(
             @Part MultipartBody.Part File, @Part("userId") RequestBody userId);
 
