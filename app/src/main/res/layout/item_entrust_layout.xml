@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_20dp"
+    android:paddingTop="@dimen/dimen_10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white_8dp_bg"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_20dp"
+        android:paddingTop="@dimen/dimen_12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="玉米1801"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <TextView
+                android:id="@+id/tv_buy_hands"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_toRightOf="@+id/tv_name"
+                android:text="买涨 1手"
+                android:textColor="@color/color_FB4F4F"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <TextView
+                android:id="@+id/btn_entrust"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_radius_entrust_bg"
+                android:paddingBottom="@dimen/dimen_4dp"
+                android:paddingLeft="@dimen/dimen_8dp"
+                android:paddingRight="@dimen/dimen_8dp"
+                android:paddingTop="@dimen/dimen_4dp"
+                android:text="建仓委托"
+                android:textColor="@color/color_86A2B0"
+                android:textSize="@dimen/dimen_10sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1dp_half"
+                android:layout_below="@+id/btn_entrust"
+                android:layout_marginTop="@dimen/dimen_12dp"
+                android:background="@color/color_E3E3E3" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/entrust_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="委    托    价"
+                android:textColor="@color/color_A4A5A6"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_entrust_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:layout_toRightOf="@+id/entrust_price_text"
+                android:text="1665"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_date"
+                android:text="委托时间"
+                android:textColor="@color/color_A4A5A6"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:text="2017-10-20"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/service_charge_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冻结手续费"
+                android:textColor="@color/color_A4A5A6"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_service_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:layout_toRightOf="@+id/service_charge_text"
+                android:text="6.66"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_limit_date"
+                android:text="有  效  期"
+                android:textColor="@color/color_A4A5A6"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_limit_date"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:text="当日有效"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bond_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冻结保证金"
+                android:textColor="@color/color_A4A5A6"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_bond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:layout_toRightOf="@+id/bond_text"
+                android:text="1665"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_13dp"
+            android:background="@drawable/shape_btn_common_bg"
+            android:paddingBottom="@dimen/dimen_5dp"
+            android:paddingLeft="@dimen/dimen_21dp"
+            android:paddingRight="@dimen/dimen_21dp"
+            android:paddingTop="@dimen/dimen_5dp"
+            android:text="撤单"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
