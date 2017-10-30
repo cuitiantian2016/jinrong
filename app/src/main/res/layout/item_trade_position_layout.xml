@@ -6,6 +6,7 @@
 
 
     <View
+        android:id="@+id/v_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
         android:background="@color/color_E3E3E3"
@@ -27,6 +28,7 @@
 
 
        <LinearLayout
+           android:id="@+id/v_bootomView"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginLeft="@dimen/dimen_20dp"

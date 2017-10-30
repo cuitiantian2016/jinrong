@@ -1,20 +1,29 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
+import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +42,12 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @BindView(R.id.srl_refreshView)
     SmartRefreshLayout srlRefreshView;
 
+    //空页面
+    @BindView(R.id.tv_remarksEmpty)
+    TextView tvRemarksEmpty;
+    View mFooterEmptyView;
 
     private PositionAdapter mAdapter;
-
 
     @Override
     public int getLayoutId() {
@@ -47,16 +59,54 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mPresenter.init(this);
     }
 
+    public void setEmptyView(boolean isEmpty){
+        if (isEmpty){
+            tvRemarksEmpty.setVisibility(View.VISIBLE);
+            mFooterEmptyView.setVisibility(View.VISIBLE);
+            if (lvListView.getFooterViewsCount() <=0
+                    && mFooterEmptyView !=null){
+                lvListView.addFooterView(mFooterEmptyView);
+            }
+        }else {
+            tvRemarksEmpty.setVisibility(View.GONE);
+            mFooterEmptyView.setVisibility(View.GONE);
+            if (lvListView.getFooterViewsCount() >0
+                   && mFooterEmptyView !=null){
+                lvListView.removeFooterView(mFooterEmptyView);
+            }
+        }
+    }
+
     @Override
     public void loadData() {
-        mAdapter = new PositionAdapter(getActivity());
-        View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_position_list_header, null);
+        mAdapter = new PositionAdapter(PositionFragment.this);
+        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
+        mFooterEmptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_emptyview,null);
         lvListView.addHeaderView(headView);
+        lvListView.addFooterView(mFooterEmptyView);
         lvListView.setAdapter(mAdapter);
-        List<String> mList = new ArrayList<>();
-        for (int i = 0 ; i < 50 ; i++){
-            mList.add(new String("1111"));
-        }
-        mAdapter.notifyDataChanged(false,mList);
+        setEmptyView(true);
+
+        srlRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                List<String> mList = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    mList.add(new String("1111"));
+                }
+                mAdapter.notifyDataChanged(true, mList);
+                srlRefreshView.finishLoadmore();
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                List<String> mList = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                    mList.add(new String("1111"));
+                }
+                mAdapter.notifyDataChanged(false, mList);
+                srlRefreshView.finishRefresh();
+            }
+        });
     }
 }

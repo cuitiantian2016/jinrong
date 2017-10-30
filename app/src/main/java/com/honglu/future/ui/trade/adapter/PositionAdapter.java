@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.trade.fragment.PositionFragment;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 
 import java.util.ArrayList;
@@ -21,11 +22,15 @@ import butterknife.ButterKnife;
  */
 
 public class PositionAdapter extends BaseAdapter {
+    private PositionPopWind mPopWind;
     private Context mContext;
+    private PositionFragment mFragment;
     private List<String> mList;
 
-    public PositionAdapter(Context context) {
-        this.mContext = context;
+    public PositionAdapter(PositionFragment fragment) {
+        this.mFragment = fragment;
+        this.mContext = mFragment.getActivity();
+        this.mPopWind = new PositionPopWind(mContext);
         this.mList = new ArrayList<>();
     }
 
@@ -56,6 +61,11 @@ public class PositionAdapter extends BaseAdapter {
                 mList = list;
             }
         }
+        if (mList.size() >0){
+            mFragment.setEmptyView(false);
+        }else {
+            mFragment.setEmptyView(true);
+        }
         notifyDataSetChanged();
     }
 
@@ -69,17 +79,23 @@ public class PositionAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.tvBuyCount.setOnClickListener(new View.OnClickListener() {
+        if (position == 0){
+            holder.vLine.setVisibility(View.GONE);
+        }else {
+            holder.vLine.setVisibility(View.VISIBLE);
+        }
+        holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PositionPopWind(mContext).showAsDropDown(v);
+               mPopWind.showPopupWind(v);
             }
         });
         return convertView;
     }
 
     static class ViewHolder {
+        @BindView(R.id.v_line)
+        View vLine;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_buy_count)
@@ -90,6 +106,8 @@ public class PositionAdapter extends BaseAdapter {
         TextView tvNewPrice;
         @BindView(R.id.tv_profit_loss)
         TextView tvProfitLoss;
+        @BindView(R.id.v_bootomView)
+        View vBottomView;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

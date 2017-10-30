@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="@color/color_F8F8F9"
     android:layout_height="match_parent">
 
@@ -8,7 +9,8 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl_refreshView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/lv_listView"
@@ -16,4 +18,15 @@
             android:layout_height="match_parent"
             android:divider="@null"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv_remarksEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dimen_12sp"
+        android:textColor="@color/color_A4A5A6"
+        android:layout_marginBottom="@dimen/dimen_13dp"
+        android:layout_gravity="center_horizontal"
+        android:text="备注：暂时支持查看可交易品种的持仓和交易记录"
+        android:visibility="gone"/>
 </LinearLayout>
