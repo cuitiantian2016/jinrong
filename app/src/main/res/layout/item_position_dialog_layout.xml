@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp">
+
+        <TextView
+            android:id="@+id/tv_buy_hands"
+            android:layout_width="@dimen/dimen_80dp"
+            android:layout_height="wrap_content"
+            android:text="买涨1手"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_14sp"
+            android:layout_alignParentRight="true"
+            android:text="10-22"/>
+    </RelativeLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:layout_marginLeft="@dimen/dimen_15dp"
+         android:layout_marginRight="@dimen/dimen_15dp"
+         android:layout_marginTop="@dimen/dimen_6dp">
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_14sp"
+                  android:textColor="@color/color_A4A5A6"
+                  android:text="建仓价"/>
+
+
+              <TextView
+                  android:id="@+id/tv_price"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_14sp"
+                  android:layout_marginLeft="@dimen/dimen_5dp"
+                  android:textColor="@color/color_151515"
+                  android:text="1670 "/>
+          </LinearLayout>
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:gravity="center_horizontal"
+             android:layout_weight="1">
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_14sp"
+                 android:textColor="@color/color_A4A5A6"
+                 android:text="当日保证金"/>
+
+             <TextView
+                 android:id="@+id/tv_bond"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_14sp"
+                 android:layout_marginLeft="@dimen/dimen_5dp"
+                 android:textColor="@color/color_151515"
+                 android:text="1670 "/>
+         </LinearLayout>
+
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_14sp"
+                 android:textColor="@color/color_A4A5A6"
+                 android:text="建仓手续费"/>
+
+             <TextView
+                 android:id="@+id/tv_service_charge"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_14sp"
+                 android:layout_marginLeft="@dimen/dimen_5dp"
+                 android:textColor="@color/color_151515"
+                 android:text="1670 "/>
+         </LinearLayout>
+     </LinearLayout>
+
+</LinearLayout>

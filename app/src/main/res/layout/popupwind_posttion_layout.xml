@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_14dp"
-            android:paddingRight="@dimen/dimen_14dp">
+            android:paddingLeft="@dimen/dimen_14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/dimen_14sp"
                 android:textColor="@color/color_A4A5A6"
-                android:layout_marginLeft="@dimen/dimen_38dp"
+                android:layout_marginLeft="@dimen/dimen_32dp"
                 android:text="建仓手续费"/>
 
 
@@ -74,7 +73,7 @@
 
 
             <TextView
-                android:id="@+id/tv_postion_hint"
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/dimen_14sp"
@@ -102,11 +101,10 @@
             <TextView
                 android:id="@+id/tv_position_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dimen_45dp"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/dimen_16sp"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:text="持仓详情"/>
 
@@ -118,11 +116,10 @@
             <TextView
                 android:id="@+id/tv_close_position"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dimen_45dp"
                 android:textColor="@color/color_FF8843"
                 android:textSize="@dimen/dimen_16sp"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:text="平仓  "/>
         </LinearLayout>
