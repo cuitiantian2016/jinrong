@@ -43,9 +43,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         UserCenterContract.View {
 
     @BindView(R.id.tv_loginRegister)
-    TextView mUserName;
+    TextView mLoginRegister;
     @BindView(R.id.iv_setup)
     ImageView mSetup;
+    @BindView(R.id.ll_signin_suc_layout)
+    LinearLayout mSigninSucLayout;
     @BindView(R.id.iv_head)
     CircleImageView mHead;
     @BindView(R.id.tv_mobphone)
@@ -141,7 +143,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void loadData() {
         EventBus.getDefault().register(this);
         if (App.getConfig().getLoginStatus()) {
-            mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
         signinExpandCollapse(false);
     }
@@ -210,7 +212,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 // 数据刷新
                 if (App.getConfig().getLoginStatus()) {
-                    mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+                    //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
                 }
             }
         }
