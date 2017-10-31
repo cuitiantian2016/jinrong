@@ -1,7 +1,6 @@
 package com.honglu.future.ui.recharge.activity;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;

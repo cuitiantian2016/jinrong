@@ -62,7 +62,7 @@ public class InAndOutGoldActivity extends BaseActivity {
         ArrayList<Fragment> mFragments = new ArrayList<>();
         mFragments.add(PayAndOutGoldFragment.getInstance(true));
         mFragments.add(PayAndOutGoldFragment.getInstance(false));
-        mFragments.add(PayAndOutGoldFragment.getInstance(false));
+        mFragments.add(InAndOutDetailFragment.getInstance());
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);
         mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
             @Override
