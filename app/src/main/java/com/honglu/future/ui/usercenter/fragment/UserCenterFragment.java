@@ -170,7 +170,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intent);
                 break;
             case R.id.tv_novice:
-                startActivity( new Intent(mActivity, InAndOutGoldActivity.class));
+                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
                 break;
         }
     }

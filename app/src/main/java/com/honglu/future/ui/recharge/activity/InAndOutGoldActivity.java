@@ -1,5 +1,7 @@
 package com.honglu.future.ui.recharge.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.util.CalendarUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
@@ -23,6 +26,7 @@ import butterknife.BindView;
  * 出入金
  */
 public class InAndOutGoldActivity extends BaseActivity {
+    private static final String KEY_POSITION = "KEY_POSITION";
     private ArrayList<CustomTabEntity> mTabList;
     @BindView(R.id.tv_back)
     ImageView mLeftIcon;
@@ -33,6 +37,12 @@ public class InAndOutGoldActivity extends BaseActivity {
     @BindView(R.id.trade_common_tab_layout)
     CommonTabLayout mCommonTabLayout;
     private int mCurrentPosition;
+
+    public static void startInAndOutGoldActivity(Context context,int position){
+        Intent intent = new Intent(context, InAndOutGoldActivity.class);
+        intent.putExtra(KEY_POSITION,position);
+        context.startActivity(intent);
+    }
     @Override
     public int getLayoutId() {
         return R.layout.acticity_global_details;
@@ -71,6 +81,11 @@ public class InAndOutGoldActivity extends BaseActivity {
                 mCurrentPosition = position;
             }
         });
+        Intent intent = getIntent();
+        if (intent!=null){
+            mCurrentPosition = intent.getIntExtra(KEY_POSITION,0);
+        }
+        mCommonTabLayout.setCurrentTab(mCurrentPosition);
     }
     /**
      * 初始化布局
