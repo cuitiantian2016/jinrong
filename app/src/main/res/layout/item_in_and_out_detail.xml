@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/dimen_20dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_type"
+        android:textSize="@dimen/dimen_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_333333"
+        android:text="充值"/>
+    <TextView
+        android:id="@+id/tv_bank"
+        android:layout_toRightOf="@+id/tv_type"
+        android:textSize="@dimen/dimen_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:textColor="@color/color_A4A5A6"
+        android:text="招商银行 尾号4761"/>
+    <TextView
+        android:id="@+id/tv_asses"
+        android:textSize="@dimen/dimen_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_333333"
+        android:layout_alignParentRight="true"
+        android:text="5039.81"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dimen_6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_time"
+            android:textSize="@dimen/dimen_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_A4A5A6"
+            android:text="2017-10-17 12:02:02"/>
+        <TextView
+            android:id="@+id/tv_state"
+            android:textSize="@dimen/dimen_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_A4A5A6"
+            android:layout_alignParentRight="true"
+            android:text="5039.81"/>
+    </RelativeLayout>
+</LinearLayout>

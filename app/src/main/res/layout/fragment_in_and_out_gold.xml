@@ -153,7 +153,7 @@
                     android:textColorHint="#CACBCC"
                     android:layout_width="match_parent"
                     android:maxLines="1"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:textColor="@color/color_333333"
                     android:maxLength="16"
                     android:background="@null"
@@ -191,7 +191,7 @@
                     android:maxLines="1"
                     android:maxLength="6"
                     android:textColor="@color/color_333333"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:background="@null"
                     android:layout_height="wrap_content" />
                 <View
