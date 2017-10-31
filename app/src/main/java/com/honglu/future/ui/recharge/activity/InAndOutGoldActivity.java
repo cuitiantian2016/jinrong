@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 /**
- * Created by hc on 2017/10/24.
+ * Created by hefei on 2017/10/24.
  * 出入金
  */
 public class InAndOutGoldActivity extends BaseActivity {
@@ -60,9 +60,9 @@ public class InAndOutGoldActivity extends BaseActivity {
      */
     private void addFragments() {
         ArrayList<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(new PayAndOutGoldFragment());
-        mFragments.add(new PayAndOutGoldFragment());
-        mFragments.add(new PayAndOutGoldFragment());
+        mFragments.add(PayAndOutGoldFragment.getInstance(true));
+        mFragments.add(PayAndOutGoldFragment.getInstance(false));
+        mFragments.add(PayAndOutGoldFragment.getInstance(false));
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);
         mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
             @Override
