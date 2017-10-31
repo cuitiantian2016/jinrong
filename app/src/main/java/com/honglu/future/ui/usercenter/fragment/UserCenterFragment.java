@@ -12,10 +12,14 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
+import com.honglu.future.ui.trade.activity.TradeRecordActivity;
+import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
@@ -32,7 +36,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -145,10 +148,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (App.getConfig().getLoginStatus()) {
             //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
-        signinExpandCollapse(false);
+        //// TODO: 2017/10/31 根据返回结果控制
+        signinExpandCollapse(true);
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice})
+    @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice,R.id.tv_trade_details,R.id.tv_account_manage,
+    R.id.tv_bill_details,R.id.tv_position})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -171,6 +176,18 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_novice:
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
+                break;
+            case R.id.tv_trade_details:
+                startActivity(new Intent(mActivity, TradeRecordActivity.class));
+                break;
+            case R.id.tv_account_manage:
+                startActivity(new Intent(mActivity, FutureAccountActivity.class));
+                break;
+            case R.id.tv_bill_details:
+                startActivity(new Intent(mActivity, InAndOutGoldActivity.class));
+                break;
+            case R.id.tv_position:
+                EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
                 break;
         }
     }

@@ -169,6 +169,10 @@
             android:name="com.honglu.future.ui.trade.activity.TradeRecordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity
+            android:name=".ui.usercenter.activity.FutureAccountActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity
             android:name=".ui.main.activity.WebViewActivity"
