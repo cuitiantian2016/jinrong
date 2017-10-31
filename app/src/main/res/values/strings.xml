@@ -74,6 +74,21 @@
     <string name="text_user_phone">客服电话</string>
     <string name="text_user_aboutus">关于我们</string>
     <string name="text_user_update">版本检测</string>
+    <string name="text_user_qihuo_signin">登录期货账户</string>
+    <string name="text_user_aqsignout">安全退出</string>
+    <string name="text_user_danger_chance">危险率</string>
+    <string name="text_user_kymoney">可用资金</string>
+    <string name="text_user_rights_interests">当前权益</string>
+    <string name="text_user_profit_loss">总持仓盈亏</string>
+    <string name="text_user_withdrawals">提现</string>
+    <string name="text_user_recharge">充值</string>
+    <string name="text_user_position">我的持仓</string>
+    <string name="text_user_account_manage">期货账户管理</string>
+    <string name="text_user_bond_query">保证金监控中心查询</string>
+    <string name="text_user_trade_details">交易明细</string>
+    <string name="text_user_bill_details">出入金明细</string>
+    <string name="text_user_history_bill">历史账单查询</string>
+
     <string name="text_optional">自选</string>
     <string name="text_recommend">推荐</string>
     <string name="text_market">市场</string>

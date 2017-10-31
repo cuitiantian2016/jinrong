@@ -28,7 +28,7 @@
               android:layout_height="wrap_content"
               android:textColor="@color/color_FB4F4F"
               android:textSize="@dimen/dimen_14sp"
-              android:text="安全退出"/>
+              android:text="@string/text_user_aqsignout"/>
 
     </LinearLayout>
 
@@ -66,7 +66,7 @@
                    android:textSize="@dimen/dimen_12sp"
                    android:textColor="@color/color_A4A5A6"
                    android:layout_marginTop="@dimen/dimen_2dp"
-                   android:text="危险率"/>
+                   android:text="@string/text_user_danger_chance"/>
 
 
              <TextView
@@ -84,7 +84,7 @@
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_A4A5A6"
                  android:layout_marginTop="@dimen/dimen_2dp"
-                 android:text="可用资金"/>
+                 android:text="@string/text_user_kymoney"/>
          </LinearLayout>
 
          <LinearLayout
@@ -108,7 +108,7 @@
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_A4A5A6"
                  android:layout_marginTop="@dimen/dimen_2dp"
-                 android:text="当前权益"/>
+                 android:text="@string/text_user_rights_interests"/>
 
 
              <TextView
@@ -126,7 +126,7 @@
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_A4A5A6"
                  android:layout_marginTop="@dimen/dimen_2dp"
-                 android:text="总持仓盈亏"/>
+                 android:text="@string/text_user_profit_loss"/>
          </LinearLayout>
      </LinearLayout>
 
@@ -149,7 +149,7 @@
              android:gravity="center_horizontal"
              android:layout_weight="1"
              android:background="@drawable/btn_user_withdrawals_bg"
-             android:text="提现"/>
+             android:text="@string/text_user_withdrawals"/>
 
          <TextView
              android:id="@+id/tv_recharge"
@@ -163,7 +163,7 @@
              android:paddingTop="@dimen/dimen_11dp"
              android:paddingBottom="@dimen/dimen_11dp"
              android:gravity="center_horizontal"
-             android:text="充值"/>
+             android:text="@string/text_user_recharge"/>
      </LinearLayout>
 
     <View
@@ -193,7 +193,7 @@
                android:drawablePadding="@dimen/dimen_7dp"
                android:gravity="center_vertical"
                android:drawableLeft="@mipmap/ic_user_position"
-               android:text="我的持仓"/>
+               android:text="@string/text_user_position"/>
 
 
            <TextView
@@ -206,7 +206,7 @@
                android:layout_marginTop="@dimen/dimen_18dp"
                android:gravity="center_vertical"
                android:drawableLeft="@mipmap/ic_user_account_manage"
-               android:text="期货账户管理"/>
+               android:text="@string/text_user_account_manage"/>
 
 
            <TextView
@@ -219,7 +219,7 @@
                android:layout_marginTop="@dimen/dimen_18dp"
                android:gravity="center_vertical"
                android:drawableLeft="@mipmap/ic_user_bond_query"
-               android:text="保证金监控中心查询"/>
+               android:text="@string/text_user_bond_query"/>
        </LinearLayout>
 
 
@@ -238,7 +238,7 @@
                 android:drawablePadding="@dimen/dimen_7dp"
                 android:gravity="center_vertical"
                 android:drawableLeft="@mipmap/ic_user_trade_details"
-                android:text="交易明细"/>
+                android:text="@string/text_user_trade_details"/>
 
 
             <TextView
@@ -251,7 +251,7 @@
                 android:layout_marginTop="@dimen/dimen_18dp"
                 android:gravity="center_vertical"
                 android:drawableLeft="@mipmap/ic_user_bill_details"
-                android:text="出入金明细"/>
+                android:text="@string/text_user_bill_details"/>
 
 
             <TextView
@@ -264,7 +264,7 @@
                 android:layout_marginTop="@dimen/dimen_18dp"
                 android:gravity="center_vertical"
                 android:drawableLeft="@mipmap/ic_user_history_bill"
-                android:text="历史账单查询"/>
+                android:text="@string/text_user_history_bill"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
