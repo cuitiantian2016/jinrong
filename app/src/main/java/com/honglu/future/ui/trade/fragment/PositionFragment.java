@@ -1,26 +1,15 @@
 package com.honglu.future.ui.trade.fragment;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
-import com.honglu.future.widget.popupwind.PositionPopWind;
-import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
@@ -29,13 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by zq on 2017/10/26.
  */
-
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View {
     @BindView(R.id.lv_listView)
     ListView lvListView;

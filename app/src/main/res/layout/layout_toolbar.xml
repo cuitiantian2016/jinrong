@@ -10,6 +10,15 @@
     app:contentInsetStart="0dp"
     app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll">
+    <ImageView
+        android:id="@+id/tv_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:minWidth="@dimen/title_height"
+        android:src="@mipmap/ic_left_arrow"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"
+        style="?attr/toolbarNavigationButtonStyle"/>
     <com.honglu.future.widget.DrawableCenterTextView
         android:id="@+id/tv_left"
         android:layout_width="wrap_content"
@@ -36,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textColor="@color/color_333333"
+        android:textSize="18sp"
         android:maxLines="1"
         android:maxLength="11"/>
     <com.honglu.future.widget.DrawableCenterTextView
@@ -48,8 +57,8 @@
         android:minWidth="@dimen/title_height"
         android:layout_gravity="end"
         android:gravity="center"
-        android:textColor="@color/theme_color"
-        android:textSize="16sp"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"/>
 </android.support.v7.widget.Toolbar>

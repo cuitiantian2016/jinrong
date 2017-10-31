@@ -13,6 +13,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
@@ -48,7 +49,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         return userCenterFragment;
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_signin})
+    @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -68,6 +69,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     intent.putExtra("mobile", userMobile);
                 }
                 startActivity(intent);
+                break;
+            case R.id.tv_novice:
+                startActivity( new Intent(mActivity, InAndOutGoldActivity.class));
                 break;
         }
     }

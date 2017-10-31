@@ -113,4 +113,10 @@
     <string name="msg_intent_failed">Sorry, the requested application could not be launched. The barcode contents may be invalid.</string>
     <string name="msg_default_mms_subject">Hi</string>
 
+    <string name="pay_gold">充值</string>
+    <string name="out_gold">提现</string>
+    <string name="recharge">出入明细</string>
+    <string name="out_in_gold">出入金</string>
+    <string name="rule_out_in_gold">出入金规则</string>
+
 </resources>
