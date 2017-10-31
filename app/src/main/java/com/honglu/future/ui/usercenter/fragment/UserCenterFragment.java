@@ -3,6 +3,8 @@ package com.honglu.future.ui.usercenter.fragment;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
@@ -14,7 +16,6 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
-import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
@@ -23,12 +24,15 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.util.UserUtil;
+import com.honglu.future.widget.CircleImageView;
+import com.honglu.future.widget.ExpandableLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -37,8 +41,66 @@ import butterknife.OnClick;
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
         UserCenterContract.View {
+
     @BindView(R.id.tv_loginRegister)
     TextView mUserName;
+    @BindView(R.id.iv_setup)
+    ImageView mSetup;
+    @BindView(R.id.iv_head)
+    CircleImageView mHead;
+    @BindView(R.id.tv_mobphone)
+    TextView mMobphone;
+    @BindView(R.id.tv_signin)
+    TextView mSignin;
+    @BindView(R.id.ll_signin_layout)
+    LinearLayout mSigninLayout;
+    @BindView(R.id.ex_expandableView)
+    ExpandableLayout mExpandableView;
+    @BindView(R.id.tv_signout)
+    TextView mSignout;
+    @BindView(R.id.tv_danger_chance)
+    TextView mDangerChance;
+    @BindView(R.id.tv_money)
+    TextView mMoney;
+    @BindView(R.id.tv_rights_interests)
+    TextView mRightsInterests;
+    @BindView(R.id.tv_profit_loss)
+    TextView mProfitLoss;
+    @BindView(R.id.tv_withdrawals)
+    TextView mWithdrawals;
+    @BindView(R.id.tv_recharge)
+    TextView mRecharge;
+    @BindView(R.id.tv_position)
+    TextView mPosition;
+    @BindView(R.id.tv_account_manage)
+    TextView mAccountManage;
+    @BindView(R.id.tv_bond_query)
+    TextView mBondQuery;
+    @BindView(R.id.tv_trade_details)
+    TextView mTradeDetails;
+    @BindView(R.id.tv_bill_details)
+    TextView mBillDetails;
+    @BindView(R.id.tv_history_bill)
+    TextView mHistoryBill;
+    @BindView(R.id.ll_signin_account_layout)
+    LinearLayout mSigninAccountLayout;
+    @BindView(R.id.tv_open_account)
+    TextView mOpenAccount;
+    @BindView(R.id.tv_novice)
+    TextView mNovice;
+    @BindView(R.id.tv_kefu)
+    TextView mKefu;
+    @BindView(R.id.ll_bottomLayout1)
+    LinearLayout mBottomLayout1;
+    @BindView(R.id.tv_phone)
+    TextView mPhone;
+    @BindView(R.id.tv_aboutus)
+    TextView mAboutus;
+    @BindView(R.id.tv_update)
+    TextView mUpdate;
+    @BindView(R.id.ll_bottomLayout2)
+    LinearLayout mBottomLayout2;
+
 
     public static UserCenterFragment userCenterFragment;
 
@@ -47,6 +109,41 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             userCenterFragment = new UserCenterFragment();
         }
         return userCenterFragment;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_user_center_layout;
+    }
+
+    @Override
+    public void showLoading(String content) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+
+    }
+
+
+    @Override
+    public void initPresenter() {
+
+    }
+
+    @Override
+    public void loadData() {
+        EventBus.getDefault().register(this);
+        if (App.getConfig().getLoginStatus()) {
+            mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+        }
+        signinExpandCollapse(false);
     }
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice})
@@ -76,6 +173,20 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         }
     }
 
+    //isSignin true  登录期货账号成功
+    private void signinExpandCollapse(boolean isSignin) {
+        if (!isSignin){
+            mSigninAccountLayout.setVisibility(View.GONE);
+            mExpandableView.expand();
+        }else {
+            mSigninAccountLayout.setVisibility(View.VISIBLE);
+            if (mExpandableView.isExpanded()) {
+                mExpandableView.collapse(true);
+            }
+        }
+    }
+
+
     private void toLogin() {
         String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
         LogUtils.loge(userId);
@@ -84,42 +195,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             intent.putExtra("userId", userId);
             startActivity(intent);
         }
-//        } else {
-//            Intent intent = new Intent(mContext, RegisterActivity.class);
-//            startActivity(intent);
-//        }
     }
 
-    @Override
-    public void showLoading(String content) {
-
-    }
-
-    @Override
-    public void stopLoading() {
-
-    }
-
-    @Override
-    public void showErrorMsg(String msg, String type) {
-
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.fragment_user_center_layout;
-    }
-
-    @Override
-    public void initPresenter() {
-
-    }
-
-    @Override
-    public void loadData() {
-        EventBus.getDefault().register(this);
-        initView();
-    }
 
     /***********
      * eventBus 监听
@@ -136,13 +213,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
                 }
             }
-        }
-    }
-
-    private void initView() {
-        mTitle.setTitle(false, R.color.white, "我的");
-        if (App.getConfig().getLoginStatus()) {
-            mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
     }
 

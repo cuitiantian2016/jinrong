@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_signin_account_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/dimen_20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen_18sp"
+            android:textColor="@color/color_333333"
+            android:layout_gravity="center_vertical"
+            android:text="@string/text_me_account"
+            android:layout_weight="1"/>
+
+          <TextView
+              android:id="@+id/tv_signout"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/color_FB4F4F"
+              android:textSize="@dimen/dimen_14sp"
+              android:text="安全退出"/>
+
+    </LinearLayout>
+
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/dimen_line"
+         android:background="@color/color_E3E3E3"/>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:layout_marginTop="@dimen/dimen_25dp"
+         android:layout_marginLeft="@dimen/dimen_20dp"
+         android:layout_marginBottom="@dimen/dimen_25dp">
+
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+
+
+             <TextView
+                 android:id="@+id/tv_danger_chance"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_22sp"
+                 android:textColor="@color/color_333333"
+                 android:text="56.5%"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="@dimen/dimen_12sp"
+                   android:textColor="@color/color_A4A5A6"
+                   android:layout_marginTop="@dimen/dimen_2dp"
+                   android:text="危险率"/>
+
+
+             <TextView
+                 android:id="@+id/tv_money"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_22sp"
+                 android:textColor="@color/color_333333"
+                 android:layout_marginTop="@dimen/dimen_16dp"
+                 android:text="1000.16"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_12sp"
+                 android:textColor="@color/color_A4A5A6"
+                 android:layout_marginTop="@dimen/dimen_2dp"
+                 android:text="可用资金"/>
+         </LinearLayout>
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:layout_marginLeft="@dimen/dimen_80dp">
+
+
+             <TextView
+                 android:id="@+id/tv_rights_interests"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_22sp"
+                 android:textColor="@color/color_333333"
+                 android:text="13232.1"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_12sp"
+                 android:textColor="@color/color_A4A5A6"
+                 android:layout_marginTop="@dimen/dimen_2dp"
+                 android:text="当前权益"/>
+
+
+             <TextView
+                 android:id="@+id/tv_profit_loss"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_22sp"
+                 android:textColor="@color/color_333333"
+                 android:layout_marginTop="@dimen/dimen_16dp"
+                 android:text="1000.16"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/dimen_12sp"
+                 android:textColor="@color/color_A4A5A6"
+                 android:layout_marginTop="@dimen/dimen_2dp"
+                 android:text="总持仓盈亏"/>
+         </LinearLayout>
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:layout_marginLeft="@dimen/dimen_20dp"
+         android:layout_marginRight="@dimen/dimen_20dp">
+
+         <TextView
+             android:id="@+id/tv_withdrawals"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="@dimen/dimen_16sp"
+             android:textColor="@color/color_white"
+             android:paddingTop="@dimen/dimen_11dp"
+             android:paddingBottom="@dimen/dimen_11dp"
+             android:layout_marginRight="@dimen/dimen_10dp"
+             android:gravity="center_horizontal"
+             android:layout_weight="1"
+             android:background="@drawable/btn_user_withdrawals_bg"
+             android:text="提现"/>
+
+         <TextView
+             android:id="@+id/tv_recharge"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="@dimen/dimen_16sp"
+             android:layout_weight="1"
+             android:textColor="@color/color_white"
+             android:background="@drawable/btn_user_recharge_bg"
+             android:layout_marginLeft="@dimen/dimen_10dp"
+             android:paddingTop="@dimen/dimen_11dp"
+             android:paddingBottom="@dimen/dimen_11dp"
+             android:gravity="center_horizontal"
+             android:text="充值"/>
+     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_E3E3E3"
+        android:layout_margin="@dimen/dimen_20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginBottom="@dimen/dimen_20dp">
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <TextView
+               android:id="@+id/tv_position"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/dimen_14sp"
+               android:textColor="@color/color_333333"
+               android:drawablePadding="@dimen/dimen_7dp"
+               android:gravity="center_vertical"
+               android:drawableLeft="@mipmap/ic_user_position"
+               android:text="我的持仓"/>
+
+
+           <TextView
+               android:id="@+id/tv_account_manage"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/dimen_14sp"
+               android:textColor="@color/color_333333"
+               android:drawablePadding="@dimen/dimen_7dp"
+               android:layout_marginTop="@dimen/dimen_18dp"
+               android:gravity="center_vertical"
+               android:drawableLeft="@mipmap/ic_user_account_manage"
+               android:text="期货账户管理"/>
+
+
+           <TextView
+               android:id="@+id/tv_bond_query"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/dimen_14sp"
+               android:textColor="@color/color_333333"
+               android:drawablePadding="@dimen/dimen_7dp"
+               android:layout_marginTop="@dimen/dimen_18dp"
+               android:gravity="center_vertical"
+               android:drawableLeft="@mipmap/ic_user_bond_query"
+               android:text="保证金监控中心查询"/>
+       </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_23dp">
+
+            <TextView
+                android:id="@+id/tv_trade_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:textColor="@color/color_333333"
+                android:drawablePadding="@dimen/dimen_7dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@mipmap/ic_user_trade_details"
+                android:text="交易明细"/>
+
+
+            <TextView
+                android:id="@+id/tv_bill_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:textColor="@color/color_333333"
+                android:drawablePadding="@dimen/dimen_7dp"
+                android:layout_marginTop="@dimen/dimen_18dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@mipmap/ic_user_bill_details"
+                android:text="出入金明细"/>
+
+
+            <TextView
+                android:id="@+id/tv_history_bill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:textColor="@color/color_333333"
+                android:drawablePadding="@dimen/dimen_7dp"
+                android:layout_marginTop="@dimen/dimen_18dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@mipmap/ic_user_history_bill"
+                android:text="历史账单查询"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
