@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.honglu.future.R;
@@ -42,12 +43,12 @@ import static com.honglu.future.util.ToastUtil.showToast;
 
 public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implements
         ModifyUserContract.View {
+    @BindView(R.id.tv_back)
+    ImageView mIvBack;
     private int mRequestType = 0; //0相册存储权限 1 相机存储权限
     public static final int PHOTO_PICKED_WITH_ALBUM = 10000;
     public static final int PHOTO_PICKED_WITH_CAMERA = 10001;
     private File mFile;
-    @BindView(R.id.et_nick_name)
-    EditText mNickName;
 
     @Override
     public int getLayoutId() {
@@ -61,22 +62,30 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
 
     @Override
     public void loadData() {
-
+        initViews();
     }
 
-    @OnClick({R.id.iv_avatar, R.id.btn_save})
+    private void initViews(){
+        mIvBack.setVisibility(View.VISIBLE);
+        mTitle.setTitle(false, R.color.white,"账户管理");
+    }
+
+    @OnClick({R.id.iv_avatar,R.id.tv_back})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_avatar:
                 takeCamera();
                 break;
-            case R.id.btn_save:
-                if (TextUtils.isEmpty(mNickName.getText().toString())) {
-                    showToast("昵称不能为空");
-                    return;
-                }
-                mPresenter.updateNickName(mNickName.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID));
+            case R.id.tv_back:
+                finish();
                 break;
+//            case R.id.btn_save:
+//                if (TextUtils.isEmpty(mNickName.getText().toString())) {
+//                    showToast("昵称不能为空");
+//                    return;
+//                }
+//                mPresenter.updateNickName(mNickName.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID));
+//                break;
         }
     }
 
