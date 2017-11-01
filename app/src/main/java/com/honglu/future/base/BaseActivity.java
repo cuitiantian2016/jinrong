@@ -279,7 +279,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .setRightBtnText("去设置")
                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
-                    public void dialogRightBtnClick() {
+                    public void dialogRightBtnClick(String string) {
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         intent.setData(Uri.parse("package:" + getPackageName()));
                         startActivity(intent);

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_circle_side"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:gravity="center"
+        android:text="温馨提示"
+        android:textColor="@color/color_3C383F"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="5dp"
+        android:paddingBottom="@dimen/dimen_5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="@dimen/dimen_5dp"
+        android:text="招商银行：622 **** **** 2234"
+        android:textColor="#A4A5A6"
+        android:textSize="12sp" />
+
+    <EditText
+        android:layout_marginTop="@dimen/dimen_18dp"
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="1444"
+        android:textColor="@color/color_333333"
+        android:textSize="20sp" />
+
+    <View style="@style/line_base_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view_horizontal"
+            android:layout_toLeftOf="@+id/view_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/global_line_color" />
+
+        <TextView
+            android:id="@+id/tv_accomplish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view_horizontal"
+            android:layout_toRightOf="@+id/view_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen_5dp"
+            android:paddingTop="@dimen/dimen_5dp"
+            android:text="完成"
+            android:textColor="@color/color_008EFF"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

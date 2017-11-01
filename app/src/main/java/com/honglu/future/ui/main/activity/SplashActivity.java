@@ -127,7 +127,7 @@ public class SplashActivity extends BaseActivity{
                 }).setContent("为了能正常使用\"" + App.getAPPName() + "\"，请授予所需权限")
                         .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
-                    public void dialogRightBtnClick() {
+                    public void dialogRightBtnClick(String string) {
                         requestPermissions(permissions, mListener);
                     }
                 }).build();
@@ -141,7 +141,7 @@ public class SplashActivity extends BaseActivity{
                 }).setContent("\""+ App.getAPPName()+"\"缺少必要权限\n请手动授予\""+ App.getAPPName()+"\"访问您的权限")
                         .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
-                    public void dialogRightBtnClick() {
+                    public void dialogRightBtnClick(String string) {
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         intent.setData(Uri.parse("package:" + getPackageName()));
                         startActivity(intent);

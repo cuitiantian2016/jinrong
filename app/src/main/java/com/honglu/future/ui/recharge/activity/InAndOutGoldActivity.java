@@ -20,6 +20,7 @@ import com.honglu.future.widget.tab.TabEntity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by hefei on 2017/10/24.

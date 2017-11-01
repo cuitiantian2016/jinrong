@@ -236,7 +236,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                                 .setLeftBtnText("取消")
                                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                                     @Override
-                                    public void dialogRightBtnClick() {
+                                    public void dialogRightBtnClick(String string) {
                                     }
                                 }).build();
                     }
@@ -286,7 +286,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     .setLeftBtnText("取消")
                     .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                         @Override
-                        public void dialogRightBtnClick() {
+                        public void dialogRightBtnClick(String string) {
                             Intent intent = new Intent(mContext, LoginActivity.class);
                             mContext.startActivity(intent);
                         }
