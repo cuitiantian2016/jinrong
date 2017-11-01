@@ -194,8 +194,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intent);
                 break;
             case R.id.tv_novice:
-//                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
-                PasswordResetActivity.startPasswordResetActivity(getActivity(), true);
+                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),0);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));

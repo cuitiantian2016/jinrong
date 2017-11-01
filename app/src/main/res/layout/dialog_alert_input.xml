@@ -33,16 +33,15 @@
         android:textSize="12sp" />
 
     <EditText
-        android:layout_marginTop="@dimen/dimen_18dp"
         android:id="@+id/et_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_20dp"
         android:layout_marginLeft="@dimen/dimen_20dp"
         android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_18dp"
         android:background="@null"
         android:gravity="center"
-        android:text="1444"
         android:textColor="@color/color_333333"
         android:textSize="20sp" />
 

@@ -3,6 +3,8 @@ package com.honglu.future.dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -127,6 +129,11 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                     hint = builder.etHintText;
                 }
                 mEtInput.setHint(hint);
+            } else {
+                mTvTitle.setTextColor(getResources().getColor(builder.titleColor));
+                mTvTitle.setTextSize(getResources().getDimension(builder.titleSize));
+                mTvContent.setTextColor(getResources().getColor(builder.contentColor));
+                mTvContent.setTextSize(getResources().getDimension(builder.contentSize));
             }
         }
         if (builder.type == Builder.TYPE_IMAGE) {
@@ -218,8 +225,14 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
 
         private FragmentActivity activity;
         private String title;
+        private int titleColor;
+        private int titleSize;
         private String etHintText;
+        private int hintColor;
+        private int hintTextSize;
         private String content;
+        private int contentSize;
+        private int contentColor;
         private String leftBtnText;
         private String rightBtnText;
         private LeftClickCallBack leftCallBack;
@@ -233,12 +246,24 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         }
 
         public Builder setEtHintText(String etHintText) {
+            return setEtHintText(etHintText, R.color.color_A4A5A6, R.dimen.dimen_15sp);
+        }
+
+        public Builder setEtHintText(String etHintText, @ColorRes int hintColor, @DimenRes int hintTextSize) {
             this.etHintText = etHintText;
+            this.hintColor = hintColor;
+            this.hintTextSize = hintTextSize;
             return this;
         }
 
         public Builder setTitle(String title) {
+            return setTitle(title, R.color.color_333333, R.dimen.dimen_16sp);
+        }
+
+        public Builder setTitle(String title, @ColorRes int titleColor, @DimenRes int titleSize) {
             this.title = title;
+            this.titleColor = titleColor;
+            this.titleSize = titleSize;
             return this;
         }
 
@@ -248,7 +273,13 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         }
 
         public Builder setContent(String content) {
+            return setContent(content, R.color.color_333333, R.dimen.dimen_12sp);
+        }
+
+        public Builder setContent(String content, @ColorRes int contentColor, @DimenRes int contentSize) {
             this.content = content;
+            this.contentColor = contentColor;
+            this.contentSize = contentSize;
             return this;
         }
 
