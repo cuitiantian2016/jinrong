@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ScrollingView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,10 +141,20 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                 }
                 mEtInput.setHint(hint);
             } else {
-                mTvTitle.setTextColor(getResources().getColor(builder.titleColor));
-                mTvTitle.setTextSize(getResources().getDimension(builder.titleSize));
-                mTvContent.setTextColor(getResources().getColor(builder.contentColor));
-                mTvContent.setTextSize(getResources().getDimension(builder.contentSize));
+                if (builder.titleColor > 0) {
+                    mTvTitle.setTextColor(getResources().getColor(builder.titleColor));
+                }
+                if (builder.titleSize > 0) {
+                    float dimension = getResources().getDimensionPixelSize(builder.titleSize);
+                    mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimension);
+                }
+                if (builder.contentColor > 0) {
+                    mTvContent.setTextColor(getResources().getColor(builder.contentColor));
+                }
+                if (builder.contentSize > 0) {
+                    float dimension = getResources().getDimensionPixelSize(builder.contentSize);
+                    mTvContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimension);
+                }
             }
         }
         if (builder.type == Builder.TYPE_IMAGE) {
