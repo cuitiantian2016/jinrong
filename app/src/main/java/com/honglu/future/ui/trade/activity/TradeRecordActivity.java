@@ -2,6 +2,7 @@ package com.honglu.future.ui.trade.activity;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     ListView lvListView;
     @BindView(R.id.refreshView)
     SmartRefreshLayout refreshView;
+    @BindView(R.id.tv_back)
+    ImageView mIvBack;
 
     private TextView tvStartTime;
     private TextView tvEndTime;
@@ -63,6 +66,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
 
     @Override
     public void loadData() {
+        mIvBack.setVisibility(View.VISIBLE);
+        mTitle.setTitle(false, R.color.white, "修改昵称");
         mDateDialog = new DateDialog(TradeRecordActivity.this);
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
         tvStartTime = (TextView) view.findViewById(R.id.tv_startTime);
@@ -93,6 +98,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         tabJcLayout.setOnClickListener(this);
         tabCcLayout.setOnClickListener(this);
         tabRLayout.setOnClickListener(this);
+        mIvBack.setOnClickListener(this);
 
         lvListView.addHeaderView(view);
         List<String>  list = new ArrayList<>();
@@ -149,6 +155,9 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabRText.setTextColor(getResources().getColor(R.color.color_008EFF));
               tabRLine.setBackgroundResource(R.color.color_008EFF);
               tabRLine.setVisibility(View.VISIBLE);
+              break;
+          case R.id.tv_back:
+              finish();
               break;
       }
     }
