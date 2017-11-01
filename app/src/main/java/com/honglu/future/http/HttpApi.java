@@ -1,5 +1,6 @@
 package com.honglu.future.http;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
@@ -9,6 +10,8 @@ import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
+
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Objects;
@@ -83,6 +86,9 @@ public interface HttpApi {
                                                        @Field("company") String company);
 
     /*******************************    上传图片   *****************************************/
+    /*******************************
+     * 上传图片
+     *****************************************/
     @Multipart
     @POST("futures-mobile-api/user/info/update/avatar")
     Observable<BaseResponse> uploadUserAvatar(
@@ -107,5 +113,36 @@ public interface HttpApi {
     //首页24小时
     @GET("credit-user/register")
     Observable<BaseResponse<NewsFlashData>> geFlashNewData(@Query("page") int page);
+
+    //修改资金密码接口 测试环境：
+
+    /**
+     * 开发环境： http://192.168.90.162:8080/mobileApi/app/future/exchange/user/update/trade/password
+     * 测试环境： http://192.168.85.126:8081/futures-mobile-api/app/future/exchange/user/update/trade/password
+     * 待调试
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/update/trade/password")
+    Observable<BaseResponse<JsonNull>> resetAssesPwd(@Field("account") String account,
+                                                     @Field("oldPassword") String oldPassword,
+                                                     @Field("token") String token,
+                                                     @Field("newPassword") String newPassword,
+                                                     @Field("userId") String userId);
+
+    /**
+     * 开发环境： http://192.168.90.162:8080/mobileApi/app/future/exchange/user/update/password
+     * 测试环境： http://192.168.85.126:8081/futures-mobile-api/app/future/exchange/user/update/password
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/update/password")
+    Observable<BaseResponse<JsonNull>> resetMarketPwd(@Field("account") String account,
+                                                        @Field("oldPassword") String oldPassword,
+                                                        @Field("token") String token,
+                                                        @Field("newPassword") String newPassword,
+                                                        @Field("userId") String userId);
 
 }

@@ -47,7 +47,7 @@ import butterknife.Unbinder;
 /**
  * 基类
  */
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView{
     public T mPresenter;
     public Context mContext;
     public BaseActivity mActivity;
@@ -369,5 +369,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void showLoading(String content) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+
     }
 }

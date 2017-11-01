@@ -18,6 +18,7 @@ import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
+import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
@@ -152,8 +153,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         signinExpandCollapse(true);
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice,R.id.tv_trade_details,R.id.tv_account_manage,
-    R.id.tv_bill_details,R.id.tv_position})
+    @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
+            R.id.tv_bill_details, R.id.tv_position})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -175,7 +176,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intent);
                 break;
             case R.id.tv_novice:
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
+//                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
+                PasswordResetActivity.startPasswordResetActivity(getActivity(), true);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
@@ -194,10 +196,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     //isSignin true  登录期货账号成功
     private void signinExpandCollapse(boolean isSignin) {
-        if (!isSignin){
+        if (!isSignin) {
             mSigninAccountLayout.setVisibility(View.GONE);
             mExpandableView.expand();
-        }else {
+        } else {
             mSigninAccountLayout.setVisibility(View.VISIBLE);
             if (mExpandableView.isExpanded()) {
                 mExpandableView.collapse(true);

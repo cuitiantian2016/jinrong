@@ -27,7 +27,7 @@
             android:layout_width="@dimen/dimen_50dp"
             android:layout_height="@dimen/dimen_22dp"
             android:layout_marginLeft="@dimen/dimen_10dp"
-            android:background="@drawable/shape_xiushi_bg"
+            android:background="@drawable/shape_xiushi_bg_2dp"
             android:gravity="center"
             android:text="休市中"
             android:textColor="@android:color/white"
