@@ -103,7 +103,11 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                 mImage = (ImageView) view.findViewById(R.id.ic_image);
             } else if (builder.type == Builder.TYPE_DIY) {
                 view = inflater.inflate(R.layout.dialog_alert_diy, container, false);
-                ((LinearLayout) view).addView(inflater.inflate(builder.layRes, null, false), 1);
+                if (builder.view != null) {
+                    ((LinearLayout) view).addView(builder.view, 1);
+                } else {
+                    ((LinearLayout) view).addView(inflater.inflate(builder.layRes, container, false), 1);
+                }
             }
             mTvTitle = (TextView) view.findViewById(R.id.tv_title);
             mTvAccomplish = (TextView) view.findViewById(R.id.tv_accomplish);
@@ -247,10 +251,16 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         private boolean isCancel = true;
         private int imageRes;
         private int type = TYPE_NORMAL;
+        private View view;
         private int layRes;
 
         public Builder(FragmentActivity activity) {
             this.activity = activity;
+        }
+
+        public Builder setContentView(View view) {
+            this.view = view;
+            return this;
         }
 
         public Builder setContentView(@LayoutRes int layRes) {

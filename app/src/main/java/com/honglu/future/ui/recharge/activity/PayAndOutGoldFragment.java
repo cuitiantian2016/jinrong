@@ -101,7 +101,7 @@ public class PayAndOutGoldFragment extends BaseFragment {
         } else if (id == R.id.rl_card) {
             new AlertFragmentDialog.Builder(mActivity)
                     .setLeftBtnText("再次提现").setTitle("提现成功")
-                    .setContentView(R.layout.item_in_and_out_detail)
+                    .setContentView(View.inflate(getActivity(),R.layout.item_in_and_out_detail,null))
                     .setRightBtnText("完成").create(AlertFragmentDialog.Builder.TYPE_DIY);
         }
     }
