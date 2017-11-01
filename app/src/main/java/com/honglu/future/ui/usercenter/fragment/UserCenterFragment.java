@@ -2,6 +2,7 @@ package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
+import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
@@ -27,9 +29,9 @@ import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
+import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
-import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -163,6 +165,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if(TextUtils.isEmpty(SpUtil.getString("account_token"))){
             signinExpandCollapse(false);
         } else {
+            getAccountBasicInfo();
             signinExpandCollapse(true);
         }
 
@@ -327,5 +330,18 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         SpUtil.putString("account_token", bean.getToken());
         mPopupWindow.dismiss();
         signinExpandCollapse(true);
+        getAccountBasicInfo();
+    }
+
+    @Override
+    public void getAccountInfoSuccess(AccountInfoBean bean) {
+        mDangerChance.setText(bean.getCapitalProportion());
+        mRightsInterests.setText(bean.getRightsInterests()+"");
+        mMoney.setText(bean.getAvailable()+"");
+        mProfitLoss.setText(bean.getPositionProfit());
+    }
+
+    private void getAccountBasicInfo(){
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString("account_token"),"GUOFU");
     }
 }
