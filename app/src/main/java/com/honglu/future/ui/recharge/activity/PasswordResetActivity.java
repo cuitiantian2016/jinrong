@@ -71,6 +71,7 @@ public class PasswordResetActivity extends BaseActivity {
             protected void _onNext(JsonNull o) {
                 super._onNext(o);
                 ToastUtil.show("修改密码成功");
+                finish();
             }
 
             @Override
