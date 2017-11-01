@@ -7,6 +7,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -99,6 +101,9 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             } else if (builder.type == Builder.TYPE_IMAGE) {
                 view = inflater.inflate(R.layout.dialog_alert_top_image, container, false);
                 mImage = (ImageView) view.findViewById(R.id.ic_image);
+            } else if (builder.type == Builder.TYPE_DIY) {
+                view = inflater.inflate(R.layout.dialog_alert_diy, container, false);
+                ((LinearLayout) view).addView(inflater.inflate(builder.layRes, null, false), 1);
             }
             mTvTitle = (TextView) view.findViewById(R.id.tv_title);
             mTvAccomplish = (TextView) view.findViewById(R.id.tv_accomplish);
@@ -213,12 +218,14 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         public static final int TYPE_INPUT = 1001;//有输入的样式
         public static final int TYPE_IMAGE = 1002;//弹出窗image 。title
         public static final int TYPE_NORMAL = 1003;//正常弹出窗title, content
+        public static final int TYPE_DIY = 1004;//自定义弹框内容
 
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({
                 TYPE_INPUT,
                 TYPE_IMAGE,
-                TYPE_NORMAL
+                TYPE_NORMAL,
+                TYPE_DIY
         })
         public @interface BuilderType {
         }
@@ -240,9 +247,15 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         private boolean isCancel = true;
         private int imageRes;
         private int type = TYPE_NORMAL;
+        private int layRes;
 
         public Builder(FragmentActivity activity) {
             this.activity = activity;
+        }
+
+        public Builder setContentView(@LayoutRes int layRes) {
+            this.layRes = layRes;
+            return this;
         }
 
         public Builder setEtHintText(String etHintText) {

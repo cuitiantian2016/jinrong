@@ -91,7 +91,7 @@ public class PayAndOutGoldFragment extends BaseFragment {
             }).create(AlertFragmentDialog.Builder.TYPE_INPUT);
         } else if (id == R.id.btn_pay) {
             new AlertFragmentDialog.Builder(mActivity)
-                    .setLeftBtnText("取消").setContent("¥1000",R.color.color_3C383F,R.dimen.dimen_12sp).setTitle("确认提现",R.color.color_3C383F,R.dimen.dimen_8sp)
+                    .setLeftBtnText("取消").setContent("¥1000", R.color.color_3C383F, R.dimen.dimen_12sp).setTitle("确认提现", R.color.color_3C383F, R.dimen.dimen_8sp)
                     .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                 @Override
                 public void dialogRightBtnClick(String string) {
@@ -101,8 +101,8 @@ public class PayAndOutGoldFragment extends BaseFragment {
         } else if (id == R.id.rl_card) {
             new AlertFragmentDialog.Builder(mActivity)
                     .setLeftBtnText("再次提现").setTitle("提现成功")
-                    .setImageRes(R.mipmap.iv_no_image)
-                    .setRightBtnText("完成").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
+                    .setContentView(R.layout.item_in_and_out_detail)
+                    .setRightBtnText("完成").create(AlertFragmentDialog.Builder.TYPE_DIY);
         }
     }
 }
