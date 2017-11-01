@@ -23,6 +23,7 @@ import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -145,15 +146,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-        if (App.getConfig().getLoginStatus()) {
-            //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-        }
+
         //// TODO: 2017/10/31 根据返回结果控制
         signinExpandCollapse(true);
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_signin,R.id.tv_novice,R.id.tv_trade_details,R.id.tv_account_manage,
-    R.id.tv_bill_details,R.id.tv_position})
+    @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
+            R.id.tv_bill_details, R.id.tv_position})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -175,7 +174,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intent);
                 break;
             case R.id.tv_novice:
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),1);
+                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 1);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
@@ -194,14 +193,19 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     //isSignin true  登录期货账号成功
     private void signinExpandCollapse(boolean isSignin) {
-        if (!isSignin){
+        if (!isSignin) {
             mSigninAccountLayout.setVisibility(View.GONE);
             mExpandableView.expand();
-        }else {
+        } else {
             mSigninAccountLayout.setVisibility(View.VISIBLE);
             if (mExpandableView.isExpanded()) {
                 mExpandableView.collapse(true);
             }
+        }
+        if (App.getConfig().getLoginStatus()) {
+            mSigninSucLayout.setVisibility(View.VISIBLE);
+            mLoginRegister.setVisibility(View.GONE);
+            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
     }
 
@@ -229,7 +233,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 // 数据刷新
                 if (App.getConfig().getLoginStatus()) {
-                    //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+                    mSigninSucLayout.setVisibility(View.VISIBLE);
+                    mLoginRegister.setVisibility(View.GONE);
+                    mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
             }
         }
