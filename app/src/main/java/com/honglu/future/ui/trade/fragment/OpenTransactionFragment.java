@@ -3,9 +3,11 @@ package com.honglu.future.ui.trade.fragment;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -14,12 +16,16 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
+import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
@@ -27,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.honglu.future.util.ToastUtil.showToast;
 
 /**
  * Created by zq on 2017/10/26.
@@ -48,8 +56,30 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         onTipClickCallback.tipClick();
     }
 
+    @Override
+    public void loginSuccess(AccountBean bean) {
+        showToast(bean.getToken());
+    }
+
     interface OnTipClickCallback {
         void tipClick();
+    }
+
+    @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
     }
 
 
@@ -207,6 +237,16 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                                     public void dialogRightBtnClick() {
                                     }
                                 }).build();
+                    }
+                });
+            } else {
+                final EditText mAccount = (EditText) view.findViewById(R.id.et_account);
+                final EditText mPwd = (EditText) view.findViewById(R.id.et_password);
+                TextView mLoginAccount = (TextView) view.findViewById(R.id.btn_login_account);
+                mLoginAccount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU");
                     }
                 });
             }

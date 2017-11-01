@@ -7,6 +7,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 import java.util.Map;
@@ -71,7 +72,15 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/user/info/update/nickName")
     Observable<BaseResponse> updateNickName(@Field("nickName") String nickName,
-                                      @Field("userId") String userId);
+                                            @Field("userId") String userId);
+
+    //交易所用户登录
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/login")
+    Observable<BaseResponse<AccountBean>> loginAccount(@Field("account") String account,
+                                                       @Field("password") String password,
+                                                       @Field("userId") String userId,
+                                                       @Field("company") String company);
 
     /*******************************    上传图片   *****************************************/
     @Multipart
