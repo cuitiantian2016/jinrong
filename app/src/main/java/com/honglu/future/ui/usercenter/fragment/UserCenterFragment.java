@@ -2,9 +2,13 @@ package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
@@ -20,6 +24,7 @@ import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
@@ -32,6 +37,7 @@ import com.honglu.future.util.Tool;
 import com.honglu.future.util.UserUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
+import com.honglu.future.widget.popupwind.BottomPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,6 +45,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.honglu.future.util.ToastUtil.showToast;
 
 /**
  * Created by zq on 2017/10/24.
@@ -107,6 +115,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mUpdate;
     @BindView(R.id.ll_bottomLayout2)
     LinearLayout mBottomLayout2;
+    private BottomPopupWindow mPopupWindow;
+    private EditText mAccount;
 
 
     public static UserCenterFragment userCenterFragment;
@@ -125,35 +135,41 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void showLoading(String content) {
-
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
     }
 
     @Override
     public void stopLoading() {
-
+        App.hideLoading();
     }
 
     @Override
     public void showErrorMsg(String msg, String type) {
-
+        showToast(msg);
     }
 
 
     @Override
     public void initPresenter() {
-
+        mPresenter.init(this);
     }
 
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
 
-        //// TODO: 2017/10/31 根据返回结果控制
-        signinExpandCollapse(true);
+        if(TextUtils.isEmpty(SpUtil.getString("account_token"))){
+            signinExpandCollapse(false);
+        } else {
+            signinExpandCollapse(true);
+        }
+
     }
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
-            R.id.tv_bill_details, R.id.tv_position})
+            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -189,6 +205,14 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_position:
                 EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                break;
+            case R.id.ll_signin_layout:
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent loginActivity = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(loginActivity);
+                } else {
+                    showOpenAccountWindow(view);
+                }
                 break;
         }
     }
@@ -248,5 +272,60 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
         userCenterFragment = null;
+    }
+
+    private void showOpenAccountWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.future_login_popup_window, null);
+        showBottomWindow(view, layout, 2);
+        backgroundAlpha(0.5f);
+    }
+
+    private void showBottomWindow(View view, View layout, int flag) {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) {
+            return;
+        }
+        mPopupWindow = new BottomPopupWindow(mActivity, view, layout);
+        //添加按键事件监听
+        setButtonListeners(layout);
+        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+            }
+        });
+    }
+
+    private void setButtonListeners(View view) {
+        mAccount = (EditText) view.findViewById(R.id.et_account);
+        final EditText mPwd = (EditText) view.findViewById(R.id.et_password);
+        TextView mLoginAccount = (TextView) view.findViewById(R.id.btn_login_account);
+        mLoginAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU");
+            }
+        });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mActivity.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void loginSuccess(AccountBean bean) {
+        showToast(bean.getToken());
+        SpUtil.putString("account", mAccount.getText().toString());
+        SpUtil.putString("account_token", bean.getToken());
+        mPopupWindow.dismiss();
+        signinExpandCollapse(true);
     }
 }

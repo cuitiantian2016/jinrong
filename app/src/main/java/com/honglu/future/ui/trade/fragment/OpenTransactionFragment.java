@@ -25,7 +25,6 @@ import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
