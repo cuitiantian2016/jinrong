@@ -24,6 +24,7 @@ import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -146,9 +147,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-        if (App.getConfig().getLoginStatus()) {
-            //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-        }
+
         //// TODO: 2017/10/31 根据返回结果控制
         signinExpandCollapse(true);
     }
@@ -205,6 +204,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 mExpandableView.collapse(true);
             }
         }
+        if (App.getConfig().getLoginStatus()) {
+            mSigninSucLayout.setVisibility(View.VISIBLE);
+            mLoginRegister.setVisibility(View.GONE);
+            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+        }
     }
 
 
@@ -231,7 +235,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 // 数据刷新
                 if (App.getConfig().getLoginStatus()) {
-                    //mUserName.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+                    mSigninSucLayout.setVisibility(View.VISIBLE);
+                    mLoginRegister.setVisibility(View.GONE);
+                    mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
             }
         }
