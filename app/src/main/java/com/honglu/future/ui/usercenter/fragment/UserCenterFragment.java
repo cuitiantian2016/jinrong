@@ -162,7 +162,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void loadData() {
         EventBus.getDefault().register(this);
 
-        if(TextUtils.isEmpty(SpUtil.getString("account_token"))){
+        if (TextUtils.isEmpty(SpUtil.getString("account_token"))) {
             signinExpandCollapse(false);
         } else {
             getAccountBasicInfo();
@@ -172,7 +172,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
-            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout})
+            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -216,6 +216,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 } else {
                     showOpenAccountWindow(view);
                 }
+                break;
+            case R.id.tv_signout:
+                signinExpandCollapse(false);
+                SpUtil.putString("account_token", "");
                 break;
         }
     }
@@ -336,12 +340,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(bean.getRightsInterests()+"");
-        mMoney.setText(bean.getAvailable()+"");
+        mRightsInterests.setText(bean.getRightsInterests() + "");
+        mMoney.setText(bean.getAvailable() + "");
         mProfitLoss.setText(bean.getPositionProfit());
     }
 
-    private void getAccountBasicInfo(){
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString("account_token"),"GUOFU");
+    private void getAccountBasicInfo() {
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU");
     }
 }
