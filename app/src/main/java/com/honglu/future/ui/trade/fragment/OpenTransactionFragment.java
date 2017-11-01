@@ -45,6 +45,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     RecyclerView mOpenTransactionListView;
     private LinearLayout mTradeHeader;
     private ImageView mTradeTip;
+    private EditText mAccount;
     private OpenTransactionAdapter mOpenTransactionAdapter;
     private List<OpenTransactionListBean> mList;
     private BottomPopupWindow mPopupWindow;
@@ -59,6 +60,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
+        SpUtil.putString("account", mAccount.getText().toString());
+        SpUtil.putString("account_token", bean.getToken());
     }
 
     interface OnTipClickCallback {
@@ -240,7 +243,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }
                 });
             } else {
-                final EditText mAccount = (EditText) view.findViewById(R.id.et_account);
+                mAccount = (EditText) view.findViewById(R.id.et_account);
                 final EditText mPwd = (EditText) view.findViewById(R.id.et_password);
                 TextView mLoginAccount = (TextView) view.findViewById(R.id.btn_login_account);
                 mLoginAccount.setOnClickListener(new View.OnClickListener() {
