@@ -6,19 +6,44 @@
     android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
-        android:paddingBottom="@dimen/dimen_10dp">
+        android:paddingBottom="@dimen/dimen_10dp"
+        android:paddingTop="@dimen/dimen_10dp">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_date_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017-10-24" />
+            android:background="@drawable/amount_radius_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_13dp"
+            android:paddingRight="@dimen/dimen_13dp">
 
+            <TextView
+                android:id="@+id/tv_date_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_5dp"
+                android:paddingTop="@dimen/dimen_5dp"
+                android:text="2107-10-17"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_12sp" />
+
+            <ImageView
+                android:layout_width="@dimen/dimen_10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:src="@mipmap/icon_glk_arrow_down" />
+        </LinearLayout>
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -433,9 +458,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_records"
-                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white"
                 android:overScrollMode="never"
                 android:scrollbars="none">
 

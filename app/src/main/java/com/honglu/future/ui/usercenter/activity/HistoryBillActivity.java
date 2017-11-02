@@ -5,9 +5,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.dialog.DateDialog;
+import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
@@ -36,9 +40,14 @@ public class HistoryBillActivity extends BaseActivity {
     RecyclerView mRecordsListView;
     @BindView(R.id.tv_back)
     ImageView mIvBack;
+    @BindView(R.id.ll_date_select)
+    LinearLayout mLlDateSelect;
+    @BindView(R.id.tv_date_select)
+    TextView mTvDate;
     private ArrayList<CustomTabEntity> mTabList;
     private HistoryRecordsAdapter mHistoryRecordsAdapter;
     private List<HistoryRecordsBean> mList;
+    private DateDialog mDateDialog;
 
     @Override
     public int getLayoutId() {
@@ -68,6 +77,14 @@ public class HistoryBillActivity extends BaseActivity {
         mRecordsListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mHistoryRecordsAdapter = new HistoryRecordsAdapter();
         mRecordsListView.setAdapter(mHistoryRecordsAdapter);
+        mDateDialog = new DateDialog(this);
+        mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
+            @Override
+            public void onClick(String start, String end) {
+                mTvDate.setText(start);
+                mDateDialog.dismiss();
+            }
+        });
     }
 
     private void initData() {
@@ -107,11 +124,14 @@ public class HistoryBillActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.tv_back})
+    @OnClick({R.id.tv_back, R.id.ll_date_select})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back:
                 finish();
+                break;
+            case R.id.ll_date_select:
+                mDateDialog.show();
                 break;
         }
     }
