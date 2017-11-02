@@ -28,6 +28,7 @@ import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
+import com.honglu.future.ui.usercenter.activity.HistoryBillActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
@@ -174,7 +175,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
-    R.id.tv_my_account,R.id.ll_account})
+            R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -196,7 +197,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intent);
                 break;
             case R.id.tv_novice:
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(),0);
+                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
@@ -225,6 +226,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_my_account:
             case R.id.ll_account:
                 startActivity(UserAccountActivity.class);
+                break;
+            case R.id.tv_history_bill:
+                startActivity(HistoryBillActivity.class);
                 break;
         }
     }

@@ -120,7 +120,7 @@
     <string name="position_details">持仓详情</string>
     <string name="position_profit_loss">持仓盈亏</string>
     <string name="actual_profit_loss">实际盈亏</string>
-
+    <string name="actual_close">平仓</string>
 
     <string name="crh_app_name">期货开户云</string>
     <string name="crh_server_domain">apptest.cfmmc.com</string>
