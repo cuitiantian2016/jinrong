@@ -14,6 +14,7 @@
         android:layout_margin="@dimen/dimen_20dp">
 
         <TextView
+            android:id="@+id/tv_my_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_18sp"
@@ -38,6 +39,7 @@
          android:background="@color/color_E3E3E3"/>
 
      <LinearLayout
+         android:id="@+id/ll_account"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:orientation="horizontal"

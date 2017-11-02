@@ -29,6 +29,7 @@ import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
+import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
@@ -172,7 +173,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
-            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout})
+            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
+    R.id.tv_my_account,R.id.ll_account})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -219,6 +221,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_signout:
                 signinExpandCollapse(false);
                 SpUtil.putString("account_token", "");
+                break;
+            case R.id.tv_my_account:
+            case R.id.ll_account:
+                startActivity(UserAccountActivity.class);
                 break;
         }
     }
