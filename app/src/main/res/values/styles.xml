@@ -180,7 +180,10 @@
         <item name="android:windowExitAnimation">@anim/window_back</item>
     </style>
 
-
+    <style name="position_popupwind">
+        <item name="android:windowEnterAnimation">@anim/anim_popup_position_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_popup_position_out</item>
+    </style>
 </resources>
 
 

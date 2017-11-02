@@ -20,6 +20,7 @@ import com.honglu.future.util.ViewUtil;
  */
 
 public class PositionPopWind extends PopupWindow{
+    private View mRootLayout;
     private TextView mBond;
     private TextView mServiceCharge;
     private TextView mTime;
@@ -46,10 +47,12 @@ public class PositionPopWind extends PopupWindow{
         setBackgroundDrawable(drawable);
         setOutsideTouchable(true);
         setFocusable(true);
+        setAnimationStyle(R.style.position_popupwind);
         setContentView(rootView);
         setOutsideTouchable(true);
         mPositionDialog = new PositionDialog(context);
 
+        mRootLayout = rootView.findViewById(R.id.ll_rootLayout);
         mBond = (TextView) rootView.findViewById(R.id.tv_bond);//保证金
         mServiceCharge = (TextView) rootView.findViewById(R.id.tv_service_charge);//建仓手续费
         mTime = (TextView) rootView.findViewById(R.id.tv_time);//交割日期
@@ -76,9 +79,11 @@ public class PositionPopWind extends PopupWindow{
         view.getLocationOnScreen(location);
         int surplusHeight = mScreenHeight - location[1] - mMeasuredHeight - mTabHeight;
         if (surplusHeight >= 0){
-            showAsDropDown(view);
+            mRootLayout.setBackgroundResource(R.mipmap.bg_top_triangle);
+            showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]);
         }else {
-            showAtLocation(view,Gravity.NO_GRAVITY,location[0]+view.getWidth()/2,location[1]-mMeasuredHeight);
+            mRootLayout.setBackgroundResource(R.mipmap.bg_bottom_triangle);
+            showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]-mMeasuredHeight);
         }
     }
 }

@@ -45,13 +45,13 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     public void setEmptyView(boolean isEmpty){
         if (isEmpty){
-            mRefreshView.setVisibility(View.VISIBLE);
+            mRemarksEmpty.setVisibility(View.VISIBLE);
             mFooterEmptyView.setVisibility(View.VISIBLE);
             if (mListView.getFooterViewsCount() <=0 && mFooterEmptyView !=null){
                 mListView.addFooterView(mFooterEmptyView);
             }
         }else {
-            mRefreshView.setVisibility(View.GONE);
+            mRemarksEmpty.setVisibility(View.GONE);
             mFooterEmptyView.setVisibility(View.GONE);
             if (mListView.getFooterViewsCount() >0 && mFooterEmptyView !=null){
                 mListView.removeFooterView(mFooterEmptyView);

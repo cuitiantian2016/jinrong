@@ -84,10 +84,12 @@ public class PositionAdapter extends BaseAdapter {
         }else {
             holder.vLine.setVisibility(View.VISIBLE);
         }
+
+        final ViewHolder finalHolder = holder;
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mPopWind.showPopupWind(v);
+               mPopWind.showPopupWind(finalHolder.tvBuyCount);
             }
         });
         return convertView;
