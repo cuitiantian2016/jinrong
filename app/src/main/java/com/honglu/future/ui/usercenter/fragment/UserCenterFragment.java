@@ -2,7 +2,6 @@ package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,7 +12,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
-import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
@@ -24,7 +22,6 @@ import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
-import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
@@ -38,7 +35,6 @@ import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
-import com.honglu.future.util.UserUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
@@ -173,7 +169,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_signin, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
+    @OnClick({R.id.tv_loginRegister, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill})
     public void onClick(View view) {
@@ -186,15 +182,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 } else {
                     toLogin();
                 }
-                break;
-            case R.id.tv_signin:
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("brokerId", "0101");
-                String userMobile = UserUtil.getUserMobile();
-                if (!TextUtils.isEmpty(userMobile)) {
-                    intent.putExtra("mobile", userMobile);
-                }
-                startActivity(intent);
                 break;
             case R.id.tv_novice:
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
@@ -320,6 +307,27 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             @Override
             public void onClick(View v) {
                 mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU");
+            }
+        });
+        ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+
+        TextView goOpenAccount = (TextView) view.findViewById(R.id.btn_open_account);
+        goOpenAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("brokerId", "0101");
+                String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
+                if (!TextUtils.isEmpty(userMobile)) {
+                    intent.putExtra("mobile", userMobile);
+                }
+                startActivity(intent);
             }
         });
     }
