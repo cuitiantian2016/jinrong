@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 setPaddingAndFillStatusBar(TradeFragment.getInstance());
                 break;
             case R.id.rb_account:
-                StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
+                //StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
                 break;
             default:
                 break;
@@ -134,6 +134,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_account:
+                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this,0,null);
                     toTabIndex = FragmentFactory.FragmentStatus.Account;
                     oldCheckId = R.id.rb_account;
                     changeTab(FragmentFactory.FragmentStatus.Account);
