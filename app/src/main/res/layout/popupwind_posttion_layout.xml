@@ -14,7 +14,7 @@
         android:layout_marginRight="@dimen/dimen_20dp"
         android:layout_marginTop="@dimen/dimen_20dp"
         android:background="@mipmap/bg_top_triangle"
-        android:paddingTop="@dimen/dimen_23dp">
+        android:paddingTop="@dimen/dimen_31dp">
 
         <LinearLayout
             android:layout_width="match_parent"

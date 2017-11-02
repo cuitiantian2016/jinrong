@@ -31,6 +31,9 @@ public class PositionPopWind extends PopupWindow{
     private int mMeasuredHeight;
     private int mScreenHeight;
     private int mTabHeight;
+    private int m31dp;
+    private int m23dp;
+    private int m8dp;
     private PositionDialog mPositionDialog;
 
 
@@ -43,6 +46,9 @@ public class PositionPopWind extends PopupWindow{
         mMeasuredHeight = rootView.getMeasuredHeight();
         mScreenHeight = ViewUtil.getScreenHeight(context);
         mTabHeight = context.getResources().getDimensionPixelSize(R.dimen.dimen_50dp);
+        m31dp = context.getResources().getDimensionPixelSize(R.dimen.dimen_31dp);
+        m8dp = context.getResources().getDimensionPixelSize(R.dimen.dimen_8dp);
+        m23dp = context.getResources().getDimensionPixelSize(R.dimen.dimen_23dp);
         ColorDrawable drawable = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
         setBackgroundDrawable(drawable);
         setOutsideTouchable(true);
@@ -80,9 +86,11 @@ public class PositionPopWind extends PopupWindow{
         int surplusHeight = mScreenHeight - location[1] - mMeasuredHeight - mTabHeight;
         if (surplusHeight >= 0){
             mRootLayout.setBackgroundResource(R.mipmap.bg_top_triangle);
+            mRootLayout.setPadding(0,m31dp,0,0);
             showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]);
         }else {
             mRootLayout.setBackgroundResource(R.mipmap.bg_bottom_triangle);
+            mRootLayout.setPadding(0,m23dp,0,m8dp);
             showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]-mMeasuredHeight);
         }
     }
