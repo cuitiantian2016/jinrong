@@ -8,6 +8,7 @@
     <include layout="@layout/layout_toolbar" />
 
     <EditText
+        android:id="@+id/et_nickname"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_60dp"
         android:layout_marginTop="@dimen/dimen_10dp"

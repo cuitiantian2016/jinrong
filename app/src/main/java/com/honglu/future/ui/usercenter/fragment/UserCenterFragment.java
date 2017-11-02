@@ -171,7 +171,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
-            R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account})
+            R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
+            R.id.ll_signin_suc_layout})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -219,6 +220,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_open_account:
                 goOpenAccount();
+                break;
+            case R.id.ll_signin_suc_layout:
+                startActivity(ModifyUserActivity.class);
                 break;
         }
     }

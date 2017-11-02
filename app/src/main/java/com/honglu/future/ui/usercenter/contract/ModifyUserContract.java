@@ -10,11 +10,9 @@ import java.io.File;
 
 public interface ModifyUserContract {
     interface View extends BaseView {
-        void updateNickNameSuccess();
         void updateUserAvatarSuccess();
     }
     interface Presenter{
-        void updateNickName(String nickName, String userId);
         void updateUserAvatar(String url);
     }
 }

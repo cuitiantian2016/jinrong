@@ -14,12 +14,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.ui.login.activity.ResetPwdActivity;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
 import com.honglu.future.util.MediaStoreUtils;
@@ -45,6 +48,12 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         ModifyUserContract.View {
     @BindView(R.id.tv_back)
     ImageView mIvBack;
+    @BindView(R.id.rl_modify_name)
+    RelativeLayout mModifyName;
+    @BindView(R.id.rl_reset_pwd)
+    RelativeLayout mResetPwd;
+    @BindView(R.id.tv_nickname)
+    TextView mNickname;
     private int mRequestType = 0; //0相册存储权限 1 相机存储权限
     public static final int PHOTO_PICKED_WITH_ALBUM = 10000;
     public static final int PHOTO_PICKED_WITH_CAMERA = 10001;
@@ -65,12 +74,15 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         initViews();
     }
 
-    private void initViews(){
+    private void initViews() {
         mIvBack.setVisibility(View.VISIBLE);
-        mTitle.setTitle(false, R.color.white,"账户管理");
+        mTitle.setTitle(false, R.color.white, "账户管理");
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_USERNAME))) {
+            mNickname.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+        }
     }
 
-    @OnClick({R.id.iv_avatar,R.id.tv_back})
+    @OnClick({R.id.iv_avatar, R.id.tv_back, R.id.rl_modify_name, R.id.rl_reset_pwd})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_avatar:
@@ -79,13 +91,12 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
             case R.id.tv_back:
                 finish();
                 break;
-//            case R.id.btn_save:
-//                if (TextUtils.isEmpty(mNickName.getText().toString())) {
-//                    showToast("昵称不能为空");
-//                    return;
-//                }
-//                mPresenter.updateNickName(mNickName.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID));
-//                break;
+            case R.id.rl_modify_name:
+                startActivity(ModifyNicknameActivity.class);
+                break;
+            case R.id.rl_reset_pwd:
+                startActivity(ResetPwdActivity.class);
+                break;
         }
     }
 
@@ -193,11 +204,6 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     @Override
     public void showErrorMsg(String msg, String type) {
         showToast(msg);
-    }
-
-    @Override
-    public void updateNickNameSuccess() {
-        showToast("修改昵称成功");
     }
 
     @Override

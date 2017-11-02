@@ -8,7 +8,9 @@ import com.honglu.future.base.BaseView;
 
 public interface ModifyNicknameContract {
     interface View extends BaseView {
+        void updateNickNameSuccess();
     }
     interface Presenter{
+        void updateNickName(String nickName, String userId);
     }
 }
