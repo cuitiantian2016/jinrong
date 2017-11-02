@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F8F8F9"
@@ -7,46 +7,11 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:paddingBottom="@dimen/dimen_10dp"
-        android:paddingTop="@dimen/dimen_10dp">
-
-        <LinearLayout
-            android:id="@+id/ll_date_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/amount_radius_bg"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_13dp"
-            android:paddingRight="@dimen/dimen_13dp">
-
-            <TextView
-                android:id="@+id/tv_date_select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/dimen_5dp"
-                android:paddingTop="@dimen/dimen_5dp"
-                android:text="2107-10-17"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
-
-            <ImageView
-                android:layout_width="@dimen/dimen_10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:src="@mipmap/icon_glk_arrow_down" />
-        </LinearLayout>
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dimen_100dp"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -261,4 +226,28 @@
             <include layout="@layout/bill_records" />
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_F8F8F9"
+        android:paddingBottom="@dimen/dimen_18dp"
+        android:paddingTop="@dimen/dimen_30dp">
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:background="@drawable/shape_btn_common_bg"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen_12dp"
+            android:paddingTop="@dimen/dimen_12sp"
+            android:text="确认账单"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_18sp" />
+
+    </LinearLayout>
+</RelativeLayout>

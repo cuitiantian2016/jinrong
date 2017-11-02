@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimen_16dp"
+
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="@dimen/dimen_5dp"
+                android:layout_height="@dimen/dimen_15dp"
+                android:layout_gravity="center"
+                android:background="@color/color_008EFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:text="成交纪录"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_18sp" />
+
+        </LinearLayout>
+
+        <com.honglu.future.widget.tab.CommonTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/trade_common_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_toLeftOf="@+id/right_layout"
+            app:tl_iconVisible="false"
+            app:tl_indicator_anim_duration="400"
+            app:tl_indicator_anim_enable="true"
+            app:tl_indicator_color="@color/color_008EFF"
+            app:tl_indicator_gravity="BOTTOM"
+            app:tl_indicator_height="@dimen/dimen_3dp"
+            app:tl_indicator_style="NORMAL"
+            app:tl_special_select_color_blue="true"
+            app:tl_textBold="BOTH"
+            app:tl_textSelectColor="@color/color_008EFF"
+            app:tl_textUnselectColor="@color/color_323232"
+            app:tl_textsize="@dimen/dimen_16sp"
+            app:tl_underline_color="@color/color_d8d7d7"
+            app:tl_underline_height="@dimen/dimen_1dp_half" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_records"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -366,7 +366,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(bean.getRightsInterests() + "");
         mMoney.setText(bean.getAvailable() + "");
-        mProfitLoss.setText(bean.getPositionProfit());
+        mProfitLoss.setText(bean.getPositionProfit() + "");
     }
 
     private void getAccountBasicInfo() {

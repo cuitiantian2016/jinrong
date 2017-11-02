@@ -99,11 +99,11 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(bean.getRightsInterests() + "");
         mMoney.setText(bean.getAvailable() + "");
-        mProfitLoss.setText(bean.getPositionProfit());
-        mPositionProfitLoss.setText(bean.getCloseProfit());
-        mTakeBond.setText(bean.getWithdrawQuota());
+        mProfitLoss.setText(bean.getPositionProfit()+"");
+        mPositionProfitLoss.setText(bean.getCloseProfit()+"");
+        mTakeBond.setText(bean.getWithdrawQuota()+"");
         mOccupyBond.setText(bean.getCapitalProportionNum());
-        mFrozenBond.setText(bean.getFrozenCash());
+        mFrozenBond.setText(bean.getFrozenCash()+"");
         mServiceCharge.setText(String.valueOf(bean.getCommission()));
         mFrozenServiceCharge.setText(String.valueOf(bean.getFrozenCommission()));
     }

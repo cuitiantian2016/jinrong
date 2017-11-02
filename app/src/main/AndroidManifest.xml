@@ -197,6 +197,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 
+        <activity
+            android:name=".ui.trade.activity.BillConfirmActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <!-- **********************************************模块区分 放在对于的模块中******************************** -->
 

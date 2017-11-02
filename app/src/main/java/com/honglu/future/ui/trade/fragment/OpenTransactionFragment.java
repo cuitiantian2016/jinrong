@@ -19,6 +19,7 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.trade.activity.BillConfirmActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
@@ -111,6 +112,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);
         setListener();
+        if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+            startActivity(BillConfirmActivity.class);
+        }
     }
 
     private void setListener() {
