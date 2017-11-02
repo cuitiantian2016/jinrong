@@ -24,14 +24,12 @@ import butterknife.BindView;
  */
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View {
     @BindView(R.id.lv_listView)
-    ListView lvListView;
+    ListView mListView;
     @BindView(R.id.srl_refreshView)
-    SmartRefreshLayout srlRefreshView;
-
-    //空页面
+    SmartRefreshLayout mRefreshView;
     @BindView(R.id.tv_remarksEmpty)
-    TextView tvRemarksEmpty;
-    View mFooterEmptyView;
+    TextView mRemarksEmpty;
+    private View mFooterEmptyView;
 
     private PositionAdapter mAdapter;
 
@@ -47,18 +45,16 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     public void setEmptyView(boolean isEmpty){
         if (isEmpty){
-            tvRemarksEmpty.setVisibility(View.VISIBLE);
+            mRefreshView.setVisibility(View.VISIBLE);
             mFooterEmptyView.setVisibility(View.VISIBLE);
-            if (lvListView.getFooterViewsCount() <=0
-                    && mFooterEmptyView !=null){
-                lvListView.addFooterView(mFooterEmptyView);
+            if (mListView.getFooterViewsCount() <=0 && mFooterEmptyView !=null){
+                mListView.addFooterView(mFooterEmptyView);
             }
         }else {
-            tvRemarksEmpty.setVisibility(View.GONE);
+            mRefreshView.setVisibility(View.GONE);
             mFooterEmptyView.setVisibility(View.GONE);
-            if (lvListView.getFooterViewsCount() >0
-                   && mFooterEmptyView !=null){
-                lvListView.removeFooterView(mFooterEmptyView);
+            if (mListView.getFooterViewsCount() >0 && mFooterEmptyView !=null){
+                mListView.removeFooterView(mFooterEmptyView);
             }
         }
     }
@@ -68,12 +64,12 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mAdapter = new PositionAdapter(PositionFragment.this);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
         mFooterEmptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_emptyview,null);
-        lvListView.addHeaderView(headView);
-        lvListView.addFooterView(mFooterEmptyView);
-        lvListView.setAdapter(mAdapter);
+        mListView.addHeaderView(headView);
+        mListView.addFooterView(mFooterEmptyView);
+        mListView.setAdapter(mAdapter);
         setEmptyView(true);
 
-        srlRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+        mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 List<String> mList = new ArrayList<>();
@@ -81,7 +77,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                     mList.add(new String("1111"));
                 }
                 mAdapter.notifyDataChanged(true, mList);
-                srlRefreshView.finishLoadmore();
+                mRefreshView.finishLoadmore();
             }
 
             @Override
@@ -91,7 +87,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                     mList.add(new String("1111"));
                 }
                 mAdapter.notifyDataChanged(false, mList);
-                srlRefreshView.finishRefresh();
+                mRefreshView.finishRefresh();
             }
         });
     }
