@@ -10,9 +10,12 @@ import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -107,6 +110,10 @@ public interface HttpApi {
     @POST("futures-mobile-api/app/future/exchange/user/settlement/info/confirm")
     Observable<BaseResponse<ConfirmBean>> settlementConfirm(@Field("userId") String userId,
                                                             @Field("token") String token);
+
+    //结算单确认
+    @POST("futures-mobile-api/app/future/exchange/trade/product/list")
+    Observable<BaseResponse<List<ProductListBean>>> getProductList();
 
 
     /*******************************    上传图片   *****************************************/
