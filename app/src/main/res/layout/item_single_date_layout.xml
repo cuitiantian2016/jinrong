@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dip"
+    android:orientation="vertical"
+    android:gravity="center">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<View
+			android:id="@+id/lineTop"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/dimen_1dp"
+			android:background="@color/color_008EFF"/>
+		<TextView
+			android:id="@+id/tempValue"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:layout_gravity="center"
+			android:gravity="center"
+			android:textColor="@color/color_333333"
+			android:text="2017"
+			android:textSize="15sp"/>
+
+		<View
+			android:id="@+id/lineBottom"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/dimen_1dp"
+			android:background="@color/color_008EFF"/>
+	</LinearLayout>
+
+</LinearLayout>

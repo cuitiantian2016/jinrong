@@ -78,8 +78,8 @@ public class WheelView extends View {
     private Drawable centerDrawable;
 
     // Shadows drawables
-    private GradientDrawable topShadow;
-    private GradientDrawable bottomShadow;
+    public GradientDrawable topShadow;
+    public GradientDrawable bottomShadow;
 
     // Scrolling
     private WheelScroller scroller;
@@ -485,7 +485,7 @@ public class WheelView extends View {
      *
      * @return the item height
      */
-    private int getItemHeight() {
+    public int getItemHeight() {
         if (itemHeight != 0) {
             return itemHeight;
         }
@@ -594,7 +594,7 @@ public class WheelView extends View {
      *
      * @param canvas the canvas for drawing
      */
-    private void drawShadows(Canvas canvas) {
+    public void drawShadows(Canvas canvas) {
         int height = (int) (1.5 * getItemHeight());
         topShadow.setBounds(0, 0, getWidth(), height);
         topShadow.draw(canvas);

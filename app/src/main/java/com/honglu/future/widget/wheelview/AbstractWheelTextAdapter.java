@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.honglu.future.R;
+
 import java.util.ArrayList;
 
 /**
@@ -56,6 +58,9 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
 	// Items resources
 	protected int itemResourceId;
 	protected int itemTextResourceId;
+
+	protected int itemTopLineResourceId = -1;
+	protected int itemBottomLineResourceId = -1;
 
 	// Empty items resources
 	protected int emptyItemResourceId;
@@ -196,6 +201,12 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
 		this.itemTextResourceId = itemTextResourceId;
 	}
 
+
+	public void setItemLineResourceId(int topLineResourceId,int bottomLineResourceId){
+		this.itemTopLineResourceId = topLineResourceId;
+		this.itemBottomLineResourceId = bottomLineResourceId;
+	}
+
 	/**
 	 * Gets resource Id for empty items com.honglu.weipan.com.honglu.weipan.views
 	 * 
@@ -230,6 +241,17 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
 			if (convertView == null) {
 				convertView = getView(itemResourceId, parent);
 			}
+
+			if (itemTopLineResourceId !=-1 && itemBottomLineResourceId !=-1) {
+				//View topLine = convertView.findViewById(itemTopLineResourceId);
+				View botLine = convertView.findViewById(itemBottomLineResourceId);
+				if (index == getItemsCount()-1){
+					botLine.setVisibility(View.VISIBLE);
+				}else {
+					botLine.setVisibility(View.GONE);
+				}
+			}
+
 			TextView textView = getTextView(convertView, itemTextResourceId);
 			if (!arrayList.contains(textView)) {
 				arrayList.add(textView);
