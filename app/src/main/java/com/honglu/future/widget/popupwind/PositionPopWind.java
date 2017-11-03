@@ -75,12 +75,12 @@ public class PositionPopWind extends PopupWindow{
 
 
     public void showPopupWind(View view){
-        if (Build.VERSION.SDK_INT >= 24) {
-            Rect rect = new Rect();
-            view.getGlobalVisibleRect(rect);
-            int h = view.getResources().getDisplayMetrics().heightPixels - rect.bottom;
-            setHeight(h);
-        }
+       // if (Build.VERSION.SDK_INT >= 24) {
+        //    Rect rect = new Rect();
+        //    view.getGlobalVisibleRect(rect);
+        //    int h = view.getResources().getDisplayMetrics().heightPixels - rect.bottom;
+        //    setHeight(h);
+        //}
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         int surplusHeight = mScreenHeight - location[1] - mMeasuredHeight - mTabHeight;
