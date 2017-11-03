@@ -51,13 +51,15 @@
                android:orientation="horizontal"
                android:gravity="center_horizontal"
                android:layout_marginTop="@dimen/dimen_15dp"
-               android:layout_marginBottom="@dimen/dimen_15dp">
+               android:layout_marginBottom="@dimen/dimen_15dp"
+               android:weightSum="10">
 
                <com.honglu.future.widget.wheelview.MyWheelView
                    android:id="@+id/wv_year"
-                   android:layout_width="@dimen/dimen_80dp"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:layout_gravity="center_vertical" />
+                   android:layout_gravity="center_vertical"
+                   android:layout_weight="1.2"/>
 
                <TextView
                    android:layout_width="wrap_content"
@@ -71,9 +73,10 @@
 
                <com.honglu.future.widget.wheelview.MyWheelView
                    android:id="@+id/wv_month"
-                   android:layout_width="@dimen/dimen_42dp"
+                   android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:layout_gravity="center_vertical" />
+                   android:layout_gravity="center_vertical"
+                   android:layout_weight="0.6"/>
 
                <TextView
                    android:layout_width="wrap_content"
@@ -87,9 +90,10 @@
 
                <com.honglu.future.widget.wheelview.MyWheelView
                    android:id="@+id/wv_day"
-                   android:layout_width="@dimen/dimen_42dp"
+                   android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:layout_gravity="center_vertical" />
+                   android:layout_gravity="center_vertical"
+                   android:layout_weight="0.6"/>
 
                <TextView
                    android:layout_width="wrap_content"

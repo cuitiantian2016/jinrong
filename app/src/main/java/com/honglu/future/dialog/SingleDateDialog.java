@@ -81,8 +81,8 @@ public class SingleDateDialog extends Dialog{
         mMonth = (WheelView) findViewById(R.id.wv_month);
         mDay = (WheelView) findViewById(R.id.wv_day);
 
-        this.mMaxTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.dimen_15sp);
-        this.mMinTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.dimen_14sp);
+        this.mMaxTextSize = 18;
+        this.mMinTextSize = 18;
         if (!isInitData){
           setDate(getYear(),getMonth(),getDay());
         }
