@@ -128,8 +128,8 @@
     <string name="crh_server_domain">apptest.cfmmc.com</string>
     <string name="crh_server_port"></string>
     <string name="crh_cookie_path">/</string>
-    <string name="crh_video_server_ip"></string>
-    <string name="crh_video_server_port"></string>
+    <string name="crh_video_server_ip">anychat.cfmmc.com</string>
+    <string name="crh_video_server_port">8906</string>
     <string name="crh_video_ishttps">1</string>
 
     <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>

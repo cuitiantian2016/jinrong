@@ -1,6 +1,8 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,16 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
-import com.honglu.future.ui.trade.activity.BillConfirmActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
+import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
@@ -52,6 +56,14 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private BottomPopupWindow mTipPopupWindow;
     private static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
     private static final String TRADE_BUY_DOWN = "TRADE_BUY_DOWN";
+    private String mToken;
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), mToken, "GUOFU");
+        }
+    };
 
     public static void tipClickCallBack(OnTipClickCallback onTipClickCallback) {
         onTipClickCallback.tipClick();
@@ -59,9 +71,24 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void loginSuccess(AccountBean bean) {
+        mPopupWindow.dismiss();
         showToast(bean.getToken());
         SpUtil.putString("account", mAccount.getText().toString());
         SpUtil.putString("account_token", bean.getToken());
+        mHandler.postDelayed(mRunnable, 3000);
+        mToken = bean.getToken();
+    }
+
+    @Override
+    public void querySettlementSuccess(SettlementInfoBean bean) {
+        if (bean == null) {
+            return;
+        }
+        SpUtil.putString("account_token", "");
+        Intent intent = new Intent(mActivity, BillConfirmActivity.class);
+        intent.putExtra("SettlementBean",new Gson().toJson(bean));
+        intent.putExtra("token",mToken);
+        startActivity(intent);
     }
 
     interface OnTipClickCallback {
@@ -112,9 +139,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);
         setListener();
-        if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
-            startActivity(BillConfirmActivity.class);
-        }
+//        if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+//            startActivity(BillConfirmDialog.class);
+//        }
     }
 
     private void setListener() {
@@ -277,8 +304,11 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
         } else {
-            // TODO: 2017/10/27 判断期货交易所登录或者建仓
-            showOpenAccountWindow(view);
+            if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+                showOpenTransactionWindow(view, TRADE_BUY_RISE);
+            } else {
+                showOpenAccountWindow(view);
+            }
         }
     }
 
@@ -296,9 +326,11 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                         }
                     }).build();
         } else {
-            // TODO: 2017/10/27 判断期货交易所登录或者建仓
-            //showOpenAccountWindow(view);
-            showOpenTransactionWindow(view, TRADE_BUY_DOWN);
+            if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+                showOpenTransactionWindow(view, TRADE_BUY_DOWN);
+            } else {
+                showOpenAccountWindow(view);
+            }
         }
     }
 

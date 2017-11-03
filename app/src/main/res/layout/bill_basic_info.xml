@@ -32,6 +32,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_comp_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="国富期货公司"
@@ -53,6 +54,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="王小二"
@@ -74,6 +76,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_client_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="01010306"
@@ -95,6 +98,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="人民币"
@@ -116,6 +120,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_trade_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2017-10-24"
@@ -137,6 +142,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_query_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2017-10-24"

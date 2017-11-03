@@ -10,8 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/dimen_100dp"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:paddingBottom="@dimen/dimen_100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +65,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_prev_sttl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -108,6 +109,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_khqy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -151,6 +153,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_kyzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -189,11 +192,12 @@
                         android:id="@+id/djzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="冻结资金"
+                        android:text="在途资金"
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_ztzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -218,6 +222,94 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dimen_20dp"
                         android:text="166.00"
+                        android:textColor="@color/color_151515"
+                        android:textSize="@dimen/dimen_14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginTop="@dimen/dimen_18dp">
+
+                    <TextView
+                        android:id="@+id/cjyk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="持仓盈亏"
+                        android:textColor="@color/color_A4A5A6"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_ccyk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_20dp"
+                        android:layout_toRightOf="@+id/cjyk"
+                        android:text="128.0"
+                        android:textColor="@color/color_151515"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_20dp"
+                        android:layout_toLeftOf="@+id/tv_append_money"
+                        android:text="应追加资金"
+                        android:textColor="@color/color_A4A5A6"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_append_money"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dimen_20dp"
+                        android:text="6.00"
+                        android:textColor="@color/color_151515"
+                        android:textSize="@dimen/dimen_14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginTop="@dimen/dimen_18dp">
+
+                    <TextView
+                        android:id="@+id/zybzj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="占用保证金"
+                        android:textColor="@color/color_A4A5A6"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_zybzj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:layout_toRightOf="@+id/zybzj"
+                        android:text="2484.00"
+                        android:textColor="@color/color_151515"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_46dp"
+                        android:layout_toLeftOf="@+id/tv_fengxian_rate"
+                        android:text="风险率"
+                        android:textColor="@color/color_A4A5A6"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_fengxian_rate"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dimen_20dp"
+                        android:text="17.39%"
                         android:textColor="@color/color_151515"
                         android:textSize="@dimen/dimen_14sp" />
                 </RelativeLayout>

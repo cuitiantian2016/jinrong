@@ -196,14 +196,13 @@
             android:name=".ui.usercenter.activity.HistoryBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-
         <activity
-            android:name=".ui.trade.activity.BillConfirmActivity"
+            android:name=".ui.usercenter.activity.ModifyNicknameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
-            android:name=".ui.usercenter.activity.ModifyNicknameActivity"
+            android:name=".ui.trade.billconfirm.BillConfirmActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 

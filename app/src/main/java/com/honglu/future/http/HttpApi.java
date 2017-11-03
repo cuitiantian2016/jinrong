@@ -9,6 +9,8 @@ import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
@@ -84,6 +86,20 @@ public interface HttpApi {
     Observable<BaseResponse<AccountInfoBean>> getAccountInfo(@Field("userId") String userId,
                                                              @Field("token") String token,
                                                              @Field("company") String company);
+
+    //获取用户账户基本信息
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/settlement/info")
+    Observable<BaseResponse<SettlementInfoBean>> querySettlementInfo(@Field("userId") String userId,
+                                                                     @Field("token") String token,
+                                                                     @Field("company") String company);
+
+    //结算单确认
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/settlement/info/confirm")
+    Observable<BaseResponse<ConfirmBean>> settlementConfirm(@Field("userId") String userId,
+                                                            @Field("token") String token);
+
 
     /*******************************    上传图片   *****************************************/
     /*******************************
