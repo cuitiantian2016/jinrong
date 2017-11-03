@@ -131,7 +131,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
             @Override
             public void OnBirthday(String time) {
                 mTvDate.setText(time);
-                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU", time);
+                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", time);
                 mDateDialog.dismiss();
             }
         });

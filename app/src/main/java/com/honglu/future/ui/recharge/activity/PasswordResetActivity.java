@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
@@ -92,11 +93,11 @@ public class PasswordResetActivity extends BaseActivity {
             @Override
             public void getData() {
                 super.getData();
-                String account = SpUtil.getString("account");
+                String account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME);
                 if (TextUtils.isEmpty(account)) {
                     return;
                 }
-                String account_token = SpUtil.getString("account_token");
+                String account_token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
                 if (TextUtils.isEmpty(account_token)) {
                     return;
                 }

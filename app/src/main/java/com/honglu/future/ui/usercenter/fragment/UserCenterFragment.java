@@ -160,7 +160,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void loadData() {
         EventBus.getDefault().register(this);
 
-        if (TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+        if (!App.getConfig().getAccountLoginStatus()) {
             signinExpandCollapse(false);
         } else {
             getAccountBasicInfo();
@@ -209,7 +209,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_signout:
                 signinExpandCollapse(false);
-                SpUtil.putString("account_token", "");
+                SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                 break;
             case R.id.tv_my_account:
             case R.id.ll_account:
@@ -358,8 +358,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
-        SpUtil.putString("account", mAccount.getText().toString());
-        SpUtil.putString("account_token", bean.getToken());
+        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, mAccount.getText().toString());
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         mPopupWindow.dismiss();
         signinExpandCollapse(true);
         getAccountBasicInfo();
@@ -374,6 +374,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     private void getAccountBasicInfo() {
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU");
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 }

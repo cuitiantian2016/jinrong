@@ -70,8 +70,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     public void loginSuccess(AccountBean bean) {
         mPopupWindow.dismiss();
         showToast(bean.getToken());
-        SpUtil.putString("account", mAccount.getText().toString());
-        SpUtil.putString("account_token", bean.getToken());
+        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, mAccount.getText().toString());
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         mHandler.postDelayed(mRunnable, 3000);
         mToken = bean.getToken();
     }
@@ -81,7 +81,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (bean == null) {
             return;
         }
-        SpUtil.putString("account_token", "");
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
         Intent intent = new Intent(mActivity, BillConfirmActivity.class);
         intent.putExtra("SettlementBean", new Gson().toJson(bean));
         intent.putExtra("token", mToken);
@@ -141,9 +141,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);
         setListener();
-//        if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
-//            startActivity(BillConfirmDialog.class);
-//        }
     }
 
     private void setListener() {
@@ -283,7 +280,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
         } else {
-            if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+            if (App.getConfig().getAccountLoginStatus()) {
                 showOpenTransactionWindow(view, TRADE_BUY_RISE);
             } else {
                 showOpenAccountWindow(view);
@@ -305,7 +302,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                         }
                     }).build();
         } else {
-            if (!TextUtils.isEmpty(SpUtil.getString("account_token"))) {
+            if (App.getConfig().getAccountLoginStatus()) {
                 showOpenTransactionWindow(view, TRADE_BUY_DOWN);
             } else {
                 showOpenAccountWindow(view);

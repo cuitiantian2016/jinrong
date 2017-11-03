@@ -224,7 +224,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                 //// TODO: 2017/11/2 跳转客服
                 break;
             case R.id.tv_confirm:
-                mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"));
+                mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
                 finish();
                 break;
         }
@@ -232,7 +232,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
 
     @Override
     public void queryConfirmSuccess(ConfirmBean bean) {
-        SpUtil.putString("account_token", getIntent().getStringExtra("token"));
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, getIntent().getStringExtra("token"));
         showToast("结算单确认成功");
     }
 }

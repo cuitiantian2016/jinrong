@@ -109,6 +109,6 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     }
 
     private void getAccountBasicInfo() {
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU");
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 }

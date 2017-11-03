@@ -60,10 +60,10 @@ public class ConfigUtil {
         return isDebug;
     }
 
-  /*  public boolean isCeshi() {
-        return TextUtils.equals("ceshi", BuildConfig.PRODUCT_FLAVOR);
-    }
-*/
+    /*  public boolean isCeshi() {
+          return TextUtils.equals("ceshi", BuildConfig.PRODUCT_FLAVOR);
+      }
+  */
     public void setDebug(boolean isDebug) {
         this.isDebug = isDebug;
     }
@@ -111,12 +111,18 @@ public class ConfigUtil {
         //        return true;
     }
 
+    //获取用户当前登录状态
+    public boolean getAccountLoginStatus() {
+        return !TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+    }
+
     public String getBaseUrl() {
         if (isDebug() && !TextUtils.isEmpty(SpUtil.getString(Constant.URL_KEY))) {
             baseUrl = SpUtil.getString(Constant.URL_KEY);
         }
         return baseUrl;
     }
+
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
         GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";
