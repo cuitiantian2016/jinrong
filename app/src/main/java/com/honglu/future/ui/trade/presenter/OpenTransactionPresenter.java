@@ -4,9 +4,12 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.util.AESUtils;
+
+import java.util.List;
 
 /**
  * Created by zq on 2017/10/26.
@@ -49,6 +52,31 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
             @Override
             protected void _onNext(SettlementInfoBean bean) {
                 mView.querySettlementSuccess(bean);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void getProductList() {
+        toSubscribe(HttpManager.getApi().getProductList(), new HttpSubscriber<List<ProductListBean>>() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("查询结算单中...");
+            }
+
+            @Override
+            protected void _onNext(List<ProductListBean> bean) {
+                mView.getProductListSuccess(bean);
             }
 
             @Override

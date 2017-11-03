@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
@@ -16,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by zq on 2017/10/26.
  */
 
-public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionAdapter.ViewHolder, OpenTransactionListBean> {
+public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionAdapter.ViewHolder, ProductListBean> {
     public interface OnRiseDownClickListener {
         void onRiseClick(View view);
 
@@ -38,12 +39,12 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
     @Override
     public void mOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvProductName.setText(item.getProductName());
-        holder.mTvNum.setText(item.getNum());
-        holder.mTvRise.setText(item.getRiseNum());
-        holder.mTvDown.setText(item.getDownNum());
-        holder.mTvRiseRadio.setText(item.getRiseRadio());
-        holder.mTvDownRadio.setText(item.getDownRadio());
-        if (item.getIsRest().equals("1")) {
+        holder.mTvNum.setText(item.getTradeVolume());
+        holder.mTvRise.setText(item.getLastPrice());
+        holder.mTvDown.setText(item.getLastPrice());
+        holder.mTvRiseRadio.setText(item.getLongRate());
+        holder.mTvDownRadio.setText(item.getShortRate());
+        if (item.getIsClosed().equals("1")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         }
         holder.mTvRise.setOnClickListener(new View.OnClickListener() {

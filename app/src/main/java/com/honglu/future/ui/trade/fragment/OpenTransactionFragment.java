@@ -1,7 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
-import com.honglu.future.ui.trade.bean.OpenTransactionListBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
@@ -33,7 +32,6 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,7 +49,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private ImageView mTradeTip;
     private EditText mAccount;
     private OpenTransactionAdapter mOpenTransactionAdapter;
-    private List<OpenTransactionListBean> mList;
     private BottomPopupWindow mPopupWindow;
     private BottomPopupWindow mTipPopupWindow;
     private static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
@@ -86,9 +83,14 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
         SpUtil.putString("account_token", "");
         Intent intent = new Intent(mActivity, BillConfirmActivity.class);
-        intent.putExtra("SettlementBean",new Gson().toJson(bean));
-        intent.putExtra("token",mToken);
+        intent.putExtra("SettlementBean", new Gson().toJson(bean));
+        intent.putExtra("token", mToken);
         startActivity(intent);
+    }
+
+    @Override
+    public void getProductListSuccess(List<ProductListBean> bean) {
+        mOpenTransactionAdapter.addData(bean);
     }
 
     interface OnTipClickCallback {
@@ -165,30 +167,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        for (int i = 0; i <= 10; i++) {
-            OpenTransactionListBean bean = new OpenTransactionListBean();
-            if (i % 2 == 0) {
-                bean.setProductName("玉米1801");
-                bean.setNum("338730");
-                bean.setRiseNum("买涨1678");
-                bean.setDownNum("买跌1677");
-                bean.setRiseRadio("50%");
-                bean.setDownRadio("50%");
-                bean.setIsRest("0");
-                mList.add(bean);
-            } else {
-                bean.setProductName("甲醇1801");
-                bean.setNum("4009004");
-                bean.setRiseNum("买涨2646");
-                bean.setDownNum("买跌2645");
-                bean.setRiseRadio("0%");
-                bean.setDownRadio("100%");
-                bean.setIsRest("1");
-                mList.add(bean);
-            }
-        }
-        mOpenTransactionAdapter.addData(mList);
+        mPresenter.getProductList();
     }
 
     private void showBottomWindow(View view, View layout, int flag) {

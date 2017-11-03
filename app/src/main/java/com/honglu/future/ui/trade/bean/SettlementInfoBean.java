@@ -1,6 +1,5 @@
 package com.honglu.future.ui.trade.bean;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +7,6 @@ import java.util.List;
  */
 
 public class SettlementInfoBean{
-
     private String balanceBF;
     private String balanceCF;
     private String chgInPledgeAmt;
