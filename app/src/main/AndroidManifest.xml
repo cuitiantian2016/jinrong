@@ -193,7 +193,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
-            android:name=".ui.usercenter.activity.HistoryBillActivity"
+            android:name=".ui.trade.historybill.HistoryBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity

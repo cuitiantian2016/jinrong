@@ -100,6 +100,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_prev_sttl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -143,6 +144,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_khqy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -186,6 +188,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_kyzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
@@ -229,6 +232,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <TextView
+                        android:id="@+id/tv_djzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"

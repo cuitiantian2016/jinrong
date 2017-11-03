@@ -87,12 +87,20 @@ public interface HttpApi {
                                                              @Field("token") String token,
                                                              @Field("company") String company);
 
-    //获取用户账户基本信息
+    //获取用户结算单
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/user/settlement/info")
     Observable<BaseResponse<SettlementInfoBean>> querySettlementInfo(@Field("userId") String userId,
                                                                      @Field("token") String token,
                                                                      @Field("company") String company);
+
+    //根据日期获取用户结算单
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/settlement/info/select")
+    Observable<BaseResponse<SettlementInfoBean>> querySettlementInfoByDate(@Field("userId") String userId,
+                                                                           @Field("token") String token,
+                                                                           @Field("company") String company,
+                                                                           @Field("day") String day);
 
     //结算单确认
     @FormUrlEncoded
@@ -156,9 +164,9 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/user/update/password")
     Observable<BaseResponse<JsonNull>> resetMarketPwd(@Field("account") String account,
-                                                        @Field("oldPassword") String oldPassword,
-                                                        @Field("token") String token,
-                                                        @Field("newPassword") String newPassword,
-                                                        @Field("userId") String userId);
+                                                      @Field("oldPassword") String oldPassword,
+                                                      @Field("token") String token,
+                                                      @Field("newPassword") String newPassword,
+                                                      @Field("userId") String userId);
 
 }
