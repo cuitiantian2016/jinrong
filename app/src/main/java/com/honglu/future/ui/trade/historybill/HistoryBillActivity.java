@@ -3,21 +3,17 @@ package com.honglu.future.ui.trade.historybill;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
-import com.honglu.future.dialog.DateDialog;
+import com.honglu.future.dialog.SingleDateDialog;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
-import com.honglu.future.ui.trade.billconfirm.BillConfirmContract;
-import com.honglu.future.ui.trade.billconfirm.BillConfirmPresenter;
 import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
 import com.honglu.future.util.DeviceUtils;
@@ -83,7 +79,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
     private ArrayList<CustomTabEntity> mTabList;
     private HistoryRecordsAdapter mHistoryRecordsAdapter;
     private List<HistoryRecordsBean> mList;
-    private DateDialog mDateDialog;
+    private SingleDateDialog mDateDialog;
     private SettlementInfoBean settlementInfoBean;
 
     @Override
@@ -130,13 +126,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         mRecordsListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mHistoryRecordsAdapter = new HistoryRecordsAdapter();
         mRecordsListView.setAdapter(mHistoryRecordsAdapter);
-        mDateDialog = new DateDialog(this);
-        mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
+        mDateDialog = new SingleDateDialog(this);
+        mDateDialog.setOnBirthdayListener(new SingleDateDialog.OnBirthdayListener() {
             @Override
-            public void onClick(String start, String end) {
-                Log.i("testUrl", start);
-                mTvDate.setText(start);
-                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU", start);
+            public void OnBirthday(String time) {
+                mTvDate.setText(time);
+                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString("account_token"), "GUOFU", time);
                 mDateDialog.dismiss();
             }
         });
