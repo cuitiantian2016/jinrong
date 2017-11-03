@@ -20,6 +20,7 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -211,7 +212,7 @@ public class ViewUtil {
                     default:
                         // http://baike.baidu.com/item/TD-SCDMA 中国移动 联通 电信 三种3G制式
                         if (_strSubTypeName.equalsIgnoreCase("TD-SCDMA") || _strSubTypeName.equalsIgnoreCase("WCDMA")
-								|| _strSubTypeName.equalsIgnoreCase("CDMA2000")) {
+                                || _strSubTypeName.equalsIgnoreCase("CDMA2000")) {
                             strNetworkType = "3G";
                         } else {
                             strNetworkType = _strSubTypeName;
@@ -268,6 +269,7 @@ public class ViewUtil {
 
     /**
      * 还原View的触摸和点击响应范围,最小不小于View自身范围
+     *
      * @param view
      */
     public static void restoreViewTouchDelegate(final View view) {
@@ -288,6 +290,7 @@ public class ViewUtil {
 
     /**
      * 扩大View的触摸和点击响应范围,最大不超过其父View范围
+     *
      * @param view
      * @param top
      * @param bottom
@@ -321,7 +324,7 @@ public class ViewUtil {
 
     //自定义内容加载提示窗
     private static AlertDialog loadingDialog;
-    private static View        loadingView;
+    private static View loadingView;
 
     public static void showLoading(Activity activity, String content) {
         hideLoading();
@@ -349,8 +352,8 @@ public class ViewUtil {
     public static void hideSystemUI(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-					| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN | View
-					.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN | View
+                    .SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 
@@ -399,5 +402,17 @@ public class ViewUtil {
         params.height = height + listView.getPaddingTop() + listView.getPaddingBottom();
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public static void backgroundAlpha(Context context, float bgAlpha) {
+        WindowManager.LayoutParams lp = ((Activity) context).getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        ((Activity) context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        ((Activity) context).getWindow().setAttributes(lp);
     }
 }

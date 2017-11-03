@@ -13,12 +13,10 @@ import java.util.List;
 
 public interface OpenTransactionContract {
     interface View extends BaseView {
-        void loginSuccess(AccountBean bean);
         void querySettlementSuccess(SettlementInfoBean bean);
         void getProductListSuccess(List<ProductListBean> bean);
     }
     interface Presenter{
-        void login(String account, String password,String userId,String company);
         void querySettlementInfo(String userId, String token, String company);
         void getProductList();
     }

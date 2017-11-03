@@ -21,6 +21,8 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -29,6 +31,7 @@ import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
@@ -42,17 +45,18 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 
-public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
+public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View, AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
     private LinearLayout mTradeHeader;
     private ImageView mTradeTip;
-    private EditText mAccount;
     private OpenTransactionAdapter mOpenTransactionAdapter;
     private BottomPopupWindow mPopupWindow;
     private BottomPopupWindow mTipPopupWindow;
     private static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
     private static final String TRADE_BUY_DOWN = "TRADE_BUY_DOWN";
+    private AccountPresenter mAccountPresenter;
+    private AccountLoginPopupView mAccountLoginPopupView;
     private String mToken;
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -68,9 +72,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        mPopupWindow.dismiss();
-        showToast(bean.getToken());
-        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, mAccount.getText().toString());
+        mAccountLoginPopupView.dismissLoginAccountView();
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         mHandler.postDelayed(mRunnable, 3000);
         mToken = bean.getToken();
@@ -123,6 +125,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void initPresenter() {
         mPresenter.init(this);
+        mAccountPresenter = new AccountPresenter();
+        mAccountPresenter.init(this);
     }
 
     @Override
@@ -248,16 +252,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                                 }).build();
                     }
                 });
-            } else {
-                mAccount = (EditText) view.findViewById(R.id.et_account);
-                final EditText mPwd = (EditText) view.findViewById(R.id.et_password);
-                TextView mLoginAccount = (TextView) view.findViewById(R.id.btn_login_account);
-                mLoginAccount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU");
-                    }
-                });
             }
         }
     }
@@ -283,7 +277,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             if (App.getConfig().getAccountLoginStatus()) {
                 showOpenTransactionWindow(view, TRADE_BUY_RISE);
             } else {
-                showOpenAccountWindow(view);
+                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
+                mAccountLoginPopupView.showOpenAccountWindow(view);
             }
         }
     }
@@ -305,20 +300,16 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             if (App.getConfig().getAccountLoginStatus()) {
                 showOpenTransactionWindow(view, TRADE_BUY_DOWN);
             } else {
-                showOpenAccountWindow(view);
+                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
+                mAccountLoginPopupView.showOpenAccountWindow(view);
             }
         }
     }
 
+
     private void showTipWindow(View view) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
         showTipBottomWindow(view, layout, 1);
-        backgroundAlpha(0.5f);
-    }
-
-    private void showOpenAccountWindow(View view) {
-        View layout = LayoutInflater.from(mActivity).inflate(R.layout.future_login_popup_window, null);
-        showBottomWindow(view, layout, 2);
         backgroundAlpha(0.5f);
     }
 
