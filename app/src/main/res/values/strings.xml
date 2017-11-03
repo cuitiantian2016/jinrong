@@ -128,6 +128,7 @@
     <string name="crh_server_domain">apptest.cfmmc.com</string>
     <string name="crh_server_port"></string>
     <string name="crh_cookie_path">/</string>
+    <!-- 开户视频认证配置 -->
     <string name="crh_video_server_ip">anychat.cfmmc.com</string>
     <string name="crh_video_server_port">8906</string>
     <string name="crh_video_ishttps">1</string>
