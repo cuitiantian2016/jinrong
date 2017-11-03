@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -38,23 +39,23 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
 
     @Override
     public void mOnBindViewHolder(ViewHolder holder, int position) {
-        holder.mTvProductName.setText(item.getProductName());
+        holder.mTvProductName.setText(item.getInstrumentName());
         holder.mTvNum.setText(item.getTradeVolume());
         holder.mTvRise.setText(item.getLastPrice());
-        holder.mTvDown.setText(item.getLastPrice());
+        holder.mTvDown.setText(String.valueOf(Integer.parseInt(item.getLastPrice())-1));
         holder.mTvRiseRadio.setText(item.getLongRate());
         holder.mTvDownRadio.setText(item.getShortRate());
         if (item.getIsClosed().equals("2")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         }
-        holder.mTvRise.setOnClickListener(new View.OnClickListener() {
+        holder.mLlRise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onRiseClick(v);
             }
         });
 
-        holder.mTvDown.setOnClickListener(new View.OnClickListener() {
+        holder.mLlDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onDownClick(v);
@@ -78,6 +79,10 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         TextView mTvDownRadio;
         @BindView(R.id.tv_closed)
         TextView mTvClosed;
+        @BindView(R.id.ll_rise)
+        LinearLayout mLlRise;
+        @BindView(R.id.ll_down)
+        LinearLayout mLlDown;
 
         ViewHolder(View view) {
             super(view);
