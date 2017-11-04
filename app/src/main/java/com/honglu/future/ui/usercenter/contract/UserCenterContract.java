@@ -10,11 +10,9 @@ import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 
 public interface UserCenterContract {
     interface View extends BaseView {
-        void loginSuccess(AccountBean bean);
         void getAccountInfoSuccess(AccountInfoBean bean);
     }
     interface Presenter{
-        void login(String account, String password,String userId,String company);
         void getAccountInfo(String userId, String token, String company);
     }
 }

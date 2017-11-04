@@ -2,13 +2,9 @@ package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
@@ -21,11 +17,13 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
+import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
-import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.trade.historybill.HistoryBillActivity;
+import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
@@ -37,7 +35,7 @@ import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
-import com.honglu.future.widget.popupwind.BottomPopupWindow;
+import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,7 +51,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
-        UserCenterContract.View {
+        UserCenterContract.View, AccountContract.View {
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
@@ -115,8 +113,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mUpdate;
     @BindView(R.id.ll_bottomLayout2)
     LinearLayout mBottomLayout2;
-    private BottomPopupWindow mPopupWindow;
-    private EditText mAccount;
+    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountPresenter mAccountPresenter;
 
 
     public static UserCenterFragment userCenterFragment;
@@ -154,6 +152,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void initPresenter() {
         mPresenter.init(this);
+        mAccountPresenter = new AccountPresenter();
+        mAccountPresenter.init(this);
     }
 
     @Override
@@ -204,7 +204,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
                 } else {
-                    showOpenAccountWindow(view);
+                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mSetup, mAccountPresenter);
+                    mAccountLoginPopupView.showOpenAccountWindow();
                 }
                 break;
             case R.id.tv_signout:
@@ -284,54 +285,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         userCenterFragment = null;
     }
 
-    private void showOpenAccountWindow(View view) {
-        View layout = LayoutInflater.from(mActivity).inflate(R.layout.future_login_popup_window, null);
-        showBottomWindow(view, layout, 2);
-        backgroundAlpha(0.5f);
-    }
-
-    private void showBottomWindow(View view, View layout, int flag) {
-        if (mPopupWindow != null && mPopupWindow.isShowing()) {
-            return;
-        }
-        mPopupWindow = new BottomPopupWindow(mActivity, view, layout);
-        //添加按键事件监听
-        setButtonListeners(layout);
-        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
-            }
-        });
-    }
-
-    private void setButtonListeners(View view) {
-        mAccount = (EditText) view.findViewById(R.id.et_account);
-        final EditText mPwd = (EditText) view.findViewById(R.id.et_password);
-        TextView mLoginAccount = (TextView) view.findViewById(R.id.btn_login_account);
-        mLoginAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU");
-            }
-        });
-        ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
-        ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
-
-        TextView goOpenAccount = (TextView) view.findViewById(R.id.btn_open_account);
-        goOpenAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goOpenAccount();
-            }
-        });
-    }
 
     private void goOpenAccount() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -343,24 +296,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         startActivity(intent);
     }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mActivity.getWindow().setAttributes(lp);
-    }
-
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
-        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, mAccount.getText().toString());
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
-        mPopupWindow.dismiss();
+        mAccountLoginPopupView.dismissLoginAccountView();
         signinExpandCollapse(true);
         getAccountBasicInfo();
     }

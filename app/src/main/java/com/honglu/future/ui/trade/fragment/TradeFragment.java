@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
@@ -16,6 +17,10 @@ import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -75,6 +80,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -132,5 +138,17 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(FragmentRefreshEvent event) {
+        mCommonTabLayout.setCurrentTab(0);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+        tradeFragment = null;
+    }
 
 }

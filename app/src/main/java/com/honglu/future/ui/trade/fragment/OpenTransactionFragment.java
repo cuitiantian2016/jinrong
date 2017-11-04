@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -31,6 +30,7 @@ import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -182,7 +182,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                backgroundAlpha(1f);
+                ViewUtil.backgroundAlpha(mActivity, 1f);
             }
         });
     }
@@ -200,7 +200,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             @Override
             public void onDismiss() {
                 if (mPopupWindow == null || !mPopupWindow.isShowing()) {
-                    backgroundAlpha(1f);
+                    ViewUtil.backgroundAlpha(mActivity, 1f);
                 }
             }
         });
@@ -256,17 +256,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
     }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mActivity.getWindow().setAttributes(lp);
-    }
 
     @Override
     public void onRiseClick(View view) {
@@ -278,7 +267,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 showOpenTransactionWindow(view, TRADE_BUY_RISE);
             } else {
                 mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
-                mAccountLoginPopupView.showOpenAccountWindow(view);
+                mAccountLoginPopupView.showOpenAccountWindow();
             }
         }
     }
@@ -301,7 +290,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 showOpenTransactionWindow(view, TRADE_BUY_DOWN);
             } else {
                 mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
-                mAccountLoginPopupView.showOpenAccountWindow(view);
+                mAccountLoginPopupView.showOpenAccountWindow();
             }
         }
     }
@@ -310,7 +299,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private void showTipWindow(View view) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
         showTipBottomWindow(view, layout, 1);
-        backgroundAlpha(0.5f);
+        ViewUtil.backgroundAlpha(mActivity, .5f);
     }
 
     private void showOpenTransactionWindow(View view, String riseOrDown) {
@@ -324,6 +313,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         tvRiseOrDown.setBackgroundResource(R.drawable.rise_down_bg_block);
         tvRiseOrDown.setTextColor(mActivity.getResources().getColor(R.color.color_151515));
         showBottomWindow(view, layout, 3);
-        backgroundAlpha(0.5f);
+        ViewUtil.backgroundAlpha(mActivity, .5f);
     }
 }

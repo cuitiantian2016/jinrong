@@ -7,14 +7,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.Tool;
+import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
@@ -28,12 +35,16 @@ import butterknife.OnClick;
  * Created by zq on 2017/10/26.
  */
 
-public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View {
+public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View {
     @BindView(R.id.rv_position)
     RecyclerView mPositionListView;
+    @BindView(R.id.tv_tip)
+    TextView mTvTip;
     private ClosePositionAdapter mClosePositionAdapter;
     private List<ClosePositionListBean> mList;
     private BottomPopupWindow mTipPopupWindow;
+    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountPresenter mAccountPresenter;
 
     @Override
     public int getLayoutId() {
@@ -43,6 +54,8 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void initPresenter() {
         mPresenter.init(this);
+        mAccountPresenter = new AccountPresenter();
+        mAccountPresenter.init(this);
     }
 
     @Override
@@ -68,10 +81,26 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (!App.getConfig().getAccountLoginStatus() && isVisible()) {
+                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTvTip, mAccountPresenter);
+                mAccountLoginPopupView.showOpenAccountWindow();
+            }
+        }
+    }
+
+    @Override
+    public void loginSuccess(AccountBean bean) {
+        mAccountLoginPopupView.dismissLoginAccountView();
+    }
+
     private void showTipWindow(View view) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
         showTipBottomWindow(view, layout);
-        backgroundAlpha(0.5f);
+        ViewUtil.backgroundAlpha(mActivity, .5f);
     }
 
     private void initData() {
@@ -110,7 +139,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                backgroundAlpha(1f);
+                ViewUtil.backgroundAlpha(mActivity, 1f);
             }
         });
     }
@@ -125,17 +154,5 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
                 }
             }
         });
-    }
-
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mActivity.getWindow().setAttributes(lp);
     }
 }

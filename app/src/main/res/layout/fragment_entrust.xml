@@ -32,6 +32,7 @@
             android:src="@mipmap/icon_glk_arrow_down" />
 
         <ImageView
+            android:id="@+id/iv_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

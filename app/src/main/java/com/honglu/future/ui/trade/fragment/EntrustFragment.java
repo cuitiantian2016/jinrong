@@ -3,17 +3,22 @@ package com.honglu.future.ui.trade.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.contract.EntrustContract;
 import com.honglu.future.ui.trade.presenter.EntrustPresenter;
 import com.honglu.future.util.Tool;
+import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -26,7 +31,7 @@ import butterknife.OnClick;
  * Created by zq on 2017/10/26.
  */
 
-public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View {
+public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View , AccountContract.View{
     @BindView(R.id.rv_entrust_list_view)
     RecyclerView mEntrustListView;
     @BindView(R.id.ll_filter)
@@ -37,7 +42,11 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     TextView mBuild;
     @BindView(R.id.tv_closed)
     TextView mClosed;
+    @BindView(R.id.iv_tip)
+    ImageView mIvTip;
 
+    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
     private List<EntrustBean> mList;
     private boolean mIsShowFilter;
@@ -50,6 +59,19 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void initPresenter() {
         mPresenter.init(this);
+        mAccountPresenter = new AccountPresenter();
+        mAccountPresenter.init(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (!App.getConfig().getAccountLoginStatus() && isVisible()) {
+                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mIvTip, mAccountPresenter);
+                mAccountLoginPopupView.showOpenAccountWindow();
+            }
+        }
     }
 
     @Override
@@ -150,4 +172,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         });
     }
 
+    @Override
+    public void loginSuccess(AccountBean bean) {
+        mAccountLoginPopupView.dismissLoginAccountView();
+    }
 }

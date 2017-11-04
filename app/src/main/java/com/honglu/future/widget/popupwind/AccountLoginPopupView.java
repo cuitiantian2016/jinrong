@@ -1,6 +1,8 @@
 package com.honglu.future.widget.popupwind;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -8,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by zq on 2017/11/3.
@@ -37,11 +43,12 @@ public class AccountLoginPopupView {
         mContext = context;
         mTipView = tipView;
         mPresenter = presenter;
+
     }
 
-    public void showOpenAccountWindow(View view) {
+    public void showOpenAccountWindow() {
         View layout = LayoutInflater.from(mContext).inflate(R.layout.future_login_popup_window, null);
-        showBottomWindow(view, layout);
+        showBottomWindow(mTipView, layout);
         ViewUtil.backgroundAlpha(mContext, 0.5f);
     }
 
@@ -72,6 +79,7 @@ public class AccountLoginPopupView {
 //                    }
                 } else {
                     if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                        EventBus.getDefault().post(new FragmentRefreshEvent());
                         mPopupWindow.dismiss();
                     }
                 }
@@ -101,6 +109,24 @@ public class AccountLoginPopupView {
             }
         });
 
+        TextView mGoOpen = (TextView) view.findViewById(R.id.btn_open_account);
+        mGoOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goOpenAccount();
+            }
+        });
+
+    }
+
+    private void goOpenAccount() {
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.putExtra("brokerId", "0101");
+        String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
+        if (!TextUtils.isEmpty(userMobile)) {
+            intent.putExtra("mobile", userMobile);
+        }
+        mContext.startActivity(intent);
     }
 
     private void setTipListener(View view, final int flag) {

@@ -13,30 +13,6 @@ import com.honglu.future.util.AESUtils;
  */
 
 public class UserCenterPresenter extends BasePresenter<UserCenterContract.View> implements UserCenterContract.Presenter {
-    @Override
-    public void login(String account, String password, String userId, String company) {
-        toSubscribe(HttpManager.getApi().loginAccount(account, AESUtils.encrypt(password), userId, company), new HttpSubscriber<AccountBean>() {
-            @Override
-            public void _onStart() {
-                mView.showLoading("登录中...");
-            }
-
-            @Override
-            protected void _onNext(AccountBean bean) {
-                mView.loginSuccess(bean);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
-            }
-
-            @Override
-            protected void _onCompleted() {
-                mView.stopLoading();
-            }
-        });
-    }
 
     @Override
     public void getAccountInfo(String userId, String token, String company) {
