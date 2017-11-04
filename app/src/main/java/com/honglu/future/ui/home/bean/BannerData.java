@@ -1,80 +1,63 @@
 package com.honglu.future.ui.home.bean;
 
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * Banner实体类
+ *
+ * {
+ "serialNum": "0",
+ "pic": "http://qihuo-test.oss-cn-shanghai.aliyuncs.com/information/2017-10-31/1509438797804-20171031163317.jpg",
+ "beginTime": "2017-10-31",
+ "endTime": "2017-11-11",
+ "informationColumnId": "1",
+ "url": "http://stgnew.xnsudai.com/operateHd/application/view/activity/fallPackets.html"
+ }
  */
-public class BannerData {
+public class BannerData  {
 
-    /**
-     * data : {"successed":true,"data":[{"pic":"http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg;http://img0.imgtn.bdimg.com/it/u=2134694061,3961462795&fm=23&gp=0.jpg","columnUrl":"http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg"}]}
-     */
-    private DataBeanX data;
-    public DataBeanX getData() {
-        return data;
-    }
-    public void setData(DataBeanX data) {
-        this.data = data;
-    }
-    public static class DataBeanX implements Serializable{
-        /**
-         * successed : true
-         * data : [{"pic":"http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg;http://img0.imgtn.bdimg.com/it/u=2134694061,3961462795&fm=23&gp=0.jpg","columnUrl":"http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg"}]
-         */
-        private boolean successed;
-        private List<DataBean> data;
+  public String pic;
+  public String informationColumnId;
+  public String url;
+  public String beginTime;
+  public String endTime;
 
-        public boolean isSuccessed() {
-            return successed;
-        }
+  public String getPic() {
+    return pic;
+  }
 
-        public void setSuccessed(boolean successed) {
-            this.successed = successed;
-        }
+  public void setPic(String pic) {
+    this.pic = pic;
+  }
 
-        public List<DataBean> getData() {
-            return data;
-        }
+  public String getInformationColumnId() {
+    return informationColumnId;
+  }
 
-        public void setData(List<DataBean> data) {
-            this.data = data;
-        }
+  public void setInformationColumnId(String informationColumnId) {
+    this.informationColumnId = informationColumnId;
+  }
 
-        public static class DataBean implements Serializable {
-            /**
-             * pic : http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg;http://img0.imgtn.bdimg.com/it/u=2134694061,3961462795&fm=23&gp=0.jpg
-             * columnUrl : http://mypics.zhaopin.com/pic/2017/2/7/662F717364084C3D91CC5B95B67A6696.jpg
-             */
-            private String pic;
-            private String columnUrl;
-            private String columnName;
+  public String getUrl() {
+    return url;
+  }
 
-            public String getCircleColumnName() {
-                return columnName;
-            }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-            public void setCircleColumnName(String circleColumnName) {
-                this.columnName = circleColumnName;
-            }
+  public String getBeginTime() {
+    return beginTime;
+  }
 
-            public String getPic() {
-                return pic;
-            }
+  public void setBeginTime(String beginTime) {
+    this.beginTime = beginTime;
+  }
 
-            public void setPic(String pic) {
-                this.pic = pic;
-            }
+  public String getEndTime() {
+    return endTime;
+  }
 
-            public String getColumnUrl() {
-                return columnUrl;
-            }
-
-            public void setColumnUrl(String columnUrl) {
-                this.columnUrl = columnUrl;
-            }
-        }
-    }
+  public void setEndTime(String endTime) {
+    this.endTime = endTime;
+  }
 }

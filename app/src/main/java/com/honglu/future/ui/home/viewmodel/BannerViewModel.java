@@ -2,6 +2,7 @@ package com.honglu.future.ui.home.viewmodel;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,24 +12,19 @@ import com.honglu.future.base.IBaseView;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
-import com.honglu.future.ui.home.bean.MarketData;
-import com.honglu.future.ui.home.contract.HomeContract;
-import com.honglu.future.ui.home.presenter.HomePresenter;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
 import com.honglu.future.widget.banner.Banner;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by hefei
  * banner的组件
  */
 
-public class BannerViewModel extends IBaseView<BannerData>{
+public class BannerViewModel extends IBaseView<List<BannerData>>{
     private static final String TAG = "BannerViewModel";
 
     public View mView;
@@ -49,21 +45,20 @@ public class BannerViewModel extends IBaseView<BannerData>{
     /**
      * 刷新数据
      */
-    private void refreshData() {
-        if (mBannerPresenter == null){
-            mBannerPresenter = new BasePresenter<IBaseView<BannerData>>(this){
+    public void refreshData() {
+        if (mBannerPresenter == null)
+            mBannerPresenter = new BasePresenter<IBaseView<List<BannerData>>>(this) {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().getBannerData(), new HttpSubscriber<BannerData>() {
+                    toSubscribe(HttpManager.getApi().getBannerData(), new HttpSubscriber<List<BannerData>>() {
                         @Override
-                        protected void _onNext(BannerData o) {
+                        protected void _onNext(List<BannerData> o) {
                             mView.bindData(o);
                         }
                     });
                 }
             };
-        }
         mBannerPresenter.getData();
     }
 
@@ -79,20 +74,19 @@ public class BannerViewModel extends IBaseView<BannerData>{
         mAutoFlingBannerAdapter.setOnClickBannerListener(new AutoFlingBannerAdapter.OnClickBannerListener() {
             @Override
             public void itemClick(String url, String circleColumnName) {
-//                Bus.callURL(mCurrentActivity,url);
+                Log.d(TAG,"url-->"+url+"circleColumnName-->"+circleColumnName);
             }
         });
         mBanner.setAdapter(mAutoFlingBannerAdapter);
     }
     @Override
-    public void bindData(BannerData bannerData) {
-        if (bannerData ==null||bannerData.getData() ==null||bannerData.getData().getData() ==null){
+    public void bindData(List<BannerData> bannerData) {
+        if (bannerData ==null||bannerData.size()>0){
             return;
         }
         mBanner.setBackground(null);
-        List<BannerData.DataBeanX.DataBean> data = bannerData.getData().getData();
-        mAutoFlingBannerAdapter.setData(data);
-        mBanner.changeIndicatorStyle(data.size(), 35, Color.TRANSPARENT);
+        mAutoFlingBannerAdapter.setData(bannerData);
+        mBanner.changeIndicatorStyle(bannerData.size(), 35, Color.TRANSPARENT);
         mBanner.start();
     }
     /**

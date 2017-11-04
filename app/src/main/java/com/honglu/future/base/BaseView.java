@@ -3,7 +3,7 @@ package com.honglu.future.base;
 /**
  * baseview
  */
-public interface BaseView {
+public interface BaseView{
     /*******内嵌加载*******/
     /**
      * 开始加载dialog

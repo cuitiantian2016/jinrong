@@ -126,8 +126,8 @@ public interface HttpApi {
             @Part MultipartBody.Part File, @Part("userId") RequestBody userId);
 
     //首页banner
-    @GET("credit-user/register")
-    Observable<BaseResponse<BannerData>> getBannerData();
+    @POST("http://192.168.90.130:8080/futures-mobile-api/appBanner/loadBannerInfo")
+    Observable<BaseResponse<List<BannerData>>> getBannerData();
 
     //首页市场行情
     @GET("credit-user/register")

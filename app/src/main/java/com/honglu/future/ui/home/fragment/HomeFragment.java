@@ -7,6 +7,9 @@ import com.honglu.future.ui.home.viewmodel.HomeBottomTabViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
 import com.honglu.future.ui.home.viewmodel.HorizontalIconViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import butterknife.BindView;
 /**********
  * 首页
@@ -38,11 +41,12 @@ public class HomeFragment extends BaseFragment{
     public void loadData() {
         initView();
     }
+    BannerViewModel bannerViewModel;
     /**
      *
      */
     private void initView() {
-        BannerViewModel bannerViewModel = new BannerViewModel(getContext());
+        bannerViewModel = new BannerViewModel(getContext());
         HomeMarketPriceViewModel homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
         HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
         HomeBottomTabViewModel homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(),mSmartRefreshView);
@@ -50,6 +54,12 @@ public class HomeFragment extends BaseFragment{
         mScrollView.addView(homeMarketPriceViewModel.mView);//添加banner
         mScrollView.addView(horizontalIconViewModel.mView);//添加banner
         mScrollView.addView(homeBottomTabViewModel.mView);//添加banner
+        mSmartRefreshView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                bannerViewModel.refreshData();
+            }
+        });
     }
 
     @Override

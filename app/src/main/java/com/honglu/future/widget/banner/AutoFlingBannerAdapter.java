@@ -11,8 +11,10 @@ import android.widget.ImageView.ScaleType;
 
 import com.honglu.future.ui.home.bean.BannerData;
 
+import java.util.List;
 
-public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData.DataBeanX.DataBean> {
+
+public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData> {
 
     private OnClickBannerListener mOnClickBannerListener;
     private OnShowPicBannerListener mOnShowPicBannerListener;
@@ -57,21 +59,18 @@ public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData.Dat
     }
 
     @Override
-    public void bindView(final BannerData.DataBeanX.DataBean newsSlide, View view, int position) {
+    public void bindView(final BannerData newsSlide, View view, int position) {
         ImageView imageView = (ImageView) view;
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.
                 MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ScaleType.CENTER_CROP);
         imageView.setLayoutParams(layoutParams);
-        //mOnClickBannerListener.loadImageForView(newsSlide.getPic(), imageView);
-        //Context context = imageView.getContext();
-        //Context context1 = mContext.getContext();
-        mOnShowPicBannerListener.showPic(imageView, newsSlide.getPic());
+        mOnShowPicBannerListener.showPic(imageView, newsSlide.pic);
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnClickBannerListener.itemClick(newsSlide.getColumnUrl(), newsSlide.getCircleColumnName());
+                mOnClickBannerListener.itemClick(newsSlide.url, newsSlide.informationColumnId);
             }
         });
     }
