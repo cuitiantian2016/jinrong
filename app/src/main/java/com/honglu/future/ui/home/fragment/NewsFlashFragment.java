@@ -27,7 +27,7 @@ public class NewsFlashFragment extends BaseFragment {
     LinearLayout linearLayout;
     private int page = 1;
     private BasePresenter<NewsFlashFragment> mBasePresenter;
-    private List<NewsFlashData.NewsFlashDataX.NewsFlashBean> list = new ArrayList<>();
+    private List<NewsFlashData> list = new ArrayList<>();
 
     private boolean isMore;
     private void getNewsData(){
@@ -36,18 +36,18 @@ public class NewsFlashFragment extends BaseFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().geFlashNewData(page), new HttpSubscriber<NewsFlashData>() {
+                    toSubscribe(HttpManager.getApi().geFlashNewData(page,10), new HttpSubscriber<List<NewsFlashData>>() {
                         @Override
-                        protected void _onNext(NewsFlashData newsFlashData) {
+                        protected void _onNext(List<NewsFlashData> newsFlashData) {
                             super._onNext(newsFlashData);
-                            if (newsFlashData != null && newsFlashData.data != null && newsFlashData.data.data != null) {
+                            if (newsFlashData != null && newsFlashData.size()>0) {
                                 if (page == 1){
                                    EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
                                     list.clear();
-                                    list = newsFlashData.data.data;
+                                    list = newsFlashData;
                                 }else {
                                     EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_LOAD_MORE_FINISH));
-                                    list.addAll(newsFlashData.data.data);
+                                    list.addAll(newsFlashData);
                                 }
                                 if (list.size()>9){//当集合的长度大于10的时候表示有下一页
                                     isMore = true;

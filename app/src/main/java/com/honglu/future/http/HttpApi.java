@@ -142,8 +142,8 @@ public interface HttpApi {
     Observable<BaseResponse<HomeMessageItem>> getNewsColumnData();
 
     //首页24小时
-    @GET("credit-user/register")
-    Observable<BaseResponse<NewsFlashData>> geFlashNewData(@Query("page") int page);
+    @POST("http://192.168.90.130:8080/futures-mobile-api/app/index/newsList")
+    Observable<BaseResponse<List<NewsFlashData>>> geFlashNewData(@Query("pageIndex") int page,@Query("pageSize") int pageSize);
 
     //修改资金密码接口 测试环境：
 

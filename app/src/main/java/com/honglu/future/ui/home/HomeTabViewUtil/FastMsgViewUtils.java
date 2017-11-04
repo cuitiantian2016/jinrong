@@ -26,7 +26,7 @@ import java.util.List;
 
 public class FastMsgViewUtils {
 
-    public static void refreashDatas(List<NewsFlashData.NewsFlashDataX.NewsFlashBean> datas, LinearLayout parentView) {
+    public static void refreashDatas(List<NewsFlashData> datas, LinearLayout parentView) {
         if (datas ==null||datas.size()==0){
             parentView.removeAllViews();
             View inflate = View.inflate(parentView.getContext(), R.layout.empty_view, null);
@@ -49,7 +49,7 @@ public class FastMsgViewUtils {
             }
         }
         for (int i = 0; i < parentView.getChildCount(); i++) {
-                final NewsFlashData.NewsFlashDataX.NewsFlashBean entity = datas.get(i);
+                final NewsFlashData entity = datas.get(i);
                 final View view = parentView.getChildAt(i);
                 ViewHolder viewHolder = (ViewHolder) view.getTag();
                 if (viewHolder == null){
@@ -88,7 +88,7 @@ public class FastMsgViewUtils {
      * @param datas
      * @param i
      */
-    public void bindView(final NewsFlashData.NewsFlashDataX.NewsFlashBean entity, List<NewsFlashData.NewsFlashDataX.NewsFlashBean> datas, int i){
+    public void bindView(final NewsFlashData entity, List<NewsFlashData> datas, int i){
         contentTv.setTextColor(entity.isRedText() ? Color.parseColor("#FFA117") : Color.parseColor("#323232"));
         contentTv.setText(Html.fromHtml(TextUtils.isEmpty(entity.content)?"":entity.content));
         mTvTime.setText(entity.getTime());
@@ -155,8 +155,8 @@ public class FastMsgViewUtils {
             mLineTop.setVisibility(View.INVISIBLE);
             isNewDay = true;
         } else {
-            NewsFlashData.NewsFlashDataX.NewsFlashBean msgCurrent = datas.get(i);
-            NewsFlashData.NewsFlashDataX.NewsFlashBean msgPre = datas.get(i - 1);
+            NewsFlashData msgCurrent = datas.get(i);
+            NewsFlashData msgPre = datas.get(i - 1);
             if (!TextUtils.equals(msgCurrent.date, msgPre.date)) {
                 isNewDay = true;
                 mLineTop.setVisibility(View.INVISIBLE);
