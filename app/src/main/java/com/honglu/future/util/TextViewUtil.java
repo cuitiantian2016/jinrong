@@ -3,6 +3,7 @@ package com.honglu.future.app.util;
 import android.graphics.Paint;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextPaint;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
@@ -91,4 +92,16 @@ public class TextViewUtil {
         return m.replaceAll("").trim();
     }
 
+
+    /**
+     * 根据字体大小测量宽度
+     * @param textSize  字体大小 例如：16sp 传入 16
+     * @param text  文字
+     * @return
+     */
+    public static float getTextWidth(float textSize, String text){
+        TextPaint textPaint = new TextPaint();
+        textPaint.setTextSize(textSize);
+        return textPaint.measureText(text);
+    }
 }
