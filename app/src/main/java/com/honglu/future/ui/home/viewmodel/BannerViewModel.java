@@ -81,7 +81,7 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
     }
     @Override
     public void bindData(List<BannerData> bannerData) {
-        if (bannerData ==null||bannerData.size()>0){
+        if (bannerData ==null||bannerData.size()<=0){
             return;
         }
         mBanner.setBackground(null);
