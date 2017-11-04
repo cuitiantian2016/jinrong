@@ -11,9 +11,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,8 @@ import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
 import com.honglu.future.util.MediaStoreUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.popupwind.BottomPopupWindow;
 
 import java.io.File;
 import java.util.HashMap;
@@ -58,6 +62,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     public static final int PHOTO_PICKED_WITH_ALBUM = 10000;
     public static final int PHOTO_PICKED_WITH_CAMERA = 10001;
     private File mFile;
+    private BottomPopupWindow mPopupWindow;
 
     @Override
     public int getLayoutId() {
@@ -86,7 +91,8 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_avatar:
-                takeCamera();
+                //takeCamera();
+                showTipWindow(v);
                 break;
             case R.id.tv_back:
                 finish();
@@ -100,13 +106,116 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         }
     }
 
+    private void showTipWindow(View view) {
+        View layout = LayoutInflater.from(mActivity).inflate(R.layout.pic_selecter_popup_window, null);
+        showTipBottomWindow(view, layout);
+        ViewUtil.backgroundAlpha(mActivity, .5f);
+    }
+
+    private void showTipBottomWindow(View view, View layout) {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) {
+            return;
+        }
+        mPopupWindow = new BottomPopupWindow(mActivity,
+                view, layout);
+        //添加按键事件监听
+        setButtonListeners(layout);
+        //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (mPopupWindow == null || !mPopupWindow.isShowing()) {
+                    ViewUtil.backgroundAlpha(mActivity, 1f);
+                }
+            }
+        });
+    }
+
+    private void setButtonListeners(View view) {
+        TextView tvCamera = (TextView) view.findViewById(R.id.tv_camera);
+        tvCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                    takeCamera(mActivity);
+                }
+            }
+        });
+
+        TextView tvSelect = (TextView) view.findViewById(R.id.tv_select);
+        tvSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                    loadPicture();
+                }
+            }
+        });
+
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPopupWindow != null && mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+    }
+
+    /**
+     * 加载本地相册
+     */
+    private void loadPicture() {
+        mRequestType = 0;
+        if (haveStoragePermissions()) {
+            startLoadPicture();
+        }
+    }
+
+    private void startLoadPicture() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_PICKED_WITH_ALBUM);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode, grantResults);
+    }
+
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == 341) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                haveStoragePermissions();
+            } else {
+                showToast(getString(R.string.please_open_permission, getString(R.string.camera)));
+            }
+        } else if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (mRequestType == 0) {
+                    startLoadPicture();
+                } else {
+                    startTakePhoto();
+                }
+            } else {
+                showToast(getString(R.string.please_open_permission, getString(R.string.storage)));
+            }
+        }
+    }
+
     /**
      * 调用相机拍照
+     *
+     * @param activity
      */
-    private void takeCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+    private void takeCamera(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //TODO ImagesSelectorActivity.MY_PERMISSIONS_REQUEST_CAMERA_CODE
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.CAMERA},
                     341);
         } else {
@@ -154,6 +263,15 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String filePath;
         switch (requestCode) {
+            case PHOTO_PICKED_WITH_ALBUM:
+                if (data != null) {
+                    Uri uri = data.getData();
+                    filePath = MediaStoreUtils.getCapturePathFromPicture(this, uri);
+                    if (!TextUtils.isEmpty(filePath)) {
+                        cropImage(filePath);
+                    }
+                }
+                break;
             case PHOTO_PICKED_WITH_CAMERA:
                 if (data != null) {
                     filePath = MediaStoreUtils.getCapturePathFromCamera(this, data);
