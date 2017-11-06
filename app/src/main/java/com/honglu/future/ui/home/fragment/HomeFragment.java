@@ -5,6 +5,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.events.BaseEvent;
 import com.honglu.future.events.EventController;
+import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeBottomTabViewModel;
@@ -12,6 +13,7 @@ import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
 import com.honglu.future.ui.home.viewmodel.HorizontalIconViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,7 +61,21 @@ public class HomeFragment extends BaseFragment{
     public void onEventMainThread(ReceiverMarketMessageEvent event) {
         Log.d(TAG, "codes "+event.marketMessage.getCodes());
     }
+
+    /*******
+     * 刷新完成
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(HomeNotifyRefreshEvent event) {
+        if (event.isLoadMore()){
+            mSmartRefreshView.finishLoadmore();
+        }else if (event.isRefresh()){
+            mSmartRefreshView.finishRefresh();
+        }
+    }
     BannerViewModel bannerViewModel;
+    HomeBottomTabViewModel homeBottomTabViewModel;
     /**
      *
      */
@@ -67,7 +83,7 @@ public class HomeFragment extends BaseFragment{
         bannerViewModel = new BannerViewModel(getContext());
         HomeMarketPriceViewModel homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
         HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
-        HomeBottomTabViewModel homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(),mSmartRefreshView);
+        homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(),mSmartRefreshView);
         mScrollView.addView(bannerViewModel.mView);//添加banner
         mScrollView.addView(homeMarketPriceViewModel.mView);//添加banner
         mScrollView.addView(horizontalIconViewModel.mView);//添加banner
@@ -75,7 +91,13 @@ public class HomeFragment extends BaseFragment{
         mSmartRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                bannerViewModel.refreshData();
+                homeBottomTabViewModel.refreshData();
+            }
+        });
+        mSmartRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                homeBottomTabViewModel.loadMore();
             }
         });
     }

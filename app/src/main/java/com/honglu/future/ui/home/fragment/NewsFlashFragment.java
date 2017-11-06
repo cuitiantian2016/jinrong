@@ -49,25 +49,23 @@ public class NewsFlashFragment extends BaseFragment {
                                     EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_LOAD_MORE_FINISH));
                                     list.addAll(newsFlashData);
                                 }
-                                if (list.size()>9){//当集合的长度大于10的时候表示有下一页
+                                if (newsFlashData.size()>9){//当集合的长度大于10的时候表示有下一页
                                     isMore = true;
                                     page++;
                                 }else {//没有下一页
                                     page = 1;
                                     isMore = false;
                                 }
-                                if (list.size()>9){
-                                    page++;
-                                    isMore = true;
-                                }else {
-                                    isMore = false;
-                                }
                                 FastMsgViewUtils.refreashDatas(list, linearLayout);
                             }else {
-                                page = 1;
-                                isMore = false;
-                                if (linearLayout !=null){
-                                    linearLayout.removeAllViews();
+                                if (page>1){
+                                    page = 1;
+                                    isMore = false;
+                                    EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_LOAD_MORE_FINISH));
+                                }else {
+                                    if (linearLayout !=null){
+                                        linearLayout.removeAllViews();
+                                    }
                                 }
                             }
                         }
