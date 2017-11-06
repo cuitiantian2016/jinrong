@@ -26,12 +26,18 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
 
     @Override
     public void mOnBindViewHolder(ClosePositionAdapter.ViewHolder holder, int position) {
-        holder.mTvProductName.setText(item.getProductName());
-        holder.mTvBuyHands.setText(item.getBuyHands());
-        holder.mTvAveragePrice.setText(item.getAveragePrice());
-        holder.mTvNewPrice.setText(item.getNewPrice());
-        holder.mTvProfitLoss.setText(item.getProfit());
-        if (item.getBuyRiseDown().equals("rise")) {
+        holder.mTvProductName.setText(item.getInstrumentName());
+        if (item.getType() == 1) {
+            holder.mTvBuyHands.setText("买跌" + item.getPosition() + "手");
+        } else {
+            holder.mTvBuyHands.setText("买涨" + item.getPosition() + "手");
+        }
+
+        holder.mTvAveragePrice.setText(item.getHoldAvgPrice());
+        // TODO: 2017/11/6 确认是否展示最新价（猜测为平仓价） 
+        holder.mTvNewPrice.setText(item.getClosePrice());
+        holder.mTvProfitLoss.setText(item.getCloseProfitLoss());
+        if (item.getType() == 2) {
             holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else {

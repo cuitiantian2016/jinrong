@@ -10,6 +10,7 @@ import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
@@ -150,6 +151,16 @@ public interface HttpApi {
                                          @Field("frontId") String frontId,
                                          @Field("userId") String userId,
                                          @Field("token") String token);
+
+    //查询已平仓列表
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/history/close/list")
+    Observable<BaseResponse<List<ClosePositionListBean>>> getCloseList(@Field("dayStart") String dayStart,
+                                                                       @Field("dayEnd") String dayEnd,
+                                                                       @Field("userId") String userId,
+                                                                       @Field("token") String token,
+                                                                       @Field("startTime") String startTime,
+                                                                       @Field("endTime") String endTime);
 
     /*******************************    上传图片   *****************************************/
     /*******************************

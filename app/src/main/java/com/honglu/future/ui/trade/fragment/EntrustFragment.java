@@ -187,6 +187,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
+        mLoadingLayout.setStatus(LoadingLayout.Success);
+        mEntrustAdapter.clearData();
         mEntrustAdapter.addData(list);
     }
 
@@ -202,7 +204,6 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void cancelOrderSuccess() {
-        mEntrustAdapter.clearData();
         getPositionList();
     }
 

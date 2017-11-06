@@ -5,25 +5,30 @@
     android:background="@color/color_F8F8F9"
     android:orientation="vertical">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.honglu.future.widget.loading.LoadingLayout
+        android:id="@+id/loading_layout"
+        style="@style/MatchMatch">
 
-        <LinearLayout
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/position_header_layout" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_position"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                <include layout="@layout/position_header_layout" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.honglu.future.widget.loading.LoadingLayout>
 </LinearLayout>

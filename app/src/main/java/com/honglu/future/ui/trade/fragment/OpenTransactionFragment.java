@@ -92,6 +92,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void getProductListSuccess(List<ProductListBean> bean) {
+        mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
     }
 

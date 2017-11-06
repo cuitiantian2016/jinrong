@@ -2,6 +2,7 @@ package com.honglu.future.ui.trade.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
@@ -19,8 +21,10 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -31,6 +35,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.honglu.future.util.ToastUtil.showToast;
+
 /**
  * Created by zq on 2017/10/26.
  */
@@ -40,8 +46,9 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     RecyclerView mPositionListView;
     @BindView(R.id.tv_tip)
     TextView mTvTip;
+    @BindView(R.id.loading_layout)
+    LoadingLayout mLoadingLayout;
     private ClosePositionAdapter mClosePositionAdapter;
-    private List<ClosePositionListBean> mList;
     private BottomPopupWindow mTipPopupWindow;
     private AccountLoginPopupView mAccountLoginPopupView;
     private AccountPresenter mAccountPresenter;
@@ -59,9 +66,25 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     }
 
     @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
+    }
+
+    @Override
     public void loadData() {
         initView();
-        initData();
     }
 
     private void initView() {
@@ -85,11 +108,22 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus() && isVisible()) {
-                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTvTip, mAccountPresenter);
-                mAccountLoginPopupView.showOpenAccountWindow();
+            if (!App.getConfig().getAccountLoginStatus()) {
+                if (isVisible()) {
+                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTvTip, mAccountPresenter);
+                    mAccountLoginPopupView.showOpenAccountWindow();
+                }
+            } else {
+                if (isVisible()) {
+                    getClosePositionList();
+                }
             }
         }
+    }
+
+    private void getClosePositionList() {
+        // TODO: 2017/11/6 传的日期需要确认 zq
+        mPresenter.getCloseList("", "20171106", SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
     }
 
     @Override
@@ -101,31 +135,6 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
         showTipBottomWindow(view, layout);
         ViewUtil.backgroundAlpha(mActivity, .5f);
-    }
-
-    private void initData() {
-        mList = new ArrayList<>();
-        for (int i = 0; i <= 10; i++) {
-            ClosePositionListBean bean = new ClosePositionListBean();
-            if (i % 2 == 0) {
-                bean.setProductName("玉米1801");
-                bean.setBuyHands("买涨1手");
-                bean.setAveragePrice("2754");
-                bean.setNewPrice("2765");
-                bean.setProfit("+110");
-                bean.setBuyRiseDown("rise");
-                mList.add(bean);
-            } else {
-                bean.setProductName("甲醇1801");
-                bean.setBuyHands("买跌2手");
-                bean.setAveragePrice("2754");
-                bean.setNewPrice("2765");
-                bean.setProfit("-220");
-                bean.setBuyRiseDown("down");
-                mList.add(bean);
-            }
-        }
-        mClosePositionAdapter.addData(mList);
     }
 
     private void showTipBottomWindow(View view, View layout) {
@@ -154,5 +163,16 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
                 }
             }
         });
+    }
+
+    @Override
+    public void getCloseListSuccess(List<ClosePositionListBean> list) {
+        if (list == null || list.size() == 0) {
+
+            return;
+        }
+        mLoadingLayout.setStatus(LoadingLayout.Success);
+        mClosePositionAdapter.clearData();
+        mClosePositionAdapter.addData(list);
     }
 }
