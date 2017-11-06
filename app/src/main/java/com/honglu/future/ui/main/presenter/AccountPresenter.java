@@ -25,6 +25,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onNext(AccountBean bean) {
                 SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
                 mView.loginSuccess(bean);
             }
 

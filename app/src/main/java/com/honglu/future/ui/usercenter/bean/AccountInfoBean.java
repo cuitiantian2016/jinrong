@@ -11,7 +11,7 @@ public class AccountInfoBean {
     private String capitalProportionNum;
     private int closeProfit;
     private double commission;
-    private int currMargin;
+    private double currMargin;
     private String customerServicephone;
     private int deposit;
     private String entrustInstrumentId;
@@ -29,8 +29,8 @@ public class AccountInfoBean {
     private String sendStatusR2;
     private int settlementId;
     private String updateTime;
-    private int withdraw;
-    private int withdrawQuota;
+    private double withdraw;
+    private double withdrawQuota;
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
@@ -80,11 +80,11 @@ public class AccountInfoBean {
         return commission;
     }
 
-    public void setCurrMargin(int currMargin) {
+    public void setCurrMargin(double currMargin) {
         this.currMargin = currMargin;
     }
 
-    public int getCurrMargin() {
+    public double getCurrMargin() {
         return currMargin;
     }
 
@@ -224,19 +224,19 @@ public class AccountInfoBean {
         return updateTime;
     }
 
-    public void setWithdraw(int withdraw) {
+    public void setWithdraw(double withdraw) {
         this.withdraw = withdraw;
     }
 
-    public int getWithdraw() {
+    public double getWithdraw() {
         return withdraw;
     }
 
-    public void setWithdrawQuota(int withdrawQuota) {
+    public void setWithdrawQuota(double withdrawQuota) {
         this.withdrawQuota = withdrawQuota;
     }
 
-    public int getWithdrawQuota() {
+    public double getWithdrawQuota() {
         return withdrawQuota;
     }
 }

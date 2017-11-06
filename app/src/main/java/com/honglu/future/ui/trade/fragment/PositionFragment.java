@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -8,12 +9,15 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.honglu.future.util.ToastUtil.showToast;
 
 /**
  * Created by zq on 2017/10/26.
@@ -39,10 +45,28 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private PositionAdapter mAdapter;
     private AccountPresenter mAccountPresenter;
     private AccountLoginPopupView mAccountLoginPopupView;
+    private boolean mIsVisible;
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_position;
+    }
+
+    @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
     }
 
     @Override
@@ -72,9 +96,16 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus() && isVisible()) {
-                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mRemarksEmpty, mAccountPresenter);
-                mAccountLoginPopupView.showOpenAccountWindow();
+            if (!App.getConfig().getAccountLoginStatus()) {
+                if (isVisible()) {
+                    mIsVisible = true;
+                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mRemarksEmpty, mAccountPresenter);
+                    mAccountLoginPopupView.showOpenAccountWindow();
+                }
+            } else {
+                if (isVisible()) {
+                    getPositionList();
+                }
             }
         }
     }
@@ -92,28 +123,28 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                List<String> mList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    mList.add(new String("1111"));
-                }
-                mAdapter.notifyDataChanged(true, mList);
-                mRefreshView.finishLoadmore();
             }
 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                List<String> mList = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                    mList.add(new String("1111"));
-                }
-                mAdapter.notifyDataChanged(false, mList);
-                mRefreshView.finishRefresh();
+                getPositionList();
             }
         });
+    }
+
+    private void getPositionList() {
+        mPresenter.getHoldPositionList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginPopupView.dismissLoginAccountView();
+    }
+
+
+    @Override
+    public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
+        mAdapter.notifyDataChanged(false, list);
+        mRefreshView.finishRefresh();
     }
 }

@@ -125,7 +125,7 @@
     <!-- 测试  -->
     <!-- apptest.cfmmc.com -->
     <string name="crh_app_name">期货开户云</string>
-    <string name="crh_server_domain">apptest.cfmmc.com</string>
+    <string name="crh_server_domain">appficaos.cfmmc.com</string>
     <string name="crh_server_port"></string>
     <string name="crh_cookie_path">/</string>
     <!-- 开户视频认证配置 -->

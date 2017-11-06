@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.fragment.PositionFragment;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 
@@ -25,7 +26,7 @@ public class PositionAdapter extends BaseAdapter {
     private PositionPopWind mPopWind;
     private Context mContext;
     private PositionFragment mFragment;
-    private List<String> mList;
+    private List<HoldPositionBean> mList;
 
     public PositionAdapter(PositionFragment fragment) {
         this.mFragment = fragment;
@@ -50,20 +51,20 @@ public class PositionAdapter extends BaseAdapter {
         return position;
     }
 
-    public void notifyDataChanged(boolean isLoadMore,List<String> list){
-        if (isLoadMore){
-            if (list !=null && list.size() > 0){
+    public void notifyDataChanged(boolean isLoadMore, List<HoldPositionBean> list) {
+        if (isLoadMore) {
+            if (list != null && list.size() > 0) {
                 mList.addAll(list);
             }
-        }else {
+        } else {
             mList.clear();
-            if (list !=null && list.size() > 0){
+            if (list != null && list.size() > 0) {
                 mList = list;
             }
         }
-        if (mList.size() >0){
+        if (mList.size() > 0) {
             mFragment.setEmptyView(false);
-        }else {
+        } else {
             mFragment.setEmptyView(true);
         }
         notifyDataSetChanged();
@@ -71,25 +72,33 @@ public class PositionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        HoldPositionBean holdPositionBean = mList.get(position);
         ViewHolder holder = null;
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_trade_position_layout, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (position == 0){
+        if (position == 0) {
             holder.vLine.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.vLine.setVisibility(View.VISIBLE);
         }
 
         final ViewHolder finalHolder = holder;
+        holder.tvName.setText(holdPositionBean.getInstrumentName());
+        holder.tvBuyCount.setText("买涨" + holdPositionBean.getPosition() + "手");
+        holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
+        // TODO: 2017/11/6 需要确认最新价的字段 zq
+        holder.tvNewPrice.setText(holdPositionBean.getHoldAvgPrice());
+        holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
+
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mPopWind.showPopupWind(finalHolder.tvBuyCount);
+                mPopWind.showPopupWind(finalHolder.tvBuyCount);
             }
         });
         return convertView;

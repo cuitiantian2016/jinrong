@@ -10,6 +10,7 @@ import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
@@ -111,9 +112,16 @@ public interface HttpApi {
     Observable<BaseResponse<ConfirmBean>> settlementConfirm(@Field("userId") String userId,
                                                             @Field("token") String token);
 
-    //结算单确认
+    //获取产品列表
     @POST("futures-mobile-api/app/future/exchange/trade/product/list")
     Observable<BaseResponse<List<ProductListBean>>> getProductList();
+
+    //查询持仓列表
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/holdPosition/list")
+    Observable<BaseResponse<List<HoldPositionBean>>> getHoldPositionList(@Field("userId") String userId,
+                                                                         @Field("token") String token,
+                                                                         @Field("company") String company);
 
 
     /*******************************    上传图片   *****************************************/
@@ -143,7 +151,7 @@ public interface HttpApi {
 
     //首页24小时
     @POST("http://192.168.90.130:8080/futures-mobile-api/app/index/newsList")
-    Observable<BaseResponse<List<NewsFlashData>>> geFlashNewData(@Query("pageIndex") int page,@Query("pageSize") int pageSize);
+    Observable<BaseResponse<List<NewsFlashData>>> geFlashNewData(@Query("pageIndex") int page, @Query("pageSize") int pageSize);
 
     //修改资金密码接口 测试环境：
 
