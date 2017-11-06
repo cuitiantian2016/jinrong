@@ -25,14 +25,21 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
 
     @Override
     public void mOnBindViewHolder(EntrustAdapter.ViewHolder holder, int position) {
-        holder.mTvProductName.setText(item.getName());
-        holder.mTvBuyHands.setText(item.getBuyHands());
-        holder.mTvEntrustPrice.setText(item.getEnturstPrice());
-        holder.mTvDate.setText(item.getEntrustDate());
-        holder.mTvServiceCharge.setText(item.getServiceCharge());
-        holder.mTvLimitDate.setText(item.getLimitDate());
-        holder.mTvBond.setText(item.getBond());
-        if (item.getEntrustType().equals("open")) {
+        holder.mTvProductName.setText(item.getInstrumentName());
+        if (item.getType() == 1) {
+            holder.mTvBuyHands.setText("买跌" + item.getPosition() + "手");
+        } else {
+            holder.mTvBuyHands.setText("买涨" + item.getPosition() + "手");
+        }
+
+
+        holder.mTvEntrustPrice.setText(item.getPrice());
+        holder.mTvDate.setText(item.getInsertTime());
+        holder.mTvServiceCharge.setText(item.getSxf());
+        // TODO: 2017/11/6 确定是否需要区分当日有效 today
+        holder.mTvLimitDate.setText("当日有效");
+        holder.mTvBond.setText(item.getUseMargin());
+        if (item.getOpenClose() == 1) {
             holder.mBtnEntrust.setText("建仓委托");
         } else {
             holder.mBtnEntrust.setText("平仓委托");

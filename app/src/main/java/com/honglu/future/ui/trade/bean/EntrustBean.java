@@ -5,77 +5,163 @@ package com.honglu.future.ui.trade.bean;
  */
 
 public class EntrustBean {
-    private String name;
-    private String buyHands;
+        private String account;
+        private String company;
+        private String exchangeName;
+        private String excode;
+        private int frontId;
+        private String insertTime;
+        private String instrumentId;
+        private String instrumentName;
+        private int openClose;
+        private String orderRef;
+        private String password;
+        private int position;
+        private String price;
+        private String productId;
+        private String productName;
+        private int sessionId;
+        private String sxf;
+        private int today;
+        private int type;
+        private String useMargin;
+        public void setAccount(String account) {
+            this.account = account;
+        }
+        public String getAccount() {
+            return account;
+        }
 
-    public String getName() {
-        return name;
-    }
+        public void setCompany(String company) {
+            this.company = company;
+        }
+        public String getCompany() {
+            return company;
+        }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        public void setExchangeName(String exchangeName) {
+            this.exchangeName = exchangeName;
+        }
+        public String getExchangeName() {
+            return exchangeName;
+        }
 
-    public String getBuyHands() {
-        return buyHands;
-    }
+        public void setExcode(String excode) {
+            this.excode = excode;
+        }
+        public String getExcode() {
+            return excode;
+        }
 
-    public void setBuyHands(String buyHands) {
-        this.buyHands = buyHands;
-    }
+        public void setFrontId(int frontId) {
+            this.frontId = frontId;
+        }
+        public int getFrontId() {
+            return frontId;
+        }
 
-    public String getEntrustType() {
-        return entrustType;
-    }
+        public void setInsertTime(String insertTime) {
+            this.insertTime = insertTime;
+        }
+        public String getInsertTime() {
+            return insertTime;
+        }
 
-    public void setEntrustType(String entrustType) {
-        this.entrustType = entrustType;
-    }
+        public void setInstrumentId(String instrumentId) {
+            this.instrumentId = instrumentId;
+        }
+        public String getInstrumentId() {
+            return instrumentId;
+        }
 
-    public String getEnturstPrice() {
-        return enturstPrice;
-    }
+        public void setInstrumentName(String instrumentName) {
+            this.instrumentName = instrumentName;
+        }
+        public String getInstrumentName() {
+            return instrumentName;
+        }
 
-    public void setEnturstPrice(String enturstPrice) {
-        this.enturstPrice = enturstPrice;
-    }
+        public void setOpenClose(int openClose) {
+            this.openClose = openClose;
+        }
+        public int getOpenClose() {
+            return openClose;
+        }
 
-    public String getEntrustDate() {
-        return entrustDate;
-    }
+        public void setOrderRef(String orderRef) {
+            this.orderRef = orderRef;
+        }
+        public String getOrderRef() {
+            return orderRef;
+        }
 
-    public void setEntrustDate(String entrustDate) {
-        this.entrustDate = entrustDate;
-    }
+        public void setPassword(String password) {
+            this.password = password;
+        }
+        public String getPassword() {
+            return password;
+        }
 
-    public String getServiceCharge() {
-        return serviceCharge;
-    }
+        public void setPosition(int position) {
+            this.position = position;
+        }
+        public int getPosition() {
+            return position;
+        }
 
-    public void setServiceCharge(String serviceCharge) {
-        this.serviceCharge = serviceCharge;
-    }
+        public void setPrice(String price) {
+            this.price = price;
+        }
+        public String getPrice() {
+            return price;
+        }
 
-    public String getLimitDate() {
-        return limitDate;
-    }
+        public void setProductId(String productId) {
+            this.productId = productId;
+        }
+        public String getProductId() {
+            return productId;
+        }
 
-    public void setLimitDate(String limitDate) {
-        this.limitDate = limitDate;
-    }
+        public void setProductName(String productName) {
+            this.productName = productName;
+        }
+        public String getProductName() {
+            return productName;
+        }
 
-    public String getBond() {
-        return bond;
-    }
+        public void setSessionId(int sessionId) {
+            this.sessionId = sessionId;
+        }
+        public int getSessionId() {
+            return sessionId;
+        }
 
-    public void setBond(String bond) {
-        this.bond = bond;
-    }
+        public void setSxf(String sxf) {
+            this.sxf = sxf;
+        }
+        public String getSxf() {
+            return sxf;
+        }
 
-    private String entrustType;
-    private String enturstPrice;
-    private String entrustDate;
-    private String serviceCharge;
-    private String limitDate;
-    private String bond;
+        public void setToday(int today) {
+            this.today = today;
+        }
+        public int getToday() {
+            return today;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+        public int getType() {
+            return type;
+        }
+
+        public void setUseMargin(String useMargin) {
+            this.useMargin = useMargin;
+        }
+        public String getUseMargin() {
+            return useMargin;
+        }
 }
