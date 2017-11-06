@@ -11,6 +11,7 @@ import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -133,6 +134,12 @@ public interface HttpApi {
                                                                          @Field("todayPosition") String todayPosition,
                                                                          @Field("userId") String userId,
                                                                          @Field("token") String token);
+
+    //查询委托中列表
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/entrust/list")
+    Observable<BaseResponse<List<EntrustBean>>> getEntrustList(@Field("userId") String userId,
+                                                               @Field("token") String token);
 
     /*******************************    上传图片   *****************************************/
     /*******************************

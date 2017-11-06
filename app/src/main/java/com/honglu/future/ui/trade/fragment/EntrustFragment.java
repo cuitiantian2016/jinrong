@@ -2,6 +2,7 @@ package com.honglu.future.ui.trade.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
@@ -17,21 +19,24 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.contract.EntrustContract;
 import com.honglu.future.ui.trade.presenter.EntrustPresenter;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
+import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.honglu.future.util.ToastUtil.showToast;
+
 /**
  * Created by zq on 2017/10/26.
  */
 
-public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View , AccountContract.View{
+public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View, AccountContract.View {
     @BindView(R.id.rv_entrust_list_view)
     RecyclerView mEntrustListView;
     @BindView(R.id.ll_filter)
@@ -44,11 +49,12 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     TextView mClosed;
     @BindView(R.id.iv_tip)
     ImageView mIvTip;
+    @BindView(R.id.loading_layout)
+    LoadingLayout mLoadingLayout;
 
     private AccountLoginPopupView mAccountLoginPopupView;
     private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
-    private List<EntrustBean> mList;
     private boolean mIsShowFilter;
 
     @Override
@@ -64,12 +70,35 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     }
 
     @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus() && isVisible()) {
-                mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mIvTip, mAccountPresenter);
-                mAccountLoginPopupView.showOpenAccountWindow();
+            if (!App.getConfig().getAccountLoginStatus()) {
+                if (isVisible()) {
+                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mIvTip, mAccountPresenter);
+                    mAccountLoginPopupView.showOpenAccountWindow();
+                }
+            } else {
+                if (isVisible()) {
+                    getPositionList();
+                }
             }
         }
     }
@@ -77,7 +106,6 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void loadData() {
         initView();
-        initData();
         setButtonListeners();
     }
 
@@ -88,33 +116,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         mEntrustListView.setAdapter(mEntrustAdapter);
     }
 
-    private void initData() {
-        mList = new ArrayList<>();
-        for (int i = 0; i <= 10; i++) {
-            EntrustBean bean = new EntrustBean();
-            if (i % 2 == 0) {
-                bean.setName("玉米1801");
-                bean.setBuyHands("买涨1手");
-                bean.setEntrustType("open");
-                bean.setEnturstPrice("1665");
-                bean.setEntrustDate("2017-10-20");
-                bean.setServiceCharge("6.66");
-                bean.setLimitDate("当日有效");
-                bean.setBond("1665");
-                mList.add(bean);
-            } else {
-                bean.setName("甲醇1801");
-                bean.setBuyHands("买涨3手");
-                bean.setEntrustType("close");
-                bean.setEnturstPrice("2665");
-                bean.setEntrustDate("2017-10-16");
-                bean.setServiceCharge("8.88");
-                bean.setLimitDate("当日有效");
-                bean.setBond("2865");
-                mList.add(bean);
-            }
-        }
-        mEntrustAdapter.addData(mList);
+    private void getPositionList() {
+        mPresenter.getEntrustList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 
     @OnClick({R.id.tv_see_all})
@@ -175,5 +178,14 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginPopupView.dismissLoginAccountView();
+    }
+
+    @Override
+    public void getEntrustListSuccess(List<EntrustBean> list) {
+        if(list==null || list.size() == 0){
+            mLoadingLayout.setStatus(LoadingLayout.Empty);
+            return;
+        }
+        mEntrustAdapter.addData(list);
     }
 }
