@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.trade.bean.HoldDetailBean;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ import butterknife.ButterKnife;
 
 public class PositionDialogAdapter extends BaseAdapter {
     private Context mContext;
-    private List<String> mList;
+    private List<HoldDetailBean> mList;
 
-    public PositionDialogAdapter(Context context, List<String> list) {
+    public PositionDialogAdapter(Context context, List<HoldDetailBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -42,7 +43,7 @@ public class PositionDialogAdapter extends BaseAdapter {
         return position;
     }
 
-    public void notifyDataChanged(List<String> list) {
+    public void notifyDataChanged(List<HoldDetailBean> list) {
         this.mList = list;
         notifyDataSetChanged();
     }
@@ -50,13 +51,24 @@ public class PositionDialogAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_position_dialog_layout, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        HoldDetailBean holdDetailBean = mList.get(position);
+        if (holdDetailBean.getType() == 1) {
+            holder.tvBuyHands.setText("买跌" + holdDetailBean.getCount() + "手");
+        } else {
+            holder.tvBuyHands.setText("买涨" + holdDetailBean.getCount() + "手");
+        }
+        holder.tvTime.setText(holdDetailBean.getOpenDate());
+        holder.tvPrice.setText(holdDetailBean.getCreatePrice());
+        holder.tvBond.setText(holdDetailBean.getUseMargin());
+        holder.tvServiceCharge.setText(holdDetailBean.getSxf());
+
         return convertView;
     }
 

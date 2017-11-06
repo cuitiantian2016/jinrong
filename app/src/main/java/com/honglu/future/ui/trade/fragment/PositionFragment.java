@@ -15,6 +15,7 @@ import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
@@ -50,6 +51,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private PositionDialog mPositionDialog;
     private PositionPopWind mPopWind;
     private boolean mIsVisible;
+    private HoldPositionBean mHoldPositionBean;
 
     @Override
     public int getLayoutId() {
@@ -157,12 +159,22 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     }
 
     @Override
-    public void onDetailClick() {
-        mPositionDialog.showPopupWind();
+    public void getHoldDetailListSuccess(List<HoldDetailBean> list) {
+        mPositionDialog.showPopupWind(mHoldPositionBean, list);
+    }
+
+    @Override
+    public void onDetailClick(HoldPositionBean bean) {
+        mHoldPositionBean = bean;
+        mPresenter.getHoldPositionDetail(bean.getInstrumentId(),
+                String.valueOf(bean.getType()),
+                String.valueOf(bean.getTodayPosition()),
+                SpUtil.getString(Constant.CACHE_TAG_UID),
+                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 
     @Override
     public void onShowPopupClick(View view, HoldPositionBean bean) {
-        mPopWind.showPopupWind(view,bean);
+        mPopWind.showPopupWind(view, bean);
     }
 }

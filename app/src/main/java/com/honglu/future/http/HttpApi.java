@@ -11,6 +11,7 @@ import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
@@ -124,6 +125,14 @@ public interface HttpApi {
                                                                          @Field("token") String token,
                                                                          @Field("company") String company);
 
+    //查询持仓列表明细
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/holdPosition/detail")
+    Observable<BaseResponse<List<HoldDetailBean>>> getHoldPositionDetail(@Field("instrumentId") String instrumentId,
+                                                                         @Field("type") String type,
+                                                                         @Field("todayPosition") String todayPosition,
+                                                                         @Field("userId") String userId,
+                                                                         @Field("token") String token);
 
     /*******************************    上传图片   *****************************************/
     /*******************************
@@ -159,7 +168,7 @@ public interface HttpApi {
     @POST("futures-mobile-api/appChannel/isAudited")
     Observable<BaseResponse<AuditedBean>> getAudited(@Query("appType") int appType,
                                                      @Field("marketCode") String marketCode
-                                                   , @Field("versionNumber") String versionNumber);
+            , @Field("versionNumber") String versionNumber);
 
     //修改资金密码接口 测试环境：
 

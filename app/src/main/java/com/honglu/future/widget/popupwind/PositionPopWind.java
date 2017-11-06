@@ -36,9 +36,10 @@ public class PositionPopWind extends PopupWindow {
     private int m31dp;
     private int m23dp;
     private int m8dp;
+    private HoldPositionBean mHoldPositionBean;
 
     public interface OnButtonClickListener {
-        void onDetailClick();
+        void onDetailClick(HoldPositionBean holdPositionBean);
     }
 
     private OnButtonClickListener mListener;
@@ -78,7 +79,7 @@ public class PositionPopWind extends PopupWindow {
         mDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDetailClick();
+                mListener.onDetailClick(mHoldPositionBean);
             }
         });
     }
@@ -91,6 +92,7 @@ public class PositionPopWind extends PopupWindow {
         //    int h = view.getResources().getDisplayMetrics().heightPixels - rect.bottom;
         //    setHeight(h);
         //}
+        mHoldPositionBean = bean;
         mBond.setText(bean.getUseMargin());
         mServiceCharge.setText(bean.getSxf());
         mTime.setText(bean.getEndDelivDate() + "(" + bean.getDelivDateStr() + ")");

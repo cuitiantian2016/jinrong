@@ -27,6 +27,7 @@ public class PositionAdapter extends BaseAdapter {
     private Context mContext;
     private PositionFragment mFragment;
     private List<HoldPositionBean> mList;
+
     public interface OnShowPopupClickListener {
         void onShowPopupClick(View view, HoldPositionBean bean);
     }
@@ -97,7 +98,11 @@ public class PositionAdapter extends BaseAdapter {
 
         final ViewHolder finalHolder = holder;
         holder.tvName.setText(holdPositionBean.getInstrumentName());
-        holder.tvBuyCount.setText("买涨" + holdPositionBean.getPosition() + "手");
+        if (holdPositionBean.getType() == 1) {
+            holder.tvBuyCount.setText("买跌" + holdPositionBean.getPosition() + "手");
+        } else {
+            holder.tvBuyCount.setText("买涨" + holdPositionBean.getPosition() + "手");
+        }
         holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
         // TODO: 2017/11/6 需要确认最新价的字段 zq
         holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
@@ -106,7 +111,7 @@ public class PositionAdapter extends BaseAdapter {
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onShowPopupClick(v,holdPositionBean);
+                mListener.onShowPopupClick(v, holdPositionBean);
             }
         });
         return convertView;

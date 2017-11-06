@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.trade.bean.HoldDetailBean;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -25,12 +27,13 @@ import java.util.List;
  * Created by zhuaibing on 2017/10/30
  */
 
-public class PositionDialog extends Dialog{
+public class PositionDialog extends Dialog {
     private Context mContext;
     private ImageView mClose;
     private TextView mName;
     private TextView mBuyNumber;
     private TextView mPosProfitLoss;
+    private TextView mActualProfitLoss;
     private ListView mListView;
     private PositionDialogAdapter mAdapter;
     private int mScreenHeight;
@@ -46,7 +49,7 @@ public class PositionDialog extends Dialog{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_position);
         mScreenHeight = ViewUtil.getScreenHeight(mContext);
-        Window  mWindow = this.getWindow();
+        Window mWindow = this.getWindow();
         WindowManager.LayoutParams params = mWindow.getAttributes();
         WindowManager manage = (WindowManager) mContext
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -56,27 +59,35 @@ public class PositionDialog extends Dialog{
         mWindow.setAttributes(params);
 
         mClose = (ImageView) findViewById(R.id.iv_close);
-        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_dialog_position_head,null);
+        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_dialog_position_head, null);
         mName = (TextView) headView.findViewById(R.id.tv_name);
         mBuyNumber = (TextView) headView.findViewById(R.id.tv_buy_number);//买入手数
         mPosProfitLoss = (TextView) headView.findViewById(R.id.tv_position_profit_loss);//持仓盈亏
+        mActualProfitLoss = (TextView) headView.findViewById(R.id.tv_actual_profit_loss);//实际盈亏
+
         mListView = (ListView) findViewById(R.id.lv_listView);
         mListView.addHeaderView(headView);
-        mAdapter = new PositionDialogAdapter(mContext,null);
+        mAdapter = new PositionDialogAdapter(mContext, null);
         mListView.setAdapter(mAdapter);
     }
 
-    public void showPopupWind(){
+    public void showPopupWind(HoldPositionBean bean,List<HoldDetailBean> list) {
         show();
-        List<String>  list = new ArrayList<>();
-        for (int i = 0 ; i < 2 ; i ++){
-            list.add(new String("1111"));
+        mName.setText(bean.getInstrumentName());
+        //1 买跌 2 买涨
+        if (bean.getType() == 1) {
+            mBuyNumber.setText("买跌" + bean.getPosition() + "手");
+        } else {
+            mBuyNumber.setText("买涨" + bean.getPosition() + "手");
         }
-        if (list !=null && list.size() >= 6){
+        mPosProfitLoss.setText(bean.getTodayProfit());
+        mActualProfitLoss.setText(bean.getTotalProfit());
+
+        if (list != null && list.size() >= 6) {
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
             params.height = mScreenHeight / 2;
             mListView.setLayoutParams(params);
-        }else {
+        } else {
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mListView.setLayoutParams(params);
