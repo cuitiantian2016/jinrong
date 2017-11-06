@@ -16,6 +16,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
@@ -53,6 +54,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         mView = View.inflate(context, R.layout.home_market_view, null);
         initView(mView);
         refreshData();
+        MPushUtil.requestMarket("SHFE|ag1711,SHFE|au1711,CZCE|MA801,CZCE|RM801");
     }
     /**
      * 刷新数据

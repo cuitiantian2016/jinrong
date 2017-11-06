@@ -4,29 +4,39 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.config.KeyConfig;
 import com.honglu.future.events.BaseEvent;
 import com.honglu.future.events.EventController;
+import com.honglu.future.events.LoginEvent;
+import com.honglu.future.events.LogoutEvent;
+import com.honglu.future.mpush.MPush;
+import com.honglu.future.mpush.MyLog;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.UserUtil;
 import com.honglu.future.util.ViewUtil;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
+import com.xulu.mpush.client.ClientConfig;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,7 +55,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
  * Created by zq on 2017/10/24.
  */
 
-public class App extends LitePalApplication {
+public class App extends LitePalApplication implements Application.ActivityLifecycleCallbacks{
     public static App mApp;
 
     @Override
@@ -58,6 +68,8 @@ public class App extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //注册自己的Activity的生命周期回调接口。
+        registerActivityLifecycleCallbacks(this);
         mApp = this;
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
@@ -74,6 +86,25 @@ public class App extends LitePalApplication {
         initLoadingView(getContext());
        /* XGPushConfig.setAccessId(getContext(), KeyConfig.XG_ACCESS_ID);
         XGPushConfig.setAccessKey(getContext(), KeyConfig.XG_ACCESS_KEY);*/
+    }
+
+    /**
+     * 开始请求
+     * @param userId 用户的userId
+     */
+    public void startPush(String userId) {
+        //公钥有服务端提供和私钥对应
+        ClientConfig cc = ClientConfig.build()
+                .setServerHost("192.168.85.126")
+                .setServerPort(3000)
+                .setOsName("android")
+                .setClientVersion(BuildConfig.VERSION_NAME)
+                .setLogger(new MyLog())
+                .setUserId(userId)
+                .setDeviceId(ViewUtil.getDeviceId(this))
+                .setLogEnabled(BuildConfig.DEBUG);
+        MPush.I.checkInit(getApplicationContext()).setClientConfig(cc);//配置
+        MPush.I.startPush();
     }
 
     public void initBugly() {
@@ -151,6 +182,11 @@ public class App extends LitePalApplication {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BaseEvent event) {
         event.setApplicationContext(getContext());
+        if (event instanceof LoginEvent){//登录
+            startPush(SpUtil.getString(Constant.CACHE_TAG_UID));}
+        if (event instanceof LogoutEvent){//登出
+            MPush.I.stopPush();
+        }
         EventController.getInstance().handleMessage(event);
     }
 
@@ -163,6 +199,13 @@ public class App extends LitePalApplication {
             configUtil = new ConfigUtil();
         }
         return configUtil;
+    }
+
+    @Override
+    public void onTerminate() {
+        //注销这个接口。
+        unregisterActivityLifecycleCallbacks(this);
+        super.onTerminate();
     }
 
     public static void toLogin(Context context) {
@@ -225,6 +268,52 @@ public class App extends LitePalApplication {
             }
         }
         return null;
+    }
+    public static boolean isBack = false;
+    private int activityNum = 0;
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        Log.d("XXX","START");
+        ++activityNum;
+        isBack = false;
+        if (getConfig().getLoginStatus()){//如果已经登录则直接开启连接
+            startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
+        }
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        --activityNum;
+        if (activityNum<=0){
+            isBack = true;
+            MPush.I.stopPush();
+        }
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
     }
 
 

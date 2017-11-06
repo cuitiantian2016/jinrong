@@ -39,8 +39,6 @@ public class EventController {
 
     }
 
-    ;
-
     /******
      * 获取单例
      *

@@ -1,7 +1,11 @@
 package com.honglu.future.ui.home.fragment;
+import android.util.Log;
 import android.widget.LinearLayout;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.events.BaseEvent;
+import com.honglu.future.events.EventController;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeBottomTabViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
@@ -10,11 +14,16 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 /**********
  * 首页
  */
 public class HomeFragment extends BaseFragment{
+    private static final String TAG = "HomeFragment";
     @BindView(R.id.home_scroll_view)
     LinearLayout mScrollView; //跟布局
     @BindView(R.id.home_smart_view)
@@ -39,7 +48,16 @@ public class HomeFragment extends BaseFragment{
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
+    }
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ReceiverMarketMessageEvent event) {
+        Log.d(TAG, "codes "+event.marketMessage.getCodes());
     }
     BannerViewModel bannerViewModel;
     /**
@@ -65,6 +83,7 @@ public class HomeFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         homeFragment = null;
     }
 }
