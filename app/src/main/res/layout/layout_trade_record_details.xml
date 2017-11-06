@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_40dp"
+        android:layout_marginTop="@dimen/dimen_34dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="螺纹1801"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/dimen_20sp" />
+
+        <TextView
+            android:id="@+id/tv_buy_rise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="买涨 1手"
+            android:textColor="@color/color_FB4F4F"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal"
+          android:layout_marginLeft="@dimen/dimen_20dp"
+          android:layout_marginTop="@dimen/dimen_52dp">
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:text="建仓委托"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="委托类型"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="委托时间"/>
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="委托有效期"/>
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="撤单类型"/>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_16sp"
+                  android:textColor="@color/color_333333"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="委托时间"/>
+          </LinearLayout>
+
+
+             <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="@dimen/dimen_34dp"
+                 android:orientation="vertical">
+
+                 <TextView
+                     android:id="@+id/tv_entrust"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:text="2743"/>
+
+
+                 <TextView
+                     android:id="@+id/tv_entrust_type"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:layout_marginTop="@dimen/dimen_17dp"
+                     android:text="建仓委托"/>
+
+                 <TextView
+                     android:id="@+id/tv_entrust_time"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:layout_marginTop="@dimen/dimen_17dp"
+                     android:text="2017-10-31 13:52:34"/>
+
+                 <TextView
+                     android:id="@+id/tv_entrust_effective"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:layout_marginTop="@dimen/dimen_17dp"
+                     android:text="当日有效"/>
+
+                 <TextView
+                     android:id="@+id/tv_revoke_type"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:layout_marginTop="@dimen/dimen_17dp"
+                     android:text="手动撤单"/>
+
+                 <TextView
+                     android:id="@+id/tv_entrust_time2"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_16sp"
+                     android:textColor="@color/color_333333"
+                     android:layout_marginTop="@dimen/dimen_17dp"
+                     android:text="2017-10-31 13:52:34"/>
+             </LinearLayout>
+      </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honglu.future.widget.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/el_expandable_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_expandable_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_exp_buy_rise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:text="买涨 1手"
+                android:textColor="@color/color_FB4F4F"
+                android:textSize="@dimen/dimen_14sp" />
+
+
+            <TextView
+                android:id="@+id/tv_exp_jiancang_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:text="建仓价 3592.00"
+                android:textColor="@color/color_979899"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_exp_baodan_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:text="报单编号 5017111"
+                android:textColor="@color/color_979899"
+                android:textSize="@dimen/dimen_14sp" />
+        </LinearLayout>
+
+          <!-- 建仓价/ 报单编号 和ui上和左边是一样待确定 -->
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/dimen_40dp"
+              android:orientation="vertical">
+
+              <TextView
+                  android:id="@+id/tv_exp_time"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="2017-10-31 11:17:59"
+                  android:textColor="@color/color_979899"
+                  android:textSize="@dimen/dimen_14sp" />
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="建仓价 3592.00"
+                  android:textColor="@color/color_979899"
+                  android:textSize="@dimen/dimen_14sp" />
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/dimen_17dp"
+                  android:text="报单编号 5017111"
+                  android:textColor="@color/color_979899"
+                  android:textSize="@dimen/dimen_14sp" />
+          </LinearLayout>
+    </LinearLayout>
+
+</com.honglu.future.widget.ExpandableLayout>
