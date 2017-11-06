@@ -1,6 +1,8 @@
 package com.honglu.future.ui.main.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.ConfigUtil;
@@ -32,21 +34,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
             @Override
             protected void _onNext(AuditedBean bean) {
                 //IsAudit 1过审  0 没过审
-                String channel = ConfigUtil.getMarketId(App.getContext());
-                String appVersion = ViewUtil.getAppVersion(App.getContext());
-                if (bean !=null
-                        && bean.getResultModel() !=null
-                        && bean.getResultModel().getData() !=null
-                        && !TextUtils.isEmpty(bean.getResultModel().getData().getIsAudit())
-                        && bean.getResultModel().getData().getIsAudit().equals("0")
-                        && bean.getAppAuditQueryForm() !=null
-                        && bean.getAppAuditQueryForm().getAppType() == 0
-                        && !TextUtils.isEmpty(bean.getAppAuditQueryForm().getMarketCode())
-                        && !TextUtils.isEmpty(bean.getAppAuditQueryForm().getVersionNumber())
-                        && !TextUtils.isEmpty(channel)
-                        && !TextUtils.isEmpty(appVersion)
-                        && bean.getAppAuditQueryForm().getMarketCode().equals(channel)
-                        && bean.getAppAuditQueryForm().getVersionNumber().equals(appVersion)){
+                if (bean !=null && !TextUtils.isEmpty(bean.getIsAudit()) && bean.getIsAudit().equals("0")){
                     if (App.mApp !=null){
                         App.mApp.setAudited(false);
                     }
