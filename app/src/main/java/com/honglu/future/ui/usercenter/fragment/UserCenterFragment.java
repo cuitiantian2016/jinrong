@@ -13,6 +13,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabMainEvent;
+import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
@@ -275,6 +276,15 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FragmentRefreshEvent event) {
+        if (UIBaseEvent.EVENT_LOGOUT == event.getType()) {
+            mSigninSucLayout.setVisibility(View.GONE);
+            mLoginRegister.setVisibility(View.VISIBLE);
+            signinExpandCollapse(false);
         }
     }
 

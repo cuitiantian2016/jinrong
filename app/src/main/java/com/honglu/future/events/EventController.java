@@ -13,6 +13,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.app.JPushManager;
 import com.honglu.future.bean.AppInfo;
 import com.honglu.future.config.Constant;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.login.contract.LoginOutContract;
 import com.honglu.future.ui.login.presenter.LoginOutPresenter;
 import com.honglu.future.ui.main.activity.MainActivity;
@@ -97,12 +98,12 @@ public class EventController {
         event.getContext().startActivity(intent);
 
         String uName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
-        Intent loginIntent = new Intent(App.getContext(), RegisterActivity.class);
-        intent.putExtra("phone", uName);
-        App.getContext().startActivity(intent);
-       /* Intent loginIntent=new Intent(App.getContext(),LoginActivity.class);
+//        Intent loginIntent = new Intent(App.getContext(), RegisterActivity.class);
+//        intent.putExtra("phone", uName);
+//        App.getContext().startActivity(intent);
+       Intent loginIntent=new Intent(App.getContext(),LoginActivity.class);
         loginIntent.putExtra("tag", StringUtil.changeMobile(uName));
-        loginIntent.putExtra("phone", uName);*/
+        loginIntent.putExtra("phone", uName);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         App.getContext().startActivity(loginIntent);
         clearLoginStatus(App.getContext(), event.getTAG());
@@ -115,6 +116,7 @@ public class EventController {
     public static void clearLoginStatus(Context context, int tag) {
         SpUtil.putString(Constant.CACHE_TAG_SESSIONID, "");
         SpUtil.putString(Constant.CACHE_TAG_UID, "");
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
         //SpUtil.putString(Constant.SHARE_TAG_USERNAME, "");
         App.getConfig().setUserInfo(null);
         //清除cookie

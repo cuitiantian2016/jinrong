@@ -24,6 +24,9 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.events.LogoutEvent;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.login.activity.ResetPwdActivity;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
@@ -32,6 +35,8 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.HashMap;
@@ -87,7 +92,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         }
     }
 
-    @OnClick({R.id.iv_avatar, R.id.tv_back, R.id.rl_modify_name, R.id.rl_reset_pwd})
+    @OnClick({R.id.iv_avatar, R.id.tv_back, R.id.rl_modify_name, R.id.rl_reset_pwd,R.id.btn_logout})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_avatar:
@@ -102,6 +107,17 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
                 break;
             case R.id.rl_reset_pwd:
                 startActivity(ResetPwdActivity.class);
+                break;
+            case R.id.btn_logout:
+                new AlertFragmentDialog.Builder(mActivity).setContent("确认退出登录吗？")
+                        .setRightBtnText("确定")
+                        .setLeftBtnText("取消")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String string) {
+                                EventBus.getDefault().post(new LogoutEvent(getApplicationContext(), 1));
+                            }
+                        }).build();
                 break;
         }
     }
