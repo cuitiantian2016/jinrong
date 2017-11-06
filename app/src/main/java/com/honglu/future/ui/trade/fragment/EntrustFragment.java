@@ -36,7 +36,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 
-public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View, AccountContract.View {
+public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View, AccountContract.View, EntrustAdapter.OnCancelClickListener {
     @BindView(R.id.rv_entrust_list_view)
     RecyclerView mEntrustListView;
     @BindView(R.id.ll_filter)
@@ -138,6 +138,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
 
     private void setButtonListeners() {
+        mEntrustAdapter.setOnCancelClickListener(this);
         mAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,10 +183,27 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void getEntrustListSuccess(List<EntrustBean> list) {
-        if(list==null || list.size() == 0){
+        if (list == null || list.size() == 0) {
             mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
         mEntrustAdapter.addData(list);
     }
+
+    @Override
+    public void onCancelClick(EntrustBean bean) {
+        mPresenter.cancelOrder(bean.getOrderRef(),
+                bean.getInstrumentId(),
+                String.valueOf(bean.getSessionId()),
+                String.valueOf(bean.getFrontId()),
+                SpUtil.getString(Constant.CACHE_TAG_UID),
+                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+    }
+
+    @Override
+    public void cancelOrderSuccess() {
+        mEntrustAdapter.clearData();
+        getPositionList();
+    }
+
 }

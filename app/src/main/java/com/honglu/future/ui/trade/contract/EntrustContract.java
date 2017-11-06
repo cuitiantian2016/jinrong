@@ -12,9 +12,11 @@ import java.util.List;
 public interface EntrustContract {
     interface View extends BaseView {
         void getEntrustListSuccess(List<EntrustBean> list);
+        void cancelOrderSuccess();
     }
 
     interface Presenter {
         void getEntrustList(String userId, String token);
+        void cancelOrder(String orderRef, String instrumentId, String sessionId, String frontId, String userId, String token);
     }
 }

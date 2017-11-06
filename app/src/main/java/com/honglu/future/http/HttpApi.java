@@ -141,6 +141,16 @@ public interface HttpApi {
     Observable<BaseResponse<List<EntrustBean>>> getEntrustList(@Field("userId") String userId,
                                                                @Field("token") String token);
 
+    //委托撤单
+    @FormUrlEncoded
+    @POST("/futures-mobile-api/app/future/exchange/trade/cancel/order")
+    Observable<BaseResponse> cancelOrder(@Field("orderRef") String orderRef,
+                                         @Field("instrumentId") String instrumentId,
+                                         @Field("sessionId") String sessionId,
+                                         @Field("frontId") String frontId,
+                                         @Field("userId") String userId,
+                                         @Field("token") String token);
+
     /*******************************    上传图片   *****************************************/
     /*******************************
      * 上传图片

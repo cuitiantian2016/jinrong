@@ -38,4 +38,29 @@ public class EntrustPresenter extends BasePresenter<EntrustContract.View> implem
             }
         });
     }
+
+    @Override
+    public void cancelOrder(String orderRef, String instrumentId, String sessionId, String frontId, String userId, String token) {
+        toSubscribe(HttpManager.getApi().cancelOrder(orderRef, instrumentId, sessionId, frontId, userId, token), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("撤单中...");
+            }
+
+            @Override
+            public void onNext(Object o) {
+                mView.cancelOrderSuccess();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
 }

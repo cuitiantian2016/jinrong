@@ -17,6 +17,16 @@ import butterknife.ButterKnife;
  */
 
 public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolder, EntrustBean> {
+    public interface OnCancelClickListener {
+        void onCancelClick(EntrustBean bean);
+    }
+
+    private OnCancelClickListener mListener;
+
+    public void setOnCancelClickListener(OnCancelClickListener listener) {
+        mListener = listener;
+    }
+
     @Override
     public EntrustAdapter.ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_entrust_layout, parent, false);
@@ -44,6 +54,12 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
         } else {
             holder.mBtnEntrust.setText("平仓委托");
         }
+        holder.mTvChedan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onCancelClick(item);
+            }
+        });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,6 +79,8 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
         TextView mTvBond;
         @BindView(R.id.btn_entrust)
         TextView mBtnEntrust;
+        @BindView(R.id.tv_chedan)
+        TextView mTvChedan;
 
 
         ViewHolder(View view) {
