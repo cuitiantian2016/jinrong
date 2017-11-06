@@ -10,6 +10,7 @@ import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.util.AESUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by zq on 2017/10/26.
@@ -54,6 +55,31 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
             @Override
             protected void _onNext(List<ProductListBean> bean) {
                 mView.getProductListSuccess(bean);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void buildTransaction(String orderNumber, String type, String price, String instrumentId, String userId, String token, String company) {
+        toSubscribe(HttpManager.getApi().buildTransaction(orderNumber, type, price, instrumentId, userId, token, company), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("建仓中...");
+            }
+
+            @Override
+            protected void _onNext(Object o) {
+                mView.buildTransactionSuccess();
             }
 
             @Override

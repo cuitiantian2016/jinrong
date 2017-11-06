@@ -162,6 +162,17 @@ public interface HttpApi {
                                                                        @Field("startTime") String startTime,
                                                                        @Field("endTime") String endTime);
 
+    //委托建仓
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/create/order/v2")
+    Observable<BaseResponse> buildTransaction(@Field("orderNumber") String orderNumber,
+                                              @Field("type") String type,
+                                              @Field("price") String price,
+                                              @Field("instrumentId") String instrumentId,
+                                              @Field("userId") String userId,
+                                              @Field("token") String token,
+                                              @Field("company") String company);
+
     /*******************************    上传图片   *****************************************/
     /*******************************
      * 上传图片

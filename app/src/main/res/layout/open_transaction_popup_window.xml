@@ -66,6 +66,7 @@
             android:paddingLeft="@dimen/dimen_20dp">
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="玉米1081"
@@ -179,14 +180,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.honglu.future.widget.AmountView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/amountView"
+                    android:layout_width="@dimen/dimen_100dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    app:btnWidth="@dimen/dimen_20dp"
-                    app:tvWidth="@dimen/dimen_70dp">
+                    android:layout_gravity="right" />
 
-                </com.honglu.future.widget.AmountView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -224,15 +223,14 @@
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <com.honglu.future.widget.AmountView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/av_hands"
+                android:layout_width="@dimen/dimen_100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                app:btnWidth="@dimen/dimen_20dp"
-                app:tvWidth="@dimen/dimen_70dp">
+                android:layout_centerVertical="true">
 
-            </com.honglu.future.widget.AmountView>
+            </EditText>
 
         </RelativeLayout>
 
@@ -261,6 +259,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
             <TextView
+                android:id="@+id/tv_use_able_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -315,6 +314,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
             <TextView
+                android:id="@+id/tv_margin_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -350,6 +350,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
             <TextView
+                android:id="@+id/tv_sxf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -384,6 +385,7 @@
                     android:textSize="@dimen/dimen_12sp" />
 
                 <TextView
+                    android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5dp"

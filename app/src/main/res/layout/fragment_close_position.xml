@@ -5,6 +5,8 @@
     android:background="@color/color_F8F8F9"
     android:orientation="vertical">
 
+    <include layout="@layout/position_header_layout" />
+
     <com.honglu.future.widget.loading.LoadingLayout
         android:id="@+id/loading_layout"
         style="@style/MatchMatch">
@@ -19,8 +21,6 @@
                 android:layout_marginTop="@dimen/dimen_15dp"
                 android:background="@android:color/white"
                 android:orientation="vertical">
-
-                <include layout="@layout/position_header_layout" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_position"

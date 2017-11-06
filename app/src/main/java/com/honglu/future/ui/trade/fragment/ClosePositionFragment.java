@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -123,7 +121,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
 
     private void getClosePositionList() {
         // TODO: 2017/11/6 传的日期需要确认 zq
-        mPresenter.getCloseList("", "20171106", SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
+        mPresenter.getCloseList("", "2017-11-06", SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
     }
 
     @Override
@@ -168,7 +166,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void getCloseListSuccess(List<ClosePositionListBean> list) {
         if (list == null || list.size() == 0) {
-
+            mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
         mLoadingLayout.setStatus(LoadingLayout.Success);

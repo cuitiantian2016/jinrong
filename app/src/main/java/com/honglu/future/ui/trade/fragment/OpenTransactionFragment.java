@@ -5,9 +5,11 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -31,6 +33,7 @@ import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.AmountView;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -58,6 +61,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private AccountPresenter mAccountPresenter;
     private AccountLoginPopupView mAccountLoginPopupView;
     private String mToken;
+    private EditText mHands, mPrice;
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
@@ -94,6 +98,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     public void getProductListSuccess(List<ProductListBean> bean) {
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
+    }
+
+    @Override
+    public void buildTransactionSuccess() {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
     }
 
     interface OnTipClickCallback {
@@ -172,13 +183,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mPresenter.getProductList();
     }
 
-    private void showBottomWindow(View view, View layout, int flag) {
+    private void showBottomWindow(View view, View layout, int flag, ProductListBean bean) {
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             return;
         }
         mPopupWindow = new BottomPopupWindow(mActivity, view, layout);
         //添加按键事件监听
-        setButtonListeners(layout, flag);
+        setButtonListeners(layout, flag, bean);
         //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -195,7 +206,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTipPopupWindow = new BottomPopupWindow(mActivity,
                 view, layout);
         //添加按键事件监听
-        setButtonListeners(layout, flag);
+        setButtonListeners(layout, flag, null);
         //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
         mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -207,7 +218,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         });
     }
 
-    private void setButtonListeners(View view, final int flag) {
+    private void setButtonListeners(View view, final int flag, final ProductListBean bean) {
         ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,6 +260,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                                     @Override
                                     public void dialogRightBtnClick(String string) {
+                                        // TODO: 2017/11/6 需要动态获取涨跌方向 zq
+                                        mPresenter.buildTransaction(mHands.getText().toString(),
+                                                "2",
+                                                mPrice.getText().toString(),
+                                                bean.getInstrumentId(),
+                                                SpUtil.getString(Constant.CACHE_TAG_UID),
+                                                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                                                "GUOFU"
+                                        );
                                     }
                                 }).build();
                     }
@@ -259,13 +279,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
 
     @Override
-    public void onRiseClick(View view) {
+    public void onRiseClick(View view, ProductListBean bean) {
         if (!App.getConfig().getLoginStatus()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                showOpenTransactionWindow(view, TRADE_BUY_RISE);
+                showOpenTransactionWindow(view, TRADE_BUY_RISE, bean);
             } else {
                 mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
                 mAccountLoginPopupView.showOpenAccountWindow();
@@ -274,7 +294,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     @Override
-    public void onDownClick(View view) {
+    public void onDownClick(View view, ProductListBean bean) {
         if (!App.getConfig().getLoginStatus()) {
             new AlertFragmentDialog.Builder(mActivity).setContent("请登陆后再操作")
                     .setRightBtnText("确定")
@@ -288,7 +308,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                showOpenTransactionWindow(view, TRADE_BUY_DOWN);
+                showOpenTransactionWindow(view, TRADE_BUY_DOWN, bean);
             } else {
                 mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTradeTip, mAccountPresenter);
                 mAccountLoginPopupView.showOpenAccountWindow();
@@ -303,17 +323,27 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         ViewUtil.backgroundAlpha(mActivity, .5f);
     }
 
-    private void showOpenTransactionWindow(View view, String riseOrDown) {
+    private void showOpenTransactionWindow(View view, String riseOrDown, ProductListBean bean) {
         View layout = LayoutInflater.from(mActivity).inflate(R.layout.open_transaction_popup_window, null);
-        TextView tvRiseOrDown = null;
-        if (riseOrDown.equals(TRADE_BUY_DOWN)) {
-            tvRiseOrDown = (TextView) layout.findViewById(R.id.tv_rise);
-        } else if (riseOrDown.equals(TRADE_BUY_RISE)) {
-            tvRiseOrDown = (TextView) layout.findViewById(R.id.tv_down);
-        }
-        tvRiseOrDown.setBackgroundResource(R.drawable.rise_down_bg_block);
-        tvRiseOrDown.setTextColor(mActivity.getResources().getColor(R.color.color_151515));
-        showBottomWindow(view, layout, 3);
+        showBottomWindow(view, layout, 3, bean);
+        initTransactionData(layout, riseOrDown, bean);
         ViewUtil.backgroundAlpha(mActivity, .5f);
+    }
+
+    private void initTransactionData(View view, String riseOrDown, ProductListBean bean) {
+        TextView name = (TextView) view.findViewById(R.id.tv_name);
+        name.setText(bean.getInstrumentName());
+        TextView rise = (TextView) view.findViewById(R.id.tv_rise);
+        rise.setText(bean.getLastPrice());
+        TextView down = (TextView) view.findViewById(R.id.tv_down);
+        down.setText(String.valueOf(Double.valueOf(bean.getLastPrice()) - 1));
+        TextView riseRadio = (TextView) view.findViewById(R.id.tv_rise_radio);
+        riseRadio.setText(bean.getLongRate());
+        TextView downRadio = (TextView) view.findViewById(R.id.tv_down_radio);
+        downRadio.setText(bean.getShortRate());
+        mPrice = (EditText) view.findViewById(R.id.amountView);
+        mPrice.setText(bean.getLastPrice());
+        mHands = (EditText) view.findViewById(R.id.av_hands);
+        mHands.setText(String.valueOf(bean.getMinSl()));
     }
 }

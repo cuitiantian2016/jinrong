@@ -20,9 +20,9 @@ import butterknife.ButterKnife;
 
 public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionAdapter.ViewHolder, ProductListBean> {
     public interface OnRiseDownClickListener {
-        void onRiseClick(View view);
+        void onRiseClick(View view, ProductListBean bean);
 
-        void onDownClick(View view);
+        void onDownClick(View view, ProductListBean bean);
     }
 
     private OnRiseDownClickListener mListener;
@@ -38,11 +38,11 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
     }
 
     @Override
-    public void mOnBindViewHolder(ViewHolder holder, int position) {
+    public void mOnBindViewHolder(ViewHolder holder, final int position) {
         holder.mTvProductName.setText(item.getInstrumentName());
         holder.mTvNum.setText(item.getTradeVolume());
         holder.mTvRise.setText(item.getLastPrice());
-        holder.mTvDown.setText(String.valueOf(Double.parseDouble(item.getLastPrice())-1));
+        holder.mTvDown.setText(String.valueOf(Double.parseDouble(item.getLastPrice()) - 1));
         holder.mTvRiseRadio.setText(item.getLongRate());
         holder.mTvDownRadio.setText(item.getShortRate());
         if (item.getIsClosed().equals("2")) {
@@ -51,18 +51,17 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         holder.mLlRise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onRiseClick(v);
+                mListener.onRiseClick(v, data.get(position));
             }
         });
 
         holder.mLlDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDownClick(v);
+                mListener.onDownClick(v, data.get(position));
             }
         });
     }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_product_name)
