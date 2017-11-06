@@ -8,4 +8,5 @@ import com.honglu.future.base.BasePresenter;
 
 public class OpenTransactionDetailsPresenter extends BasePresenter<OpenTransactionDetailsContract.View> implements OpenTransactionDetailsContract.Presenter{
 
+
 }
