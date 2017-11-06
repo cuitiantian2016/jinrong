@@ -23,15 +23,23 @@ import butterknife.ButterKnife;
  */
 
 public class PositionAdapter extends BaseAdapter {
-    private PositionPopWind mPopWind;
+
     private Context mContext;
     private PositionFragment mFragment;
     private List<HoldPositionBean> mList;
+    public interface OnShowPopupClickListener {
+        void onShowPopupClick(View view, HoldPositionBean bean);
+    }
+
+    private OnShowPopupClickListener mListener;
+
+    public void setOnShowPopupClickListener(OnShowPopupClickListener listener) {
+        mListener = listener;
+    }
 
     public PositionAdapter(PositionFragment fragment) {
         this.mFragment = fragment;
         this.mContext = mFragment.getActivity();
-        this.mPopWind = new PositionPopWind(mContext);
         this.mList = new ArrayList<>();
     }
 
@@ -72,7 +80,7 @@ public class PositionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        HoldPositionBean holdPositionBean = mList.get(position);
+        final HoldPositionBean holdPositionBean = mList.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_trade_position_layout, parent, false);
@@ -92,13 +100,13 @@ public class PositionAdapter extends BaseAdapter {
         holder.tvBuyCount.setText("买涨" + holdPositionBean.getPosition() + "手");
         holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
         // TODO: 2017/11/6 需要确认最新价的字段 zq
-        holder.tvNewPrice.setText(holdPositionBean.getHoldAvgPrice());
+        holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
         holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
 
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPopWind.showPopupWind(finalHolder.tvBuyCount);
+                mListener.onShowPopupClick(v,holdPositionBean);
             }
         });
         return convertView;

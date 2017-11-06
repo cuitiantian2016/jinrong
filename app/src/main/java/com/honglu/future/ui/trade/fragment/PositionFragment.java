@@ -10,6 +10,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
@@ -19,6 +20,7 @@ import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
+import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
@@ -33,7 +35,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
 /**
  * Created by zq on 2017/10/26.
  */
-public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View {
+public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View, PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -45,6 +47,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private PositionAdapter mAdapter;
     private AccountPresenter mAccountPresenter;
     private AccountLoginPopupView mAccountLoginPopupView;
+    private PositionDialog mPositionDialog;
+    private PositionPopWind mPopWind;
     private boolean mIsVisible;
 
     @Override
@@ -112,6 +116,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void loadData() {
+        mPopWind = new PositionPopWind(mContext);
+        mPositionDialog = new PositionDialog(mContext);
         mAdapter = new PositionAdapter(PositionFragment.this);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
         mFooterEmptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_emptyview, null);
@@ -120,6 +126,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mListView.setAdapter(mAdapter);
         setEmptyView(true);
 
+        mAdapter.setOnShowPopupClickListener(this);
+        mPopWind.setOnButtonClickListener(this);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -146,5 +154,15 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
         mAdapter.notifyDataChanged(false, list);
         mRefreshView.finishRefresh();
+    }
+
+    @Override
+    public void onDetailClick() {
+        mPositionDialog.showPopupWind();
+    }
+
+    @Override
+    public void onShowPopupClick(View view, HoldPositionBean bean) {
+        mPopWind.showPopupWind(view,bean);
     }
 }

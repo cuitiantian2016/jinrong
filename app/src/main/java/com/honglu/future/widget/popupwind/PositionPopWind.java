@@ -13,13 +13,15 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.dialog.PositionDialog;
+import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.util.ViewUtil;
 
 /**
  * Created by zhuaibing on 2017/10/27
  */
 
-public class PositionPopWind extends PopupWindow{
+public class PositionPopWind extends PopupWindow {
     private View mRootLayout;
     private TextView mBond;
     private TextView mServiceCharge;
@@ -34,11 +36,19 @@ public class PositionPopWind extends PopupWindow{
     private int m31dp;
     private int m23dp;
     private int m8dp;
-    private PositionDialog mPositionDialog;
 
+    public interface OnButtonClickListener {
+        void onDetailClick();
+    }
 
-    public PositionPopWind(Context context){
-        View rootView = View.inflate(context, R.layout.popupwind_posttion_layout,null);
+    private OnButtonClickListener mListener;
+
+    public void setOnButtonClickListener(OnButtonClickListener listener) {
+        mListener = listener;
+    }
+
+    public PositionPopWind(Context context) {
+        View rootView = View.inflate(context, R.layout.popupwind_posttion_layout, null);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -56,7 +66,7 @@ public class PositionPopWind extends PopupWindow{
         setAnimationStyle(R.style.position_popupwind);
         setContentView(rootView);
         setOutsideTouchable(true);
-        mPositionDialog = new PositionDialog(context);
+
 
         mRootLayout = rootView.findViewById(R.id.ll_rootLayout);
         mBond = (TextView) rootView.findViewById(R.id.tv_bond);//保证金
@@ -68,30 +78,34 @@ public class PositionPopWind extends PopupWindow{
         mDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPositionDialog.showPopupWind();
+                mListener.onDetailClick();
             }
         });
     }
 
 
-    public void showPopupWind(View view){
-       // if (Build.VERSION.SDK_INT >= 24) {
+    public void showPopupWind(View view, HoldPositionBean bean) {
+        // if (Build.VERSION.SDK_INT >= 24) {
         //    Rect rect = new Rect();
         //    view.getGlobalVisibleRect(rect);
         //    int h = view.getResources().getDisplayMetrics().heightPixels - rect.bottom;
         //    setHeight(h);
         //}
+        mBond.setText(bean.getUseMargin());
+        mServiceCharge.setText(bean.getSxf());
+        mTime.setText(bean.getEndDelivDate() + "(" + bean.getDelivDateStr() + ")");
+
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         int surplusHeight = mScreenHeight - location[1] - mMeasuredHeight - mTabHeight;
-        if (surplusHeight >= 0){
+        if (surplusHeight >= 0) {
             mRootLayout.setBackgroundResource(R.mipmap.bg_top_triangle);
-            mRootLayout.setPadding(0,m31dp,0,0);
-            showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]);
-        }else {
+            mRootLayout.setPadding(0, m31dp, 0, 0);
+            showAtLocation(view, Gravity.NO_GRAVITY, location[0], location[1]);
+        } else {
             mRootLayout.setBackgroundResource(R.mipmap.bg_bottom_triangle);
-            mRootLayout.setPadding(0,m23dp,0,m8dp);
-            showAtLocation(view,Gravity.NO_GRAVITY,location[0],location[1]-mMeasuredHeight);
+            mRootLayout.setPadding(0, m23dp, 0, m8dp);
+            showAtLocation(view, Gravity.NO_GRAVITY, location[0], location[1] - mMeasuredHeight);
         }
     }
 }

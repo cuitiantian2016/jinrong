@@ -83,4 +83,6 @@ public class PositionDialog extends Dialog{
         }
         mAdapter.notifyDataChanged(list);
     }
+
+
 }
