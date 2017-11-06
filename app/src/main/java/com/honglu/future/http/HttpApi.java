@@ -7,6 +7,7 @@ import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
+import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
@@ -152,6 +153,13 @@ public interface HttpApi {
     //首页24小时
     @POST("http://192.168.90.130:8080/futures-mobile-api/app/index/newsList")
     Observable<BaseResponse<List<NewsFlashData>>> geFlashNewData(@Query("pageIndex") int page, @Query("pageSize") int pageSize);
+
+    //渠道是否过审  http://192.168.90.130:8080/
+    @FormUrlEncoded
+    @POST("futures-mobile-api/appChannel/isAudited")
+    Observable<BaseResponse<AuditedBean>> getAudited(@Query("appType") int appType,
+                                                     @Field("marketCode") String marketCode
+                                                   , @Field("versionNumber") String versionNumber);
 
     //修改资金密码接口 测试环境：
 

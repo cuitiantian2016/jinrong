@@ -226,4 +226,14 @@ public class App extends LitePalApplication {
         }
         return null;
     }
+
+
+    //当前渠道下的当前版本是否通过审核
+    public boolean mIsAudited = true;
+    public void setAudited(boolean isAudited){
+        this.mIsAudited = isAudited;
+    }
+    public boolean getAudited(){
+        return mIsAudited;
+    }
 }

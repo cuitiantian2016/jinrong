@@ -11,6 +11,8 @@ import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.LoginNoRefreshUIEvent;
+import com.honglu.future.ui.main.contract.SplashContract;
+import com.honglu.future.ui.main.presenter.SplashPresenter;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -24,7 +26,7 @@ import butterknife.BindView;
  * 启动页
  * xiejingwen
  */
-public class SplashActivity extends BaseActivity{
+public class SplashActivity extends BaseActivity<SplashPresenter> implements SplashContract.View{
 
     @BindView(R.id.rl_splash)
     RelativeLayout mRlSplash;
@@ -42,6 +44,9 @@ public class SplashActivity extends BaseActivity{
 
     @Override
     public void loadData() {
+        //渠道是否过审
+        mPresenter.getAudited();
+
         //新的应用重复启动解决方法
         if (!isTaskRoot()) {
             //判断该Activity是不是任务空间的源Activity,"非"也就是说是被系统重新实例化出来的
