@@ -200,6 +200,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void closeOrderSuccess() {
         mCloseDialog.dismiss();
+        mPopWind.dismiss();
+        getPositionList();
     }
 
     @Override
