@@ -2,7 +2,9 @@ package com.honglu.future.ui.home.viewmodel;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -35,6 +37,8 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.http.PUT;
 
@@ -53,7 +57,6 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
 
     private ViewPager mViewPager;
     private ArrayList<MarketData.MarketDataBean> arrayList ;
-    ArrayList<Double> oldPriceList = null;//上一秒价格集合
     private static final int PAGE_SIZE = 3;//每页显示的个数
     private PagerAdapter pagerAdapter;
     private IndicatorViewModel indicatorViewModel;
@@ -202,7 +205,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         if (pageCount-1>=position){//完整的一页
             if (childCount == PAGE_SIZE){//说明view已经添加
                 for (int i = position*PAGE_SIZE; i < (position+1)*PAGE_SIZE; i++) {//需要加一
-                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i),oldPriceList.get(i),i);
+                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i));
                 }
             }else {//添加View
                 llContainer.removeAllViews();
@@ -216,8 +219,8 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                     params1.width = deviceWidth / 3;
                     viewThr.addView(goodsItem, params1);
                     try {
-                        if (arrayListBean !=null && oldPriceList !=null && arrayListBean.size() > i && oldPriceList.size() > i){
-                            bindGoodsItem(goodsItem,arrayListBean.get(i),oldPriceList.get(i),i);
+                        if (arrayListBean !=null  && arrayListBean.size() > i){
+                            bindGoodsItem(goodsItem,arrayListBean.get(i));
                         }
                     }catch (Exception e){
 
@@ -228,7 +231,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         }else {
             if (childCount == lastPageCount){//说明view已经添加
                 for (int i = position*PAGE_SIZE; i < arrayList.size(); i++) {//需要加一
-                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i),oldPriceList.get(i),i);
+                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i));
                 }
             }else {//添加View
                 llContainer.removeAllViews();
@@ -242,7 +245,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                     params1.width = deviceWidth/3;
                     viewThr.addView(goodsItem, params1);
                     try {
-                        bindGoodsItem(goodsItem,arrayListBean.get(i),oldPriceList.get(i),i);
+                        bindGoodsItem(goodsItem,arrayListBean.get(i));
                     }catch (Exception e){}
                 }
                 llContainer.addView(viewThr);
@@ -250,56 +253,31 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         }
     }
     /**
-     * 初始化添加老的集合
-     */
-    private void initOldPriceList(){
-        //生成上一秒报价的集合
-        if (oldPriceList == null) {
-            oldPriceList = new ArrayList<>();
-            for (int i = 0; i < arrayList.size(); i++) {
-                oldPriceList.add(0.0);
-            }
-        }
-    }
-    /**
      * 刷新item控件的数据
      * @param goodsItem
      */
-    private void bindGoodsItem(View goodsItem , MarketData.MarketDataBean data, double oldPrice, int position){
+    private void bindGoodsItem(View goodsItem , MarketData.MarketDataBean data){
         TextView mTvItemName = (TextView) goodsItem.findViewById(R.id.tvitemname);
         TextView mTvItemPrice = (TextView) goodsItem.findViewById(R.id.tvitemprice);
         TextView mTvitemchg = (TextView) goodsItem.findViewById(R.id.tvitemchg);
         TextView mTvItemRise = (TextView) goodsItem.findViewById(R.id.tvitemrise);
-        ImageView mImgGreen = (ImageView) goodsItem.findViewById(R.id.imggreen);
-        ImageView mImgRed = (ImageView) goodsItem.findViewById(R.id.imgred);
         double newPrice = NumberUtils.getDouble(data.lastPrice);
+        double change = NumberUtils.getDouble(data.change);
         //当当前价小于昨收价时，价格颜色应变更为绿色
-        if (newPrice - oldPrice > 0){
+        if (change> 0){
+            Drawable drawable = ContextCompat.getDrawable(goodsItem.getContext(),R.mipmap.icon_up_arr);
+            drawable.setBounds(0, 0, 24,24);
+            mTvItemName.setCompoundDrawables(null,null,drawable,null);
             mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
             mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-        }else if (newPrice - oldPrice < 0){
+            mTvitemchg.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
+        }else if (change< 0){
+            Drawable drawable = ContextCompat.getDrawable(goodsItem.getContext(),R.mipmap.icon_dwon_arr);
+            drawable.setBounds(0, 0, 24,24);
+            mTvItemName.setCompoundDrawables(null,null,drawable,null);
             mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
             mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
-        }
-        //设置字体颜色和动画
-        if (newPrice - oldPrice > 0) {//这一秒价格上涨展示出红色背景并开启渐变动画
-            oldPriceList.set(position, newPrice);
-            mImgRed.setVisibility(View.VISIBLE);
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(mImgRed, "alpha", 0f, 1f, 0f);
-            alpha.setDuration(500);
-            alpha.setRepeatCount(1);
-            alpha.start();
-            mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-            mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-        } else if (newPrice - oldPrice < 0) {//这一秒价格下降展示出绿色背景并开启渐变动画
-            oldPriceList.set(position, newPrice);
-            mImgGreen.setVisibility(View.VISIBLE);
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(mImgGreen, "alpha", 0f, 1f, 0f);
-            alpha.setDuration(500);
-            alpha.setRepeatCount(1);
-            alpha.start();
-            mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
-            mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
+            mTvitemchg.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
         }
         //设置产品名称
         mTvItemName.setText(data.name);
@@ -323,7 +301,6 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 arrayList.add(dataList.get(n));
             }
         }
-        initOldPriceList();
         PagerAdapter adapter = mViewPager.getAdapter();
         if (adapter == null){
             adapter =  pagerAdapter;
@@ -368,6 +345,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
             for (int i = 0;i<arrayList.size();i++) {
                 MarketData.MarketDataBean marketDataBean = arrayList.get(i);
                 if (marketDataBean.instrumentID.equals(dataBean.instrumentID)){
+                    dataBean.name = marketDataBean.name;
                     index = i;
                     break;
                 }

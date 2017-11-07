@@ -44,5 +44,5 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <include
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 </RelativeLayout>

@@ -7,19 +7,13 @@
     android:gravity="center"
     android:background="@drawable/selector_6dp_radio_width_110_press"
     android:foreground="?android:attr/selectableItemBackground">
-    <ImageView
-        android:id="@+id/imgred"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/selector_6dp_radio_width_110_press_green"
-        android:scaleType="fitXY"
-        android:visibility="gone" />
  <RelativeLayout
      android:layout_gravity="center"
      android:layout_width="match_parent"
      android:layout_height="wrap_content">
      <TextView
          android:id="@+id/tvitemname"
+         android:drawablePadding="@dimen/dimen_6dp"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_centerHorizontal="true"
@@ -60,12 +54,5 @@
 
      </LinearLayout>
  </RelativeLayout>
-    <ImageView
-        android:id="@+id/imggreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/selector_6dp_radio_width_110_press_green"
-        android:visibility="gone" />
 
 </FrameLayout>
