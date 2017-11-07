@@ -120,7 +120,6 @@ public class HomeFragment extends BaseFragment{
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 homeBottomTabViewModel.refreshData();
-                homeMarketPriceViewModel.refreshData();
             }
         });
         mSmartRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {

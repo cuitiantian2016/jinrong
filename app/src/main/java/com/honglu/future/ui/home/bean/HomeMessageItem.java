@@ -1,5 +1,6 @@
 package com.honglu.future.ui.home.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ import java.util.List;
  "userRole": "admin"
  */
 
-public class HomeMessageItem {
+public class HomeMessageItem implements Serializable{
     public String auditMan;
     public String auditTime;
     public String authorId;

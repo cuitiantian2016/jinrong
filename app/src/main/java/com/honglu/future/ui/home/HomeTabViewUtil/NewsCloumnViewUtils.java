@@ -1,6 +1,7 @@
 package com.honglu.future.ui.home.HomeTabViewUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.ui.details.activity.ConsultDetailsActivity;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -182,7 +184,7 @@ public class NewsCloumnViewUtils {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
             ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
-            if (!TextUtils.isEmpty(item.modifyTime) && item.modifyTime.length() > 16) {
+            if (!TextUtils.isEmpty(item.createTime) && item.createTime.length() > 16) {
                 tv_time.setText(computingTime(item.createTime));
             }
             if (!TextUtils.isEmpty(item.nickname)) {
@@ -206,7 +208,7 @@ public class NewsCloumnViewUtils {
             content_ll.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
-
+                                                  ConsultDetailsActivity.startConsultDetailsActivity(item,v.getContext());
                                               }
                                           }
 

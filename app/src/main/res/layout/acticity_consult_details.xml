@@ -14,10 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/image_head"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:background="@color/actionsheet_gray"/>
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_marginTop="@dimen/dimen_15dp"
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 android:layout_marginRight="@dimen/dimen_20dp"
