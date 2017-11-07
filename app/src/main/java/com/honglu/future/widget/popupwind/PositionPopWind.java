@@ -40,6 +40,7 @@ public class PositionPopWind extends PopupWindow {
 
     public interface OnButtonClickListener {
         void onDetailClick(HoldPositionBean holdPositionBean);
+        void onCloseClick(HoldPositionBean holdPositionBean);
     }
 
     private OnButtonClickListener mListener;
@@ -80,6 +81,12 @@ public class PositionPopWind extends PopupWindow {
             @Override
             public void onClick(View v) {
                 mListener.onDetailClick(mHoldPositionBean);
+            }
+        });
+        mClosePosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onCloseClick(mHoldPositionBean);
             }
         });
     }

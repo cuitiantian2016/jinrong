@@ -10,6 +10,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -36,7 +37,9 @@ import static com.honglu.future.util.ToastUtil.showToast;
 /**
  * Created by zq on 2017/10/26.
  */
-public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View, PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener {
+public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View,
+        PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener,
+        CloseTransactionDialog.OnPostCloseClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -49,8 +52,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private AccountPresenter mAccountPresenter;
     private AccountLoginPopupView mAccountLoginPopupView;
     private PositionDialog mPositionDialog;
+    private CloseTransactionDialog mCloseDialog;
     private PositionPopWind mPopWind;
-    private boolean mIsVisible;
     private HoldPositionBean mHoldPositionBean;
 
     @Override
@@ -104,7 +107,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         if (!hidden) {
             if (!App.getConfig().getAccountLoginStatus()) {
                 if (isVisible()) {
-                    mIsVisible = true;
                     mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mRemarksEmpty, mAccountPresenter);
                     mAccountLoginPopupView.showOpenAccountWindow();
                 }
@@ -120,6 +122,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void loadData() {
         mPopWind = new PositionPopWind(mContext);
         mPositionDialog = new PositionDialog(mContext);
+        mCloseDialog = new CloseTransactionDialog(mContext);
         mAdapter = new PositionAdapter(PositionFragment.this);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
         mFooterEmptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_emptyview, null);
@@ -130,6 +133,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
         mAdapter.setOnShowPopupClickListener(this);
         mPopWind.setOnButtonClickListener(this);
+        mCloseDialog.setOnPostCloseClickListener(this);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -171,6 +175,31 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 String.valueOf(bean.getTodayPosition()),
                 SpUtil.getString(Constant.CACHE_TAG_UID),
                 SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+    }
+
+    @Override
+    public void onCloseClick(HoldPositionBean bean) {
+        mHoldPositionBean = bean;
+        mCloseDialog.showDialog(bean);
+    }
+
+    @Override
+    public void onPostCloseClick(String todayPosition, String orderNumber, String type, String price, String insId, String avgPrice) {
+        mPresenter.closeOrder(todayPosition,
+                SpUtil.getString(Constant.CACHE_TAG_UID),
+                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                orderNumber,
+                type,
+                price,
+                insId,
+                avgPrice,
+                "GUOFU"
+        );
+    }
+
+    @Override
+    public void closeOrderSuccess() {
+        mCloseDialog.dismiss();
     }
 
     @Override

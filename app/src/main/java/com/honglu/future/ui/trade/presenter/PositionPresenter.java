@@ -12,6 +12,7 @@ import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by zq on 2017/10/26.
@@ -54,6 +55,33 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
             @Override
             protected void _onNext(List<HoldDetailBean> list) {
                 mView.getHoldDetailListSuccess(list);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void closeOrder(String todayPosition, String userId, String token, String orderNumber, String type, String price,
+                           String instrumentId, String holdAvgPrice, String company) {
+        toSubscribe(HttpManager.getApi().closeOrder(todayPosition, userId, token, orderNumber, type, price,
+                instrumentId, holdAvgPrice, company), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("平仓中...");
+            }
+
+            @Override
+            protected void _onNext(Object o) {
+                mView.closeOrderSuccess();
             }
 
             @Override

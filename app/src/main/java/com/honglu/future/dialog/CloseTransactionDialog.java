@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.widget.popupwind.PositionPopWind;
 
 /**
  * 平仓 dialog
@@ -38,8 +40,21 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
     private TextView mCloseTransactionPrice;
     private TextView mCankaoProfitLoss;
     private TextView mFastCloseTransaction;
+    private TextView mCloseHands;
+    private TextView mProfitLoss;
+    private HoldPositionBean mBean;
 
     private Context mContext;
+
+    public interface OnPostCloseClickListener {
+        void onPostCloseClick(String todayPosition, String orderNumber, String type, String price, String insId, String avgPrice);
+    }
+
+    private OnPostCloseClickListener mListener;
+
+    public void setOnPostCloseClickListener(OnPostCloseClickListener listener) {
+        mListener = listener;
+    }
 
     public CloseTransactionDialog(@NonNull Context context) {
         super(context, R.style.DateDialog);
@@ -74,6 +89,8 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         mCloseTransactionPrice = (TextView) findViewById(R.id.tv_close_transaction_price);
         mCankaoProfitLoss = (TextView) findViewById(R.id.tv_cankao_profit_loss);
         mFastCloseTransaction = (TextView) findViewById(R.id.tv_fast_close_transaction);
+        mCloseHands = (TextView) findViewById(R.id.tv_close_hands);
+        mProfitLoss = (TextView) findViewById(R.id.tv_profit_loss);
 
         mClose.setOnClickListener(this);
         mPriceDel.setOnClickListener(this);
@@ -117,8 +134,22 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         });
     }
 
-    public void showDialog() {
+    public void showDialog(HoldPositionBean bean) {
+        mBean = bean;
         show();
+        mName.setText(bean.getInstrumentName());
+        if (bean.getType() == 1) {
+            mBuyRise.setText("买跌" + bean.getPosition() + "手");
+        } else {
+            mBuyRise.setText("买涨" + bean.getPosition() + "手");
+        }
+        mChicangAveragePrice.setText(bean.getHoldAvgPrice());
+        mPrice.setText(bean.getSettlementPrice());
+        mCloseHands.setText("平仓手数（最多" + bean.getPosition() + "手）");
+        mSize.setText(String.valueOf(bean.getPosition()));
+        mCloseTransactionPrice.setText("￥" + bean.getSxf());
+        mCankaoProfitLoss.setText("￥" + bean.getTotalProfit());
+        mProfitLoss.setText("￥" + bean.getTotalProfit());
     }
 
 
@@ -158,7 +189,12 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.tv_fast_close_transaction:
                 //快速平仓
-
+                mListener.onPostCloseClick(String.valueOf(mBean.getTodayPosition()),
+                        mSize.getText().toString(),
+                        String.valueOf(mBean.getType()),
+                        mPrice.getText().toString(),
+                        mBean.getInstrumentId(),
+                        mBean.getHoldAvgPrice());
                 break;
         }
     }

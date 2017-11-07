@@ -174,6 +174,21 @@ public interface HttpApi {
                                               @Field("token") String token,
                                               @Field("company") String company);
 
+    //委托平仓
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/close/order/v2")
+    Observable<BaseResponse> closeOrder(@Field("todayPosition") String todayPosition,
+                                        @Field("userId") String userId,
+                                        @Field("token") String token,
+                                        @Field("orderNumber") String orderNumber,
+                                        @Field("type") String type,
+                                        @Field("price") String price,
+                                        @Field("instrumentId") String instrumentId,
+                                        @Field("holdAvgPrice") String holdAvgPrice,
+                                        @Field("company") String company
+    );
+
+
     /*******************************    上传图片   *****************************************/
     /*******************************
      * 上传图片

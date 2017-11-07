@@ -28,7 +28,10 @@ import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,8 +123,10 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     }
 
     private void getClosePositionList() {
-        // TODO: 2017/11/6 传的日期需要确认 zq
-        mPresenter.getCloseList("", "2017-11-06", SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateNowStr = sdf.format(d);
+        mPresenter.getCloseList("", dateNowStr, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
     }
 
     @Override
