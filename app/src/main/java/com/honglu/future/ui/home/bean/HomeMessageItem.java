@@ -42,6 +42,7 @@ public class HomeMessageItem implements Serializable{
     public String authorId;
     public int commentNum;
     public String content;
+    public String showTime;
     public String contentType;
     public String ifHot;
     public Object informationComment;

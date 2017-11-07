@@ -107,8 +107,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             mTvName.setText(item.nickname);
             mTvPosition.setText(item.userRole);
             mTvComment.setText(item.commentNum+ "条评论");
-            if (!TextUtils.isEmpty(item.createTime) && item.createTime.length() > 16) {
-                mTvTime.setText(computingTime(item.createTime));
+            if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
+                mTvTime.setText(computingTime(item.showTime));
             }
         }
         WebSettings settings = mContentWv.getSettings();

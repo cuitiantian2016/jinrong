@@ -1,9 +1,7 @@
 package com.honglu.future.ui.home.HomeTabViewUtil;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -184,8 +182,8 @@ public class NewsCloumnViewUtils {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
             ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
-            if (!TextUtils.isEmpty(item.createTime) && item.createTime.length() > 16) {
-                tv_time.setText(computingTime(item.createTime));
+            if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
+                tv_time.setText(computingTime(item.showTime));
             }
             if (!TextUtils.isEmpty(item.nickname)) {
                 mTvName.setText(item.nickname);
@@ -258,7 +256,7 @@ public class NewsCloumnViewUtils {
             llp.width = DeviceUtils.getScreenWidth(mContext) - DeviceUtils.dip2px(mContext, 20);
             llp.height = llp.width * 316 / 702;
             typetwonewest_content_iv.setLayoutParams(llp);
-            tv_timetype2.setText(computingTime(item.createTime));
+            tv_timetype2.setText(computingTime(item.showTime));
             tv_praisetype2.setText(String.valueOf(item.praiseCounts));
             if (item.isPraise > 0) {
                 profit_icon.setImageResource(R.mipmap.ic_support);
