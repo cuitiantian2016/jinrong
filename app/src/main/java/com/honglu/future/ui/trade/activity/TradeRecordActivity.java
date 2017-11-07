@@ -67,7 +67,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     @Override
     public void loadData() {
         mIvBack.setVisibility(View.VISIBLE);
-        mTitle.setTitle(false, R.color.white, "修改昵称");
+        mTitle.setTitle(false, R.color.white, "交易记录");
         mDateDialog = new DateDialog(TradeRecordActivity.this);
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
         tvStartTime = (TextView) view.findViewById(R.id.tv_startTime);

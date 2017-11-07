@@ -15,6 +15,7 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
+import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
@@ -95,12 +96,15 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mPositionListView.setAdapter(mClosePositionAdapter);
     }
 
-    @OnClick({R.id.tv_tip})
+    @OnClick({R.id.tv_tip, R.id.ll_see_all})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_tip:
                 showTipWindow(view);
+                break;
+            case R.id.ll_see_all:
+                startActivity(TradeRecordActivity.class);
                 break;
         }
     }

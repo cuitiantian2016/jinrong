@@ -12,7 +12,7 @@ public class ClosePositionListBean {
     private String exchangeName;
     private String excode;
     private String holdAvgPrice;
-    private int id;
+    private int closeId;
     private String instrumentId;
     private String instrumentName;
     private String orderSysId;
@@ -85,11 +85,11 @@ public class ClosePositionListBean {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.closeId = id;
     }
 
     public int getId() {
-        return id;
+        return closeId;
     }
 
     public void setInstrumentId(String instrumentId) {
