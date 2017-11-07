@@ -1,28 +1,26 @@
 package com.honglu.future.ui.market.activity;
 
 import android.app.Service;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Vibrator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
-import com.honglu.future.config.Constant;
 import com.honglu.future.ui.market.adapter.AllHavedOptionalAdapter;
-import com.honglu.future.ui.market.adapter.MarketClassificationAdapter;
-import com.honglu.future.ui.market.bean.AllClassificationBean;
-import com.honglu.future.ui.market.bean.QuotesItemBean;
 import com.honglu.future.ui.market.contract.OptionalQuotesContract;
 import com.honglu.future.ui.market.presenter.OptionalQuotesPresenter;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 import com.honglu.future.widget.recycler.SpaceItemDecoration;
-
-import org.litepal.crud.DataSupport;
+import com.honglu.future.widget.tab.CustomTabEntity;
+import com.honglu.future.widget.tab.HorizontalTabLayout;
+import com.honglu.future.widget.tab.TabEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,28 +30,23 @@ import butterknife.BindView;
 
 /**
  * Created by hc on 2017/10/26.
+ *
  * @author wsw
- * 自选行情界面
+ *         自选行情界面
  */
 
-public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter> implements OptionalQuotesContract.View{
-    //
-    @BindView(R.id.recylerview_all_hava_optional)
-    RecyclerView mAllHavedOptionalRecycler;
-    private AllHavedOptionalAdapter mAllHavedOptionalAdapter;
-    private List<QuotesItemBean> mHavedAllOptionalList = new ArrayList<QuotesItemBean>();//所有自选中的产品
-    private ItemTouchHelper mItemTouchHelper;
+public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter> implements OptionalQuotesContract.View {
 
-    //
-    private List<AllClassificationBean> allQuotesNames = new ArrayList<AllClassificationBean>();//可以增加的期货交易所名称
-    @BindView(R.id.qptional_classification_recycler)
-    RecyclerView mQptionalClassificationRecycler;
-    private MarketClassificationAdapter mMarketClassificationAdapter;
-    //可以增加的期货类型产品
-    @BindView(R.id.recylerview_can_add)
-    RecyclerView mCanAddOptionalRecycler;
-    private AllHavedOptionalAdapter mCanAddOptionalAdapter;
-    private List<QuotesItemBean> mCanAddOptionalList = new ArrayList<QuotesItemBean>();//此数据需要几份，可以直接在封装成一个类来用
+    @BindView(R.id.rv_save_recycler_view)
+    RecyclerView zxRecyclerView;
+
+    RecyclerView addRecyclerView;
+
+    private ItemTouchHelper mItemTouchHelper;
+    private AllHavedOptionalAdapter zxAdapter; //自选 adapter
+    private AllHavedOptionalAdapter addAdapter; //添加 adapter
+    private HorizontalTabLayout mCommonTab;
+
     @Override
     public void showLoading(String content) {
 
@@ -73,68 +66,47 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     public int getLayoutId() {
         return R.layout.acticity_optionalquotes;
     }
+
     @Override
     public void initPresenter() {
 
     }
+
     @Override
     public void loadData() {
-        for(QuotesItemBean itemBean : DataSupport.findAll(QuotesItemBean.class)){
-            mHavedAllOptionalList.add(itemBean);
-        }
-        DataSupport.deleteAll(QuotesItemBean.class);
-        for (int i = 0; i < 5; i++) {
-            AllClassificationBean allClassificationBean = new AllClassificationBean();
-            if (i == 0){
-                allClassificationBean.setClassificationName("自选");
-                allClassificationBean.setOnClick(true);
-            }else if (i == 1){
-                allClassificationBean.setClassificationName("主力合约");
-                allClassificationBean.setOnClick(false);
-            }else if (i == 2){
-                allClassificationBean.setClassificationName("上期所");
-                allClassificationBean.setOnClick(false);
-            }else if (i == 3){
-                allClassificationBean.setClassificationName("大商所");
-                allClassificationBean.setOnClick(false);
-            }else if (i == 4){
-                allClassificationBean.setClassificationName("郑商所");
-                allClassificationBean.setOnClick(false);
-            }else {
-            }
-            allQuotesNames.add(allClassificationBean);
-        }
-        initView();
+        mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
+
+        View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes ,null);
+        addRecyclerView = (RecyclerView) footerView.findViewById(R.id.rv_add_recycler_view);
+        mCommonTab = (HorizontalTabLayout) footerView.findViewById(R.id.op_common_tab_layout);
+        ArrayList<CustomTabEntity> mList = new ArrayList<>();
+        mList.add(new TabEntity("自选"));
+        mList.add(new TabEntity("主力合约"));
+        mList.add(new TabEntity("上期所"));
+        mList.add(new TabEntity("郑商所"));
+        mList.add(new TabEntity("大商所"));
+        mCommonTab.setTabData(mList);
+
+        addRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        addRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
+        addAdapter = new AllHavedOptionalAdapter();
+        addAdapter.addData(getzxList());
+        addRecyclerView.setAdapter(addAdapter);
+
+        //自选
+        zxRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        zxRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
+        zxAdapter = new AllHavedOptionalAdapter();
+        zxAdapter.addData(getzxList());
+        zxAdapter.addFooterView(footerView);
+        zxRecyclerView.setAdapter(zxAdapter);
+
+        setListener();
     }
-    private void initView(){
-        mTitle.setTitle(true,R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
-        //还能被添加的分类
 
-        LinearLayoutManager ms= new LinearLayoutManager(mContext);
-        ms.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 recyclerview 布局方式为横向布局
-        mQptionalClassificationRecycler.setLayoutManager(ms);
-        mQptionalClassificationRecycler.setFocusable(false);
-        mMarketClassificationAdapter = new MarketClassificationAdapter();
-        mQptionalClassificationRecycler.setAdapter(mMarketClassificationAdapter);
-        mMarketClassificationAdapter.clearData();
-        mMarketClassificationAdapter.addData(allQuotesNames);
-        mMarketClassificationAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
-            @Override
-            public void onItemClick(View view, int position) {
-                for (int i = 0; i < allQuotesNames.size(); i++) {
-                    allQuotesNames.get(i).setOnClick((i == position)?true:false);
-                }
-                mMarketClassificationAdapter.notifyDataSetChanged();
-            }
-        });
-        //已经在自选中的数据处理
-        mAllHavedOptionalRecycler.setLayoutManager(new GridLayoutManager(this,4));
-        mAllHavedOptionalRecycler.addItemDecoration(new SpaceItemDecoration(5));
-        mAllHavedOptionalAdapter = new AllHavedOptionalAdapter();
-        mAllHavedOptionalAdapter.addData(mHavedAllOptionalList);
-        mAllHavedOptionalRecycler.setAdapter(mAllHavedOptionalAdapter);
+    private void setListener() {
 
-        mAllHavedOptionalAdapter.setonLongItemClickListener(new BaseRecyclerAdapter.OnLongItemClick() {
+        zxAdapter.setonLongItemClickListener(new BaseRecyclerAdapter.OnLongItemClick() {
             @Override
             public void onLongItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 mItemTouchHelper.startDrag(holder);
@@ -142,12 +114,22 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 vib.vibrate(70);
             }
         });
-        mAllHavedOptionalAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
+
+        zxAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
             @Override
             public void onItemClick(View view, int position) {
 
             }
         });
+
+
+        addAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(View view, int position) {
+                
+            }
+        });
+
         //mAllHavedOptionalRecycler.addItemDecoration(new DividerGridItemDecoration(this));
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
 
@@ -178,16 +160,19 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 int fromPosition = viewHolder.getAdapterPosition();
                 //拿到当前拖拽到的item的viewHolder
                 int toPosition = target.getAdapterPosition();
-                if (fromPosition < toPosition) {
-                    for (int i = fromPosition; i < toPosition; i++) {
-                        Collections.swap(mHavedAllOptionalList, i, i + 1);
+                //addFooterView - 1 最后 - 1
+                if (toPosition <= zxAdapter.getItemCount() -2) {
+                    if (fromPosition < toPosition) {
+                        for (int i = fromPosition; i < toPosition; i++) {
+                            Collections.swap(zxAdapter.getData(), i, i + 1);
+                        }
+                    } else {
+                        for (int i = fromPosition; i > toPosition; i--) {
+                            Collections.swap(zxAdapter.getData(), i, i - 1);
+                        }
                     }
-                } else {
-                    for (int i = fromPosition; i > toPosition; i--) {
-                        Collections.swap(mHavedAllOptionalList, i, i - 1);
-                    }
+                    zxAdapter.notifyItemMoved(fromPosition, toPosition);
                 }
-                mAllHavedOptionalAdapter.notifyItemMoved(fromPosition, toPosition);
                 return true;
             }
 
@@ -234,25 +219,15 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
             }
         });
 
-        mItemTouchHelper.attachToRecyclerView(mAllHavedOptionalRecycler);
+        mItemTouchHelper.attachToRecyclerView(zxRecyclerView);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        for (int i = 0; i < mHavedAllOptionalList.size() ; i++) {
-            QuotesItemBean itemBean = new QuotesItemBean();
-            itemBean.setContractName(mHavedAllOptionalList.get(i).getContractName());
-            itemBean.setLatestPrice(mHavedAllOptionalList.get(i).getLatestPrice());
-            itemBean.setQuoteChange(mHavedAllOptionalList.get(i).getQuoteChange());
-            itemBean.setHavedPositions(mHavedAllOptionalList.get(i).getHavedPositions());
-            itemBean.save();
+
+    private List<String> getzxList() {
+        List<String> mList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            mList.add("1111" + i);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.setResult(Constant.OptionalQuotesLITEPALl, new Intent());
+        return mList;
     }
 }

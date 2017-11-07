@@ -210,6 +210,11 @@
         <!-- 设置icon与文字间距 -->
         <attr name="tl_iconMargin" format="dimension" />
 
+        <!-- HorizontalTabLayout -->
+        <attr name="tl_rightMargin" format="dimension"/>
+        <attr name="tl_leftMargin" format="dimension"/>
+        <attr name="tl_windMargin" format="dimension"/>
+
     </declare-styleable>
     <declare-styleable name="MsgView">
         <!-- 圆角矩形背景色 -->

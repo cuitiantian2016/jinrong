@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.ui.market.bean.QuotesItemBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
@@ -16,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by hc on 2017/10/25.
  */
 
-public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.ViewHolder,QuotesItemBean> {
+public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.ViewHolder,String> {
 
     @Override
     public ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,10 +30,10 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
         holder.mTvQuoteChange.setTextSize(16);
         holder.mTvHavedPositions.setTextSize(16);
 
-        holder.mTvContractName.setText(item.getContractName());
-        holder.mTvLatestPrice.setText(item.getLatestPrice());
-        holder.mTvQuoteChange.setText(item.getQuoteChange());
-        holder.mTvHavedPositions.setText(item.getHavedPositions());
+//        holder.mTvContractName.setText(item);
+//        holder.mTvLatestPrice.setText(item);
+//        holder.mTvQuoteChange.setText(item);
+//        holder.mTvHavedPositions.setText(item);
     }
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_contract_name)

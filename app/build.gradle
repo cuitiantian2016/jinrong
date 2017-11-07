@@ -198,8 +198,6 @@ dependencies {
     compile project(':smart-refresh')
     //图片压缩
     compile 'top.zibin:Luban:1.0.9'
-    //数据库
-    compile 'org.litepal.android:core:1.6.0'
     compile project(path: ':mpush')
 }
 
