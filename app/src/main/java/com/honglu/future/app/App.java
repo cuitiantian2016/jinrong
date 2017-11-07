@@ -24,12 +24,10 @@ import com.honglu.future.mpush.MPush;
 import com.honglu.future.mpush.MyLog;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
-import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.util.UserUtil;
 import com.honglu.future.util.ViewUtil;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -41,7 +39,6 @@ import com.xulu.mpush.client.ClientConfig;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.litepal.LitePalApplication;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -55,7 +52,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
  * Created by zq on 2017/10/24.
  */
 
-public class App extends LitePalApplication implements Application.ActivityLifecycleCallbacks{
+public class App extends Application implements Application.ActivityLifecycleCallbacks{
     public static App mApp;
 
     @Override
