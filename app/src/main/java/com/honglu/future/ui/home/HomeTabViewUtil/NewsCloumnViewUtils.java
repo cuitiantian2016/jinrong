@@ -2,6 +2,7 @@ package com.honglu.future.ui.home.HomeTabViewUtil;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -147,7 +149,7 @@ public class NewsCloumnViewUtils {
     /**
      * 第一种类型
      */
-    public static class TypeOneViewHolder extends BaseViewHolder {
+    private static class TypeOneViewHolder extends BaseViewHolder {
         ImageView newest_content_iv;
         RelativeLayout rel_left;
         LinearLayout content_ll;
@@ -160,7 +162,7 @@ public class NewsCloumnViewUtils {
         ImageView profit_icon;
         ImageView mIvAvatar;
 
-        public TypeOneViewHolder(View convertView) {
+        TypeOneViewHolder(View convertView) {
             Type = 0;
             rel_left = (RelativeLayout) convertView.findViewById(R.id.rel_left);
             newest_content_iv = (ImageView) convertView.findViewById(R.id.newest_content_iv);
@@ -179,8 +181,7 @@ public class NewsCloumnViewUtils {
         public void bindView(final HomeMessageItem item, final int position) {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
-            ImageUtil.display(item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
-
+            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
             if (!TextUtils.isEmpty(item.modifyTime) && item.modifyTime.length() > 16) {
                 tv_time.setText(computingTime(item.createTime));
             }
@@ -189,13 +190,11 @@ public class NewsCloumnViewUtils {
             } else {
                 mTvName.setText("");
             }
-
             if (!TextUtils.isEmpty(item.userRole)) {
                 mTvUserType.setText(item.userRole);
             } else {
                 mTvUserType.setText("");
             }
-
             tv_praise.setText(String.valueOf(item.praiseCounts));
             if (item.isPraise > 0) {
                 profit_icon.setImageResource(R.mipmap.ic_support);
@@ -225,7 +224,7 @@ public class NewsCloumnViewUtils {
     /**
      * 第二种类型
      */
-    public static class TypeTwoViewHolder extends BaseViewHolder {
+    private static class TypeTwoViewHolder extends BaseViewHolder {
         private Context mContext;
         public TextView newset_contenttype2;
         public ImageView typetwonewest_content_iv;
@@ -235,7 +234,7 @@ public class NewsCloumnViewUtils {
         public TextView tv_user_role2;
         ImageView profit_icon;
 
-        public TypeTwoViewHolder(View convertView) {
+        TypeTwoViewHolder(View convertView) {
             mContext = convertView.getContext();
             Type = 1;
             typetwonewest_content_iv = (ImageView) convertView.findViewById(R.id.typetwonewest_content_iv);

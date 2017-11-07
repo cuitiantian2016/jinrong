@@ -15,7 +15,8 @@ public class ConfigUtil {
 
     private boolean isDebug = BuildConfig.DEBUG;//是否调试模式,上线必须改为false
 
-    public String baseUrl = "http://192.168.85.126:8081/";
+    public static String baseUrl = "http://192.168.85.126:8081/";
+    public static String baseImageUserUrl = "qihuo-test.oss-cn-shanghai.aliyuncs.com/";
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/
 
 
