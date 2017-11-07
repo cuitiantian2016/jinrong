@@ -36,6 +36,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import retrofit2.http.PUT;
+
 /**
  * Created by hefei on 2017/6/6.
  * <p>
@@ -56,6 +58,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
     private PagerAdapter pagerAdapter;
     private IndicatorViewModel indicatorViewModel;
     private boolean isRefresh;
+    boolean isAdapterRefresh;
     private int deviceWidth;//设备宽度
     private Context mContext;
     private BasePresenter marketPresenter;
@@ -166,7 +169,6 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -354,5 +356,26 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
     public void requestMarket(){
         if (!TextUtils.isEmpty(productList))
         MPushUtil.requestMarket(productList);
+    }
+
+    /**
+     * 刷新数据
+     * @param dataBean
+     */
+    public void refreshPrice(MarketData.MarketDataBean dataBean){
+        if (arrayList!=null&&arrayList.size()>0){
+            int index = -1;
+            for (int i = 0;i<arrayList.size();i++) {
+                MarketData.MarketDataBean marketDataBean = arrayList.get(i);
+                if (marketDataBean.instrumentID.equals(dataBean.instrumentID)){
+                    index = i;
+                    break;
+                }
+            }
+            if (index>0){
+                arrayList.set(index,dataBean);
+            }
+            pagerAdapter.notifyDataSetChanged();
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.mpush.MPushUtil;
+import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeBottomTabViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
@@ -59,7 +60,12 @@ public class HomeFragment extends BaseFragment{
         if (homeMarketPriceViewModel!=null
                 &&homeMarketPriceViewModel.productList.equals(MPushUtil.requestCodes)
                 &&!(isHidden())){
-           Log.d(TAG, "codes "+event.marketMessage.getInstrumentID());
+            MarketData.MarketDataBean dataBean = new MarketData.MarketDataBean();
+            dataBean.instrumentID = event.marketMessage.getInstrumentID();
+            dataBean.change = event.marketMessage.getChange();
+            dataBean.chg = event.marketMessage.getChg();
+            dataBean.lastPrice = event.marketMessage.getLastPrice();
+            homeMarketPriceViewModel.refreshPrice(dataBean);
         }
     }
     @Override
