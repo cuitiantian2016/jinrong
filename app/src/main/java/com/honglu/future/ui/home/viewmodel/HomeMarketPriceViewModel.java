@@ -261,7 +261,6 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         TextView mTvItemPrice = (TextView) goodsItem.findViewById(R.id.tvitemprice);
         TextView mTvitemchg = (TextView) goodsItem.findViewById(R.id.tvitemchg);
         TextView mTvItemRise = (TextView) goodsItem.findViewById(R.id.tvitemrise);
-        double newPrice = NumberUtils.getDouble(data.lastPrice);
         double change = NumberUtils.getDouble(data.change);
         //当当前价小于昨收价时，价格颜色应变更为绿色
         if (change> 0){
@@ -284,7 +283,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         //设置上涨下跌比例
         mTvItemRise.setText(data.change);
         mTvitemchg.setText(data.chg);
-        mTvItemPrice.setText(NumberUtils.getIntegerStr(newPrice));
+        mTvItemPrice.setText(data.lastPrice);
     }
     @Override
     public void bindData(MarketData marketData) {
