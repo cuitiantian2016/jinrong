@@ -11,6 +11,7 @@
     <!-- 顶部TitleBar，左右两侧文字的颜色 -->
     <color name="udesk_color_navi_text1">#FFFFFF</color>
     <color name="udesk_color_navi_text2">#FFFFFF</color>
+    <color name="udesk_color_title">#333333</color>
 
     <!-- 顶部TitleBar，中间文字的颜色 -->
     <color name="udesk_color_titlebar_text_center1">#FFFFFF</color>

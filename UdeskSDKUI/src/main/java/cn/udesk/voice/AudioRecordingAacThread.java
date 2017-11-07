@@ -44,6 +44,7 @@ public class AudioRecordingAacThread extends Thread implements VoiceRecord {
 	private void handleError() {
 		// 反馈失败状态
 		if (mState != null) {
+//			mState.onRecordingError();
 			mState.onRecordllegal();
 		}
 
@@ -78,7 +79,7 @@ public class AudioRecordingAacThread extends Thread implements VoiceRecord {
 						isError = true;
 						break;
 					}
-				} catch (Exception e) {
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}

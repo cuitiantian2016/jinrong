@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.udesk.R;
+import cn.udesk.config.UdekConfigUtil;
+import cn.udesk.config.UdeskConfig;
 
 
 /**

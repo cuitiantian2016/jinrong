@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class SurvyOptionAdapter extends BaseAdapter {
     private List<OptionsModel> list = new ArrayList<OptionsModel>();
 
     public SurvyOptionAdapter(Context context , SurveyOptionsModel model) {
+        mContext = context;
         try {
-            mContext = context;
             if(model != null  && model.getOptions() != null ){
                 list = model.getOptions();
                 if(!list.isEmpty() && list.get(0)!= null){
@@ -40,34 +41,24 @@ public class SurvyOptionAdapter extends BaseAdapter {
     }
     
     public void updateCheckOptions(int position){
-
-        try {
-            for(int i=0; i<getCount();i++){
-                if(i == position){
-                    getItem(i).setCheck(true);
-                }else{
-                    getItem(i).setCheck(false);
-                }
-            }
-            notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    	
+    	for(int i=0; i<getCount();i++){
+    		if(i == position){
+    			getItem(i).setCheck(true);
+    		}else{
+    			getItem(i).setCheck(false);
+    		}
+    	}
+    	notifyDataSetChanged();
     }
 
   
     @Override
     public OptionsModel getItem(int position) {
-        try {
-            if(position < 0 || position >= list.size()) {
-                return null;
-            }
-            return list.get(position);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(position < 0 || position >= list.size()) {
+            return null;
         }
-        return null;
+        return list.get(position);
     }
 
     @Override

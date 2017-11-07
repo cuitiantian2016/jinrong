@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 
+import cn.udesk.widget.UDPullGetMoreListView;
 
 
 /**
@@ -23,14 +24,11 @@ public class UdeskWebChromeClient extends WebChromeClient {
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
-    private ICloseWindow closeWindow = null;
+    ICloseWindow closeWindow = null;
+
     private GetH5Title h5TitleListener;
     public interface GetH5Title {
         void h5Title(String title);
-    }
-
-    public interface ICloseWindow {
-        void closeActivty();
     }
 
     public GetH5Title getH5TitleListener() {
@@ -94,10 +92,10 @@ public class UdeskWebChromeClient extends WebChromeClient {
         quotaUpdater.updateQuota(requiredStorage*2);
     }
 
-//    @Override
-//    public void onConsoleMessage(String message, int lineNumber, String sourceID) {
-//        Log.e("h5log", String.format("%s -- From line %s of %s", message, lineNumber, sourceID));
-//    }
+    @Override
+    public void onConsoleMessage(String message, int lineNumber, String sourceID) {
+//        Log.e("h5端的log", String.format("%s -- From line %s of %s", message, lineNumber, sourceID));
+    }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
@@ -120,13 +118,19 @@ public class UdeskWebChromeClient extends WebChromeClient {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
+//        intent.setType("image/*");
+//        Intent   intent = new Intent(
+//                Intent.ACTION_PICK,
+//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        intent.setDataAndType(
+//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                "image/*");
         return intent;
     }
 
 
     public  void onActivityResult(int requestCode, int resultCode, Intent data){
 
-        try {
             if (requestCode == FILE_CHOOSER_RESULT_CODE) {
                 if (null == uploadMessage&& null == uploadMessageAboveL){
                     return;
@@ -148,6 +152,7 @@ public class UdeskWebChromeClient extends WebChromeClient {
                 }else if(uploadMessage != null) {
                     if (data != null &&  resultCode == Activity.RESULT_OK ){
                         Uri result = data.getData();
+//                        Log.e("xxx","5.0-result="+result);
                         uploadMessage.onReceiveValue(result);
                         uploadMessage = null;
                     }
@@ -156,39 +161,33 @@ public class UdeskWebChromeClient extends WebChromeClient {
 
 
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent intent) {
-        try {
-            if (requestCode != FILE_CHOOSER_RESULT_CODE || uploadMessageAboveL == null){
-                return;
-            }
-            Uri[] results = null;
-            if (resultCode == Activity.RESULT_OK) {
-                if (intent != null) {
-                    String dataString = intent.getDataString();
-                    ClipData clipData = intent.getClipData();
-                    if (clipData != null) {
-                        results = new Uri[clipData.getItemCount()];
-                        for (int i = 0; i < clipData.getItemCount(); i++) {
-                            ClipData.Item item = clipData.getItemAt(i);
-                            results[i] = item.getUri();
-                        }
-                    }
-                    if (dataString != null)
-                        results = new Uri[]{Uri.parse(dataString)};
-                }
-            }
-            uploadMessageAboveL.onReceiveValue(results);
-            uploadMessageAboveL = null;
-        } catch (Exception e) {
-            e.printStackTrace();
+//        Log.e("xxx","5.0+ 返回了");
+        if (requestCode != FILE_CHOOSER_RESULT_CODE || uploadMessageAboveL == null){
+            return;
         }
+        Uri[] results = null;
+        if (resultCode == Activity.RESULT_OK) {
+            if (intent != null) {
+                String dataString = intent.getDataString();
+                ClipData clipData = intent.getClipData();
+                if (clipData != null) {
+                    results = new Uri[clipData.getItemCount()];
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        ClipData.Item item = clipData.getItemAt(i);
+                        results[i] = item.getUri();
+                    }
+                }
+                if (dataString != null)
+                    results = new Uri[]{Uri.parse(dataString)};
+            }
+        }
+        uploadMessageAboveL.onReceiveValue(results);
+        uploadMessageAboveL = null;
     }
 
 }

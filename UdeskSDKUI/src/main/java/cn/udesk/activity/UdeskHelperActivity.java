@@ -2,6 +2,7 @@ package cn.udesk.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,7 +24,6 @@ import cn.udesk.UdeskSDKManager;
 import cn.udesk.UdeskUtil;
 import cn.udesk.adapter.UDHelperAdapter;
 import cn.udesk.config.UdekConfigUtil;
-import cn.udesk.config.UdeskBaseInfo;
 import cn.udesk.config.UdeskConfig;
 import cn.udesk.widget.UdeskLoadingView;
 import cn.udesk.widget.UdeskTitleBar;
@@ -31,7 +31,7 @@ import udesk.core.UdeskCallBack;
 import udesk.core.UdeskHttpFacade;
 import udesk.core.model.UDHelperItem;
 
-public class UdeskHelperActivity extends Activity implements OnClickListener, AdapterView.OnItemClickListener {
+public class UdeskHelperActivity extends UdeskBaseActivity implements OnClickListener, AdapterView.OnItemClickListener {
 
     private UdeskTitleBar mTitlebar;
     private View naviToIm;
@@ -52,45 +52,41 @@ public class UdeskHelperActivity extends Activity implements OnClickListener, Ad
     }
 
     private void initView() {
-        try {
-            settingTitlebar();
-            mNoDataView = findViewById(R.id.udesk_navi_may_search_fail);
-            naviToIm = findViewById(R.id.udesk_navi_to_im);
-            naviToIm.setOnClickListener(this);
-            mSearchView = (LinearLayout) findViewById(R.id.udesk_helper_search);
-            btnSearch = findViewById(R.id.udesk_helper_search_button);
-            mSearchEdit = (EditText) findViewById(R.id.udesk_helper_search_input);
-            btnSearch.setOnClickListener(this);
-            mcontainListview = findViewById(R.id.udesk_listviewcontain_view);
-            mListView = (ListView) findViewById(R.id.udesk_helper_list);
-            mListView.setOnItemClickListener(this);
-            mHelperAdapter = new UDHelperAdapter(this);
-            mListView.setAdapter(mHelperAdapter);
-            mLoadingView = (UdeskLoadingView) findViewById(R.id.udesk_loading);
+        settingTitlebar();
+        mNoDataView = findViewById(R.id.udesk_navi_may_search_fail);
+        naviToIm = findViewById(R.id.udesk_navi_to_im);
+        naviToIm.setOnClickListener(this);
+        mSearchView = (LinearLayout) findViewById(R.id.udesk_helper_search);
+        btnSearch = findViewById(R.id.udesk_helper_search_button);
+        mSearchEdit = (EditText) findViewById(R.id.udesk_helper_search_input);
+        btnSearch.setOnClickListener(this);
+        mcontainListview = findViewById(R.id.udesk_listviewcontain_view);
+        mListView = (ListView) findViewById(R.id.udesk_helper_list);
+        mListView.setOnItemClickListener(this);
+        mHelperAdapter = new UDHelperAdapter(this);
+        mListView.setAdapter(mHelperAdapter);
+        mLoadingView = (UdeskLoadingView) findViewById(R.id.udesk_loading);
 
-            mSearchEdit.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before,
-                                          int count) {
+        mSearchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 0) {
+                    startGetHelperList();
                 }
+            }
+        });
 
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count,
-                                              int after) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (editable.toString().length() == 0) {
-                        startGetHelperList();
-                    }
-                }
-            });
-
-            startGetHelperList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        startGetHelperList();
     }
 
 
@@ -98,26 +94,23 @@ public class UdeskHelperActivity extends Activity implements OnClickListener, Ad
      * titlebar 的设置
      */
     private void settingTitlebar() {
-        try {
-            mTitlebar = (UdeskTitleBar) findViewById(R.id.udesktitlebar);
-            if (mTitlebar != null) {
-                mTitlebar.setLeftTextSequence(getString(R.string.udesk_navi_helper_title_main));
-                mTitlebar.setLeftLinearVis(View.VISIBLE);
-                mTitlebar.setLeftViewClick(new OnClickListener() {
+        mTitlebar = (UdeskTitleBar) findViewById(R.id.udesktitlebar);
+        if (mTitlebar != null) {
+            mTitlebar.setLeftTextSequence(getString(R.string.udesk_navi_helper_title_main));
+            mTitlebar.setLeftLinearVis(View.VISIBLE);
+            mTitlebar.setLeftViewClick(new OnClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                if (UdeskConfig.DEFAULT != UdeskConfig.udeskbackArrowIconResId) {
-                    mTitlebar.getUdeskBackImg().setImageResource(UdeskConfig.udeskbackArrowIconResId);
+                @Override
+                public void onClick(View v) {
+                    finish();
                 }
-               UdekConfigUtil.setUITextColor(UdeskConfig.udeskTitlebarTextLeftRightResId,mTitlebar.getLeftTextView(),mTitlebar.getRightTextView());
-               UdekConfigUtil.setUIbgDrawable(UdeskConfig.udeskTitlebarBgResId ,mTitlebar.getRootView());
+            });
+            if (UdeskConfig.DEFAULT != UdeskConfig.udeskbackArrowIconResId) {
+                mTitlebar.getUdeskBackImg().setImageResource(UdeskConfig.udeskbackArrowIconResId);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+           UdekConfigUtil.setUITextColor(UdeskConfig.udeskTitlebarTextLeftRightResId,mTitlebar.getLeftTextView(),mTitlebar.getRightTextView());
+//           UdekConfigUtil.setUITextColor(UdeskConfig.udeskTitlebarTextcenterResId,mTitlebar.getTitleTextView(),mTitlebar.getStateTextView());
+           UdekConfigUtil.setUIbgDrawable(UdeskConfig.udeskTitlebarBgResId ,mTitlebar.getRootView());
         }
     }
 
@@ -125,60 +118,40 @@ public class UdeskHelperActivity extends Activity implements OnClickListener, Ad
      * 获取帮助列表
      */
     private void startGetHelperList() {
-        try {
-            showLoading();
-            getListArticles();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        showLoading();
+        getListArticles();
     }
 
     private void startGetSerchHelper(String query) {
-        try {
-            showLoading();
-            getArticlesSearch(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        showLoading();
+        getArticlesSearch(query);
     }
 
     /**
      * 显示loading
      */
     private void showLoading() {
-        try {
-            mSearchView.setVisibility(View.GONE);
-            mcontainListview.setVisibility(View.GONE);
-            mLoadingView.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mSearchView.setVisibility(View.GONE);
+        mcontainListview.setVisibility(View.GONE);
+        mLoadingView.setVisibility(View.VISIBLE);
     }
 
 
     private void hideLoading() {
-        try {
-            mLoadingView.setVisibility(View.GONE);
-            mSearchView.setVisibility(View.VISIBLE);
-            showNoDataVis(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mLoadingView.setVisibility(View.GONE);
+        mSearchView.setVisibility(View.VISIBLE);
+        showNoDataVis(View.VISIBLE);
     }
 
     /**
      * 显示问题列表
      */
     private void showListView() {
-        try {
-            if (mcontainListview != null) {
-                mcontainListview.setVisibility(View.VISIBLE);
-            }
-
-            showNoDataVis(View.GONE);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mcontainListview != null) {
+            mcontainListview.setVisibility(View.VISIBLE);
         }
+
+        showNoDataVis(View.GONE);
     }
 
     private void showNoDataVis(int vis) {
@@ -190,86 +163,74 @@ public class UdeskHelperActivity extends Activity implements OnClickListener, Ad
 
     @Override
     public void onClick(View v) {
-        try {
-            if (v.getId() == R.id.udesk_helper_search_button) {
-                String search = mSearchEdit.getText().toString();
-                if (!TextUtils.isEmpty(search)) {
-                    startGetSerchHelper(search);
-                }
-            } else if (v.getId() == R.id.udesk_navi_to_im) {
-                UdeskSDKManager.getInstance().showConversationByImGroup(UdeskHelperActivity.this);
+        if (v.getId() == R.id.udesk_helper_search_button) {
+            String search = mSearchEdit.getText().toString();
+            if (!TextUtils.isEmpty(search)) {
+                startGetSerchHelper(search);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else if (v.getId() == R.id.udesk_navi_to_im) {
+            UdeskSDKManager.getInstance().showConversationByImGroup(UdeskHelperActivity.this);
         }
     }
 
     //请求获取文章列表
     private void getListArticles() {
 
-        try {
-            UdeskHttpFacade.getInstance().getListArticlesJsonAPi(
-                    UdeskSDKManager.getInstance().getDomain(this),
-                    UdeskSDKManager.getInstance().getAppkey(this),
-                    UdeskSDKManager.getInstance().getAppId(this),
-                    new UdeskCallBack() {
-                        @Override
-                        public void onSuccess(String message) {
-                            List<UDHelperItem> helpItems = JsonUtils.parseListArticlesResult(message);
-                            hideLoading();
-                            if (helpItems != null && helpItems.size() > 0) {
-                                mHelperAdapter.setList(helpItems);
-                                showListView();
-                            } else {
-                                showNoDataVis(View.VISIBLE);
-                            }
+        UdeskHttpFacade.getInstance().getListArticlesJsonAPi(
+                UdeskSDKManager.getInstance().getDomain(UdeskHelperActivity.this),
+                UdeskSDKManager.getInstance().getSecretKey(UdeskHelperActivity.this),
+                UdeskSDKManager.getInstance().getAppid(),
+                new UdeskCallBack() {
+                    @Override
+                    public void onSuccess(String message) {
+                        List<UDHelperItem> helpItems = JsonUtils.parseListArticlesResult(message);
+                        hideLoading();
+                        if (helpItems != null && helpItems.size() > 0) {
+                            mHelperAdapter.setList(helpItems);
+                            showListView();
+                        } else {
+                            showNoDataVis(View.VISIBLE);
                         }
+                    }
 
-                        @Override
-                        public void onFail(String message) {
-                            hideLoading();
-                            Toast.makeText(UdeskHelperActivity.this,
-                                    message, Toast.LENGTH_LONG).show();
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    @Override
+                    public void onFail(String message) {
+                        hideLoading();
+                        Toast.makeText(UdeskHelperActivity.this,
+                                message, Toast.LENGTH_LONG).show();
+                    }
+                });
 
     }
 
     //获取包含搜索内容的文章列表
     private void getArticlesSearch(String query) {
-        try {
-            UdeskHttpFacade.getInstance().getArticlesSearchJsonAPi(
-                    UdeskSDKManager.getInstance().getDomain(this),
-                    UdeskSDKManager.getInstance().getAppkey(this),
-                    query,
-                    UdeskSDKManager.getInstance().getAppId(this),
-                    new UdeskCallBack() {
+        UdeskHttpFacade.getInstance().getArticlesSearchJsonAPi(
+                UdeskSDKManager.getInstance().getDomain(UdeskHelperActivity.this),
+                UdeskSDKManager.getInstance().getSecretKey(UdeskHelperActivity.this),
+                query,
+                UdeskSDKManager.getInstance().getAppid(),
+                new UdeskCallBack() {
 
-                        @Override
-                        public void onSuccess(String message) {
-                            List<UDHelperItem> searchitems = JsonUtils
-                                    .parseListArticlesResult(message);
-                            hideLoading();
-                            if (searchitems != null && searchitems.size() > 0) {
-                                mHelperAdapter.setList(searchitems);
-                                showListView();
-                            } else {
-                                showNoDataVis(View.VISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String message) {
-                            hideLoading();
+                    @Override
+                    public void onSuccess(String message) {
+                        List<UDHelperItem> searchitems = JsonUtils
+                                .parseListArticlesResult(message);
+                        hideLoading();
+                        if (searchitems != null && searchitems.size() > 0) {
+                            mHelperAdapter.setList(searchitems);
+                            showListView();
+                        } else {
                             showNoDataVis(View.VISIBLE);
                         }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        hideLoading();
+                        showNoDataVis(View.VISIBLE);
+                    }
+                });
 
     }
 
@@ -277,16 +238,12 @@ public class UdeskHelperActivity extends Activity implements OnClickListener, Ad
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
 
-        try {
-            UDHelperItem item = mHelperAdapter.getItem(position);
-            if (item != null) {
-                Intent intent = new Intent();
-                intent.putExtra(UdeskConst.UDESKARTICLEID, item.id);
-                intent.setClass(UdeskHelperActivity.this, UdeskHelperArticleActivity.class);
-                UdeskHelperActivity.this.startActivity(intent);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        UDHelperItem item = mHelperAdapter.getItem(position);
+        if (item != null) {
+            Intent intent = new Intent();
+            intent.putExtra(UdeskConst.UDESKARTICLEID, item.id);
+            intent.setClass(UdeskHelperActivity.this, UdeskHelperArticleActivity.class);
+            UdeskHelperActivity.this.startActivity(intent);
         }
 
     }

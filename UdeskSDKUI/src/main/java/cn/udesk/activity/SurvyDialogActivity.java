@@ -17,7 +17,7 @@ import cn.udesk.model.OptionsModel;
 import cn.udesk.model.SurveyOptionsModel;
 
 //满意度调查
-public class UdeskSurvyDialogActivity extends Activity implements OnItemClickListener, OnClickListener {
+public class SurvyDialogActivity extends UdeskBaseActivity implements OnItemClickListener, OnClickListener {
     SurveyOptionsModel surveyOptions = null;
     ListView optionsListView;
     SurvyOptionAdapter adapter;
@@ -64,12 +64,8 @@ public class UdeskSurvyDialogActivity extends Activity implements OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-        try {
-            checkOptions = adapter.getItem(position);
-            adapter.updateCheckOptions(position);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        checkOptions = adapter.getItem(position);
+        adapter.updateCheckOptions(position);
     }
 
     @Override
@@ -82,7 +78,7 @@ public class UdeskSurvyDialogActivity extends Activity implements OnItemClickLis
                 if (checkOptions != null){
                     mIntent.putExtra(UdeskConst.SurvyOptionIDKey, checkOptions.getId());
                 }
-                UdeskSurvyDialogActivity.this.setResult(Activity.RESULT_OK, mIntent);
+                SurvyDialogActivity.this.setResult(Activity.RESULT_OK, mIntent);
                 finish();
             }
         } catch (Exception e) {

@@ -2,8 +2,6 @@ package com.honglu.future.ui.main.activity;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,11 +11,8 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -25,7 +20,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,28 +28,21 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
-import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
-import com.honglu.future.ui.login.activity.ResetPwdActivity;
 import com.honglu.future.ui.main.bean.MoreContentBean;
 import com.honglu.future.ui.main.contract.MyContract;
 import com.honglu.future.ui.main.presenter.MyPresenter;
-import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.LogUtils;
-import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.util.UDeskUtils;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -471,7 +458,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
          */
         @JavascriptInterface
         public void sobot() {
-            UDeskUtils.getInstance().entryChat(WebViewActivity.this);
+            //UDeskUtils.getInstance().entryChat(WebViewActivity.this);
         }
 
         /**

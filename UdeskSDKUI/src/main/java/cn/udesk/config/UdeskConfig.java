@@ -1,10 +1,56 @@
 package cn.udesk.config;
 
+import java.util.Map;
 
 /**
  * Created by user on 2016/8/12.
  */
 public class UdeskConfig {
+
+    /**
+     * 用户唯一的标识
+     */
+    public static String appid = "";
+    public static String domain = "";
+    public static  String secretKey = "";
+    /**
+     * 用户唯一的标识
+     */
+    public static String sdkToken = null;
+    /**
+     * 用户的基本信息
+     */
+    public static Map<String, String> userinfo = null;
+
+    /**
+     * 用户自定义字段文本信息
+     */
+    public static Map<String, String> textField = null;
+
+
+    /**
+     * 用户自定义字段的列表信息
+     */
+    public static Map<String, String> roplist = null;
+
+    /**
+     * 用户需要更新的基本信息
+     */
+    public static Map<String, String> updateUserinfo = null;
+
+    /**
+     * 用户需要更新自定义字段文本信息
+     */
+    public static Map<String, String> updateTextField = null;
+
+    /**
+     * 用户需要更新自定义字段的列表信息
+     */
+    public static  Map<String, String> updateRoplist = null;
+
+    //相关推送平台注册生成的ID
+    public static String registerId = "";
+
 
     public static final int DEFAULT = -1;
 
@@ -45,32 +91,11 @@ public class UdeskConfig {
     public static int udeskCommityLinkColorResId = DEFAULT;
 
     //配置 是否使用推送服务  true 表示使用  false表示不使用
-    public  static  boolean isUserSDkPush = true;
+    public  static  boolean isUserSDkPush = false;
 
-    //配置放弃排队的策略
-    public  static  String  UdeskQuenuMode = UdeskQuenuFlag.Mark;
+    //在调用进入会化通过导航页进入，配置是否使用直接进入会话  true 表示直接进入人工客服    false表示通过导航页进入
+    public  static  boolean isDirectAccessToSession = false;
 
-    //配置开启留言时的    留言表单留言提示语
-    public  static  String  UdeskLeavingMsg = "";
-
-    //配置是否把domain 和 appid 和 appkey 和 sdktoken 存在sharePrefence中， ftrue保存，false 不存
-    public  static  boolean  isUseShare = true;
-
-    //是否使用录音功能  true表示使用 false表示不使用
-    public  static  boolean  isUseVoice = true;
-
-    //在没有请求到管理员在后端对sdk使用配置下，在默认的情况下，是否需要表单留言，true需要， false 不需要
-     public  static  boolean  isUserForm= false;
-
-    //mode: mark (默认,标记放弃)/ cannel_mark(取消标记) / force_quit(强制立即放弃)
-    public static  class  UdeskQuenuFlag{
-        public static final String Mark ="mark";
-        public static final String FORCE_QUIT = "force_quit";
-        public static final String CANNEL_MARK = "cannel_mark";
-    }
-
-    public static class UdeskPushFlag{
-        public static final String ON ="on";
-        public static final String OFF ="off";
-    }
+    //客服不在线的时候，设置留言表单的地址，未设置，默认进入Udesk提供的留言表单页面
+    public  static  String  udeskFormUrl = "";
 }

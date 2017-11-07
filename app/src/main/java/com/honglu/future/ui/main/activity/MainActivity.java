@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.honglu.future.R;
-import com.honglu.future.app.App;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.app.JPushManager;
 import com.honglu.future.base.BaseActivity;
@@ -37,7 +36,6 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StatusBarUtils;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.util.UDeskUtils;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -71,7 +69,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         }
         super.onCreate(savedInstanceState);
         JPushManager.get().registerJPushAlias();
-        UDeskUtils.getInstance().init(MainActivity.this);
     }
 
     @Override

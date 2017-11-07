@@ -1,7 +1,6 @@
 package cn.udesk.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cn.udesk.R;
-import cn.udesk.UdeskUtil;
 
 
 public class UDPullGetMoreListView extends ListView implements OnScrollListener {
@@ -62,28 +60,24 @@ public class UDPullGetMoreListView extends ListView implements OnScrollListener 
     }
 
     private void init(Context context) {
-        try {
-            inflater = LayoutInflater.from(context);
-            llheader = (LinearLayout) inflater.inflate(R.layout.udesk_layout_get_more, null);
-            pbLoading = (ProgressBar) llheader.findViewById(R.id.udesk_get_more_progress);
-            tvTips = (TextView) llheader.findViewById(R.id.udesk_get_more_tips);
+        inflater = LayoutInflater.from(context);
+        llheader = (LinearLayout) inflater.inflate(R.layout.udesk_layout_get_more, null);
+        pbLoading = (ProgressBar) llheader.findViewById(R.id.udesk_get_more_progress);
+        tvTips = (TextView) llheader.findViewById(R.id.udesk_get_more_tips);
 
-            measureView(llheader);
-            headContentHeight = llheader.getMeasuredHeight();
+        measureView(llheader);
+        headContentHeight = llheader.getMeasuredHeight();
 
-            llheader.setPadding(0, -1 * headContentHeight, 0, 0);
-            llheader.invalidate();
+        llheader.setPadding(0, -1 * headContentHeight, 0, 0);
+        llheader.invalidate();
 
-            addHeaderView(llheader, null, false);
+        addHeaderView(llheader, null, false);
 
-            setOnScrollListener(this);
+        setOnScrollListener(this);
 
-            state = DONE;
-            isRefreshable = false;
-            isPush = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        state = DONE;
+        isRefreshable = false;
+        isPush = true;
     }
 
 
@@ -96,17 +90,6 @@ public class UDPullGetMoreListView extends ListView implements OnScrollListener 
 
 
     public void onScrollStateChanged(AbsListView arg0, int arg1) {
-
-        switch(arg1){
-            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
-                UdeskUtil.imageResume();
-                break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
-                UdeskUtil.imagePause();
-                break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
-                break;
-        }
     }
 
 
@@ -232,56 +215,46 @@ public class UDPullGetMoreListView extends ListView implements OnScrollListener 
 
     // 当状态改变时候，调用该方法，以更新界面
     private void changeHeaderViewByState() {
-        try {
-            switch (state) {
-            case RELEASE_To_REFRESH:
-                pbLoading.setVisibility(View.GONE);
-                tvTips.setVisibility(View.VISIBLE);
-                tvTips.setText(getResources().getString(R.string.udesk_release_to_get_more));
+        switch (state) {
+        case RELEASE_To_REFRESH:
+            pbLoading.setVisibility(View.GONE);
+            tvTips.setVisibility(View.VISIBLE);
+            tvTips.setText(getResources().getString(R.string.udesk_release_to_get_more));
 
-                break;
+            break;
 
-            case PULL_To_REFRESH:
-                pbLoading.setVisibility(View.GONE);
-                tvTips.setVisibility(View.VISIBLE);
-                // 是由RELEASE_To_REFRESH状态转变来的
-                if (isBack) {
-                    isBack = false;
-                }
-                tvTips.setText(getResources().getString(R.string.udesk_get_more_history));
-                break;
-
-            case REFRESHING:
-
-                pbLoading.setVisibility(View.VISIBLE);
-                tvTips.setText(getResources().getString(R.string.udesk_loading_more));
-                llheader.setPadding(0, 0, 0, 0);
-
-                break;
-
-            case DONE:
-
-                pbLoading.setVisibility(View.GONE);
-                tvTips.setText(getResources().getString(R.string.udesk_get_more_history));
-                llheader.setPadding(0, -1 * headContentHeight, 0, 0);
-
-                break;
+        case PULL_To_REFRESH:
+            pbLoading.setVisibility(View.GONE);
+            tvTips.setVisibility(View.VISIBLE);
+            // 是由RELEASE_To_REFRESH状态转变来的
+            if (isBack) {
+                isBack = false;
             }
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
+            tvTips.setText(getResources().getString(R.string.udesk_get_more_history));
+            break;
+
+        case REFRESHING:
+
+            pbLoading.setVisibility(View.VISIBLE);
+            tvTips.setText(getResources().getString(R.string.udesk_loading_more));
+            llheader.setPadding(0, 0, 0, 0);
+
+            break;
+
+        case DONE:
+
+            pbLoading.setVisibility(View.GONE);
+            tvTips.setText(getResources().getString(R.string.udesk_get_more_history));
+            llheader.setPadding(0, -1 * headContentHeight, 0, 0);
+
+            break;
         }
     }
 
     public void setOnRefreshListener(OnRefreshListener refreshListener) {
-        try {
-            this.refreshListener = refreshListener;
-            isRefreshable = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.refreshListener = refreshListener;
+        isRefreshable = true;
     }
-
-
 
 
     public interface OnRefreshListener {
