@@ -69,7 +69,7 @@ public ArrayList<MarketDataBean> list;
                 public String instrumentID;
                 public String exchangeID;
                 public String productId;
-                public String lastPrice;
+                public String lastPrice;//最新价
                 public String preSettlementPrice;
                 public String preClosePrice;
                 public String openPrice;
@@ -111,9 +111,9 @@ public ArrayList<MarketDataBean> list;
                 public String quotationDateTime;
                 public String startDeliveryDate;
                 public String decimalPrecision;
-                public String change;
-                public String chg;
-                public String name;
+                public String change; //改变量
+                public String chg; //利率
+                public String name; //名字
 
           }
 
