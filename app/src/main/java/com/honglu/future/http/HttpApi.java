@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
+import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
@@ -186,9 +187,16 @@ public interface HttpApi {
     @POST("http://192.168.90.130:8080/futures-mobile-api/appBanner/loadBannerInfo")
     Observable<BaseResponse<List<BannerData>>> getBannerData();
 
-    //首页市场行情
-    @GET("credit-user/register")
-    Observable<BaseResponse<MarketData>> getMarketData();
+    //首页市场情codes
+    @GET("http://192.168.85.126:8081/futures-mobile-api/news/api/startup/init/v3")
+    Observable<BaseResponse<HomeMarketCodeBean>> getMarketCodesData(@Query("sourceId") Integer account,
+                                                                    @Query("versionNo") String version,
+                                                                    @Query("userId") String userId);
+    //首页市场行情List
+    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
+    Observable<BaseResponse<MarketData>> getMarketCodesData(
+            @Query(value = "codes" ,encoded = true) String codes,@Query("deviceType") int deviceType
+    );
 
     //首页icon
     @GET("credit-user/register")

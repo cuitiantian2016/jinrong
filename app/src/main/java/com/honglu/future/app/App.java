@@ -183,9 +183,9 @@ public class App extends LitePalApplication implements Application.ActivityLifec
     public void onEventMainThread(BaseEvent event) {
         event.setApplicationContext(getContext());
         if (event instanceof LoginEvent){//登录
-            startPush(SpUtil.getString(Constant.CACHE_TAG_UID));}
+            MPush.I.bindAccount(SpUtil.getString(Constant.CACHE_TAG_UID),"user");}
         if (event instanceof LogoutEvent){//登出
-            MPush.I.stopPush();
+            MPush.I.unbindAccount();
         }
         EventController.getInstance().handleMessage(event);
     }
@@ -282,9 +282,7 @@ public class App extends LitePalApplication implements Application.ActivityLifec
         Log.d("XXX","START");
         ++activityNum;
         isBack = false;
-        if (getConfig().getLoginStatus()){//如果已经登录则直接开启连接
-            startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
-        }
+        startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 
     @Override

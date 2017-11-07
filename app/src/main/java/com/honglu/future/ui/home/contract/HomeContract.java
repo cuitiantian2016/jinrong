@@ -6,5 +6,4 @@ package com.honglu.future.ui.home.contract;
  */
 public interface HomeContract {
 
-
 }

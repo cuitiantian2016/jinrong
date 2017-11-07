@@ -21,6 +21,7 @@ package com.xulu.mpush.client;
 
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.xulu.mpush.api.Client;
@@ -32,7 +33,7 @@ import java.util.concurrent.Executor;
 
 /*package*/ final class DefaultClientListener implements ClientListener {
     private final Executor executor = ExecutorManager.INSTANCE.getDispatchThread();
-    private ClientListener listener;
+    public ClientListener listener;
 
     public void setListener(ClientListener listener) {
         Log.d("ssss", "setListener: "+listener);
@@ -70,7 +71,10 @@ import java.util.concurrent.Executor;
         if (listener != null) {//dispatcher已经使用了Executor，此处直接同步调用
             listener.onHandshakeOk(client, heartbeat);
         }
-        client.bindUser(ClientConfig.I.getUserId(), ClientConfig.I.getTags());
+        String userId = ClientConfig.I.getUserId();
+        if (!TextUtils.isEmpty(userId)){
+            client.bindUser(userId, ClientConfig.I.getTags());
+        }
     }
 
     @Override

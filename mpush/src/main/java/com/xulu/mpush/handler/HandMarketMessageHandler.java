@@ -20,10 +20,12 @@
 package com.xulu.mpush.handler;
 
 
+import com.xulu.mpush.api.Client;
 import com.xulu.mpush.api.Logger;
 import com.xulu.mpush.api.connection.Connection;
 import com.xulu.mpush.api.protocol.Packet;
 import com.xulu.mpush.client.ClientConfig;
+import com.xulu.mpush.client.MPushClient;
 import com.xulu.mpush.message.RequestMarketMessage;
 
 /**
@@ -35,6 +37,7 @@ public final class HandMarketMessageHandler extends BaseMessageHandler<RequestMa
     private static final String TAG = "HandMarketMessageHandler";
 
     private final Logger logger = ClientConfig.I.getLogger();
+    Connection connection;
     @Override
     public RequestMarketMessage decode(Packet packet, Connection connection) {
         return new RequestMarketMessage(packet, connection);
@@ -43,10 +46,9 @@ public final class HandMarketMessageHandler extends BaseMessageHandler<RequestMa
     @Override
     public void handle(RequestMarketMessage message) {
         logger.d(TAG, "handle: message-->"+message);
-        if (message!=null){
-            ClientConfig.I.getClientListener().onReceiverMarket(message);
-        }
-
+        Client client = message.getConnection().getClient();
+        MPushClient mPushClient = (MPushClient) client;
+        mPushClient.config.getClientListener().onReceiverMarket(message);
     }
 
 }

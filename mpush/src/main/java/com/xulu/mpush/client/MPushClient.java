@@ -58,14 +58,14 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author ohun@live.cn (夜色)
  */
-/*package*/final class MPushClient implements Client, AckCallback {
+public final class MPushClient implements Client, AckCallback {
 
     private enum State {Started, Shutdown, Destroyed}
 
     private final AtomicReference<State> clientState = new AtomicReference<>(State.Shutdown);
 
     private final TcpConnection connection;
-    private final ClientConfig config;
+    public final ClientConfig config;
     private final Logger logger;
     private int hbTimeoutTimes;
 

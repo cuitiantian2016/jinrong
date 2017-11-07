@@ -10,6 +10,8 @@ public class BaseResponse<T> implements Serializable {
     public String errorCode;
     public String errorInfo;
     public String pagerManager;
+    private int status;
+
 
     public String getTime() {
         return time;
@@ -23,7 +25,7 @@ public class BaseResponse<T> implements Serializable {
     public T data;
 
     public boolean success() {
-        return success;
+        return success||status == 1000;
     }
 
     public String getCode() {

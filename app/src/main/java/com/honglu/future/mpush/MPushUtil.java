@@ -42,7 +42,7 @@ public final class MPushUtil {
     /**
      * 停止行情请求
      */
-    public static void pauseRequset(){
+    public static void pauseRequest(){
         MPush.I().requestMarket("");
     }
 }

@@ -1,202 +1,120 @@
 package com.honglu.future.ui.home.bean;
 
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Created by fengpeihao on 2017/3/14.
+ * Created by hefei on 2017/3/14.
+ *
+ *             "tradingDay": "20171031",
+ "instrumentID": "ag1712",
+ "exchangeID": "SHFE",
+ "productId": "ag",
+ "lastPrice": "3846",
+ "preSettlementPrice": "3837",
+ "preClosePrice": "3841",
+ "preOpenInterest": "493898",
+ "openPrice": "3835",
+ "highestPrice": "3851",
+ "lowestPrice": "3831",
+ "volume": "153700",
+ "turnover": "8861388930",
+ "openInterest": "474256",
+ "closePrice": "0",
+ "settlementPrice": "0",
+ "upperLimitPrice": "4028",
+ "lowerLimitPrice": "3645",
+ "preDelta": "0",
+ "currDelta": "0",
+ "updateTime": "14:09:08",
+ "updateMillisecond": "0",
+ "bidPrice1": "3846",
+ "bidVolume1": "55",
+ "askPrice1": "3847",
+ "askVolume1": "179",
+ "bidPrice2": "0",
+ "bidVolume2": "0",
+ "askPrice2": "0",
+ "askVolume2": "0",
+ "bidPrice3": "0",
+
+ "bidVolume3": "0",
+ "askPrice3": "0",
+ "askVolume3": "0",
+ "bidPrice4": "0",
+ "bidVolume4": "0",
+ "askPrice4": "0",
+ "askVolume4": "0",
+ "bidPrice5": "0",
+ "bidVolume5": "0",
+ "askPrice5": "0",
+ "askVolume5": "0",
+
+ "averagePrice": "3844",
+
+
+ "actionDay": "20171031",
+ "quotationDateTime": "2017-10-31 14:09:08",
+ "startDeliveryDate": null,
+ "decimalPrecision": 0,
+ "change": "9",
+ "chg": "0.23%",
+ "name": "白银1712"
  */
 
 public class MarketData {
-    /**
-     * code : 200
-     * message : 成功
-     * data : {"successed":true,"data":{"dataList":[{"changeRange":"","changeValue":"1","closingPrice":"2552.00","createMan":"","createTime":"20170314153914","floorPrice":"2534.00","highestPrice":"2554.00","investProductId":"3","investProductName":"吉大豆","lastPrice":"2552.00","marketId":"072157cd450f46899f1cf2e0d73cad5a","modifyMan":"","modifyTime":"20170314153914","openingPrice":"2552.00","remark":"","state":1,"stockIndex":"2539.0","stockTime":"2017-03-14 15:39:11","todayPrice":"2539.0"},{"changeRange":"","changeValue":"1.0000","closingPrice":"21679.0000","createMan":"","createTime":"2017-03-14 02:30:01.0","floorPrice":"21237.0000","highestPrice":"21994.0000","investProductId":"2","investProductName":"吉咖啡","lastPrice":"21679.0000","marketId":"abeacba4eb3944cd8e6cd16ee69d7337","modifyMan":"","modifyTime":"2017-03-14 02:30:01.0","openingPrice":"21619.0000","remark":"","state":1,"stockIndex":"21826.0000","stockTime":"2017-03-14 02:29:58.0","todayPrice":"21826.0000"},{"changeRange":"","changeValue":"1","closingPrice":"3673.00","createMan":"","createTime":"20170314153914","floorPrice":"3662.00","highestPrice":"3676.00","investProductId":"4","investProductName":"吉尿素","lastPrice":"3673.00","marketId":"eaaa119266024426a1aae96fa5849691","modifyMan":"","modifyTime":"20170314153914","openingPrice":"3671.00","remark":"","state":1,"stockIndex":"3667.0","stockTime":"2017-03-14 15:39:11","todayPrice":"3667.0"}]}}
-     */
-    private DataBeanX data;
+public ArrayList<MarketDataBean> list;
+          public static class MarketDataBean{
+                public String tradingDay;
+                public String instrumentID;
+                public String exchangeID;
+                public String productId;
+                public String lastPrice;
+                public String preSettlementPrice;
+                public String preClosePrice;
+                public String openPrice;
+                public String highestPrice;
+                public String lowestPrice;
+                public String volume;
+                public String turnover;
+                public String openInterest;
+                public String closePrice;
+                public String settlementPrice;
+                public String upperLimitPrice;
+                public String lowerLimitPrice;
+                public String preDelta;
+                public String currDelta;
+                public String updateTime;
+                public String updateMillisecond;
+                public String bidPrice1;
+                public String bidVolume1;
+                public String askPrice1;
+                public String askVolume1;
+                public String bidPrice2;
+                public String bidVolume2;
+                public String askPrice2;
+                public String askVolume2;
+                public String bidPrice3;
+                public String bidVolume3;
+                public String askPrice3;
+                public String askVolume3;
+                public String bidPrice4;
+                public String bidVolume4;
+                public String askPrice4;
+                public String askVolume4;
+                public String bidPrice5;
+                public String bidVolume5;
+                public String askPrice5;
+                public String askVolume5;
+                public String averagePrice;
+                public String actionDay;
+                public String quotationDateTime;
+                public String startDeliveryDate;
+                public String decimalPrecision;
+                public String change;
+                public String chg;
+                public String name;
 
-    public DataBeanX getData() {
-        return data;
-    }
+          }
 
-    public void setData(DataBeanX data) {
-        this.data = data;
-    }
-
-    public static class DataBeanX implements Serializable{
-        /**
-         * successed : true
-         * data : {"dataList":[{"changeRange":"","changeValue":"1","closingPrice":"2552.00","createMan":"","createTime":"20170314153914","floorPrice":"2534.00","highestPrice":"2554.00","investProductId":"3","investProductName":"吉大豆","lastPrice":"2552.00","marketId":"072157cd450f46899f1cf2e0d73cad5a","modifyMan":"","modifyTime":"20170314153914","openingPrice":"2552.00","remark":"","state":1,"stockIndex":"2539.0","stockTime":"2017-03-14 15:39:11","todayPrice":"2539.0"},{"changeRange":"","changeValue":"1.0000","closingPrice":"21679.0000","createMan":"","createTime":"2017-03-14 02:30:01.0","floorPrice":"21237.0000","highestPrice":"21994.0000","investProductId":"2","investProductName":"吉咖啡","lastPrice":"21679.0000","marketId":"abeacba4eb3944cd8e6cd16ee69d7337","modifyMan":"","modifyTime":"2017-03-14 02:30:01.0","openingPrice":"21619.0000","remark":"","state":1,"stockIndex":"21826.0000","stockTime":"2017-03-14 02:29:58.0","todayPrice":"21826.0000"},{"changeRange":"","changeValue":"1","closingPrice":"3673.00","createMan":"","createTime":"20170314153914","floorPrice":"3662.00","highestPrice":"3676.00","investProductId":"4","investProductName":"吉尿素","lastPrice":"3673.00","marketId":"eaaa119266024426a1aae96fa5849691","modifyMan":"","modifyTime":"20170314153914","openingPrice":"3671.00","remark":"","state":1,"stockIndex":"3667.0","stockTime":"2017-03-14 15:39:11","todayPrice":"3667.0"}]}
-         */
-
-        private boolean successed;
-        private DataBean data;
-
-        public boolean isSuccessed() {
-            return successed;
-        }
-
-        public void setSuccessed(boolean successed) {
-            this.successed = successed;
-        }
-
-        public DataBean getData() {
-            return data;
-        }
-
-        public void setData(DataBean data) {
-            this.data = data;
-        }
-
-        public static class DataBean implements Serializable{
-            private List<DataListBean> dataList;
-
-            public List<DataListBean> getDataList() {
-                return dataList;
-            }
-
-            public void setDataList(List<DataListBean> dataList) {
-                this.dataList = dataList;
-            }
-
-            @Override
-            public String toString() {
-                return "DataBean{" +
-                        "dataList=" + dataList +
-                        '}';
-            }
-
-            public static class DataListBean implements Serializable{
-                /**
-                 * changeRange :
-                 * changeValue : 1
-                 * closingPrice : 2552.00
-                 * createMan :
-                 * createTime : 20170314153914
-                 * floorPrice : 2534.00
-                 * highestPrice : 2554.00
-                 * investProductId : 3
-                 * investProductName : 吉大豆
-                 * lastPrice : 2552.00
-                 * marketId : 072157cd450f46899f1cf2e0d73cad5a
-                 * modifyMan :
-                 * modifyTime : 20170314153914
-                 * openingPrice : 2552.00
-                 * remark :
-                 * state : 1
-                 * stockIndex : 2539.0
-                 * stockTime : 2017-03-14 15:39:11
-                 * todayPrice : 2539.0
-                 * isAddddState:false
-                 */
-
-                private String changeRange;
-                private String closingPrice;
-                private String createMan;
-                private String createTime;
-                private String floorPrice;
-                private String highestPrice;
-                private String investProductId;
-                private String investProductName;
-                private String modifyMan;
-                private String modifyTime;
-                private String openingPrice;
-                private String remark;
-                private String state;
-                private String stockIndex;
-                private String todayPrice;
-                private boolean isAddState;
-                public String market;//用户当前点击的位置
-                public boolean getAddState(){
-                    return isAddState;
-                }
-                public void setAddState(boolean isAddState){
-                    this.isAddState=isAddState;
-                }
-                public String getClosingPrice() {
-                    return closingPrice;
-                }
-                public String getCreateMan() {
-                    return createMan;
-                }
-                public void setCreateMan(String createMan) {
-                    this.createMan = createMan;
-                }
-                public String getCreateTime() {
-                    return createTime;
-                }
-                public void setCreateTime(String createTime) {
-                    this.createTime = createTime;
-                }
-                public String getFloorPrice() {
-                    return floorPrice;
-                }
-                public String getHighestPrice() {
-                    return highestPrice;
-                }
-                public String getInvestProductId() {
-                    return investProductId;
-                }
-                public String getInvestProductName() {
-                    return investProductName;
-                }
-                public String getModifyMan() {
-                    return modifyMan;
-                }
-                public void setModifyMan(String modifyMan) {
-                    this.modifyMan = modifyMan;
-                }
-                public String getModifyTime() {
-                    return modifyTime;
-                }
-                public void setModifyTime(String modifyTime) {
-                    this.modifyTime = modifyTime;
-                }
-                public String getOpeningPrice() {
-                    return openingPrice;
-                }
-                public String getRemark() {
-                    return remark;
-                }
-                public void setRemark(String remark) {
-                    this.remark = remark;
-                }
-                public String getState() {
-                    return state;
-                }
-                public void setState(String state) {
-                    this.state = state;
-                }
-                public String getStockIndex() {
-                    return stockIndex;
-                }
-                public String getTodayPrice() {
-                    return todayPrice;
-                }
-
-                @Override
-                public String toString() {
-                    return "DataListBean{" +
-                            "changeRange='" + changeRange + '\'' +
-                            ", closingPrice='" + closingPrice + '\'' +
-                            ", createMan='" + createMan + '\'' +
-                            ", createTime='" + createTime + '\'' +
-                            ", floorPrice='" + floorPrice + '\'' +
-                            ", highestPrice='" + highestPrice + '\'' +
-                            ", investProductId='" + investProductId + '\'' +
-                            ", investProductName='" + investProductName + '\'' +
-                            ", modifyMan='" + modifyMan + '\'' +
-                            ", modifyTime='" + modifyTime + '\'' +
-                            ", openingPrice='" + openingPrice + '\'' +
-                            ", remark='" + remark + '\'' +
-                            ", state='" + state + '\'' +
-                            ", stockIndex='" + stockIndex + '\'' +
-                            ", todayPrice='" + todayPrice + '\'' +
-                            ", isAddState=" + isAddState +
-                            '}';
-                }
-            }
-        }
-    }
 }

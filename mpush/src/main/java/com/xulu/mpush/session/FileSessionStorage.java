@@ -22,6 +22,8 @@ package com.xulu.mpush.session;
 
 
 
+import android.text.TextUtils;
+
 import com.xulu.mpush.api.Constants;
 import com.xulu.mpush.api.connection.SessionStorage;
 import com.xulu.mpush.client.ClientConfig;
@@ -44,6 +46,9 @@ public final class FileSessionStorage implements SessionStorage {
 
     @Override
     public void saveSession(String sessionContext) {
+        if (TextUtils.isEmpty(rootDir)||TextUtils.isEmpty(fileName)){
+            return;
+        }
         File file = new File(rootDir, fileName);
         FileOutputStream out = null;
         try {
@@ -61,6 +66,9 @@ public final class FileSessionStorage implements SessionStorage {
 
     @Override
     public String getSession() {
+        if (TextUtils.isEmpty(rootDir)||TextUtils.isEmpty(fileName)){
+            return null;
+        }
         File file = new File(rootDir, fileName);
         if (!file.exists()) return null;
         InputStream in = null;

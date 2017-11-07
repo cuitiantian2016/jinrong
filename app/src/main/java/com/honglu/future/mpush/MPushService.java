@@ -152,7 +152,7 @@ public final class MPushService extends Service implements ClientListener {
                 .putExtra(EXTRA_BIND_RET, success)
                 .putExtra(EXTRA_USER_ID, userId)
         );
-        MPush.I.requestMarket(codes);
+       // MPush.I.requestMarket(codes);
     }
 
     @Override
@@ -166,7 +166,7 @@ public final class MPushService extends Service implements ClientListener {
 
     @Override
     public void onReceiverMarket(RequestMarketMessage receiver) {//收到行情消息
-        EventBus.getDefault().post(new ReceiverMarketMessageEvent(receiver));
+      EventBus.getDefault().post(new ReceiverMarketMessageEvent(receiver));
     }
 
     @Override
