@@ -55,7 +55,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
     private Context mContext;
     private BasePresenter marketPresenter;
     public View mView;
-    private String productList;
+    public String productList;
 
     public HomeMarketPriceViewModel(Context context) {
         mContext = context;

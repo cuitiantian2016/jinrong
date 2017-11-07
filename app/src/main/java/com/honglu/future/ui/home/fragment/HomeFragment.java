@@ -60,7 +60,11 @@ public class HomeFragment extends BaseFragment{
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ReceiverMarketMessageEvent event) {
-      //  Log.d(TAG, "codes "+event.marketMessage.getInstrumentID());
+        if (homeMarketPriceViewModel!=null
+                &&homeMarketPriceViewModel.productList.equals(MPushUtil.requestCodes)
+                &&!(isHidden())){
+           Log.d(TAG, "codes "+event.marketMessage.getInstrumentID());
+        }
     }
 
 

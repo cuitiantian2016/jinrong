@@ -28,7 +28,7 @@ package com.honglu.future.mpush;
  * @author ohun@live.cn
  */
 public final class MPushUtil {
-
+    public static String requestCodes;
     /**
      * 发送请求行情的数据
      *
@@ -36,6 +36,7 @@ public final class MPushUtil {
      * @return
      */
     public static void requestMarket(String code) {
+       requestCodes = code;
        MPush.I().requestMarket(code);
     }
 
