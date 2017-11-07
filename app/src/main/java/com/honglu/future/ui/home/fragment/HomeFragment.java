@@ -1,10 +1,10 @@
 package com.honglu.future.ui.home.fragment;
+
 import android.util.Log;
 import android.widget.LinearLayout;
+
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
-import com.honglu.future.events.BaseEvent;
-import com.honglu.future.events.EventController;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.mpush.MPushUtil;
@@ -31,16 +31,13 @@ public class HomeFragment extends BaseFragment{
     LinearLayout mScrollView; //跟布局
     @BindView(R.id.home_smart_view)
     SmartRefreshLayout mSmartRefreshView; //刷新
-
     public static HomeFragment homeFragment;
-
     public static HomeFragment getInstance() {
         if (homeFragment == null) {
             homeFragment = new HomeFragment();
         }
         return homeFragment;
     }
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home_layout;
@@ -48,7 +45,6 @@ public class HomeFragment extends BaseFragment{
     @Override
     public void initPresenter() {
     }
-
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
@@ -66,9 +62,6 @@ public class HomeFragment extends BaseFragment{
            Log.d(TAG, "codes "+event.marketMessage.getInstrumentID());
         }
     }
-
-
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -81,8 +74,6 @@ public class HomeFragment extends BaseFragment{
             }
         }
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -91,13 +82,11 @@ public class HomeFragment extends BaseFragment{
             homeMarketPriceViewModel.requestMarket();
         }
     }
-
     @Override
     public void onPause() {
         super.onPause();
         MPushUtil.pauseRequest();
     }
-
     /*******
      * 刷新完成
      * @param event
@@ -110,14 +99,10 @@ public class HomeFragment extends BaseFragment{
             mSmartRefreshView.finishRefresh();
         }
     }
-    BannerViewModel bannerViewModel;
-    HomeBottomTabViewModel homeBottomTabViewModel;
-    HomeMarketPriceViewModel homeMarketPriceViewModel;
-    /**
-     *
-     */
+    private HomeBottomTabViewModel homeBottomTabViewModel;
+    private HomeMarketPriceViewModel homeMarketPriceViewModel;
     private void initView() {
-        bannerViewModel = new BannerViewModel(getContext());
+        BannerViewModel bannerViewModel = new BannerViewModel(getContext());
         homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
         HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
         homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(),mSmartRefreshView);
@@ -139,7 +124,6 @@ public class HomeFragment extends BaseFragment{
             }
         });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

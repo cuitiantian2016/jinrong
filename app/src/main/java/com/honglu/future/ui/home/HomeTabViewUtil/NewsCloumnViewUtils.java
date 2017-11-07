@@ -33,7 +33,7 @@ public class NewsCloumnViewUtils {
      * @param parentLy 外层父布局
      * @param list     内容列表
      */
-    public static void refreshEconomicViews(LinearLayout parentLy, List<HomeMessageItem.DataBeanX.DataBean> list) {
+    public static void refreshEconomicViews(LinearLayout parentLy, List<HomeMessageItem> list) {
         if (list == null || list.size() == 0) {
             parentLy.removeAllViews();
             View inflate = View.inflate(parentLy.getContext(), R.layout.empty_view, null);
@@ -45,7 +45,7 @@ public class NewsCloumnViewUtils {
             int currentCount = list.size();
             if (currentCount > preCount) {
                 for (int i = 0; i < currentCount - preCount; i++) {
-                    if (TextUtils.equals(list.get(i).getType(), "1")) {
+                    if (TextUtils.equals(list.get(i).type, "1")) {
                         View view = LayoutInflater.from(parentLy.getContext()).inflate(R.layout.home_newest_itemtype1, null);
                         BaseViewHolder viewHolder = new TypeOneViewHolder(view);
                         view.setTag(viewHolder);
@@ -65,11 +65,11 @@ public class NewsCloumnViewUtils {
             }
 
             for (int i = 0; i < parentLy.getChildCount(); i++) {
-                HomeMessageItem.DataBeanX.DataBean item = list.get(i);
+                HomeMessageItem item = list.get(i);
                 View view = parentLy.getChildAt(i);
                 BaseViewHolder viewHolder = (BaseViewHolder) view.getTag();
                 if (viewHolder == null) {
-                    if (TextUtils.equals(list.get(i).getType(), "1")) {
+                    if (TextUtils.equals(list.get(i).type, "1")) {
                         viewHolder = new TypeOneViewHolder(view);
                         view.setTag(viewHolder);
                     } else {
@@ -139,7 +139,7 @@ public class NewsCloumnViewUtils {
     public static class BaseViewHolder {
         int Type;
 
-        public void bindView(HomeMessageItem.DataBeanX.DataBean item, int position) {
+        public void bindView(HomeMessageItem item, int position) {
 
         }
     }
@@ -176,35 +176,34 @@ public class NewsCloumnViewUtils {
         }
 
         @Override
-        public void bindView(final HomeMessageItem.DataBeanX.DataBean item, final int position) {
+        public void bindView(final HomeMessageItem item, final int position) {
             super.bindView(item, position);
-            ImageUtil.display(item.getHomePic(), newest_content_iv, R.mipmap.other_empty);
-            ImageUtil.display(item.getUserAvatar(), mIvAvatar, R.mipmap.iv_no_image);
+            ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
+            ImageUtil.display(item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
 
-            if (!TextUtils.isEmpty(item.getModifyTime()) && item.getModifyTime().length() > 16) {
-                tv_time.setText(computingTime(item.getCreateTime()));
+            if (!TextUtils.isEmpty(item.modifyTime) && item.modifyTime.length() > 16) {
+                tv_time.setText(computingTime(item.createTime));
             }
-            if (!TextUtils.isEmpty(item.getNickname())) {
-                mTvName.setText(item.getNickname());
+            if (!TextUtils.isEmpty(item.nickname)) {
+                mTvName.setText(item.nickname);
             } else {
                 mTvName.setText("");
             }
 
-            if (!TextUtils.isEmpty(item.getUserRole())) {
-                mTvUserType.setText(item.getUserRole());
+            if (!TextUtils.isEmpty(item.userRole)) {
+                mTvUserType.setText(item.userRole);
             } else {
                 mTvUserType.setText("");
             }
 
-            tv_praise.setText(String.valueOf(item.getPraiseCounts()));
+            tv_praise.setText(String.valueOf(item.praiseCounts));
             if (item.isPraise > 0) {
                 profit_icon.setImageResource(R.mipmap.ic_support);
             } else {
                 profit_icon.setImageResource(R.mipmap.ic_support_done);
             }
-
-            tv_title.setText(item.getTitle());
-            tvReplyNum.setText(item.getCommentNum() + "条评论");
+            tv_title.setText(item.title);
+            tvReplyNum.setText(item.commentNum + "条评论");
             content_ll.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
@@ -249,24 +248,24 @@ public class NewsCloumnViewUtils {
         }
 
         @Override
-        public void bindView(final HomeMessageItem.DataBeanX.DataBean item, final int position) {
+        public void bindView(final HomeMessageItem item, final int position) {
             super.bindView(item, position);
-            ImageUtil.display(item.getPicOne(), typetwonewest_content_iv, R.mipmap.other_empty);
-            newset_contenttype2.setText(item.getTitle());
+            ImageUtil.display(item.picOne, typetwonewest_content_iv, R.mipmap.other_empty);
+            newset_contenttype2.setText(item.title);
 
             LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) typetwonewest_content_iv.getLayoutParams();
             llp.width = DeviceUtils.getScreenWidth(mContext) - DeviceUtils.dip2px(mContext, 20);
             llp.height = llp.width * 316 / 702;
             typetwonewest_content_iv.setLayoutParams(llp);
-            tv_timetype2.setText(computingTime(item.getCreateTime()));
-            tv_praisetype2.setText(String.valueOf(item.getPraiseCounts()));
+            tv_timetype2.setText(computingTime(item.createTime));
+            tv_praisetype2.setText(String.valueOf(item.praiseCounts));
             if (item.isPraise > 0) {
                 profit_icon.setImageResource(R.mipmap.ic_support);
             } else {
                 profit_icon.setImageResource(R.mipmap.ic_support_done);
             }
-            if (!TextUtils.isEmpty(item.getUserRole())) {
-                tv_user_role2.setText(item.getUserRole());
+            if (!TextUtils.isEmpty(item.userRole)) {
+                tv_user_role2.setText(item.userRole);
             } else {
                 tv_user_role2.setText("");
             }

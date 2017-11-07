@@ -63,15 +63,21 @@ public class NewsFlashFragment extends BaseFragment {
                                     isMore = false;
                                     EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_LOAD_MORE_FINISH));
                                 }else {
-                                    if (linearLayout !=null){
-                                        linearLayout.removeAllViews();
-                                    }
+                                    list.clear();
+                                    FastMsgViewUtils.refreashDatas(list, linearLayout);
+                                    EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
                                 }
+
                             }
                         }
                         @Override
                         protected void _onError(String message) {
                             super._onError(message);
+                            if (page == 1){
+                                EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
+                            }else {
+                                EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_LOAD_MORE_FINISH));
+                            }
                             list.clear();
                             FastMsgViewUtils.refreashDatas(list, linearLayout);
                         }

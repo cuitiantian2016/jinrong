@@ -203,8 +203,8 @@ public interface HttpApi {
     Observable<BaseResponse<HomeIcon>> getHomeIcon();
 
     //首页新闻
-    @GET("credit-user/register")
-    Observable<BaseResponse<HomeMessageItem>> getNewsColumnData();
+    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationList")
+    Observable<BaseResponse<List<HomeMessageItem>>> getNewsColumnData();
 
     //首页24小时
     @POST("http://192.168.90.130:8080/futures-mobile-api/app/index/newsList")

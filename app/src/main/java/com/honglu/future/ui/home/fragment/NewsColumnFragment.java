@@ -6,10 +6,13 @@ import android.widget.LinearLayout;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +26,18 @@ import butterknife.BindView;
 public class NewsColumnFragment extends BaseFragment {
     @BindView(R.id.ll_news_column)
     LinearLayout mLinearLayout;
-    private List<HomeMessageItem.DataBeanX.DataBean> mListData;
+    private List<HomeMessageItem> mListData;
     private BasePresenter<NewsColumnFragment> mBasePresenter;
     /**
      * 刷新view
      * @param data
      */
-    private void setDataToView(HomeMessageItem data){
-        if (data == null || data.getData() == null || data.getData().getData() == null){
+    private void setDataToView(List<HomeMessageItem> data){
+        if (data == null || data.size()<=0){
             return;
         }
-        mListData = data.getData().getData();
+        EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
+        mListData = data;
         NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
     }
     /**
@@ -43,6 +47,7 @@ public class NewsColumnFragment extends BaseFragment {
         if (mListData ==null){
             mListData = new ArrayList<>();
         }
+        EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
         mListData.clear();
         NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
     }
@@ -55,9 +60,9 @@ public class NewsColumnFragment extends BaseFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().getNewsColumnData(), new HttpSubscriber<HomeMessageItem>() {
+                    toSubscribe(HttpManager.getApi().getNewsColumnData(), new HttpSubscriber<List<HomeMessageItem>>() {
                         @Override
-                        protected void _onNext(HomeMessageItem o) {
+                        protected void _onNext(List<HomeMessageItem> o) {
                             super._onNext(o);
                             mView.setDataToView(o);
                         }
@@ -100,13 +105,13 @@ public class NewsColumnFragment extends BaseFragment {
      */
     public void praise(CommentData commentData){
         if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem.DataBeanX.DataBean item = mListData.get(commentData.position);
+            HomeMessageItem item = mListData.get(commentData.position);
             if (commentData.isPraise){
-                item.setPraiseCounts(item.getPraiseCounts()+1);
+                item.praiseCounts = item.praiseCounts+1;
                 item.isPraise = 1;
             }else {
                 item.isPraise = 0;
-                item.setPraiseCounts(item.getPraiseCounts()-1);
+                item.praiseCounts = item.praiseCounts-1;
             }
             NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
         }
@@ -116,9 +121,9 @@ public class NewsColumnFragment extends BaseFragment {
      */
     public void comment(CommentData commentData){
         if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem.DataBeanX.DataBean item = mListData.get(commentData.position);
+            HomeMessageItem item = mListData.get(commentData.position);
             if (commentData.isPraise){
-                item.setCommentNum(item.getCommentNum()+1);
+                item.commentNum = item.commentNum+1;
             }
             NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
         }
