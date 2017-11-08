@@ -215,8 +215,8 @@ public interface HttpApi {
     );
 
     //首页icon
-    @GET("credit-user/register")
-    Observable<BaseResponse<HomeIcon>> getHomeIcon();
+    @POST("http://192.168.90.139:8080/futures-mobile-api/app/homeIcon/iconList")
+    Observable<BaseResponse<List<HomeIcon>>> getHomeIcon();
 
     //首页新闻
     @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationList")
