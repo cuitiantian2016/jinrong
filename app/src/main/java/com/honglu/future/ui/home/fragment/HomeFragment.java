@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.mpush.MPushUtil;

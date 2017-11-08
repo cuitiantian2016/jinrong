@@ -206,6 +206,7 @@ public class NewsCloumnViewUtils {
             content_ll.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
+                                                  item.position = position;
                                                   ConsultDetailsActivity.startConsultDetailsActivity(item,v.getContext());
                                               }
                                           }

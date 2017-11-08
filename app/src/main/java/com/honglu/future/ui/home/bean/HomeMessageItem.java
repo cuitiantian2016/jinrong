@@ -69,4 +69,5 @@ public class HomeMessageItem implements Serializable{
     public String userAvatar;
     public String userRole;
     public List<?> picList;
+    public int position;
 }

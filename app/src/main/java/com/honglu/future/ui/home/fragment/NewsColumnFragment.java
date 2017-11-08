@@ -2,10 +2,10 @@ package com.honglu.future.ui.home.fragment;
 
 import android.widget.LinearLayout;
 
-
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -13,9 +13,12 @@ import com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -28,6 +31,7 @@ public class NewsColumnFragment extends BaseFragment {
     LinearLayout mLinearLayout;
     private List<HomeMessageItem> mListData;
     private BasePresenter<NewsColumnFragment> mBasePresenter;
+
     /**
      * 刷新view
      * @param data
@@ -38,6 +42,7 @@ public class NewsColumnFragment extends BaseFragment {
         }
         EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
         mListData = data;
+        mLinearLayout.removeAllViews();
         NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
     }
     /**
@@ -82,6 +87,7 @@ public class NewsColumnFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         mBasePresenter.onDestroy();
     }
 
@@ -94,37 +100,36 @@ public class NewsColumnFragment extends BaseFragment {
     }
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         refresh();
     }
-    public static class CommentData{
-        public int position;//点赞的位置
-        public boolean isPraise;//是否点赞
+
+
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ClickPraiseEvent event) {
+        praise(event.position);
     }
     /**
      * 点赞之后刷新布局
      */
-    public void praise(CommentData commentData){
+    public void praise(int position){
         if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem item = mListData.get(commentData.position);
-            if (commentData.isPraise){
-                item.praiseCounts = item.praiseCounts+1;
-                item.isPraise = 1;
-            }else {
-                item.isPraise = 0;
-                item.praiseCounts = item.praiseCounts-1;
-            }
+            HomeMessageItem item = mListData.get(position);
+            item.praiseCounts = item.praiseCounts+1;
             NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
         }
     }
     /**
      * 评论之后刷新布局
      */
-    public void comment(CommentData commentData){
+    public void comment(int position){
         if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem item = mListData.get(commentData.position);
-            if (commentData.isPraise){
-                item.commentNum = item.commentNum+1;
-            }
+            HomeMessageItem item = mListData.get(position);
+            item.commentNum = item.commentNum+1;
             NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
         }
     }

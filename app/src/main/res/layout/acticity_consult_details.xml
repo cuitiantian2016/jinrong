@@ -12,6 +12,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="match_parent"
+            android:paddingBottom="@dimen/dimen_20dp"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/image_head"
@@ -41,6 +42,49 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 android:layout_marginRight="@dimen/dimen_20dp"/>
+            <LinearLayout
+                android:id="@+id/pics_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginRight="@dimen/dimen_20dp"/>
+            <ImageView
+                android:id="@+id/support_iv"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimen_30dp"
+                android:src="@mipmap/icon_support_click"
+                android:paddingLeft="@dimen/dimen_12dp"
+                android:paddingRight="@dimen/dimen_12dp"/>
+
+            <TextView
+                android:id="@+id/tv_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:textColor="#B1B1B3"
+                android:text="11人点赞"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_agree"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_36dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/ly_likes_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/shape_space_width_8dp"
+                    android:orientation="horizontal"
+                    android:showDividers="middle|end" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <include

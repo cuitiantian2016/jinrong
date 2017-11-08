@@ -2,6 +2,7 @@ package com.honglu.future.http;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
+import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
@@ -262,5 +263,22 @@ public interface HttpApi {
                                                       @Field("token") String token,
                                                       @Field("newPassword") String newPassword,
                                                       @Field("userId") String userId);
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15533135
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationDetail")
+    Observable<BaseResponse<ConsultDetailsBean>> getMessageData(@Field("informationId") String informationId);
 
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15533135
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationPraise")
+    Observable<BaseResponse<List<String>>> praiseMessage(@Field("informationId") String informationId,
+                                                                @Field("userId") String userID);
 }

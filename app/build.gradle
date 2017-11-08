@@ -199,6 +199,8 @@ dependencies {
     //图片压缩
     compile 'top.zibin:Luban:1.0.9'
     compile project(path: ':mpush')
+    //解析Html内容显示在WebView中，目前仅在最新消息详情中使用
+    compile 'org.jsoup:jsoup:1.10.1'
 }
 
 //瓦力打包 https://github.com/Meituan-Dianping/walle

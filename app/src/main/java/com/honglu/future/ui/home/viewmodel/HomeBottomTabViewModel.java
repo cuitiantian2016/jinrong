@@ -93,22 +93,4 @@ public class HomeBottomTabViewModel {
            newsFlashFragment.loadMore();
         }
     }
-    /**
-     * 海豚专栏点赞
-     * @param commentData
-     */
-    public void praise(NewsColumnFragment.CommentData commentData){
-        if (currentPosition == 0){
-            newsColumnFragment.praise(commentData);
-        }
-    }
-    /**
-     * 海豚专栏评论
-     * @param commentData
-     */
-    public void comment(NewsColumnFragment.CommentData commentData){
-        if (currentPosition == 0){
-            newsColumnFragment.comment(commentData);
-        }
-    }
 }
