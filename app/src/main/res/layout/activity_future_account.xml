@@ -58,6 +58,7 @@
         android:paddingRight="@dimen/dimen_20dp">
 
         <RelativeLayout
+            android:id="@+id/rl_reset_market_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/dimen_18dp"
@@ -85,6 +86,7 @@
             android:background="@color/color_E3E3E3" />
 
         <RelativeLayout
+            android:id="@+id/rl_reset_asses_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/dimen_18dp"

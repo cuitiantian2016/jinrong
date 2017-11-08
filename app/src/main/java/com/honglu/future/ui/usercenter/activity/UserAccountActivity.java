@@ -9,6 +9,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
@@ -16,6 +17,7 @@ import com.honglu.future.util.SpUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.honglu.future.util.ToastUtil.showToast;
 
@@ -63,12 +65,13 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         getAccountBasicInfo();
     }
 
-    @Override
+    @OnClick({R.id.tv_withdrawals,R.id.tv_recharge})
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_right://title 右边按钮
-
-                break;
+        int id = v.getId();
+        if (R.id.tv_withdrawals == id){
+            InAndOutGoldActivity.startInAndOutGoldActivity(this, 1);
+        }else if (R.id.tv_recharge == id){
+            InAndOutGoldActivity.startInAndOutGoldActivity(this, 0);
         }
     }
 

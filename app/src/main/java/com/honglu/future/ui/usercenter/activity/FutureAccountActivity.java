@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.usercenter.contract.FutureAccountContract;
 import com.honglu.future.ui.usercenter.presenter.FutureAccountPresenter;
 
@@ -55,11 +56,17 @@ public class FutureAccountActivity extends BaseActivity<FutureAccountPresenter> 
         mTitle.setTitle(false, R.color.white, "期货账户管理");
     }
 
-    @OnClick({R.id.tv_back})
+    @OnClick({R.id.tv_back,R.id.rl_reset_market_pwd,R.id.rl_reset_asses_pwd})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back:
                 finish();
+                break;
+            case R.id.rl_reset_market_pwd:
+                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this,true);
+                break;
+            case R.id.rl_reset_asses_pwd:
+                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this,false);
                 break;
         }
     }
