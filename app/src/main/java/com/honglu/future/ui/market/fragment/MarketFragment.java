@@ -152,11 +152,12 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onResume() {
         super.onResume();
         List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
+        mZxMarketList.clear();
         if (zxMarketList !=null && zxMarketList.size() > 0){
-            mZxMarketList = getZxMarketList();
-            if (mTabSelectType == ZXHQ_TYPE){
-               setMarketData(mTabSelectType);
-            }
+            mZxMarketList = zxMarketList;
+        }
+        if (mTabSelectType == ZXHQ_TYPE && mAllMarketList !=null && mAllMarketList.size() > 0){
+            setMarketData(mTabSelectType);
         }
     }
 
