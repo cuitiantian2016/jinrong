@@ -13,6 +13,7 @@ import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.Tool;
+import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -39,8 +40,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     private OpenTransactionFragment mOpenTransactionFragment;
     private PositionFragment mPositionFragment;
     private ClosePositionFragment mClosePositionFragment;
-    private EntrustFragment mEntrustFragment;
-
+    //private EntrustFragment mEntrustFragment;
+    private KMinuteFragment mEntrustFragment;
     private int currentPosition;
 
     public static TradeFragment tradeFragment;
@@ -112,7 +113,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         mFragments.add(mPositionFragment);
         mClosePositionFragment = new ClosePositionFragment();
         mFragments.add(mClosePositionFragment);
-        mEntrustFragment = new EntrustFragment();
+        mEntrustFragment = new KMinuteFragment();
         mFragments.add(mEntrustFragment);
 
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);

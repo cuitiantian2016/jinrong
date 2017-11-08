@@ -7,9 +7,6 @@ import java.io.Serializable;
  */
 public class BaseResponse<T> implements Serializable {
     public boolean success;
-    public String errorCode;
-    public String errorInfo;
-    public String pagerManager;
     private int status;
 
 
@@ -28,29 +25,6 @@ public class BaseResponse<T> implements Serializable {
         return success||status == 1000;
     }
 
-    public String getCode() {
-        return errorCode;
-    }
-
-    public void setCode(String code) {
-        this.errorCode = code;
-    }
-
-    public String getMessage() {
-        return errorInfo;
-    }
-
-    public void setMessage(String message) {
-        this.errorInfo = message;
-    }
-
-    public String getPagerManager() {
-        return pagerManager;
-    }
-
-    public void setPagerManager(String pagerManager) {
-        this.pagerManager = pagerManager;
-    }
 
     public T getData() {
         return data;
@@ -64,10 +38,7 @@ public class BaseResponse<T> implements Serializable {
     @Override
     public String toString() {
         return "BaseResponse{" +
-                "code='" + errorCode + '\'' +
-                ", message='" + errorInfo + '\'' +
-                ", pagerManager='" + pagerManager + '\'' +
-                ", time='" + time + '\'' +
+                "time='" + time + '\'' +
                 ", data=" + data +
                 '}';
     }

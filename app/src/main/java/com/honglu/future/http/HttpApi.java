@@ -17,6 +17,7 @@ import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
@@ -190,6 +191,12 @@ public interface HttpApi {
     );
 
 
+    //获取k线行情
+    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/kChart")
+    Observable<BaseResponse<KLineBean>> getKLineData(@Query("excode") String excode,
+                                                     @Query("code") String code,
+                                                     @Query("type") String type);
+
     /*******************************    上传图片   *****************************************/
     /*******************************
      * 上传图片
@@ -208,10 +215,11 @@ public interface HttpApi {
     Observable<BaseResponse<HomeMarketCodeBean>> getMarketCodesData(@Query("sourceId") Integer account,
                                                                     @Query("versionNo") String version,
                                                                     @Query("userId") String userId);
+
     //首页市场行情List
     @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
     Observable<BaseResponse<MarketData>> getMarketCodesData(
-            @Query(value = "codes" ,encoded = true) String codes,@Query("deviceType") int deviceType
+            @Query(value = "codes", encoded = true) String codes, @Query("deviceType") int deviceType
     );
 
     //首页icon

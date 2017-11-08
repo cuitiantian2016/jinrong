@@ -23,6 +23,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         void onRiseClick(View view, ProductListBean bean);
 
         void onDownClick(View view, ProductListBean bean);
+
+        void onItemClick(ProductListBean bean);
     }
 
     private OnRiseDownClickListener mListener;
@@ -59,6 +61,13 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
             @Override
             public void onClick(View v) {
                 mListener.onDownClick(v, data.get(position));
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClick(data.get(position));
             }
         });
     }

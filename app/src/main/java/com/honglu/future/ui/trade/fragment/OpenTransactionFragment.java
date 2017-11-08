@@ -30,6 +30,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
+import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
@@ -314,6 +315,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 mAccountLoginPopupView.showOpenAccountWindow();
             }
         }
+    }
+
+    @Override
+    public void onItemClick(ProductListBean bean) {
+        Intent intent = new Intent(mActivity, KLineMarketActivity.class);
+        intent.putExtra("excode","SHFE");
+        intent.putExtra("code","rb1801");
+        intent.putExtra("close","3715");
+        startActivity(intent);
     }
 
 

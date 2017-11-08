@@ -65,12 +65,14 @@ public class RxHelper {
                     public Observable<T> call(BaseResponse<T> result) {
                         if (result.success()) {
                             return createData(result.getData());
-                        } else {
-                            if (TextUtils.isEmpty(result.getCode())){
-                                return Observable.error(new ApiException(result.getMessage()));
-                            }else{
-                                return Observable.error(new ApiException(result.getMessage(),Integer.parseInt(result.getCode()),result.getTime()));
-                            }
+                        }
+
+                        else {
+//                            if (TextUtils.isEmpty(result.getCode())){
+                                return Observable.error(new ApiException("error"));
+//                            }else{
+//                                return Observable.error(new ApiException(result.getMessage(),Integer.parseInt(result.getCode()),result.getTime()));
+//                            }
                         }
                     }
                 }) .takeUntil(compareLifecycleObservable)

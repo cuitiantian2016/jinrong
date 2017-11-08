@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.honglu.future.widget.kchart.chart.minute.KMinuteView
+        android:id="@+id/minuteView"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.honglu.future.widget.kchart.chart.cross.KCrossLineView
+        android:id="@+id/crossLineView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

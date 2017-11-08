@@ -167,12 +167,12 @@ public class HttpManager {
                 JSONObject jsonResponse = null;
                 try {
                     jsonResponse = new JSONObject(body);
-                    String code = jsonResponse.getString("errorCode");
-                    if ("-3".equals(code)) {//需与服务器协商,返回-3
+                    //String code = jsonResponse.getString("errorCode");
+                    //if ("-3".equals(code)) {//需与服务器协商,返回-3
                         if (TextUtils.isEmpty(showDialog) || !showDialog.equals("true")) {
                             jsonResponse.put("code", "-1");
                         }
-                    }
+                   // }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
