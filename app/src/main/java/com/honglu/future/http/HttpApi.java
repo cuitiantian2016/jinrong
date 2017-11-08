@@ -10,6 +10,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.main.bean.AuditedBean;
+import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
@@ -190,6 +191,11 @@ public interface HttpApi {
                                         @Field("company") String company
     );
 
+
+    //行情
+    //http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main?deviceType=2
+    @POST("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main")
+    Observable<BaseResponse<MarketnalysisBean>> getMarkeData();
 
     //获取k线行情
     @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/kChart")

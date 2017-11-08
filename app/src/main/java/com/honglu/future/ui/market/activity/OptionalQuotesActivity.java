@@ -1,25 +1,33 @@
 package com.honglu.future.ui.market.activity;
 
 import android.app.Service;
-import android.graphics.Color;
 import android.os.Vibrator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
+import com.honglu.future.ui.market.adapter.AddHavedOptionalAdapter;
 import com.honglu.future.ui.market.adapter.AllHavedOptionalAdapter;
+import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.contract.OptionalQuotesContract;
+import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.market.presenter.OptionalQuotesPresenter;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 import com.honglu.future.widget.recycler.SpaceItemDecoration;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
+import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
 
 import java.util.ArrayList;
@@ -44,8 +52,12 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     private ItemTouchHelper mItemTouchHelper;
     private AllHavedOptionalAdapter zxAdapter; //自选 adapter
-    private AllHavedOptionalAdapter addAdapter; //添加 adapter
     private HorizontalTabLayout mCommonTab;
+    private AddHavedOptionalAdapter addAdapter;
+
+    private String mTabSelectType = MarketFragment.ZXHQ_TYPE;
+    private List<MarketnalysisBean.ListBean> mAllMarketList = new ArrayList<>();//除自选外全部数据
+    private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
 
     @Override
     public void showLoading(String content) {
@@ -74,32 +86,40 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     @Override
     public void loadData() {
+        mAllMarketList = (List<MarketnalysisBean.ListBean>) getIntent().getSerializableExtra("data");
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
-
-        View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes ,null);
+        View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes_footerview ,null);
         addRecyclerView = (RecyclerView) footerView.findViewById(R.id.rv_add_recycler_view);
         mCommonTab = (HorizontalTabLayout) footerView.findViewById(R.id.op_common_tab_layout);
-        ArrayList<CustomTabEntity> mList = new ArrayList<>();
-        mList.add(new TabEntity("自选"));
-        mList.add(new TabEntity("主力合约"));
-        mList.add(new TabEntity("上期所"));
-        mList.add(new TabEntity("郑商所"));
-        mList.add(new TabEntity("大商所"));
-        mCommonTab.setTabData(mList);
 
         addRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         addRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
-        addAdapter = new AllHavedOptionalAdapter();
-        addAdapter.addData(getzxList());
+        addAdapter = new AddHavedOptionalAdapter();
         addRecyclerView.setAdapter(addAdapter);
 
         //自选
-        zxRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        zxRecyclerView.setLayoutManager(new GridLayoutManager(this,4));
         zxRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
         zxAdapter = new AllHavedOptionalAdapter();
-        zxAdapter.addData(getzxList());
         zxAdapter.addFooterView(footerView);
         zxRecyclerView.setAdapter(zxAdapter);
+
+
+
+        //设置上面自选数据
+        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
+        if (zxMarketList !=null && zxMarketList.size() > 0){
+            zxAdapter.addData(zxMarketList);
+        }
+
+        //设置tab 数据
+        if (mAllMarketList !=null && mAllMarketList.size() > 0){
+            for (MarketnalysisBean.ListBean bean : mAllMarketList) {
+                mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
+            }
+            mCommonTab.setTabData(mTabList);
+            setMarketData(mTabList.get(0).getTabType());
+        }
 
         setListener();
     }
@@ -118,15 +138,24 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
         zxAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
             @Override
             public void onItemClick(View view, int position) {
-
+                addAdapter.addItemData(zxAdapter.getData().get(position));
+                zxAdapter.removeItemData(position);
             }
         });
 
-
         addAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
             @Override
-            public void onItemClick(View view, int position) {
-                
+            public void onItemClick(final View view, final int position) {
+                zxAdapter.addItemData(addAdapter.getData().get(position));
+                addAdapter.removeItemData(position);
+            }
+        });
+
+        mCommonTab.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                mTabSelectType = mTabList.get(position).getTabType();
+                setMarketData(mTabSelectType);
             }
         });
 
@@ -181,7 +210,6 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 //                int position = viewHolder.getAdapterPosition();
 //                myAdapter.notifyItemRemoved(position);
 //                datas.remove(position);
-
             }
 
             /**
@@ -201,9 +229,9 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
              */
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                    viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
-                }
+//                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+//                    viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+//                }
                 super.onSelectedChanged(viewHolder, actionState);
             }
 
@@ -215,19 +243,53 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
-                viewHolder.itemView.setBackgroundColor(0);
+                //viewHolder.itemView.setBackgroundColor(0);
             }
         });
 
         mItemTouchHelper.attachToRecyclerView(zxRecyclerView);
     }
 
-
-    private List<String> getzxList() {
-        List<String> mList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            mList.add("1111" + i);
+    //获取自选数据
+    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZxMarketList() {
+        String zxMarketJson = SpUtil.getString(Constant.ZX_MARKET_KEY);
+        if (!TextUtils.isEmpty(zxMarketJson)) {
+            Gson gson = new Gson();
+            try {
+                List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
+                        new TypeToken<List<MarketnalysisBean.ListBean.QuotationDataListBean>>() {
+                        }.getType());
+                return mZxMarketList;
+            } catch (JsonSyntaxException e) {
+            }
         }
-        return mList;
+        return null;
+    }
+
+    //根据 type 设置对应adapter 数据
+    private void setMarketData(String type) {
+        if (TextUtils.isEmpty(type)) {
+            return;
+        }
+        addAdapter.clearData();
+        if (mAllMarketList != null || mAllMarketList.size() > 0) {
+            for (MarketnalysisBean.ListBean alysisBean : mAllMarketList) {
+                if (type.equals(alysisBean.getExcode())) {
+                    addAdapter.addData(alysisBean.getQuotationDataList());
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void finish() {
+        if (zxAdapter !=null && zxAdapter.getData() !=null && zxAdapter.getData().size() > 0){
+            Gson gson = new Gson();
+            String toJson = gson.toJson(zxAdapter.getData());
+            SpUtil.putString(Constant.ZX_MARKET_KEY,toJson);
+        }
+
+        super.finish();
     }
 }

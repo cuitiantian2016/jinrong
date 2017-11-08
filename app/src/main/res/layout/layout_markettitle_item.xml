@@ -17,7 +17,7 @@
         android:textColor="@color/color_333333"
         android:textSize="@dimen/dimen_14sp"
         android:text="@string/text_contract_name"/>
-    <FrameLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
         android:gravity="center"
@@ -33,27 +33,7 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_14sp"
             android:text="@string/text_latest_price"/>
-
-         <FrameLayout
-             android:id="@+id/fl_red"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:background="@drawable/shape_2dp_26fb4f4f">
-
-             <TextView
-                 android:id="@+id/tv_red"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:paddingLeft="@dimen/dimen_10dp"
-                 android:paddingRight="@dimen/dimen_10dp"
-                 android:paddingTop="@dimen/dimen_3dp"
-                 android:paddingBottom="@dimen/dimen_3dp"
-                 android:textColor="@color/color_333333"
-                 android:textSize="@dimen/dimen_14sp"
-                 android:text="@string/text_latest_price"
-                 android:visibility="invisible"/>
-         </FrameLayout>
-    </FrameLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_quote_change"

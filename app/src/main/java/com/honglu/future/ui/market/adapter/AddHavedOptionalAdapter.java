@@ -14,19 +14,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by hc on 2017/10/26.
+ * Created by zhuaibing on 2017/11/8
  */
 
-public class AllHavedOptionalAdapter extends BaseRecyclerAdapter<AllHavedOptionalAdapter.ViewHolder, MarketnalysisBean.ListBean.QuotationDataListBean> {
+public class AddHavedOptionalAdapter extends BaseRecyclerAdapter<AddHavedOptionalAdapter.ViewHolder, MarketnalysisBean.ListBean.QuotationDataListBean> {
+
+
     @Override
-    public ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.layout_optional_quotes_item, parent, false));
+    public AddHavedOptionalAdapter.ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
+
+        return new AddHavedOptionalAdapter.ViewHolder(mInflater.inflate(R.layout.layout_optional_quotes_add_item, parent, false));
     }
 
     @Override
-    public void mOnBindViewHolder(ViewHolder holder, int position) {
+    public void mOnBindViewHolder(AddHavedOptionalAdapter.ViewHolder holder, int position) {
         holder.mName.setText(item.getName());
     }
+
 
     public void addItemData(MarketnalysisBean.ListBean.QuotationDataListBean bean){
         getData().add(bean);

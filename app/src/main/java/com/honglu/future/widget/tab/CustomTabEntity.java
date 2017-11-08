@@ -5,6 +5,8 @@ import android.support.annotation.DrawableRes;
 public interface CustomTabEntity {
     String getTabTitle();
 
+    String getTabType();
+
     @DrawableRes
     int getTabSelectedIcon();
 

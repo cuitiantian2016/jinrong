@@ -30,7 +30,7 @@
     <View style="@style/line_base_horizontal" />
 
 
-    <include layout="@layout/layout_marketlist_item"/>
+    <include layout="@layout/layout_markettitle_item"/>
 
     <View style="@style/line_base_horizontal" />
 
