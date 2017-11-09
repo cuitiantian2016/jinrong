@@ -153,6 +153,19 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MPushUtil.pauseRequest();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)&&currentPosition==0){
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(FragmentRefreshEvent event) {
