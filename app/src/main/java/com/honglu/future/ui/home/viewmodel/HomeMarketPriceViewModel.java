@@ -350,18 +350,22 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
     public void refreshPrice(MarketData.MarketDataBean dataBean){
         if (arrayList!=null&&arrayList.size()>0){
             int index = -1;
+            MarketData.MarketDataBean marketDataBean = null;
             for (int i = 0;i<arrayList.size();i++) {
-                MarketData.MarketDataBean marketDataBean = arrayList.get(i);
+                marketDataBean = arrayList.get(i);
                 if (marketDataBean.instrumentID.equals(dataBean.instrumentID)){
-                    dataBean.name = marketDataBean.name;
                     index = i;
                     break;
                 }
             }
-            if (index>0){
-                arrayList.set(index,dataBean);
+            if (index > 0){
+                marketDataBean.change =   dataBean.change;
+                marketDataBean.chg =  dataBean.chg;
+                marketDataBean.lastPrice =  dataBean.lastPrice;
+                arrayList.set(index,marketDataBean);
+                pagerAdapter.notifyDataSetChanged();
             }
-            pagerAdapter.notifyDataSetChanged();
+
         }
     }
 }
