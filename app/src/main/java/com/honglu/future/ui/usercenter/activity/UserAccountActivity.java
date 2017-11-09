@@ -1,6 +1,5 @@
 package com.honglu.future.ui.usercenter.activity;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
 import com.honglu.future.util.SpUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.honglu.future.util.ToastUtil.showToast;

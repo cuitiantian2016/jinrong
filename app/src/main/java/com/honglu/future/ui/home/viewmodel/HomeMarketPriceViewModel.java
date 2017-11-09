@@ -91,6 +91,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                         protected void _onNext(HomeMarketCodeBean o) {
                             //拿到list
                             productList = o.productList;
+                            MPushUtil.CODES_TRADE_HOME = productList;
                             String replace = productList.replace("|", "%7C");
                             toSubscribe(HttpManager.getApi().getMarketCodesData(replace,2), new HttpSubscriber<MarketData>() {
                                 @Override

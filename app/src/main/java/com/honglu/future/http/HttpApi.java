@@ -196,7 +196,7 @@ public interface HttpApi {
     //行情
     //http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main?deviceType=2
     @POST("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main")
-    Observable<BaseResponse<MarketnalysisBean>> getMarkeData();
+    Observable<BaseResponse<MarketnalysisBean>> getMarketData();
 
     //获取k线行情
     @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/kChart")

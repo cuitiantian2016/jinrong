@@ -3,11 +3,13 @@ package com.honglu.future.ui.trade.fragment;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.events.FragmentRefreshEvent;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
@@ -136,6 +138,18 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 intent.putExtra("url", "http://www.baidu.com");
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            MPushUtil.pauseRequest();
+        }else {
+            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)&&currentPosition==0){
+                MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+            }
         }
     }
 

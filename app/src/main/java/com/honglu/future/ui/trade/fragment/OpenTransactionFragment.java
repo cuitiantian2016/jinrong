@@ -21,6 +21,9 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.mpush.MPushUtil;
+import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -38,6 +41,14 @@ import com.honglu.future.widget.AmountView;
 import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.xulu.mpush.message.RequestMarketMessage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -52,6 +63,8 @@ import static com.honglu.future.util.ToastUtil.showToast;
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View, AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
+    @BindView(R.id.srl_refreshView)
+    SmartRefreshLayout mSmartRefreshLayout;
     private LinearLayout mTradeHeader;
     private ImageView mTradeTip;
     private OpenTransactionAdapter mOpenTransactionAdapter;
@@ -94,9 +107,66 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         intent.putExtra("token", mToken);
         startActivity(intent);
     }
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ReceiverMarketMessageEvent event) {
+        if (MPushUtil.CODES_TRADE_HOME == null|| !MPushUtil.CODES_TRADE_HOME.equals(MPushUtil.requestCodes)||isHidden()){
+            return;
+        }
+        List<ProductListBean> data = mOpenTransactionAdapter.getData();
+        int index = -1;
+        RequestMarketMessage marketMessage = event.marketMessage;
+        for (int i = 0;i<data.size();i++){
+            if (data.get(i).getInstrumentId().equals(marketMessage.getInstrumentID())){
+                index = i;
+                break;
+            }
+        }
+        if (index>0){
+            ProductListBean productListBean = data.get(index);
+            productListBean.setAskPrice1(marketMessage.getAskPrice1());
+            productListBean.setBidPrice1(marketMessage.getBidPrice1());
+            productListBean.setTradeVolume(marketMessage.getVolume());
+            data.set(index,productListBean);
+            mOpenTransactionAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            MPushUtil.pauseRequest();
+        }else {
+            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)){
+                MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)){
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MPushUtil.pauseRequest();
+    }
 
     @Override
     public void getProductListSuccess(List<ProductListBean> bean) {
+        mSmartRefreshLayout.finishRefresh();
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)){
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
     }
@@ -144,8 +214,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
         initData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -171,7 +248,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 }
             }
         });
-
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                MPushUtil.pauseRequest();
+                mPresenter.getProductList();
+            }
+        });
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

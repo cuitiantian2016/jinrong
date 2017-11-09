@@ -28,6 +28,8 @@ package com.honglu.future.mpush;
  * @author ohun@live.cn
  */
 public final class MPushUtil {
+
+    public static String CODES_TRADE_HOME;
     public static String requestCodes;
     /**
      * 发送请求行情的数据

@@ -43,10 +43,10 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
         holder.mTvProductName.setText(item.getInstrumentName());
         holder.mTvNum.setText(item.getTradeVolume());
-        holder.mTvRise.setText(item.getLastPrice());
-        holder.mTvDown.setText(String.valueOf(Double.parseDouble(item.getLastPrice()) - 1));
-        holder.mTvRiseRadio.setText(item.getLongRate());
-        holder.mTvDownRadio.setText(item.getShortRate());
+        holder.mTvRise.setText(item.getAskPrice1());
+        holder.mTvDown.setText(item.getBidPrice1());
+        holder.mTvRiseRadio.setText(item.getLongRate()+"%");
+        holder.mTvDownRadio.setText(item.getShortRate()+"%");
         if (item.getIsClosed().equals("2")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         }

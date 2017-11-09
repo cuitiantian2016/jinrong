@@ -6,8 +6,6 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.contract.MarketContract;
 
-import java.util.List;
-
 /**
  * Created by zhuaibing on 2017/10/25
  */
@@ -16,7 +14,7 @@ public class MarketPresenter extends BasePresenter<MarketContract.View> implemen
 
     @Override
     public void getMarketData() {
-        toSubscribe(HttpManager.getApi().getMarkeData(), new HttpSubscriber<MarketnalysisBean>() {
+        toSubscribe(HttpManager.getApi().getMarketData(), new HttpSubscriber<MarketnalysisBean>() {
             @Override
             protected void _onStart() {
 
