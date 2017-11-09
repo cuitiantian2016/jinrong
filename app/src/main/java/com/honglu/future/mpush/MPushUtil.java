@@ -20,6 +20,8 @@
 
 package com.honglu.future.mpush;
 
+import android.text.TextUtils;
+
 /**
  * push发送的控制类
  * <p/>
@@ -40,6 +42,12 @@ public final class MPushUtil {
     public static void requestMarket(String code) {
        requestCodes = code;
        MPush.I().requestMarket(code);
+    }
+
+    public static void refershCode(){
+        if (!TextUtils.isEmpty(requestCodes)){
+            MPush.I().requestMarket(requestCodes);
+        }
     }
 
     /**

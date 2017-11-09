@@ -31,6 +31,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, intent.getBooleanExtra(MPushService.EXTRA_CONNECT_STATE, false)
                     ? "MPUSH连接建立成功"
                     : "MPUSH连接断开");
+            MPushUtil.refershCode();
         } else if (MPushService.ACTION_HANDSHAKE_OK.equals(intent.getAction())) {
             Log.d(TAG, "MPUSH握手成功, 心跳:" + intent.getIntExtra(MPushService.EXTRA_HEARTBEAT, 0));
         }

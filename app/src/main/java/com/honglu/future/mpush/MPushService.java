@@ -152,7 +152,6 @@ public final class MPushService extends Service implements ClientListener {
                 .putExtra(EXTRA_BIND_RET, success)
                 .putExtra(EXTRA_USER_ID, userId)
         );
-       // MPush.I.requestMarket(codes);
     }
 
     @Override
