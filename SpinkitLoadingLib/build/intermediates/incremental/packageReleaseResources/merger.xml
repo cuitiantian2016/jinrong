@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main$Generated" generated="true"><source path="F:\future-for-android\SpinkitLoadingLib\res"/><source path="F:\future-for-android\SpinkitLoadingLib\build\generated\res\rs\release"/><source path="F:\future-for-android\SpinkitLoadingLib\build\generated\res\resValues\release"/></dataSet><dataSet config="release$Generated" generated="true"><source path="F:\future-for-android\SpinkitLoadingLib\build-types\release\res"/></dataSet><dataSet config="main" generated-set="main$Generated"><source path="F:\future-for-android\SpinkitLoadingLib\res"><file name="ic_launcher" path="F:\future-for-android\SpinkitLoadingLib\res\drawable-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="F:\future-for-android\SpinkitLoadingLib\res\drawable-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_launcher" path="F:\future-for-android\SpinkitLoadingLib\res\drawable-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file path="F:\future-for-android\SpinkitLoadingLib\res\values\attrs.xml" qualifiers=""><declare-styleable name="SpinKitView">
+<merger version="3"><dataSet config="main$Generated" generated="true"><source path="D:\Project\future-for-android\SpinkitLoadingLib\res"/><source path="D:\Project\future-for-android\SpinkitLoadingLib\build\generated\res\rs\release"/><source path="D:\Project\future-for-android\SpinkitLoadingLib\build\generated\res\resValues\release"/></dataSet><dataSet config="release$Generated" generated="true"><source path="D:\Project\future-for-android\SpinkitLoadingLib\build-types\release\res"/></dataSet><dataSet config="main" generated-set="main$Generated"><source path="D:\Project\future-for-android\SpinkitLoadingLib\res"><file name="ic_launcher" path="D:\Project\future-for-android\SpinkitLoadingLib\res\drawable-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\Project\future-for-android\SpinkitLoadingLib\res\drawable-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\Project\future-for-android\SpinkitLoadingLib\res\drawable-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file path="D:\Project\future-for-android\SpinkitLoadingLib\res\values\attrs.xml" qualifiers=""><declare-styleable name="SpinKitView">
         <attr name="SpinKit_Style">
             <enum name="RotatingPlane" value="0"/>
             <enum name="DoubleBounce" value="1"/>
@@ -14,7 +14,7 @@
             <enum name="FoldingCube" value="10"/>
         </attr>
         <attr format="color" name="SpinKit_Color"/>
-    </declare-styleable><attr format="reference" name="SpinKitViewStyle"/></file><file path="F:\future-for-android\SpinkitLoadingLib\res\values\styles.xml" qualifiers=""><style name="SpinKitView.Large.FoldingCube">
+    </declare-styleable><attr format="reference" name="SpinKitViewStyle"/></file><file path="D:\Project\future-for-android\SpinkitLoadingLib\res\values\styles.xml" qualifiers=""><style name="SpinKitView.Large.FoldingCube">
         <item name="SpinKit_Style">FoldingCube</item>
     </style><style name="SpinKitView.FoldingCube">
         <item name="SpinKit_Style">FoldingCube</item>
@@ -96,11 +96,11 @@
         <item name="SpinKit_Style">CubeGrid</item>
     </style><style name="SpinKitView.Small.CubeGrid">
         <item name="SpinKit_Style">CubeGrid</item>
-    </style></file><file path="F:\future-for-android\SpinkitLoadingLib\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+    </style></file><file path="D:\Project\future-for-android\SpinkitLoadingLib\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         
-    </style></file><file path="F:\future-for-android\SpinkitLoadingLib\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    </style></file><file path="D:\Project\future-for-android\SpinkitLoadingLib\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         
-    </style></file></source><source path="F:\future-for-android\SpinkitLoadingLib\build\generated\res\rs\release"/><source path="F:\future-for-android\SpinkitLoadingLib\build\generated\res\resValues\release"/></dataSet><dataSet config="release" generated-set="release$Generated"><source path="F:\future-for-android\SpinkitLoadingLib\build-types\release\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="SpinKitView"><attr name="SpinKit_Style">
+    </style></file></source><source path="D:\Project\future-for-android\SpinkitLoadingLib\build\generated\res\rs\release"/><source path="D:\Project\future-for-android\SpinkitLoadingLib\build\generated\res\resValues\release"/></dataSet><dataSet config="release" generated-set="release$Generated"><source path="D:\Project\future-for-android\SpinkitLoadingLib\build-types\release\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="SpinKitView"><attr name="SpinKit_Style">
             <enum name="RotatingPlane" value="0"/>
             <enum name="DoubleBounce" value="1"/>
             <enum name="Wave" value="2"/>
