@@ -229,6 +229,7 @@
 
         <activity
             android:name=".ui.trade.kchart.KLineMarketActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
 
 
