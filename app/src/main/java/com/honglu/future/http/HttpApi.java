@@ -16,6 +16,10 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
+import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
+import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
+import com.honglu.future.ui.trade.bean.HistoryTradeBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.KLineBean;
@@ -307,4 +311,57 @@ public interface HttpApi {
     @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationPraise")
     Observable<BaseResponse<List<String>>> praiseMessage(@Field("informationId") String informationId,
                                                                 @Field("userId") String userID);
+
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 历史订单订单统计
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/history/stat")
+    Observable<BaseResponse<HistoryTradeBean>> getHistoryTradeBean(
+            @Field("dayStart") String dayStart,
+            @Field("userId") String userId,
+            @Field("token") String token,
+            @Field("dayEnd") String dayEnd);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 历史已撤单列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/history/cancel/list")
+    Observable<BaseResponse<List<HistoryMissPositionBean>>> getHistoryMissBean(
+            @Field("dayStart") String dayStart,
+            @Field("userId") String userId,
+            @Field("token") String token,
+            @Field("dayEnd") String dayEnd);
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 历史订单平仓列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/history/close/list")
+    Observable<BaseResponse<List<HistoryClosePositionBean>>> getHistoryCloseBean(
+            @Field("dayStart") String dayStart,
+            @Field("userId") String userId,
+            @Field("token") String token,
+            @Field("dayEnd") String dayEnd);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 历史订单平仓列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/history/open/list")
+    Observable<BaseResponse<List<HistoryBuiderPositionBean>>> getHistoryBuilderBean(
+            @Field("dayStart") String dayStart,
+            @Field("userId") String userId,
+            @Field("token") String token,
+            @Field("dayEnd") String dayEnd);
+
 }

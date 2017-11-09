@@ -8,23 +8,34 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.DateDialog;
 import com.honglu.future.ui.trade.adapter.TradeRecordAdapter;
+import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
+import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
+import com.honglu.future.ui.trade.bean.HistoryTradeBean;
+import com.honglu.future.ui.trade.contract.TradeRecordContract;
 import com.honglu.future.ui.trade.presenter.TradeRecordPresenter;
+import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 交易记录
  * Created by zhuaibing on 2017/10/26
  */
 
-public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> implements View.OnClickListener{
+public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> implements View.OnClickListener,TradeRecordContract.View{
 
 
     @BindView(R.id.lv_listView)
@@ -49,9 +60,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     private View tabRLayout;
     private TextView tabRText;
     private View tabRLine;
-
     private TradeRecordAdapter mAdapter;
     private DateDialog mDateDialog;
+    private String startTime, endTime;
+    private int clickId = R.id.tab_jcLayout;
 
 
     @Override
@@ -61,7 +73,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
 
     @Override
     public void initPresenter() {
-
+        mPresenter.init(this);
     }
 
     @Override
@@ -111,14 +123,36 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
             @Override
             public void onClick(String start, String end) {
+                startTime = start;
+                endTime = end;
                 tvStartTime.setText(start);
                 tvEndTime.setText(end);
                 mDateDialog.dismiss();
             }
         });
+        endTime = mDateDialog.getYear() + "-" + mDateDialog.getMonth() + "-" + mDateDialog.getDay();
+        startTime = getStartTime();
+        tvStartTime.setText(startTime);
+        tvEndTime.setText(endTime);
+        mPresenter.getHistoryTradeBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+        getHistoryData(clickId);
+        refreshView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getHistoryData(clickId);
+            }
+        });
     }
 
-
+    private String getStartTime(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        //过去七天
+        c.setTime(new Date());
+        c.add(Calendar.DATE, - 7);
+        Date d = c.getTime();
+        return format.format(d);
+    }
 
     @Override
     public void onClick(View v) {
@@ -130,6 +164,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               mDateDialog.show();
               break;
           case R.id.tab_jcLayout:
+              clickId = v.getId();
+              getHistoryData(clickId);
               tabJcText.setTextColor(getResources().getColor(R.color.color_008EFF));
               tabJcLine.setBackgroundResource(R.color.color_008EFF);
               tabJcLine.setVisibility(View.VISIBLE);
@@ -139,6 +175,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabRLine.setVisibility(View.INVISIBLE);
               break;
           case R.id.tab_ccLayout:
+              clickId = v.getId();
+              getHistoryData(clickId);
               tabJcText.setTextColor(getResources().getColor(R.color.color_333333));
               tabJcLine.setVisibility(View.INVISIBLE);
               tabCcText.setTextColor(getResources().getColor(R.color.color_008EFF));
@@ -148,6 +186,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabRLine.setVisibility(View.INVISIBLE);
               break;
           case R.id.tab_rLayout:
+              clickId = v.getId();
+              getHistoryData(clickId);
               tabCcText.setTextColor(getResources().getColor(R.color.color_333333));
               tabCcLine.setVisibility(View.INVISIBLE);
               tabJcText.setTextColor(getResources().getColor(R.color.color_333333));
@@ -160,5 +200,48 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               finish();
               break;
       }
+    }
+
+    private void getHistoryData(int id){
+        switch (id){
+            case R.id.tab_jcLayout:
+                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                break;
+            case R.id.tab_ccLayout:
+                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                break;
+            case R.id.tab_rLayout:
+                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                break;
+        }
+    }
+
+    @Override
+    public void bindHistoryTradeBean(HistoryTradeBean bean) {
+        tvRisk.setText(bean.profitLoss);
+        tvJiancang.setText(bean.open);
+        tvPingcang.setText(bean.close);
+        tvRevoke.setText(bean.cancel);
+    }
+
+    @Override
+    public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
+        refreshView.finishRefresh();
+    }
+
+    @Override
+    public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
+        refreshView.finishRefresh();
+    }
+
+    @Override
+    public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
+        refreshView.finishRefresh();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        super.showErrorMsg(msg, type);
+       refreshView.finishRefresh();
     }
 }
