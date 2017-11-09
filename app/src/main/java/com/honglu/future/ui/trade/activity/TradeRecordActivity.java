@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     TextView tvTwo;
     TextView tvThr;
     TextView tvFour;
+    LinearLayout mLinearTitle;
 
     private TextView tvStartTime;
     private TextView tvEndTime;
@@ -92,6 +94,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         tvTwo = (TextView) view.findViewById(R.id.tv_two);
         tvThr = (TextView) view.findViewById(R.id.tv_thr);
         tvFour = (TextView) view.findViewById(R.id.tv_four);
+        mLinearTitle = (LinearLayout) view.findViewById(R.id.ll_tab_title);
         //风险率
         tvRisk = (TextView) view.findViewById(R.id.tv_risk);
         //建仓手数
@@ -135,6 +138,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 endTime = end;
                 tvStartTime.setText(start);
                 tvEndTime.setText(end);
+                getHistoryData(clickId);
                 mDateDialog.dismiss();
             }
         });
@@ -250,18 +254,33 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     @Override
     public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
         refreshView.finishRefresh();
+        if (list ==null||list.size()<=0){
+            mLinearTitle.setVisibility(View.GONE);
+        }else {
+            mLinearTitle.setVisibility(View.VISIBLE);
+        }
         mAdapter.setMList(list);
     }
 
     @Override
     public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
         refreshView.finishRefresh();
+        if (list ==null||list.size()<=0){
+            mLinearTitle.setVisibility(View.GONE);
+        }else {
+            mLinearTitle.setVisibility(View.VISIBLE);
+        }
         mAdapter.setCList(list);
     }
 
     @Override
     public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
         refreshView.finishRefresh();
+        if (list ==null||list.size()<=0){
+            mLinearTitle.setVisibility(View.GONE);
+        }else {
+            mLinearTitle.setVisibility(View.VISIBLE);
+        }
         mAdapter.setBList(list);
     }
 
