@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
-import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
+import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.chart.minute.KMinuteView;
@@ -33,7 +33,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * <p/>
  * 改版后的分时图 fragment
  */
-public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLineContract.View, OnKLineTouchDisableListener, OnKChartClickListener {
+public class KMinuteFragment extends PagerFragment implements KLineContract.View, OnKLineTouchDisableListener, OnKChartClickListener {
     public static final String TAG = "KMinuteFragment";
     @BindView(R.id.minuteView)
     KMinuteView minuteView;
@@ -51,6 +51,7 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
     int TIME_STOP_MIN = 125;
     //产品code
     String excode, code;
+    private KLinePresenter mKLinePresenter;
 
     @Override
     public int getLayoutId() {
@@ -59,7 +60,8 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
+        mKLinePresenter = new KLinePresenter();
+        mKLinePresenter.init(this);
     }
 
     @Override
@@ -67,6 +69,17 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
         if (!TextUtils.isEmpty(content)) {
             App.loadingContent(mActivity, content);
         }
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        mKLinePresenter.getTickData(excode, code);
+    }
+
+    @Override
+    protected void onInvisible() {
+        super.onInvisible();
     }
 
     public void setExcode(String excode) {
@@ -128,7 +141,6 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
         minuteView.setMiddleTimeStr(mCloseTimeStr);
 
         minuteView.setAsixXByTime(false);
-        mPresenter.getTickData(excode, code);
 
 
 //        if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
@@ -198,6 +210,10 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
 
     @Override
     public void getTickDataSuccess(TickChartBean bean) {
+        if (bean == null || bean.getList() == null || bean.getList().size() == 0) {
+            showToast("暂无数据");
+            return;
+        }
         List<KCandleObj> list = new ArrayList<KCandleObj>();
         List<TickChartBean.Data> kLineList = bean.getList();
 
@@ -231,7 +247,7 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
             sum += entity.getClose();
             entity.setNormValue(sum / (i + 1));
 
-            list.add(0,entity);
+            list.add(0, entity);
 
         }
         //时间降序排列

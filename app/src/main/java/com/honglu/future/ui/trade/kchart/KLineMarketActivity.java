@@ -173,6 +173,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     case 7:
                         mKLineFragment.setType("6");
                         break;
+                    case 8:
+                        mKLineFragment.setType("7");
+                        break;
 
                 }
 //                mLightningFragment = new LightningFragment();

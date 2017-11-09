@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,9 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.base.BaseFragment;
+import com.honglu.future.app.App;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
+import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KCandleObj;
@@ -31,13 +33,15 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.honglu.future.util.ToastUtil.showToast;
+
 
 /**
  * android:hardwareAccelerated="true"
  * 硬件加速问题  导致多层次的view重新绘制
  * 设置hardwareAccelerated true
  */
-public class KLineFragment extends BaseFragment<KLinePresenter> implements KLineContract.View, OnKCrossLineMoveListener, OnKLineTouchDisableListener, OnKChartClickListener,KLineView.OnSubTabClickListener {
+public class KLineFragment extends PagerFragment implements KLineContract.View, OnKCrossLineMoveListener, OnKLineTouchDisableListener, OnKChartClickListener, KLineView.OnSubTabClickListener {
     public static final String TAG = "KLineFragment";
     @BindView(R.id.klineView)
     KLineView kLineView;
@@ -97,7 +101,8 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     float lanSubF = 1 / 3F;//横屏时候附图占整体的高度
     //传入的code
     String excode, code, type;
-//    String cycle;//周期
+    //    String cycle;//周期
+    private KLinePresenter mKLinePresenter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -126,6 +131,23 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         this.type = type;
     }
 
+    @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(mActivity, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
+    }
+
     //处理回收 如home键后长时间
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -143,7 +165,8 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
+        mKLinePresenter = new KLinePresenter();
+        mKLinePresenter.init(this);
     }
 
     @Override
@@ -159,19 +182,21 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 //        cycle = getArguments().getString("interval");
 
         initView();
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
         getKlineData();
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            getKlineData();
-        }
+    protected void onInvisible() {
+        super.onInvisible();
     }
 
     private void getKlineData() {
-        mPresenter.getKLineData(excode, code, type);
+        mKLinePresenter.getKLineData(excode, code, type);
     }
 
     @Override
@@ -267,7 +292,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         }
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mBottomTabs.getLayoutParams();
-        params.setMargins(0, kLineView.getHeight() * (int)mainF, 0, 0);// 通过自定义坐标来放置你的控件
+        params.setMargins(0, kLineView.getHeight() * (int) mainF, 0, 0);// 通过自定义坐标来放置你的控件
         mBottomTabs.setLayoutParams(params);
 
     }
@@ -619,6 +644,10 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
     @Override
     public void getKLineDataSuccess(KLineBean bean) {
+        if (bean == null || bean.getCandle() == null || bean.getCandle().size() == 0) {
+            showToast("暂无数据");
+            return;
+        }
         list = new ArrayList<KCandleObj>();
         List<KLineBean.Candle> kLineList = bean.getCandle();
 //        try {

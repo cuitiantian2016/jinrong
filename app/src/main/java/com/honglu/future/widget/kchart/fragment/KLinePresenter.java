@@ -41,7 +41,7 @@ public class KLinePresenter extends BasePresenter<KLineContract.View> implements
         toSubscribe(HttpManager.getApi().getTickData(excode, code), new HttpSubscriber<TickChartBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("查询k线中...");
+                mView.showLoading("查询分时线中...");
             }
 
             @Override
