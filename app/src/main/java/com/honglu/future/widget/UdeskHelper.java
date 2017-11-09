@@ -33,7 +33,7 @@ import cn.udesk.model.MsgNotice;
 public class UdeskHelper {
 
 
-    private static final String UDESK_DOMAIN = "xncp.udesk.cn";//'"13121380325.udesk.cn";
+    private static final String UDESK_DOMAIN = "xnsd.udesk.cn";//'"13121380325.udesk.cn";
 
     private static final String UDESK_SECRET_KAY = "3fdd0b5dec9c75ef528ad84a1a23860b";//;"a3962c701541045eb901081c82bd5b8d"
 
