@@ -2,11 +2,18 @@ package com.honglu.future.widget.kchart.chart.candle;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
+import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
@@ -28,7 +35,23 @@ import java.util.List;
  */
 public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCrossLine {
     String TAG = "KLineView";
+    private int mWidth;
+    private int mTabsTop;
+    public interface OnSubTabClickListener {
+        void onVOLClick();
 
+        void onMACDClick();
+
+        void onKDJClick();
+
+        void onRSIClick();
+    }
+
+    private OnSubTabClickListener mListener;
+
+    public void setOnSubTabClickListener(OnSubTabClickListener listener) {
+        mListener = listener;
+    }
 
     public KLineView(Context context) {
         super(context);
@@ -67,6 +90,8 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
         if (kCandleObjList == null || kCandleObjList.size() == 0)
             return;
         try {
+            mWidth = getWidth();
+            mTabsTop = (int) (axisYtopHeight + getDataHeightMian() + longitudeFontSize) + 10;
             initWidth();
             initTitleValue(canvas);
             drawLatitudeLine(canvas);
@@ -81,6 +106,7 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
                 drawBOLL(canvas);
             }
 //
+            drawTabs(canvas);
             //幅图指标
             if (subNormal == KLineNormal.NORMAL_MACD) {
                 drawMACD(canvas);
@@ -109,6 +135,58 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
         }
     }
 
+    protected void drawTabs(Canvas canvas) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        Rect targetRect = new Rect(0, mTabsTop, mWidth, mTabsTop + 80);
+        paint.setStrokeWidth(3);
+        paint.setTextSize(40);
+        paint.setColor(Color.BLACK);
+        canvas.drawRect(targetRect, paint);
+
+        paint.setColor(Color.WHITE);
+        Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+        int baseline = (targetRect.bottom + targetRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+        int baseline2 = targetRect.bottom - ((targetRect.bottom - targetRect.top - fontMetrics.bottom + fontMetrics.top) / 2 + fontMetrics.bottom);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("VOL", mWidth / 8, baseline, paint);
+        canvas.drawText("MACD", mWidth * 3 / 8, baseline, paint);
+        canvas.drawText("KDJ", mWidth * 5 / 8, baseline, paint);
+        canvas.drawText("RSI", mWidth * 7 / 8, baseline, paint);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        //获取手指在屏幕上的坐标
+        float x = event.getX();
+        float y = event.getY();
+
+        //获取手指的操作--》按下、移动、松开
+        int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN://按下
+                if (y > mTabsTop && y < mTabsTop + 80) {
+                    if (x > 0 && x < mWidth / 4) {
+                        mListener.onVOLClick();
+                    } else if (x > mWidth / 4 && x < mWidth / 2) {
+                        mListener.onMACDClick();
+                    } else if (x > mWidth / 2 && x < mWidth * 3 / 4) {
+                        mListener.onKDJClick();
+                    } else if (x > mWidth * 3 / 4 && x < mWidth) {
+                        mListener.onRSIClick();
+                    }
+                    return false;
+                }
+                break;
+
+            case MotionEvent.ACTION_MOVE://移动
+                break;
+            case MotionEvent.ACTION_UP://松开
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
 
     /**
      * 画出最大最小值的K线文字

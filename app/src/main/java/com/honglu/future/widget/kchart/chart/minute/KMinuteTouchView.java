@@ -59,11 +59,11 @@ public class KMinuteTouchView extends KBaseGraphView implements KCrossLineView.I
     //成交量矩形宽度
     protected float volW = 2;
     //解析中间休盘时间的
-    public static final String SPLIT_SCHME = "@";
+    public static final String SPLIT_SCHME = "/";
     //股票的开始 休盘 结束时间
     public String startTimeStr = "", middleTimeStr = "", stopTimeStr = "";
     //默认交易时间段
-    public static final String START_TIME_STR = "21:00", MIDDLE_TIME_STR = "09:30", STOP_TIME_STR = "15:00";
+    public static final String START_TIME_STR = "21:00", MIDDLE_TIME_STR = "", STOP_TIME_STR = "15:00";
     //价格大于收盘价的颜色
     public int textColorGt = candlePostColor;
     //价格小于收盘价的颜色

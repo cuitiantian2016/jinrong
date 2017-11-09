@@ -6,12 +6,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.bean.KLineBean;
+import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KCandleObj;
@@ -35,7 +37,7 @@ import butterknife.BindView;
  * 硬件加速问题  导致多层次的view重新绘制
  * 设置hardwareAccelerated true
  */
-public class KLineFragment extends BaseFragment<KLinePresenter> implements KLineContract.View, OnKCrossLineMoveListener, OnKLineTouchDisableListener, OnKChartClickListener {
+public class KLineFragment extends BaseFragment<KLinePresenter> implements KLineContract.View, OnKCrossLineMoveListener, OnKLineTouchDisableListener, OnKChartClickListener,KLineView.OnSubTabClickListener {
     public static final String TAG = "KLineFragment";
     @BindView(R.id.klineView)
     KLineView kLineView;
@@ -77,6 +79,8 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     View tab_RSI_land;
     @BindView(R.id.tab_KDJ_land)
     View tab_KDJ_land;
+    @BindView(R.id.ll_bottom)
+    LinearLayout mBottomTabs;
     LinearLayout crossInfoView;
     //    TextView tv_time,
     TextView tv_open, tv_close, tv_high, tv_low, tv_rate, tv_rateChange;
@@ -162,12 +166,12 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             getKlineData();
         }
     }
 
-    private void getKlineData(){
+    private void getKlineData() {
         mPresenter.getKLineData(excode, code, type);
     }
 
@@ -204,7 +208,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         kLineView.setCandleNegaColor(getResources().getColor(R.color.actionsheet_blue));
 
         kLineView.setCrossLineView(crossLineView);
-        kLineView.setShowSubChart(true);
+        kLineView.setShowSubChart(false);
 //        kLineView.setAxisYtopHeight(0);//最顶部不留白 顶部的时间就画不出来
         kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 47));
         //Y轴价格坐标 在边框内部
@@ -220,6 +224,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         //阻断touch事件的分发逻辑  listView headerView,这里还是用listview的onitemClick，touch太容易触发
 //        kLineView.setOnKLineTouchDisableListener(this);
         kLineView.setOnKChartClickListener(this);
+        kLineView.setOnSubTabClickListener(this);
 
 
         mainNormalView.setSelected(true);
@@ -261,6 +266,11 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
             kLineView.setMainF(mainF);
             kLineView.setSubF(subF);
         }
+
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mBottomTabs.getLayoutParams();
+        params.setMargins(0, kLineView.getHeight() * (int)mainF, 0, 0);// 通过自定义坐标来放置你的控件
+        mBottomTabs.setLayoutParams(params);
+
     }
 
     @Override
@@ -452,52 +462,16 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
             //附图
             if (id == R.id.tab_VOL) {
-                event4VOL();
 
-                subNormalView.setSelected(false);
-                subNormalView = view;
-                subNormalView.setSelected(true);
-
-
-                subNormalViewLand.setSelected(false);
-                subNormalViewLand = subNormalViewLand;
-                subNormalViewLand.setSelected(true);
             }
             if (id == R.id.tab_MACD) {
-                event4MACD();
 
-                subNormalView.setSelected(false);
-                subNormalView = view;
-                subNormalView.setSelected(true);
-
-
-                subNormalViewLand.setSelected(false);
-                subNormalViewLand = tab_MACD_land;
-                subNormalViewLand.setSelected(true);
             }
             if (id == R.id.tab_RSI) {
-                event4RSI();
 
-                subNormalView.setSelected(false);
-                subNormalView = view;
-                subNormalView.setSelected(true);
-
-
-                subNormalViewLand.setSelected(false);
-                subNormalViewLand = tab_RSI_land;
-                subNormalViewLand.setSelected(true);
             }
             if (id == R.id.tab_KDJ) {
-                event4KDJ();
 
-                subNormalView.setSelected(false);
-                subNormalView = view;
-                subNormalView.setSelected(true);
-
-
-                subNormalViewLand.setSelected(false);
-                subNormalViewLand = tab_KDJ_land;
-                subNormalViewLand.setSelected(true);
             }
 
             if (id == R.id.tab_SMA_land) {
@@ -683,6 +657,11 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         setData(list);
     }
 
+    @Override
+    public void getTickDataSuccess(TickChartBean bean) {
+
+    }
+
 //    class GetKlineDataTask extends AsyncTask<String, Void, List<KCandleObj>> {
 //        @Override
 //        protected void onPreExecute() {
@@ -760,6 +739,57 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
             event4MACD();
         }
         kLineView.postInvalidate();
+    }
+
+    @Override
+    public void onVOLClick() {
+        event4VOL();
+
+        subNormalView.setSelected(false);
+        subNormalView.setSelected(true);
+
+        subNormalViewLand.setSelected(false);
+        subNormalViewLand = subNormalViewLand;
+        subNormalViewLand.setSelected(true);
+    }
+
+    @Override
+    public void onMACDClick() {
+        event4MACD();
+
+        subNormalView.setSelected(false);
+
+        subNormalView.setSelected(true);
+
+
+        subNormalViewLand.setSelected(false);
+        subNormalViewLand = tab_MACD_land;
+        subNormalViewLand.setSelected(true);
+    }
+
+    @Override
+    public void onKDJClick() {
+        event4KDJ();
+
+        subNormalView.setSelected(false);
+        subNormalView.setSelected(true);
+
+        subNormalViewLand.setSelected(false);
+        subNormalViewLand = tab_KDJ_land;
+        subNormalViewLand.setSelected(true);
+    }
+
+    @Override
+    public void onRSIClick() {
+        event4RSI();
+
+        subNormalView.setSelected(false);
+        subNormalView.setSelected(true);
+
+
+        subNormalViewLand.setSelected(false);
+        subNormalViewLand = tab_RSI_land;
+        subNormalViewLand.setSelected(true);
     }
 
 //    /**

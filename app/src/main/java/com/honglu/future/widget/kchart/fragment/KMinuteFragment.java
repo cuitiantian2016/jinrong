@@ -9,7 +9,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.bean.KLineBean;
-import com.honglu.future.util.ConvertUtil;
+import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.chart.minute.KMinuteView;
@@ -17,10 +17,11 @@ import com.honglu.future.widget.kchart.entity.KCandleObj;
 import com.honglu.future.widget.kchart.listener.OnKChartClickListener;
 import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
 import com.honglu.future.widget.kchart.listener.OnKLineTouchDisableListener;
-import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,19 +69,19 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
         }
     }
 
-    public void setExcode(String excode){
+    public void setExcode(String excode) {
         this.excode = excode;
     }
 
-    public void setCode(String code){
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public void setClosed(String closed){
+    public void setClosed(String closed) {
         this.closed = Double.parseDouble(closed);
     }
 
-    public void setTimeStr(String timeStr){
+    public void setTimeStr(String timeStr) {
         mCloseTimeStr = timeStr;
     }
 
@@ -127,8 +128,7 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
         minuteView.setMiddleTimeStr(mCloseTimeStr);
 
         minuteView.setAsixXByTime(false);
-        mPresenter.getKLineData(excode, code, "10");
-
+        mPresenter.getTickData(excode, code);
 
 
 //        if (Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation) {
@@ -193,47 +193,54 @@ public class KMinuteFragment extends BaseFragment<KLinePresenter> implements KLi
 
     @Override
     public void getKLineDataSuccess(KLineBean bean) {
+
+    }
+
+    @Override
+    public void getTickDataSuccess(TickChartBean bean) {
         List<KCandleObj> list = new ArrayList<KCandleObj>();
-        List<KLineBean.Candle> kLineList = bean.getCandle();
-//        try {
-//
-//            JSONArray jsonArr = new JSONArray(jsonStr);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
-////            if (BakSourceInterface.PARAM_KLINE_1D.equals(cycle)
-////                    || BakSourceInterface.PARAM_KLINE_WEEK.equals(cycle)
-////                    || BakSourceInterface.PARAM_KLINE_MONTH.equals(cycle) ) {
-////                //周期大于日线级别了 时间格式化就不显示时分秒
-////                sdf = new SimpleDateFormat("yyyy-MM-dd");
-////            }
-            double sum = 0;
-            for (int i = 0; i < kLineList.size(); i++) {
-//                JSONObject jsonObj = jsonArr.getJSONObject(i);
-                KCandleObj entity = new KCandleObj();
-                KLineBean.Candle candle = kLineList.get(i);
-                //entity.setId(JSONObjectUtil.getString(jsonObj, "id", ""));
-                entity.setHigh(Double.parseDouble(candle.getH()));
-                entity.setLow(Double.parseDouble(candle.getL()));
-                entity.setOpen(Double.parseDouble(candle.getO()));
-                entity.setClose(Double.parseDouble(candle.getC()));
-                entity.setTimeLong(candle.getU() * 1000);
-                entity.setTime(sdf.format(entity.getTimeLong()));//2015-02-10 15:15
-                entity.setVol(Double.parseDouble(candle.getV()));
-                entity.setTotalVol(Double.parseDouble(bean.getTotalVolume()));
+        List<TickChartBean.Data> kLineList = bean.getList();
 
-                //绘制均线使用
-                sum += entity.getClose();
-                entity.setNormValue(sum / (i + 1));
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+        //开盘休盘停盘时间段
+        String startTime = bean.getStartTime();
+        String endTime = bean.getEndTime();
+        String middleTime = bean.getMiddleTime();
+        double totalVol = Double.valueOf(bean.getTotalVolume());
+        long reqTime = bean.getReqTime();
+        double sum = 0;
+        for (int i = 0; i < kLineList.size(); i++) {
+            KCandleObj entity = new KCandleObj();
+            TickChartBean.Data tickbean = kLineList.get(i);
 
-                //if (asc)
-                    list.add(entity);
-//                else
-//                    list.add(0, entity);
-//
-//
+            //分时的开盘收盘这里设置成一样
+            entity.setClose(Double.valueOf(tickbean.getP()));
+            entity.setOpen(Double.valueOf(tickbean.getP()));
+            entity.setTimeLong(Long.parseLong(tickbean.getT()));
+            entity.setTime(sdf.format(entity.getTimeLong()));
+            // 0829添加成交量 add by haiyang
+            entity.setVol(Double.valueOf(tickbean.getV()));
+
+            entity.setStartTime(startTime);
+            entity.setEndTime(endTime);
+            entity.setMiddleTime(middleTime);
+            entity.setTotalVol(totalVol);
+            entity.setReqTime(reqTime);
+
+            //绘制均线使用
+            sum += entity.getClose();
+            entity.setNormValue(sum / (i + 1));
+
+            list.add(0,entity);
+
+        }
+        //时间降序排列
+        Collections.sort(list, new Comparator<KCandleObj>() {
+            @Override
+            public int compare(KCandleObj obj, KCandleObj t1) {
+                return (obj.getTimeLong() - t1.getTimeLong() > 0) ? 1 : -1;
             }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        });
         doPostExecute(list, true);
     }
 

@@ -322,7 +322,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         Intent intent = new Intent(mActivity, KLineMarketActivity.class);
         intent.putExtra("excode","SHFE");
         intent.putExtra("code","rb1801");
-        intent.putExtra("close","3715");
+        intent.putExtra("close","3705");
         startActivity(intent);
     }
 
