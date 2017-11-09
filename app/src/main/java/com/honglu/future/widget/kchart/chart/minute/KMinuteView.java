@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
+import com.honglu.future.config.Constant;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KCandleObj;
 import com.honglu.future.widget.kchart.util.KDateUtil;
@@ -98,6 +99,14 @@ public class KMinuteView extends KMinuteTouchView {
         if (isEmpty(startTimeStr)) {
             startTimeStr = START_TIME_STR;
         }
+
+        if (startTimeStr.equals("09:00")) {
+            middleTimeStr = Constant.CLOSE_TIME_BEGIN_NINE;
+        } else if (startTimeStr.equals("09:30")) {
+            middleTimeStr = Constant.CLOSE_TIME_COMMON;
+        }
+
+
         if (isEmpty(middleTimeStr)) {
             middleTimeStr = MIDDLE_TIME_STR;
         }
@@ -235,6 +244,7 @@ public class KMinuteView extends KMinuteTouchView {
 
     // 是否有多个休市时间  添加此字段作为期货中间多个休市时间计算标志
     private boolean muiltMiddleTime = false;
+
     protected void initTime() {
 //        //init axisXtitles
         axisXtitles.clear();

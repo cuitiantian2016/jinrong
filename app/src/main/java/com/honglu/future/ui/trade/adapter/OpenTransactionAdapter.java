@@ -49,6 +49,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         holder.mTvDownRadio.setText(item.getShortRate()+"%");
         if (item.getIsClosed().equals("2")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTvClosed.setVisibility(View.GONE);
         }
         holder.mLlRise.setOnClickListener(new View.OnClickListener() {
             @Override
