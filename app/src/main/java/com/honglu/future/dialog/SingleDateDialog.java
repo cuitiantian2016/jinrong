@@ -290,17 +290,17 @@ public class SingleDateDialog extends Dialog{
     }
 
 
-    private int getYear() {
+    public int getYear() {
         Calendar c = Calendar.getInstance();
         return c.get(Calendar.YEAR);
     }
 
-    private int getMonth() {
+    public int getMonth() {
         Calendar c = Calendar.getInstance();
         return c.get(Calendar.MONTH) + 1;
     }
 
-    private int getDay() {
+    public int getDay() {
         Calendar c = Calendar.getInstance();
         return c.get(Calendar.DATE);
     }

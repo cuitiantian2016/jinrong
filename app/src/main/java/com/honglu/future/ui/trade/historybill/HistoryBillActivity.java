@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.historybill;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -135,6 +137,11 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 mDateDialog.dismiss();
             }
         });
+        int year = mDateDialog.getYear();
+        int month = mDateDialog.getMonth();
+        int day = mDateDialog.getDay();
+        mTvDate.setText(year+"-"+month+"-"+day);
+        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", year+"-"+month+"-"+day);
     }
 
     private void initData() {
@@ -169,7 +176,13 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
             @Override
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
+                if (mList==null){
+                    mList = new ArrayList<>();
+                }
                 mList.clear();
+               if (settlementInfoBean==null){
+                   return;
+               }
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
                     for (int i = 0; i <= settlementInfoBean.getTransactionList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
