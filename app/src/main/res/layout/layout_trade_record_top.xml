@@ -250,6 +250,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_one"
             android:layout_width="@dimen/dimen_80dp"
             android:layout_height="wrap_content"
             android:text="合约"
@@ -257,6 +258,7 @@
             android:textSize="@dimen/dimen_14sp" />
 
         <TextView
+            android:id="@+id/tv_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="持仓匀价"
@@ -267,6 +269,7 @@
 
 
         <TextView
+            android:id="@+id/tv_thr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="最新价"
@@ -276,7 +279,7 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_four"
             android:layout_width="@dimen/dimen_60dp"
             android:layout_height="wrap_content"
             android:gravity="right"

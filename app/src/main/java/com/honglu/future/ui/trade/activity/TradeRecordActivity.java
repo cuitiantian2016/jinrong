@@ -44,6 +44,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     SmartRefreshLayout refreshView;
     @BindView(R.id.tv_back)
     ImageView mIvBack;
+    TextView tvOne;
+    TextView tvTwo;
+    TextView tvThr;
+    TextView tvFour;
 
     private TextView tvStartTime;
     private TextView tvEndTime;
@@ -84,6 +88,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
         tvStartTime = (TextView) view.findViewById(R.id.tv_startTime);
         tvEndTime = (TextView) view.findViewById(R.id.tv_endTime);
+        tvOne = (TextView) view.findViewById(R.id.tv_one);
+        tvTwo = (TextView) view.findViewById(R.id.tv_two);
+        tvThr = (TextView) view.findViewById(R.id.tv_thr);
+        tvFour = (TextView) view.findViewById(R.id.tv_four);
         //风险率
         tvRisk = (TextView) view.findViewById(R.id.tv_risk);
         //建仓手数
@@ -142,6 +150,9 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 getHistoryData(clickId);
             }
         });
+        tvTwo.setVisibility(View.INVISIBLE);
+        tvThr.setVisibility(View.INVISIBLE);
+        tvFour.setText("建仓价");
     }
 
     private String getStartTime(){
@@ -173,6 +184,9 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabCcLine.setVisibility(View.INVISIBLE);
               tabRText.setTextColor(getResources().getColor(R.color.color_333333));
               tabRLine.setVisibility(View.INVISIBLE);
+              tvTwo.setVisibility(View.INVISIBLE);
+              tvThr.setVisibility(View.INVISIBLE);
+              tvFour.setText("建仓价");
               break;
           case R.id.tab_ccLayout:
               clickId = v.getId();
@@ -184,6 +198,11 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabCcLine.setVisibility(View.VISIBLE);
               tabRText.setTextColor(getResources().getColor(R.color.color_333333));
               tabRLine.setVisibility(View.INVISIBLE);
+              tvTwo.setVisibility(View.VISIBLE);
+              tvTwo.setText("建仓价");
+              tvThr.setVisibility(View.VISIBLE);
+              tvThr.setText("平仓价");
+              tvFour.setText("委托价");
               break;
           case R.id.tab_rLayout:
               clickId = v.getId();
@@ -195,6 +214,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tabRText.setTextColor(getResources().getColor(R.color.color_008EFF));
               tabRLine.setBackgroundResource(R.color.color_008EFF);
               tabRLine.setVisibility(View.VISIBLE);
+              tvTwo.setVisibility(View.INVISIBLE);
+              tvThr.setVisibility(View.VISIBLE);
+              tvThr.setText("委托类型");
+              tvFour.setText("持仓盈亏");
               break;
           case R.id.tv_back:
               finish();
