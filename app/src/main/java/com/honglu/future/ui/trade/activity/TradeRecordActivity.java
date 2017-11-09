@@ -125,7 +125,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         for (int i = 0 ; i < 30;i++){
             list.add(new String("111"));
         }
-        mAdapter = new TradeRecordAdapter(TradeRecordActivity.this,list);
+        mAdapter = new TradeRecordAdapter(TradeRecordActivity.this);
         lvListView.setAdapter(mAdapter);
 
         mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
@@ -202,7 +202,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tvTwo.setText("建仓价");
               tvThr.setVisibility(View.VISIBLE);
               tvThr.setText("平仓价");
-              tvFour.setText("委托价");
+              tvFour.setText("平仓盈亏");
               break;
           case R.id.tab_rLayout:
               clickId = v.getId();
@@ -217,7 +217,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
               tvTwo.setVisibility(View.INVISIBLE);
               tvThr.setVisibility(View.VISIBLE);
               tvThr.setText("委托类型");
-              tvFour.setText("持仓盈亏");
+              tvFour.setText("委托价");
               break;
           case R.id.tv_back:
               finish();
@@ -250,16 +250,19 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     @Override
     public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
         refreshView.finishRefresh();
+        mAdapter.setMList(list);
     }
 
     @Override
     public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
         refreshView.finishRefresh();
+        mAdapter.setCList(list);
     }
 
     @Override
     public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
         refreshView.finishRefresh();
+        mAdapter.setBList(list);
     }
 
     @Override

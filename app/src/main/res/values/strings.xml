@@ -152,5 +152,7 @@
     <string name="get_assess">提现金额</string>
     <string name="confirm_pay">确认充值</string>
     <string name="confirm_out">确认提现</string>
+    <string name="buy_up_num">买涨%d手</string>
+    <string name="buy_down_num">买跌%d手</string>
 
 </resources>

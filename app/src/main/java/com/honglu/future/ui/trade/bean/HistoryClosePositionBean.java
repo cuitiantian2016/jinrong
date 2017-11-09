@@ -40,7 +40,7 @@ public class HistoryClosePositionBean {
     public String instrumentId;
     public String instrumentName;
     public String orderSysId;
-    public String position;
+    public int position;
     public String price;
     public String productId;
     public String productName;
@@ -49,6 +49,6 @@ public class HistoryClosePositionBean {
     public String today;
     public String tradeId;
     public String tradeTime;
-    public String type;
+    public int type;
     public String useMargin;
 }

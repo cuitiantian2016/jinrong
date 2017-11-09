@@ -27,11 +27,11 @@ public class HistoryMissPositionBean {
     public String excode;
     public String instrumentId;
     public String instrumentName;
-    public String openClose;
-    public String position;
+    public int openClose;
+    public int position;
     public String price;
     public String productId;
     public String productName;
     public String timeCondition;
-    public String type;
+    public int type;
 }
