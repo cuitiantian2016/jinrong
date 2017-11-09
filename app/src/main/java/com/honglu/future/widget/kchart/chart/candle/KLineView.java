@@ -141,7 +141,7 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
         Rect targetRect = new Rect(0, mTabsTop, mWidth, mTabsTop + 80);
         paint.setStrokeWidth(3);
         paint.setTextSize(40);
-        paint.setColor(Color.BLACK);
+        paint.setColor(0x1C1D28);
         canvas.drawRect(targetRect, paint);
 
         paint.setColor(Color.WHITE);

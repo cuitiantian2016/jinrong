@@ -43,7 +43,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     private PositionFragment mPositionFragment;
     private ClosePositionFragment mClosePositionFragment;
     //private EntrustFragment mEntrustFragment;
-    private KMinuteFragment mEntrustFragment;
+    private EntrustFragment mEntrustFragment;
     private int currentPosition;
 
     public static TradeFragment tradeFragment;
@@ -115,7 +115,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         mFragments.add(mPositionFragment);
         mClosePositionFragment = new ClosePositionFragment();
         mFragments.add(mClosePositionFragment);
-        mEntrustFragment = new KMinuteFragment();
+        mEntrustFragment = new EntrustFragment();
         mFragments.add(mEntrustFragment);
 
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);

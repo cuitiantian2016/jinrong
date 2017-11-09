@@ -6,7 +6,7 @@
 
     <com.honglu.future.widget.kchart.chart.minute.KMinuteView
         android:id="@+id/minuteView"
-        android:background="@android:color/black"
+        android:background="@color/color_1C1D28"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

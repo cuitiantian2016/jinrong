@@ -215,9 +215,8 @@ public interface HttpApi {
                                                         @Query("code") String code);
 
     //查询商品行情详情
-    @FormUrlEncoded
-    @POST("futures-data-mobile/quotation/realTime")
-    Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Field("codes") String codes);
+    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
+    Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Query(value = "codes" ,encoded = true) String codes);
 
     /*******************************    上传图片   *****************************************/
     /*******************************

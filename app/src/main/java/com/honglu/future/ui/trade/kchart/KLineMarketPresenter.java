@@ -12,7 +12,7 @@ import com.honglu.future.ui.trade.bean.RealTimeBean;
 public class KLineMarketPresenter extends BasePresenter<KLineMarketContract.View> implements KLineMarketContract.Presenter {
     @Override
     public void getProductRealTime(String codes) {
-        toSubscribe(HttpManager.getApi().getProductRealTime(codes), new HttpSubscriber<RealTimeBean>() {
+        toSubscribe(HttpManager.getApi().getProductRealTime(codes.replace("|", "%7C")), new HttpSubscriber<RealTimeBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("查询行情中...");

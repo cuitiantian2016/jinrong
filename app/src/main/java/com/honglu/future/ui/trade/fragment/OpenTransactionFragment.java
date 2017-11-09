@@ -404,8 +404,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     public void onItemClick(ProductListBean bean) {
         Intent intent = new Intent(mActivity, KLineMarketActivity.class);
         intent.putExtra("excode","SHFE");
-        intent.putExtra("code","rb1801");
+        intent.putExtra("code","rb1805");
         intent.putExtra("close","3705");
+        intent.putExtra("isClosed",bean.getIsClosed());
         startActivity(intent);
     }
 
