@@ -2,6 +2,7 @@ package com.honglu.future.ui.home.viewmodel;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.MarketData;
+import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
@@ -214,7 +216,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 viewThr.removeAllViews();
                 for (int i = position*PAGE_SIZE; i < (position+1)*PAGE_SIZE; i++) {//需要加一
                     View goodsItem = View.inflate(mContext, R.layout.new_homegoods_item, null);
-                    goodsItem.setTag(arrayListBean.get(i).instrumentID);
+                    goodsItem.setTag(arrayListBean.get(i));
                     goodsItem.setOnClickListener(this);//设置点击事件
                     LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
                     params1.width = deviceWidth / 3;
@@ -240,7 +242,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 viewThr.removeAllViews();
                 for (int i = position*PAGE_SIZE; i < arrayList.size(); i++) {//需要加一
                     View goodsItem = View.inflate(mContext, R.layout.new_homegoods_item, null);
-                    goodsItem.setTag(arrayListBean.get(i).instrumentID);
+                    goodsItem.setTag(arrayListBean.get(i));
                     goodsItem.setOnClickListener(this);//设置点击事件
                     LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
                     params1.width = deviceWidth/3;
@@ -328,6 +330,12 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
      */
     @Override
     public void onClick(View view) {
+        MarketData.MarketDataBean marketDataBean = (MarketData.MarketDataBean)view.getTag();
+        Intent intent = new Intent(mContext, KLineMarketActivity.class);
+        intent.putExtra("excode",marketDataBean.exchangeID);
+        intent.putExtra("code",marketDataBean.instrumentID);
+        intent.putExtra("isClosed","1");
+        mContext.startActivity(intent);
     }
 
     public void requestMarket(){

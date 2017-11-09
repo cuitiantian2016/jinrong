@@ -74,6 +74,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     TextView mTvJs;
     @BindView(R.id.tv_zj)
     TextView mTvZj;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
     private String mExcode;
     private String mCode;
     private String mClosed;
@@ -103,8 +105,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (isClosed.equals("2")) {
             mTvClosed.setVisibility(View.VISIBLE);
         }
-        initViewPager();
-        initListener();
+
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
     }
 
@@ -133,14 +134,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 //        chooseMinuteListener();
     }
 
-    private void initViewPager() {
+    private void initViewPager(String closePrice) {
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < mTitles.length; i++) {
             if (i == 0) {
                 KMinuteFragment fragment = new KMinuteFragment();
                 fragment.setExcode(mExcode);
                 fragment.setCode(mCode);
-                fragment.setClosed(mClosed);
+                fragment.setClosed(closePrice);
                 fragment.setTimeStr(Constant.CLOSE_TIME_AG);
 //                fragment.setTouchEnabled(false);
 //                fragment.setShowHighLine(true);
@@ -202,9 +203,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         }
         RealTimeBean.Data mRealBean = bean.getList().get(0);
         String lastPrice = mRealBean.getLastPrice();
-        int riseNum = Integer.valueOf(lastPrice) - Integer.valueOf(mRealBean.getPreSettlementPrice());
+        float riseNum = Float.valueOf(lastPrice) - Float.valueOf(mRealBean.getPreSettlementPrice());
         float radio = (riseNum / Float.valueOf(mRealBean.getPreSettlementPrice())) * 100;
-
+        mTvName.setText(mRealBean.getName());
         mTvNewPrice.setText(lastPrice);
 
         if (riseNum >= 0) {
@@ -215,7 +216,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mTvRiseRadio.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
         }
         mTvBuyPrice.setText(lastPrice);
-        mTvSellPrice.setText(String.valueOf(Integer.valueOf(lastPrice) + 1));
+        mTvSellPrice.setText(String.valueOf(Float.valueOf(lastPrice) + 1));
         mTvVol.setText(mRealBean.getAskVolume1());
         mHoldVol.setText(mRealBean.getBidVolume1());
         mTvZd.setText(mRealBean.getUpperLimitPrice());
@@ -227,6 +228,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mTvZs.setText(mRealBean.getClosePrice());
         mTvJs.setText(mRealBean.getSettlementPrice());
         mTvZj.setText(mRealBean.getPreSettlementPrice());
+
+        initViewPager(mRealBean.getPreClosePrice());
+        initListener();
     }
 
     @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position})
