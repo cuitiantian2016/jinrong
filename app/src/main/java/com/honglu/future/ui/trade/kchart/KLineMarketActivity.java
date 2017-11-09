@@ -142,7 +142,12 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 fragment.setExcode(mExcode);
                 fragment.setCode(mCode);
                 fragment.setClosed(closePrice);
-                fragment.setTimeStr(Constant.CLOSE_TIME_AG);
+                if(mCode.startsWith("TA")){
+                    fragment.setTimeStr(Constant.CLOSE_TIME_BEGIN_NINE);
+                } else {
+                    fragment.setTimeStr(Constant.CLOSE_TIME_COMMON);
+                }
+
 //                fragment.setTouchEnabled(false);
 //                fragment.setShowHighLine(true);
 //                fragment.setGoodsType(mGoodsType);

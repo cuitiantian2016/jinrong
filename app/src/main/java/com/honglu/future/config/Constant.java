@@ -72,6 +72,6 @@ public class Constant {
 
     public static final int OptionalQuotesLITEPALl = 0023;
 
-    public static final String CLOSE_TIME_AG = "10:15@10:30,11:30@13:30,23:00@09:00";
-
+    public static final String CLOSE_TIME_COMMON = "10:15@10:30,11:30@13:30,23:00@09:00";
+    public static final String CLOSE_TIME_BEGIN_NINE = "10:15@10:30,11:30@13:30";
 }
