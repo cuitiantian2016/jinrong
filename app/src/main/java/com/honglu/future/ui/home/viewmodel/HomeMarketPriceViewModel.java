@@ -264,7 +264,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         TextView mTvItemRise = (TextView) goodsItem.findViewById(R.id.tvitemrise);
         double change = NumberUtils.getDouble(data.change);
         //当当前价小于昨收价时，价格颜色应变更为绿色
-        if (change> 0){
+        if (change>= 0){
             Drawable drawable = ContextCompat.getDrawable(goodsItem.getContext(),R.mipmap.icon_up_arr);
             drawable.setBounds(0, 0, 24,24);
             mTvItemName.setCompoundDrawables(null,null,drawable,null);
