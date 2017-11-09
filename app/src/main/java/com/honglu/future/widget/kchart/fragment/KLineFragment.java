@@ -134,7 +134,6 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         outState.putInt("bottomtype", lastBottomNorm);
     }
 
-
 //    private GetKlineDataTask task;
 
     @Override

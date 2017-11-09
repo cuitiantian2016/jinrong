@@ -7,6 +7,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.adapter.KChartFragmentAdapter;
+import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
@@ -53,6 +54,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mClosed = getIntent().getStringExtra("close");
         initViewPager();
         initListener();
+        mPresenter.getProductRealTime(mExcode + "%" + mCode);
     }
 
     private void initListener() {
@@ -137,5 +139,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mTabLayout.setTabWidth(tabWidth);
         mTabLayout.setIndicatorWidth(indicatorWidth);
         mTabLayout.setViewPager(mViewPager);
+    }
+
+    @Override
+    public void getProductRealTimeSuccess(RealTimeBean bean) {
+
     }
 }

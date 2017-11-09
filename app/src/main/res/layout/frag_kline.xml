@@ -108,8 +108,8 @@
             android:id="@+id/ll_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_40dp"
-
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tab_VOL"

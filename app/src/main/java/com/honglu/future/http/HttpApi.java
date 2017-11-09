@@ -20,6 +20,7 @@ import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
@@ -208,6 +209,11 @@ public interface HttpApi {
     @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/tickChart")
     Observable<BaseResponse<TickChartBean>> getTickData(@Query("excode") String excode,
                                                         @Query("code") String code);
+
+    //查询商品行情详情
+    @FormUrlEncoded
+    @POST("futures-data-mobile/quotation/realTime")
+    Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Field("codes") String codes);
 
     /*******************************    上传图片   *****************************************/
     /*******************************
