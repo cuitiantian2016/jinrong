@@ -13,6 +13,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
@@ -25,14 +26,12 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.loading.LoadingLayout;
-import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,7 +51,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     LoadingLayout mLoadingLayout;
     private ClosePositionAdapter mClosePositionAdapter;
     private BottomPopupWindow mTipPopupWindow;
-    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
 
     @Override
@@ -115,8 +114,8 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         if (!hidden) {
             if (!App.getConfig().getAccountLoginStatus()) {
                 if (isVisible()) {
-                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mTvTip, mAccountPresenter);
-                    mAccountLoginPopupView.showOpenAccountWindow();
+                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                    mAccountLoginDialog.show();
                 }
             } else {
                 if (isVisible()) {
@@ -135,7 +134,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        mAccountLoginPopupView.dismissLoginAccountView();
+        mAccountLoginDialog.dismiss();
     }
 
     private void showTipWindow(View view) {

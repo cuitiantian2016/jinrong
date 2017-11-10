@@ -12,6 +12,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
@@ -22,7 +23,6 @@ import com.honglu.future.ui.trade.presenter.EntrustPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
-import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @BindView(R.id.loading_layout)
     LoadingLayout mLoadingLayout;
 
-    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
     private boolean mIsShowFilter;
@@ -92,8 +92,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         if (!hidden) {
             if (!App.getConfig().getAccountLoginStatus()) {
                 if (isVisible()) {
-                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mIvTip, mAccountPresenter);
-                    mAccountLoginPopupView.showOpenAccountWindow();
+                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                    mAccountLoginDialog.show();
                 }
             } else {
                 if (isVisible()) {
@@ -178,7 +178,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        mAccountLoginPopupView.dismissLoginAccountView();
+        mAccountLoginDialog.dismiss();
     }
 
     @Override

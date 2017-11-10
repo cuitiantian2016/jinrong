@@ -12,6 +12,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -37,7 +38,6 @@ import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
-import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -115,7 +115,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mUpdate;
     @BindView(R.id.ll_bottomLayout2)
     LinearLayout mBottomLayout2;
-    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
 
 
@@ -174,7 +174,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @OnClick({R.id.tv_loginRegister, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.ll_signin_suc_layout, R.id.tv_kefu,R.id.tv_withdrawals,R.id.tv_recharge})
+            R.id.ll_signin_suc_layout, R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -206,8 +206,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
                 } else {
-                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mSetup, mAccountPresenter);
-                    mAccountLoginPopupView.showOpenAccountWindow();
+                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                    mAccountLoginDialog.show();
                 }
                 break;
             case R.id.tv_signout:
@@ -320,7 +320,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
-        mAccountLoginPopupView.dismissLoginAccountView();
+        mAccountLoginDialog.dismiss();
         signinExpandCollapse(true);
         getAccountBasicInfo();
     }

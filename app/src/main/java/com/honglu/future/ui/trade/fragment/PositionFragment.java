@@ -10,6 +10,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.ui.main.contract.AccountContract;
@@ -21,13 +22,11 @@ import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.widget.popupwind.AccountLoginPopupView;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +49,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     private PositionAdapter mAdapter;
     private AccountPresenter mAccountPresenter;
-    private AccountLoginPopupView mAccountLoginPopupView;
+    private AccountLoginDialog mAccountLoginDialog;
     private PositionDialog mPositionDialog;
     private CloseTransactionDialog mCloseDialog;
     private PositionPopWind mPopWind;
@@ -107,8 +106,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         if (!hidden) {
             if (!App.getConfig().getAccountLoginStatus()) {
                 if (isVisible()) {
-                    mAccountLoginPopupView = new AccountLoginPopupView(mActivity, mRemarksEmpty, mAccountPresenter);
-                    mAccountLoginPopupView.showOpenAccountWindow();
+                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                    mAccountLoginDialog.show();
                 }
             } else {
                 if (isVisible()) {
@@ -152,7 +151,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        mAccountLoginPopupView.dismissLoginAccountView();
+        mAccountLoginDialog.dismiss();
     }
 
 
