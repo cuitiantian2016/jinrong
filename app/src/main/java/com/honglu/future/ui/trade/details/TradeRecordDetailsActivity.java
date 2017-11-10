@@ -18,7 +18,7 @@ import butterknife.BindView;
  * Created by zhuaibing on 2017/11/6
  */
 
-public class TradeRecordDetailsActivity extends BaseActivity<TradeRecordDetailsPresenter> implements TradeRecordDetailsContract.View{
+public class TradeRecordDetailsActivity extends BaseActivity{
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_buy_rise)
