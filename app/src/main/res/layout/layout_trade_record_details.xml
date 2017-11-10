@@ -88,7 +88,7 @@
                   android:textSize="@dimen/dimen_16sp"
                   android:textColor="@color/color_333333"
                   android:layout_marginTop="@dimen/dimen_17dp"
-                  android:text="委托时间"/>
+                  android:text="撤单时间"/>
           </LinearLayout>
 
 

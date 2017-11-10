@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by hefei on 2017/11/1.
  *
@@ -19,9 +21,9 @@ package com.honglu.future.ui.trade.bean;
  "type": 2
  */
 
-public class HistoryMissPositionBean {
+public class HistoryMissPositionBean implements Serializable {
     public String cancelTime;
-    public String cancelType;
+    public int cancelType;
     public String createTime;
     public String exchangeName;
     public String excode;
@@ -32,6 +34,6 @@ public class HistoryMissPositionBean {
     public String price;
     public String productId;
     public String productName;
-    public String timeCondition;
+    public int timeCondition;
     public int type;
 }

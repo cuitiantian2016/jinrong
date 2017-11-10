@@ -1,7 +1,6 @@
 package com.honglu.future.ui.trade.adapter;
 
 import android.content.Context;
-import android.support.annotation.IntegerRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
 import com.honglu.future.ui.trade.details.OpenTransactionDetailsActivity;
+import com.honglu.future.ui.trade.details.TradeRecordDetailsActivity;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class TradeRecordAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_trade_record_layout, null);
@@ -107,6 +107,16 @@ public class TradeRecordAdapter extends BaseAdapter {
         }else {
             return null;
         }
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mType == TYPE_IS_builder){
+                    OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext,(HistoryBuiderPositionBean)getItem(position));
+                }else if (mType == TYPE_IS_MISS){
+                    TradeRecordDetailsActivity.startTradeRecordDetailsActivity(mContext,(HistoryMissPositionBean)getItem(position));
+                }
+            }
+        });
         return convertView;
     }
 
@@ -184,12 +194,6 @@ public class TradeRecordAdapter extends BaseAdapter {
             tvPurchaseSize.setText(num);
             tvName.setText(bean.instrumentName);
             tvProfitLossMoney.setText(bean.price);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext,bean);
-                }
-            });
         }
     }
 }
