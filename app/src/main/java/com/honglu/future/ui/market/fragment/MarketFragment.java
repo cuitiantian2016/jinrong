@@ -206,8 +206,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         mPresenter.getMarketData();
     }
 
-    private Handler mHandler = new Handler();
-
     /**
      * 接口请求返回数据
      *
@@ -231,12 +229,16 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         MarketItemFragment zlhyFragment = new MarketItemFragment();
         zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, getZlhyMarketList(mAllMarketList)));
         mZxFragment.setOnAddAptionalListener(this);
+        mZxFragment.setOnMPushCodeRefreshListener(this);
+        mZxFragment.setOnMarketRefreshListener(this);
+        zlhyFragment.setOnMarketRefreshListener(this);
         mFragments.add(mZxFragment);
         mFragments.add(zlhyFragment);
         for (MarketnalysisBean.ListBean bean : mAllMarketList) {
             mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
             MarketItemFragment fragment = new MarketItemFragment();
             fragment.setArguments(fragment.setArgumentData(bean.getExcode(), bean.getQuotationDataList()));
+            fragment.setOnMarketRefreshListener(this);
             mFragments.add(fragment);
         }
         mCommonTab.setTabData(mTabList, (FragmentActivity) mContext, R.id.market_fragment_container, mFragments);

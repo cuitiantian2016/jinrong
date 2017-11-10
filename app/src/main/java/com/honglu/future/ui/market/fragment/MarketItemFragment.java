@@ -161,10 +161,17 @@ public class MarketItemFragment extends BaseFragment {
 
 
     public OnMPushCodeRefreshListener mPushCodeRefreshListener;
+
+    public void setOnMPushCodeRefreshListener(OnMPushCodeRefreshListener mPushCodeRefreshListener){
+        this.mPushCodeRefreshListener = mPushCodeRefreshListener;
+    }
     public interface OnMPushCodeRefreshListener{
         void OnMPushCodeRefresh(String mpushCode);
     }
 
+    public void setOnMarketRefreshListener(OnMarketRefreshListener refreshListener){
+        this.refreshListener = refreshListener;
+    }
     public OnMarketRefreshListener refreshListener;
     public interface OnMarketRefreshListener{
          void OnMarketRefresh();
