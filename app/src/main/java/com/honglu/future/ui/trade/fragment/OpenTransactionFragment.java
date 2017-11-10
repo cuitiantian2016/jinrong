@@ -223,6 +223,11 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 if (!App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     startActivity(intent);
+                } else {
+                    if (!App.getConfig().getAccountLoginStatus()) {
+                        mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
+                        mAccountLoginDialog.show();
+                    }
                 }
             }
         });
