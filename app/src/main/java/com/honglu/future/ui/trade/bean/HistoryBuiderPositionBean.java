@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by hefei on 2017/11/1.
  *
@@ -20,7 +22,7 @@ package com.honglu.future.ui.trade.bean;
  "useMargin": "4663.2"
  */
 
-public class HistoryBuiderPositionBean {
+public class HistoryBuiderPositionBean implements Serializable{
     public String exchangeName;
     public String excode;
     public String id;

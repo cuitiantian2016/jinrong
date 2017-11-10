@@ -12,6 +12,7 @@ import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
+import com.honglu.future.ui.trade.details.OpenTransactionDetailsActivity;
 
 import java.util.List;
 
@@ -124,7 +125,9 @@ public class TradeRecordAdapter extends BaseAdapter {
         TextView tvProfitLossMoney;
         @BindView(R.id.v_line)
         View vLine;
+        View view;
         ViewHolder(View view) {
+            this.view = view;
             mContext = view.getContext();
             ButterKnife.bind(this, view);
         }
@@ -167,7 +170,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             tvNewMoney.setText(bean.closePrice);
             tvProfitLossMoney.setText(bean.profitLoss);
         }
-        void bindView(HistoryBuiderPositionBean bean){
+        void bindView(final HistoryBuiderPositionBean bean){
             tvCcmoney.setVisibility(View.INVISIBLE);
             tvNewMoney.setVisibility(View.INVISIBLE);
             String num;
@@ -181,6 +184,12 @@ public class TradeRecordAdapter extends BaseAdapter {
             tvPurchaseSize.setText(num);
             tvName.setText(bean.instrumentName);
             tvProfitLossMoney.setText(bean.price);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext,bean);
+                }
+            });
         }
     }
 }
