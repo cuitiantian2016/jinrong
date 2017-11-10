@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.SpUtil;
@@ -76,7 +77,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_close_popup:
-                EventBus.getDefault().post(new FragmentRefreshEvent());
+                EventBus.getDefault().post(new ChangeTabEvent(0));
                 dismiss();
                 break;
             case R.id.iv_open_account_tip:

@@ -18,6 +18,7 @@ import com.honglu.future.app.JPushManager;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.ActivityFragmentDialog;
+import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_account:
-                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this,0,null);
+                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
                     toTabIndex = FragmentFactory.FragmentStatus.Account;
                     oldCheckId = R.id.rb_account;
                     changeTab(FragmentFactory.FragmentStatus.Account);
@@ -210,7 +211,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             }
         } else if (event instanceof ChangeTabMainEvent) {
+            EventBus.getDefault().post(new ChangeTabEvent(1));
             changeTab(((ChangeTabMainEvent) event).getTab());
+            ((RadioButton) findViewById(getCheckIdByStatus(((ChangeTabMainEvent) event).getTab()))).setChecked(true);
         }
     }
 

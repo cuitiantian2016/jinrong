@@ -7,9 +7,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
-import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.BuildTransactionDialog;
+import com.honglu.future.events.ChangeTabMainEvent;
+import com.honglu.future.ui.main.FragmentFactory;
+import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.KChartFragmentAdapter;
+import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
@@ -18,6 +25,8 @@ import com.honglu.future.widget.kchart.ViewPagerEx;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
 import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
 import com.honglu.future.widget.tab.OnTabSelectListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +40,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/11/7.
  */
 
-public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View {
+public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View {
     @BindView(R.id.tablayout)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewpager)
@@ -76,6 +85,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     TextView mTvZj;
     @BindView(R.id.tv_name)
     TextView mTvName;
+    @BindView(R.id.tv_rise_price)
+    TextView mTvRisePrice;
+    @BindView(R.id.tv_down_price)
+    TextView mTvDownPrice;
     private String mExcode;
     private String mCode;
     private String mClosed;
@@ -85,6 +98,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private String[] mTitles = {"分时", "1分钟", "5分钟", "15分钟", "30分钟", "1小时", "4小时", "日线", "周线"};
 
     private KLineFragment mKLineFragment;
+    private BuildTransactionDialog mBuildTransactionDialog;
+    private AccountPresenter mAccountPresenter;
+    private AccountLoginDialog mAccountLoginDialog;
 
     @Override
     public int getLayoutId() {
@@ -94,6 +110,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void initPresenter() {
         mPresenter.init(this);
+        mAccountPresenter = new AccountPresenter();
+        mAccountPresenter.init(this);
     }
 
     @Override
@@ -127,11 +145,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
             }
         });
-//        //选中K线监听
-//        chooseKLineListener();
-//
-//        //选中分时线监听
-//        chooseMinuteListener();
     }
 
     private void initViewPager(String closePrice) {
@@ -142,11 +155,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 fragment.setExcode(mExcode);
                 fragment.setCode(mCode);
                 fragment.setClosed(closePrice);
-
-//                fragment.setTouchEnabled(false);
-//                fragment.setShowHighLine(true);
-//                fragment.setGoodsType(mGoodsType);
-                //mOnKLineRefreshListener = fragment;
                 fragments.add(fragment);
             } else {
                 mKLineFragment = new KLineFragment();
@@ -179,8 +187,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                         break;
 
                 }
-//                mLightningFragment = new LightningFragment();
-//                mLightningFragment.setGoodsType(mGoodsType);
                 fragments.add(mKLineFragment);
             }
         }
@@ -215,8 +221,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mTvRiseNum.setText("-" + riseNum);
             mTvRiseRadio.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
         }
-        mTvBuyPrice.setText(lastPrice);
-        mTvSellPrice.setText(String.valueOf(Float.valueOf(lastPrice) + 1));
+        mTvBuyPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
+        mTvSellPrice.setText(lastPrice);
         mTvVol.setText(mRealBean.getAskVolume1());
         mHoldVol.setText(mRealBean.getBidVolume1());
         mTvZd.setText(mRealBean.getUpperLimitPrice());
@@ -228,6 +234,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mTvZs.setText(mRealBean.getClosePrice());
         mTvJs.setText(mRealBean.getSettlementPrice());
         mTvZj.setText(mRealBean.getPreSettlementPrice());
+        mTvRisePrice.setText(lastPrice);
+        mTvDownPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
 
         initViewPager(mRealBean.getPreClosePrice());
         initListener();
@@ -251,14 +259,39 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 finish();
                 break;
             case R.id.buy_up:
-                showToast("买涨");
+                if (App.getConfig().getAccountLoginStatus()) {
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, mCode);
+                    mBuildTransactionDialog.show();
+                } else {
+                    showAccountLoginDialog();
+                }
                 break;
             case R.id.buy_down:
-                showToast("买跌");
+                if (App.getConfig().getAccountLoginStatus()) {
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, mCode);
+                    mBuildTransactionDialog.show();
+                } else {
+                    showAccountLoginDialog();
+                }
                 break;
             case R.id.hold_position:
-                showToast("持仓");
+                if (App.getConfig().getAccountLoginStatus()) {
+                    EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                    finish();
+                } else {
+                    showAccountLoginDialog();
+                }
                 break;
         }
+    }
+
+    private void showAccountLoginDialog(){
+        mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
+        mAccountLoginDialog.show();
+    }
+
+    @Override
+    public void loginSuccess(AccountBean bean) {
+        mAccountLoginDialog.dismiss();
     }
 }

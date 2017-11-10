@@ -9,7 +9,10 @@ import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
@@ -145,10 +148,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden){
+        if (hidden) {
             MPushUtil.pauseRequest();
-        }else {
-            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)&&currentPosition==0){
+        } else {
+            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
             }
         }
@@ -163,14 +166,16 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Override
     public void onResume() {
         super.onResume();
-        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)&&currentPosition==0){
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(FragmentRefreshEvent event) {
-        mCommonTabLayout.setCurrentTab(0);
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof ChangeTabEvent) {
+                mCommonTabLayout.setCurrentTab(((ChangeTabEvent) event).getLoanType());
+        }
     }
 
     @Override

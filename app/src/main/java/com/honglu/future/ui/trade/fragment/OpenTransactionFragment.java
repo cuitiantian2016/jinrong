@@ -54,7 +54,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View,
-        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener, BuildTransactionDialog.OnBuildClickListener {
+        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
     @BindView(R.id.srl_refreshView)
@@ -160,40 +160,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     @Override
-    public void buildTransactionSuccess() {
-        mBuildTransactionDialog.dismiss();
-    }
-
-    @Override
-    public void onBuildClick(final ProductListBean bean, final String type, final String hands, final String price) {
-        String buyTypeStr;
-        if (type.equals("1")) {
-            buyTypeStr = "买跌";
-        } else {
-            buyTypeStr = "买涨";
-        }
-
-        // TODO: 2017/11/10 总计需要计算获取，目前是写死
-        new AlertFragmentDialog.Builder(mActivity).setTitle("确认建仓").setContent(bean.getInstrumentName() + " " + buyTypeStr + " " + hands + "手 总计 ¥2511.68")
-                .setRightBtnText("确定")
-                .setLeftBtnText("取消")
-                .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                    @Override
-                    public void dialogRightBtnClick(String string) {
-                        mPresenter.buildTransaction(hands,
-                                type,
-                                price,
-                                bean.getInstrumentId(),
-                                SpUtil.getString(Constant.CACHE_TAG_UID),
-                                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                                "GUOFU"
-                        );
-                    }
-                }).build();
-    }
-
-
-    @Override
     public void showLoading(String content) {
         if (!TextUtils.isEmpty(content)) {
             App.loadingContent(mActivity, content);
@@ -287,8 +253,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean);
-                mBuildTransactionDialog.setOnBuildClickListener(this);
+                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
                 mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
@@ -312,8 +277,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean);
-                mBuildTransactionDialog.setOnBuildClickListener(this);
+                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
                 mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);

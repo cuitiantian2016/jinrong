@@ -32,7 +32,7 @@ public class FragmentChangeManager {
      */
     private void initFragments() {
         for (Fragment fragment : mFragments) {
-            mFragmentManager.beginTransaction().add(mContainerViewId, fragment).hide(fragment).commit();
+            mFragmentManager.beginTransaction().add(mContainerViewId, fragment).hide(fragment).commitAllowingStateLoss();
         }
 
         setFragments(0);
@@ -50,7 +50,7 @@ public class FragmentChangeManager {
             } else {
                 ft.hide(fragment);
             }
-            ft.commit();
+            ft.commitAllowingStateLoss();
         }
         mCurrentTab = index;
     }
