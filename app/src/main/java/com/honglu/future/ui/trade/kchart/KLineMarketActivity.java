@@ -1,9 +1,13 @@
 package com.honglu.future.ui.trade.kchart;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -33,8 +37,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.honglu.future.util.ToastUtil.showToast;
 
 /**
  * Created by zq on 2017/11/7.
@@ -89,6 +91,18 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     TextView mTvRisePrice;
     @BindView(R.id.tv_down_price)
     TextView mTvDownPrice;
+    @BindView(R.id.ll_title_bar)
+    LinearLayout mLlTitleBar;
+    @BindView(R.id.tv_name_land)
+    TextView mTvNameLand;
+    @BindView(R.id.tv_rise_num_land)
+    TextView mTvRiseNumLand;
+    @BindView(R.id.tv_rise_radio_land)
+    TextView mTvRiseRadioLand;
+    @BindView(R.id.ll_bottom_tabs)
+    LinearLayout mLlBottomTabs;
+    @BindView(R.id.iv_full_screen)
+    ImageView mIvFull;
     private String mExcode;
     private String mCode;
     private String mClosed;
@@ -125,6 +139,59 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         }
 
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //当前为横屏
+            handLandView(true);
+
+        } else {
+            //切换到竖屏
+            handLandView(false);
+        }
+    }
+
+    private void handLandView(boolean isLand) {
+        RelativeLayout.LayoutParams params =
+                (RelativeLayout.LayoutParams) mTabLayout.getLayoutParams();
+        RelativeLayout.LayoutParams viewPagerParams =
+                (RelativeLayout.LayoutParams) mViewPager.getLayoutParams();
+
+        if (isLand) {
+            mLlTitleBar.setVisibility(View.GONE);
+            mTvNameLand.setVisibility(View.VISIBLE);
+            mTvRiseNumLand.setVisibility(View.VISIBLE);
+            mTvRiseRadioLand.setVisibility(View.VISIBLE);
+            mLlBottomTabs.setVisibility(View.GONE);
+            mTvRiseNum.setVisibility(View.GONE);
+            mTvRiseRadio.setVisibility(View.GONE);
+            mIvFull.setVisibility(View.VISIBLE);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            mTabLayout.setLayoutParams(params);
+            viewPagerParams.removeRule(RelativeLayout.BELOW);
+            viewPagerParams.removeRule(RelativeLayout.ABOVE);
+            viewPagerParams.addRule(RelativeLayout.ABOVE, R.id.tablayout);
+            mViewPager.setLayoutParams(viewPagerParams);
+        } else {
+            mLlTitleBar.setVisibility(View.VISIBLE);
+            mTvNameLand.setVisibility(View.GONE);
+            mTvRiseNumLand.setVisibility(View.GONE);
+            mTvRiseRadioLand.setVisibility(View.GONE);
+            mLlBottomTabs.setVisibility(View.VISIBLE);
+            mTvRiseNum.setVisibility(View.VISIBLE);
+            mTvRiseRadio.setVisibility(View.VISIBLE);
+            mIvFull.setVisibility(View.GONE);
+            params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            mTabLayout.setLayoutParams(params);
+            viewPagerParams.addRule(RelativeLayout.BELOW, R.id.tablayout);
+            viewPagerParams.removeRule(RelativeLayout.ABOVE);
+            viewPagerParams.addRule(RelativeLayout.ABOVE, R.id.ll_bottom_tabs);
+            mViewPager.setLayoutParams(viewPagerParams);
+        }
+
     }
 
     private void initListener() {
@@ -216,10 +283,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
         if (riseNum >= 0) {
             mTvRiseNum.setText("+" + riseNum);
+            mTvRiseNumLand.setText("+" + riseNum);
             mTvRiseRadio.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
+            mTvRiseRadioLand.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
         } else {
             mTvRiseNum.setText("-" + riseNum);
+            mTvRiseNumLand.setText("-" + riseNum);
             mTvRiseRadio.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
+            mTvRiseRadioLand.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
         }
         mTvBuyPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
         mTvSellPrice.setText(lastPrice);
@@ -236,12 +307,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mTvZj.setText(mRealBean.getPreSettlementPrice());
         mTvRisePrice.setText(lastPrice);
         mTvDownPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
+        mTvNameLand.setText(mRealBean.getName());
+
 
         initViewPager(mRealBean.getPreClosePrice());
         initListener();
     }
 
-    @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position})
+    @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pull:
@@ -282,10 +355,13 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     showAccountLoginDialog();
                 }
                 break;
+            case R.id.iv_full_screen:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
         }
     }
 
-    private void showAccountLoginDialog(){
+    private void showAccountLoginDialog() {
         mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
         mAccountLoginDialog.show();
     }
@@ -293,5 +369,18 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            if (Configuration.ORIENTATION_LANDSCAPE == getResources()
+                    .getConfiguration().orientation) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

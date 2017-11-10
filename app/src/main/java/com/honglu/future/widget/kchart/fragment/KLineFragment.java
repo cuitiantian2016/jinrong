@@ -304,13 +304,11 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //当前为横屏
             handLandView(true);
-
             kLineView.setMainF(lanMainF);
             kLineView.setSubF(lanSubF);
         } else {
             //切换到竖屏
             handLandView(false);
-
             kLineView.setMainF(mainF);
             kLineView.setSubF(subF);
         }

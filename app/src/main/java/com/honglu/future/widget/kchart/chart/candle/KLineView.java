@@ -8,12 +8,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 
-import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
-import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
@@ -37,6 +33,8 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
     String TAG = "KLineView";
     private int mWidth;
     private int mTabsTop;
+    private Rect targetRect;
+
     public interface OnSubTabClickListener {
         void onVOLClick();
 
@@ -138,7 +136,7 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
     protected void drawTabs(Canvas canvas) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        Rect targetRect = new Rect(0, mTabsTop, mWidth, mTabsTop + 80);
+        targetRect = new Rect(0, mTabsTop, mWidth, mTabsTop + 80);
         paint.setStrokeWidth(3);
         paint.setTextSize(40);
         paint.setColor(0x1C1D28);
