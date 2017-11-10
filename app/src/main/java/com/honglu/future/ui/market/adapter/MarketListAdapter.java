@@ -128,7 +128,11 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
             @Override
             public void onClick(View v) {
                 //img true 没添加  false 已添加
-                fragment.refresh(mBean.getIcAdd(),mBean);
+                if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
+                    fragment.refresh("1",mBean);
+                }else {
+                    fragment.refresh(mBean.getIcAdd(),mBean);
+                }
             }
         });
     }
