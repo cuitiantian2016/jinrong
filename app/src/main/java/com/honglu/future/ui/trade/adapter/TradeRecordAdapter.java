@@ -11,6 +11,7 @@ import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
+import com.honglu.future.ui.trade.details.CloseTransactionDetailsActivity;
 import com.honglu.future.ui.trade.details.OpenTransactionDetailsActivity;
 import com.honglu.future.ui.trade.details.TradeRecordDetailsActivity;
 
@@ -114,6 +115,8 @@ public class TradeRecordAdapter extends BaseAdapter {
                     OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext,(HistoryBuiderPositionBean)getItem(position));
                 }else if (mType == TYPE_IS_MISS){
                     TradeRecordDetailsActivity.startTradeRecordDetailsActivity(mContext,(HistoryMissPositionBean)getItem(position));
+                }else if (mType== TYPE_IS_CLOSE){
+                    CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext, (HistoryClosePositionBean) getItem(position));
                 }
             }
         });
@@ -178,7 +181,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             tvNewMoney.setText(bean.closePrice);
-            tvProfitLossMoney.setText(bean.profitLoss);
+            tvProfitLossMoney.setText(bean.closeProfitLoss);
         }
         void bindView(final HistoryBuiderPositionBean bean){
             tvCcmoney.setVisibility(View.INVISIBLE);

@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by hefei on 2017/11/1.
  *
@@ -28,11 +30,11 @@ package com.honglu.future.ui.trade.bean;
  "useMargin": "3769.5"
  */
 
-public class HistoryClosePositionBean {
+public class HistoryClosePositionBean implements Serializable {
     public String closePrice;
     public String closeProfitLoss;
     public String closeSxf;
-    public String closeType;
+    public int closeType;
     public String exchangeName;
     public String excode;
     public String holdAvgPrice;

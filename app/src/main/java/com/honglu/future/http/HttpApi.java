@@ -13,6 +13,7 @@ import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.CloseBuiderBean;
 import com.honglu.future.ui.trade.bean.ClosePositionListBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
@@ -362,5 +363,15 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("token") String token,
             @Field("dayEnd") String dayEnd);
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 平仓详情
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/orders/close/details")
+    Observable<BaseResponse<List<CloseBuiderBean>>> getCloseBuiderBean(
+            @Field("userId") String userId,
+            @Field("token") String token);
 
 }

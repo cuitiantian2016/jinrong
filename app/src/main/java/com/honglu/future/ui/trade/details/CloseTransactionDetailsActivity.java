@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.details;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,8 +10,20 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.base.BasePresenter;
+import com.honglu.future.base.IBaseView;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.trade.bean.CloseBuiderBean;
+import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
+import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.ExpandableLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,10 +33,12 @@ import butterknife.ButterKnife;
  * Created by zhuaibing on 2017/11/6
  */
 
-public class CloseTransactionDetailsActivity extends BaseActivity<CloseTransactionDetailsPresenter> implements CloseTransactionDetailsContract.View {
+public class CloseTransactionDetailsActivity extends BaseActivity {
 
     @BindView(R.id.tv_name)
     TextView mName;
+    @BindView(R.id.real_profit_loss)
+    TextView real_profit_loss;
     @BindView(R.id.tv_buy_rise)
     TextView mBuyRise;
     @BindView(R.id.tv_profit_loss)
@@ -41,6 +57,10 @@ public class CloseTransactionDetailsActivity extends BaseActivity<CloseTransacti
     TextView mExpBaodanNum;
     @BindView(R.id.tv_exp_time)
     TextView mExpTime;
+    @BindView(R.id.build_sxf)
+    TextView mBuildSXF;
+    @BindView(R.id.trade_id)
+    TextView mTradeId;
     @BindView(R.id.ll_expandable_view)
     LinearLayout mExpandableView;
     @BindView(R.id.el_expandable_layout)
@@ -60,6 +80,22 @@ public class CloseTransactionDetailsActivity extends BaseActivity<CloseTransacti
     @BindView(R.id.refreshView)
     SmartRefreshLayout mRefreshView;
 
+    private static final String KEY_DATA = "KEY_DATA";
+
+    /**
+     * 平仓类型3.手动平仓,4.止盈平仓,5.止损平仓,6.爆仓,7.休市平仓
+     * @param context
+     * @param item
+     */
+    private String[] closeType = new String[]{"手动平仓","止盈平仓","止损平仓","爆仓","休市平仓"};
+    private BasePresenter<CloseTransactionDetailsActivity> basePresenter;
+
+    public static void startCloseTransactionDetailsActivity(Context context, HistoryClosePositionBean item){
+        Intent intent = new Intent(context,CloseTransactionDetailsActivity.class);
+        intent.putExtra(KEY_DATA,item);
+        context.startActivity(intent);
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_close_transaction_details;
@@ -67,6 +103,29 @@ public class CloseTransactionDetailsActivity extends BaseActivity<CloseTransacti
 
     @Override
     public void initPresenter() {
+        basePresenter = new BasePresenter<CloseTransactionDetailsActivity>(CloseTransactionDetailsActivity.this){
+            @Override
+            public void getData() {
+                super.getData();
+                toSubscribe(HttpManager.getApi().getCloseBuiderBean(
+                        SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
+                ), new HttpSubscriber<List<CloseBuiderBean>>() {
+                    @Override
+                    protected void _onNext(List<CloseBuiderBean> o) {
+                        super._onNext(o);
+                        if (o!=null&&o.size()>=1){
+                            bindBuildCloseData(o.get(0));
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        super._onError(message);
+                        ToastUtil.show(message);
+                    }
+                });
+            }
+        };
 
     }
 
@@ -85,5 +144,51 @@ public class CloseTransactionDetailsActivity extends BaseActivity<CloseTransacti
                 }
             }
         });
+        basePresenter.getData();
+        Intent intent = getIntent();
+        if (intent!=null){
+            HistoryClosePositionBean bean = (HistoryClosePositionBean)intent.getSerializableExtra(KEY_DATA);
+            if (bean!=null){
+                mName.setText(bean.instrumentName);
+                String num;
+                if (bean.type == 1){
+                    mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                    num =  mContext.getString(R.string.buy_down_num,bean.position);
+                }else {
+                    mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                    num =  mContext.getString(R.string.buy_up_num,bean.position);
+                }
+                mBuyRise.setText(num);
+                mServiceCharge.setText(bean.closeSxf);
+                mProfitLoss.setText(bean.closeProfitLoss);
+                real_profit_loss.setText(bean.profitLoss);
+                mChicangAveragePrice.setText(bean.holdAvgPrice);
+                mJiancangAveragePrice.setText(bean.price);
+                mPrice.setText(bean.closePrice);
+                mTiem.setText(bean.tradeTime);
+                mBaodanNum.setText(bean.orderSysId);
+                mDealNum.setText(bean.tradeId);
+                if (bean.closeType>1){
+                    mType.setText(closeType[bean.closeType-1]);
+                }
+            }
+        }
+    }
+
+    private void bindBuildCloseData(CloseBuiderBean data){
+        String num;
+        if (data.type == 1){
+            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            num =  mContext.getString(R.string.buy_down_num,data.position);
+        }else {
+            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            num =  mContext.getString(R.string.buy_up_num,data.position);
+        }
+        mExpBuyRise.setText(num);
+        mExpJiancangPrice.setText("建仓价 "+data.openPrice);
+        mExpTime.setText(data.openTime);
+        mExpBaodanNum.setText("报单编号 "+data.orderSysId);
+        mBuildSXF.setText("建仓手续费 "+data.openSxf);
+        mTradeId.setText("成交编号 "+data.openSxf);
     }
 }

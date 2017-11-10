@@ -64,19 +64,21 @@
 
 
               <TextView
+                  android:id="@+id/build_sxf"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginTop="@dimen/dimen_17dp"
-                  android:text="建仓价 3592.00"
+                  android:text="建仓手续费 3592.00"
                   android:textColor="@color/color_979899"
                   android:textSize="@dimen/dimen_14sp" />
 
 
               <TextView
+                  android:id="@+id/trade_id"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginTop="@dimen/dimen_17dp"
-                  android:text="报单编号 5017111"
+                  android:text="成交编号 5017111"
                   android:textColor="@color/color_979899"
                   android:textSize="@dimen/dimen_14sp" />
           </LinearLayout>
