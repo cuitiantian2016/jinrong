@@ -8,57 +8,48 @@
     android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/text_contract_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left"
+        android:layout_width="@dimen/dimen_70dp"
+        android:layout_height="@dimen/dimen_25dp"
+        android:gravity="center_vertical"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/dimen_14sp"
         android:text="@string/text_contract_name"/>
+
     <FrameLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/dimen_25dp">
         <TextView
             android:id="@+id/text_latest_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dimen_10dp"
-            android:paddingRight="@dimen/dimen_10dp"
-            android:paddingTop="@dimen/dimen_3dp"
-            android:paddingBottom="@dimen/dimen_3dp"
+            android:layout_gravity="center"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_14sp"
             android:text="@string/text_latest_price"/>
 
-         <FrameLayout
-             android:id="@+id/fl_red"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:background="@drawable/shape_2dp_26fb4f4f">
+         <View
+             android:id="@+id/v_red"
+             android:layout_width="@dimen/dimen_60dp"
+             android:layout_gravity="center"
+             android:layout_height="match_parent"
+             android:background="@drawable/market_red_bg"/>
 
-             <TextView
-                 android:id="@+id/tv_red"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:paddingLeft="@dimen/dimen_10dp"
-                 android:paddingRight="@dimen/dimen_10dp"
-                 android:paddingTop="@dimen/dimen_3dp"
-                 android:paddingBottom="@dimen/dimen_3dp"
-                 android:textColor="@color/color_333333"
-                 android:textSize="@dimen/dimen_14sp"
-                 android:text="@string/text_latest_price"
-                 android:visibility="invisible"/>
-         </FrameLayout>
+        <View
+            android:id="@+id/v_green"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:background="@drawable/market_green_bg"/>
     </FrameLayout>
 
     <TextView
         android:id="@+id/text_quote_change"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_25dp"
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/color_333333"
@@ -67,7 +58,7 @@
 
      <LinearLayout
          android:layout_width="0dp"
-         android:layout_height="wrap_content"
+         android:layout_height="@dimen/dimen_25dp"
          android:orientation="horizontal"
          android:gravity="right|center_vertical"
          android:layout_weight="1">
@@ -81,11 +72,12 @@
              android:text="@string/text_haved_positions"/>
 
          <ImageView
+             android:id="@+id/iv_adddel"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:src="@mipmap/ic_market_optional_add"
              android:layout_marginLeft="@dimen/dimen_15dp"
-             android:visibility="invisible"/>
+             android:visibility="visible"/>
      </LinearLayout>
 
 

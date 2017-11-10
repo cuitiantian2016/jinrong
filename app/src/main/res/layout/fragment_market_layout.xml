@@ -4,48 +4,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-        <com.honglu.future.widget.tab.HorizontalTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/market_common_tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_40dp"
-            android:layout_toLeftOf="@+id/right_layout"
-            app:tl_iconVisible="false"
-            app:tl_indicator_anim_duration="400"
-            app:tl_indicator_anim_enable="true"
-            app:tl_indicator_color="@color/color_008EFF"
-            app:tl_indicator_gravity="BOTTOM"
-            app:tl_indicator_height="@dimen/dimen_4dp"
-            app:tl_indicator_style="NORMAL"
-            app:tl_special_select_color_blue="true"
-            app:tl_textSelectColor="@color/color_008EFF"
-            app:tl_textUnselectColor="@color/color_323232"
-            app:tl_rightMargin="@dimen/dimen_20dp"
-            app:tl_leftMargin="@dimen/dimen_20dp"
-            app:tl_windMargin="@dimen/dimen_20dp"
-            app:tl_textsize="@dimen/dimen_16sp"
-            app:tl_textBold="BOTH"
-            app:tl_underline_color="@color/color_d8d7d7"
-            app:tl_underline_height="@dimen/dimen_1dp_half" />
-
-    <View style="@style/line_base_horizontal" />
-
-
-    <include layout="@layout/layout_markettitle_item"/>
-
-    <View style="@style/line_base_horizontal" />
-
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/market_smart_view"
+    <com.honglu.future.widget.tab.HorizontalTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/market_common_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/market_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:nestedScrollingEnabled="false"
-            android:paddingBottom="5dp" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="@dimen/dimen_40dp"
+        android:layout_toLeftOf="@+id/right_layout"
+        app:tl_iconVisible="false"
+        app:tl_indicator_anim_duration="400"
+        app:tl_indicator_anim_enable="true"
+        app:tl_indicator_color="@color/color_008EFF"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="@dimen/dimen_4dp"
+        app:tl_indicator_style="NORMAL"
+        app:tl_leftMargin="@dimen/dimen_20dp"
+        app:tl_rightMargin="@dimen/dimen_20dp"
+        app:tl_special_select_color_blue="true"
+        app:tl_textBold="BOTH"
+        app:tl_textSelectColor="@color/color_008EFF"
+        app:tl_textUnselectColor="@color/color_323232"
+        app:tl_textsize="@dimen/dimen_16sp"
+        app:tl_underline_color="@color/color_d8d7d7"
+        app:tl_underline_height="@dimen/dimen_1dp_half"
+        app:tl_windMargin="@dimen/dimen_20dp" />
+
+    <View style="@style/line_base_horizontal" />
+
+
+    <include layout="@layout/layout_markettitle_item" />
+
+    <View style="@style/line_base_horizontal" />
+
+    <FrameLayout
+        android:id="@+id/market_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

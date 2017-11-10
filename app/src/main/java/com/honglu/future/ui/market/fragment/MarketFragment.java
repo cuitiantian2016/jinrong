@@ -1,13 +1,13 @@
 package com.honglu.future.ui.market.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -15,13 +15,13 @@ import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.market.activity.OptionalQuotesActivity;
-import com.honglu.future.ui.market.adapter.MarketListAdapter;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.contract.MarketContract;
 import com.honglu.future.ui.market.presenter.MarketPresenter;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -29,11 +29,15 @@ import com.honglu.future.widget.tab.TabEntity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -41,28 +45,25 @@ import butterknife.BindView;
  * Created by zhuaibing on 2017/10/25
  */
 
-public class MarketFragment extends BaseFragment<MarketPresenter> implements MarketContract.View {
+public class MarketFragment extends BaseFragment<MarketPresenter> implements MarketContract.View, MarketItemFragment.OnAddAptionalListener,MarketItemFragment.OnMarketRefreshListener,MarketItemFragment.OnMPushCodeRefreshListener{
     public static final String ZXHQ_TYPE = "zxhq_type";//自选行情
     public static final String ZLHY_TYPE = "zlhy_type";//主力合约
-
-    @BindView(R.id.market_recycler)
-    RecyclerView mMarketRecycler; //行情列表
     @BindView(R.id.market_common_tab_layout)
     HorizontalTabLayout mCommonTab;
-    @BindView(R.id.market_smart_view)
-    SmartRefreshLayout mRefreshView;
 
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList = new ArrayList<>();//自选行情
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> mZlhyMarketList =  new ArrayList<>();//主力合约
-    private List<MarketnalysisBean.ListBean> mAllMarketList = new ArrayList<>();//除自选外全部数据
-    private String mTabSelectType = ZXHQ_TYPE;
 
+    //除自选外全部数据
+    private List<MarketnalysisBean.ListBean> mAllMarketList;
+    //tab 数据
     private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
-
-    private MarketListAdapter mMarketListAdapter;
-
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private String mPushCode;
+    private String mTabSelectType;
+    private int mPosition = 0;
 
     public static MarketFragment marketFragment;
+    private MarketItemFragment mZxFragment;
+
 
     public static MarketFragment getInstance() {
         if (marketFragment == null) {
@@ -98,122 +99,148 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     }
 
     @Override
-    public void loadData() {
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
-        if (zxMarketList !=null && zxMarketList.size() > 0){
-            mZxMarketList = getZxMarketList();
-        }
-        LinearLayout footerView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_quotes_optional_add, null);
-        mMarketRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-        mMarketRecycler.setFocusable(false);
-        mMarketListAdapter = new MarketListAdapter();
-        mMarketRecycler.setAdapter(mMarketListAdapter);
-        mMarketListAdapter.addFooterView(footerView, DensityUtil.dp2px(85));
-        mMarketListAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
-            @Override
-            public void onItemClick(View view, int position) {
-                /*Intent intent = new Intent(mActivity, WebViewActivity.class);
-                intent.putExtra("url", mActivityListAdapter.getData().get(position).getReUrl());
-                startActivity(intent);*/
-            }
-        });
-
-        footerView.findViewById(R.id.text_add_qptional).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAllMarketList !=null && mAllMarketList.size() > 0){
-                    Intent intent = new Intent(getActivity(),OptionalQuotesActivity.class);
-                    intent.putExtra("data",(Serializable) mAllMarketList);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        mCommonTab.setOnTabSelectListener(new SimpleOnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                mTabSelectType = mTabList.get(position).getTabType();
-                setMarketData(mTabSelectType);
-            }
-        });
-
-        mRefreshView.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mPresenter.getMarketData();
-                mRefreshView.finishRefresh();
-            }
-        });
-
-        mPresenter.getMarketData();
+    public void onPause() {
+        super.onPause();
+        MPushUtil.pauseRequest();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
-        mZxMarketList.clear();
-        if (zxMarketList !=null && zxMarketList.size() > 0){
-            mZxMarketList = zxMarketList;
-        }
-        if (mTabSelectType == ZXHQ_TYPE && mAllMarketList !=null && mAllMarketList.size() > 0){
-            setMarketData(mTabSelectType);
+        requestMarket(mPushCode);
+    }
+
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
+        if (!TextUtils.isEmpty(mPushCode) && mPushCode.equals(MPushUtil.requestCodes) && !(isHidden())) {
+            if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
+                MarketItemFragment fragment = (MarketItemFragment) mFragments.get(mPosition);
+                fragment.mPushRefresh(event.marketMessage.getInstrumentID(), event.marketMessage.getLastPrice(), event.marketMessage.getChg(), event.marketMessage.getOpenInterest());
+            }
         }
     }
 
-    //行情请求数据
+    //MPush
+    public void requestMarket(String productList) {
+        if (!TextUtils.isEmpty(productList))
+            MPushUtil.requestMarket(productList);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mZxFragment != null) {
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
+            if (zxList != null && zxList.size() > 0) {
+                Gson gson = new Gson();
+                String toJson = gson.toJson(zxList);
+                SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+            } else {
+                SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+            }
+        }
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onAddAptional() {
+        if (mAllMarketList != null && mAllMarketList.size() > 0) {
+            if (mZxFragment != null) {
+                List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
+                if (zxList != null && zxList.size() > 0) {
+                    Gson gson = new Gson();
+                    String toJson = gson.toJson(zxList);
+                    SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+                } else {
+                    SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+                }
+            }
+            Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
+            intent.putExtra("data", (Serializable) mAllMarketList);
+            startActivity(intent);
+        }
+    }
+
+
+    @Override
+    public void OnMarketRefresh() {
+        //下拉刷新
+         mPresenter.getMarketData();
+    }
+
+
+    @Override
+    public void OnMPushCodeRefresh(String mpushCode) {
+        if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
+            MarketItemFragment fragment = (MarketItemFragment) mFragments.get(mPosition);
+            fragment.setOnAddAptionalListener(MarketFragment.this);
+            mPushCode = fragment.getPushCode();
+            mTabSelectType = fragment.getTabSelectType();
+            if (ZXHQ_TYPE.equals(mTabSelectType)){
+                requestMarket(mPushCode);
+            }
+        }
+    }
+
+    @Override
+    public void loadData() {
+        EventBus.getDefault().register(this);
+        //tab 切换
+        mCommonTab.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                mPosition = position;
+                if (mFragments != null && mFragments.size() > 0) {
+                    MarketItemFragment fragment = (MarketItemFragment) mFragments.get(position);
+                    fragment.setOnAddAptionalListener(MarketFragment.this);
+                    mPushCode = fragment.getPushCode();
+                    mTabSelectType = fragment.getTabSelectType();
+                    requestMarket(mPushCode);
+                }
+            }
+        });
+        mPresenter.getMarketData();
+    }
+
+    private Handler mHandler = new Handler();
+
+    /**
+     * 接口请求返回数据
+     *
+     * @param alysisBean
+     */
     @Override
     public void getMarketData(MarketnalysisBean alysisBean) {
         if (alysisBean == null || alysisBean.getList() == null) {
             return;
         }
-        this.mAllMarketList = alysisBean.getList();
-
-        //创建tab
-        if (mTabList.size() <= 0) {
-            mTabList.clear();
-            mTabList.add(new TabEntity("自选", ZXHQ_TYPE));
-            mTabList.add(new TabEntity("主力合约", ZLHY_TYPE));
-            for (MarketnalysisBean.ListBean bean : mAllMarketList) {
-                mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
-            }
-            mCommonTab.setTabData(mTabList);
-        }
-
-        //添加主力合约 list
-         mZlhyMarketList.clear();
+        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
+        this.mAllMarketList = addItemDataExcode(alysisBean.getList(),zxMarketList);
+        mPushCode = mosaicMPushCode(zxMarketList);
+        mPosition = 0;
+        mTabList.clear();
+        mFragments.clear();
+        mTabList.add(new TabEntity("自选", ZXHQ_TYPE));
+        mTabList.add(new TabEntity("主力合约", ZLHY_TYPE));
+        mZxFragment = new MarketItemFragment();
+        mZxFragment.setArguments(mZxFragment.setArgumentData(ZXHQ_TYPE, zxMarketList));
+        MarketItemFragment zlhyFragment = new MarketItemFragment();
+        zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, getZlhyMarketList(mAllMarketList)));
+        mZxFragment.setOnAddAptionalListener(this);
+        mFragments.add(mZxFragment);
+        mFragments.add(zlhyFragment);
         for (MarketnalysisBean.ListBean bean : mAllMarketList) {
-            if (bean.getQuotationDataList() !=null && bean.getQuotationDataList().size() > 0){
-                mZlhyMarketList.addAll(bean.getQuotationDataList());
-            }
+            mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
+            MarketItemFragment fragment = new MarketItemFragment();
+            fragment.setArguments(fragment.setArgumentData(bean.getExcode(), bean.getQuotationDataList()));
+            mFragments.add(fragment);
         }
-
-         setMarketData(mTabSelectType);
-    }
-
-
-    //根据 type 设置对应adapter 数据
-    private void setMarketData(String type) {
-        if (TextUtils.isEmpty(type)) {
-            return;
-        }
-        mMarketListAdapter.clearData();
-        if (type.equals(ZXHQ_TYPE)) {//自选行情
-            mMarketListAdapter.addData(mZxMarketList);
-
-        } else if (type.equals(ZLHY_TYPE)) { //主力合约
-            mMarketListAdapter.addData(mZlhyMarketList);
-
-        } else {
-            if (mAllMarketList != null || mAllMarketList.size() > 0) {
-                for (MarketnalysisBean.ListBean alysisBean : mAllMarketList) {
-                    if (type.equals(alysisBean.getExcode())) {
-                        mMarketListAdapter.addData(alysisBean.getQuotationDataList());
-                        break;
-                    }
-                }
-            }
-        }
+        mCommonTab.setTabData(mTabList, (FragmentActivity) mContext, R.id.market_fragment_container, mFragments);
+        requestMarket(mPushCode);
     }
 
 
@@ -232,4 +259,77 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         }
         return null;
     }
+
+    //获取主力合约
+    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZlhyMarketList(List<MarketnalysisBean.ListBean> list) {
+        List<MarketnalysisBean.ListBean.QuotationDataListBean> mZlhyMarketList = new ArrayList<>();
+        for (MarketnalysisBean.ListBean bean : list) {
+            if (bean.getQuotationDataList() != null && bean.getQuotationDataList().size() > 0) {
+                mZlhyMarketList.addAll(bean.getQuotationDataList());
+            }
+        }
+        return mZlhyMarketList;
+    }
+
+
+    //拼接 MPush code
+    private String mosaicMPushCode(List<MarketnalysisBean.ListBean.QuotationDataListBean> list) {
+        StringBuilder builder = new StringBuilder();
+        if (list != null && list.size() > 0) {
+
+            for (MarketnalysisBean.ListBean.QuotationDataListBean bean : list) {
+                if (!TextUtils.isEmpty(bean.getExcode()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
+                    if (builder.length() > 0) {
+                        builder.append(",");
+                    }
+                    builder.append(bean.getExcode() + "|" + bean.getInstrumentID());
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+
+    //给每条数据添加 Excode
+    private List<MarketnalysisBean.ListBean> addItemDataExcode(List<MarketnalysisBean.ListBean> list, List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList) {
+        if (mZxMarketList != null && mZxMarketList.size() > 0) {
+            for (MarketnalysisBean.ListBean listBean : list) {
+                if (!TextUtils.isEmpty(listBean.getExcode())
+                        && listBean.getQuotationDataList() != null
+                        && listBean.getQuotationDataList().size() > 0) {
+
+                    for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
+                        mBean.setExcode(listBean.getExcode());
+                        for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : mZxMarketList) {
+                            if (!TextUtils.isEmpty(mBean.getInstrumentID()) && mBean.getInstrumentID().equals(zxBean.getInstrumentID())) {
+                                //已经存在自选 img 显示删除
+                                mBean.setIcAdd("1");
+                            } else {
+                                //不存在自选 img 显示添加
+                                if (!"1".equals(mBean.getIcAdd())){
+                                    mBean.setIcAdd("0");
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        } else {
+            for (MarketnalysisBean.ListBean listBean : list) {
+
+                if (!TextUtils.isEmpty(listBean.getExcode())
+                        && listBean.getQuotationDataList() != null
+                        && listBean.getQuotationDataList().size() > 0) {
+
+                    for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
+                        mBean.setIcAdd("0");
+                        mBean.setExcode(listBean.getExcode());
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.honglu.future.ui.market.bean;
 
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,12 +10,12 @@ import java.util.List;
  * Created by zhuaibing on 2017/11/8
  */
 
-public class MarketnalysisBean implements Serializable{
+public class MarketnalysisBean implements Serializable {
 
 
     private List<ListBean> list;
 
-    public  List<ListBean> getList() {
+    public List<ListBean> getList() {
         return list;
     }
 
@@ -22,7 +23,7 @@ public class MarketnalysisBean implements Serializable{
         this.list = list;
     }
 
-    public  class ListBean implements Serializable{
+    public class ListBean implements Serializable {
         /**
          * excode : SHFE
          * exchangeName : 上期所
@@ -57,7 +58,7 @@ public class MarketnalysisBean implements Serializable{
             this.quotationDataList = quotationDataList;
         }
 
-        public  class QuotationDataListBean implements Serializable{
+        public class QuotationDataListBean implements Serializable {
             /**
              * tradingDay : 20171031
              * instrumentID : ag1712
@@ -111,6 +112,8 @@ public class MarketnalysisBean implements Serializable{
              * name : 白银1712
              */
 
+            private String isIcAdd;
+            private String excode;
             private String tradingDay;
             private String instrumentID;
             private String exchangeID;
@@ -161,6 +164,22 @@ public class MarketnalysisBean implements Serializable{
             private String change;
             private String chg;
             private String name;
+
+            public String getIcAdd() {
+                return isIcAdd;
+            }
+
+            public void setIcAdd(String icAdd) {
+                isIcAdd = icAdd;
+            }
+
+            public String getExcode() {
+                return excode;
+            }
+
+            public void setExcode(String excode) {
+                this.excode = excode;
+            }
 
             public String getTradingDay() {
                 return tradingDay;
@@ -561,10 +580,19 @@ public class MarketnalysisBean implements Serializable{
             public void setName(String name) {
                 this.name = name;
             }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (!TextUtils.isEmpty(instrumentID)) {
+                    QuotationDataListBean obj1 = (QuotationDataListBean) obj;
+                    return instrumentID.equals(obj1.getInstrumentID());
+                }
+                return super.equals(obj);
+            }
         }
     }
 
-    public class  DeliveryDate implements Serializable{
+    public class DeliveryDate implements Serializable {
 
     }
 }
