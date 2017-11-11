@@ -26,6 +26,7 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
@@ -190,12 +191,16 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone})
+            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone,R.id.tv_aboutus})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_novice:
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
+                Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
+                intentTeach.putExtra("title","新手学堂");
+                intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
+                startActivity(intentTeach);
+                //InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
@@ -255,6 +260,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 if (!DeviceUtils.isFastDoubleClick()) {
                     showCallPhoneDialog();
                 }
+                break;
+            case R.id.tv_aboutus:
+                Intent intentAbout = new Intent(mActivity, WebViewActivity.class);
+                intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
+                intentAbout.putExtra("title","关于我们");
+                startActivity(intentAbout);
                 break;
         }
     }
@@ -363,12 +374,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
 
     private void goOpenAccount() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("brokerId", "0101");
-        String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
-        if (!TextUtils.isEmpty(userMobile)) {
-            intent.putExtra("mobile", userMobile);
-        }
+        Intent intent = new Intent(mActivity, WebViewActivity.class);
+        intent.putExtra("title","开户");
+        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
         startActivity(intent);
     }
 

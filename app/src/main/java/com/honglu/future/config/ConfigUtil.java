@@ -17,6 +17,7 @@ public class ConfigUtil {
 
     public static String baseUrl = "http://192.168.85.126:8081/";
     public static String baseImageUserUrl = "http://qihuo-test.oss-cn-shanghai.aliyuncs.com/";
+    public static String baseH5Url = "http://106.15.158.85:800/";
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/
 
 
@@ -24,6 +25,23 @@ public class ConfigUtil {
             "http://192.168.1.145:81/",
             "http://testqb.xnsudai8.com/"
     };
+
+    //新手入门
+    public static String NEW_USER_TEACH = baseH5Url + "newSchool";
+
+    //关于我们
+    public static String ABOUT_US = baseH5Url + "aboutUs";
+
+    //交易规则
+    public static String TRADE_RULE = baseH5Url + "rule";
+
+    //开户入口
+    public static String OPEN_ACCOUNT_HOME = baseH5Url + "initAccount";
+
+    //绑卡教程
+    public static String BIND_CARD_TEACH = baseH5Url + "addCard";
+
+
     //爬取支付宝数据js
     public String GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";
 
@@ -46,7 +64,7 @@ public class ConfigUtil {
     public String DATA_USE_AUTH_INFO = baseUrl + "agreement/shiYongShouQuan";
 
     //关于我们
-    public String ABOUT_US = baseUrl + "page/detailAbout";
+//    public String ABOUT_US = baseUrl + "page/detailAbout";
 
 
     private boolean isLogin = false;//用户的登录状态

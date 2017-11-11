@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
@@ -137,9 +138,9 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.iv_rule:
-                //// TODO: 2017/10/27 跳转交易规则页面 
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("title","交易规则");
+                intent.putExtra("url", ConfigUtil.TRADE_RULE);
                 startActivity(intent);
                 break;
         }

@@ -24,10 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cfmmc.app.sjkh.*;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.UIBaseEvent;
@@ -36,6 +38,7 @@ import com.honglu.future.ui.main.bean.MoreContentBean;
 import com.honglu.future.ui.main.contract.MyContract;
 import com.honglu.future.ui.main.presenter.MyPresenter;
 import com.honglu.future.util.LogUtils;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -279,6 +282,21 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 default:
                     break;
             }
+        }
+
+        /**
+         * 跳转开户页面
+         *
+         */
+        @JavascriptInterface
+        public void openAccount() {
+            Intent intent = new Intent(mContext, com.cfmmc.app.sjkh.MainActivity.class);
+            intent.putExtra("brokerId", "0101");
+            String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
+            if (!TextUtils.isEmpty(userMobile)) {
+                intent.putExtra("mobile", userMobile);
+            }
+            startActivity(intent);
         }
 
         /**
