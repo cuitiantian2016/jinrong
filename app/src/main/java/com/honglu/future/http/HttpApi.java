@@ -377,6 +377,7 @@ public interface HttpApi {
     @POST("futures-mobile-api/app/future/exchange/orders/close/details")
     Observable<BaseResponse<List<CloseBuiderBean>>> getCloseBuiderBean(
             @Field("userId") String userId,
+            @Field("id") String id,
             @Field("token") String token);
 
 }

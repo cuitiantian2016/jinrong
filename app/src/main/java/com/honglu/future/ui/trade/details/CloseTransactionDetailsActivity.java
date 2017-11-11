@@ -89,6 +89,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
      */
     private String[] closeType = new String[]{"手动平仓","止盈平仓","止损平仓","爆仓","休市平仓"};
     private BasePresenter<CloseTransactionDetailsActivity> basePresenter;
+    private HistoryClosePositionBean bean;
 
     public static void startCloseTransactionDetailsActivity(Context context, HistoryClosePositionBean item){
         Intent intent = new Intent(context,CloseTransactionDetailsActivity.class);
@@ -108,7 +109,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
             public void getData() {
                 super.getData();
                 toSubscribe(HttpManager.getApi().getCloseBuiderBean(
-                        SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
+                        SpUtil.getString(Constant.CACHE_TAG_UID),bean.id, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
                 ), new HttpSubscriber<List<CloseBuiderBean>>() {
                     @Override
                     protected void _onNext(List<CloseBuiderBean> o) {
@@ -144,19 +145,18 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                 }
             }
         });
-        basePresenter.getData();
         Intent intent = getIntent();
         if (intent!=null){
-            HistoryClosePositionBean bean = (HistoryClosePositionBean)intent.getSerializableExtra(KEY_DATA);
-            if (bean!=null){
+            bean = (HistoryClosePositionBean)intent.getSerializableExtra(KEY_DATA);
+            if (bean !=null){
                 mName.setText(bean.instrumentName);
                 String num;
                 if (bean.type == 1){
                     mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-                    num =  mContext.getString(R.string.buy_down_num,bean.position);
+                    num =  mContext.getString(R.string.buy_down_num, bean.position);
                 }else {
                     mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                    num =  mContext.getString(R.string.buy_up_num,bean.position);
+                    num =  mContext.getString(R.string.buy_up_num, bean.position);
                 }
                 mBuyRise.setText(num);
                 mServiceCharge.setText(bean.closeSxf);
@@ -173,6 +173,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                 }
             }
         }
+        basePresenter.getData();
     }
 
     private void bindBuildCloseData(CloseBuiderBean data){
