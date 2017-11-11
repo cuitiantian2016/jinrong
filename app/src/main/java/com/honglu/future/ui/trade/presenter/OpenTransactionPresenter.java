@@ -84,7 +84,7 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+              //  mView.showErrorMsg(message, null);
             }
 
             @Override

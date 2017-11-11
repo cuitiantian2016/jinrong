@@ -419,7 +419,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        startRun();
+        if (!isHidden()&&isVisible()){
+            startRun();
+        }
     }
 
     @Override

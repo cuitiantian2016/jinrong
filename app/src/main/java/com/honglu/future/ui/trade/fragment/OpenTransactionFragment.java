@@ -166,22 +166,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        startRun();
-        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
-            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopRun();
-        MPushUtil.pauseRequest();
-    }
-
-    @Override
     public void getProductListSuccess(List<ProductListBean> bean) {
         mSmartRefreshLayout.finishRefresh();
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {

@@ -29,7 +29,7 @@ public class UserCenterPresenter extends BasePresenter<UserCenterContract.View> 
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+               // mView.showErrorMsg(message, null);
             }
 
             @Override
