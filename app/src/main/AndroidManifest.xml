@@ -231,6 +231,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".ui.main.guide.GuideActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- **********************************************模块区分 放在对于的模块中******************************** -->
 
