@@ -149,8 +149,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
+            mOpenTransactionFragment.stopRun();
             MPushUtil.pauseRequest();
         } else {
+            mOpenTransactionFragment.startRun();
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
             }
@@ -160,12 +162,14 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Override
     public void onPause() {
         super.onPause();
+        mOpenTransactionFragment.stopRun();
         MPushUtil.pauseRequest();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mOpenTransactionFragment.startRun();
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }

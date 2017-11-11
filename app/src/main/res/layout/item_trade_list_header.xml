@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
             android:layout_marginTop="@dimen/dimen_30dp"
             android:orientation="horizontal">
 
@@ -28,6 +29,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_danger_chance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"
@@ -44,13 +46,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginRight="@dimen/dimen_20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="110dp"
-                android:layout_toRightOf="@+id/ll_left"
+                android:layout_alignParentRight="true"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_rights_interests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"
@@ -62,17 +65,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前权益"
+                    android:minWidth="@dimen/dimen_85dp"
                     android:textColor="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_12sp" />
             </LinearLayout>
 
             <ImageView
+                android:layout_alignParentRight="true"
                 android:id="@+id/iv_trade_tip"
-                android:padding="@dimen/dimen_10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dimen_40dp"
                 android:layout_marginTop="@dimen/dimen_5dp"
                 android:src="@mipmap/ic_trade_tip" />
 
@@ -83,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_14dp"
             android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
             android:layout_marginTop="@dimen/dimen_21dp"
             android:orientation="horizontal">
 
@@ -93,6 +96,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"
@@ -109,13 +113,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:minWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="61dp"
-                android:layout_toRightOf="@+id/ll_left_two"
+                android:layout_alignParentRight="true"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_profit_loss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"

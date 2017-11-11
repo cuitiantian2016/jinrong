@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.honglu.future.R;
@@ -32,6 +33,8 @@ import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
+import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
+import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -67,20 +70,41 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private AccountLoginDialog mAccountLoginDialog;
     private BuildTransactionDialog mBuildTransactionDialog;
     private String mToken;
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), mToken, "GUOFU");
-        }
-    };
 
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
-        mHandler.postDelayed(mRunnable, 3000);
+        startRun();
         mToken = bean.getToken();
+
+    }
+
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getAccountBasicInfo();//每隔3秒刷一次
+            mHandler.postDelayed(this, 3000);
+        }
+    };
+
+    private void getAccountBasicInfo() {
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+    }
+
+    /**
+     * 开始刷新用户信息
+     */
+    public void startRun(){
+        if (App.getConfig().getAccountLoginStatus()){
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.post(mRunnable);
+        }
+    }
+
+    public void stopRun(){
+        mHandler.removeCallbacks(mRunnable);
     }
 
     @Override
@@ -127,10 +151,16 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
+            stopRun();
             MPushUtil.pauseRequest();
         } else {
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+            }
+            if (!App.getConfig().getAccountLoginStatus()) {
+                stopRun();
+            } else {
+                startRun();
             }
         }
     }
@@ -138,6 +168,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void onResume() {
         super.onResume();
+        startRun();
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }
@@ -146,6 +177,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void onPause() {
         super.onPause();
+        stopRun();
         MPushUtil.pauseRequest();
     }
 
@@ -157,6 +189,17 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
+    }
+    private TextView mDangerChance;
+    private TextView mRightsInterests;
+    private TextView mMoney;
+    private TextView mProfitLoss;
+    @Override
+    public void getAccountInfoSuccess(AccountInfoBean bean) {
+        mDangerChance.setText(bean.getCapitalProportion());
+        mRightsInterests.setText(bean.getRightsInterests() + "");
+        mMoney.setText(bean.getAvailable() + "");
+        mProfitLoss.setText(bean.getPositionProfit() + "");
     }
 
     @Override
@@ -201,12 +244,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
-
     private void initView() {
         mOpenTransactionListView.setLayoutManager(new LinearLayoutManager(mContext));
         mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mOpenTransactionAdapter = new OpenTransactionAdapter();
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.item_trade_list_header, null);
+        mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
+        mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
+        mMoney = (TextView) headView.findViewById(R.id.tv_money);
+        mProfitLoss = (TextView) headView.findViewById(R.id.tv_profit_loss);
         mTradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         mTradeTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
         mOpenTransactionAdapter.addHeaderView(headView);
@@ -227,6 +273,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     if (!App.getConfig().getAccountLoginStatus()) {
                         mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
                         mAccountLoginDialog.show();
+                    }else {
+                        startActivity(UserAccountActivity.class);
                     }
                 }
             }
