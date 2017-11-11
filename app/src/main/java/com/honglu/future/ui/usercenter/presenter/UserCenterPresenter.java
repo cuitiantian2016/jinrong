@@ -19,7 +19,7 @@ public class UserCenterPresenter extends BasePresenter<UserCenterContract.View> 
         toSubscribe(HttpManager.getApi().getAccountInfo(userId, token, company), new HttpSubscriber<AccountInfoBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("获取中...");
+               // mView.showLoading("获取中...");
             }
 
             @Override

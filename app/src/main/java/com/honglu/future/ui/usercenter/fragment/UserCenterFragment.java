@@ -1,7 +1,9 @@
 package com.honglu.future.ui.usercenter.fragment;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +44,9 @@ import com.honglu.future.widget.ExpandableLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -161,14 +166,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-
         if (!App.getConfig().getAccountLoginStatus()) {
             signinExpandCollapse(false);
         } else {
-            getAccountBasicInfo();
+            startRun();
             signinExpandCollapse(true);
         }
-
     }
 
     @OnClick({R.id.tv_loginRegister, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
@@ -212,6 +215,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_signout:
                 signinExpandCollapse(false);
+                stopRun();
                 SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                 break;
             case R.id.tv_my_account:
@@ -292,6 +296,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentRefreshEvent event) {
         if (UIBaseEvent.EVENT_LOGOUT == event.getType()) {
+            stopRun();
             mSigninSucLayout.setVisibility(View.GONE);
             mLoginRegister.setVisibility(View.VISIBLE);
             signinExpandCollapse(false);
@@ -315,16 +320,53 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         }
         startActivity(intent);
     }
-
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getAccountBasicInfo();//每隔3秒刷一次
+            mHandler.postDelayed(this, 3000);
+        }
+    };
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         mAccountLoginDialog.dismiss();
         signinExpandCollapse(true);
-        getAccountBasicInfo();
+        startRun();
     }
-
+    /**
+     * 开始刷新用户信息
+     */
+    public void startRun(){
+        if (App.getConfig().getAccountLoginStatus()){
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.post(mRunnable);
+        }
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            stopRun();
+        }else {
+            startRun();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        startRun();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopRun();
+    }
+    public void stopRun(){
+        mHandler.removeCallbacks(mRunnable);
+    }
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());

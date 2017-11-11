@@ -1,13 +1,9 @@
 package com.honglu.future.ui.market.fragment;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -26,9 +22,6 @@ import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,9 +30,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
+
 
 /**
  * Created by zhuaibing on 2017/10/25
