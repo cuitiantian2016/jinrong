@@ -95,12 +95,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         oldCheckId = 0;
         switch (oldCheckId) {
             case R.id.rb_home:
-                setPaddingAndFillStatusBar(HomeFragment.getInstance());
+                //setPaddingAndFillStatusBar(HomeFragment.getInstance());
                 break;
             case R.id.rb_market:
-                setPaddingAndFillStatusBar(MarketFragment.getInstance());
+                //setPaddingAndFillStatusBar(MarketFragment.getInstance());
             case R.id.rb_trade:
-                setPaddingAndFillStatusBar(TradeFragment.getInstance());
+                //setPaddingAndFillStatusBar(TradeFragment.getInstance());
                 break;
             case R.id.rb_account:
                 //StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_account:
-                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
+//                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
                     toTabIndex = FragmentFactory.FragmentStatus.Account;
                     oldCheckId = R.id.rb_account;
                     changeTab(FragmentFactory.FragmentStatus.Account);
@@ -145,24 +145,24 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         }
     };
 
-    /**
-     * 设置 Fragment 根布局间距预留出状态栏高度
-     */
-    public void setPaddingAndFillStatusBar(Fragment fragment) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            View contentView = findViewById(android.R.id.content);
-            if (contentView != null) {
-                ViewGroup rootView;
-                rootView = (ViewGroup) ((ViewGroup) contentView).getChildAt(0);
-                if (rootView.getPaddingTop() != 0) {
-                    rootView.setPadding(0, 0, 0, 0);
-                }
-            }
-            if (fragment.getView() != null)
-                fragment.getView().setPadding(0, DeviceUtils.getStatusBarHeight(MainActivity.this), 0, 0);
-        }
-        StatusBarUtils.setColor(MainActivity.this, getResources().getColor(R.color.black), 255);
-    }
+//    /**
+//     * 设置 Fragment 根布局间距预留出状态栏高度
+//     */
+//    public void setPaddingAndFillStatusBar(Fragment fragment) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            View contentView = findViewById(android.R.id.content);
+//            if (contentView != null) {
+//                ViewGroup rootView;
+//                rootView = (ViewGroup) ((ViewGroup) contentView).getChildAt(0);
+//                if (rootView.getPaddingTop() != 0) {
+//                    rootView.setPadding(0, 0, 0, 0);
+//                }
+//            }
+//            if (fragment.getView() != null)
+//                fragment.getView().setPadding(0, DeviceUtils.getStatusBarHeight(MainActivity.this), 0, 0);
+//        }
+//        StatusBarUtils.setColor(MainActivity.this, getResources().getColor(R.color.black), 255);
+//    }
 
     private void toLogin() {
         mGroup.setOnCheckedChangeListener(null);

@@ -136,7 +136,6 @@
             android:alwaysRetainTaskState="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/BaseTheme"
             android:screenOrientation="portrait">
         </activity>
 
