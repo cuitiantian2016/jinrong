@@ -90,7 +90,7 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
         if (mTabSelectType.equals(MarketFragment.ZXHQ_TYPE)){
             holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);
         }else {
-            if (item.getIcAdd().equals("0")){
+            if ("0".equals(item.getIcAdd())){
                 holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_add);
             }else {
                 holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);

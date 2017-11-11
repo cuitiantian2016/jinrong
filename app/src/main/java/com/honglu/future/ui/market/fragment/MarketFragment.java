@@ -1,10 +1,10 @@
 package com.honglu.future.ui.market.fragment;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -22,7 +22,6 @@ import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -30,15 +29,15 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
-
 
 /**
  * Created by zhuaibing on 2017/10/25
  */
 
-public class MarketFragment extends BaseFragment<MarketPresenter> implements MarketContract.View, MarketItemFragment.OnAddAptionalListener,MarketItemFragment.OnMarketRefreshListener,MarketItemFragment.OnMPushCodeRefreshListener{
+public class MarketFragment extends BaseFragment<MarketPresenter> implements MarketContract.View, MarketItemFragment.OnAddAptionalListener,MarketItemFragment.OnMPushCodeRefreshListener,MarketItemFragment.OnZXMarketListListener{
     public static final String ZXHQ_TYPE = "zxhq_type";//自选行情
     public static final String ZLHY_TYPE = "zlhy_type";//主力合约
     @BindView(R.id.market_common_tab_layout)
@@ -152,14 +151,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         }
     }
 
-
-    @Override
-    public void OnMarketRefresh() {
-        //下拉刷新
-         mPresenter.getMarketData();
-    }
-
-
     @Override
     public void OnMPushCodeRefresh(String mpushCode) {
         if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
@@ -171,6 +162,12 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                 requestMarket(mPushCode);
             }
         }
+    }
+
+
+    @Override
+    public List<MarketnalysisBean.ListBean.QuotationDataListBean> OnZXMarketList() {
+        return mZxFragment !=null ? mZxFragment.getList() : null;
     }
 
     @Override
@@ -215,17 +212,16 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         mZxFragment.setArguments(mZxFragment.setArgumentData(ZXHQ_TYPE, zxMarketList));
         MarketItemFragment zlhyFragment = new MarketItemFragment();
         zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, getZlhyMarketList(mAllMarketList)));
+        zlhyFragment.setOnZXMarketListListener(this);
         mZxFragment.setOnAddAptionalListener(this);
         mZxFragment.setOnMPushCodeRefreshListener(this);
-        mZxFragment.setOnMarketRefreshListener(this);
-        zlhyFragment.setOnMarketRefreshListener(this);
         mFragments.add(mZxFragment);
         mFragments.add(zlhyFragment);
         for (MarketnalysisBean.ListBean bean : mAllMarketList) {
             mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
             MarketItemFragment fragment = new MarketItemFragment();
             fragment.setArguments(fragment.setArgumentData(bean.getExcode(), bean.getQuotationDataList()));
-            fragment.setOnMarketRefreshListener(this);
+            fragment.setOnZXMarketListListener(this);
             mFragments.add(fragment);
         }
         mCommonTab.setTabData(mTabList, (FragmentActivity) mContext, R.id.market_fragment_container, mFragments);
