@@ -17,6 +17,7 @@
         android:paddingRight="@dimen/dimen_20dp">
 
         <RelativeLayout
+            android:id="@+id/rl_modify_avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -31,7 +32,7 @@
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <ImageView
+            <com.honglu.future.widget.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/dimen_45dp"
                 android:layout_height="@dimen/dimen_45dp"

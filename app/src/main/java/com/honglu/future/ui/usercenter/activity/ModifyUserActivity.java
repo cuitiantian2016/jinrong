@@ -1,46 +1,42 @@
 package com.honglu.future.ui.usercenter.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.LogoutEvent;
-import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.ResetPwdActivity;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.MediaStoreUtils;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,6 +59,8 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     RelativeLayout mResetPwd;
     @BindView(R.id.tv_nickname)
     TextView mNickname;
+    @BindView(R.id.iv_avatar)
+    CircleImageView mIvAvatar;
     private int mRequestType = 0; //0相册存储权限 1 相机存储权限
     public static final int PHOTO_PICKED_WITH_ALBUM = 10000;
     public static final int PHOTO_PICKED_WITH_CAMERA = 10001;
@@ -90,12 +88,13 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_USERNAME))) {
             mNickname.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mIvAvatar, R.mipmap.img_head);
     }
 
-    @OnClick({R.id.iv_avatar, R.id.tv_back, R.id.rl_modify_name, R.id.rl_reset_pwd,R.id.btn_logout})
+    @OnClick({R.id.rl_modify_avatar, R.id.tv_back, R.id.rl_modify_name, R.id.rl_reset_pwd, R.id.btn_logout})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_avatar:
+            case R.id.rl_modify_avatar:
                 //takeCamera();
                 showTipWindow(v);
                 break;
@@ -154,7 +153,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
             public void onClick(View view) {
                 if (mPopupWindow != null && mPopupWindow.isShowing()) {
                     mPopupWindow.dismiss();
-                    takeCamera(mActivity);
+                    takeCamera();
                 }
             }
         });
@@ -186,9 +185,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
      */
     private void loadPicture() {
         mRequestType = 0;
-        if (haveStoragePermissions()) {
-            startLoadPicture();
-        }
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestPermissions);
     }
 
     private void startLoadPicture() {
@@ -197,69 +194,36 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         startActivityForResult(intent, PHOTO_PICKED_WITH_ALBUM);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        doNext(requestCode, grantResults);
-    }
-
-    private void doNext(int requestCode, int[] grantResults) {
-        if (requestCode == 341) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                haveStoragePermissions();
-            } else {
-                showToast(getString(R.string.please_open_permission, getString(R.string.camera)));
-            }
-        } else if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (mRequestType == 0) {
-                    startLoadPicture();
-                } else {
-                    startTakePhoto();
-                }
-            } else {
-                showToast(getString(R.string.please_open_permission, getString(R.string.storage)));
-            }
-        }
-    }
 
     /**
      * 调用相机拍照
-     *
-     * @param activity
      */
-    private void takeCamera(Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //TODO ImagesSelectorActivity.MY_PERMISSIONS_REQUEST_CAMERA_CODE
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.CAMERA},
-                    341);
-        } else {
-            mRequestType = 1;
-            if (haveStoragePermissions()) {
-                startTakePhoto();
-            }
-        }
+    private void takeCamera() {
+        mRequestType = 1;
+        requestPermissions(new String[]{Manifest.permission.CAMERA}, requestPermissions);
     }
 
-    /**
-     * 权限
-     *
-     * @return
-     */
-    public boolean haveStoragePermissions() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
+    private PermissionsListener requestPermissions = new PermissionsListener() {
+        @Override
+        public void onGranted() {
+            if (mRequestType == 1) {
+                startTakePhoto();
+            } else if (mRequestType == 0) {
+                startLoadPicture();
             }
-        } else {
-            return true;
         }
-    }
+
+        @Override
+        public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
+            for (String denied : deniedPermissions) {
+                if (denied.equals(Manifest.permission.CAMERA)) {
+                    showToast(getString(R.string.please_open_permission, getString(R.string.camera)));
+                } else if (denied.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    showToast(getString(R.string.please_open_permission, getString(R.string.storage)));
+                }
+            }
+        }
+    };
 
     private void startTakePhoto() {
         String state = Environment.getExternalStorageState();
@@ -341,7 +305,10 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     }
 
     @Override
-    public void updateUserAvatarSuccess() {
+    public void updateUserAvatarSuccess(String imgUrl) {
+        SpUtil.putString(Constant.CACHE_USER_AVATAR, imgUrl);
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + imgUrl, mIvAvatar, R.mipmap.img_head);
+        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_UPDATE_AVATAR));
         showToast("头像上传成功");
     }
 }

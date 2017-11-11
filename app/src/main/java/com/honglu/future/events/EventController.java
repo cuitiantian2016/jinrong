@@ -156,7 +156,7 @@ public class EventController {
             SpUtil.putString(Constant.CACHE_TAG_USERNAME, userInfo.getNickName());
             SpUtil.putString(Constant.CACHE_TAG_UID, userInfo.getUserId() + "");
             SpUtil.putString(Constant.CACHE_TAG_SESSIONID, userInfo.getToken());
-
+            SpUtil.putString(Constant.CACHE_USER_AVATAR, "user"+userInfo.getAvatar().split("user")[1]);
             App.getConfig().setUserInfo(userInfo);
 
             CookieSyncManager.createInstance(context);

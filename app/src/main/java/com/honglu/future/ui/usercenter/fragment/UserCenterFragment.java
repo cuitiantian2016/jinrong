@@ -3,8 +3,8 @@ package com.honglu.future.ui.usercenter.fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +13,7 @@ import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
@@ -34,6 +35,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -44,9 +46,6 @@ import com.honglu.future.widget.ExpandableLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,6 +119,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mUpdate;
     @BindView(R.id.ll_bottomLayout2)
     LinearLayout mBottomLayout2;
+    @BindView(R.id.fl_config)
+    FrameLayout mFlConfig;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
 
@@ -172,23 +173,20 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             startRun();
             signinExpandCollapse(true);
         }
+        setAvatar();
     }
 
-    @OnClick({R.id.tv_loginRegister, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
+    private void setAvatar() {
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHead, R.mipmap.img_head);
+    }
+
+    @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.ll_signin_suc_layout, R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge})
+            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
-            case R.id.tv_loginRegister:
-                if (App.getConfig().getLoginStatus()) {
-                    Intent intent = new Intent(mActivity, ModifyUserActivity.class);
-                    startActivity(intent);
-                } else {
-                    toLogin();
-                }
-                break;
             case R.id.tv_novice:
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
                 break;
@@ -228,9 +226,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_open_account:
                 goOpenAccount();
                 break;
-            case R.id.ll_signin_suc_layout:
-                startActivity(ModifyUserActivity.class);
-                break;
             case R.id.tv_kefu:
                 startActivity(KeFuActivity.class);
                 break;
@@ -239,6 +234,14 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_recharge:
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
+                break;
+            case R.id.fl_config:
+                if (App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mActivity, ModifyUserActivity.class);
+                    startActivity(intent);
+                } else {
+                    toLogin();
+                }
                 break;
         }
     }
@@ -289,6 +292,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mLoginRegister.setVisibility(View.GONE);
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
+            } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
+                setAvatar();
             }
         }
     }
@@ -320,6 +325,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         }
         startActivity(intent);
     }
+
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
@@ -328,6 +334,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             mHandler.postDelayed(this, 3000);
         }
     };
+
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast(bean.getToken());
@@ -336,21 +343,23 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         signinExpandCollapse(true);
         startRun();
     }
+
     /**
      * 开始刷新用户信息
      */
-    public void startRun(){
-        if (App.getConfig().getAccountLoginStatus()){
+    public void startRun() {
+        if (App.getConfig().getAccountLoginStatus()) {
             mHandler.removeCallbacks(mRunnable);
             mHandler.post(mRunnable);
         }
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden){
+        if (hidden) {
             stopRun();
-        }else {
+        } else {
             if (!App.getConfig().getAccountLoginStatus()) {
                 signinExpandCollapse(false);
                 stopRun();
@@ -360,19 +369,23 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         startRun();
     }
+
     @Override
     public void onPause() {
         super.onPause();
         stopRun();
     }
-    public void stopRun(){
+
+    public void stopRun() {
         mHandler.removeCallbacks(mRunnable);
     }
+
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());

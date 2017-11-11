@@ -7,10 +7,6 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.util.SpUtil;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -32,7 +28,7 @@ public class ModifyUserPresenter extends BasePresenter<ModifyUserContract.View> 
 
             @Override
             public void onNext(Object o) {
-                mView.updateUserAvatarSuccess();
+                mView.updateUserAvatarSuccess(o.toString());
             }
 
             @Override
