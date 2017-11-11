@@ -96,6 +96,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
             <TextView
+                android:id="@+id/tv_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

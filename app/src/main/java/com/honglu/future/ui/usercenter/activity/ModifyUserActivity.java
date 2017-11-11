@@ -34,6 +34,8 @@ import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.List;
@@ -61,10 +63,11 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     TextView mNickname;
     @BindView(R.id.iv_avatar)
     CircleImageView mIvAvatar;
+    @BindView(R.id.tv_mobile)
+    TextView mTvMobile;
     private int mRequestType = 0; //0相册存储权限 1 相机存储权限
     public static final int PHOTO_PICKED_WITH_ALBUM = 10000;
     public static final int PHOTO_PICKED_WITH_CAMERA = 10001;
-    private File mFile;
     private BottomPopupWindow mPopupWindow;
 
     @Override
@@ -79,6 +82,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initViews();
     }
 
@@ -88,6 +92,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_USERNAME))) {
             mNickname.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
+        mTvMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
         ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mIvAvatar, R.mipmap.img_head);
     }
 
@@ -276,7 +281,6 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        mFile = file;
                         mPresenter.updateUserAvatar(filePath);
                     }
 
@@ -310,5 +314,26 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         ImageUtil.display(ConfigUtil.baseImageUserUrl + imgUrl, mIvAvatar, R.mipmap.img_head);
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_UPDATE_AVATAR));
         showToast("头像上传成功");
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_UPDATE_NICK_NAME) {//修改昵称
+                mNickname.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

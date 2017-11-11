@@ -13,6 +13,7 @@ public class UIBaseEvent {
     public final static int EVENT_BORROW_MONEY_SUCCESS = 8;//借款成功(已打款,进入还款阶段)
     public final static int EVENT_REALNAME_AUTHENTICATION_SUCCESS = 8;//实名认证成功
     public final static int EVENT_UPDATE_AVATAR = 21;//修改头像成功
+    public final static int EVENT_UPDATE_NICK_NAME = 22;//修改昵称成功
 
     private String code;
     private String message;

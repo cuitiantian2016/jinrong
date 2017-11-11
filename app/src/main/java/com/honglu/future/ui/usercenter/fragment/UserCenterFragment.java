@@ -294,6 +294,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();
+            } else if(code == UIBaseEvent.EVENT_UPDATE_NICK_NAME){//修改昵称
+                mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
             }
         }
     }
