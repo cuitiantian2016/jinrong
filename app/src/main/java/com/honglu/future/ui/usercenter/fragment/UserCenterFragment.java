@@ -351,7 +351,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (hidden){
             stopRun();
         }else {
-            startRun();
+            if (!App.getConfig().getAccountLoginStatus()) {
+                signinExpandCollapse(false);
+                stopRun();
+            } else {
+                startRun();
+                signinExpandCollapse(true);
+            }
         }
     }
     @Override
