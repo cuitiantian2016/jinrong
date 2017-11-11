@@ -377,6 +377,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             if (Configuration.ORIENTATION_LANDSCAPE == getResources()
                     .getConfiguration().orientation) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return true;
             } else {
                 finish();
             }
