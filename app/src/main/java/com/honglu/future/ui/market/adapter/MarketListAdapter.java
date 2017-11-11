@@ -1,6 +1,7 @@
 package com.honglu.future.ui.market.adapter;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -15,6 +16,7 @@ import com.honglu.future.R;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.market.fragment.MarketItemFragment;
+import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -133,6 +135,16 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
                 }else {
                     fragment.refresh(mBean.getIcAdd(),mBean);
                 }
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, KLineMarketActivity.class);
+                intent.putExtra("excode",mBean.getExchangeID());
+                intent.putExtra("code",mBean.getInstrumentID());
+                intent.putExtra("isClosed","1");
+                mContext.startActivity(intent);
             }
         });
     }
