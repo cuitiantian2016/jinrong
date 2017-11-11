@@ -11,12 +11,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.events.EventBusConstant;
 import com.honglu.future.events.MarketRefreshEvent;
 import com.honglu.future.ui.market.adapter.MarketListAdapter;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -119,6 +124,11 @@ public class MarketItemFragment extends BaseFragment {
                    refreshState("0", event.bean.getExcode(), event.bean.getInstrumentID());
                    mAdapter.refreshData(mTabSelectType, mList);
                }
+           }else if (event.type.equals(EventBusConstant.OPTIONALQUOTES_SORT_MARKET)){
+                   //排序
+                  if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
+                      mAdapter.refreshData(mTabSelectType,getZxMarketList());
+                  }
            }
     }
 
@@ -290,5 +300,21 @@ public class MarketItemFragment extends BaseFragment {
             }
 
         }
+    }
+
+    //获取自选数据
+    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZxMarketList() {
+        String zxMarketJson = SpUtil.getString(Constant.ZX_MARKET_KEY);
+        if (!TextUtils.isEmpty(zxMarketJson)) {
+            Gson gson = new Gson();
+            try {
+                List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
+                        new TypeToken<List<MarketnalysisBean.ListBean.QuotationDataListBean>>() {
+                        }.getType());
+                return mZxMarketList;
+            } catch (JsonSyntaxException e) {
+            }
+        }
+        return null;
     }
 }

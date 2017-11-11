@@ -13,4 +13,6 @@ public class EventBusConstant {
     public static final String ITEMFRAGMENT_DEL_MARKET = "itemfragment_del_market";
 
     public static final String ITEMFRAGMENT_ADD_MARKET = "itemfragment_add_market";
+
+    public static final String OPTIONALQUOTES_SORT_MARKET = "optionalquotes_sort_market";
 }

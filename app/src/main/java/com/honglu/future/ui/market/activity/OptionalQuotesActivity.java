@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -60,8 +59,10 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     private HorizontalTabLayout mCommonTab;
     private AddHavedOptionalAdapter addAdapter;
 
+    private boolean isSort = false;
     private String mTabSelectType;
     private List<MarketnalysisBean.ListBean> mAllMarketList = new ArrayList<>();//除自选外全部数据
+    private List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = new ArrayList<>();
     private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
 
     @Override
@@ -91,7 +92,9 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     @Override
     public void loadData() {
-        mAllMarketList = (List<MarketnalysisBean.ListBean>) getIntent().getSerializableExtra("data");
+        mAllMarketList = (List<MarketnalysisBean.ListBean>) getIntent().getSerializableExtra("allmarketlist");
+        zxMarketList =  (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getIntent().getSerializableExtra("zxmarketlist");
+
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
         View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes_footerview, null);
         addRecyclerView = (RecyclerView) footerView.findViewById(R.id.rv_add_recycler_view);
@@ -111,7 +114,6 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
 
         //设置上面自选数据
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
         if (zxMarketList != null && zxMarketList.size() > 0) {
             zxAdapter.addData(zxMarketList);
         }
@@ -219,6 +221,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 int toPosition = target.getAdapterPosition();
                 //addFooterView - 1 最后 - 1
                 if (toPosition <= zxAdapter.getItemCount() - 2) {
+                     isSort = true;
                     if (fromPosition < toPosition) {
                         for (int i = fromPosition; i < toPosition; i++) {
                             Collections.swap(zxAdapter.getData(), i, i + 1);
@@ -272,27 +275,13 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
                 //viewHolder.itemView.setBackgroundColor(0);
+                //saveMarketData(zxAdapter !=null ? zxAdapter.getData() : null);
             }
         });
 
         mItemTouchHelper.attachToRecyclerView(zxRecyclerView);
     }
 
-    //获取自选数据
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZxMarketList() {
-        String zxMarketJson = SpUtil.getString(Constant.ZX_MARKET_KEY);
-        if (!TextUtils.isEmpty(zxMarketJson)) {
-            Gson gson = new Gson();
-            try {
-                List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
-                        new TypeToken<List<MarketnalysisBean.ListBean.QuotationDataListBean>>() {
-                        }.getType());
-                return mZxMarketList;
-            } catch (JsonSyntaxException e) {
-            }
-        }
-        return null;
-    }
 
     //根据 type 设置对应adapter 数据
     private void setMarketData(String type) {
@@ -407,6 +396,20 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     @Override
     public void finish() {
+        if (isSort) {
+           saveMarketData(zxAdapter !=null ? zxAdapter.getData() : null);
+           EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_SORT_MARKET,MarketFragment.ZXHQ_TYPE,null));
+        }
         super.finish();
     }
+
+     private void saveMarketData(List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
+         if (list !=null && list.size() > 0){
+             Gson gson = new Gson();
+             String toJson = gson.toJson(list);
+             SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+         }else {
+             SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+         }
+     }
 }

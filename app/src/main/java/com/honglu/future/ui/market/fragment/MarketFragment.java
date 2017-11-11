@@ -151,17 +151,11 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
                 List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
-                if (zxList != null && zxList.size() > 0) {
-                    Gson gson = new Gson();
-                    String toJson = gson.toJson(zxList);
-                    SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
-                } else {
-                    SpUtil.putString(Constant.ZX_MARKET_KEY, "");
-                }
+                Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
+                intent.putExtra("allmarketlist", (Serializable) mAllMarketList);
+                intent.putExtra("zxmarketlist", (Serializable)  zxList);
+                startActivity(intent);
             }
-            Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
-            intent.putExtra("data", (Serializable) mAllMarketList);
-            startActivity(intent);
         }
     }
 
@@ -333,5 +327,4 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         }
         return list;
     }
-
 }
