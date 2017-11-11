@@ -106,6 +106,13 @@ public interface HttpApi {
                                                              @Field("token") String token,
                                                              @Field("company") String company);
 
+    //期货账户退出
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/user/login/out")
+    Observable<BaseResponse> accountLogout(@Field("userId") String userId,
+                                                             @Field("token") String token,
+                                                             @Field("company") String company);
+
     //获取用户结算单
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/user/settlement/info")

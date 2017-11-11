@@ -224,9 +224,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_signout:
-                signinExpandCollapse(false);
-                stopRun();
-                SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),Constant.COMPANY_CODE);
                 break;
             case R.id.tv_my_account:
             case R.id.ll_account:
@@ -448,6 +446,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mRightsInterests.setText(bean.getRightsInterests() + "");
         mMoney.setText(bean.getAvailable() + "");
         mProfitLoss.setText(bean.getPositionProfit() + "");
+    }
+
+    @Override
+    public void accountLogoutSuccess() {
+        signinExpandCollapse(false);
+        stopRun();
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
     }
 
     private void getAccountBasicInfo() {
