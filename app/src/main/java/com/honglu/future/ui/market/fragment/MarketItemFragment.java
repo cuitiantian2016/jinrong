@@ -93,12 +93,14 @@ public class MarketItemFragment extends BaseFragment {
                    || event.type.equals(EventBusConstant.ITEMFRAGMENT_ADD_MARKET)){
                 //OptionalQuotesActivity 自选行情添加
                if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType) ){
-                    mList.add(event.bean);
-                    mAdapter.refreshData(mTabSelectType, mList);
-                    mPushCode = mosaicMPushCode(mList);
-                   if (mPushCodeRefreshListener !=null){
-                       mPushCodeRefreshListener.OnMPushCodeRefresh(mPushCode);
-                   }
+                    if (isSaveZXBean(event.bean)){
+                        mList.add(event.bean);
+                        mAdapter.refreshData(mTabSelectType, mList);
+                        mPushCode = mosaicMPushCode(mList);
+                        if (mPushCodeRefreshListener !=null){
+                            mPushCodeRefreshListener.OnMPushCodeRefresh(mPushCode);
+                        }
+                    }
                 }else {
                     refreshState("1", event.bean.getExcode(), event.bean.getInstrumentID());
                     mAdapter.refreshData(mTabSelectType, mList);
@@ -211,6 +213,7 @@ public class MarketItemFragment extends BaseFragment {
         }
     }
 
+    //删除自选数据
     public void refreshZX(String excode, String instrumentID) {
         if (!TextUtils.isEmpty(excode)
                 && !TextUtils.isEmpty(instrumentID)
@@ -225,6 +228,25 @@ public class MarketItemFragment extends BaseFragment {
                 }
             }
         }
+    }
+
+
+    //是否能保存当前自选bean
+    private boolean isSaveZXBean(MarketnalysisBean.ListBean.QuotationDataListBean bean){
+        boolean isSave = true;
+        if (mList !=null
+                && mList.size() > 0
+                && bean !=null
+                && !TextUtils.isEmpty(bean.getExcode())
+                && !TextUtils.isEmpty(bean.getInstrumentID())){
+            for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : mList){
+                if (bean.getExcode().equals(listBean.getExcode()) && bean.getInstrumentID().equals(listBean.getInstrumentID())){
+                    isSave = false;
+                    break;
+                }
+            }
+        }
+        return isSave;
     }
 
     //拼接 MPush code
