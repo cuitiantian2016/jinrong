@@ -112,6 +112,7 @@
     <string name="please_open_permission">请在应用管理中打开“%s”访问权限！</string>
     <string name="camera">相机</string>
     <string name="storage">存储</string>
+    <string name="call_phone">拨打电话</string>
     <string name="sd_card_not_use">SD卡不可用</string>
     <string name="trade_build">建仓</string>
     <string name="trade_hold">持仓</string>
@@ -154,5 +155,7 @@
     <string name="confirm_out">确认提现</string>
     <string name="buy_up_num">买涨%d手</string>
     <string name="buy_down_num">买跌%d手</string>
+
+    <string name="conform_call_phone">确定拨打: %s ?</string>
 
 </resources>

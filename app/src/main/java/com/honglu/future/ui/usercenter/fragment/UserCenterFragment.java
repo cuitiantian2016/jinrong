@@ -1,6 +1,8 @@
 package com.honglu.future.ui.usercenter.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,9 +15,11 @@ import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.base.PermissionsListener;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -35,6 +39,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
@@ -46,6 +51,8 @@ import com.honglu.future.widget.ExpandableLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -183,7 +190,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge})
+            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -243,8 +250,45 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     toLogin();
                 }
                 break;
+            case R.id.tv_phone:
+                //联系客服
+                if (!DeviceUtils.isFastDoubleClick()) {
+                    showCallPhoneDialog();
+                }
+                break;
         }
     }
+
+    private void showCallPhoneDialog() {
+        new AlertFragmentDialog.Builder(mActivity).setContent(getString(R.string.conform_call_phone, Constant.CUSTOMER_PHONE))
+                .setRightBtnText("确定")
+                .setLeftBtnText("取消")
+                .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                    @Override
+                    public void dialogRightBtnClick(String string) {
+                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, requestPermissions);
+                    }
+                }).build();
+    }
+
+    private PermissionsListener requestPermissions = new PermissionsListener() {
+        @Override
+        public void onGranted() {
+            //拨打电话
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                    + Constant.CUSTOMER_PHONE));
+            startActivity(intent);
+        }
+
+        @Override
+        public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
+            for (String denied : deniedPermissions) {
+                if (denied.equals(Manifest.permission.CALL_PHONE)) {
+                    showToast(getString(R.string.please_open_permission, getString(R.string.call_phone)));
+                }
+            }
+        }
+    };
 
     //isSignin true  登录期货账号成功
     private void signinExpandCollapse(boolean isSignin) {
@@ -294,7 +338,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();
-            } else if(code == UIBaseEvent.EVENT_UPDATE_NICK_NAME){//修改昵称
+            } else if (code == UIBaseEvent.EVENT_UPDATE_NICK_NAME) {//修改昵称
                 mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
             }
         }

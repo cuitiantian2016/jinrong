@@ -20,6 +20,8 @@ public class Constant {
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
     public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号
 
+    public static final String CUSTOMER_PHONE = "4001150707";//客服电话
+
     public static final String CACHE_TAG_COUNT_DOWN = "showCountDown";    //显示倒计时页面
     public static final String CACHE_TAG_REPAY_COUNT_DOWN = "showRepaymentCountDown";    //显示还款倒计时页面
     public static final String CACHE_TAG_NEXT_LOAN = "showNextLoanCountDown";    //显示下次申请借款倒计时页面
