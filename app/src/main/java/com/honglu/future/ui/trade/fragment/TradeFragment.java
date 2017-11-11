@@ -152,9 +152,9 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             mOpenTransactionFragment.stopRun();
             MPushUtil.pauseRequest();
         } else {
-            mOpenTransactionFragment.startRun();
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+                mOpenTransactionFragment.startRun();
             }
         }
     }
