@@ -1,9 +1,12 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,6 +30,7 @@ import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
+import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
@@ -156,7 +160,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mCloseDialog = new CloseTransactionDialog(mContext);
         mAdapter = new PositionAdapter(PositionFragment.this);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
+        LinearLayout tradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         TextView tvTip = (TextView) headView.findViewById(R.id.tv_tip);
+        ImageView ivTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
+
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
         mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
         mMoney = (TextView) headView.findViewById(R.id.tv_money);
@@ -184,8 +191,33 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         tvTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
+                tipDialog.show();
+            }
+        });
+
+        ivTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_tip);
                 tipDialog.show();
+            }
+        });
+
+        tradeHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    if (!App.getConfig().getAccountLoginStatus()) {
+                        mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
+                        mAccountLoginDialog.show();
+                    } else {
+                        startActivity(UserAccountActivity.class);
+                    }
+                }
             }
         });
     }
