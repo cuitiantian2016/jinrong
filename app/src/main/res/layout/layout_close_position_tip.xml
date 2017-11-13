@@ -18,27 +18,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="合约："
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="合约名称由期货品种名称+合约到期月份组成
-例如：“螺纹钢1707”是指“螺纹钢+2017年10月”"
-                android:textColor="@color/color_B1B1B3"
-                android:textSize="@dimen/dimen_15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_27dp"
                 android:text="持仓均价："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
@@ -57,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="平仓价："
+                android:text="快速平仓价："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -65,7 +47,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="平仓价是指在了结交易（卖出原来买入的合约或买入原来卖出的合约）时的成交价格"
+                android:text="快速平仓价是指在了结交易（卖出原来买入的合约或买入原来卖出的合约）时，按照市场当前走势快速平仓的价格"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="平仓手续费："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="计算公式为：平仓手续费=平仓价x手数x合约单位x平仓手续费比例"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="实际盈亏（参考）："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="实际盈亏是指从建仓以后至当前的平仓盈亏之和
+计算公式为：实际盈亏=平历史仓盈亏+平当日仓盈亏"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 

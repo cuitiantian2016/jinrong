@@ -329,7 +329,7 @@ public class ViewUtil {
     public static void showLoading(Activity activity, String content) {
         hideLoading();
         loadingDialog = new AlertDialog.Builder(activity, R.style.alert_dialog).create();
-        loadingDialog.setCancelable(false);
+        loadingDialog.setCancelable(true);
         //		loadingDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         if (!activity.isFinishing())
             loadingDialog.show();

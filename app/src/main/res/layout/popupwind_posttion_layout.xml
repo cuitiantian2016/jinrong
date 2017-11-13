@@ -83,6 +83,7 @@
                 android:text="2018-01-22(12-31 15:00前平仓）"/>
 
             <ImageView
+                android:id="@+id/iv_position_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_trade_tip"/>

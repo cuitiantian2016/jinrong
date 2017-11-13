@@ -59,6 +59,7 @@ public class PositionDialog extends Dialog {
         mWindow.setAttributes(params);
 
         mClose = (ImageView) findViewById(R.id.iv_close);
+        final TextView tip = (TextView) findViewById(R.id.tv_tip);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_dialog_position_head, null);
         mName = (TextView) headView.findViewById(R.id.tv_name);
         mBuyNumber = (TextView) headView.findViewById(R.id.tv_buy_number);//买入手数
@@ -69,9 +70,24 @@ public class PositionDialog extends Dialog {
         mListView.addHeaderView(headView);
         mAdapter = new PositionDialogAdapter(mContext, null);
         mListView.setAdapter(mAdapter);
+
+        mClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        tip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_position_detail_tip);
+                tipDialog.show();
+            }
+        });
     }
 
-    public void showPopupWind(HoldPositionBean bean,List<HoldDetailBean> list) {
+    public void showPopupWind(HoldPositionBean bean, List<HoldDetailBean> list) {
         show();
         mName.setText(bean.getInstrumentName());
         //1 买跌 2 买涨

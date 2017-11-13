@@ -98,6 +98,7 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         mSizeDel.setOnClickListener(this);
         mSizeAdd.setOnClickListener(this);
         mFastCloseTransaction.setOnClickListener(this);
+        mName.setOnClickListener(this);
 
         mPrice.addTextChangedListener(new TextWatcher() {
             @Override
@@ -195,6 +196,10 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
                         mPrice.getText().toString(),
                         mBean.getInstrumentId(),
                         mBean.getHoldAvgPrice());
+                break;
+            case R.id.tv_name:
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_close_position_tip);
+                tipDialog.show();
                 break;
         }
     }

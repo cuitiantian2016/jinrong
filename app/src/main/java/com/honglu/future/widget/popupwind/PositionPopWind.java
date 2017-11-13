@@ -8,13 +8,16 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.dialog.PositionDialog;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ViewUtil;
 
 /**
@@ -49,7 +52,7 @@ public class PositionPopWind extends PopupWindow {
         mListener = listener;
     }
 
-    public PositionPopWind(Context context) {
+    public PositionPopWind(final Context context) {
         View rootView = View.inflate(context, R.layout.popupwind_posttion_layout, null);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -76,6 +79,7 @@ public class PositionPopWind extends PopupWindow {
         mTime = (TextView) rootView.findViewById(R.id.tv_time);//交割日期
         mDetails = (TextView) rootView.findViewById(R.id.tv_position_details); //持仓详情
         mClosePosition = (TextView) rootView.findViewById(R.id.tv_close_position);//平仓
+        ImageView ivTip = (ImageView) rootView.findViewById(R.id.iv_position_tip);
 
         mDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +91,13 @@ public class PositionPopWind extends PopupWindow {
             @Override
             public void onClick(View v) {
                 mListener.onCloseClick(mHoldPositionBean);
+            }
+        });
+        ivTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TradeTipDialog tipDialog = new TradeTipDialog(context, R.layout.layout_position_jiaoge_tip);
+                tipDialog.show();
             }
         });
     }

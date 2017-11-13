@@ -97,7 +97,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
                 android:text="平仓盈亏是指在了结交易时做出平仓动作成交时候的盈亏
-计算公式为：①当日平仓：平仓盈亏=（快速平仓价-建仓价*平仓数量*合约乘量）"
+计算公式为：
+①当日平仓：平仓盈亏=（快速平仓价-建仓价*平仓数量*合约乘量）
+②隔日平仓：平仓盈亏=（快速平仓价-持仓均价）x平仓数量x合约乘量"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
