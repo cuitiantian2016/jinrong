@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +28,10 @@ import com.honglu.future.widget.kchart.listener.OnKLineTouchDisableListener;
 import com.honglu.future.widget.kchart.util.KDisplayUtil;
 import com.honglu.future.widget.kchart.util.KParamConfig;
 import com.honglu.future.widget.kchart.util.KParseUtils;
+import com.honglu.future.widget.tab.CommonTabLayout;
+import com.honglu.future.widget.tab.CustomTabEntity;
+import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
+import com.honglu.future.widget.tab.TabEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,13 +41,13 @@ import butterknife.BindView;
 
 import static com.honglu.future.util.ToastUtil.showToast;
 
-
 /**
  * android:hardwareAccelerated="true"
  * 硬件加速问题  导致多层次的view重新绘制
  * 设置hardwareAccelerated true
  */
-public class KLineFragment extends PagerFragment implements KLineContract.View, OnKCrossLineMoveListener, OnKLineTouchDisableListener, OnKChartClickListener, KLineView.OnSubTabClickListener {
+public class KLineFragment extends PagerFragment implements KLineContract.View, OnKCrossLineMoveListener,
+        OnKLineTouchDisableListener, OnKChartClickListener, KLineView.OnSubTabClickListener {
     public static final String TAG = "KLineFragment";
     @BindView(R.id.klineView)
     KLineView kLineView;
@@ -53,26 +59,10 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     View mainNormal;
     @BindView(R.id.subNormal)
     View subNormal;
-    @BindView(R.id.tab_SMA)
-    View mainNormalView;
-    @BindView(R.id.tab_VOL)
-    View subNormalView;
     @BindView(R.id.tab_SMA_land)
     View mainNormalViewLand;
     @BindView(R.id.tab_VOL_land)
     View subNormalViewLand;
-    @BindView(R.id.landTypeView)
-    View landTypeView;
-    @BindView(R.id.tab_EMA)
-    View tab_EMA;
-    @BindView(R.id.tab_BOLL)
-    View tab_BOLL;
-    @BindView(R.id.tab_MACD)
-    View tab_MACD;
-    @BindView(R.id.tab_RSI)
-    View tab_RSI;
-    @BindView(R.id.tab_KDJ)
-    View tab_KDJ;
     @BindView(R.id.tab_EMA_land)
     View tab_EMA_land;
     @BindView(R.id.tab_BOLL_land)
@@ -84,11 +74,42 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     @BindView(R.id.tab_KDJ_land)
     View tab_KDJ_land;
     @BindView(R.id.ll_bottom)
-    LinearLayout mBottomTabs;
-    LinearLayout crossInfoView;
-    //    TextView tv_time,
-    TextView tv_open, tv_close, tv_high, tv_low, tv_rate, tv_rateChange;
-
+    CommonTabLayout mBottomTabs;
+    @BindView(R.id.top_common_tab_layout)
+    CommonTabLayout mTopTabLayout;
+    @BindView(R.id.ll_right_tab)
+    LinearLayout mLlRightTab;
+    @BindView(R.id.sma_land)
+    TextView mTvLandSma;
+    @BindView(R.id.ema_land)
+    TextView mTvLandEma;
+    @BindView(R.id.boll_land)
+    TextView mTvLandBoll;
+    @BindView(R.id.vol_land)
+    TextView mTvLandVol;
+    @BindView(R.id.macd_land)
+    TextView mTvLandMacd;
+    @BindView(R.id.kdj_land)
+    TextView mTvLandKdj;
+    @BindView(R.id.rsi_land)
+    TextView mTvLandRsi;
+    @BindView(R.id.sma_land_view)
+    View mSmaView;
+    @BindView(R.id.ema_land_view)
+    View mEmaView;
+    @BindView(R.id.boll_land_view)
+    View mBollView;
+    @BindView(R.id.vol_land_view)
+    View mVolView;
+    @BindView(R.id.macd_land_view)
+    View mMacdView;
+    @BindView(R.id.kdj_land_view)
+    View mKdjView;
+    @BindView(R.id.rsi_land_view)
+    View mRsiView;
+    //tab 数据
+    private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
+    private ArrayList<CustomTabEntity> mBottmTabList = new ArrayList<>();
     private Activity mActivity;
 
     //默认值 也就是NormUnionCandleStickChart的默认值  modify by fangzhu
@@ -99,10 +120,15 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     float subF = 1 / 5F;//竖屏时候附图占整体的高度
     float lanMainF = 2 / 3F;//横屏时候主图占整体的高度
     float lanSubF = 1 / 3F;//横屏时候附图占整体的高度
+    private FrameLayout.LayoutParams mParams;
     //传入的code
     String excode, code, type;
     //    String cycle;//周期
     private KLinePresenter mKLinePresenter;
+    private int mTopPosition = 0;
+    private int mBottomPosition = 0;
+    private static final int UNSELECT_TAB_TEXT_COLOR = 0xffB1B3B2;
+    private static final int SELECTED_TAB_TEXT_COLOR = 0xFFFFFFFF;
 
     @Override
     public void onAttach(Activity activity) {
@@ -156,7 +182,6 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         outState.putInt("bottomtype", lastBottomNorm);
     }
 
-//    private GetKlineDataTask task;
 
     @Override
     public int getLayoutId() {
@@ -182,11 +207,67 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
 //        cycle = getArguments().getString("interval");
 
         initView();
+        //tab 切换
+        mTopTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                mTopPosition = position;
+                switch (position) {
+                    case 0:
+                        event4SMA();
+                        break;
+                    case 1:
+                        event4EMA();
+                        break;
+                    case 2:
+                        event4BOLL();
+                        break;
+                }
+            }
+        });
+        mBottomTabs.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                mBottomPosition = position;
+                switch (position) {
+                    case 0:
+                        event4VOL();
+                        break;
+                    case 1:
+                        event4MACD();
+                        break;
+                    case 2:
+                        event4KDJ();
+                        break;
+                    case 3:
+                        event4RSI();
+                        break;
+                }
+            }
+        });
+        mTabList.clear();
+        mTabList.add(new TabEntity("SMA"));
+        mTabList.add(new TabEntity("EMA"));
+        mTabList.add(new TabEntity("BOLL"));
+        mTopTabLayout.setTabData(mTabList);
+        mTopTabLayout.setCurrentTab(0);
+        //底部TAB指标
+        mBottmTabList.clear();
+        mBottmTabList.add(new TabEntity("VOL"));
+        mBottmTabList.add(new TabEntity("MACD"));
+        mBottmTabList.add(new TabEntity("KDJ"));
+        mBottmTabList.add(new TabEntity("RSI"));
+        mBottomTabs.setTabData(mBottmTabList);
+        mBottomTabs.setCurrentTab(0);
+        setTabsLocation();
     }
 
     @Override
     protected void onVisible() {
         super.onVisible();
+        mTopPosition = 0;
+        mBottomPosition = 0;
+        performTabClick();
         getKlineData();
     }
 
@@ -203,30 +284,14 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-//        if (task != null && task.getStatus() == Status.RUNNING) {
-//            task.cancel(true);
-//        }
     }
 
 
     public void initView() {
-//        crossLineView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-        //十字线出现的时候 详细信息。这里是activity 绑定的
-//        crossInfoView = (LinearLayout) view.findViewById(R.id.crossInfoView);
-//        tv_time = (TextView) crossInfoView.findViewById(R.id.tv_time);
-//        tv_open = (TextView) crossInfoView.findViewById(R.id.tv_open);
-//        tv_close = (TextView) crossInfoView.findViewById(R.id.tv_close);
-//        tv_high = (TextView) crossInfoView.findViewById(R.id.tv_high);
-//        tv_low = (TextView) crossInfoView.findViewById(R.id.tv_low);
-//        tv_rate = (TextView) crossInfoView.findViewById(R.id.tv_rate);
-//        tv_rateChange = (TextView) crossInfoView.findViewById(R.id.tv_rateChange);
-
-        // if (!TextUtils.isEmpty(code)) {
-//            int numberScale = ProFormatConfig.getProFormatMap(type + "|" + code.split("(\\d+)")[0]);
-//            kLineView.setNumberScal(numberScale != -1 ? numberScale : 2);
-        // }
-
+        //设置k线里tab位置
+        mParams = (FrameLayout.LayoutParams) mBottomTabs.getLayoutParams();
+        mParams.setMargins(0, kLineView.getTabHeight(), 0, 0);// 通过自定义坐标来放置你的控件
+        mBottomTabs.setLayoutParams(mParams);
         //设置配置的k线颜色
         kLineView.setCandlePostColor(getResources().getColor(R.color.actionsheet_red));
         kLineView.setCandleNegaColor(getResources().getColor(R.color.actionsheet_blue));
@@ -250,23 +315,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         kLineView.setOnKChartClickListener(this);
         kLineView.setOnSubTabClickListener(this);
 
-
-        mainNormalView.setSelected(true);
-        subNormalView.setSelected(true);
-
-
         mainNormalViewLand.setSelected(true);
         subNormalViewLand.setSelected(true);
-
-        mainNormalView.setOnClickListener(normalLinstener);
-
-        tab_EMA.setOnClickListener(normalLinstener);
-        tab_BOLL.setOnClickListener(normalLinstener);
-        subNormalView.setOnClickListener(normalLinstener);
-        tab_MACD.setOnClickListener(normalLinstener);
-        tab_RSI.setOnClickListener(normalLinstener);
-        tab_KDJ.setOnClickListener(normalLinstener);
-
 
         mainNormalViewLand.setOnClickListener(normalLinstener);
         tab_EMA_land.setOnClickListener(normalLinstener);
@@ -276,6 +326,13 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         tab_RSI_land.setOnClickListener(normalLinstener);
         tab_KDJ_land.setOnClickListener(normalLinstener);
 
+        mTvLandSma.setOnClickListener(normalLinstener);
+        mTvLandEma.setOnClickListener(normalLinstener);
+        mTvLandBoll.setOnClickListener(normalLinstener);
+        mTvLandVol.setOnClickListener(normalLinstener);
+        mTvLandMacd.setOnClickListener(normalLinstener);
+        mTvLandKdj.setOnClickListener(normalLinstener);
+        mTvLandRsi.setOnClickListener(normalLinstener);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //当前为横屏
             handLandView(true);
@@ -290,11 +347,6 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
             kLineView.setMainF(mainF);
             kLineView.setSubF(subF);
         }
-
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mBottomTabs.getLayoutParams();
-        params.setMargins(0, kLineView.getHeight() * (int) mainF, 0, 0);// 通过自定义坐标来放置你的控件
-        mBottomTabs.setLayoutParams(params);
-
     }
 
     @Override
@@ -311,30 +363,76 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
             handLandView(false);
             kLineView.setMainF(mainF);
             kLineView.setSubF(subF);
+            mTopTabLayout.setCurrentTab(mTopPosition);
+            mBottomTabs.setCurrentTab(mBottomPosition);
         }
+    }
+
+
+    private void performTabClick() {
+        switch (mTopPosition) {
+            case 0:
+                mTvLandSma.performClick();
+                break;
+            case 1:
+                mTvLandEma.performClick();
+                break;
+            case 2:
+                mTvLandBoll.performClick();
+                break;
+        }
+
+        switch (mBottomPosition) {
+            case 0:
+                mTvLandVol.performClick();
+                break;
+            case 1:
+                mTvLandMacd.performClick();
+                break;
+            case 2:
+                mTvLandKdj.performClick();
+                break;
+            case 3:
+                mTvLandRsi.performClick();
+                break;
+        }
+
+
     }
 
     void handLandView(boolean isLand) {
         if (isLand) {
             kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 15));
-
             //隐藏竖屏的指标
             mainNormal.setVisibility(View.GONE);
             subNormal.setVisibility(View.GONE);
-
+            mBottomTabs.setVisibility(View.GONE);
+            mTopTabLayout.setVisibility(View.GONE);
             //显示横屏指标
-            if (landTypeView != null)
-                landTypeView.setVisibility(View.VISIBLE);
+            if (mLlRightTab != null) {
+                mLlRightTab.setVisibility(View.VISIBLE);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        performTabClick();
+                    }
+                }, 300);
+
+            }
         } else {
             kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 47));
             //显示竖屏的指标
             mainNormal.setVisibility(View.VISIBLE);
             subNormal.setVisibility(View.VISIBLE);
-
+            mTopTabLayout.setVisibility(View.VISIBLE);
+            setTabsLocation();
             //隐藏横屏指标
-            if (landTypeView != null)
-                landTypeView.setVisibility(View.GONE);
+            if (mLlRightTab != null) {
+                mLlRightTab.setVisibility(View.GONE);
+            }
         }
+
     }
 
 
@@ -353,34 +451,30 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                 KParamConfig.getMacdTParam2(getActivity()),
                 KParamConfig.getMacdKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_MACD);
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "MACD");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "MACD");
-//        }
     }
 
     void event4KDJ() {
         kLineView.setSubLineData(KParseUtils.getKDJLinesDatas(list,
                 KParamConfig.getKdjKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_KDJ);
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "KDJ");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "KDJ");
-//        }
     }
 
     void event4VOL() {
         kLineView.setSubNormal(KLineNormal.NORMAL_VOL);
+    }
 
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "VOL");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "VOL");
-//        }
+    public void setTabsLocation() {
+        if (!isLandScape()) {
+            mBottomTabs.setVisibility(View.VISIBLE);
+            kLineView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    kLineView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    mParams.setMargins(0, kLineView.getTabHeight(), 0, 0);// 通过自定义坐标来放置你的控件
+                    mBottomTabs.setLayoutParams(mParams);
+                }
+            });
+        }
     }
 
     void event4RSI() {
@@ -389,31 +483,12 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                 KParamConfig.getRsiParam2(getActivity()),
                 KParamConfig.getRsiParam3(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_RSI);
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "RSI");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "RSI");
-//        }
     }
 
     void event4SMA() {
         kLineView.setMainNormal(KLineNormal.NORMAL_SMA);
-//        if (BakSourceInterface.PARAM_KLINE_5M_WEIPAN.equals(cycle)
-//                || BakSourceInterface.PARAM_KLINE_5M.equals(cycle)
-//                || BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
-//            kLineView.setMainLineData(KParseUtils.getSMAData(list,
-//                    KParamConfig.getSMAcfg(getActivity(), false)));
-//        } else {
         kLineView.setMainLineData(KParseUtils.getSMAData(list,
                 KParamConfig.getSMAcfg(getActivity(), true)));
-//        }
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "SMA");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "SMA");
-//        }
     }
 
     void event4BOLL() {
@@ -421,105 +496,95 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         kLineView.setMainLineData(KParseUtils.getBollData(list,
                 KParamConfig.getBoolTParam(getActivity()),
                 KParamConfig.getBoolKParam(getActivity())));
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "BOLL");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "BOLL");
-//        }
     }
 
     void event4EMA() {
         kLineView.setMainNormal(KLineNormal.NORMAL_EMA);
         kLineView.setMainLineData(KParseUtils.getEMAData(list,
                 KParamConfig.getEmaParam(getActivity())));
-
-//        if (isLandScape()) {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_horizontal", "EMA");
-//        } else {
-//            MyAppMobclickAgent.onEvent(getActivity(), "v3_kline_type_vertical", "EMA");
-//        }
     }
 
     View.OnClickListener normalLinstener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int id = view.getId();
-            if (id == R.id.tab_SMA) {
+            if (id == R.id.sma_land) {
+                setTopViewVisible(id, 0);
                 event4SMA();
-
-                mainNormalView.setSelected(false);
-                mainNormalView = view;
-                mainNormalView.setSelected(true);
-
-
-                mainNormalViewLand.setSelected(false);
-                mainNormalViewLand = mainNormalViewLand;
-                mainNormalViewLand.setSelected(true);
             }
-            if (id == R.id.tab_EMA) {
+            if (id == R.id.ema_land) {
+                setTopViewVisible(id, 1);
                 event4EMA();
-
-                mainNormalView.setSelected(false);
-                mainNormalView = view;
-                mainNormalView.setSelected(true);
-
-
-                mainNormalViewLand.setSelected(false);
-                mainNormalViewLand = tab_EMA_land;
-                mainNormalViewLand.setSelected(true);
             }
-            if (id == R.id.tab_BOLL) {
+            if (id == R.id.boll_land) {
+                setTopViewVisible(id, 2);
                 event4BOLL();
-
-                mainNormalView.setSelected(false);
-                mainNormalView = view;
-                mainNormalView.setSelected(true);
-
-
-                mainNormalViewLand.setSelected(false);
-                mainNormalViewLand = tab_BOLL_land;
-                mainNormalViewLand.setSelected(true);
             }
 
-            //附图
-            if (id == R.id.tab_VOL) {
-
+            if (id == R.id.vol_land) {
+                setBottomViewVisible(id, 0);
+                event4VOL();
             }
-            if (id == R.id.tab_MACD) {
-
+            if (id == R.id.macd_land) {
+                setBottomViewVisible(id, 1);
+                event4MACD();
             }
-            if (id == R.id.tab_RSI) {
-
+            if (id == R.id.kdj_land) {
+                setBottomViewVisible(id, 2);
+                event4KDJ();
             }
-            if (id == R.id.tab_KDJ) {
-
-            }
-
-            if (id == R.id.tab_SMA_land) {
-                mainNormalView.performClick();
-            }
-            if (id == R.id.tab_EMA_land) {
-                tab_EMA.performClick();
-            }
-            if (id == R.id.tab_BOLL_land) {
-                tab_BOLL.performClick();
-            }
-
-            if (id == R.id.tab_VOL_land) {
-                subNormalView.performClick();
-            }
-            if (id == R.id.tab_MACD_land) {
-                tab_MACD.performClick();
-            }
-            if (id == R.id.tab_RSI_land) {
-                tab_RSI.performClick();
-            }
-            if (id == R.id.tab_KDJ_land) {
-                tab_KDJ.performClick();
+            if (id == R.id.rsi_land) {
+                setBottomViewVisible(id, 3);
+                event4RSI();
             }
         }
     };
+
+
+    private void setTopViewVisible(int id, int position) {
+        mTopPosition = position;
+        mSmaView.setVisibility(View.GONE);
+        mEmaView.setVisibility(View.GONE);
+        mBollView.setVisibility(View.GONE);
+        mTvLandSma.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        mTvLandEma.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        mTvLandBoll.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        if (id == R.id.sma_land) {
+            mSmaView.setVisibility(View.VISIBLE);
+            mTvLandSma.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        } else if (id == R.id.ema_land) {
+            mEmaView.setVisibility(View.VISIBLE);
+            mTvLandEma.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        } else if (id == R.id.boll_land) {
+            mBollView.setVisibility(View.VISIBLE);
+            mTvLandBoll.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        }
+    }
+
+    private void setBottomViewVisible(int id, int position) {
+        mBottomPosition = position;
+        mVolView.setVisibility(View.GONE);
+        mMacdView.setVisibility(View.GONE);
+        mKdjView.setVisibility(View.GONE);
+        mRsiView.setVisibility(View.GONE);
+        mTvLandVol.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        mTvLandMacd.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        mTvLandKdj.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        mTvLandRsi.setTextColor(UNSELECT_TAB_TEXT_COLOR);
+        if (id == R.id.vol_land) {
+            mVolView.setVisibility(View.VISIBLE);
+            mTvLandVol.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        } else if (id == R.id.macd_land) {
+            mMacdView.setVisibility(View.VISIBLE);
+            mTvLandMacd.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        } else if (id == R.id.kdj_land) {
+            mKdjView.setVisibility(View.VISIBLE);
+            mTvLandKdj.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        } else if (id == R.id.rsi_land) {
+            mRsiView.setVisibility(View.VISIBLE);
+            mTvLandRsi.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        }
+    }
 
     /**
      * 十字线 滑动显示对应的日期K线信息
@@ -646,6 +711,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
             showToast("暂无数据");
             return;
         }
+        mBottomTabs.setCurrentTab(0);
+        mTopTabLayout.setCurrentTab(0);
         list = new ArrayList<KCandleObj>();
         List<KLineBean.Candle> kLineList = bean.getCandle();
 //        try {
@@ -771,8 +838,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     public void onVOLClick() {
         event4VOL();
 
-        subNormalView.setSelected(false);
-        subNormalView.setSelected(true);
+//        subNormalView.setSelected(false);
+//        subNormalView.setSelected(true);
 
         subNormalViewLand.setSelected(false);
         subNormalViewLand = subNormalViewLand;
@@ -783,9 +850,9 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     public void onMACDClick() {
         event4MACD();
 
-        subNormalView.setSelected(false);
-
-        subNormalView.setSelected(true);
+//        subNormalView.setSelected(false);
+//
+//        subNormalView.setSelected(true);
 
 
         subNormalViewLand.setSelected(false);
@@ -797,8 +864,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     public void onKDJClick() {
         event4KDJ();
 
-        subNormalView.setSelected(false);
-        subNormalView.setSelected(true);
+//        subNormalView.setSelected(false);
+//        subNormalView.setSelected(true);
 
         subNormalViewLand.setSelected(false);
         subNormalViewLand = tab_KDJ_land;
@@ -809,8 +876,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     public void onRSIClick() {
         event4RSI();
 
-        subNormalView.setSelected(false);
-        subNormalView.setSelected(true);
+//        subNormalView.setSelected(false);
+//        subNormalView.setSelected(true);
 
 
         subNormalViewLand.setSelected(false);

@@ -1,46 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_1C1D28"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.honglu.future.widget.tab.CommonTabLayout
+        android:id="@+id/top_common_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_40dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tab_SMA"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="SMA"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/tab_EMA"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="EMA"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/tab_BOLL"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="BOLL"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+        android:layout_toLeftOf="@+id/right_layout"
+        app:tl_iconVisible="false"
+        app:tl_indicator_anim_duration="400"
+        app:tl_indicator_anim_enable="true"
+        app:tl_indicator_color="@android:color/white"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="@dimen/dimen_2dp"
+        app:tl_indicator_style="NORMAL"
+        app:tl_textBold="SELECT"
+        app:tl_textSelectColor="@android:color/white"
+        app:tl_textUnselectColor="@color/color_B1B3B2"
+        app:tl_textsize="@dimen/dimen_14sp" />
 
     <FrameLayout
+        android:id="@+id/kline_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_common_tab_layout"
+        android:layout_toLeftOf="@+id/ll_right_tab">
 
         <View
             android:id="@+id/layoutContent"
@@ -104,54 +92,196 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <LinearLayout
+        <com.honglu.future.widget.tab.CommonTabLayout
             android:id="@+id/ll_bottom"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_40dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tab_VOL"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="VOL"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tab_MACD"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="MACD"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tab_KDJ"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="KDJ"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tab_RSI"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="RSI"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
+            android:layout_height="@dimen/dimen_35dp"
+            android:layout_toLeftOf="@+id/right_layout"
+            app:tl_iconVisible="false"
+            app:tl_indicator_anim_duration="400"
+            app:tl_indicator_anim_enable="true"
+            app:tl_indicator_color="@android:color/white"
+            app:tl_indicator_gravity="BOTTOM"
+            app:tl_indicator_height="@dimen/dimen_2dp"
+            app:tl_indicator_style="NORMAL"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="@android:color/white"
+            app:tl_textUnselectColor="@color/color_B1B3B2"
+            app:tl_textsize="@dimen/dimen_14sp" />
 
         <com.honglu.future.widget.kchart.chart.cross.KCrossLineView
             android:id="@+id/crossLineView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </FrameLayout>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_right_tab"
+        android:layout_width="@dimen/dimen_50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/sma_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sma_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="SMA"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/ema_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ema_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="EMA"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/boll_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/boll_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="BOLL"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_2dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/vol_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/vol_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="VOL"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/macd_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/macd_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="MACD"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/kdj_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/kdj_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="KDJ"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/rsi_land_view"
+                android:layout_width="@dimen/dimen_2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/rsi_land"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="RSI"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

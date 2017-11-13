@@ -104,7 +104,7 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
                 drawBOLL(canvas);
             }
 //
-            drawTabs(canvas);
+           // drawTabs(canvas);
             //幅图指标
             if (subNormal == KLineNormal.NORMAL_MACD) {
                 drawMACD(canvas);
@@ -151,6 +151,10 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
         canvas.drawText("MACD", mWidth * 3 / 8, baseline, paint);
         canvas.drawText("KDJ", mWidth * 5 / 8, baseline, paint);
         canvas.drawText("RSI", mWidth * 7 / 8, baseline, paint);
+    }
+
+    public int getTabHeight(){
+        return (int) (axisYtopHeight + getDataHeightMian() + longitudeFontSize);
     }
 
     @Override

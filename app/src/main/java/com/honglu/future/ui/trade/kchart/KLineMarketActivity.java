@@ -115,6 +115,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private BuildTransactionDialog mBuildTransactionDialog;
     private AccountPresenter mAccountPresenter;
     private AccountLoginDialog mAccountLoginDialog;
+    private int mPosition;
+    private List<Fragment> fragments;
 
     @Override
     public int getLayoutId() {
@@ -200,6 +202,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             @Override
             public void onTabSelect(int position) {
                 //setUmengKLine(position);
+                mPosition = position;
             }
 
             @Override
@@ -215,7 +218,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     private void initViewPager(String closePrice) {
-        List<Fragment> fragments = new ArrayList<>();
+        fragments = new ArrayList<>();
         for (int i = 0; i < mTitles.length; i++) {
             if (i == 0) {
                 KMinuteFragment fragment = new KMinuteFragment();
@@ -326,6 +329,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     mLlPullView.setVisibility(View.GONE);
                     mIvPull.setImageResource(R.mipmap.ic_kline_pull);
                     mIsShowDetail = false;
+                }
+                if (mPosition != 0) {
+                    ((KLineFragment) fragments.get(mPosition)).setTabsLocation();
                 }
                 break;
             case R.id.iv_back:
