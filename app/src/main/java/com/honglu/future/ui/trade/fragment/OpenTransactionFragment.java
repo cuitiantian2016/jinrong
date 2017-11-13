@@ -215,7 +215,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
                 if (!App.getConfig().getAccountLoginStatus()) {
-                    startRun();
+                    stopRun();
                     mDangerChance.setText("--");
                     mRightsInterests.setText("--");
                     mMoney.setText("--");
