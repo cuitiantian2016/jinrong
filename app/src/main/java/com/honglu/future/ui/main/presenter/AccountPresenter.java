@@ -34,10 +34,10 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
+                mView.showErrorMsg(message, null);
                 if (code == 70000){//首次登录
+                    SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
                     PasswordResetActivity.startPasswordResetActivity(App.mApp.mActivity,true);
-                }else {
-                    mView.showErrorMsg(message, null);
                 }
             }
 
