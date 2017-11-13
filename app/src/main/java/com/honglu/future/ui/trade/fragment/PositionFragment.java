@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
@@ -21,12 +24,18 @@ import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
+import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +55,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @BindView(R.id.tv_remarksEmpty)
     TextView mRemarksEmpty;
     private View mFooterEmptyView;
+    private TextView mDangerChance;
+    private TextView mRightsInterests;
+    private TextView mMoney;
+    private TextView mProfitLoss;
 
     private PositionAdapter mAdapter;
     private AccountPresenter mAccountPresenter;
@@ -54,6 +67,15 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private CloseTransactionDialog mCloseDialog;
     private PositionPopWind mPopWind;
     private HoldPositionBean mHoldPositionBean;
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getPositionList();
+        }
+    };
+
+    private List<HoldPositionBean> mList;
 
     @Override
     public int getLayoutId() {
@@ -111,7 +133,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 }
             } else {
                 if (isVisible()) {
-                    getPositionList();
+                    getAccountInfo();
+                    mHandler.postDelayed(mRunnable, 500);
                 }
             }
         }
@@ -119,11 +142,16 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         mPopWind = new PositionPopWind(mContext);
         mPositionDialog = new PositionDialog(mContext);
         mCloseDialog = new CloseTransactionDialog(mContext);
         mAdapter = new PositionAdapter(PositionFragment.this);
-        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
+        View headView = LayoutInflater.from(mContext).inflate(R.layout.item_trade_list_header, null);
+        mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
+        mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
+        mMoney = (TextView) headView.findViewById(R.id.tv_money);
+        mProfitLoss = (TextView) headView.findViewById(R.id.tv_profit_loss);
         mFooterEmptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_emptyview, null);
         mListView.addHeaderView(headView);
         mListView.addFooterView(mFooterEmptyView);
@@ -146,17 +174,24 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     }
 
     private void getPositionList() {
-        mPresenter.getHoldPositionList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+        mPresenter.getHoldPositionList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
+    }
+
+    private void getAccountInfo() {
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
     }
 
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
+        getAccountInfo();
+        mHandler.postDelayed(mRunnable, 500);
     }
 
 
     @Override
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
+        mList = list;
         mAdapter.notifyDataChanged(false, list);
         mRefreshView.finishRefresh();
     }
@@ -204,7 +239,44 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     }
 
     @Override
+    public void getAccountInfoSuccess(AccountInfoBean bean) {
+        mDangerChance.setText(bean.getCapitalProportion());
+        mRightsInterests.setText(bean.getRightsInterests() + "");
+        mMoney.setText(bean.getAvailable() + "");
+        mProfitLoss.setText(bean.getPositionProfit() + "");
+    }
+
+    @Override
     public void onShowPopupClick(View view, HoldPositionBean bean) {
         mPopWind.showPopupWind(view, bean);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    mDangerChance.setText("--");
+                    mRightsInterests.setText("--");
+                    mMoney.setText("--");
+                    mProfitLoss.setText("--");
+                    mList = new ArrayList<>();
+                    mAdapter.notifyDataChanged(false, mList);
+                    setEmptyView(true);
+                }
+            }
+        }
     }
 }

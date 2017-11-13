@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
+import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.activity.WebViewActivity;
@@ -139,7 +141,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         switch (view.getId()) {
             case R.id.iv_rule:
                 Intent intent = new Intent(mActivity, WebViewActivity.class);
-                intent.putExtra("title","交易规则");
+                intent.putExtra("title", "交易规则");
                 intent.putExtra("url", ConfigUtil.TRADE_RULE);
                 startActivity(intent);
                 break;
@@ -156,7 +158,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
             }
-            if (currentPosition == 0){
+            if (currentPosition == 0) {
                 mOpenTransactionFragment.startRun();
             }
         }
@@ -172,7 +174,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Override
     public void onResume() {
         super.onResume();
-        if (currentPosition == 0&&!isHidden()&&isVisible()){
+        if (currentPosition == 0 && !isHidden() && isVisible()) {
             mOpenTransactionFragment.startRun();
         }
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
@@ -183,9 +185,17 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(UIBaseEvent event) {
         if (event instanceof ChangeTabEvent) {
-                mCommonTabLayout.setCurrentTab(((ChangeTabEvent) event).getLoanType());
+            mCommonTabLayout.setCurrentTab(((ChangeTabEvent) event).getLoanType());
+        } else if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    mCommonTabLayout.setCurrentTab(0);
+                }
+            }
         }
     }
+
 
     @Override
     public void onDestroyView() {

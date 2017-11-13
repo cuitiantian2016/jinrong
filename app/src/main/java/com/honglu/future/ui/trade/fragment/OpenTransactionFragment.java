@@ -75,11 +75,10 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void loginSuccess(AccountBean bean) {
+        mToken = bean.getToken();
         mAccountLoginDialog.dismiss();
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         startRun();
-        mToken = bean.getToken();
-
     }
 
     private Handler mHandler = new Handler();
@@ -114,7 +113,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (bean == null) {
             return;
         }
-        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+        //SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
         Intent intent = new Intent(mActivity, BillConfirmActivity.class);
         intent.putExtra("SettlementBean", new Gson().toJson(bean));
         intent.putExtra("token", mToken);

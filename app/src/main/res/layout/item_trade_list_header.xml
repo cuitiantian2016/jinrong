@@ -45,11 +45,20 @@
                     android:textSize="@dimen/dimen_12sp" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/iv_fx_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_toRightOf="@+id/ll_left"
+                android:src="@mipmap/ic_trade_danger" />
+
             <LinearLayout
-                android:layout_marginRight="@dimen/dimen_20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dimen_20dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -64,17 +73,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前权益"
                     android:minWidth="@dimen/dimen_85dp"
+                    android:text="当前权益"
                     android:textColor="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_12sp" />
             </LinearLayout>
 
             <ImageView
-                android:layout_alignParentRight="true"
                 android:id="@+id/iv_trade_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/dimen_5dp"
                 android:src="@mipmap/ic_trade_tip" />
 
@@ -113,10 +122,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:minWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:minWidth="100dp"
                 android:orientation="vertical">
 
                 <TextView
