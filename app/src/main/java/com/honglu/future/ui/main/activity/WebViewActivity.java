@@ -293,6 +293,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", "0101");
             intent.putExtra("channel", "@200$088-2");
+            intent.putExtra("packName", "com.honglu.future");
             String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
             if (!TextUtils.isEmpty(userMobile)) {
                 intent.putExtra("mobile", userMobile);
