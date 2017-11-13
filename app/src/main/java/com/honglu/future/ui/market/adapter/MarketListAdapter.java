@@ -33,11 +33,11 @@ import butterknife.ButterKnife;
 public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.ViewHolder, MarketnalysisBean.ListBean.QuotationDataListBean> {
     private List<Double> oldPriceList = new ArrayList<>();
     private String mTabSelectType;
+    private boolean mStartAnimatorTag = true;
     private MarketItemFragment fragment;
 
-    public String getTabSelectType(){
-
-        return  mTabSelectType;
+    public void setStopAnimatorTag(){
+       this.mStartAnimatorTag = false;
     }
 
     public void setMarketItemFragment(MarketItemFragment fragment){
@@ -47,6 +47,7 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
     public void setOldPriceList(List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
         if (list !=null && list.size() > 0){
             oldPriceList.clear();
+            mStartAnimatorTag = true;
             for (int i = 0 ; i < getData().size() ; i++){
                 String lastPrice = getData().get(i).getLastPrice();
                 oldPriceList.add(string2Double(lastPrice));
@@ -106,7 +107,7 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
         } catch (Exception e) {
             mOldPrice = 0.0;
         }
-        if (mOldPrice != 0.0) {
+        if (mOldPrice != 0.0 && mStartAnimatorTag) {
             if (lastPrice - mOldPrice > 0) {
                 holder.mRedView.setVisibility(View.VISIBLE);
                 holder.mRedView.setBackgroundResource(R.color.color_FA455B);

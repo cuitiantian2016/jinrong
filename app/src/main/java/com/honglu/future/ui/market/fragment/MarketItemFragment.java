@@ -100,6 +100,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType) ){
                     if (isSaveZXBean(event.bean)){
                         mList.add(event.bean);
+                        mAdapter.setStopAnimatorTag();
                         mAdapter.refreshData(mTabSelectType, mList);
                         mPushCode = mosaicMPushCode(mList);
                         if (mPushCodeRefreshListener !=null){
@@ -115,6 +116,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                //OptionalQuotesActivity 自选行情删除
                if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType) ){
                    refreshZX(event.bean.getExcode(), event.bean.getInstrumentID());
+                   mAdapter.setStopAnimatorTag();
                    mAdapter.refreshData(mTabSelectType, mList);
                    mPushCode = mosaicMPushCode(mList);
                    if (mPushCodeRefreshListener !=null){
