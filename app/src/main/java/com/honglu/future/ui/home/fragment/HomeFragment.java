@@ -59,7 +59,7 @@ public class HomeFragment extends BaseFragment{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ReceiverMarketMessageEvent event) {
         if (homeMarketPriceViewModel!=null
-                &&homeMarketPriceViewModel.productList.equals(MPushUtil.requestCodes)
+                &&MPushUtil.requestCodes.equals(homeMarketPriceViewModel.productList)
                 &&!(isHidden())){
             MarketData.MarketDataBean dataBean = new MarketData.MarketDataBean();
             dataBean.instrumentID = event.marketMessage.getInstrumentID();
