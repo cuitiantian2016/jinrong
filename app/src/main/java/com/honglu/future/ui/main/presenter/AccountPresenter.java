@@ -1,10 +1,12 @@
 package com.honglu.future.ui.main.presenter;
 
+import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
@@ -30,8 +32,13 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             }
 
             @Override
-            protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+            protected void _onError(String message, int code) {
+                super._onError(message, code);
+                if (code == 70000){//首次登录
+                    PasswordResetActivity.startPasswordResetActivity(App.mApp.mActivity,true);
+                }else {
+                    mView.showErrorMsg(message, null);
+                }
             }
 
             @Override

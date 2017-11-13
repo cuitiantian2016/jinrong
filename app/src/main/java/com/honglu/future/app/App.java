@@ -54,6 +54,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
 
 public class App extends Application implements Application.ActivityLifecycleCallbacks{
     public static App mApp;
+    public Activity mActivity;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -92,8 +93,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public void startPush(String userId) {
         //公钥有服务端提供和私钥对应
         ClientConfig cc = ClientConfig.build()
-                .setServerHost("192.168.85.126")
-                .setServerPort(3000)
+                .setAllotServer("http://192.168.85.126:9999")
                 .setOsName("android")
                 .setClientVersion(BuildConfig.VERSION_NAME)
                 .setLogger(new MyLog())
@@ -276,6 +276,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     public void onActivityStarted(Activity activity) {
+        mActivity = activity;
         Log.d("XXX","START");
         ++activityNum;
         isBack = false;

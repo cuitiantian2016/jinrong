@@ -200,7 +200,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentTeach.putExtra("title","新手学堂");
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                 startActivity(intentTeach);
-                //InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
                 break;
             case R.id.tv_trade_details:
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));

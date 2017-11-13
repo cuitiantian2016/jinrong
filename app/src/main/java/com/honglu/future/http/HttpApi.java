@@ -241,11 +241,11 @@ public interface HttpApi {
             @Part MultipartBody.Part File, @Part("userId") RequestBody userId);
 
     //首页banner
-    @POST("http://192.168.90.130:8080/futures-mobile-api/appBanner/loadBannerInfo")
+    @POST("futures-mobile-api/appBanner/loadBannerInfo")
     Observable<BaseResponse<List<BannerData>>> getBannerData();
 
     //首页市场情codes
-    @GET("http://192.168.85.126:8081/futures-mobile-api/news/api/startup/init/v3")
+    @GET("futures-mobile-api/news/api/startup/init/v3")
     Observable<BaseResponse<HomeMarketCodeBean>> getMarketCodesData(@Query("sourceId") Integer account,
                                                                     @Query("versionNo") String version,
                                                                     @Query("userId") String userId);
@@ -257,15 +257,15 @@ public interface HttpApi {
     );
 
     //首页icon
-    @POST("http://192.168.90.139:8080/futures-mobile-api/app/homeIcon/iconList")
+    @POST("futures-mobile-api/app/homeIcon/iconList")
     Observable<BaseResponse<List<HomeIcon>>> getHomeIcon();
 
     //首页新闻
-    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationList")
+    @POST("futures-mobile-api/app/information/informationList")
     Observable<BaseResponse<List<HomeMessageItem>>> getNewsColumnData();
 
     //首页24小时
-    @POST("http://192.168.90.130:8080/futures-mobile-api/app/index/newsList")
+    @POST("futures-mobile-api/app/index/newsList")
     Observable<BaseResponse<List<NewsFlashData>>> geFlashNewData(@Query("pageIndex") int page, @Query("pageSize") int pageSize);
 
     //渠道是否过审  http://192.168.90.130:8080/
@@ -304,6 +304,7 @@ public interface HttpApi {
                                                       @Field("oldPassword") String oldPassword,
                                                       @Field("token") String token,
                                                       @Field("newPassword") String newPassword,
+                                                      @Field("flag") int flag,
                                                       @Field("userId") String userId);
     /**
      * https://www.showdoc.cc/1673161?page_id=15533135
@@ -311,7 +312,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationDetail")
+    @POST("futures-mobile-api/app/information/informationDetail")
     Observable<BaseResponse<ConsultDetailsBean>> getMessageData(@Field("informationId") String informationId);
 
     /**
@@ -320,7 +321,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-mobile-api/app/information/informationPraise")
+    @POST("futures-mobile-api/app/information/informationPraise")
     Observable<BaseResponse<List<String>>> praiseMessage(@Field("informationId") String informationId,
                                                                 @Field("userId") String userID);
 

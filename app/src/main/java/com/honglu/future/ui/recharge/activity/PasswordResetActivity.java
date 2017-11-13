@@ -93,13 +93,14 @@ public class PasswordResetActivity extends BaseActivity {
             @Override
             public void getData() {
                 super.getData();
+                int flag = -1;
                 String account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME);
                 if (TextUtils.isEmpty(account)) {
                     return;
                 }
                 String account_token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
                 if (TextUtils.isEmpty(account_token)) {
-                    return;
+                    flag = 1;
                 }
                 String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
                 if (TextUtils.isEmpty(userId)) {
@@ -110,7 +111,7 @@ public class PasswordResetActivity extends BaseActivity {
                     toSubscribe(HttpManager.getApi().resetMarketPwd(
                             account, AESUtils.encrypt(mOldPwd),
                             account_token,
-                            AESUtils.encrypt(mNewPwd),
+                            AESUtils.encrypt(mNewPwd),flag,
                             userId),
                             httpSubscriber);
                 } else {
