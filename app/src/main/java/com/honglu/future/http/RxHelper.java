@@ -6,6 +6,13 @@ import android.text.TextUtils;
 
 
 import com.honglu.future.bean.BaseResponse;
+import com.honglu.future.config.Constant;
+import com.honglu.future.events.LogoutEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.util.SpUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -69,8 +76,17 @@ public class RxHelper {
 
                         else {
                             if (TextUtils.isEmpty(result.getCode())){
-                                return Observable.error(new ApiException("error"));
+                                return Observable.error(new ApiException(result.getMessage()));
                             }else{
+                                if(result.getCode().equals("00013")){
+                                    //过期
+                                    SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
+                                } else if(result.getCode().equals("00007")){
+                                    //被挤掉
+                                    SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
+                                }
                                 return Observable.error(new ApiException(result.getMessage(),Integer.parseInt(result.getCode()),result.getTime()));
                             }
                         }

@@ -191,13 +191,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone,R.id.tv_aboutus})
+            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_novice:
                 Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
-                intentTeach.putExtra("title","新手学堂");
+                intentTeach.putExtra("title", "新手学堂");
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                 startActivity(intentTeach);
                 break;
@@ -223,7 +223,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_signout:
-                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),Constant.COMPANY_CODE);
+                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
                 break;
             case R.id.tv_my_account:
             case R.id.ll_account:
@@ -261,7 +261,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_aboutus:
                 Intent intentAbout = new Intent(mActivity, WebViewActivity.class);
                 intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
-                intentAbout.putExtra("title","关于我们");
+                intentAbout.putExtra("title", "关于我们");
                 startActivity(intentAbout);
                 break;
         }
@@ -348,6 +348,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 setAvatar();
             } else if (code == UIBaseEvent.EVENT_UPDATE_NICK_NAME) {//修改昵称
                 mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            } else if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//token失效或者被挤掉
+                signinExpandCollapse(false);
+                stopRun();
             }
         }
     }
@@ -372,7 +375,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     private void goOpenAccount() {
         Intent intent = new Intent(mActivity, WebViewActivity.class);
-        intent.putExtra("title","开户");
+        intent.putExtra("title", "开户");
         intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
         startActivity(intent);
     }
@@ -424,7 +427,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        if (!isHidden()&&isVisible()){
+        if (!isHidden() && isVisible()) {
             startRun();
         }
     }
