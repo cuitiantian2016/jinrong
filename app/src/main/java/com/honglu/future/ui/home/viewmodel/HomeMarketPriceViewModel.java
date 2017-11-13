@@ -363,7 +363,12 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 marketDataBean.chg =  dataBean.chg;
                 marketDataBean.lastPrice =  dataBean.lastPrice;
                 arrayList.set(index,marketDataBean);
-                pagerAdapter.notifyDataSetChanged();
+                mViewPager.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pagerAdapter.notifyDataSetChanged();
+                    }
+                },500);
             }
 
         }
