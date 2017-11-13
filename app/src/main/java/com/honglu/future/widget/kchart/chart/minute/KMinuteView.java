@@ -102,7 +102,7 @@ public class KMinuteView extends KMinuteTouchView {
 
         if (startTimeStr.equals("09:00")) {
             middleTimeStr = Constant.CLOSE_TIME_BEGIN_NINE;
-        } else if (startTimeStr.equals("09:30")) {
+        } else if (startTimeStr.equals("21:00")) {
             middleTimeStr = Constant.CLOSE_TIME_COMMON;
         }
 
