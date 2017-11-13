@@ -56,10 +56,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            // 移除无用的resource文件
-            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true  //是否混淆
+            debuggable false
             signingConfig signingConfigs.release
+            // manifestPlaceholders = [app_logo: "@mipmap/logos"]
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             /*applicationVariants.all { variant ->
                 variant.outputs.each { output ->
