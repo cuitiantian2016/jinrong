@@ -278,8 +278,8 @@ public interface HttpApi {
 
     //银行卡列表
     @FormUrlEncoded
-    @POST("http://192.168.90.123:8080/futures-mobile-api/app/future/exchange/transfer/bank/list")
-    Observable<BaseResponse<List<BindCardBean>>> geBindCardData(@Field("pageIndex") String userId, @Field("pageSize") String token);
+    @POST("futures-mobile-api/app/future/exchange/transfer/bank/list")
+    Observable<BaseResponse<List<BindCardBean>>> geBindCardData(@Field("userId") String userId, @Field("token") String token);
 
     //修改资金密码接口 测试环境：
 
