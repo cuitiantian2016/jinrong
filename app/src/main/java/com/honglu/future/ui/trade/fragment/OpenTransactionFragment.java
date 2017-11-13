@@ -21,6 +21,8 @@ import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
@@ -96,14 +98,14 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     /**
      * 开始刷新用户信息
      */
-    public void startRun(){
-        if (App.getConfig().getAccountLoginStatus()){
+    public void startRun() {
+        if (App.getConfig().getAccountLoginStatus()) {
             mHandler.removeCallbacks(mRunnable);
             mHandler.post(mRunnable);
         }
     }
 
-    public void stopRun(){
+    public void stopRun() {
         mHandler.removeCallbacks(mRunnable);
     }
 
@@ -162,7 +164,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             } else {
                 startRun();
             }
-            if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN))||TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+            if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)) || TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
                 return;
             }
             mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
@@ -172,9 +174,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void onResume() {
         super.onResume();
-         if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN))||TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
-             return;
-         }
+        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)) || TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+            return;
+        }
         mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 
@@ -187,16 +189,40 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
     }
+
     private TextView mDangerChance;
     private TextView mRightsInterests;
     private TextView mMoney;
     private TextView mProfitLoss;
+
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(bean.getRightsInterests() + "");
         mMoney.setText(bean.getAvailable() + "");
         mProfitLoss.setText(bean.getPositionProfit() + "");
+    }
+
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    startRun();
+                    mDangerChance.setText("--");
+                    mRightsInterests.setText("--");
+                    mMoney.setText("--");
+                    mProfitLoss.setText("--");
+                }
+            }
+        }
     }
 
     @Override
@@ -241,6 +267,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
     private void initView() {
         mOpenTransactionListView.setLayoutManager(new LinearLayoutManager(mContext));
         mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
@@ -270,7 +297,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     if (!App.getConfig().getAccountLoginStatus()) {
                         mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
                         mAccountLoginDialog.show();
-                    }else {
+                    } else {
                         startActivity(UserAccountActivity.class);
                     }
                 }

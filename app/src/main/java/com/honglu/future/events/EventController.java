@@ -115,6 +115,7 @@ public class EventController {
         SpUtil.putString(Constant.CACHE_TAG_SESSIONID, "");
         SpUtil.putString(Constant.CACHE_TAG_UID, "");
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
         //SpUtil.putString(Constant.SHARE_TAG_USERNAME, "");
         App.getConfig().setUserInfo(null);
         //清除cookie

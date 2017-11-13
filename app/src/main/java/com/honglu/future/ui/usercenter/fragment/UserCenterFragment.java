@@ -449,9 +449,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void accountLogoutSuccess() {
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
         signinExpandCollapse(false);
         stopRun();
-        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
     }
 
     private void getAccountBasicInfo() {
