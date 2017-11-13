@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -100,6 +102,16 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onResume() {
         super.onResume();
         requestMarket(mPushCode);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            MPushUtil.pauseRequest();
+        }else {
+            requestMarket(mPushCode);
+        }
     }
 
     /*******
