@@ -17,16 +17,17 @@ public class MarketPresenter extends BasePresenter<MarketContract.View> implemen
         toSubscribe(HttpManager.getApi().getMarketData(), new HttpSubscriber<MarketnalysisBean>() {
             @Override
             protected void _onStart() {
-
+                mView.showLoading("行情加载中...");
             }
 
             @Override
             protected void _onError(String message) {
-
+                mView.stopLoading();
             }
 
             @Override
             protected void _onNext(MarketnalysisBean alysisBean) {
+                 mView.stopLoading();
                  mView.getMarketData(alysisBean);
             }
         });
