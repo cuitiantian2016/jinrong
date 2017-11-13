@@ -1,6 +1,5 @@
 package com.honglu.future.ui.trade.fragment;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
@@ -155,7 +155,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mPositionDialog = new PositionDialog(mContext);
         mCloseDialog = new CloseTransactionDialog(mContext);
         mAdapter = new PositionAdapter(PositionFragment.this);
-        View headView = LayoutInflater.from(mContext).inflate(R.layout.item_trade_list_header, null);
+        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
+        TextView tvTip = (TextView) headView.findViewById(R.id.tv_tip);
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
         mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
         mMoney = (TextView) headView.findViewById(R.id.tv_money);
@@ -177,6 +178,14 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getPositionList();
+            }
+        });
+
+        tvTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_tip);
+                tipDialog.show();
             }
         });
     }
@@ -287,4 +296,5 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             }
         }
     }
+
 }

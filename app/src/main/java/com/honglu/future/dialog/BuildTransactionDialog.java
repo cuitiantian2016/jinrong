@@ -131,7 +131,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvDown.setTextColor(Color.WHITE);
                 break;
             case R.id.iv_open_account_tip:
-                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext);
+                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
                 break;
             case R.id.btn_fast_open:

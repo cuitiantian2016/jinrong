@@ -18,10 +18,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="风险率："
+                android:text="冻结保证金："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -29,8 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="风险率是一种风险控制指标，风险率越低，您的账户就越安全
-计算公式为：风险率=占有保证金／当前权益*100%（占用保证金是您建仓或持仓时所花费的保证金"
+                android:text="冻结保证金是指建仓委托时，被冻结的保证金，冻结资金不可用。若建仓失败，冻结保证金将返回至您的可用资金里；若建仓成功，保证金按实际建仓价收取
+冻结保证金按昨结价计算，计算公式为：冻结保证金=昨结价*手数*合约单位*保证金比例"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="当前权益："
+                android:text="冻结手续费："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -46,8 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="当前权益是指可用资金及仓单总价值
-计算公式为：当前权益=可用资金+占用保证金"
+                android:text="冻结手续费是指建仓/平仓委托时，被冻结的手续费，冻结资金不可用。若建仓/平仓失败，冻结手续费将返回至您的可用资金里；若建仓/平仓成功，冻结手续费会将转为建仓/平仓手续费"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="可用资金："
+                android:text="撤单："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -63,8 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="可用资金是指可用于新开仓使用的资金
-计算公式为：可用资金=当前权益-占用保证金"
+                android:text="撤单即取消委托。操作撤单后将停止委托，撤单记录可在交易记录里查看"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -72,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="总持仓盈亏："
+                android:text="有效期："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -80,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="总持仓盈亏是指您所持仓的当日总盈亏之和"
+                android:text="当日有效是指委托仅限当前交易日有效，若超出当日还未成交，委托单将被系统自动撤单，即委托失效"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 

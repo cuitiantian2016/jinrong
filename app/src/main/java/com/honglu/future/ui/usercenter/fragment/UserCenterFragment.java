@@ -343,6 +343,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mSigninSucLayout.setVisibility(View.VISIBLE);
                     mLoginRegister.setVisibility(View.GONE);
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                    setAvatar();
                 }
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();

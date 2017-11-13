@@ -3,10 +3,7 @@ package com.honglu.future.ui.trade.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -14,7 +11,10 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -26,14 +26,15 @@ import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
-import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.loading.LoadingLayout;
-import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,6 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @BindView(R.id.loading_layout)
     LoadingLayout mLoadingLayout;
     private ClosePositionAdapter mClosePositionAdapter;
-    private BottomPopupWindow mTipPopupWindow;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
 
@@ -89,6 +89,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -104,7 +105,8 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_tip:
-                showTipWindow(view);
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_closed_tip);
+                tipDialog.show();
                 break;
             case R.id.ll_see_all:
                 startActivity(TradeRecordActivity.class);
@@ -147,40 +149,6 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         getClosePositionList();
     }
 
-    private void showTipWindow(View view) {
-        View layout = LayoutInflater.from(mActivity).inflate(R.layout.layout_trade_tip_pop_window, null);
-        showTipBottomWindow(view, layout);
-        ViewUtil.backgroundAlpha(mActivity, .5f);
-    }
-
-    private void showTipBottomWindow(View view, View layout) {
-        if (mTipPopupWindow != null && mTipPopupWindow.isShowing()) {
-            return;
-        }
-        mTipPopupWindow = new BottomPopupWindow(mActivity,
-                view, layout);
-        //添加按键事件监听
-        setButtonListeners(layout);
-        mTipPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                ViewUtil.backgroundAlpha(mActivity, 1f);
-            }
-        });
-    }
-
-    private void setButtonListeners(View view) {
-        ImageView ivClose = (ImageView) view.findViewById(R.id.iv_close_popup);
-        ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mTipPopupWindow != null && mTipPopupWindow.isShowing()) {
-                    mTipPopupWindow.dismiss();
-                }
-            }
-        });
-    }
-
     @Override
     public void getCloseListSuccess(List<ClosePositionListBean> list) {
         if (list == null || list.size() == 0) {
@@ -190,5 +158,29 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mLoadingLayout.setStatus(LoadingLayout.Success);
         mClosePositionAdapter.clearData();
         mClosePositionAdapter.addData(list);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mClosePositionAdapter.clearData();
+                }
+            }
+        }
     }
 }

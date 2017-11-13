@@ -21,16 +21,18 @@ import com.honglu.future.util.ViewUtil;
 public class TradeTipDialog extends Dialog implements View.OnClickListener {
     private Context mContext;
     private int mScreenHeight;
+    private int mResLayout;
 
-    public TradeTipDialog(@NonNull Context context) {
+    public TradeTipDialog(@NonNull Context context, int resLayout) {
         super(context, R.style.DateDialog);
         this.mContext = context;
+        this.mResLayout = resLayout;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_trade_tip_pop_window);
+        setContentView(mResLayout);
         mScreenHeight = ViewUtil.getScreenHeight(mContext);
         Window mWindow = this.getWindow();
         WindowManager.LayoutParams params = mWindow.getAttributes();

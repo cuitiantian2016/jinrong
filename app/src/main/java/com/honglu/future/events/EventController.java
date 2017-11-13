@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class EventController {
 
     private static volatile EventController instance = null;
@@ -99,7 +98,7 @@ public class EventController {
 //        Intent loginIntent = new Intent(App.getContext(), RegisterActivity.class);
 //        intent.putExtra("phone", uName);
 //        App.getContext().startActivity(intent);
-       Intent loginIntent=new Intent(App.getContext(),LoginActivity.class);
+        Intent loginIntent = new Intent(App.getContext(), LoginActivity.class);
         loginIntent.putExtra("tag", StringUtil.changeMobile(uName));
         loginIntent.putExtra("phone", uName);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -157,7 +156,7 @@ public class EventController {
             SpUtil.putString(Constant.CACHE_TAG_USERNAME, userInfo.getNickName());
             SpUtil.putString(Constant.CACHE_TAG_UID, userInfo.getUserId() + "");
             SpUtil.putString(Constant.CACHE_TAG_SESSIONID, userInfo.getToken());
-            SpUtil.putString(Constant.CACHE_USER_AVATAR, "user"+userInfo.getAvatar().split("user")[1]);
+            SpUtil.putString(Constant.CACHE_USER_AVATAR, userInfo.getAvatar());
             App.getConfig().setUserInfo(userInfo);
 
             CookieSyncManager.createInstance(context);

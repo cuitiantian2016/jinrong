@@ -81,7 +81,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.iv_open_account_tip:
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext);
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_entrust_tip);
                 tipDialog.show();
                 break;
             case R.id.btn_login_account:

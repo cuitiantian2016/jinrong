@@ -227,6 +227,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
                 mChangeTabType = 2;
+                mHandler.postDelayed(mRunable, 300);
             } else if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Market)) {
                 mChangeTabType = 1;
                 mHandler.postDelayed(mRunable, 300);

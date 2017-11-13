@@ -18,10 +18,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="风险率："
+                android:text="合约："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -29,8 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="风险率是一种风险控制指标，风险率越低，您的账户就越安全
-计算公式为：风险率=占有保证金／当前权益*100%（占用保证金是您建仓或持仓时所花费的保证金"
+                android:text="合约名称由期货品种名称+合约到期月份组成
+例如：“螺纹钢1707”是指“螺纹钢+2017年10月”"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="当前权益："
+                android:text="持仓均价："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -46,8 +47,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="当前权益是指可用资金及仓单总价值
-计算公式为：当前权益=可用资金+占用保证金"
+                android:text="持仓均价是上一交易日的结算价，即上一交易日所有交易的加权平均价
+若当日建仓，当日交易日结算前：持仓均价=建仓均价
+第二日开盘后：持仓均价=上一日结算价"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -55,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="可用资金："
+                android:text="最新价："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -63,8 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="可用资金是指可用于新开仓使用的资金
-计算公式为：可用资金=当前权益-占用保证金"
+                android:text="最新价是指某交易日某一期货合约交易时间的即时成交价格"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 
@@ -72,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_27dp"
-                android:text="总持仓盈亏："
+                android:text="持仓盈亏："
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -80,7 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="总持仓盈亏是指您所持仓的当日总盈亏之和"
+                android:text="持仓盈亏是指您所持仓单的当日盈亏，它是按照持仓均价和现在平仓时对应的最新价计算的盈亏
+计算公式为：持仓盈亏=（最新价-持仓均价）*买张手数 或=（持仓均价-最新价）*买跌手数"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_15sp" />
 

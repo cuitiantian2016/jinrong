@@ -312,7 +312,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext);
+                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
             }
         });

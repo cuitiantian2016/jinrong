@@ -13,6 +13,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
@@ -129,7 +130,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         mPresenter.getEntrustList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 
-    @OnClick({R.id.tv_see_all})
+    @OnClick({R.id.tv_see_all, R.id.iv_tip})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -141,6 +142,10 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                     mLlFilter.setVisibility(View.GONE);
                     mIsShowFilter = false;
                 }
+                break;
+            case R.id.iv_tip:
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_entrust_tip);
+                tipDialog.show();
                 break;
         }
     }

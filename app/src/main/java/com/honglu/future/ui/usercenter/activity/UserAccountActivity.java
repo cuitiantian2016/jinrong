@@ -8,6 +8,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserAccountContract;
@@ -63,13 +64,19 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         getAccountBasicInfo();
     }
 
-    @OnClick({R.id.tv_withdrawals,R.id.tv_recharge})
+    @OnClick({R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_right})
     public void onClick(View v) {
-        int id = v.getId();
-        if (R.id.tv_withdrawals == id){
-            InAndOutGoldActivity.startInAndOutGoldActivity(this, 1);
-        }else if (R.id.tv_recharge == id){
-            InAndOutGoldActivity.startInAndOutGoldActivity(this, 0);
+        switch (v.getId()) {
+            case R.id.tv_withdrawals:
+                InAndOutGoldActivity.startInAndOutGoldActivity(this, 1);
+                break;
+            case R.id.tv_recharge:
+                InAndOutGoldActivity.startInAndOutGoldActivity(this, 0);
+                break;
+            case R.id.tv_right:
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_my_account_tip);
+                tipDialog.show();
+                break;
         }
     }
 
@@ -100,11 +107,11 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(bean.getRightsInterests() + "");
         mMoney.setText(bean.getAvailable() + "");
-        mProfitLoss.setText(bean.getPositionProfit()+"");
-        mPositionProfitLoss.setText(bean.getCloseProfit()+"");
-        mTakeBond.setText(bean.getWithdrawQuota()+"");
+        mProfitLoss.setText(bean.getPositionProfit() + "");
+        mPositionProfitLoss.setText(bean.getCloseProfit() + "");
+        mTakeBond.setText(bean.getWithdrawQuota() + "");
         mOccupyBond.setText(bean.getCapitalProportionNum());
-        mFrozenBond.setText(bean.getFrozenCash()+"");
+        mFrozenBond.setText(bean.getFrozenCash() + "");
         mServiceCharge.setText(String.valueOf(bean.getCommission()));
         mFrozenServiceCharge.setText(String.valueOf(bean.getFrozenCommission()));
     }
@@ -112,4 +119,5 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     private void getAccountBasicInfo() {
         mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
+
 }

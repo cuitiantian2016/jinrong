@@ -23,8 +23,6 @@ public class UIBaseEvent {
     public UIBaseEvent() {
     }
 
-    ;
-
     public UIBaseEvent(String code, String message) {
         this.code = code;
         this.message = message;

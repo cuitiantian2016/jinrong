@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B3000000"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dimen_38dp"
+    android:paddingRight="33dp"
+    android:paddingTop="@dimen/dimen_60dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风险率："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="风险率是一种风险控制指标，风险率越低，您的账户就越安全
+计算公式为：风险率=占有保证金／当前权益*100%（占用保证金是您建仓或持仓时所花费的保证金"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="当前权益："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="当前权益是指可用资金及仓单总价值
+计算公式为：当前权益=可用资金+占用保证金"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="可用资金："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="可用资金是指可用于新开仓使用的资金
+计算公式为：可用资金=当前权益-占用保证金"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="总持仓盈亏："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="总持仓盈亏是指您所持仓的当日总盈亏之和"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="平仓盈亏："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="平仓盈亏是指在了结交易时做出平仓动作成交时候的盈亏
+计算公式为：①当日平仓：平仓盈亏=（快速平仓价-建仓价*平仓数量*合约乘量）"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="可取保证金："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="可取保证金是指可以通过银期转账从期货交易账户至银行账户的保证金"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="保证金："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="保证金=占用保证金
+计算公式为：建仓价*手数*合约单位*保证金比例
+例如：螺纹钢买涨2手，建仓价是3820，合约单位是10吨/手，保证金比例是5%。
+即：保证金=3820*2*10*5%"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="冻结保证金："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="冻结保证金是指建仓委托时，被冻结的保证金，冻结资金不可用。若建仓失败，冻结保证金将返回至您的可用资金里；若建仓成功，保证金按实际建仓价收取
+冻结保证金按昨结价计算，计算公式为：冻结保证金=昨结价*手数*合约单位*保证金比例"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="手续费："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="计算公式为：手续费=建仓手续费+平仓手续费"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_27dp"
+                android:text="冻结手续费："
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="冻结手续费是指建仓/平仓委托时，被冻结的手续费，冻结资金不可用。若建仓/平仓失败，冻结手续费将返回至您的可用资金里；若建仓/平仓成功，冻结手续费会将转为建仓/平仓手续费"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_15sp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/iv_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/dimen_10dp"
+            android:src="@mipmap/ic_close_popup" />
+    </RelativeLayout>
+</RelativeLayout>
