@@ -162,7 +162,20 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             } else {
                 startRun();
             }
+            if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN))||TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+                return;
+            }
+            mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+         if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN))||TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+             return;
+         }
+        mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 
     @Override
