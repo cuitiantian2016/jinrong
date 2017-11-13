@@ -18,14 +18,20 @@ import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.HomeIcon;
+import com.honglu.future.ui.main.FragmentFactory;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -111,10 +117,13 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                 public void onClick(View v) {
                     if (homeIcons.title.equals("立即开户")){
                         goOpenAccount();
-                    }else if (homeIcons.title.equals("新手教程")){
-                        //
+                    }else if (homeIcons.title.equals("新手教学")){
+                        Intent intentTeach = new Intent(mContext, WebViewActivity.class);
+                        intentTeach.putExtra("title", "新手学堂");
+                        intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
+                        mContext.startActivity(intentTeach);
                     }else if (homeIcons.title.equals("主力合约")){
-                        //
+                        EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Market));
                     }else if (homeIcons.title.equals("咨询客服")){
                         mContext.startActivity(new Intent(mContext,KeFuActivity.class));
                     }

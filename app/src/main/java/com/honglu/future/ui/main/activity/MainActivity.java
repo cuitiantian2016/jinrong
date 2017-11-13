@@ -3,6 +3,7 @@ package com.honglu.future.ui.main.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -56,6 +57,19 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     RadioGroup mGroup;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
+    private Handler mHandler = new Handler();
+    private Runnable mRunable = new Runnable() {
+        @Override
+        public void run() {
+            if (mChangeTabType == 1) {
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI));
+            } else if (mChangeTabType == 2) {
+                EventBus.getDefault().post(new ChangeTabEvent(1));
+            }
+        }
+    };
+
+    private int mChangeTabType = 0;
 
     @Override
     public int getLayoutId() {
@@ -211,7 +225,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             }
         } else if (event instanceof ChangeTabMainEvent) {
-            EventBus.getDefault().post(new ChangeTabEvent(1));
+            if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
+                mChangeTabType = 2;
+            } else if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Market)) {
+                mChangeTabType = 1;
+                mHandler.postDelayed(mRunable, 300);
+            }
             changeTab(((ChangeTabMainEvent) event).getTab());
             ((RadioButton) findViewById(getCheckIdByStatus(((ChangeTabMainEvent) event).getTab()))).setChecked(true);
         }
