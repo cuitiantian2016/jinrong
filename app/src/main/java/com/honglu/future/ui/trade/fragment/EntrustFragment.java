@@ -13,6 +13,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
@@ -24,6 +26,8 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -90,15 +94,20 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus()) {
-                if (isVisible()) {
-                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
-                    mAccountLoginDialog.show();
+            if (App.getConfig().getLoginStatus()) {
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    if (isVisible()) {
+                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog.show();
+                    }
+                } else {
+                    if (isVisible()) {
+                        getPositionList();
+                    }
                 }
             } else {
-                if (isVisible()) {
-                    getPositionList();
-                }
+                EventBus.getDefault().post(new ChangeTabEvent(0));
+                startActivity(LoginActivity.class);
             }
         }
     }
@@ -179,6 +188,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
+        getPositionList();
     }
 
     @Override

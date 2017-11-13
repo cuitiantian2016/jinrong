@@ -14,6 +14,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
@@ -28,6 +30,8 @@ import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -112,15 +116,20 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus()) {
-                if (isVisible()) {
-                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
-                    mAccountLoginDialog.show();
+            if (App.getConfig().getLoginStatus()) {
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    if (isVisible()) {
+                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog.show();
+                    }
+                } else {
+                    if (isVisible()) {
+                        getClosePositionList();
+                    }
                 }
             } else {
-                if (isVisible()) {
-                    getClosePositionList();
-                }
+                EventBus.getDefault().post(new ChangeTabEvent(0));
+                startActivity(LoginActivity.class);
             }
         }
     }
@@ -135,6 +144,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
+        getClosePositionList();
     }
 
     private void showTipWindow(View view) {

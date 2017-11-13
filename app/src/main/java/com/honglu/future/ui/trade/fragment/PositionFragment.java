@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,8 +15,10 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
+import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.PositionAdapter;
@@ -126,16 +129,21 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!App.getConfig().getAccountLoginStatus()) {
-                if (isVisible()) {
-                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
-                    mAccountLoginDialog.show();
+            if (App.getConfig().getLoginStatus()) {
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    if (isVisible()) {
+                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog.show();
+                    }
+                } else {
+                    if (isVisible()) {
+                        getAccountInfo();
+                        mHandler.postDelayed(mRunnable, 500);
+                    }
                 }
             } else {
-                if (isVisible()) {
-                    getAccountInfo();
-                    mHandler.postDelayed(mRunnable, 500);
-                }
+                EventBus.getDefault().post(new ChangeTabEvent(0));
+                startActivity(LoginActivity.class);
             }
         }
     }
