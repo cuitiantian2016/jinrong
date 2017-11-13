@@ -240,7 +240,6 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                  Log.d("wahcc","====onSwiped=====");
 //                int position = viewHolder.getAdapterPosition();
 //                myAdapter.notifyItemRemoved(position);
 //                datas.remove(position);

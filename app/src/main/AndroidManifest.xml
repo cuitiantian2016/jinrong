@@ -235,6 +235,9 @@
             android:name=".ui.main.guide.GuideActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".ui.usercenter.activity.BindCardActivity"
+            android:screenOrientation="portrait"/>
         <!-- **********************************************模块区分 放在对于的模块中******************************** -->
 
         <meta-data

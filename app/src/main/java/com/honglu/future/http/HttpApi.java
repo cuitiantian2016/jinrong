@@ -29,6 +29,7 @@ import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 import java.util.List;
@@ -274,6 +275,11 @@ public interface HttpApi {
     Observable<BaseResponse<AuditedBean>> getAudited(@Query("appType") int appType,
                                                      @Field("marketCode") String marketCode
             , @Field("versionNumber") String versionNumber);
+
+    //银行卡列表
+    @FormUrlEncoded
+    @POST("http://192.168.90.123:8080/futures-mobile-api/app/future/exchange/transfer/bank/list")
+    Observable<BaseResponse<List<BindCardBean>>> geBindCardData(@Field("pageIndex") String userId, @Field("pageSize") String token);
 
     //修改资金密码接口 测试环境：
 
