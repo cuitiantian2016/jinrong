@@ -124,7 +124,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mBtnPay.setText(getString(R.string.confirm_pay));
             mCheckAsses.setEnabled(true);
         } else {
-            mCheckAsses.setText(getString(R.string.can_bank_asses));
+            String string = SpUtil.getString(Constant.CACHE_USER_ASSES);
+            mCheckAsses.setText(getString(R.string.can_bank_asses,string));
             mTypeAsses.setText(getString(R.string.get_assess));
             mCheckAsses.setTextColor(getResources().getColor(R.color.color_A4A5A6));
             mBtnPay.setText(getString(R.string.confirm_out));

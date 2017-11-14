@@ -3,12 +3,14 @@ package com.honglu.future.ui.trade.presenter;
 import android.util.Log;
 
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.util.SpUtil;
 
 import java.util.List;
 
@@ -79,6 +81,7 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
 
             @Override
             protected void _onNext(AccountInfoBean bean) {
+                SpUtil.putString(Constant.CACHE_USER_ASSES,bean.getWithdrawQuota() + "");
                 mView.getAccountInfoSuccess(bean);
             }
 

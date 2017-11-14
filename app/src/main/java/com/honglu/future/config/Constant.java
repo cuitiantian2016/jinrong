@@ -16,6 +16,7 @@ public class Constant {
 
     public static final String CACHE_USER_INFO = "userinfo";//用户信息
     public static final String CACHE_USER_AVATAR= "useravatar";//用户信息
+    public static final String CACHE_USER_ASSES= "userasses";//用户资产
 
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
     public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号

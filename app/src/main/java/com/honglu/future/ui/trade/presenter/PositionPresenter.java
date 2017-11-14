@@ -110,6 +110,7 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
 
             @Override
             protected void _onNext(AccountInfoBean bean) {
+                SpUtil.putString(Constant.CACHE_USER_ASSES,bean.getWithdrawQuota() + "");
                 mView.getAccountInfoSuccess(bean);
             }
 
