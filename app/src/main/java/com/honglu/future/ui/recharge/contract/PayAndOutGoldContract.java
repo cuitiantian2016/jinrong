@@ -32,6 +32,11 @@ public interface PayAndOutGoldContract{
         void cashout();
 
         /**
+         * 提现失败
+         */
+        void cashoutErr(String msg);
+
+        /**
          * 获取银行资产
          * @param amount
          */

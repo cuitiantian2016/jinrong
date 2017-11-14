@@ -180,7 +180,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             }
             if (!mIsPay){
                 new AlertFragmentDialog.Builder(mActivity)
-                        .setLeftBtnText("取消").setContent(amount, R.color.color_3C383F, R.dimen.dimen_12sp).setTitle("确认提现", R.color.color_3C383F, R.dimen.dimen_8sp)
+                        .setLeftBtnText("取消").setContent(amount, R.color.color_333333, R.dimen.dimen_25sp).setTitle("确认提现", R.color.color_3C383F, R.dimen.dimen_16sp)
                         .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
                     public void dialogRightBtnClick(String string) {
@@ -253,6 +253,17 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     @Override
     public void cashout() {
         ToastUtil.show("提现成功");
+    }
+
+    /**
+     * 提现失败
+     * @param msg
+     */
+    @Override
+    public void cashoutErr(String msg) {
+        new AlertFragmentDialog.Builder(mActivity)
+                .setLeftBtnText("取消").setTitle("资金密码错误", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.fail_tixian)
+                .setRightBtnText("重新提现").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
     }
 
     @Override

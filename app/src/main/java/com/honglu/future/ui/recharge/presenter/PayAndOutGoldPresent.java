@@ -47,6 +47,12 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
                         super._onNext(o);
                         mView.cashout();
                     }
+
+                    @Override
+                    protected void _onError(String message, int code) {
+                        super._onError(message, code);
+                        mView.cashoutErr(message);
+                    }
                 });
     }
 
