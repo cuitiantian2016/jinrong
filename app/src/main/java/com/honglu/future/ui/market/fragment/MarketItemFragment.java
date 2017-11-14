@@ -411,6 +411,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             }else {
                  mList = zlhyMarketList;
             }
+            mAdapter.setStopAnimatorTag();
             mAdapter.refreshData(mTabSelectType, mList);
         }else {
              for (MarketnalysisBean.ListBean listBean : allList){
@@ -421,6 +422,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                       }else {
                           mList = dataList;
                       }
+                      mAdapter.setStopAnimatorTag();
                       mAdapter.refreshData(mTabSelectType, mList);
                       break;
                   }

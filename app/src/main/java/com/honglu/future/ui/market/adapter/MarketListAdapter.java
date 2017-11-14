@@ -113,16 +113,16 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
                 holder.mRedView.setBackgroundResource(R.color.color_FA455B);
                 holder.mRedView.setAlpha(0.3F);
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.mRedView, "alpha", 0f, 1f, 0f);
-                alpha.setDuration(300);
-                alpha.setRepeatCount(1);
+                alpha.setDuration(200);
+                alpha.setRepeatCount(0);
                 alpha.start();
             } else if (lastPrice - mOldPrice < 0) {
                 holder.mGreenView.setVisibility(View.VISIBLE);
                 holder.mRedView.setBackgroundResource(R.color.color_2CC593);
                 holder.mRedView.setAlpha(0.3F);
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(holder.mGreenView, "alpha", 0f, 1f, 0f);
-                alpha.setDuration(300);
-                alpha.setRepeatCount(1);
+                alpha.setDuration(200);
+                alpha.setRepeatCount(0);
                 alpha.start();
             }
         }
