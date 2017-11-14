@@ -76,7 +76,7 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
         TextView zdtfd = (TextView) findViewById(R.id.tv_zdtfd);
         zdtfd.setText(mBean.getPlLimitRate() + "%");
         TextView date = (TextView) findViewById(R.id.tv_date);
-        date.setText(mBean.getStartDelivDate());
+        date.setText(mBean.getExpireDate());
 
     }
 
