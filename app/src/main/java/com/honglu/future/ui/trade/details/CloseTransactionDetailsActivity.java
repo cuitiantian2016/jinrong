@@ -2,7 +2,6 @@ package com.honglu.future.ui.trade.details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,12 +10,10 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.BasePresenter;
-import com.honglu.future.base.IBaseView;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
-import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -26,7 +23,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 平仓详情

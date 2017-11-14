@@ -12,6 +12,7 @@ import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.recharge.bean.RechangeDetailData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
@@ -408,6 +409,70 @@ public interface HttpApi {
     Observable<BaseResponse<List<CloseBuiderBean>>> getCloseBuiderBean(
             @Field("userId") String userId,
             @Field("id") String id,
+            @Field("token") String token);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 入金(充值)接口
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/transfer/recharge")
+    Observable<BaseResponse<JsonNull>> getRechargeAsses(
+            @Field("userId") String userId,
+            @Field("brokerBranchId") String brokerBranchId,
+            @Field("password") String password,
+            @Field("bankId") String bankId,
+            @Field("bankBranchId") String bankBranchId,
+            @Field("bankAccount") String bankAccount,
+            @Field("bankPassword") String bankPassword,
+            @Field("amount") String amount,
+            @Field("token") String token);
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 出金(提现)接口
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/transfer/cashout")
+    Observable<BaseResponse<JsonNull>> getCashoutAsses(
+            @Field("userId") String userId,
+            @Field("brokerBranchId") String brokerBranchId,
+            @Field("password") String password,
+            @Field("bankId") String bankId,
+            @Field("bankBranchId") String bankBranchId,
+            @Field("bankAccount") String bankAccount,
+            @Field("bankPassword") String bankPassword,
+            @Field("amount") String amount,
+            @Field("token") String token);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 出入金明细(充值明细)接口
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/transfer/detail")
+    Observable<BaseResponse<List<RechangeDetailData>>> getDetail(
+            @Field("userId") String userId,
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("token") String token);
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15438333
+     * 银行卡余额查询接口
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/transfer/select/balance")
+    Observable<BaseResponse<String>> getBalanceAsses(
+            @Field("userId") String userId,
+            @Field("brokerBranchId") String brokerBranchId,
+            @Field("password") String password,
+            @Field("bankId") String bankId,
+            @Field("bankBranchId") String bankBranchId,
+            @Field("bankAccount") String bankAccount,
+            @Field("bankPassword") String bankPassword,
             @Field("token") String token);
 
 }

@@ -31,6 +31,8 @@ public class ConfigUtil {
 
     //关于我们
     public static String ABOUT_US = baseH5Url + "aboutUs";
+    //出入金规则
+    public static String SCHOOLDETAILS = baseH5Url + "schoolDetails/14";
 
     //交易规则
     public static String TRADE_RULE = baseH5Url + "rule";

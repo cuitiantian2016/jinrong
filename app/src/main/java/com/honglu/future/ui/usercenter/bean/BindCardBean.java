@@ -11,9 +11,9 @@ public class BindCardBean {
     private String brokerBranchId; //期货公司分支机构编码
     private String bankName; //银行名称
     private String bankIcon;//图片地址
-    private String rechargeFlag;// 充值 1 代表需要 2 代表不需要
-    private String cashoutFlag; //提现 1 代表需要 2 代表不需要
-    private String balanceFlag; //查询 1 代表需要 2 代表不需要
+    public int rechargeFlag;// 充值 1 代表需要 2 代表不需要
+    public int cashoutFlag; //提现 1 代表需要 2 代表不需要
+    public int balanceFlag; //查询 1 代表需要 2 代表不需要
     private String rechargeTime; //充值时间
     private String cashoutTime; //提现时间
 
@@ -65,27 +65,27 @@ public class BindCardBean {
         this.bankIcon = bankIcon;
     }
 
-    public String getRechargeFlag() {
+    public int getRechargeFlag() {
         return rechargeFlag;
     }
 
-    public void setRechargeFlag(String rechargeFlag) {
+    public void setRechargeFlag(int rechargeFlag) {
         this.rechargeFlag = rechargeFlag;
     }
 
-    public String getCashoutFlag() {
+    public int getCashoutFlag() {
         return cashoutFlag;
     }
 
-    public void setCashoutFlag(String cashoutFlag) {
+    public void setCashoutFlag(int cashoutFlag) {
         this.cashoutFlag = cashoutFlag;
     }
 
-    public String getBalanceFlag() {
+    public int getBalanceFlag() {
         return balanceFlag;
     }
 
-    public void setBalanceFlag(String balanceFlag) {
+    public void setBalanceFlag(int balanceFlag) {
         this.balanceFlag = balanceFlag;
     }
 

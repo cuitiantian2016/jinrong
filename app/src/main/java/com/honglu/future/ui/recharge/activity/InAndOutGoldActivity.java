@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.CalendarUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.widget.tab.CommonTabLayout;
@@ -55,6 +57,15 @@ public class InAndOutGoldActivity extends BaseActivity {
     public void loadData() {
         mTitle.setText(mContext.getString(R.string.out_in_gold));
         mTvRight.setText(mContext.getString(R.string.rule_out_in_gold));
+        mTvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentAbout = new Intent(mActivity, WebViewActivity.class);
+                intentAbout.putExtra("url", ConfigUtil.SCHOOLDETAILS);
+                intentAbout.putExtra("title", "出入金规则");
+                startActivity(intentAbout);
+            }
+        });
         mLeftIcon.setVisibility(View.VISIBLE);
         mLeftIcon.setOnClickListener(new View.OnClickListener() {
             @Override

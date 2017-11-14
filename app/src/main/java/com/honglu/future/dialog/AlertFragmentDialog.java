@@ -39,6 +39,7 @@ import com.honglu.future.util.ToastUtil;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Map;
 
 /**
  * 通用提示fragment
@@ -52,10 +53,12 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     TextView mTvCancel;
     TextView mTvAccomplish;
     EditText mEtInput;
+    EditText mEtInputTwo;
     ImageView mImage;
 
     private LeftClickCallBack mLeftCallBack;
     private RightClickCallBack mRightCallBack;
+    private RightClickInputCallBack rightClickInputCallBack;
     private Builder builder;
 
     public void setLeftCallBack(LeftClickCallBack mLeftCallBack) {
@@ -65,6 +68,12 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     public void setRightCallBack(RightClickCallBack mRightCallBack) {
         this.mRightCallBack = mRightCallBack;
     }
+
+    public void setRightClickInputCallBack(RightClickInputCallBack rightCallBack) {
+        this.rightClickInputCallBack = rightCallBack;
+    }
+
+
 
     private static AlertFragmentDialog builder(Builder builder) {
         AlertFragmentDialog dialog = new AlertFragmentDialog();
@@ -96,9 +105,13 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             if (builder.type == Builder.TYPE_NORMAL) {
                 view = inflater.inflate(R.layout.dialog_alert, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
-            } else if (builder.type == Builder.TYPE_INPUT) {
+            } else if (builder.type == Builder.TYPE_INPUT_TWO||builder.type == Builder.TYPE_INPUT_ONE) {
                 view = inflater.inflate(R.layout.dialog_alert_input, container, false);
-                mEtInput = (EditText) view.findViewById(R.id.et_input);
+                mEtInput = (EditText) view.findViewById(R.id.et_input_bank_word);
+                mEtInputTwo = (EditText) view.findViewById(R.id.et_input_amount_word);
+                if (builder.type == Builder.TYPE_INPUT_ONE){
+                    mEtInputTwo.setVisibility(View.GONE);
+                }
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
             } else if (builder.type == Builder.TYPE_IMAGE) {
                 view = inflater.inflate(R.layout.dialog_alert_top_image, container, false);
@@ -131,10 +144,10 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     }
 
     private void setData() {
-        if (builder.type == Builder.TYPE_NORMAL || builder.type == Builder.TYPE_INPUT) {
+        if (builder.type == Builder.TYPE_NORMAL || builder.type == Builder.TYPE_INPUT_ONE||builder.type == Builder.TYPE_INPUT_TWO) {
             mTvTitle.setText(builder.title);
             mTvContent.setText(builder.content);
-            if (builder.type == Builder.TYPE_INPUT) {
+            if (builder.type == Builder.TYPE_INPUT_ONE) {
                 String hint = "请输入";
                 if (!TextUtils.isEmpty(builder.etHintText)) {
                     hint = builder.etHintText;
@@ -189,15 +202,25 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                 break;
             case R.id.tv_accomplish:
                 String inputStr = null;
+                String inputStrTwo = null;
                 if (mRightCallBack != null) {
-                    if (builder.type == Builder.TYPE_INPUT) {
+                    if (builder.type == Builder.TYPE_INPUT_ONE) {
                         inputStr = mEtInput.getText().toString();
                         if (TextUtils.isEmpty(inputStr)) {
                             return;
                         }
-
                     }
                     mRightCallBack.dialogRightBtnClick(inputStr);
+                }
+                if (rightClickInputCallBack!=null){
+                    if (builder.type == Builder.TYPE_INPUT_TWO) {
+                        inputStr = mEtInput.getText().toString();
+                        inputStrTwo = mEtInputTwo.getText().toString();
+                        if (TextUtils.isEmpty(inputStr)||TextUtils.isEmpty(inputStrTwo)) {
+                            return;
+                        }
+                    }
+                    rightClickInputCallBack.dialogRightBtnClick(inputStr,inputStrTwo);
                 }
                 dismiss();
                 break;
@@ -227,18 +250,27 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         void dialogRightBtnClick(String inputString);
     }
 
+    /**
+     * 右边按钮点击回调
+     */
+    public interface RightClickInputCallBack {
+        void dialogRightBtnClick(String inputOne,String inputTwo);
+    }
+
     public static class Builder implements Serializable {
         /**
          * 交易市场的类型
          */
-        public static final int TYPE_INPUT = 1001;//有输入的样式
+        public static final int TYPE_INPUT_ONE = 1001;//有输入的样式
+        public static final int TYPE_INPUT_TWO = 1005;//有两个输入框
         public static final int TYPE_IMAGE = 1002;//弹出窗image 。title
         public static final int TYPE_NORMAL = 1003;//正常弹出窗title, content
         public static final int TYPE_DIY = 1004;//自定义弹框内容
 
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({
-                TYPE_INPUT,
+                TYPE_INPUT_ONE,
+                TYPE_INPUT_TWO,
                 TYPE_IMAGE,
                 TYPE_NORMAL,
                 TYPE_DIY
@@ -260,6 +292,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         private String rightBtnText;
         private LeftClickCallBack leftCallBack;
         private RightClickCallBack rightCallBack;
+        private RightClickInputCallBack rightClickInputCallBack;
         private boolean isCancel = true;
         private int imageRes;
         private int type = TYPE_NORMAL;
@@ -337,6 +370,10 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             this.rightCallBack = rightCallBack;
             return this;
         }
+        public Builder setRightClickInputCallBack(RightClickInputCallBack rightCallBack) {
+            this.rightClickInputCallBack = rightCallBack;
+            return this;
+        }
 
         /**
          * 是否可取消 （默认为不可取消）
@@ -359,6 +396,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             AlertFragmentDialog dialogFragment = AlertFragmentDialog.builder(this);
             dialogFragment.setLeftCallBack(leftCallBack);
             dialogFragment.setRightCallBack(rightCallBack);
+            dialogFragment.setRightClickInputCallBack(rightClickInputCallBack);
             dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.TAG);
             return dialogFragment;
         }

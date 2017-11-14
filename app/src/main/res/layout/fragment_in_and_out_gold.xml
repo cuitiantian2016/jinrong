@@ -15,52 +15,12 @@
         android:paddingLeft="@dimen/dimen_10dp"
         android:paddingBottom="@dimen/dimen_20dp"
         android:layout_height="match_parent">
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_card"
-            android:paddingTop="@dimen/dimen_20dp"
-            android:paddingBottom="@dimen/dimen_20dp"
-            android:paddingLeft="@dimen/dimen_20dp"
-            android:paddingRight="15dp"
-            android:background="@drawable/press_style"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <ImageView
-            android:layout_centerInParent="true"
-            android:id="@+id/icon_bank_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="@dimen/dimen_14dp"
-            android:src="@mipmap/bank_card"/>
-            <LinearLayout
-                android:layout_toRightOf="@+id/icon_bank_card"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_bank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#86A2B0"
-                    android:textSize="14sp"
-                    android:text="中国银行"/>
-                <TextView
-                    android:layout_marginTop="@dimen/dimen_6dp"
-                    android:id="@+id/tv_bank_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/color_333333"
-                    android:text="621 **** **** 7715"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_right_row"/>
-        </RelativeLayout>
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_tip"
             android:paddingTop="@dimen/dimen_10dp"
@@ -235,11 +195,14 @@
             android:textSize="@dimen/dimen_12sp"
             android:text="客服电话："/>
        <TextView
+           android:paddingBottom="@dimen/dimen_2dp"
+           android:paddingTop="@dimen/dimen_2dp"
+           android:id="@+id/tv_phone_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#008EFF"
             android:textSize="@dimen/dimen_12sp"
-            android:text="400-688-8505"/>
+            android:text="4001150707"/>
         </LinearLayout>
         <TextView
             android:layout_marginTop="@dimen/dimen_2dp"

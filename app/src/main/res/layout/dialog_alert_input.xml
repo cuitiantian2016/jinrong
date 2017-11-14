@@ -33,7 +33,7 @@
         android:textSize="12sp" />
 
     <EditText
-        android:id="@+id/et_input"
+        android:id="@+id/et_input_bank_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_20dp"
@@ -42,9 +42,26 @@
         android:layout_marginTop="@dimen/dimen_18dp"
         android:background="@null"
         android:gravity="center"
+        android:textColorHint="#A4A5A6"
+        android:hint="请输入资金密码"
+        android:inputType="textPassword"
         android:textColor="@color/color_333333"
         android:textSize="20sp" />
-
+    <EditText
+        android:id="@+id/et_input_amount_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_18dp"
+        android:background="@null"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        android:textColorHint="#A4A5A6"
+        android:hint="请输入银行卡密码"
+        android:textColor="@color/color_333333"
+        android:textSize="20sp" />
     <View style="@style/line_base_horizontal" />
 
     <LinearLayout
