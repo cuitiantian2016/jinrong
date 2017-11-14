@@ -100,11 +100,11 @@ public class KMinuteView extends KMinuteTouchView {
             startTimeStr = START_TIME_STR;
         }
 
-        if (startTimeStr.equals("09:00")) {
-            middleTimeStr = Constant.CLOSE_TIME_BEGIN_NINE;
-        } else if (startTimeStr.equals("21:00")) {
-            middleTimeStr = Constant.CLOSE_TIME_COMMON;
-        }
+//        if (startTimeStr.equals("09:00")) {
+//            middleTimeStr = Constant.CLOSE_TIME_BEGIN_NINE;
+//        } else if (startTimeStr.equals("21:00")) {
+//            middleTimeStr = Constant.CLOSE_TIME_COMMON;
+//        }
 
 
         if (isEmpty(middleTimeStr)) {
@@ -277,7 +277,7 @@ public class KMinuteView extends KMinuteTouchView {
                 String[] middleTimeArray = middleTimeStr.split(",");
                 for (int i = 0; i < middleTimeArray.length; i++) {
                     //毫秒数
-                    String str[] = middleTimeArray[i].split("@");
+                    String str[] = middleTimeArray[i].split("\\" + SPLIT_SCHME);
                     long tempMiddleStart = KDateUtil.getDate(currentDay + " " + str[0], "yyyy-MM-dd HH:mm").getTime();
                     long tempMiddleStop = KDateUtil.getDate(currentDay + " " + str[1], "yyyy-MM-dd HH:mm").getTime();
                     if (tempMiddleStop - tempMiddleStart <= 0) {
@@ -320,7 +320,7 @@ public class KMinuteView extends KMinuteTouchView {
                 //11:30/13:00
                 if (middleTimeStr.contains(SPLIT_SCHME)) {
                     //毫秒数
-                    String str[] = middleTimeStr.split(SPLIT_SCHME);
+                    String str[] = middleTimeStr.split("\\" + SPLIT_SCHME);
                     try {
                         middleStart = KDateUtil.getDate(currentDay + " " + str[0], "yyyy-MM-dd HH:mm").getTime();
                         middleStop = KDateUtil.getDate(currentDay + " " + str[1], "yyyy-MM-dd HH:mm").getTime();

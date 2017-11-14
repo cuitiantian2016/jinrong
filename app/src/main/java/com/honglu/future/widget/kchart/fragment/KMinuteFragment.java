@@ -221,7 +221,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
         //开盘休盘停盘时间段
         String startTime = bean.getStartTime();
         String endTime = bean.getEndTime();
-        String middleTime = bean.getMiddleTime();
+        String closeTime = bean.getCloseTime();
         double totalVol = Double.valueOf(bean.getTotalVolume());
         long reqTime = bean.getReqTime();
         double sum = 0;
@@ -239,7 +239,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
 
             entity.setStartTime(startTime);
             entity.setEndTime(endTime);
-            entity.setMiddleTime(middleTime);
+            entity.setMiddleTime(closeTime);
             entity.setTotalVol(totalVol);
             entity.setReqTime(reqTime);
 
