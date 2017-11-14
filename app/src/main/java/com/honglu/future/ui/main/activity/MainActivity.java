@@ -33,6 +33,7 @@ import com.honglu.future.ui.main.presenter.ActivityPresenter;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.trade.fragment.TradeFragment;
+import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
@@ -353,7 +354,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     isForced,
                     title,
                     bean.getChangeDesc(),
-                    Integer.valueOf(bean.getAndVersion()),
+                    AppUtils.getVersionCode(),
                     bean.getVersionNumber(),
                     bean.getDownloadUrl(),
                     bean.getMd5());
