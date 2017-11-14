@@ -59,6 +59,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     private String mPushCode;
     private String mTabSelectType;
     private int mPosition = 0;
+    private int mHttpState = 0; //0  1中  2 成功
 
     public static MarketFragment marketFragment;
     private MarketItemFragment mZxFragment;
@@ -98,6 +99,11 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     }
 
     @Override
+    public void initHttpState(int httpState) {
+        this.mHttpState = httpState;
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         MPushUtil.pauseRequest();
@@ -107,6 +113,10 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onResume() {
         super.onResume();
         requestMarket(mPushCode);
+        if (mHttpState == 0 && mPresenter !=null){
+            mHttpState = 1;
+            mPresenter.getMarketData();
+        }
     }
 
     @Override
@@ -116,6 +126,10 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             MPushUtil.pauseRequest();
         } else {
             requestMarket(mPushCode);
+            if (mHttpState == 0 && mPresenter !=null){
+                mHttpState = 1;
+                mPresenter.getMarketData();
+            }
         }
     }
 
@@ -214,7 +228,10 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                 }
             }
         });
-        mPresenter.getMarketData();
+        if (mHttpState == 0 && mPresenter !=null){
+            mHttpState = 1;
+            mPresenter.getMarketData();
+        }
     }
 
     /**
@@ -224,7 +241,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
      */
     @Override
     public void getMarketData(MarketnalysisBean alysisBean) {
-        if (alysisBean == null || alysisBean.getList() == null) {
+        if (mTabList  !=null && mTabList.size() > 0){
             return;
         }
         List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();

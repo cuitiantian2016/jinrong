@@ -13,6 +13,7 @@ public interface MarketContract {
 
     interface View extends BaseView {
           void getMarketData(MarketnalysisBean alysisBean);
+          void initHttpState(int httpState);
     }
 
     interface Presenter{
