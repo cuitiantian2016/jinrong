@@ -4,51 +4,98 @@ import java.io.Serializable;
 
 public class UpdateBean implements Serializable {
 	/**
-	 * 
+	 * oldVersionNumber : 1
+	 * changeProperties :
+	 * changeDesc :
+	 * popup : 0
+	 * downloadUrl :
+	 * andVersion :
+	 * changeLog :
+	 * versionNumber :
 	 */
-	private static final long serialVersionUID = -1509609039656752500L;
-	
-	private int has_upgrade;//是否有升级
-	private int is_force_upgrade;//是否强制升级
-	private String new_version;//新版本号
-	private String new_features;//新版本更新说明
-	private String ard_url;//新版本下载地址
-	private String ard_size;//新版本更新包大小
-	
-	public int getHas_upgrade() {
-		return has_upgrade;
+
+	private String oldVersionNumber;
+	private String changeProperties;
+	private String changeDesc;
+	private String popup;
+	private String downloadUrl;
+	private String andVersion;
+	private String changeLog;
+	private String versionNumber;
+	private String md5;
+
+	// 是否静默下载：有新版本时不提示直接下载
+	public boolean isSilent = false;
+
+	public String getOldVersionNumber() {
+		return oldVersionNumber;
 	}
-	public void setHas_upgrade(int has_upgrade) {
-		this.has_upgrade = has_upgrade;
+
+	public void setOldVersionNumber(String oldVersionNumber) {
+		this.oldVersionNumber = oldVersionNumber;
 	}
-	public int getIs_force_upgrade() {
-		return is_force_upgrade;
+
+	public String getChangeProperties() {
+		return changeProperties;
 	}
-	public void setIs_force_upgrade(int is_force_upgrade) {
-		this.is_force_upgrade = is_force_upgrade;
+
+	public void setChangeProperties(String changeProperties) {
+		this.changeProperties = changeProperties;
 	}
-	public String getNew_version() {
-		return new_version;
+
+	public String getChangeDesc() {
+		return changeDesc;
 	}
-	public void setNew_version(String new_version) {
-		this.new_version = new_version;
+
+	public void setChangeDesc(String changeDesc) {
+		this.changeDesc = changeDesc;
 	}
-	public String getNew_features() {
-		return new_features;
+
+	public String getPopup() {
+		return popup;
 	}
-	public void setNew_features(String new_features) {
-		this.new_features = new_features;
+
+	public void setPopup(String popup) {
+		this.popup = popup;
 	}
-	public String getArd_url() {
-		return ard_url;
+
+	public String getDownloadUrl() {
+		return downloadUrl;
 	}
-	public void setArd_url(String ard_url) {
-		this.ard_url = ard_url;
+
+	public void setDownloadUrl(String downloadUrl) {
+		this.downloadUrl = downloadUrl;
 	}
-	public String getArd_size() {
-		return ard_size;
+
+	public String getAndVersion() {
+		return andVersion;
 	}
-	public void setArd_size(String ard_size) {
-		this.ard_size = ard_size;
+
+	public void setAndVersion(String andVersion) {
+		this.andVersion = andVersion;
+	}
+
+	public String getChangeLog() {
+		return changeLog;
+	}
+
+	public void setChangeLog(String changeLog) {
+		this.changeLog = changeLog;
+	}
+
+	public String getVersionNumber() {
+		return versionNumber;
+	}
+
+	public void setVersionNumber(String versionNumber) {
+		this.versionNumber = versionNumber;
+	}
+
+	public String getMd5() {
+		return md5;
+	}
+
+	public void setMd5(String md5) {
+		this.md5 = md5;
 	}
 }

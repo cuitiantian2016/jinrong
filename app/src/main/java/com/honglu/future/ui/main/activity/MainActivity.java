@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         mGroup.setOnCheckedChangeListener(changeListener);
         check(FragmentFactory.FragmentStatus.Home);
         //mPresenter.loadActivity(); //第一期不需要弹出活动
+        mPresenter.getUpdateVersion();
     }
 
     public void check(FragmentFactory.FragmentStatus status) {

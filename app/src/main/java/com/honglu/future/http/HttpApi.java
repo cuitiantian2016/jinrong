@@ -2,6 +2,7 @@ package com.honglu.future.http;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
+import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
@@ -111,8 +112,8 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/user/login/out")
     Observable<BaseResponse> accountLogout(@Field("userId") String userId,
-                                                             @Field("token") String token,
-                                                             @Field("company") String company);
+                                           @Field("token") String token,
+                                           @Field("company") String company);
 
     //获取用户结算单
     @FormUrlEncoded
@@ -230,7 +231,14 @@ public interface HttpApi {
 
     //查询商品行情详情
     @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
-    Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Query(value = "codes" ,encoded = true) String codes);
+    Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Query(value = "codes", encoded = true) String codes);
+
+    //app版本更新查询接口
+    @FormUrlEncoded
+    @POST("futures-mobile-api/appVer/queryAppVersion")
+    Observable<BaseResponse<UpdateBean>> getUpdateVersion(@Field("appType") String appType,
+                                                          @Field("versionNumber") String versionNumber);
+
 
     /*******************************    上传图片   *****************************************/
     /*******************************
@@ -312,6 +320,7 @@ public interface HttpApi {
                                                       @Field("newPassword") String newPassword,
                                                       @Field("flag") int flag,
                                                       @Field("userId") String userId);
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15533135
      *
@@ -329,12 +338,13 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/information/informationPraise")
     Observable<BaseResponse<List<String>>> praiseMessage(@Field("informationId") String informationId,
-                                                                @Field("userId") String userID);
+                                                         @Field("userId") String userID);
 
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 历史订单订单统计
+     *
      * @return
      */
     @FormUrlEncoded
@@ -348,6 +358,7 @@ public interface HttpApi {
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 历史已撤单列表
+     *
      * @return
      */
     @FormUrlEncoded
@@ -357,9 +368,11 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("token") String token,
             @Field("dayEnd") String dayEnd);
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 历史订单平仓列表
+     *
      * @return
      */
     @FormUrlEncoded
@@ -373,6 +386,7 @@ public interface HttpApi {
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 历史订单平仓列表
+     *
      * @return
      */
     @FormUrlEncoded
@@ -382,9 +396,11 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("token") String token,
             @Field("dayEnd") String dayEnd);
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 平仓详情
+     *
      * @return
      */
     @FormUrlEncoded

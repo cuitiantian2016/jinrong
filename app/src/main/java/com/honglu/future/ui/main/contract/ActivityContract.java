@@ -14,5 +14,6 @@ public interface ActivityContract {
     }
     interface Presenter{
         void loadActivity();
+        void getUpdateVersion();
     }
 }
