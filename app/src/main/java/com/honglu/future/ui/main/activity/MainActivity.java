@@ -17,6 +17,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.app.JPushManager;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.ActivityFragmentDialog;
 import com.honglu.future.events.ChangeTabEvent;
@@ -336,6 +337,26 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 ActivityFragmentDialog.newInstance(result.getTcImage(), result.getTcUrl())
                         .show(getSupportFragmentManager(), ActivityFragmentDialog.TAG);
             }
+        }
+    }
+
+    @Override
+    public void getUpdateVersionSuccess(UpdateBean bean) {
+        boolean isForced = false;
+        if ("1".equals(bean.getChangeProperties())) {
+            isForced = true;
+        }
+        if ("1".equals(bean.getPopup())) {
+            String title = "当前版本:" + bean.getOldVersionNumber() + ",最新版本:" + bean.getVersionNumber();
+            ezy.boost.update.UpdateHelper.getInstance().update(
+                    this,
+                    isForced,
+                    title,
+                    bean.getChangeDesc(),
+                    Integer.valueOf(bean.getAndVersion()),
+                    bean.getVersionNumber(),
+                    bean.getDownloadUrl(),
+                    bean.getMd5());
         }
     }
 }

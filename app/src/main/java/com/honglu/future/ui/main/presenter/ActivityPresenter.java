@@ -35,31 +35,7 @@ public class ActivityPresenter extends BasePresenter<ActivityContract.View> impl
                 if (bean == null) {
                     return;
                 }
-                    /*原版本
-                    //有新版本
-                    if ("1".equals(data.getPopup())) {
-                        showUpdate(response);
-                    } else {
-                        mView.showToast("已经是最新版本了");
-                    }*/
-                boolean isForced = false;
-                if ("1".equals(bean.getChangeProperties())) {
-                    isForced = true;
-                }
-                if ("1".equals(bean.getPopup())) {
-                    String title = "当前版本:" + bean.getOldVersionNumber() + ",最新版本:" + bean.getVersionNumber();
-                    ezy.boost.update.UpdateHelper.getInstance().update(
-                            mContext,
-                            isForced,
-                            title,
-                            bean.getChangeDesc(),
-                            Integer.valueOf(bean.getAndVersion()),
-                            bean.getVersionNumber(),
-                            bean.getDownloadUrl(),
-                            bean.getMd5());
-                } else {
-                    //mView.showLxLogin();
-                }
+                mView.getUpdateVersionSuccess(bean);
         }
 
         @Override
