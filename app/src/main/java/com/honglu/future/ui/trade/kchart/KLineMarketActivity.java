@@ -15,12 +15,14 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
+import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.KChartFragmentAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
@@ -121,6 +123,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private int mPosition;
     private List<Fragment> fragments;
     private KLinePopupWin mKLinePopupWin;
+    private ProductRuleDialog mProductRuleDialog;
 
     @Override
     public int getLayoutId() {
@@ -145,6 +148,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         }
         mKLinePopupWin = new KLinePopupWin(this);
         mKLinePopupWin.setOnPopItemClickListener(this);
+        mPresenter.getProductDetail(mCode);
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
     }
 
@@ -322,8 +326,13 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         initListener();
     }
 
+    @Override
+    public void getProductDetailSuccess(ProductListBean bean) {
+        mProductRuleDialog = new ProductRuleDialog(this,bean);
+    }
+
     @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen,
-            R.id.iv_show_popup})
+            R.id.iv_show_popup, R.id.show_tip})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pull:
@@ -372,6 +381,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.iv_show_popup:
                 mKLinePopupWin.showPopupWind(v);
+                break;
+            case R.id.show_tip:
+                mProductRuleDialog.show();
                 break;
         }
     }

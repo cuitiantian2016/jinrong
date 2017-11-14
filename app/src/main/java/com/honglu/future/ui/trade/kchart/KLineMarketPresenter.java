@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.kchart;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
 
 /**
@@ -21,6 +22,31 @@ public class KLineMarketPresenter extends BasePresenter<KLineMarketContract.View
             @Override
             protected void _onNext(RealTimeBean bean) {
                 mView.getProductRealTimeSuccess(bean);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void getProductDetail(String instrumentId) {
+        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("获取产品详情中...");
+            }
+
+            @Override
+            protected void _onNext(ProductListBean bean) {
+                mView.getProductDetailSuccess(bean);
             }
 
             @Override
