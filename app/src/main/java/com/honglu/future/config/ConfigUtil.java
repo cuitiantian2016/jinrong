@@ -43,6 +43,12 @@ public class ConfigUtil {
     //绑卡教程
     public static String BIND_CARD_TEACH = baseH5Url + "addCard";
 
+    //期货术语
+    public static String FUTURE_SHUYU = baseH5Url + "jargon/deal";
+
+    //资金术语
+    public static String ZIJIN_SHUYU = baseH5Url + "jargon/fund";
+
 
     //爬取支付宝数据js
     public String GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";

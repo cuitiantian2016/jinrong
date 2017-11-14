@@ -28,6 +28,7 @@ import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
 import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
+import com.honglu.future.widget.popupwind.KLinePopupWin;
 import com.honglu.future.widget.tab.OnTabSelectListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,7 +43,7 @@ import butterknife.OnClick;
  * Created by zq on 2017/11/7.
  */
 
-public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View {
+public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View, KLinePopupWin.OnPopItemClickListener {
     @BindView(R.id.tablayout)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewpager)
@@ -103,6 +104,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     LinearLayout mLlBottomTabs;
     @BindView(R.id.iv_full_screen)
     ImageView mIvFull;
+    @BindView(R.id.iv_show_popup)
+    ImageView mIvShowPopup;
     private String mExcode;
     private String mCode;
     private String mClosed;
@@ -117,6 +120,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private AccountLoginDialog mAccountLoginDialog;
     private int mPosition;
     private List<Fragment> fragments;
+    private KLinePopupWin mKLinePopupWin;
 
     @Override
     public int getLayoutId() {
@@ -139,7 +143,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (isClosed.equals("2")) {
             mTvClosed.setVisibility(View.VISIBLE);
         }
-
+        mKLinePopupWin = new KLinePopupWin(this);
+        mKLinePopupWin.setOnPopItemClickListener(this);
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
     }
 
@@ -317,7 +322,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         initListener();
     }
 
-    @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen})
+    @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen,
+            R.id.iv_show_popup})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pull:
@@ -364,6 +370,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             case R.id.iv_full_screen:
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
+            case R.id.iv_show_popup:
+                mKLinePopupWin.showPopupWind(v);
+                break;
         }
     }
 
@@ -389,5 +398,16 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onFullScreeClick() {
+        //横屏竖屏切换
+        if (Configuration.ORIENTATION_LANDSCAPE == getResources()
+                .getConfiguration().orientation) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
     }
 }
