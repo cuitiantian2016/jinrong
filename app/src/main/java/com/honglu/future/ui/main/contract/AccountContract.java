@@ -1,9 +1,11 @@
 package com.honglu.future.ui.main.contract;
 
+import android.content.Context;
 import android.widget.TextView;
 
 import com.honglu.future.base.BaseView;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.CloseBuiderBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 
@@ -18,6 +20,6 @@ public interface AccountContract {
         void loginSuccess(AccountBean bean);
     }
     interface Presenter{
-        void login(String account, String password, String userId, String company, TextView tv_pass);
+        void login(String account, String password, String userId, String company, TextView tv_pass, Context mContext);
     }
 }

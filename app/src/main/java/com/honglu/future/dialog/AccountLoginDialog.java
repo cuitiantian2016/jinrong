@@ -85,7 +85,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 tipDialog.show();
                 break;
             case R.id.btn_login_account:
-                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU",mPwd);
+                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU",mPwd,mContext);
                 break;
             case R.id.btn_open_account:
                 goOpenAccount();
