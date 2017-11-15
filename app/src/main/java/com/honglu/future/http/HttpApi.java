@@ -216,22 +216,22 @@ public interface HttpApi {
 
     //行情
     //http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main?deviceType=2
-    @POST("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main")
+    @POST("futures-data-mobile/quotation/realTime/main")
     Observable<BaseResponse<MarketnalysisBean>> getMarketData();
 
     //获取k线行情
-    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/kChart")
+    @GET("futures-data-mobile/quotation/kChart")
     Observable<BaseResponse<KLineBean>> getKLineData(@Query("excode") String excode,
                                                      @Query("code") String code,
                                                      @Query("type") String type);
 
     //获取分时图数据
-    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/tickChart")
+    @GET("futures-data-mobile/quotation/tickChart")
     Observable<BaseResponse<TickChartBean>> getTickData(@Query("excode") String excode,
                                                         @Query("code") String code);
 
     //查询商品行情详情
-    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
+    @GET("futures-data-mobile/quotation/realTime")
     Observable<BaseResponse<RealTimeBean>> getProductRealTime(@Query(value = "codes", encoded = true) String codes);
 
     //app版本更新查询接口
@@ -261,7 +261,7 @@ public interface HttpApi {
                                                                     @Query("userId") String userId);
 
     //首页市场行情List
-    @GET("http://192.168.85.126:8083/futures-data-mobile/quotation/realTime")
+    @GET("futures-data-mobile/quotation/realTime")
     Observable<BaseResponse<MarketData>> getMarketCodesData(
             @Query(value = "codes", encoded = true) String codes, @Query("deviceType") int deviceType
     );
