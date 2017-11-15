@@ -52,7 +52,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
  * Created by zq on 2017/10/24.
  */
 
-public class App extends Application implements Application.ActivityLifecycleCallbacks{
+public class App extends Application implements Application.ActivityLifecycleCallbacks {
     public static App mApp;
     public Activity mActivity;
 
@@ -88,12 +88,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     /**
      * 开始请求
+     *
      * @param userId 用户的userId
      */
     public void startPush(String userId) {
         //公钥有服务端提供和私钥对应
         ClientConfig cc = ClientConfig.build()
-                .setAllotServer("http://192.168.85.126:9999")
+                .setAllotServer(ConfigUtil.baseUrl)
                 .setOsName("android")
                 .setClientVersion(BuildConfig.VERSION_NAME)
                 .setLogger(new MyLog())
@@ -174,14 +175,16 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BaseEvent event) {
         event.setApplicationContext(getContext());
-        if (event instanceof LoginEvent){//登录
-            MPush.I.bindAccount(SpUtil.getString(Constant.CACHE_TAG_UID),"user");}
-        if (event instanceof LogoutEvent){//登出
+        if (event instanceof LoginEvent) {//登录
+            MPush.I.bindAccount(SpUtil.getString(Constant.CACHE_TAG_UID), "user");
+        }
+        if (event instanceof LogoutEvent) {//登出
             MPush.I.unbindAccount();
         }
         EventController.getInstance().handleMessage(event);
@@ -240,8 +243,8 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     /**
      * 获取进程号对应的进程名
-     * @param pid
-     *         进程号
+     *
+     * @param pid 进程号
      * @return 进程名
      */
     private static String getProcessName(int pid) {
@@ -266,6 +269,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         }
         return null;
     }
+
     public static boolean isBack = false;
     private int activityNum = 0;
 
@@ -277,7 +281,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onActivityStarted(Activity activity) {
         mActivity = activity;
-        Log.d("XXX","START");
+        Log.d("XXX", "START");
         ++activityNum;
         isBack = false;
         startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
@@ -296,7 +300,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onActivityStopped(Activity activity) {
         --activityNum;
-        if (activityNum<=0){
+        if (activityNum <= 0) {
             isBack = true;
             MPush.I.stopPush();
         }
@@ -315,10 +319,12 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     //当前渠道下的当前版本是否通过审核
     public boolean mIsAudited = true;
-    public void setAudited(boolean isAudited){
+
+    public void setAudited(boolean isAudited) {
         this.mIsAudited = isAudited;
     }
-    public boolean getAudited(){
+
+    public boolean getAudited() {
         return mIsAudited;
     }
 }

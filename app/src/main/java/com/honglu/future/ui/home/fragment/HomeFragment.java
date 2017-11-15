@@ -23,43 +23,50 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+
 /**********
  * 首页
  */
-public class HomeFragment extends BaseFragment{
+public class HomeFragment extends BaseFragment {
     private static final String TAG = "HomeFragment";
     @BindView(R.id.home_scroll_view)
     LinearLayout mScrollView; //跟布局
     @BindView(R.id.home_smart_view)
     SmartRefreshLayout mSmartRefreshView; //刷新
     public static HomeFragment homeFragment;
+
     public static HomeFragment getInstance() {
         if (homeFragment == null) {
             homeFragment = new HomeFragment();
         }
         return homeFragment;
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home_layout;
     }
+
     @Override
     public void initPresenter() {
     }
+
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
         initView();
     }
+
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ReceiverMarketMessageEvent event) {
-        if (homeMarketPriceViewModel!=null
-                &&MPushUtil.requestCodes.equals(homeMarketPriceViewModel.productList)
-                &&!(isHidden())){
+        if (homeMarketPriceViewModel != null
+                && MPushUtil.requestCodes.equals(homeMarketPriceViewModel.productList)
+                && !(isHidden())) {
             MarketData.MarketDataBean dataBean = new MarketData.MarketDataBean();
             dataBean.instrumentID = event.marketMessage.getInstrumentID();
             dataBean.change = event.marketMessage.getChange();
@@ -68,50 +75,57 @@ public class HomeFragment extends BaseFragment{
             homeMarketPriceViewModel.refreshPrice(dataBean);
         }
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         Log.d(TAG, "onHiddenChanged: ");
-        if (hidden){
+        if (hidden) {
             MPushUtil.pauseRequest();
-        }else {
-            if (homeMarketPriceViewModel!=null){
+        } else {
+            if (homeMarketPriceViewModel != null) {
                 homeMarketPriceViewModel.requestMarket();
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        if (homeMarketPriceViewModel!=null){
+        if (homeMarketPriceViewModel != null) {
             homeMarketPriceViewModel.requestMarket();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
         MPushUtil.pauseRequest();
     }
+
     /*******
      * 刷新完成
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(HomeNotifyRefreshEvent event) {
-        if (event.isLoadMore()){
+        if (event.isLoadMore()) {
             mSmartRefreshView.finishLoadmore();
-        }else if (event.isRefresh()){
+        } else if (event.isRefresh()) {
             mSmartRefreshView.finishRefresh();
         }
     }
+
     private HomeBottomTabViewModel homeBottomTabViewModel;
     private HomeMarketPriceViewModel homeMarketPriceViewModel;
+
     private void initView() {
         BannerViewModel bannerViewModel = new BannerViewModel(getContext());
         homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
         HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
-        homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(),mSmartRefreshView);
+        homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(), mSmartRefreshView);
         mScrollView.addView(bannerViewModel.mView);//添加banner
         mScrollView.addView(homeMarketPriceViewModel.mView);//添加banner
         mScrollView.addView(horizontalIconViewModel.mView);//添加banner
@@ -129,6 +143,7 @@ public class HomeFragment extends BaseFragment{
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
