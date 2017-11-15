@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.kchart;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,19 +14,23 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.ProductRuleDialog;
+import com.honglu.future.dialog.klineposition.KLinePositionDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.KChartFragmentAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
@@ -37,6 +42,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -108,6 +114,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     ImageView mIvFull;
     @BindView(R.id.iv_show_popup)
     ImageView mIvShowPopup;
+    @BindView(R.id.tv_hold_num)
+    TextView mHoldNum;
+
     private String mExcode;
     private String mCode;
     private String mClosed;
@@ -124,6 +133,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private List<Fragment> fragments;
     private KLinePopupWin mKLinePopupWin;
     private ProductRuleDialog mProductRuleDialog;
+    private KLinePositionDialog mKLinePositionDialog;
+    private List<HoldPositionBean> mChiCangList;//持仓列表
 
     @Override
     public int getLayoutId() {
@@ -146,10 +157,13 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (isClosed.equals("2")) {
             mTvClosed.setVisibility(View.VISIBLE);
         }
+        mKLinePositionDialog = new KLinePositionDialog(KLineMarketActivity.this);
         mKLinePopupWin = new KLinePopupWin(this);
         mKLinePopupWin.setOnPopItemClickListener(this);
         mPresenter.getProductDetail(mCode);
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
+
+        getPositionList();
     }
 
     @Override
@@ -326,6 +340,20 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         initListener();
     }
 
+    private void getPositionList() {
+        mPresenter.getHoldPositionList(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
+    }
+
+    //持仓列表
+    @Override
+    public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
+        if (list !=null || list.size() <= 0 || mHoldNum ==null){
+            return;
+        }
+        this.mChiCangList = getList(mCode,list);
+        mHoldNum.setText(getPingCangNum(mChiCangList));
+    }
+
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         mProductRuleDialog = new ProductRuleDialog(this,bean);
@@ -370,8 +398,17 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.hold_position:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
-                    finish();
+                    //EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                    //finish();
+                    String mName = mTvName.getText().toString();
+                    if (!TextUtils.isEmpty(mName)){
+                        if (mChiCangList !=null && mChiCangList.size() > 0){
+                            boolean mClosed = "2".equals(isClosed) ? true : false;
+                            mKLinePositionDialog.setPositionData(mClosed,mName,mChiCangList).showDialog();
+                        }else {
+                            getPositionList();
+                        }
+                    }
                 } else {
                     showAccountLoginDialog();
                 }
@@ -421,5 +458,30 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+    }
+
+
+    //过滤数据 获取当前产品list
+    private List<HoldPositionBean> getList(String instrumentId,List<HoldPositionBean> list){
+        if (TextUtils.isEmpty(instrumentId) || list == null || list.size() <=0){ return null;}
+        ListIterator<HoldPositionBean> iterator = list.listIterator();
+        while (iterator.hasNext()) {
+            HoldPositionBean bean = iterator.next();
+            if (!instrumentId.equals(bean.getInstrumentId())) {
+                iterator.remove();
+            }
+        }
+        return list;
+    }
+
+    //获取当前产品持仓数量
+    private int getPingCangNum(List<HoldPositionBean> list){
+        int mPingCangNum = 0;
+        if (list !=null && list.size() > 0){
+            for (HoldPositionBean bean : list){
+                mPingCangNum += bean.getPosition();
+            }
+        }
+        return mPingCangNum;
     }
 }

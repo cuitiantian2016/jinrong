@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/amount_white_top_radius_bg">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_16dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="平仓-玉米1801"
+                android:textColor="@color/color_333333"
+                android:drawableRight="@mipmap/ic_trade_tip"
+                android:drawablePadding="@dimen/dimen_10dp"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_close_fork" />
+        </RelativeLayout>
+
+          <View
+              style="@style/line_base_horizontal"
+              android:layout_marginTop="@dimen/dimen_16dp"
+              android:layout_marginBottom="@dimen/dimen_16dp"/>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:layout_marginLeft="@dimen/dimen_80dp"
+              android:layout_marginRight="@dimen/dimen_20dp">
+
+               <TextView
+                   android:layout_width="@dimen/dimen_70dp"
+                   android:layout_height="wrap_content"
+                   android:textSize="@dimen/dimen_14sp"
+                   android:textColor="@color/color_B1B1B3"
+                   android:text="方向/手数"/>
+
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_14sp"
+                  android:layout_weight="1"
+                  android:gravity="center_horizontal"
+                  android:textColor="@color/color_B1B1B3"
+                  android:text="持仓均价"/>
+
+              <TextView
+                  android:layout_width="@dimen/dimen_70dp"
+                  android:layout_height="wrap_content"
+                  android:gravity="right"
+                  android:textSize="@dimen/dimen_14sp"
+                  android:textColor="@color/color_B1B1B3"
+                  android:text="持仓盈亏"/>
+
+          </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+           <View  style="@style/line_base_horizontal"
+               android:layout_marginLeft="@dimen/dimen_20dp"/>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/dimen_40dp"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_12sp"
+                  android:textColor="@color/color_B1B1B3"
+                  android:text="平仓盈亏"/>
+
+              <TextView
+                  android:id="@+id/tv_ykprice"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/dimen_18sp"
+                  android:layout_weight="1"
+                  android:text="￥15.00"/>
+
+               <TextView
+                   android:id="@+id/tv_pingcang"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="@dimen/dimen_18sp"
+                   android:paddingTop="@dimen/dimen_15dp"
+                   android:paddingBottom="@dimen/dimen_15dp"
+                   android:paddingLeft="@dimen/dimen_15dp"
+                   android:paddingRight="@dimen/dimen_15dp"
+                   android:textColor="@color/color_white"
+                   android:text="休市中"/>
+          </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
