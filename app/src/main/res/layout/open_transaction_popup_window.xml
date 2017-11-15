@@ -198,11 +198,12 @@
 
 
                 <TextView
+                    android:id="@+id/tv_limit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginTop="@dimen/dimen_8dp"
-                    android:text="≥1593 跌停价 且 ≤1759 涨停价"
+                    android:text=""
                     android:textColor="@color/color_A4A5A6"
                     android:textSize="@dimen/dimen_12sp" />
             </LinearLayout>

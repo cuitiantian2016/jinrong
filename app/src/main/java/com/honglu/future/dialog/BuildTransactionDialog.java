@@ -72,6 +72,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     }
 
     private void initTransactionData() {
+        ImageView close = (ImageView) findViewById(R.id.iv_close_popup);
+        close.setOnClickListener(this);
+        ImageView tip = (ImageView) findViewById(R.id.iv_open_account_tip);
+        tip.setOnClickListener(this);
         mBuildTransactionPresenter.getProductDetail(mInstrumentId);
     }
 
@@ -80,21 +84,19 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
         mTvRise = (TextView) findViewById(R.id.tv_rise);
-        mTvRise.setText(mProductListBean.getLastPrice());
+        mTvRise.setText(mProductListBean.getAskPrice1());
         mTvRise.setOnClickListener(this);
         mTvDown = (TextView) findViewById(R.id.tv_down);
-        mTvDown.setText(String.valueOf(Double.valueOf(mProductListBean.getLastPrice()) - 1));
+        mTvDown.setText(mProductListBean.getBidPrice1());
         mTvDown.setOnClickListener(this);
         TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
         riseRadio.setText(mProductListBean.getLongRate() + "%");
         TextView downRadio = (TextView) findViewById(R.id.tv_down_radio);
-        downRadio.setText(mProductListBean.getShortRate() + "%");
+        downRadio.setText((100 - Integer.valueOf(mProductListBean.getShortRate())) + "%");
         mPrice = (EditText) findViewById(R.id.amountView);
         mPrice.setText(mProductListBean.getLastPrice());
         mHands = (EditText) findViewById(R.id.av_hands);
         mHands.setText(String.valueOf(mProductListBean.getMinSl()));
-        ImageView close = (ImageView) findViewById(R.id.iv_close_popup);
-        close.setOnClickListener(this);
         if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
             mBuyType = "2";
             mTvDown.setBackgroundResource(R.drawable.rise_down_bg_block);
@@ -104,8 +106,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvRise.setBackgroundResource(R.drawable.rise_down_bg_block);
             mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
         }
-        ImageView tip = (ImageView) findViewById(R.id.iv_open_account_tip);
-        tip.setOnClickListener(this);
+
         TextView mBuild = (TextView) findViewById(R.id.btn_fast_open);
         mBuild.setOnClickListener(this);
         TextView isClose = (TextView) findViewById(R.id.tv_closed);
@@ -120,6 +121,33 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mBuild.setText("快速建仓");
             mBuild.setClickable(true);
         }
+
+        TextView limitPrice = (TextView) findViewById(R.id.tv_limit_price);
+        limitPrice.setText("≥" + mProductListBean.getLowerLimitPrice() + " 跌停价 且 ≤" + mProductListBean.getUpperLimitPrice() + " 涨停价");
+        TextView useAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
+        useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_ASSES));
+        TextView marginMoney = (TextView) findViewById(R.id.tv_margin_money);
+        String bzj = getBzjStr(mHands.getText().toString(), bean);
+        marginMoney.setText("￥" + bzj);
+
+        TextView sxf = (TextView) findViewById(R.id.tv_sxf);
+        String sxfStr = getSxfStr(mHands.getText().toString(), bean);
+        sxf.setText("￥" + sxfStr);
+
+        TextView total = (TextView) findViewById(R.id.tv_total);
+        total.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
+    }
+
+    private String getBzjStr(String hands, ProductListBean bean) {
+        //float rate = mBuyType.equals("1") ? Float.valueOf(bean.getShortMarginRatioByMoney()) : Float.valueOf(bean.getLongMarginRatioByMoney());
+        float price = mBuyType.equals("1") ? Float.valueOf(bean.getAskPrice1()) : Float.valueOf(bean.getBidPrice1());
+        return String.valueOf(Integer.valueOf(hands) * 0.15 * price * bean.getVolumeMultiple());
+    }
+
+    private String getSxfStr(String hands, ProductListBean bean) {
+        float feeRate = mBuyType.equals("1") ? Float.valueOf(bean.getOpenRatioByVolume()) : Float.valueOf(bean.getOpenRatioByMoney());
+        float price = mBuyType.equals("1") ? Float.valueOf(bean.getAskPrice1()) : Float.valueOf(bean.getBidPrice1());
+        return String.valueOf(feeRate * Integer.valueOf(hands) * bean.getVolumeMultiple() * price);
     }
 
     @Override
