@@ -46,7 +46,7 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
     }
 
     private void initTipData() {
-        String[] allDateStr = mBean.getExchangeTimePrompt().split("|");
+        String[] allDateStr = mBean.getExchangeTimePrompt().split("\\|");
 
         ImageView close = (ImageView) findViewById(R.id.iv_close_popup);
         close.setOnClickListener(this);
@@ -61,11 +61,11 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
             night.setText(allDateStr[2]);
         }
         TextView build = (TextView) findViewById(R.id.tv_build);
-        build.setText(mBean.getOpenRatioByMoney() + "%");
+        build.setText(Double.valueOf(mBean.getOpenRatioByMoney()) * 100 + "%");
         TextView todayClose = (TextView) findViewById(R.id.tv_today_close);
-        todayClose.setText(mBean.getCloseTodayRatioByMoney() + "%");
+        todayClose.setText(Double.valueOf(mBean.getCloseTodayRatioByMoney()) * 100 + "%");
         TextView notTodayClose = (TextView) findViewById(R.id.tv_not_today_close);
-        notTodayClose.setText(mBean.getCloseRatioByMoney() + "%");
+        notTodayClose.setText(Double.valueOf(mBean.getCloseRatioByMoney()) * 100 + "%");
         TextView jydw = (TextView) findViewById(R.id.tv_jydw);
         jydw.setText(mBean.getVolumeMultiple() + mBean.getUnit() + "/手");
         notTodayClose.setText(mBean.getCloseRatioByMoney() + "%");
@@ -74,7 +74,7 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
         TextView zxbddw = (TextView) findViewById(R.id.tv_zxbddw);
         zxbddw.setText(mBean.getPriceTick() + "元/" + mBean.getUnit());
         TextView zdtfd = (TextView) findViewById(R.id.tv_zdtfd);
-        zdtfd.setText(mBean.getPlLimitRate() + "%");
+        zdtfd.setText(mBean.getPlLimitRate());
         TextView date = (TextView) findViewById(R.id.tv_date);
         date.setText(mBean.getExpireDate());
 
