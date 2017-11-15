@@ -72,7 +72,17 @@
                 android:text="玉米1081"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_18sp" />
-
+            <TextView
+                android:id="@+id/tv_closed"
+                android:layout_width="@dimen/dimen_50dp"
+                android:layout_height="@dimen/dimen_22dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:background="@drawable/shape_xiushi_bg_2dp"
+                android:gravity="center"
+                android:text="休市中"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dimen_12sp"
+                android:visibility="gone" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

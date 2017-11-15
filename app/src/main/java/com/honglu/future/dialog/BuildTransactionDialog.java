@@ -108,6 +108,18 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         tip.setOnClickListener(this);
         TextView mBuild = (TextView) findViewById(R.id.btn_fast_open);
         mBuild.setOnClickListener(this);
+        TextView isClose = (TextView) findViewById(R.id.tv_closed);
+        if (bean.getIsClosed().equals("2")) {
+            isClose.setVisibility(View.VISIBLE);
+            mBuild.setBackgroundResource(R.color.color_CACCCB);
+            mBuild.setText("休市中");
+            mBuild.setClickable(false);
+        } else {
+            isClose.setVisibility(View.GONE);
+            mBuild.setBackgroundResource(R.color.color_2CC593);
+            mBuild.setText("快速建仓");
+            mBuild.setClickable(true);
+        }
     }
 
     @Override
@@ -131,7 +143,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvDown.setTextColor(Color.WHITE);
                 break;
             case R.id.iv_open_account_tip:
-                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_tip_pop_window);
+                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
                 break;
             case R.id.btn_fast_open:
