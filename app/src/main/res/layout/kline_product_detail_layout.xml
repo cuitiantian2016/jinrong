@@ -56,7 +56,7 @@
                     android:id="@+id/tv_morning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9:00-10:15,10:30-11:30"
+                    android:text="无"
                     android:textColor="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_14sp" />
             </LinearLayout>
@@ -78,7 +78,7 @@
                     android:id="@+id/tv_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13:30-15:00"
+                    android:text="无"
                     android:textColor="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_14sp" />
             </LinearLayout>

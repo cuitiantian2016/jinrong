@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,19 +47,24 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
     }
 
     private void initTipData() {
-        String[] allDateStr = mBean.getExchangeTimePrompt().split("\\|");
-
         ImageView close = (ImageView) findViewById(R.id.iv_close_popup);
         close.setOnClickListener(this);
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mBean.getExchangeName() + "-" + mBean.getInstrumentName());
-        TextView morning = (TextView) findViewById(R.id.tv_morning);
-        morning.setText(allDateStr[0]);
-        TextView middle = (TextView) findViewById(R.id.tv_middle);
-        middle.setText(allDateStr[1]);
-        if (allDateStr.length > 2) {
-            TextView night = (TextView) findViewById(R.id.tv_night);
-            night.setText(allDateStr[2]);
+        if (!TextUtils.isEmpty(mBean.getExchangeTimePrompt())) {
+            String[] allDateStr = mBean.getExchangeTimePrompt().split("\\|");
+            if (allDateStr.length > 0) {
+                TextView morning = (TextView) findViewById(R.id.tv_morning);
+                morning.setText(allDateStr[0]);
+            }
+            if (allDateStr.length > 1) {
+                TextView middle = (TextView) findViewById(R.id.tv_middle);
+                middle.setText(allDateStr[1]);
+            }
+            if (allDateStr.length > 2) {
+                TextView night = (TextView) findViewById(R.id.tv_night);
+                night.setText(allDateStr[2]);
+            }
         }
         TextView build = (TextView) findViewById(R.id.tv_build);
         build.setText(Double.valueOf(mBean.getOpenRatioByMoney()) * 100 + "%");
