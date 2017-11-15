@@ -21,6 +21,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
+import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
@@ -136,6 +137,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
         TextView total = (TextView) findViewById(R.id.tv_total);
         total.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
+
+        TextView goRecharge = (TextView)findViewById(R.id.btn_go_recharge);
+        goRecharge.setOnClickListener(this);
     }
 
     private String getBzjStr(String hands, ProductListBean bean) {
@@ -199,6 +203,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                                 );
                             }
                         }).build();
+                break;
+            case R.id.btn_go_recharge:
+                InAndOutGoldActivity.startInAndOutGoldActivity(mContext, 0);
                 break;
         }
     }
