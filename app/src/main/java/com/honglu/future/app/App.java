@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
@@ -79,6 +80,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         EventBus.getDefault().register(this);
         //友盟相关功能初始化(统计与分享)
         initUM();
+        initARouter();
         //bugly相关功能初始化(版本更新、bug检测)
         initBugly();
         initLoadingView(getContext());
@@ -147,6 +149,14 @@ public class App extends Application implements Application.ActivityLifecycleCal
         PlatformConfig.setWeixin(KeyConfig.WX_APP_KEY, KeyConfig.WX_APP_SECRET);
         //QQ
         PlatformConfig.setQQZone(KeyConfig.QQ_APP_ID, KeyConfig.QQ_APP_KEY);
+    }
+
+    public void initARouter(){
+        if (BuildConfig.DEBUG) {// 这两行必须写在init之前，否则这些配置在init过程中将无效
+            ARouter.openLog();     // 打印日志
+            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+        ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
 
     public static void initLoadingView(Context context) {

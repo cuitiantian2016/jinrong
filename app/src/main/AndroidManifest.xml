@@ -7,7 +7,7 @@
 
     <permission
         android:name="com.honglu.future.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
 
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -28,61 +28,61 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- 读写日历需要的权限设置 -->
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <!-- 自定义相册权限 -->
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- 这个权限用于拨打电话 -->
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 读取短信 -->
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
     <!-- Bugly -->
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <!-- 【必须】 信鸽SDK所需权限 -->
     <!-- 【常用】 信鸽SDK所需权限 -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- 【可选】 信鸽SDK所需权限 -->
-    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BATTERY_STATS"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 添加发送短信权限 -->
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <!--  写入消息-->
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS" />
     <!-- 接收消息 -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <!--连连绑卡权限 start-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -93,7 +93,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <!--极光推送-->
-    <uses-permission android:name="com.honglu.future.permission.JPUSH_MESSAGE"/>
+    <uses-permission android:name="com.honglu.future.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -106,9 +106,9 @@
     <!--RxPermissions-->
     <!-- <uses-permission android:name="android.permission.READ_CALL_LOG"/>
      <uses-permission android:name="android.permission.GET_ACCOUNTS"/>-->
-   <!-- <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />-->
+    <!-- <uses-feature
+         android:name="android.hardware.camera.autofocus"
+         android:required="false" />-->
 
     <!--连连绑卡权限 end-->
     <application
@@ -117,18 +117,18 @@
         android:label="@string/app_name"
         android:persistent="true"
         android:supportsRtl="true"
-        tools:replace="android:icon, android:theme"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:theme">
 
         <activity
             android:name="com.honglu.future.ui.main.activity.SplashActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -136,119 +136,118 @@
             android:alwaysRetainTaskState="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name="com.honglu.future.ui.register.activity.RegisterActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="com.honglu.future.ui.details.activity.ConsultDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
             android:name="com.honglu.future.ui.login.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="com.honglu.future.ui.login.activity.ResetPwdActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="com.honglu.future.ui.recharge.activity.InAndOutGoldActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="com.honglu.future.ui.recharge.activity.PasswordResetActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
             android:name="com.honglu.future.ui.usercenter.activity.ModifyUserActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
             android:name="com.honglu.future.ui.trade.activity.TradeRecordActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".ui.usercenter.activity.FutureAccountActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
             android:name=".ui.main.activity.WebViewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.market.activity.OptionalQuotesActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
         <activity
             android:name=".ui.usercenter.activity.UserAccountActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.trade.historybill.HistoryBillActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.usercenter.activity.ModifyNicknameActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.trade.billconfirm.BillConfirmActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.trade.details.OpenTransactionDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.trade.details.CloseTransactionDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.trade.details.TradeRecordDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".ui.usercenter.activity.KeFuActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.trade.kchart.KLineMarketActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.main.guide.GuideActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.usercenter.activity.BindCardActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- **********************************************模块区分 放在对于的模块中******************************** -->
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="59ae4cf404e205537c000f94"/>
+            android:value="59ae4cf404e205537c000f94" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${channel}"/>
+            android:value="${channel}" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="59032abb1867c192bf7dbf339be113a3"/>
+            android:value="59032abb1867c192bf7dbf339be113a3" />
         <!--<meta-data-->
         <!--android:name="com.amap.api.v2.apikey"-->
         <!--android:value="72f0010947ce4c609dbe6b8368aa5e83" />-->
@@ -256,11 +255,11 @@
 
         <!-- ############ 微信回调配置 ############ -->
         <!--<activity-->
-            <!--android:name=".wxapi.WXEntryActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:exported="true"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+        <!--android:name=".wxapi.WXEntryActivity"-->
+        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+        <!--android:exported="true"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
@@ -268,109 +267,109 @@
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1106255203"/>
+                <data android:scheme="tencent1106255203" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
 
         <!--<receiver-->
-            <!--android:name="com.xulu.xnpacket.receiver.BootBroadcastReceiver"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter android:priority="1000">-->
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-                <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
-            <!--</intent-filter>-->
+        <!--android:name="com.xulu.xnpacket.receiver.BootBroadcastReceiver"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter android:priority="1000">-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+        <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <!-- 信鸽接入 -->
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
         <!--<activity-->
-            <!--android:name="com.tencent.android.tpush.XGPushActivity"-->
-            <!--android:exported="false"-->
-            <!--android:theme="@style/Theme.Translucent">-->
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash; 若使用AndroidStudio，请设置android:name="android.intent.action" &ndash;&gt;-->
-                <!--<action android:name="android.intent.action"/>-->
-            <!--</intent-filter>-->
+        <!--android:name="com.tencent.android.tpush.XGPushActivity"-->
+        <!--android:exported="false"-->
+        <!--android:theme="@style/Theme.Translucent">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash; 若使用AndroidStudio，请设置android:name="android.intent.action" &ndash;&gt;-->
+        <!--<action android:name="android.intent.action"/>-->
+        <!--</intent-filter>-->
         <!--</activity>-->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <!--<receiver-->
-            <!--android:name="com.tencent.android.tpush.XGPushReceiver"-->
-            <!--android:process=":xg_service_v3">-->
-            <!--<intent-filter android:priority="0x7fffffff">-->
+        <!--android:name="com.tencent.android.tpush.XGPushReceiver"-->
+        <!--android:process=":xg_service_v3">-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
 
-                <!--&lt;!&ndash; 【必须】 信鸽SDK的内部广播 &ndash;&gt;-->
-                <!--<action android:name="com.tencent.android.tpush.action.SDK"/>-->
-                <!--<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE"/>-->
-                <!--&lt;!&ndash; 【必须】 系统广播：网络切换 &ndash;&gt;-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+        <!--&lt;!&ndash; 【必须】 信鸽SDK的内部广播 &ndash;&gt;-->
+        <!--<action android:name="com.tencent.android.tpush.action.SDK"/>-->
+        <!--<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE"/>-->
+        <!--&lt;!&ndash; 【必须】 系统广播：网络切换 &ndash;&gt;-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
 
-                <!--&lt;!&ndash; 【可选】 系统广播：开屏 &ndash;&gt;-->
-                <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+        <!--&lt;!&ndash; 【可选】 系统广播：开屏 &ndash;&gt;-->
+        <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
 
-                <!--&lt;!&ndash; 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service &ndash;&gt;-->
-                <!--<action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>-->
-                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
-                <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
-            <!--</intent-filter>-->
-            <!--&lt;!&ndash; 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 &ndash;&gt;-->
-            <!--<intent-filter android:priority="0x7fffffff">-->
-                <!--<action android:name="android.intent.action.MEDIA_UNMOUNTED"/>-->
-                <!--<action android:name="android.intent.action.MEDIA_REMOVED"/>-->
-                <!--<action android:name="android.intent.action.MEDIA_CHECKING"/>-->
-                <!--<action android:name="android.intent.action.MEDIA_EJECT"/>-->
+        <!--&lt;!&ndash; 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service &ndash;&gt;-->
+        <!--<action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
+        <!--</intent-filter>-->
+        <!--&lt;!&ndash; 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 &ndash;&gt;-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
+        <!--<action android:name="android.intent.action.MEDIA_UNMOUNTED"/>-->
+        <!--<action android:name="android.intent.action.MEDIA_REMOVED"/>-->
+        <!--<action android:name="android.intent.action.MEDIA_CHECKING"/>-->
+        <!--<action android:name="android.intent.action.MEDIA_EJECT"/>-->
 
-                <!--<data android:scheme="file"/>-->
-            <!--</intent-filter>-->
+        <!--<data android:scheme="file"/>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <!--&lt;!&ndash; 【必须】 信鸽service &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.tencent.android.tpush.service.XGPushServiceV3"-->
-            <!--android:exported="true"-->
-            <!--android:persistent="true"-->
-            <!--android:process=":xg_service_v3"/>-->
+        <!--android:name="com.tencent.android.tpush.service.XGPushServiceV3"-->
+        <!--android:exported="true"-->
+        <!--android:persistent="true"-->
+        <!--android:process=":xg_service_v3"/>-->
 
         <!--&lt;!&ndash; 【必须】 增强xg_service存活率  &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.tencent.android.tpush.service.XGDaemonService"-->
-            <!--android:process=":xg_service_v3"/>-->
+        <!--android:name="com.tencent.android.tpush.service.XGDaemonService"-->
+        <!--android:process=":xg_service_v3"/>-->
         <!--&lt;!&ndash; 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 &ndash;&gt;-->
         <!--&lt;!&ndash; YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： &ndash;&gt;-->
         <!--<receiver-->
-            <!--android:name="com.xulu.xnpacket.xgpush.receiver.XGMessageReceiver"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash; 接收消息透传 &ndash;&gt;-->
-                <!--<action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE"/>-->
-                <!--&lt;!&ndash; 监听注册、反注册、设置/删除标签、通知被点击等处理结果 &ndash;&gt;-->
-                <!--<action android:name="com.tencent.android.tpush.action.FEEDBACK"/>-->
-            <!--</intent-filter>-->
+        <!--android:name="com.xulu.xnpacket.xgpush.receiver.XGMessageReceiver"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash; 接收消息透传 &ndash;&gt;-->
+        <!--<action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE"/>-->
+        <!--&lt;!&ndash; 监听注册、反注册、设置/删除标签、通知被点击等处理结果 &ndash;&gt;-->
+        <!--<action android:name="com.tencent.android.tpush.action.FEEDBACK"/>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!--&lt;!&ndash; 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo&ndash;&gt;-->
         <!--<provider-->
-            <!--android:name="com.tencent.android.tpush.XGPushProvider"-->
-            <!--android:authorities="${applicationId}.AUTH_XGPUSH"-->
-            <!--android:exported="true"-->
-            <!--/>-->
+        <!--android:name="com.tencent.android.tpush.XGPushProvider"-->
+        <!--android:authorities="${applicationId}.AUTH_XGPUSH"-->
+        <!--android:exported="true"-->
+        <!--/>-->
         <!--&lt;!&ndash; 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo&ndash;&gt;-->
         <!--<provider-->
-            <!--android:name="com.tencent.android.tpush.SettingsContentProvider"-->
-            <!--android:authorities="${applicationId}.TPUSH_PROVIDER"-->
-            <!--android:exported="false"/>-->
+        <!--android:name="com.tencent.android.tpush.SettingsContentProvider"-->
+        <!--android:authorities="${applicationId}.TPUSH_PROVIDER"-->
+        <!--android:exported="false"/>-->
         <!--&lt;!&ndash; 【必须】 【注意】authorities修改为 包名.TENCENT.MID.V3, 如demo的包名为：com.qq.xgdemo&ndash;&gt;-->
         <!--<provider-->
-            <!--android:name="com.tencent.mid.api.MidProvider"-->
-            <!--android:authorities="${applicationId}.TENCENT.MID.V3"-->
-            <!--android:exported="true">-->
+        <!--android:name="com.tencent.mid.api.MidProvider"-->
+        <!--android:authorities="${applicationId}.TENCENT.MID.V3"-->
+        <!--android:exported="true">-->
         <!--</provider>-->
         <!--
                 &lt;!&ndash; 信鸽Id与Key已在App代码中配置&ndash;&gt;
@@ -386,7 +385,7 @@
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@android:style/Theme.Translucent" />
         <!--Android 7.0 照相Provider
       android.support.v4.content.FileProvider： 指向v4包里的FileProvider类
       FileProvider： 对应你的content uri的基础域名，生成的uri将以content://com.xulu.xnpacket.fileprovider作为开头
@@ -401,7 +400,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"/>
+                android:resource="@xml/file_path" />
         </provider>
 
 
@@ -409,7 +408,7 @@
         <!-- Glide 使用okhttp -->
         <meta-data
             android:name="com.honglu.future.config.glide.OkHttpGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
         <!-- <meta-data
              android:name="com.xulu.xnpacket.http.SimpleGlideModule"
              android:value="GlideModule">
@@ -422,10 +421,10 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER"/>
-                <action android:name="cn.jpush.android.intent.REPORT"/>
-                <action android:name="cn.jpush.android.intent.PushService"/>
-                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
 
@@ -436,8 +435,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService"/>
-                <category android:name="com.honglu.future"/>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <category android:name="com.honglu.future" />
             </intent-filter>
         </service>
 
@@ -446,19 +445,19 @@
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
-                <category android:name="com.honglu.future"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <category android:name="com.honglu.future" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
             <!-- Optional -->
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package"/>
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
@@ -469,10 +468,10 @@
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity"/>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.honglu.future"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.honglu.future" />
             </intent-filter>
         </activity>
         <!-- SDK核心功能-->
@@ -482,8 +481,8 @@
             android:exported="false"
             android:theme="@style/MyDialogStyle">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.honglu.future"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.honglu.future" />
             </intent-filter>
         </activity>
 
@@ -491,24 +490,23 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="developer-default"/>
+            android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="00c5bfab0fc7303c03fe9e37"/> <!--  极光推送AppKey-->
+            android:value="00c5bfab0fc7303c03fe9e37" /> <!--  极光推送AppKey-->
 
         <activity
             android:name="com.cfmmc.app.sjkh.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name="com.cfmmc.app.sjkh.ui.VideoActivity"
             android:exported="false"
@@ -516,8 +514,7 @@
         <activity
             android:name="com.cfmmc.app.sjkh.ui.CameraMainActivity"
             android:exported="false"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name="com.cfmmc.app.sjkh.ui.CameraActivity"
             android:exported="false"
@@ -529,7 +526,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.cfmmc.app.sjkh.SchemeActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -539,11 +536,24 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.honglu.future.ARouter.SchemeFilterActivity">
+
+            <!-- Schame -->
+            <intent-filter>
+                <data
+                    android:host="future"
+                    android:scheme="xn" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
-        </service>
+            android:process=":remote"></service>
 
         <!--< mpush相关 start>-->
         <receiver

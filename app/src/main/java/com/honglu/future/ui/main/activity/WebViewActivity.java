@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cfmmc.app.sjkh.*;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -61,6 +62,7 @@ import butterknife.BindView;
  * 网页加载容器
  * xiejingwen
  */
+@Route(path ="/future/webview")
 public class WebViewActivity extends BaseActivity<MyPresenter> implements MyContract.View {
 
     @BindView(R.id.web_view)

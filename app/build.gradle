@@ -21,7 +21,11 @@ android {
             // 设置支持的SO库架构
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
     signingConfigs {
         release {
@@ -203,6 +207,9 @@ dependencies {
     //解析Html内容显示在WebView中，目前仅在最新消息详情中使用
     compile 'org.jsoup:jsoup:1.10.1'
     compile project(':updateLib')
+
+    compile 'com.alibaba:arouter-api:1.2.4'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 }
 
 //瓦力打包 https://github.com/Meituan-Dianping/walle

@@ -1,18 +1,24 @@
 package com.honglu.future.ui.main.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.app.JPushManager;
@@ -25,19 +31,15 @@ import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
-import com.honglu.future.ui.home.fragment.HomeFragment;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
 import com.honglu.future.ui.main.presenter.ActivityPresenter;
-import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.register.activity.RegisterActivity;
-import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.StatusBarUtils;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
@@ -95,6 +97,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 
     @Override
     public void loadData() {
+        showPopupWindow();
         EventBus.getDefault().register(this);
         mGroup.setOnCheckedChangeListener(changeListener);
         check(FragmentFactory.FragmentStatus.Home);
@@ -359,5 +362,50 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     bean.getDownloadUrl(),
                     bean.getMd5());
         }
+    }
+
+    /**
+     * 显示弹出框
+     */
+    public void showPopupWindow() {
+        if (!com.honglu.future.BuildConfig.DEBUG) {
+            return;
+        }
+        // 获取WindowManager
+        final WindowManager mWindowManager = (WindowManager) getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        Button button = new Button(getApplicationContext());
+        button.setText("测试页面");
+        button.setTextColor(getResources().getColor(R.color.white));
+        button.setBackgroundColor(getResources().getColor(R.color.actionsheet_blue));
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        // 类型
+        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+        // 设置flag
+        int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+        // | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        // 如果设置了WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE，弹出的View收不到Back键的事件
+        params.flags = flags;
+        // 不设置这个弹出框的透明遮罩显示为黑色
+        params.format = PixelFormat.TRANSLUCENT;
+        // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗口
+        // 设置 FLAG_NOT_FOCUSABLE 悬浮窗口较小时，后面的应用图标由不可长按变为可长按
+        // 不设置这个flag的话，home页的划屏会有问题
+        params.width = DeviceUtils.dip2px(this, 80);
+        params.height = DeviceUtils.dip2px(this, 40);
+        params.gravity = Gravity.LEFT;
+        mWindowManager.addView(button, params);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance()
+                        .build("/future/webview")
+                        .withString("url", "file:///android_asset/schame-test.html")
+                        .navigation();
+            }
+        });
     }
 }
