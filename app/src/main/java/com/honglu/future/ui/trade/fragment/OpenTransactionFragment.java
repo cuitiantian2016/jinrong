@@ -37,6 +37,7 @@ import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -197,8 +198,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(bean.getRightsInterests() + "");
-        mMoney.setText(bean.getAvailable() + "");
+        mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
+        mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
         mProfitLoss.setText(bean.getPositionProfit() + "");
     }
 

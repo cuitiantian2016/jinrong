@@ -13,6 +13,7 @@ import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
+import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 
 import butterknife.BindView;
@@ -105,11 +106,11 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(bean.getRightsInterests() + "");
-        mMoney.setText(bean.getAvailable() + "");
+        mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
+        mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
         mProfitLoss.setText(bean.getPositionProfit() + "");
         mPositionProfitLoss.setText(bean.getCloseProfit() + "");
-        mTakeBond.setText(bean.getWithdrawQuota() + "");
+        mTakeBond.setText(NumberUtils.formatFloatNumber(bean.getWithdrawQuota()));
         mOccupyBond.setText(bean.getCapitalProportionNum());
         mFrozenBond.setText(bean.getFrozenCash() + "");
         mServiceCharge.setText(String.valueOf(bean.getCommission()));
