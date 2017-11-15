@@ -44,7 +44,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                     tv_pass.setText("");
                     SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
                     new AlertFragmentDialog.Builder((FragmentActivity)context)
-                            .setLeftBtnText("取消").setContent(message, R.color.color_333333, R.dimen.dimen_12sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
+                            .setLeftBtnText("取消").setContent(message, R.color.color_333333, R.dimen.dimen_14sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
                             .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                         @Override
                         public void dialogRightBtnClick(String string) {
