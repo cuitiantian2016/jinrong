@@ -37,7 +37,7 @@ import java.util.List;
  * Created by zhuaibing on 2017/11/14
  */
 
-public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View{
+public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View {
     private TextView mName;
     private ImageView mClose;
     private RecyclerView mRecyclerView;
@@ -63,12 +63,13 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     @Override
     public void stopLoading() {
         super.stopLoading();
-         App.hideLoading();
+        App.hideLoading();
     }
 
     public KLinePositionDialog(@NonNull Activity mContext) {
         super(mContext, R.style.DateDialog);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +93,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        mAdapter = new KLinePositionDialogAdapter(mPresenter,KLinePositionDialog.this);
+        mAdapter = new KLinePositionDialogAdapter(mPresenter, KLinePositionDialog.this);
         mRecyclerView.setAdapter(mAdapter);
 
         mClose.setOnClickListener(new View.OnClickListener() {
@@ -106,40 +107,42 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         mPingcang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (mAdapter.getData() !=null
-                       && mAdapter.getData().size()> 0
-                       &&  mAdapter.getData().size()> mAdapter.getMPosition()){
+                if (mAdapter.getData() != null
+                        && mAdapter.getData().size() > 0
+                        && mAdapter.getData().size() > mAdapter.getMPosition() + 1) {
 
-                   HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
-                   mPresenter.closeOrder(
-                           String.valueOf(holdPositionBean.getTodayPosition()),
-                           SpUtil.getString(Constant.CACHE_TAG_UID),
-                           SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                           String.valueOf(mAdapter.getExpcNum()),
-                           String.valueOf(holdPositionBean.getType()),
-                           String.valueOf(mAdapter.getExPrice()),
-                           holdPositionBean.getInstrumentId(),
-                           holdPositionBean.getHoldAvgPrice(),
-                           "GUOFU");
-               }
+                    HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition() + 1);
+                    mPresenter.closeOrder(
+                            String.valueOf(holdPositionBean.getTodayPosition()),
+                            SpUtil.getString(Constant.CACHE_TAG_UID),
+                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                            String.valueOf(mAdapter.getExpcNum()),
+                            String.valueOf(holdPositionBean.getType()),
+                            String.valueOf(mAdapter.getExPrice()),
+                            holdPositionBean.getInstrumentId(),
+                            holdPositionBean.getHoldAvgPrice(),
+                            "GUOFU");
+                }
 
             }
         });
     }
+
     /**
      * 设置数据
+     *
      * @param nameValue
      * @param mList
      */
-     public KLinePositionDialog setPositionData(boolean isClosed,String excode,String instrumentId,String nameValue ,List<HoldPositionBean> mList){
-         this.mNameValue = nameValue;
-         this.isClosed = isClosed;
-         this.mExcode = excode;
-         this.mInstrumentId = instrumentId;
-         this.mList = mList;
-         this.mPushCode = excode+"|"+instrumentId;
-         return KLinePositionDialog.this;
-     }
+    public KLinePositionDialog setPositionData(boolean isClosed, String excode, String instrumentId, String nameValue, List<HoldPositionBean> mList) {
+        this.mNameValue = nameValue;
+        this.isClosed = isClosed;
+        this.mExcode = excode;
+        this.mInstrumentId = instrumentId;
+        this.mList = mList;
+        this.mPushCode = excode + "|" + instrumentId;
+        return KLinePositionDialog.this;
+    }
 
 
     @Override
@@ -159,57 +162,59 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
     }
 
-    public void showDialog(){
-         if (TextUtils.isEmpty(mNameValue) || mList == null || mList.size() <=0){ return ;}
-         show();
-         EventBus.getDefault().register(this);
-         mName.setText("平仓-"+mNameValue);
-         if (isClosed){
-             mPingcang.setEnabled(false);
-             mPingcang.setText("休市中");
-             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
-         }else {
-             mPingcang.setEnabled(false);
-             mPingcang.setText("平仓");
-             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
-         }
-          mAdapter.notifyDataChanged(mList);
-          requestMarket(mPushCode);
-     }
+    public void showDialog() {
+        if (TextUtils.isEmpty(mNameValue) || mList == null || mList.size() <= 0) {
+            return;
+        }
+        show();
+        EventBus.getDefault().register(this);
+        mName.setText("平仓-" + mNameValue);
+        if (isClosed) {
+            mPingcang.setEnabled(false);
+            mPingcang.setText("休市中");
+            mPingcang.setBackgroundResource(R.color.color_B1B1B3);
+        } else {
+            mPingcang.setEnabled(false);
+            mPingcang.setText("平仓");
+            mPingcang.setBackgroundResource(R.color.color_B1B1B3);
+        }
+        mAdapter.notifyDataChanged(mList);
+        requestMarket(mPushCode);
+    }
 
-     //根据接口返回的数据改变平仓按钮
-     public void setPingcangSatte(int type ,float mProfitLoss){
-         if (isClosed){
-             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
-             mPingcang.setEnabled(false);
-             mPingcang.setText("休市中");
-         }else {
-             if (type == 1) { //1 跌  2涨
-                 mPingcang.setEnabled(true);
-                 mPingcang.setBackgroundResource(R.color.color_2CC593);
-             }else {
-                 mPingcang.setEnabled(true);
-                 mPingcang.setBackgroundResource(R.color.color_FB4F4F);
-             }
-         }
+    //根据接口返回的数据改变平仓按钮
+    public void setPingcangSatte(int type, float mProfitLoss) {
+        if (isClosed) {
+            mPingcang.setBackgroundResource(R.color.color_B1B1B3);
+            mPingcang.setEnabled(false);
+            mPingcang.setText("休市中");
+        } else {
+            if (type == 1) { //1 跌  2涨
+                mPingcang.setEnabled(true);
+                mPingcang.setBackgroundResource(R.color.color_2CC593);
+            } else {
+                mPingcang.setEnabled(true);
+                mPingcang.setBackgroundResource(R.color.color_FB4F4F);
+            }
+        }
 
-         mYkprice.setText("￥"+mProfitLoss);
-     }
+        mYkprice.setText("￥" + mProfitLoss);
+    }
 
 
     //产品详情
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
-         if (bean !=null){
-             mAdapter.setProductListBean(bean);
-         }else {
-             mAdapter.clearPosition();
-         }
+        if (bean != null) {
+            mAdapter.setProductListBean(bean);
+        } else {
+            mAdapter.clearPosition();
+        }
     }
 
     //委托平仓 / 快速平仓
     @Override
     public void closeOrderSuccess() {
-
+        dismiss();
     }
 }

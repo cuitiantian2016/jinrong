@@ -2,6 +2,7 @@ package com.honglu.future.ui.trade.kchart;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -135,6 +136,13 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private ProductRuleDialog mProductRuleDialog;
     private KLinePositionDialog mKLinePositionDialog;
     private List<HoldPositionBean> mChiCangList;//持仓列表
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getPositionList();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -164,7 +172,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
 
         if (App.getConfig().getAccountLoginStatus()) {
-            getPositionList();
+            mHandler.postDelayed(mRunnable, 300);
         }
     }
 
@@ -349,16 +357,18 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     //持仓列表
     @Override
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
-        if (list !=null || list.size() <= 0 || mHoldNum ==null){
+        if (list == null || list.size() <= 0 || mHoldNum == null) {
             return;
         }
-        this.mChiCangList = getList(mExcode,mCode,list);
-        mHoldNum.setText(getPingCangNum(mChiCangList));
+        this.mChiCangList = getList(mExcode, mCode, list);
+        if (mChiCangList != null) {
+            mHoldNum.setText(String.valueOf(mChiCangList.size()));
+        }
     }
 
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
-        mProductRuleDialog = new ProductRuleDialog(this,bean);
+        mProductRuleDialog = new ProductRuleDialog(this, bean);
     }
 
     @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen,
@@ -400,15 +410,16 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.hold_position:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    //EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
-                    //finish();
+
                     String mName = mTvName.getText().toString();
-                    if (!TextUtils.isEmpty(mName)){
-                        if (mChiCangList !=null && mChiCangList.size() > 0){
-                            boolean mClosed = "2".equals(isClosed) ? true : false;
-                            mKLinePositionDialog.setPositionData(mClosed,mExcode,mCode,mName,mChiCangList).showDialog();
-                        }else {
-                            getPositionList();
+                    if (!TextUtils.isEmpty(mName)) {
+                        if (mChiCangList != null && mChiCangList.size() > 0) {
+                            boolean mClosed = "2".equals(isClosed);
+                            mKLinePositionDialog.setPositionData(mClosed, mExcode, mCode, mName, mChiCangList).showDialog();
+                        } else {
+                            //getPositionList();
+                            EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                            finish();
                         }
                     }
                 } else {
@@ -464,12 +475,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
 
     //过滤数据 获取当前产品list
-    private List<HoldPositionBean> getList(String excode,String instrumentId,List<HoldPositionBean> list){
-        if (TextUtils.isEmpty(instrumentId) || list == null || list.size() <=0){ return null;}
+    private List<HoldPositionBean> getList(String excode, String instrumentId, List<HoldPositionBean> list) {
+        if (TextUtils.isEmpty(instrumentId) || list == null || list.size() <= 0) {
+            return null;
+        }
         ListIterator<HoldPositionBean> iterator = list.listIterator();
         while (iterator.hasNext()) {
             HoldPositionBean bean = iterator.next();
-            if (!excode.equals(bean.getExcode()) && !instrumentId.equals(bean.getInstrumentId())) {
+            if (!excode.equals(bean.getExcode()) || !instrumentId.equals(bean.getInstrumentId())) {
                 iterator.remove();
             }
         }
@@ -477,10 +490,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     //获取当前产品持仓数量
-    private int getPingCangNum(List<HoldPositionBean> list){
+    private int getPingCangNum(List<HoldPositionBean> list) {
         int mPingCangNum = 0;
-        if (list !=null && list.size() > 0){
-            for (HoldPositionBean bean : list){
+        if (list != null && list.size() > 0) {
+            for (HoldPositionBean bean : list) {
                 mPingCangNum += bean.getPosition();
             }
         }
