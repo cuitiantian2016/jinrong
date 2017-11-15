@@ -163,7 +163,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mPresenter.getProductDetail(mCode);
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
 
-        getPositionList();
+        if (App.getConfig().getAccountLoginStatus()) {
+            getPositionList();
+        }
     }
 
     @Override
@@ -350,7 +352,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (list !=null || list.size() <= 0 || mHoldNum ==null){
             return;
         }
-        this.mChiCangList = getList(mCode,list);
+        this.mChiCangList = getList(mExcode,mCode,list);
         mHoldNum.setText(getPingCangNum(mChiCangList));
     }
 
@@ -404,7 +406,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     if (!TextUtils.isEmpty(mName)){
                         if (mChiCangList !=null && mChiCangList.size() > 0){
                             boolean mClosed = "2".equals(isClosed) ? true : false;
-                            mKLinePositionDialog.setPositionData(mClosed,mName,mChiCangList).showDialog();
+                            mKLinePositionDialog.setPositionData(mClosed,mExcode,mCode,mName,mChiCangList).showDialog();
                         }else {
                             getPositionList();
                         }
@@ -462,12 +464,12 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
 
     //过滤数据 获取当前产品list
-    private List<HoldPositionBean> getList(String instrumentId,List<HoldPositionBean> list){
+    private List<HoldPositionBean> getList(String excode,String instrumentId,List<HoldPositionBean> list){
         if (TextUtils.isEmpty(instrumentId) || list == null || list.size() <=0){ return null;}
         ListIterator<HoldPositionBean> iterator = list.listIterator();
         while (iterator.hasNext()) {
             HoldPositionBean bean = iterator.next();
-            if (!instrumentId.equals(bean.getInstrumentId())) {
+            if (!excode.equals(bean.getExcode()) && !instrumentId.equals(bean.getInstrumentId())) {
                 iterator.remove();
             }
         }

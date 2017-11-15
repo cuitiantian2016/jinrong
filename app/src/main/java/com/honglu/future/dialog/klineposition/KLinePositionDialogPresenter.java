@@ -11,6 +11,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 
 public class KLinePositionDialogPresenter extends BasePresenter<KLinePositionDialogContract.View> implements KLinePositionDialogContract.Presenter {
 
+    //产品详情
     @Override
     public void getProductDetail(String instrumentId) {
         toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
@@ -36,5 +37,64 @@ public class KLinePositionDialogPresenter extends BasePresenter<KLinePositionDia
             }
         });
 
+    }
+
+
+    //委托平仓
+    @Override
+    public void closeOrder(String todayPosition, String userId, String token, String orderNumber, String type
+            , String price, String instrumentId, String holdAvgPrice, String company) {
+
+        toSubscribe(HttpManager.getApi().closeOrder(todayPosition, userId, token, orderNumber, type, price,
+                instrumentId, holdAvgPrice, company), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("平仓中...");
+            }
+
+            @Override
+            protected void _onNext(Object o) {
+                mView.closeOrderSuccess();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+
+    //快速平仓
+    @Override
+    public void ksCloseOrder(String todayPosition, String userId, String token, String orderNumber, String type, String price,
+                             String instrumentId, String holdAvgPrice, String company) {
+        toSubscribe(HttpManager.getApi().ksCloseOrder(todayPosition, userId, token, orderNumber, type, price,
+                instrumentId, holdAvgPrice, company), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("平仓中...");
+            }
+
+            @Override
+            protected void _onNext(Object o) {
+                mView.closeOrderSuccess();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
     }
 }
