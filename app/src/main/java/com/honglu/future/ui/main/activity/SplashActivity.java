@@ -17,9 +17,6 @@ import com.honglu.future.ui.main.contract.SplashContract;
 import com.honglu.future.ui.main.guide.GuideActivity;
 import com.honglu.future.ui.main.presenter.SplashPresenter;
 import com.honglu.future.util.SpUtil;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
@@ -62,17 +59,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
                 finish();
                 return;
             }
-        }
-        XGPushClickedResult click = XGPushManager.onActivityStarted(this);
-        if (click != null) {
-            //从推送通知栏打开-Service打开Activity会重新执行Laucher流程
-            //查看是不是全新打开的面板
-            if (isTaskRoot()) {
-                return;
-            }
-            //如果有面板存在则关闭当前的面板
-            finish();
-            return;
         }
     }
 

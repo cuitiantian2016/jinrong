@@ -42,8 +42,6 @@ import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -62,7 +60,7 @@ import butterknife.BindView;
  * 网页加载容器
  * xiejingwen
  */
-@Route(path ="/future/webview")
+@Route(path = "/future/webview")
 public class WebViewActivity extends BaseActivity<MyPresenter> implements MyContract.View {
 
     @BindView(R.id.web_view)
@@ -105,7 +103,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     public void initView() {
         mHashMap = new HashMap<>();
         if (getIntent() != null) {
-            if (!StringUtil.isBlank(getIntent().getStringExtra("title")) && message == null) {
+            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
                 title = getIntent().getStringExtra("title");
                 mTitle.setTitle(title);
             }
@@ -146,40 +144,37 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         mWebView.setWebChromeClient(new MyWebChromeClient());
     }
 
-    private XGPushClickedResult message;
-    private String XgTitle;
-
     @Override
     protected void onResume() {
         super.onResume();
-        message = XGPushManager.onActivityStarted(this);
-        if (message != null) {
-            //打开WebViewActivity,自定义参数必须传入"url"，选传"title"
-            String customContent = message.getCustomContent();
-            if (!TextUtils.isEmpty(customContent)) {//自定义参数是否为空
-                try {
-                    JSONObject contentObj = new JSONObject(customContent);
-                    mUrl = contentObj.optString("url");
-                    XgTitle = contentObj.optString("title");
-                    if (!TextUtils.isEmpty(mUrl)) {
-                        mUrl = HttpManager.getUrl(mUrl);
-                        mWebView.loadUrl(mUrl);
-                        if (!TextUtils.isEmpty(XgTitle)) {
-                            title = XgTitle;
-                            mTitle.setTitle(XgTitle);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
+//        if (message != null) {
+//            //打开WebViewActivity,自定义参数必须传入"url"，选传"title"
+//            String customContent = message.getCustomContent();
+//            if (!TextUtils.isEmpty(customContent)) {//自定义参数是否为空
+//                try {
+//                    JSONObject contentObj = new JSONObject(customContent);
+//                    mUrl = contentObj.optString("url");
+//                    XgTitle = contentObj.optString("title");
+//                    if (!TextUtils.isEmpty(mUrl)) {
+//                        mUrl = HttpManager.getUrl(mUrl);
+//                        mWebView.loadUrl(mUrl);
+//                        if (!TextUtils.isEmpty(XgTitle)) {
+//                            title = XgTitle;
+//                            mTitle.setTitle(XgTitle);
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        XGPushManager.onActivityStoped(this);
+//        XGPushManager.onActivityStoped(this);
     }
 
     private void showDialog() {
@@ -288,7 +283,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         /**
          * 跳转开户页面
-         *
          */
         @JavascriptInterface
         public void openAccount() {
@@ -789,8 +783,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 //正常情况下，如果没有传入title，我们则使用h5的title。
                 // 当是点推送消息进来的时候,getIntent().getStringExtra("title")会拿到推送传入的乱码般的title字符串。
                 // 所以如果是点推送消息进来的，并且推送没有设置title,我们直接使用h5 title
-                if (TextUtils.isEmpty(getIntent().getStringExtra("title")) || (message != null && TextUtils.isEmpty
-                        (XgTitle))) {
+                if (TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
                     WebViewActivity.this.title = title;
                     mTitle.setTitle(true, new OnClickListener() {
                         @Override

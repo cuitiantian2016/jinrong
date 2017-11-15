@@ -44,6 +44,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private EditText mHands, mPrice;
     private BuildTransactionPresenter mBuildTransactionPresenter;
     private String mInstrumentId;
+    private TextView mTotal;
 
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, String instrumentId) {
@@ -135,10 +136,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         String sxfStr = getSxfStr(mHands.getText().toString(), bean);
         sxf.setText("￥" + sxfStr);
 
-        TextView total = (TextView) findViewById(R.id.tv_total);
-        total.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
+        mTotal = (TextView) findViewById(R.id.tv_total);
+        mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
 
-        TextView goRecharge = (TextView)findViewById(R.id.btn_go_recharge);
+        TextView goRecharge = (TextView) findViewById(R.id.btn_go_recharge);
         goRecharge.setOnClickListener(this);
     }
 
@@ -186,8 +187,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     buyTypeStr = "买涨";
                 }
 
-                // TODO: 2017/11/10 总计需要计算获取，目前是写死
-                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(mProductListBean.getInstrumentName() + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 ¥2511.68")
+                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(mProductListBean.getInstrumentName() + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString())
                         .setRightBtnText("确定")
                         .setLeftBtnText("取消")
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {

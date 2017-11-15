@@ -13,6 +13,7 @@ import net.grandcentrix.tray.core.WrongTypeException;
  */
 public class SpUtil {
     private static AppPreferences appPreferences;
+    public static String myBrHomeName = "myBrHomeName";
 
     public static String getString(String key) {
         return getSharedPreferences().getString(key, "");
