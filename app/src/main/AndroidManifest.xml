@@ -113,7 +113,7 @@
     <!--连连绑卡权限 end-->
     <application
         android:name="com.honglu.future.app.App"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logos"
         android:label="@string/app_name"
         android:persistent="true"
         android:supportsRtl="true"
