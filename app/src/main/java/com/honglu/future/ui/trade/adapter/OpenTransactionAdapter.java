@@ -45,8 +45,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         holder.mTvNum.setText(item.getTradeVolume());
         holder.mTvRise.setText(item.getAskPrice1());
         holder.mTvDown.setText(item.getBidPrice1());
-        holder.mTvRiseRadio.setText(item.getLongRate()+"%");
-        holder.mTvDownRadio.setText(item.getShortRate()+"%");
+        holder.mTvRiseRadio.setText(item.getLongRate() + "%");
+        holder.mTvDownRadio.setText((100 - Integer.valueOf(item.getLongRate())) + "%");
         if (item.getIsClosed().equals("2")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         } else {

@@ -33,11 +33,11 @@ import cn.udesk.model.MsgNotice;
 public class UdeskHelper {
 
 
-    private static final String UDESK_DOMAIN = "xnsd.udesk.cn";//'"13121380325.udesk.cn";
+    private static final String UDESK_DOMAIN = "xntj.udesk.cn";//'"13121380325.udesk.cn";
 
-    private static final String UDESK_SECRET_KAY = "3fdd0b5dec9c75ef528ad84a1a23860b";//;"a3962c701541045eb901081c82bd5b8d"
+    private static final String UDESK_SECRET_KAY = "b800d802893f0d6e19423bda560fbc74";//;"a3962c701541045eb901081c82bd5b8d"
 
-    private static final String UDESK_APPID = "91e92330d36d83a0";//;"a3962c701541045eb901081c82bd5b8d"
+    private static final String UDESK_APPID = "2cf686b7c08dcb10";//;"a3962c701541045eb901081c82bd5b8d"
 
     public static void init(Context context) {
         //Udesk相关初始化
