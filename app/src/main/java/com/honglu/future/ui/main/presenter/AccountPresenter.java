@@ -40,10 +40,10 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
-                if (code == 70000) {//首次登录
+                if ("首次登录必须修改密码，请修改密码后重新登录".equals(message)) {//首次登录
                     tv_pass.setText("");
                     SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
-                    new AlertFragmentDialog.Builder((FragmentActivity)context)
+                    new AlertFragmentDialog.Builder((FragmentActivity) context)
                             .setLeftBtnText("取消").setContent(message, R.color.color_333333, R.dimen.dimen_14sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
                             .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                         @Override

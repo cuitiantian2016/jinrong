@@ -89,7 +89,7 @@ public final class RequestMarketMessage extends ByteBufMessage {
     private String highestPrice;
     ///最低价
     private String lowestPrice;
-    ///数量
+    ///成交数量
     private String volume;
     ///成交金额
     private String turnover;
@@ -108,9 +108,7 @@ public final class RequestMarketMessage extends ByteBufMessage {
     ///申买量一
     private String bidVolume1;
     private String codes;
-    public RequestMarketMessage(Packet packet,Connection connection) {
-        super(packet, connection);
-    }
+    public RequestMarketMessage(Packet packet,Connection connection) {super(packet, connection); }
     public RequestMarketMessage(Connection connection, String codes) {
         super(new Packet(Command.MARKET, genSessionId()), connection);
         this.codes = codes;
