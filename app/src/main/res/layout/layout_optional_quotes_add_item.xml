@@ -9,6 +9,10 @@
     android:layout_height="wrap_content">
 
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_50dp_f7f8f9">
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
@@ -20,6 +24,6 @@
         android:gravity="center_vertical"
         android:text="m_empty"
         android:textColor="@color/color_A4A5A6"
-        android:textSize="@dimen/dimen_14sp"/>
-
+        android:textSize="@dimen/dimen_12sp"/>
+    </FrameLayout>
 </LinearLayout>

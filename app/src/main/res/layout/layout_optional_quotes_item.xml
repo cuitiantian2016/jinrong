@@ -24,6 +24,6 @@
             android:gravity="center_vertical"
             android:text="m_empty"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_14sp"/>
+            android:textSize="@dimen/dimen_12sp"/>
     </FrameLayout>
 </LinearLayout>

@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginTop="@dimen/dimen_30dp"
         android:orientation="horizontal">
 
@@ -21,11 +21,13 @@
             android:layout_height="wrap_content"
             android:text="我的自选"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_18sp" />
+            android:textSize="@dimen/dimen_16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_12sp"
             android:text="（单击删除，长按拖拽排序）" />
 
     </LinearLayout>
@@ -35,8 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_20dp"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp"
         android:paddingTop="@dimen/dimen_15dp" />
 
 </LinearLayout>

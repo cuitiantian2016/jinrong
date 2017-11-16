@@ -6,6 +6,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -386,5 +388,25 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     public void showErrorMsg(String msg, String type) {
 
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        try {
+            Configuration config = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                config = new Configuration();
+            }else {
+                config = res.getConfiguration();
+            }
+            if (config !=null){
+                config.setToDefaults();
+                res.updateConfiguration(config, res.getDisplayMetrics());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return res;
     }
 }
