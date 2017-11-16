@@ -50,6 +50,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private String mExcode;
     private String mInstrumentId;
     private String mPushCode;
+    private String mLastPrice ="0"; //最新价格
     private KLinePositionDialogAdapter mAdapter;
 
 
@@ -107,21 +108,47 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         mPingcang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAdapter.getData() != null
-                        && mAdapter.getData().size() > 0
-                        && mAdapter.getData().size() > mAdapter.getMPosition() + 1) {
+                if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
 
-                    HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition() + 1);
-                    mPresenter.closeOrder(
-                            String.valueOf(holdPositionBean.getTodayPosition()),
-                            SpUtil.getString(Constant.CACHE_TAG_UID),
-                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                            String.valueOf(mAdapter.getExpcNum()),
-                            String.valueOf(holdPositionBean.getType()),
-                            String.valueOf(mAdapter.getExPrice()),
-                            holdPositionBean.getInstrumentId(),
-                            holdPositionBean.getHoldAvgPrice(),
-                            "GUOFU");
+                    HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
+                    int lastPrice = Integer.parseInt(mLastPrice); //最新价格
+                    int exPrice = mAdapter.getExPrice(); //价格
+                    int exPcNum = mAdapter.getExpcNum(); //手数
+                    int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
+                    int type = holdPositionBean.getType();  //1 跌  2涨
+                    String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+                    String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
+                    String instrumentId = holdPositionBean.getInstrumentId();
+                    String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
+                    String company = "GUOFU";
+
+                    if (exPcNum <= 0 || exPrice <=0){
+                        return;
+                    }
+                    //当价格等于
+                    if (lastPrice == exPrice){
+                        mPresenter.ksCloseOrder(
+                                String.valueOf(todayPosition),
+                                userId,
+                                token,
+                                String.valueOf(exPcNum),
+                                String.valueOf(type),
+                                String.valueOf(exPrice),
+                                instrumentId,
+                                holdAvgPrice,
+                                company);
+                    }else {
+                        mPresenter.closeOrder(
+                                String.valueOf(todayPosition),
+                                userId,
+                                token,
+                                String.valueOf(exPcNum),
+                                String.valueOf(type),
+                                String.valueOf(exPrice),
+                                instrumentId,
+                                holdAvgPrice,
+                                company);
+                    }
                 }
 
             }
@@ -144,11 +171,13 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         return KLinePositionDialog.this;
     }
 
-
+    //停止mpu
     @Override
     public void dismiss() {
         super.dismiss();
-        EventBus.getDefault().unregister(this);
+        if (mAdapter !=null){
+            mAdapter.resetData();
+        }
         MPushUtil.pauseRequest();
     }
 
@@ -157,9 +186,21 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             MPushUtil.requestMarket(productList);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
+    public String getPushCode() {
+        return mPushCode;
+    }
 
+    /**
+     *
+     * @param lowerLimitPrice 跌停板价
+     * @param upperLimitPrice 涨停板价
+     * @param lastPrice 最新价
+     */
+    public void pushRefresh(String lowerLimitPrice,String upperLimitPrice ,String lastPrice) {
+        this.mLastPrice = lastPrice;
+        if (mAdapter !=null && mAdapter.isMpushRefresh()){
+            mAdapter.setMpushRefreshData(lowerLimitPrice,upperLimitPrice);
+        }
     }
 
     public void showDialog() {
@@ -167,7 +208,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             return;
         }
         show();
-        EventBus.getDefault().register(this);
         mName.setText("平仓-" + mNameValue);
         if (isClosed) {
             mPingcang.setEnabled(false);
@@ -179,8 +219,10 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
         }
         mAdapter.notifyDataChanged(mList);
+        //启动mpush
         requestMarket(mPushCode);
     }
+
 
     //根据接口返回的数据改变平仓按钮
     public void setPingcangSatte(int type, float mProfitLoss) {
@@ -215,6 +257,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     //委托平仓 / 快速平仓
     @Override
     public void closeOrderSuccess() {
-        dismiss();
+
     }
 }

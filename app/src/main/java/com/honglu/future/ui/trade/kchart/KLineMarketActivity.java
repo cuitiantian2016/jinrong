@@ -21,6 +21,8 @@ import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.dialog.klineposition.KLinePositionDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -40,6 +42,8 @@ import com.honglu.future.widget.popupwind.KLinePopupWin;
 import com.honglu.future.widget.tab.OnTabSelectListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +154,21 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
+         if (mKLinePositionDialog !=null
+                 && mKLinePositionDialog.isShowing()
+                 && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())){
+                mKLinePositionDialog.pushRefresh(event.marketMessage.getLowerLimitPrice(),event.marketMessage.getUpperLimitPrice(),event.marketMessage.getLastPrice());
+         }
+    }
+
+    @Override
     public void initPresenter() {
         mPresenter.init(this);
         mAccountPresenter = new AccountPresenter();
@@ -158,6 +177,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         mExcode = getIntent().getStringExtra("excode");
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");

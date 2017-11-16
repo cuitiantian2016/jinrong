@@ -31,6 +31,8 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     private int mExpcNum = 0; //平仓手数
     private int mExPrice = 0;//价格
 
+    private String mLowerLimitPrice; //跌停板价
+    private String mUpperLimitPrice; //涨停板价
 
     public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog) {
         this.mPresenter = mPresenter;
@@ -38,7 +40,22 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     }
 
     public void setProductListBean(ProductListBean bean) {
+        this.mExpcNum = 0;
+        this.mExPrice = 0;
         this.mProductListBean = bean;
+        this.mLowerLimitPrice = mProductListBean.getLowerLimitPrice();
+        this.mUpperLimitPrice = mProductListBean.getUpperLimitPrice();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * mpush 刷新对应数据
+     * @param lowerLimitPrice
+     * @param upperLimitPrice
+     */
+    public void setMpushRefreshData(String lowerLimitPrice ,String upperLimitPrice){
+        this.mLowerLimitPrice = lowerLimitPrice;
+        this.mUpperLimitPrice = upperLimitPrice;
         notifyDataSetChanged();
     }
 
@@ -49,7 +66,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     //重置 position
     public void clearPosition() {
-        mPosition = -1;
+        this.mPosition = -1;
     }
 
     //手数
@@ -62,13 +79,27 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         return mExPrice;
     }
 
+    //是否刷新mpush 消息
+    public boolean isMpushRefresh(){
+
+        return mProductListBean !=null && mPosition != -1;
+    }
+
+    //重置数据
+    public void  resetData(){
+        this.mProductListBean = null;
+        this.mExpcNum = 0;
+        this.mExPrice = 0;
+         clearPosition();
+         getData().clear();
+    }
+
     public void notifyDataChanged(List<HoldPositionBean> list) {
-        clearPosition();
-        getData().clear();
         if (list != null) {
             addData(list);
         }
     }
+
 
     @Override
     public KLinePositionDialogAdapter.ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
@@ -109,7 +140,6 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         final HoldPositionBean mBean = item;
 
         if (position == mPosition) {
-            clearPosition();
             holder.mGouxuan.setSelected(true);
             holder.mGouxuan.setEnabled(false);
             holder.mLayoutContent.setVisibility(View.VISIBLE);
@@ -133,15 +163,17 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 }
 
                 if (!TextUtils.isEmpty(mProductListBean.getLowerLimitPrice()) && !TextUtils.isEmpty(mProductListBean.getUpperLimitPrice())) {
-                    holder.mPriceHint.setText("≥" + mProductListBean.getLowerLimitPrice() + " 跌停价 且 ≤" + mProductListBean.getUpperLimitPrice() + "涨停价");
+                    holder.mPriceHint.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
                 }
 
                 //实际盈亏
                 holder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), holder.mEtMaxpc, item));
+
+                //平仓手续费
+                holder.mSxprice.setText("￥"+getPCprice(item.getType(),holder.mEtMaxpc,item));
+
                 //平仓盈亏
                 mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), holder.mEtMaxpc, item));
-
-
             }
 
         } else {
@@ -294,6 +326,40 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
         return mProfitLoss;
     }
+
+
+    /**
+     * 平仓手续费
+     * @param type
+     * @param mText
+     * @param bean
+     * @return
+     */
+    private float getPCprice(int type,EditText mText, HoldPositionBean bean){
+        float closePrice = "2".equals(type) ? Float.parseFloat(mProductListBean.getBidPrice1()) : Float.parseFloat(mProductListBean.getAskPrice1());
+
+        float closeRatio = Float.parseFloat(mProductListBean.getCloseRatioByMoney());
+
+        int buyCount = getText(mText);
+
+        float fee = 0;
+        boolean isToday = bean.getTodayPosition() > 0;
+
+        if (closeRatio !=0){
+            if (isToday){
+                closeRatio = Float.parseFloat(mProductListBean.getCloseTodayRatioByMoney());
+            }
+            fee = closePrice * mProductListBean.getVolumeMultiple() * closeRatio * buyCount;
+        }else {
+            closeRatio = Float.parseFloat(mProductListBean.getCloseRatioByVolume());
+            if (isToday){
+                closeRatio = Float.parseFloat(mProductListBean.getCloseTodayRatioByVolume());
+            }
+            fee = closeRatio * buyCount;
+        }
+        return fee;
+    }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mGouxuan;
