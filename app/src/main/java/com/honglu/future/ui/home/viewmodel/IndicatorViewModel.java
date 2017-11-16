@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.honglu.future.R;
+import com.honglu.future.util.DeviceUtils;
 
 /**
  * Created by hefei on 2017/9/6.
@@ -51,13 +52,13 @@ public class IndicatorViewModel{
         }
         for (int i = 0; i < sum; i++) {
             View view = new View(mContext);
-            view.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_indication));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
             params.weight = 1;
+            params.setMargins(0,0,DeviceUtils.dip2px(mContext,2),0);
             linearLayout.addView(view,params);
-            linearLayout.getChildAt(i).setVisibility(View.INVISIBLE);
+            linearLayout.getChildAt(i).setBackground(mContext.getResources().getDrawable(R.drawable.bg_indicator_ll));
         }
-        linearLayout.getChildAt(0).setVisibility(View.VISIBLE);
+        linearLayout.getChildAt(0).setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_indication));
     }
     /**
      * 当前显示那个位置
@@ -67,9 +68,9 @@ public class IndicatorViewModel{
         int childCount = linearLayout.getChildCount();
         for (int i = 0; i < childCount; i++) {
             if (i == position){//当前位置显示
-                linearLayout.getChildAt(i).setVisibility(View.VISIBLE);
+                linearLayout.getChildAt(i).setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_indication));
             }else {
-                linearLayout.getChildAt(i).setVisibility(View.INVISIBLE);
+                linearLayout.getChildAt(i).setBackground(mContext.getResources().getDrawable(R.drawable.bg_indicator_ll));
             }
         }
     }

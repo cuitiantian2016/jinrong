@@ -119,7 +119,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         deviceWidth = DeviceUtils.getScreenWidth(mContext);
         mViewPager = (ViewPager) view.findViewById(R.id.vp_market);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_indicator_view);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(30), DensityUtil.dp2px(2));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(60), DensityUtil.dp2px(2));
         params.gravity = Gravity.CENTER;
         indicatorViewModel = new IndicatorViewModel(mContext, 3);
         linearLayout.addView(indicatorViewModel.mView,params);
