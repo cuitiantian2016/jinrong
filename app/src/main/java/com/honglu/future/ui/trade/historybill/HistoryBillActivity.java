@@ -184,7 +184,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                    return;
                }
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getTransactionList().size(); i++) {
+                    for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
@@ -194,7 +194,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         mList.add(bean);
                     }
                 } else if (position == 1 && settlementInfoBean.getCloseList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getCloseList().size(); i++) {
+                    for (int i = 0; i < settlementInfoBean.getCloseList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getCloseList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getCloseList().get(i).getBs());
@@ -203,8 +203,8 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         bean.setServicePrice(settlementInfoBean.getCloseList().get(i).getPremiumReceivedPaid());
                         mList.add(bean);
                     }
-                } else if (position == 1 && settlementInfoBean.getPositionsList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getPositionsList().size(); i++) {
+                } else if (position == 2 && settlementInfoBean.getPositionsList() != null) {
+                    for (int i = 0; i < settlementInfoBean.getPositionsList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getPositionsList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getPositionsList().get(i).getSh());
@@ -214,7 +214,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         mList.add(bean);
                     }
                 }
-
+                mHistoryRecordsAdapter.clearData();
                 mHistoryRecordsAdapter.addData(mList);
             }
         });
