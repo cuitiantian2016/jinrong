@@ -44,8 +44,8 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                     tv_pass.setText("");
                     SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
                     new AlertFragmentDialog.Builder((FragmentActivity) context)
-                            .setLeftBtnText("取消").setContent(message, R.color.color_333333, R.dimen.dimen_14sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
-                            .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            .setLeftBtnText("取消").setContent("首次登录必须修改交易密码，请修改密码后重新登录", R.color.color_A4A5A6, R.dimen.dimen_15sp).setTitle("修改交易面", R.color.color_333333, R.dimen.dimen_18sp)
+                            .setRightBtnText("去修改").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                         @Override
                         public void dialogRightBtnClick(String string) {
                             PasswordResetActivity.startPasswordResetActivity(App.mApp.mActivity, true);
