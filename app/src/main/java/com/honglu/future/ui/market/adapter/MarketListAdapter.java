@@ -17,6 +17,7 @@ import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.market.fragment.MarketItemFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
+import com.honglu.future.widget.DinTextView;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -154,7 +155,7 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
         @BindView(R.id.text_contract_name)
         TextView mTvContractName;//合约名称
         @BindView(R.id.text_latest_price)
-        TextView mTvLatestPrice;//最新价
+        DinTextView mTvLatestPrice;//最新价
         @BindView(R.id.v_red)
         View mRedView;
         @BindView(R.id.v_green)
@@ -162,9 +163,9 @@ public class MarketListAdapter extends BaseRecyclerAdapter<MarketListAdapter.Vie
         @BindView(R.id.iv_adddel)
         ImageView mAddDelIc;
         @BindView(R.id.text_quote_change)
-        TextView mTvQuoteChange;//涨幅量
+        DinTextView mTvQuoteChange;//涨幅量
         @BindView(R.id.text_haved_positions)
-        TextView mTvHavedPositions;//持仓量
+        DinTextView mTvHavedPositions;//持仓量
 
         ViewHolder(View view) {
             super(view);
