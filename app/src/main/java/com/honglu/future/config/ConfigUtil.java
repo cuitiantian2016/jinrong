@@ -18,6 +18,8 @@ public class ConfigUtil {
     private boolean isDebug = BuildConfig.DEBUG;//是否调试模式,上线必须改为false
     public static final String KEY_URL = "KEY_URL";
     public static String URL_85 = "http://106.15.158.85:800/";
+    public static String URL_85_AllotServer = "http://106.15.158.85:9999";
+    public static String URL_126_AllotServer= "http://192.168.85.126:9999";
     public static String URL_126 = "http://192.168.85.126/";
     //public static String baseUrl = "http://106.15.158.85:800/";
     public static String baseUrl = TextUtils.isEmpty(SpUtil.getString(KEY_URL))?URL_85:SpUtil.getString(KEY_URL);

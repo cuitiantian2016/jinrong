@@ -34,6 +34,7 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.xulu.mpush.client.ClientConfig;
 
@@ -94,9 +95,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
      * @param userId 用户的userId
      */
     public void startPush(String userId) {
+        String allotServer =ConfigUtil.URL_85_AllotServer;
+        if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_126)){
+            allotServer = ConfigUtil.URL_126_AllotServer;
+        }
         //公钥有服务端提供和私钥对应
         ClientConfig cc = ClientConfig.build()
-                .setAllotServer(ConfigUtil.baseUrl)
+                .setAllotServer(allotServer)
                 .setOsName("android")
                 .setClientVersion(BuildConfig.VERSION_NAME)
                 .setLogger(new MyLog())
