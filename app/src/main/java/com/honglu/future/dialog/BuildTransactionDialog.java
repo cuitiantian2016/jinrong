@@ -94,7 +94,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
         riseRadio.setText(mProductListBean.getLongRate() + "%");
         TextView downRadio = (TextView) findViewById(R.id.tv_down_radio);
-        downRadio.setText((100 - Integer.valueOf(mProductListBean.getShortRate())) + "%");
+        downRadio.setText((100 - Integer.valueOf(mProductListBean.getLongRate())) + "%");
         mPrice = (EditText) findViewById(R.id.amountView);
         mPrice.setText(mProductListBean.getLastPrice());
         mHands = (EditText) findViewById(R.id.av_hands);

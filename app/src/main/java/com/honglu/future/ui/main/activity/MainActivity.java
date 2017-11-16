@@ -52,6 +52,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 主界面
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             savedInstanceState = null;
         }
         super.onCreate(savedInstanceState);
-        JPushManager.get().registerJPushAlias();
+        JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
     }
 
     @Override
@@ -243,7 +244,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_LOGIN)//登录
             {
-                JPushManager.get().registerJPushAlias();
+                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
                 if (toTabIndex != odlState)//切换
                 {
                     changeTab(toTabIndex);
@@ -251,7 +252,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 }
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOGOUT) {
-                JPushManager.get().registerJPushAlias();
+                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
                 //默认到首页
                 changeTab(FragmentFactory.FragmentStatus.Home);
                 ((RadioButton) findViewById(getCheckIdByStatus(FragmentFactory.FragmentStatus.Home))).setChecked(true);

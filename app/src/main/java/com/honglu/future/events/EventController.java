@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 
 public class EventController {
 
@@ -67,7 +69,7 @@ public class EventController {
             //登录
             if (event instanceof LoginEvent) {
                 //登陆成功后，更新极光推送的别名
-                JPushManager.get().registerJPushAlias();
+                JPushInterface.setAlias(mContext, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
                 saveUserInfo(((LoginEvent) event).getBean(), ((LoginEvent) event).getContext());
                 if (((LoginEvent) event).isToNext()) {
                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_LOGIN));//是点哪个页面跳转的登录，登录后就跳转到点击的页面
