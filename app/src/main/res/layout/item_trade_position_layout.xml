@@ -40,11 +40,12 @@
                android:id="@+id/tv_buy_count"
                android:layout_width="@dimen/dimen_80dp"
                android:layout_height="wrap_content"
+               android:textColor="@color/color_333333"
                android:textSize="@dimen/dimen_16sp"
                android:text="买涨100手"/>
 
 
-           <TextView
+           <com.honglu.future.widget.DinTextView
                android:id="@+id/tv_average_price"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -54,20 +55,21 @@
                android:layout_weight="1"
                android:text="2754"/>
 
-           <TextView
+           <com.honglu.future.widget.DinTextView
                android:id="@+id/tv_new_price"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textSize="@dimen/dimen_16sp"
-               android:gravity="center_horizontal"
-               android:textColor="@color/color_333333"
                android:layout_weight="1"
-               android:text="2765"/>
+               android:gravity="center_horizontal"
+               android:text="2765"
+               android:textColor="@color/color_333333"
+               android:textSize="@dimen/dimen_16sp" />
 
-           <TextView
+           <com.honglu.future.widget.DinTextView
                android:id="@+id/tv_profit_loss"
                android:layout_width="@dimen/dimen_60dp"
                android:layout_height="wrap_content"
+               android:textColor="@color/color_333333"
                android:gravity="right"
                android:textSize="@dimen/dimen_16sp"
                android:text="+10000"/>

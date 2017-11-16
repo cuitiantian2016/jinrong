@@ -34,6 +34,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -164,6 +165,14 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         LinearLayout tradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         TextView tvTip = (TextView) headView.findViewById(R.id.tv_tip);
         ImageView ivTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
+
+        //剩余平分
+        LinearLayout rootLayoutLeft = (LinearLayout) headView.findViewById(R.id.rootLayout_left);
+        int screenWidth = ViewUtil.getScreenWidth(getActivity());
+        int pixelSize_15 = getResources().getDimensionPixelSize(R.dimen.dimen_15dp);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rootLayoutLeft.getLayoutParams();
+        params.width = (screenWidth - pixelSize_15 * 4) / 2;
+        rootLayoutLeft.setLayoutParams(params);
 
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
         mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);

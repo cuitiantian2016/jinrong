@@ -32,7 +32,7 @@
             android:textSize="@dimen/dimen_16sp" />
 
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_average_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_16sp" />
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_new_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_16sp" />
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_profit_loss"
             android:layout_width="@dimen/dimen_60dp"
             android:layout_height="wrap_content"

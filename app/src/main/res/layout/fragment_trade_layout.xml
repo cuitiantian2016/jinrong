@@ -26,7 +26,7 @@
             app:tl_textUnselectColor="@color/color_323232"
             app:tl_textsize="@dimen/dimen_16sp"
             app:tl_textBold="BOTH"
-            app:tl_underline_color="@color/color_d8d7d7"
+            app:tl_underline_color="@color/color_E6E6E6"
             app:tl_underline_height="@dimen/dimen_1dp_half" />
 
         <RelativeLayout
@@ -50,7 +50,7 @@
                 android:layout_height="@dimen/dimen_1dp_half"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-                android:background="@color/color_d8d7d7" />
+                android:background="@color/color_E6E6E6" />
         </RelativeLayout>
     </RelativeLayout>
 

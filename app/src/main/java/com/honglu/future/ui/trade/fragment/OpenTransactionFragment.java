@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -280,6 +282,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mOpenTransactionAdapter = new OpenTransactionAdapter();
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.item_trade_list_header, null);
+
+        //剩余平分
+        LinearLayout rootLayoutLeft = (LinearLayout) headView.findViewById(R.id.rootLayout_left);
+        int screenWidth = ViewUtil.getScreenWidth(getActivity());
+        int pixelSize_15 = getResources().getDimensionPixelSize(R.dimen.dimen_15dp);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rootLayoutLeft.getLayoutParams();
+        params.width = (screenWidth - pixelSize_15 * 4) / 2;
+        rootLayoutLeft.setLayoutParams(params);
+
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
         mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
         mMoney = (TextView) headView.findViewById(R.id.tv_money);

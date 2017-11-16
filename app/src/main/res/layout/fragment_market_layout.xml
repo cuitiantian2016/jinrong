@@ -23,7 +23,7 @@
         app:tl_textSelectColor="@color/color_008EFF"
         app:tl_textUnselectColor="@color/color_323232"
         app:tl_textsize="@dimen/dimen_16sp"
-        app:tl_underline_color="@color/color_d8d7d7"
+        app:tl_underline_color="@color/color_E6E6E6"
         app:tl_windMargin="@dimen/dimen_20dp" />
 
     <View style="@style/line_base_horizontal" />
