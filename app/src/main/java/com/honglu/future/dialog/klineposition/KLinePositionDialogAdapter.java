@@ -143,7 +143,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             holder.mGouxuan.setSelected(true);
             holder.mGouxuan.setEnabled(false);
             holder.mLayoutContent.setVisibility(View.VISIBLE);
-            holder.mEtMaxpc.setEnabled(true);
+            holder.mEtMaxpc.setEnabled(false);
 
             //平仓手数 最多
             holder.mMaxpcNum.setText("平仓手数(最多" + item.getPosition() + "手)");
@@ -156,9 +156,8 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
             if (mProductListBean != null) {
 
-                int lastPrice = getIntNum(mProductListBean.getLastPrice());
-                holder.mEtPrice.setText(lastPrice+"");
-                this.mExPrice = lastPrice;
+                this.mExPrice = getIntNum(mProductListBean.getLastPrice());
+                holder.mEtPrice.setText(mExPrice+"");
                 setPriceListener(mViewHolder);
 
                 holder.mPriceHint.setText("≥" + getFloatNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getFloatNum(mUpperLimitPrice) + "涨停价");

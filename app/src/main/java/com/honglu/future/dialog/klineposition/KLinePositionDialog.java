@@ -44,7 +44,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private String mExcode;
     private String mInstrumentId;
     private String mPushCode;
-    private String mLastPrice ="0"; //最新价格
+    private String mLastPrice;//最新价格
     private KLinePositionDialogAdapter mAdapter;
 
 
@@ -105,9 +105,9 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
 
                     HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
-                    int lastPrice = Integer.parseInt(mLastPrice); //最新价格
                     int exPrice = mAdapter.getExPrice(); //价格
                     int exPcNum = mAdapter.getExpcNum(); //手数
+                    int lastPrice = Integer.parseInt(mLastPrice);//最新价
                     int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
                     int type = holdPositionBean.getType();  //1 跌  2涨
                     String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
@@ -233,7 +233,13 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 mPingcang.setBackgroundResource(R.color.color_FB4F4F);
             }
         }
-
+        if (mProfitLoss > 0){
+            mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+        }else if (mProfitLoss < 0){
+            mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+        }else {
+            mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_B1B1B3));
+        }
         mYkprice.setText("￥" + mProfitLoss);
     }
 
@@ -242,6 +248,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         if (bean != null) {
+            mLastPrice = bean.getLastPrice();
             mAdapter.setProductListBean(bean);
         } else {
             mAdapter.clearPosition();

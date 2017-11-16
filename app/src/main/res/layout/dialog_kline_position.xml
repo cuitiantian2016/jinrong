@@ -101,6 +101,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="@dimen/dimen_18sp"
+                  android:textColor="@color/color_B1B1B3"
                   android:layout_weight="1"
                   android:text="-------"/>
 
