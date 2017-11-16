@@ -11,11 +11,17 @@ import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
 import com.orhanobut.logger.Logger;
 
+import retrofit2.http.PUT;
+
 public class ConfigUtil {
 
     private boolean isDebug = BuildConfig.DEBUG;//是否调试模式,上线必须改为false
+    public static final String KEY_URL = "KEY_URL";
+    public static String URL_85 = "http://106.15.158.85:800/";
+    public static String URL_126 = "http://192.168.85.126/";
+    //public static String baseUrl = "http://106.15.158.85:800/";
+    public static String baseUrl = TextUtils.isEmpty(SpUtil.getString(KEY_URL))?URL_85:SpUtil.getString(KEY_URL);
 
-    public static String baseUrl = "http://106.15.158.85:800";
     public static String baseImageUserUrl = "http://qihuo-test.oss-cn-shanghai.aliyuncs.com/";
     public static String baseH5Url = "http://106.15.158.85:800/";
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/

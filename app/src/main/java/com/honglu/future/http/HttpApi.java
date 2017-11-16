@@ -227,7 +227,6 @@ public interface HttpApi {
     @POST("futures-mobile-api/app/future/exchange/trade/product/detail")
     Observable<BaseResponse<ProductListBean>> getProductDetail(@Field("instrumentId") String instrumentId);
 
-
     //行情
     //http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main?deviceType=2
     @POST("futures-data-mobile/quotation/realTime/main")

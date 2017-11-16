@@ -64,12 +64,12 @@ public class EventController {
      *
      * @param event
      */
-    public void handleMessage(final BaseEvent event) {
+    public void handleMessage(final BaseEvent event,Context context) {
         if (event.getUiEvent() == null) {
             //登录
             if (event instanceof LoginEvent) {
                 //登陆成功后，更新极光推送的别名
-                JPushInterface.setAlias(mContext, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
+                JPushInterface.setAlias(context, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
                 saveUserInfo(((LoginEvent) event).getBean(), ((LoginEvent) event).getContext());
                 if (((LoginEvent) event).isToNext()) {
                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_LOGIN));//是点哪个页面跳转的登录，登录后就跳转到点击的页面

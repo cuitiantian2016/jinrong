@@ -13,18 +13,24 @@
         android:text="h5跳转页面测试页面"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_18sp" />
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/dimen_50dp"
         android:layout_marginBottom="@dimen/dimen_30dp"
-        android:background="@color/color_008EFF"
+        android:background="@color/color_F35B5A"
         android:gravity="center"
         android:onClick="goToHome"
         android:text="跳转到首页"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_18sp" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/dimen_50dp"
         android:layout_marginBottom="@dimen/dimen_30dp"
         android:background="@color/color_008EFF"
@@ -34,17 +40,19 @@
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_18sp" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/dimen_50dp"
         android:layout_marginBottom="@dimen/dimen_30dp"
-        android:background="@color/color_008EFF"
+        android:background="@color/color_F35B5A"
         android:gravity="center"
         android:onClick="goToTrade"
         android:text="跳转到交易"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_18sp" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/dimen_50dp"
         android:layout_marginBottom="@dimen/dimen_30dp"
         android:background="@color/color_008EFF"
@@ -53,4 +61,33 @@
         android:text="跳转到我的"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginBottom="@dimen/dimen_30dp"
+            android:background="@color/color_F35B5A"
+            android:gravity="center"
+            android:onClick="change126"
+            android:text="126环境"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_18sp" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginBottom="@dimen/dimen_30dp"
+            android:background="@color/color_008EFF"
+            android:gravity="center"
+            android:onClick="change85"
+            android:text="85环境"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_18sp" />
+    </LinearLayout>
 </LinearLayout>

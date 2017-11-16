@@ -197,7 +197,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         if (event instanceof LogoutEvent) {//登出
             MPush.I.unbindAccount();
         }
-        EventController.getInstance().handleMessage(event);
+        EventController.getInstance().handleMessage(event,this);
     }
 
 

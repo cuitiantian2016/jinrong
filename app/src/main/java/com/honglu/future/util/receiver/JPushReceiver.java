@@ -54,86 +54,86 @@ public class JPushReceiver extends BroadcastReceiver {
             if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-                Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-                Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
-
-                String messagestr = bundle.getString(JPushInterface.EXTRA_EXTRA);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(messagestr);
-                    if (jsonObject.has("newInformation")) {
-                        String informationStr = (String) jsonObject.get("newInformation");
-                        //if (informationStr.contains("\\")) {
-                        //    informationStr.replaceAll("\\\\","");
-                        //}
-                        Log.e("推送id", "" + bundle.getString(JPushInterface.EXTRA_MSG_ID) + "");
-                        Map<String, String> mappush = new HashMap<String, String>();
-                        mappush.put("id", bundle.getString(JPushInterface.EXTRA_MSG_ID) + "");
-                        mappush.put("phone", SpUtil.getString(Constant.CACHE_TAG_MOBILE));
-                        mappush.put("message", informationStr);
-                        TableManager.AddJPush(context, mappush);
-                        EventBus.getDefault().post(EventBusConstant.TO_MAIN_EVENT_JPUSH_NEW_MSG);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent_message = new Intent(SpUtil.myBrHomeName);
-                intent_message.putExtra("tag", "message");
-                context.sendBroadcast(intent_message);
-
-                String json = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                Gson gson = new Gson();
-                JpushBean jpushBean = gson.fromJson(json, JpushBean.class);
-                url = jpushBean.getUrl();
-                jump = jpushBean.getJump();
-                //     jump = "xiaoniuzhitou://jump/postDetail?circleId=79299f07f20f411187f1ee2c14bd9a0a";
-                // url ="xiaoniuzhitou://jump/postDetail?circleId=79299f07f20f411187f1ee2c14bd9a0a";//測試
-                //发送广播通知取消报价提醒
-                //创建Intent对象
-                if (!TextUtils.isEmpty(jpushBean.getType())) {
-                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
-                    Intent intentclock = new Intent();
-                    //设置Intent的Action属性
-                    intentclock.setAction("com.honglu.priceClock");
-                    intentclock.putExtra("type", jpushBean.getType());
-                    //发送广播
-                    intentclock.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    localBroadcastManager.sendBroadcast(intentclock);
-                }
-
-            } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                //判断用户是否已经登录
-                Log.d(TAG, "onReceive: jump--->" + jump + "url--->" + url);
-                String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
-                if (!TextUtils.isEmpty(uid)) {
-                    if (!TextUtils.isEmpty(jump)) { //跳转协议
-                        // TODO: 2017/11/15 跳转协议
-                        //Bus.callURL(App.getContext(), jump);
-                    } else {
-                        if (!TextUtils.isEmpty(url)) {
-                            if (url.startsWith("http")) {
-                                Intent intenth5 = new Intent(context, WebViewActivity.class);
-                                Bundle bundleh5 = new Bundle();
-                                bundleh5.putString("url", url);
-                                bundleh5.putString("title", "消息");
-                                bundleh5.putString("tag", "");
-                                intenth5.putExtras(bundleh5);
-                                intenth5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(intenth5);
-                            }
-                        } else {
-                            //打开主Activity
-                            Intent i = new Intent(context, MainActivity.class);
-                            i.putExtras(bundle);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            context.startActivity(i);
-                        }
-                    }
-                } else {
-                    // TODO: 2017/11/15 协议跳转登录注册
-                    // UserBusUtil.goToRegisterActivity(context);
-                }
+//                Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+//                Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+//
+//                String messagestr = bundle.getString(JPushInterface.EXTRA_EXTRA);
+//
+//                try {
+//                    JSONObject jsonObject = new JSONObject(messagestr);
+//                    if (jsonObject.has("newInformation")) {
+//                        String informationStr = (String) jsonObject.get("newInformation");
+//                        //if (informationStr.contains("\\")) {
+//                        //    informationStr.replaceAll("\\\\","");
+//                        //}
+//                        Log.e("推送id", "" + bundle.getString(JPushInterface.EXTRA_MSG_ID) + "");
+//                        Map<String, String> mappush = new HashMap<String, String>();
+//                        mappush.put("id", bundle.getString(JPushInterface.EXTRA_MSG_ID) + "");
+//                        mappush.put("phone", SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+//                        mappush.put("message", informationStr);
+//                        TableManager.AddJPush(context, mappush);
+//                        EventBus.getDefault().post(EventBusConstant.TO_MAIN_EVENT_JPUSH_NEW_MSG);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                Intent intent_message = new Intent(SpUtil.myBrHomeName);
+//                intent_message.putExtra("tag", "message");
+//                context.sendBroadcast(intent_message);
+//
+//                String json = bundle.getString(JPushInterface.EXTRA_EXTRA);
+//                Gson gson = new Gson();
+//                JpushBean jpushBean = gson.fromJson(json, JpushBean.class);
+//                url = jpushBean.getUrl();
+//                jump = jpushBean.getJump();
+//                //     jump = "xiaoniuzhitou://jump/postDetail?circleId=79299f07f20f411187f1ee2c14bd9a0a";
+//                // url ="xiaoniuzhitou://jump/postDetail?circleId=79299f07f20f411187f1ee2c14bd9a0a";//測試
+//                //发送广播通知取消报价提醒
+//                //创建Intent对象
+//                if (!TextUtils.isEmpty(jpushBean.getType())) {
+//                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+//                    Intent intentclock = new Intent();
+//                    //设置Intent的Action属性
+//                    intentclock.setAction("com.honglu.priceClock");
+//                    intentclock.putExtra("type", jpushBean.getType());
+//                    //发送广播
+//                    intentclock.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    localBroadcastManager.sendBroadcast(intentclock);
+//                }
+//
+//            } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+//                //判断用户是否已经登录
+//                Log.d(TAG, "onReceive: jump--->" + jump + "url--->" + url);
+//                String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
+//                if (!TextUtils.isEmpty(uid)) {
+//                    if (!TextUtils.isEmpty(jump)) { //跳转协议
+//                        // TODO: 2017/11/15 跳转协议
+//                        //Bus.callURL(App.getContext(), jump);
+//                    } else {
+//                        if (!TextUtils.isEmpty(url)) {
+//                            if (url.startsWith("http")) {
+//                                Intent intenth5 = new Intent(context, WebViewActivity.class);
+//                                Bundle bundleh5 = new Bundle();
+//                                bundleh5.putString("url", url);
+//                                bundleh5.putString("title", "消息");
+//                                bundleh5.putString("tag", "");
+//                                intenth5.putExtras(bundleh5);
+//                                intenth5.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                context.startActivity(intenth5);
+//                            }
+//                        } else {
+//                            //打开主Activity
+//                            Intent i = new Intent(context, MainActivity.class);
+//                            i.putExtras(bundle);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            context.startActivity(i);
+//                        }
+//                    }
+//                } else {
+//                    // TODO: 2017/11/15 协议跳转登录注册
+//                    // UserBusUtil.goToRegisterActivity(context);
+//                }
 
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
