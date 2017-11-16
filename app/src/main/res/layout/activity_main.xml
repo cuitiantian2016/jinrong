@@ -16,6 +16,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View style="@style/line_base_horizontal"/>
+
     <RadioGroup
         android:id="@+id/group"
         android:layout_width="match_parent"
