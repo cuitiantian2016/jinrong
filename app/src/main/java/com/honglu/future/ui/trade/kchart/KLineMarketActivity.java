@@ -439,8 +439,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                             mKLinePositionDialog.setPositionData(mClosed, mExcode, mCode, mName, mChiCangList).showDialog();
                         } else {
                             //getPositionList();
-                            EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
-                            finish();
+//                            EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+//                            finish();
                         }
                     }
                 } else {
