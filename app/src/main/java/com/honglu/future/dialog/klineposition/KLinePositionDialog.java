@@ -19,17 +19,11 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
 import com.honglu.future.config.Constant;
-import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
 
 /**

@@ -155,16 +155,13 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             setPositionListener(mViewHolder, mBean);
 
             if (mProductListBean != null) {
-                //平仓委托价
-                if (!TextUtils.isEmpty(mProductListBean.getLastPrice())) {
-                    holder.mEtPrice.setText(mProductListBean.getLastPrice());
-                    this.mExPrice = Integer.parseInt(mProductListBean.getLastPrice());
-                    setPriceListener(mViewHolder);
-                }
 
-                if (!TextUtils.isEmpty(mProductListBean.getLowerLimitPrice()) && !TextUtils.isEmpty(mProductListBean.getUpperLimitPrice())) {
-                    holder.mPriceHint.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
-                }
+                int lastPrice = getIntNum(mProductListBean.getLastPrice());
+                holder.mEtPrice.setText(lastPrice+"");
+                this.mExPrice = lastPrice;
+                setPriceListener(mViewHolder);
+
+                holder.mPriceHint.setText("≥" + getFloatNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getFloatNum(mUpperLimitPrice) + "涨停价");
 
                 //实际盈亏
                 holder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), holder.mEtMaxpc, item));
@@ -296,11 +293,11 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
      * @return
      */
     private float getActualProfitLoss(int type, EditText mText, HoldPositionBean bean) {
-        float closePrice = "2".equals(type) ? Float.parseFloat(mProductListBean.getBidPrice1()) : Float.parseFloat(mProductListBean.getAskPrice1());
+        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
 
-        float price = closePrice - Float.parseFloat(bean.getOpenAvgPrice());
+        float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
 
-        float priceTick = Float.parseFloat(mProductListBean.getPriceTick());
+        float priceTick = getFloatNum(mProductListBean.getPriceTick());
 
         float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
 
@@ -316,11 +313,11 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
      * @return
      */
     private float getPCProfitLoss(int type, EditText mText, HoldPositionBean bean) {
-        float closePrice = "2".equals(type) ? Float.parseFloat(mProductListBean.getBidPrice1()) : Float.parseFloat(mProductListBean.getAskPrice1());
+        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
 
-        float price = closePrice - Float.parseFloat(bean.getOpenAvgPrice());
+        float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
 
-        float priceTick = Float.parseFloat(mProductListBean.getPriceTick());
+        float priceTick = getFloatNum(mProductListBean.getPriceTick());
 
         float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
 
@@ -336,9 +333,9 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
      * @return
      */
     private float getPCprice(int type,EditText mText, HoldPositionBean bean){
-        float closePrice = "2".equals(type) ? Float.parseFloat(mProductListBean.getBidPrice1()) : Float.parseFloat(mProductListBean.getAskPrice1());
+        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
 
-        float closeRatio = Float.parseFloat(mProductListBean.getCloseRatioByMoney());
+        float closeRatio = getFloatNum(mProductListBean.getCloseRatioByMoney());
 
         int buyCount = getText(mText);
 
@@ -347,19 +344,33 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
         if (closeRatio !=0){
             if (isToday){
-                closeRatio = Float.parseFloat(mProductListBean.getCloseTodayRatioByMoney());
+                closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByMoney());
             }
             fee = closePrice * mProductListBean.getVolumeMultiple() * closeRatio * buyCount;
         }else {
-            closeRatio = Float.parseFloat(mProductListBean.getCloseRatioByVolume());
+            closeRatio = getFloatNum(mProductListBean.getCloseRatioByVolume());
             if (isToday){
-                closeRatio = Float.parseFloat(mProductListBean.getCloseTodayRatioByVolume());
+                closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByVolume());
             }
             fee = closeRatio * buyCount;
         }
         return fee;
     }
 
+
+    private float getFloatNum(String num){
+        if (!TextUtils.isEmpty(num)){
+            return Float.parseFloat(num);
+        }
+        return 0;
+    }
+
+    private int getIntNum(String num){
+        if (!TextUtils.isEmpty(num)){
+            return Integer.parseInt(num);
+        }
+        return 0;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mGouxuan;
