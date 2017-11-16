@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/circleImageView"
-        android:layout_width="@dimen/dimen_44dp"
-        android:layout_height="@dimen/dimen_44dp"
+        android:layout_width="@dimen/dimen_50dp"
+        android:layout_height="55dp"
         android:layout_gravity="center"
         android:src="@mipmap/iv_no_image" />
 

@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             savedInstanceState = null;
         }
         super.onCreate(savedInstanceState);
-        JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
+        JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
     }
 
     @Override
@@ -244,7 +244,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_LOGIN)//登录
             {
-                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
+                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
                 if (toTabIndex != odlState)//切换
                 {
                     changeTab(toTabIndex);
@@ -252,7 +252,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 }
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOGOUT) {
-                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_MOBILE), null);
+                JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
                 //默认到首页
                 changeTab(FragmentFactory.FragmentStatus.Home);
                 ((RadioButton) findViewById(getCheckIdByStatus(FragmentFactory.FragmentStatus.Home))).setChecked(true);
