@@ -156,6 +156,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mKLinePositionDialog.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 

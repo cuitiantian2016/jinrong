@@ -30,6 +30,12 @@ public abstract class BaseDialog<T extends BasePresenter> extends Dialog impleme
           mPresenter = TUtil.getT(this, 0);
     }
 
+    public void onDestroy(){
+        if (mPresenter !=null){
+            mPresenter.onDestroy();
+        }
+    }
+
     @Override
     public void showLoading(String content) {
 
