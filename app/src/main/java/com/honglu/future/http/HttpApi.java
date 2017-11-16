@@ -197,7 +197,7 @@ public interface HttpApi {
     //委托平仓
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/close/order/v2")
-        Observable<BaseResponse> closeOrder(@Field("todayPosition") String todayPosition,
+    Observable<BaseResponse> closeOrder(@Field("todayPosition") String todayPosition,
                                         @Field("userId") String userId,
                                         @Field("token") String token,
                                         @Field("orderNumber") String orderNumber,
