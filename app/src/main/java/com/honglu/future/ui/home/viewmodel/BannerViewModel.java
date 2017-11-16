@@ -1,6 +1,7 @@
 package com.honglu.future.ui.home.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
 import com.honglu.future.widget.banner.Banner;
@@ -75,6 +78,9 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
             @Override
             public void itemClick(String url, String circleColumnName) {
                 Log.d(TAG,"url-->"+url+"circleColumnName-->"+circleColumnName);
+                Intent intentAbout = new Intent(mContext, WebViewActivity.class);
+                intentAbout.putExtra("url", url);
+                mContext.startActivity(intentAbout);
             }
         });
         mBanner.setAdapter(mAutoFlingBannerAdapter);
