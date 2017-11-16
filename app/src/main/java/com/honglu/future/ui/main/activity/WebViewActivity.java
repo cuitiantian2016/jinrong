@@ -1,6 +1,7 @@
 package com.honglu.future.ui.main.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,7 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.callback.NavCallback;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cfmmc.app.sjkh.*;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -125,7 +130,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setAllowFileAccess(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);//不适用缓存
         settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -330,7 +335,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         public void reBankCard() {
             //调用这个方法返回数据
             WebViewActivity.this.finish();
-
         }
 
         /**
@@ -696,6 +700,24 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
     class MyWebViewClient extends WebViewClient {
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            Uri url = request.getUrl();
+            Log.d("tag","url-->"+url);
+            if (url.getScheme().contains("xn")) {
+                ARouter.getInstance().build(url)
+                        .navigation(WebViewActivity.this, new NavCallback() {
+                            @Override
+                            public void onArrival(Postcard postcard) {
+                                finish();
+                            }
+                        });
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             //handler.cancel(); // Android默认的处理方式
@@ -712,8 +734,16 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (App.getConfig().isDebug()) {
-                //ToastUtil.show(url);
+            Log.d("tag","url-->"+url);
+            if (url.startsWith("xn")) {
+                ARouter.getInstance().build(Uri.parse(url))
+                        .navigation(WebViewActivity.this, new NavCallback() {
+                            @Override
+                            public void onArrival(Postcard postcard) {
+                                finish();
+                            }
+                        });
+                return true;
             }
             return super.shouldOverrideUrlLoading(view, url);
         }

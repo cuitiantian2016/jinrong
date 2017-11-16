@@ -46,10 +46,8 @@ import java.util.ListIterator;
 import butterknife.BindView;
 
 /**
- * Created by hc on 2017/10/26.
+ * Created by hefei on 2017/10/26.
  *
- * @author wsw
- *         自选行情界面
  */
 
 public class SchemeFilterActivity extends Activity {

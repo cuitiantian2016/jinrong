@@ -18,7 +18,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.app.JPushManager;
@@ -54,11 +57,14 @@ import butterknife.BindView;
  * 主界面
  * zq
  */
+@Route(path = "/future/main")
 public class MainActivity extends BaseActivity<ActivityPresenter> implements ActivityContract.View {
     @BindView(R.id.container)
     FrameLayout mContainer;
     @BindView(R.id.group)
     RadioGroup mGroup;
+    @Autowired(name="select")
+    public int select;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -100,9 +106,32 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         showPopupWindow();
         EventBus.getDefault().register(this);
         mGroup.setOnCheckedChangeListener(changeListener);
-        check(FragmentFactory.FragmentStatus.Home);
+        // check(FragmentFactory.FragmentStatus.Home);
+        select(getIntent());
         //mPresenter.loadActivity(); //第一期不需要弹出活动
         mPresenter.getUpdateVersion();
+    }
+
+    private void select(Intent intent) {
+        Log.d("Tag", "select-->" + select);
+        if (intent!=null){
+            select = intent.getIntExtra("select",0);
+        }
+        if (this.select == 0) {
+            check(FragmentFactory.FragmentStatus.Home);
+        } else if (this.select == 1) {
+            check(FragmentFactory.FragmentStatus.Market);
+        } else if (this.select == 2) {
+            check(FragmentFactory.FragmentStatus.Trade);
+        } else if (this.select == 3) {
+            check(FragmentFactory.FragmentStatus.Account);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        select(intent);
     }
 
     public void check(FragmentFactory.FragmentStatus status) {
@@ -401,10 +430,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance()
-                        .build("/future/webview")
-                        .withString("url", "file:///android_asset/schame-test.html")
-                        .navigation();
+                startActivity(DebugActivity.class);
             }
         });
     }

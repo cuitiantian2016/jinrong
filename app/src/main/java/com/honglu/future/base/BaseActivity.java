@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.app.AppManager;
@@ -64,6 +65,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        ARouter.getInstance().inject(this);
         AppManager.getInstance().addActivity(this);
         mUnbinder = ButterKnife.bind(this);
         mContext = this;

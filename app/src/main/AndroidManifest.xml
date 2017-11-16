@@ -101,7 +101,6 @@
         </activity>
         <activity
             android:name="com.honglu.future.ui.main.activity.MainActivity"
-            android:alwaysRetainTaskState="true"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
@@ -400,6 +399,9 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
+            android:name="com.honglu.future.ARouter.DebugActivity"
+            android:exported="false" />
+        <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -417,14 +419,12 @@
         </activity>
 
         <activity android:name="com.honglu.future.ARouter.SchemeFilterActivity">
-
             <!-- Schame -->
             <intent-filter>
                 <data
                     android:host="future"
                     android:scheme="xn" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
