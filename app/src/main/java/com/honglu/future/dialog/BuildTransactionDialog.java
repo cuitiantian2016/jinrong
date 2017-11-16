@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +47,15 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private BuildTransactionPresenter mBuildTransactionPresenter;
     private String mInstrumentId;
     private TextView mTotal;
-
+    private int mHandsNum;
+    private int mVolumeMultiple;
+    private float mFeeRate;
+    private TextView marginMoney;
+    private TextView sxf;
+    private boolean mIsStopChangePrice;
+    private float mLowestPrice, mHighestprice;
+    private int mMinHands, mMaxHands;
+    private float mChangedPrice;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, String instrumentId) {
         super(context, R.style.DateDialog);
@@ -55,6 +65,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +92,55 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mBuildTransactionPresenter.getProductDetail(mInstrumentId);
     }
 
+    /**
+     * @param askPrice1 买涨价
+     * @param bidPrice1 买跌价
+     */
+    public void pushRefresh(String askPrice1, String bidPrice1) {
+        if (!mIsStopChangePrice) {
+            if (mTvRise != null) {
+                mTvRise.setText(askPrice1);
+            }
+
+            if (mTvDown != null) {
+                mTvDown.setText(bidPrice1);
+            }
+
+            if (mPrice != null) {
+                if (mBuyType.equals(TRADE_BUY_RISE)) {
+                    mPrice.setText(askPrice1);
+                } else {
+                    mPrice.setText(bidPrice1);
+                }
+            }
+
+            String bzj = "";
+            if (marginMoney != null) {
+                bzj = getBzjStr(mHandsNum, askPrice1, bidPrice1);
+                marginMoney.setText("￥" + bzj);
+            }
+
+            String sxfStr = "";
+            if (sxf != null) {
+                sxfStr = getSxfStr(mHandsNum, askPrice1, bidPrice1);
+                sxf.setText("￥" + sxfStr);
+            }
+
+            if (mTotal != null) {
+                mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
+            }
+        }
+    }
+
     private void showDialogData(ProductListBean bean) {
         mProductListBean = bean;
+        mVolumeMultiple = bean.getVolumeMultiple();
+        mFeeRate = mBuyRiseOrDown.equals(TRADE_BUY_DOWN) ? Float.valueOf(bean.getOpenRatioByVolume()) : Float.valueOf(bean.getOpenRatioByMoney());
+        mLowestPrice = Float.valueOf(bean.getLowerLimitPrice());
+        mHighestprice = Float.valueOf(bean.getUpperLimitPrice());
+        mMinHands = bean.getMinSl();
+        mMaxHands = bean.getMaxSl();
+
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
         mTvRise = (TextView) findViewById(R.id.tv_rise);
@@ -96,15 +154,17 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView downRadio = (TextView) findViewById(R.id.tv_down_radio);
         downRadio.setText((100 - Integer.valueOf(mProductListBean.getLongRate())) + "%");
         mPrice = (EditText) findViewById(R.id.amountView);
-        mPrice.setText(mProductListBean.getLastPrice());
         mHands = (EditText) findViewById(R.id.av_hands);
         mHands.setText(String.valueOf(mProductListBean.getMinSl()));
+        mHandsNum = Integer.valueOf(mHands.getText().toString());
         if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
             mBuyType = "2";
+            mPrice.setText(bean.getAskPrice1());
             mTvDown.setBackgroundResource(R.drawable.rise_down_bg_block);
             mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
         } else if (mBuyRiseOrDown.equals(TRADE_BUY_DOWN)) {
             mBuyType = "1";
+            mPrice.setText(bean.getBidPrice1());
             mTvRise.setBackgroundResource(R.drawable.rise_down_bg_block);
             mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
         }
@@ -128,12 +188,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         limitPrice.setText("≥" + mProductListBean.getLowerLimitPrice() + " 跌停价 且 ≤" + mProductListBean.getUpperLimitPrice() + " 涨停价");
         TextView useAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
         useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_ASSES));
-        TextView marginMoney = (TextView) findViewById(R.id.tv_margin_money);
-        String bzj = getBzjStr(mHands.getText().toString(), bean);
+        marginMoney = (TextView) findViewById(R.id.tv_margin_money);
+        String bzj = getBzjStr(mHandsNum, bean.getAskPrice1(), bean.getBidPrice1());
         marginMoney.setText("￥" + bzj);
 
-        TextView sxf = (TextView) findViewById(R.id.tv_sxf);
-        String sxfStr = getSxfStr(mHands.getText().toString(), bean);
+        sxf = (TextView) findViewById(R.id.tv_sxf);
+        String sxfStr = getSxfStr(mHandsNum, bean.getAskPrice1(), bean.getBidPrice1());
         sxf.setText("￥" + sxfStr);
 
         mTotal = (TextView) findViewById(R.id.tv_total);
@@ -141,18 +201,81 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
         TextView goRecharge = (TextView) findViewById(R.id.btn_go_recharge);
         goRecharge.setOnClickListener(this);
+
+        mPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mIsStopChangePrice = true;
+                if (s.length() < 1) {
+                    mChangedPrice = mLowestPrice;
+                    mPrice.setText(String.valueOf(mLowestPrice));
+                } else {
+                    mChangedPrice = Float.valueOf(mPrice.getText().toString());
+                    if (mChangedPrice > mHighestprice) {
+                        mChangedPrice = mHighestprice;
+                        mPrice.setText(String.valueOf(mHighestprice));
+                    }
+                }
+                calResult();
+            }
+        });
+        mHands.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() < 1) {
+                    mHandsNum = mMinHands;
+                    mHands.setText(String.valueOf(mMinHands));
+                } else {
+                    mHandsNum = Integer.valueOf(mHands.getText().toString());
+                    if (mHandsNum > mMaxHands) {
+                        mHandsNum = mMaxHands;
+                        mHands.setText(String.valueOf(mMaxHands));
+                    }
+                }
+                calResult();
+
+            }
+        });
     }
 
-    private String getBzjStr(String hands, ProductListBean bean) {
+    private void calResult() {
+        String bzj = getBzjStr(mHandsNum, String.valueOf(mChangedPrice), String.valueOf(mChangedPrice));
+        marginMoney.setText("￥" + bzj);
+
+        String sxfStr = getSxfStr(mHandsNum, String.valueOf(mChangedPrice), String.valueOf(mChangedPrice));
+        sxf.setText("￥" + sxfStr);
+        mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
+    }
+
+    private String getBzjStr(int hands, String askPrice1, String bidPrice1) {
         //float rate = mBuyType.equals("1") ? Float.valueOf(bean.getShortMarginRatioByMoney()) : Float.valueOf(bean.getLongMarginRatioByMoney());
-        float price = mBuyType.equals("1") ? Float.valueOf(bean.getAskPrice1()) : Float.valueOf(bean.getBidPrice1());
-        return String.valueOf(Integer.valueOf(hands) * 0.15 * price * bean.getVolumeMultiple());
+        float price = mBuyType.equals("1") ? Float.valueOf(askPrice1) : Float.valueOf(bidPrice1);
+        return String.valueOf(hands * 0.15 * price * mVolumeMultiple);
     }
 
-    private String getSxfStr(String hands, ProductListBean bean) {
-        float feeRate = mBuyType.equals("1") ? Float.valueOf(bean.getOpenRatioByVolume()) : Float.valueOf(bean.getOpenRatioByMoney());
-        float price = mBuyType.equals("1") ? Float.valueOf(bean.getAskPrice1()) : Float.valueOf(bean.getBidPrice1());
-        return String.valueOf(feeRate * Integer.valueOf(hands) * bean.getVolumeMultiple() * price);
+    private String getSxfStr(int hands, String askPrice1, String bidPrice1) {
+        float price = mBuyType.equals("1") ? Float.valueOf(askPrice1) : Float.valueOf(bidPrice1);
+        return String.valueOf(mFeeRate * hands * mVolumeMultiple * price);
     }
 
     @Override

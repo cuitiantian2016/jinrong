@@ -73,6 +73,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private AccountLoginDialog mAccountLoginDialog;
     private BuildTransactionDialog mBuildTransactionDialog;
     private String mToken;
+    private String mSelectCode;
 
     @Override
     public void loginSuccess(AccountBean bean) {
@@ -146,6 +147,12 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             productListBean.setTradeVolume(marketMessage.getVolume());
             data.set(index, productListBean);
             mOpenTransactionAdapter.notifyDataSetChanged();
+        }
+
+        if (mBuildTransactionDialog != null
+                && mBuildTransactionDialog.isShowing()
+                && !TextUtils.isEmpty(mSelectCode)) {
+            mBuildTransactionDialog.pushRefresh(marketMessage.getAskPrice1(), marketMessage.getBidPrice1());
         }
     }
 
@@ -313,7 +320,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_tip_pop_window);
+                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
             }
         });
@@ -330,6 +337,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
+                mSelectCode = bean.getExcode() + "|" + bean.getInstrumentId();
                 mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
@@ -354,6 +362,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
+                mSelectCode = bean.getExcode() + "|" + bean.getInstrumentId();
                 mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
