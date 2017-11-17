@@ -20,12 +20,10 @@ import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.dialog.klineposition.KLinePositionDialog;
-import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
-import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.KChartFragmentAdapter;
@@ -36,7 +34,6 @@ import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
-import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.RiseNumberTextView;
@@ -154,6 +151,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             getPositionList();
         }
     };
+    private RealTimeBean.Data mBean;
+    private RequestMarketMessage mRequestBean;
+    private ProductListBean productListBean = null;
 
     @Override
     public int getLayoutId() {
@@ -167,13 +167,46 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         EventBus.getDefault().unregister(this);
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
-        if (mKLinePositionDialog != null
-                && mKLinePositionDialog.isShowing()
-                && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
-            mKLinePositionDialog.pushRefresh(event.marketMessage.getLowerLimitPrice(), event.marketMessage.getUpperLimitPrice(), event.marketMessage.getLastPrice());
+        if (event.marketMessage.getInstrumentID().equals(mCode)) {
+            mRequestBean = event.marketMessage;
+            transferBean(mRequestBean);
+            if (mKLinePositionDialog != null
+                    && mKLinePositionDialog.isShowing() && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
+                mKLinePositionDialog.pushRefresh(mRequestBean.getLowerLimitPrice(), mRequestBean.getUpperLimitPrice(), mRequestBean.getLastPrice());
+            }
+
+            if (mBuildTransactionDialog != null
+                    && mBuildTransactionDialog.isShowing()) {
+                productListBean.setAskPrice1(mRequestBean.getAskPrice1());
+                productListBean.setBidPrice1(mRequestBean.getBidPrice1());
+                productListBean.setTradeVolume(mRequestBean.getVolume());
+                mBuildTransactionDialog.pushRefresh(productListBean);
+            }
         }
+    }
+
+
+    private void transferBean(RequestMarketMessage bean) {
+        mBean.setBidPrice1(bean.getBidPrice1());
+        mBean.setAskPrice1(bean.getAskPrice1());
+        mBean.setVolume(bean.getVolume());
+        mBean.setOpenInterest(bean.getOpenInterest());
+        mBean.setUpperLimitPrice(bean.getUpperLimitPrice());
+        mBean.setOpenPrice(bean.getOpenPrice());
+        mBean.setHighestPrice(bean.getHighestPrice());
+        mBean.setLowerLimitPrice(bean.getLowerLimitPrice());
+        mBean.setAveragePrice(bean.getAveragePrice());
+        mBean.setLowestPrice(bean.getLowestPrice());
+        mBean.setPreClosePrice(bean.getPreClosePrice());
+        mBean.setSettlementPrice(bean.getSettlementPrice());
+        mBean.setPreSettlementPrice(bean.getPreSettlementPrice());
+        mBean.setChange(bean.getChange());
+        mBean.setChg(bean.getChg());
+        mBean.setLastPrice(bean.getLastPrice());
+        setTextValue(mBean);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -216,6 +249,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (App.getConfig().getAccountLoginStatus()) {
             mHandler.postDelayed(mRunnable, 300);
         }
+        MPushUtil.requestMarket(mExcode + "|" + mCode);
     }
 
     @Override
@@ -352,7 +386,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (bean == null || bean.getList() == null || bean.getList().size() == 0) {
             return;
         }
-        RealTimeBean.Data mBean =  bean.getList().get(0);
+        mBean = bean.getList().get(0);
         mTvName.setText(mBean.getName());
 
         mTvNameLand.setText(mBean.getName());
@@ -441,7 +475,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mTvNewPrice.setOptional(bean);
             mTvNewPrice.setTextByAnimation(ConvertUtil.NVL(bean.getLastPrice(), ""));
 
-            mTvNewPrice.setTextByAnimation(ProFormatConfig.formatByCodes(bean.getInstrumentID(), ConvertUtil.NVL(bean.getLastPrice(), ConvertUtil.NVL(bean.getLastPrice(), ""))));
+            mTvNewPrice.setTextByAnimation(ProFormatConfig.formatByCodes(mCode, ConvertUtil.NVL(bean.getLastPrice(), ConvertUtil.NVL(bean.getLastPrice(), ""))));
             mTvNewPrice.setTextColor(mcolor);
         }
 
@@ -478,6 +512,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
+        productListBean = bean;
         mProductRuleDialog = new ProductRuleDialog(this, bean);
     }
 
