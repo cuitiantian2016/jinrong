@@ -12,7 +12,9 @@
             <option value="$PROJECT_DIR$/SpinkitLoadingLib" />
             <option value="$PROJECT_DIR$/UdeskSDKUI" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/mpush" />
             <option value="$PROJECT_DIR$/smart-refresh" />
+            <option value="$PROJECT_DIR$/updateLib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
