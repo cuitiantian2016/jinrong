@@ -18,9 +18,11 @@ import com.honglu.future.app.App;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.honglu.future.widget.kchart.util.BakSourceInterface;
+import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
 import com.honglu.future.widget.kchart.listener.OnKChartClickListener;
 import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
@@ -32,9 +34,11 @@ import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
+import com.xulu.mpush.message.RequestMarketMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -583,6 +587,165 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         } else if (id == R.id.rsi_land) {
             mRsiView.setVisibility(View.VISIBLE);
             mTvLandRsi.setTextColor(SELECTED_TAB_TEXT_COLOR);
+        }
+    }
+
+    /**
+     * 刷新最后一个K线 update by  haiyang 08-06
+     * 由于期货的间隔休市时间过多  所以服务器返回周期线的时候带上最新的周期
+     * 如果最新的行情时间在尾巴里面  不添加新的周期  不再新的尾巴之内  就添加一个新的周期
+     * 有夜市的产品,日线在夜市开盘之后 当天需要画两根
+     *
+     * @param optional
+     */
+    public void setLastKData(RequestMarketMessage optional,String cycle) {
+        Log.i("testUrl",cycle);
+        //周线不好处理，直接不管
+        if (BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN.equals(cycle)) {
+            return;
+        }
+
+        // 待添加的对象
+        KCandleObj toAddendK = optional.obj2KCandleObj();
+        if (toAddendK != null) {
+            List<KCandleObj> list = kLineView.getkCandleObjList();
+            if (list == null || list.size() == 0)
+                return;
+            //如果少于两条k线值
+            if (list.size() < 2)
+                return;
+            // 最后一根蜡烛线
+            KCandleObj lastK = list.get(list.size() - 1);
+            //格式化显示的时间
+            String formartT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "MM-dd HH:mm");
+            if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
+                //日线
+                formartT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd");
+            }
+            toAddendK.setTime(formartT);
+            String toAddendKT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm:ss");
+            String lastKT = TimeUtil.formatDate(new Date(lastK.getTimeLong()), "yyyy-MM-dd HH:mm:ss");
+            Log.v(TAG, "toAddendKT=" + toAddendKT + "  lastKT=" + lastKT + "  formartT=" + formartT);
+
+            /**
+             * 按照5分钟来算
+             *
+             * 出现的情况
+             * 添加的时间是  17:03
+             * 1、17:00  17:01  替换最后一个 -－>  17:00 17:03
+             *
+             * 添加的时间是  17:06
+             * 2、17:00 17:04
+             *
+             * 第一个k线刚好是停盘之后的k线
+             * 添加时间是 08:00
+             */
+            //刷新最后一个k线；1、替换最后一根k线 2、时间停留久了，添加一根新的k线 默认改为true
+            boolean isReplaceLast = true;
+            //k线传过来的最后一个k线就是当前没结束的周期k线，
+            // 比如5分钟周期的，上一个是17:00，当前时间是17:01，那么传过来的是17:05的k线；传过来的时间就是 17:05的
+            // 需要更新的和最后一个是同一个
+            String strlastKT = TimeUtil.formatDate(new Date(lastK.getTimeLong()), "yyyy-MM-dd HH:mm");
+            String strtoAddendKT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm");
+            //  以下为(原)替换或者添加的核心代码
+//            if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
+//                //分时图 一分钟
+//                if (strlastKT.equals(strtoAddendKT)) {
+//                    Log.v(TAG, "remove");
+//                    isReplaceLast = true;
+//                    list.remove(lastK);
+//                }
+//            } else if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
+//                //如果是日线直接替换
+//                isReplaceLast = true;
+//                list.remove(lastK);
+//            } else {
+//                if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
+//                    if (lastK.getTimeLong() - list.get(list.size() - 2).getTimeLong() >=
+//                            BakSourceInterface.cycleTMap.get(cycle).longValue()
+//                            && toAddendK.getTimeLong() < lastK.getTimeLong()) {
+//                        isReplaceLast = true;
+//                        list.remove(lastK);
+//                    }
+//                }
+//            }
+            // 新的替换代码 因为有尾巴 直接比较是否在时间之内(去除比较最后两根线的周期跨度)
+            if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
+                if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
+//                //分时图 一分钟
+                    if (strlastKT.equals(strtoAddendKT)) {
+                        Log.v(TAG, "remove");
+                        isReplaceLast = true;
+                        list.remove(lastK);
+                    }else {
+                        isReplaceLast = false;
+                    }
+                } else {
+                    if (toAddendK.getTimeLong() > lastK.getTimeLong()) {
+                        isReplaceLast = false;
+                    } else {
+                        isReplaceLast = true;
+                        list.remove(lastK);
+                    }
+                }
+            }
+
+            long addT = 0;// 跨度周期
+            if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
+                addT = BakSourceInterface.cycleTMap.get(cycle).longValue();
+            }
+
+            //设置K线的开高低收
+            if (isReplaceLast) {
+                //如果是替换的话,
+                // 开盘价就是 最后k线的开盘价，
+                toAddendK.setOpen(lastK.getOpen());
+                // 最高价就是最后k线和当前的价比较的较高价，字段close 接收的最新价
+                toAddendK.setHigh(Math.max(lastK.getHigh(), toAddendK.getClose()));
+                // 最低价就是最后k线和当前的价比较的较低价,字段close 接收的最新价
+                toAddendK.setLow(Math.min(lastK.getLow(), toAddendK.getClose()));
+                //收盘价就是最新价格
+
+                //因为最后一个k线就是下一个k线周期的结束时间，如果是替换最后一个K线的话，时间设置成下一个k线的结束结时间
+                toAddendK.setTime(lastK.getTime());
+                toAddendK.setTimeLong(lastK.getTimeLong());
+            } else {
+//                //新加的k线 都是最新价格
+                toAddendK.setOpen(lastK.getClose());
+                toAddendK.setHigh(lastK.getClose());
+                toAddendK.setLow(lastK.getClose());
+
+                //update at 2017-04-19
+                //因为最后一个k线就是下一个k线周期的结束时间 新加的k线就要设置成 下一个周期的结束时间
+                if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
+                    //直接使用刷新获取到的时间
+                    String strT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "MM-dd HH:mm");
+                    toAddendK.setTime(strT);
+                    toAddendK.setTimeLong(toAddendK.getTimeLong());
+                } else {
+                    //大于一分钟的  直接使用替换的时间对的上
+                    String strT = TimeUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd HH:mm");
+                    // 日线不显示分钟
+                    if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)){
+                        strT = TimeUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd");
+                    }
+                    toAddendK.setTime(strT);
+                    toAddendK.setTimeLong(lastK.getTimeLong() + addT);
+                }
+            }
+            Log.v(TAG, "add");
+            list.add(toAddendK);
+            //上一次在最后的位置，或者是新加了一根k线还在最后位置，手动移动位置显示最新的k线
+            if (kLineView.getDrawIndexEnd() == list.size() - 1 - 1
+                    || kLineView.getDrawIndexEnd() == list.size() - 1) {
+                Log.v(TAG, "getDrawIndexEnd() " + kLineView.getDrawIndexEnd() + " list.size()=" + list.size());
+                //是最后一个
+                kLineView.setDrawIndexEnd(list.size());
+            }
+            lastTopNorm = kLineView.getMainNormal();
+            lastBottomNorm = kLineView.getSubNormal();
+
+            setData(list);
         }
     }
 

@@ -201,7 +201,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         if (mAdapter != null) {
             mAdapter.resetData();
         }
-        MPushUtil.pauseRequest();
+        //MPushUtil.pauseRequest();不注释上下文的Activity会停止push
     }
 
     public void requestMarket(String productList) {

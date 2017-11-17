@@ -1076,4 +1076,12 @@ public class TimeUtil {
         cal.setTime(date);
         return cal.getTimeInMillis();
     }
+
+    public static String formatDate(Date aDate, String formatStr) {
+        if (aDate == null)
+            return "";
+        SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
+        return formatter.format(aDate);
+
+    }
 }

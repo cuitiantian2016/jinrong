@@ -3,6 +3,7 @@ package com.honglu.future.widget.kchart.fragment;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.honglu.future.R;
@@ -10,18 +11,21 @@ import com.honglu.future.app.App;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.chart.minute.KMinuteView;
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.listener.OnKChartClickListener;
 import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
 import com.honglu.future.widget.kchart.listener.OnKLineTouchDisableListener;
+import com.xulu.mpush.message.RequestMarketMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -167,6 +171,40 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
 
 
         //layoutLoding = view.findViewById(R.id.layoutLoding);
+    }
+
+    /**
+     * 刷新最后一个K线
+     *
+     * @param optional
+     */
+    public void setLastKData(RequestMarketMessage optional) {
+        KCandleObj toAddendK = optional.obj2KCandleObj();
+        if (toAddendK != null) {
+            List<KCandleObj> list = minuteView.getkCandleObjList();
+            if (list == null || list.size() == 0)
+                return;
+            KCandleObj lastK = list.get(list.size() - 1);
+            //都转换成分钟
+            String lastKT = TimeUtil.formatDate(new Date(lastK.getTimeLong()), "yyyy-MM-dd HH:mm");
+            String toAddendKT = TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm");
+
+            //需要更新的和最后一个是同一个
+            if (toAddendK.getTimeLong() >= lastK.getTimeLong()
+                    && lastKT.equals(toAddendKT)) {
+                Log.v(TAG, "remove");
+                list.remove(lastK);
+            }
+            Log.v(TAG, "toAddendKT=" + toAddendKT);
+            Log.v(TAG, "lastK=" + lastK);
+            toAddendK.setTime(TimeUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm"));
+            if (toAddendK.getTimeLong() >= lastK.getTimeLong()) {
+                Log.v(TAG, "add");
+                toAddendK.setClose(toAddendK.getClose());
+                list.add(toAddendK);
+            }
+            minuteView.setkCandleObjList(list);
+        }
     }
 
     @Override

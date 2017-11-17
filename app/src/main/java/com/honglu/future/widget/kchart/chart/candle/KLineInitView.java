@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
 import com.honglu.future.widget.kchart.entity.KLineObj;
 import com.honglu.future.widget.kchart.util.KLogUtil;

@@ -41,6 +41,7 @@ import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
 import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
+import com.honglu.future.widget.kchart.util.BakSourceInterface;
 import com.honglu.future.widget.popupwind.KLinePopupWin;
 import com.honglu.future.widget.tab.OnTabSelectListener;
 import com.xulu.mpush.message.RequestMarketMessage;
@@ -140,6 +141,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private AccountLoginDialog mAccountLoginDialog;
     private int mPosition;
     private List<Fragment> fragments;
+    private KMinuteFragment fragment;
     private KLinePopupWin mKLinePopupWin;
     private ProductRuleDialog mProductRuleDialog;
     private KLinePositionDialog mKLinePositionDialog;
@@ -154,6 +156,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private RealTimeBean.Data mBean;
     private RequestMarketMessage mRequestBean;
     private ProductListBean productListBean = null;
+    private String mKlineCycleType;
 
     @Override
     public int getLayoutId() {
@@ -173,6 +176,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (event.marketMessage.getInstrumentID().equals(mCode)) {
             mRequestBean = event.marketMessage;
             transferBean(mRequestBean);
+            fragment.setLastKData(mRequestBean);
+            if(mPosition!=0) {
+                ((KLineFragment)fragments.get(mPosition)).setLastKData(mRequestBean,mKlineCycleType);
+            }
             if (mKLinePositionDialog != null
                     && mKLinePositionDialog.isShowing() && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
                 mKLinePositionDialog.pushRefresh(mRequestBean.getLowerLimitPrice(), mRequestBean.getUpperLimitPrice(), mRequestBean.getLastPrice());
@@ -312,6 +319,32 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             public void onTabSelect(int position) {
                 //setUmengKLine(position);
                 mPosition = position;
+                switch (position) {
+                    case 1:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_1M_WEIPAN;
+                        break;
+                    case 2:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_5M_WEIPAN;
+                        break;
+                    case 3:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_15M_WEIPAN;
+                        break;
+                    case 4:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_30M_WEIPAN;
+                        break;
+                    case 5:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_60M_WEIPAN;
+                        break;
+                    case 6:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_4H_WEIPAN;
+                        break;
+                    case 7:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_1D_WEIPAN;
+                        break;
+                    case 8:
+                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN;
+                        break;
+                }
             }
 
             @Override
@@ -330,7 +363,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         fragments = new ArrayList<>();
         for (int i = 0; i < mTitles.length; i++) {
             if (i == 0) {
-                KMinuteFragment fragment = new KMinuteFragment();
+                fragment = new KMinuteFragment();
                 fragment.setExcode(mExcode);
                 fragment.setCode(mCode);
                 fragment.setClosed(closePrice);

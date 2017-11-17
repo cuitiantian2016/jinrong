@@ -14,12 +14,17 @@
  */
 package com.xulu.mpush.message;
 
+import android.util.Log;
+
 import com.xulu.mpush.api.connection.Connection;
 import com.xulu.mpush.api.protocol.Command;
 import com.xulu.mpush.api.protocol.Packet;
 import com.xulu.mpush.util.ByteBuf;
 
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by hefei on 2015/12/30.
  * 自定义的请求
@@ -371,5 +376,41 @@ public final class RequestMarketMessage extends ByteBufMessage {
                 ", bidVolume1='" + bidVolume1 + '\'' +
                 ", codes='" + codes + '\'' +
                 '}';
+    }
+
+    /**
+     * 将实时的行情转换成一个 k线对象
+     *
+     * @return
+     */
+    public KCandleObj obj2KCandleObj() {
+        try {
+            KCandleObj kCandleObj = new KCandleObj();
+//            kCandleObj.setOpen(Double.parseDouble(opening));
+//            kCandleObj.setHigh(Double.parseDouble(highest));
+//            kCandleObj.setLow(Double.parseDouble(lowest));
+//            kCandleObj.setClose(Double.parseDouble(sellone));
+            kCandleObj.setOpen(Double.parseDouble(openPrice));
+            kCandleObj.setHigh(Double.parseDouble(highestPrice));
+            kCandleObj.setLow(Double.parseDouble(lowestPrice));
+            kCandleObj.setClose(Double.parseDouble(lastPrice));
+            //2016-10-14 17:21:50
+            kCandleObj.setTime(quotationDateTime);
+            kCandleObj.setTimeLong(parser(quotationDateTime, "yyyy-MM-dd HH:mm:ss").getTime());
+            return kCandleObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public static Date parser(String strDate, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        try {
+            return sdf.parse(strDate);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineObj;
 
 import java.math.BigDecimal;

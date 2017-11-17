@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 
 import com.honglu.future.widget.kchart.chart.KBaseGraphView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
 import com.honglu.future.widget.kchart.util.KLogUtil;
 import com.honglu.future.widget.kchart.util.KNumberUtil;

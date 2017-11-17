@@ -1,7 +1,7 @@
 package com.honglu.future.widget.kchart.listener;
 
 
-import com.honglu.future.widget.kchart.entity.KCandleObj;
+import com.xulu.mpush.message.KCandleObj;
 
 /**
  * Created by fangzhu

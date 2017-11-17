@@ -1,4 +1,4 @@
-package com.honglu.future.widget.kchart.entity;
+package com.xulu.mpush.message;
 
 import java.io.Serializable;
 
