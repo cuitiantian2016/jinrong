@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
@@ -33,6 +34,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     private String mLowerLimitPrice; //跌停板价
     private String mUpperLimitPrice; //涨停板价
+    private KLinePositionDialogAdapter.ViewHolder mViewHolder;
 
     public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog) {
         this.mPresenter = mPresenter;
@@ -56,7 +58,8 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     public void setMpushRefreshData(String lowerLimitPrice ,String upperLimitPrice){
         this.mLowerLimitPrice = lowerLimitPrice;
         this.mUpperLimitPrice = upperLimitPrice;
-        notifyDataSetChanged();
+        if (mViewHolder !=null)
+         mViewHolder.mPriceHint.setText("≥" + getFloatNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getFloatNum(mUpperLimitPrice) + "涨停价");
     }
 
     //当前展开的 position
@@ -91,10 +94,10 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         this.mExpcNum = 0;
         this.mExPrice = 0;
          clearPosition();
-         getData().clear();
     }
 
     public void notifyDataChanged(List<HoldPositionBean> list) {
+        getData().clear();
         if (list != null) {
             addData(list);
         }
@@ -116,7 +119,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         }
 
         //1 跌  2涨
-        if (item.getType() == 1) {
+        if (item.getType() == Constant.TYPE_BUY_DOWN) {
             holder.mBuyNum.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
             holder.mBuyNum.setText("买跌" + item.getPosition() + "手");
 
@@ -136,7 +139,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         }
 
-        final KLinePositionDialogAdapter.ViewHolder mViewHolder = holder;
+         mViewHolder = holder;
         final HoldPositionBean mBean = item;
 
         if (position == mPosition) {
@@ -199,6 +202,12 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 if (textNum > 1) {
                     textNum--;
                     mHolder.mEtMaxpc.setText(textNum + "");
+                    //实际盈亏
+                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    //平仓手续费
+                    mHolder.mSxprice.setText("￥"+getPCprice(item.getType(),mHolder.mEtMaxpc,item));
+                    //平仓盈亏
+                    mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
                 }
             }
         });
@@ -210,6 +219,12 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 if (textNum < mBean.getPosition()) {
                     textNum++;
                     mHolder.mEtMaxpc.setText(textNum + "");
+                    //实际盈亏
+                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    //平仓手续费
+                    mHolder.mSxprice.setText("￥"+getPCprice(item.getType(),mHolder.mEtMaxpc,item));
+                    //平仓盈亏
+                    mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
                 }
             }
         });

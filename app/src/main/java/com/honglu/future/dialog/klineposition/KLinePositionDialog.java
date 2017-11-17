@@ -19,11 +19,18 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 /**
@@ -59,6 +66,12 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     public void stopLoading() {
         super.stopLoading();
         App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        if (!TextUtils.isEmpty(msg))
+        ToastUtil.show(msg);
     }
 
     public KLinePositionDialog(@NonNull Activity mContext) {
@@ -258,6 +271,16 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     //委托平仓 / 快速平仓
     @Override
     public void closeOrderSuccess() {
+         ToastUtil.show("平仓成功");
+         if (mAdapter !=null
+                 && mAdapter.getData() !=null
+                 && mAdapter.getData().size() > mAdapter.getMPosition()
+                 && mAdapter.getMPosition()  !=-1){
+             mAdapter.getData().remove(mAdapter.getMPosition());
+             mAdapter.resetData();
+             mAdapter.notifyDataSetChanged();
+             EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CLOSETRAD_REFRESH,String.valueOf(mAdapter.getMPosition()),null));
+         }
 
     }
 }

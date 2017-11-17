@@ -22,6 +22,8 @@ import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.dialog.klineposition.KLinePositionDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.contract.AccountContract;
@@ -167,6 +169,20 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                  && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())){
                 mKLinePositionDialog.pushRefresh(event.marketMessage.getLowerLimitPrice(),event.marketMessage.getUpperLimitPrice(),event.marketMessage.getLastPrice());
          }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int type = ((RefreshUIEvent) event).getType();
+            if (event.EVENT_CLOSETRAD_REFRESH == type){
+                int position = Integer.parseInt(event.getCode());
+                if (mChiCangList !=null && mChiCangList.size() > position){
+                    mChiCangList.remove(position);
+                    mHoldNum.setText(String.valueOf(mChiCangList.size()));
+                }
+            }
+        }
     }
 
     @Override
