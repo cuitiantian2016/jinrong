@@ -1,22 +1,17 @@
 package com.honglu.future.ui.home.viewmodel;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
@@ -35,14 +30,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.http.PUT;
 
 /**
  * Created by hefei on 2017/6/6.
@@ -200,7 +188,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         }
         int pageCount = arrayListBean.size() / PAGE_SIZE;//有的整页的页数
         int lastPageCount = arrayListBean.size() % PAGE_SIZE;//最后一页省的个数
-        LinearLayout childAt = (LinearLayout) llContainer.getChildAt(0);
+        LinearLayout childAt = (LinearLayout) llContainer.getChildAt(position);
         int childCount = 0;
         if (childAt!=null){
             childCount = childAt.getChildCount();
@@ -363,12 +351,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 marketDataBean.chg =  dataBean.chg;
                 marketDataBean.lastPrice =  dataBean.lastPrice;
                 arrayList.set(index,marketDataBean);
-                mViewPager.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pagerAdapter.notifyDataSetChanged();
-                    }
-                },500);
+                pagerAdapter.notifyDataSetChanged();
             }
 
         }

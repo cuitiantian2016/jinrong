@@ -398,7 +398,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
      * 显示弹出框
      */
     public void showPopupWindow() {
-        if (!com.honglu.future.BuildConfig.DEBUG) {
+        if (com.honglu.future.BuildConfig.DEBUG) {
             return;
         }
         // 获取WindowManager
