@@ -2,8 +2,6 @@ package com.honglu.future.ui.home.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -11,7 +9,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
@@ -25,12 +22,13 @@ import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.util.DeviceUtils;
-import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by hefei on 2017/6/6.
@@ -42,21 +40,19 @@ import java.util.ArrayList;
  * 首頁market組件
  */
 
-public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements View.OnClickListener {
+public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
     private static final String TAG = "HomeMarketPrice";
 
     private ViewPager mViewPager;
     private ArrayList<MarketData.MarketDataBean> arrayList ;
     private static final int PAGE_SIZE = 3;//每页显示的个数
-    private PagerAdapter pagerAdapter;
     private IndicatorViewModel indicatorViewModel;
     private boolean isRefresh;
-    boolean isAdapterRefresh;
-    private int deviceWidth;//设备宽度
     private Context mContext;
     private BasePresenter marketPresenter;
     public View mView;
     public String productList;
+    private ProductViewHold4Home productViewHold4Home;
 
     public HomeMarketPriceViewModel(Context context) {
         mContext = context;
@@ -67,7 +63,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
     /**
      * 刷新数据
      */
-    public void refreshData() {
+    private void refreshData() {
         if (marketPresenter ==null) {
             marketPresenter = new BasePresenter<IBaseView<MarketData>>(this) {
                 @Override
@@ -104,177 +100,12 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
         marketPresenter.getData();
     }
     private void initView(View view) {
-        deviceWidth = DeviceUtils.getScreenWidth(mContext);
         mViewPager = (ViewPager) view.findViewById(R.id.vp_market);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_indicator_view);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(60), DensityUtil.dp2px(2));
         params.gravity = Gravity.CENTER;
         indicatorViewModel = new IndicatorViewModel(mContext, 3);
         linearLayout.addView(indicatorViewModel.mView,params);
-        initViewPage();
-    }
-    /**
-     * 初始化viewpage
-     */
-    private void initViewPage(){
-        if (pagerAdapter == null){
-            pagerAdapter = new PagerAdapter() {
-                private int mChildCount = 0;
-                @Override
-                public void notifyDataSetChanged() {
-                    mChildCount = getCount();
-                    super.notifyDataSetChanged();
-                }
-                @Override
-                public int getItemPosition(Object object)   {
-                    if ( mChildCount > 0) {
-                        mChildCount --;
-                        return POSITION_NONE;
-                    }
-                    return super.getItemPosition(object);
-                }
-                @Override
-                public int getCount() {
-                    if (arrayList.size() % PAGE_SIZE>0){
-                        return (arrayList == null || arrayList.size() == 0) ? 0 : arrayList.size() / PAGE_SIZE + 1;
-                    }else {
-                        return (arrayList == null || arrayList.size() == 0) ? 0 : arrayList.size() / PAGE_SIZE;
-                    }
-                }
-                @Override
-                public Object instantiateItem(ViewGroup container, int position) {
-                    View view = View.inflate(container.getContext(), R.layout.new_home_item2, null);
-                    LinearLayout llContainer = (LinearLayout) view.findViewById(R.id.line_ggy);
-                    addViewToPager(llContainer,position,arrayList);
-                    container.addView(llContainer);
-                    return llContainer;
-                }
-                @Override
-                public void destroyItem(ViewGroup container, int position, Object object) {
-                    container.removeView((View) object);
-                }
-                @Override
-                public boolean isViewFromObject(View view, Object object) {
-                    return view == object;
-                }
-            };
-        }
-        mViewPager.setOffscreenPageLimit(1);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (indicatorViewModel != null){
-                    indicatorViewModel.showIndicator(position);
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-    /**
-     * 添加view到pager中
-     * @param llContainer 当前的布局
-     * @param position 当前的位置
-     * @param arrayListBean 当前的数据
-     */
-    private void addViewToPager(LinearLayout llContainer,int position,ArrayList<MarketData.MarketDataBean> arrayListBean){
-        if (arrayListBean ==null||arrayListBean.size()==0){
-            return;
-        }
-        int pageCount = arrayListBean.size() / PAGE_SIZE;//有的整页的页数
-        int lastPageCount = arrayListBean.size() % PAGE_SIZE;//最后一页省的个数
-        LinearLayout childAt = (LinearLayout) llContainer.getChildAt(position);
-        int childCount = 0;
-        if (childAt!=null){
-            childCount = childAt.getChildCount();
-        }
-        if (pageCount-1>=position){//完整的一页
-            if (childCount == PAGE_SIZE){//说明view已经添加
-                for (int i = position*PAGE_SIZE; i < (position+1)*PAGE_SIZE; i++) {//需要加一
-                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i));
-                }
-            }else {//添加View
-                llContainer.removeAllViews();
-                LinearLayout viewThr = (LinearLayout) View.inflate(mContext, R.layout.homegoods_item_thr, null);
-                viewThr.removeAllViews();
-                for (int i = position*PAGE_SIZE; i < (position+1)*PAGE_SIZE; i++) {//需要加一
-                    View goodsItem = View.inflate(mContext, R.layout.new_homegoods_item, null);
-                    goodsItem.setTag(arrayListBean.get(i));
-                    goodsItem.setOnClickListener(this);//设置点击事件
-                    LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-                    params1.width = deviceWidth / 3;
-                    viewThr.addView(goodsItem, params1);
-                    try {
-                        if (arrayListBean !=null  && arrayListBean.size() > i){
-                            bindGoodsItem(goodsItem,arrayListBean.get(i));
-                        }
-                    }catch (Exception e){
-
-                    }
-                }
-                llContainer.addView(viewThr);
-            }
-        }else {
-            if (childCount == lastPageCount){//说明view已经添加
-                for (int i = position*PAGE_SIZE; i < arrayList.size(); i++) {//需要加一
-                    bindGoodsItem(childAt.getChildAt(i-position*PAGE_SIZE),arrayListBean.get(i));
-                }
-            }else {//添加View
-                llContainer.removeAllViews();
-                LinearLayout viewThr = (LinearLayout) View.inflate(mContext, R.layout.homegoods_item_thr, null);
-                viewThr.removeAllViews();
-                for (int i = position*PAGE_SIZE; i < arrayList.size(); i++) {//需要加一
-                    View goodsItem = View.inflate(mContext, R.layout.new_homegoods_item, null);
-                    goodsItem.setTag(arrayListBean.get(i));
-                    goodsItem.setOnClickListener(this);//设置点击事件
-                    LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-                    params1.width = deviceWidth/3;
-                    viewThr.addView(goodsItem, params1);
-                    try {
-                        bindGoodsItem(goodsItem,arrayListBean.get(i));
-                    }catch (Exception e){}
-                }
-                llContainer.addView(viewThr);
-            }
-        }
-    }
-    /**
-     * 刷新item控件的数据
-     * @param goodsItem
-     */
-    private void bindGoodsItem(View goodsItem , MarketData.MarketDataBean data){
-        TextView mTvItemName = (TextView) goodsItem.findViewById(R.id.tvitemname);
-        TextView mTvItemPrice = (TextView) goodsItem.findViewById(R.id.tvitemprice);
-        TextView mTvitemchg = (TextView) goodsItem.findViewById(R.id.tvitemchg);
-        TextView mTvItemRise = (TextView) goodsItem.findViewById(R.id.tvitemrise);
-        double change = NumberUtils.getDouble(data.change);
-        //当当前价小于昨收价时，价格颜色应变更为绿色
-        if (change>= 0){
-            Drawable drawable = ContextCompat.getDrawable(goodsItem.getContext(),R.mipmap.icon_up_arr);
-            drawable.setBounds(0, 0, 24,24);
-            mTvItemName.setCompoundDrawables(null,null,drawable,null);
-            mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-            mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-            mTvitemchg.setTextColor(mContext.getResources().getColor(R.color.color_ff5376));
-        }else if (change< 0){
-            Drawable drawable = ContextCompat.getDrawable(goodsItem.getContext(),R.mipmap.icon_dwon_arr);
-            drawable.setBounds(0, 0, 24,24);
-            mTvItemName.setCompoundDrawables(null,null,drawable,null);
-            mTvItemRise.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
-            mTvItemPrice.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
-            mTvitemchg.setTextColor(mContext.getResources().getColor(R.color.color_00ce64));
-        }
-        //设置产品名称
-        mTvItemName.setText(data.name);
-        //设置上涨下跌比例
-        mTvItemRise.setText(data.change);
-        mTvitemchg.setText(data.chg);
-        mTvItemPrice.setText(data.lastPrice);
     }
     @Override
     public void bindData(MarketData marketData) {
@@ -291,11 +122,8 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 arrayList.add(dataList.get(n));
             }
         }
-        PagerAdapter adapter = mViewPager.getAdapter();
-        if (adapter == null){
-            adapter =  pagerAdapter;
-            mViewPager.setAdapter(pagerAdapter);
-        }
+        initProductViewPager();
+        initProLayout(dataList);
         if (arrayList!=null&&arrayList.size()>0){
             if (!isRefresh){
                 isRefresh = true;
@@ -309,28 +137,12 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                     indicatorViewModel.refreshNum(sum);
                 }
             }
-            adapter.notifyDataSetChanged();
         }
     }
-    /**
-     * 点击事件
-     * @param view
-     */
-    @Override
-    public void onClick(View view) {
-        MarketData.MarketDataBean marketDataBean = (MarketData.MarketDataBean)view.getTag();
-        Intent intent = new Intent(mContext, KLineMarketActivity.class);
-        intent.putExtra("excode",marketDataBean.exchangeID);
-        intent.putExtra("code",marketDataBean.instrumentID);
-        intent.putExtra("isClosed","1");
-        mContext.startActivity(intent);
-    }
-
     public void requestMarket(){
         if (!TextUtils.isEmpty(productList))
         MPushUtil.requestMarket(productList);
     }
-
     /**
      * 刷新数据
      * @param dataBean
@@ -351,9 +163,108 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> implements V
                 marketDataBean.chg =  dataBean.chg;
                 marketDataBean.lastPrice =  dataBean.lastPrice;
                 arrayList.set(index,marketDataBean);
-                pagerAdapter.notifyDataSetChanged();
+                productViewHold4Home.updateProductViewListDisplay(marketDataBean);
             }
 
+        }
+    }
+    private HashMap<String, Double> checkChangeMap = new HashMap<String, Double>();
+    /**
+     * 初始化界面
+     *
+     * @param list
+     */
+    private void initProLayout(List<MarketData.MarketDataBean> list) {
+        if (checkChangeMap.size() == 0) {
+            for (MarketData.MarketDataBean optional : list) {
+                checkChangeMap.put(optional.getCode(), Double.parseDouble(optional.lastPrice));
+            }
+        }
+        productViewHold4Home.setCheckChangeMap(checkChangeMap);
+        for (final MarketData.MarketDataBean optional : list) {
+            productViewHold4Home.updateProductViewListDisplay(optional);
+            // 添加点击事件
+            productViewHold4Home.listProductView
+                    .get(optional.getCode())
+                    .rl_product.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, KLineMarketActivity.class);
+                    intent.putExtra("excode",optional.exchangeID);
+                    intent.putExtra("code",optional.instrumentID);
+                    intent.putExtra("isClosed","1");
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * 首页产品viewpager
+     */
+   private void initProductViewPager() {
+        List<View> mListViews = new ArrayList<>();
+        String[] allProducts = productList.split(",");
+        int count = allProducts.length / 3;
+        int decentCount = allProducts.length % 3;
+        if (decentCount != 0) {
+            count += 1;
+        }
+        for (int i = 0; i < count; i++) {
+            mListViews.add(View.inflate(mContext, R.layout.layout_homepropage_3, null));
+        }
+        mViewPager.setAdapter(new MyProductViewPagerAdapter(mListViews));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+           @Override
+           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+           }
+
+           @Override
+           public void onPageSelected(int position) {
+               indicatorViewModel.showIndicator(position);
+           }
+
+           @Override
+           public void onPageScrollStateChanged(int state) {
+
+           }
+       });
+        productViewHold4Home = new ProductViewHold4Home(mListViews, mContext, productList);
+    }
+
+
+    /**
+     * 首页产品viewpager
+     */
+    private class MyProductViewPagerAdapter extends PagerAdapter {
+        private List<View> mListViews;
+
+        MyProductViewPagerAdapter(List<View> mListViews) {
+            this.mListViews = mListViews;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(mListViews.get(position));//删除页卡
+        }
+
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {    //这个方法用来实例化页卡
+            final int mPos = position % mListViews.size();
+            container.addView(mListViews.get(mPos), 0);//添加页卡
+            return mListViews.get(mPos);
+        }
+
+        @Override
+        public int getCount() {
+            return mListViews.size();//返回页卡的数量
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == arg1;//官方提示这样写
         }
     }
 }

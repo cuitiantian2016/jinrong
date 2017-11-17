@@ -114,6 +114,14 @@ public ArrayList<MarketDataBean> list;
                 public String change; //改变量
                 public String chg; //利率
                 public String name; //名字
+                /**
+                 * 获取产品 excode|code
+                 *
+                 * @return
+                 */
+                public String getCode() {
+                      return exchangeID + "|" + instrumentID;
+                }
 
           }
 
