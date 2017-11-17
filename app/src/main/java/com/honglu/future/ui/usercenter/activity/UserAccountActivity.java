@@ -111,7 +111,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         mProfitLoss.setText(bean.getPositionProfit() + "");
         mPositionProfitLoss.setText(bean.getCloseProfit() + "");
         mTakeBond.setText(NumberUtils.formatFloatNumber(bean.getWithdrawQuota()));
-        mOccupyBond.setText(bean.getCapitalProportionNum());
+        mOccupyBond.setText(String.valueOf(bean.getCurrMargin()));
         mFrozenBond.setText(bean.getFrozenCash() + "");
         mServiceCharge.setText(String.valueOf(bean.getCommission()));
         mFrozenServiceCharge.setText(String.valueOf(bean.getFrozenCommission()));

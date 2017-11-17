@@ -52,7 +52,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private float mFeeRate;
     private TextView marginMoney;
     private TextView sxf;
-    private boolean mIsStopChangePrice;
+    private boolean mIsStopChangePrice = false;
     private float mLowestPrice, mHighestprice;
     private int mMinHands, mMaxHands;
     private float mChangedPrice;
@@ -107,7 +107,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             }
 
             if (mPrice != null) {
-                if (mBuyType.equals(TRADE_BUY_RISE)) {
+                if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
                     mPrice.setText(askPrice1);
                 } else {
                     mPrice.setText(bidPrice1);
@@ -215,7 +215,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                mIsStopChangePrice = true;
+                //mIsStopChangePrice = true;
                 if (s.length() < 1) {
                     mChangedPrice = mLowestPrice;
                     mPrice.setText(String.valueOf(mLowestPrice));

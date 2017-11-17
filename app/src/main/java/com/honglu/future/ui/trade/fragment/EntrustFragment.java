@@ -162,6 +162,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
                 mClosed.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mLlFilter.setVisibility(View.GONE);
+                mIsShowFilter = false;
             }
         });
 
@@ -174,6 +176,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
                 mClosed.setBackgroundResource(R.drawable.fiter_radio_button_unselect_bg);
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
+                mLlFilter.setVisibility(View.GONE);
+                mIsShowFilter = false;
             }
         });
 
@@ -186,6 +190,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mBuild.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
                 mClosed.setBackgroundResource(R.drawable.stroke_radio_button_bg);
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
+                mLlFilter.setVisibility(View.GONE);
+                mIsShowFilter = false;
             }
         });
     }

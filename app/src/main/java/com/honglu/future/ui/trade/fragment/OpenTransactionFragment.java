@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +154,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
         if (mBuildTransactionDialog != null
                 && mBuildTransactionDialog.isShowing()
-                && !TextUtils.isEmpty(mSelectCode)) {
+                && !TextUtils.isEmpty(mSelectCode) && mSelectCode.equals(marketMessage.getInstrumentID())) {
             mBuildTransactionDialog.pushRefresh(marketMessage.getAskPrice1(), marketMessage.getBidPrice1());
         }
     }
@@ -348,7 +349,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mSelectCode = bean.getExcode() + "|" + bean.getInstrumentId();
+                mSelectCode = bean.getInstrumentId();
                 mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
@@ -373,7 +374,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mSelectCode = bean.getExcode() + "|" + bean.getInstrumentId();
+                mSelectCode = bean.getInstrumentId();
                 mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean.getInstrumentId());
                 mBuildTransactionDialog.show();
             } else {
