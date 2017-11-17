@@ -238,6 +238,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 mPingcang.setText("平仓");
                 mPingcang.setBackgroundResource(R.color.color_B1B1B3);
             }
+            mYkprice.setText("---");
             mAdapter.notifyDataChanged(mList);
             //启动mpush
             requestMarket(mPushCode);

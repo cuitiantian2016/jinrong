@@ -103,7 +103,7 @@
                   android:textSize="@dimen/dimen_18sp"
                   android:textColor="@color/color_B1B1B3"
                   android:layout_weight="1"
-                  android:text="-------"/>
+                  android:text="---"/>
 
                <TextView
                    android:id="@+id/tv_pingcang"
