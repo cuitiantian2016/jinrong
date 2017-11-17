@@ -1,6 +1,8 @@
 package com.honglu.future.ui.home.HomeTabViewUtil;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.widget.photo.FullScreenDisplayActivity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -129,22 +134,22 @@ public class FastMsgViewUtils {
             cv_img_activity.setOnClickListener(new View.OnClickListener() {//点击方大
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(view.getContext(), FullScreenDisplayActivity.class);
-//                    Bundle b = new Bundle();
-//                    ArrayList<String> images = new ArrayList<>();
-//                    if (entity.img != null) {
-//                        images.add(entity.img);
-//                        b.putStringArrayList("image_urls", images);
-//                        b.putInt("position", 0);
-//                        intent.putExtras(b);
-//                        int[] location = new int[2];
-//                        view.getLocationOnScreen(location);
-//                        intent.putExtra("locationX", location[0]);
-//                        intent.putExtra("locationY", location[1]);
-//                        intent.putExtra("width", view.getWidth());
-//                        intent.putExtra("height", view.getHeight());
-//                        view.getContext().startActivity(intent);
-//                    }
+                    Intent intent = new Intent(view.getContext(), FullScreenDisplayActivity.class);
+                    Bundle b = new Bundle();
+                    ArrayList<String> images = new ArrayList<>();
+                    if (entity.img != null) {
+                        images.add(entity.img);
+                        b.putStringArrayList("image_urls", images);
+                        b.putInt("position", 0);
+                        intent.putExtras(b);
+                        int[] location = new int[2];
+                        view.getLocationOnScreen(location);
+                        intent.putExtra("locationX", location[0]);
+                        intent.putExtra("locationY", location[1]);
+                        intent.putExtra("width", view.getWidth());
+                        intent.putExtra("height", view.getHeight());
+                        view.getContext().startActivity(intent);
+                    }
                 }
             });
             ImageUtil.display(entity.img, photoIv, R.mipmap.defult_24_hour);

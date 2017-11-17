@@ -21,7 +21,6 @@ import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
-import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;

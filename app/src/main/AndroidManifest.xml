@@ -469,6 +469,9 @@
                 <category android:name="com.honglu.future" />
             </intent-filter>
         </receiver>
+        <activity
+            android:name="com.honglu.future.widget.photo.FullScreenDisplayActivity"
+            android:screenOrientation="portrait"/>
         <!--< mpush相关 end>-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
