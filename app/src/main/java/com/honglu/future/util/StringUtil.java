@@ -306,4 +306,21 @@ public class StringUtil {
         }
         return false;
     }
+
+    public static String NVL(Object obj, String value) {
+        try {
+            if (obj == null) {
+                return value;
+            }
+            if (String.valueOf(obj).trim().equals("")) {
+                return value;
+            }
+            if (String.valueOf(obj).trim().equalsIgnoreCase("null")) {
+                return value;
+            }
+            return String.valueOf(obj);
+        } catch (Exception e) {
+            return value;
+        }
+    }
 }

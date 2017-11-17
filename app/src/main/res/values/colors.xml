@@ -157,6 +157,9 @@
     <color name="color_292A34">#292A34</color>
     <color name="color_1C1D28">#1C1D28</color>
     <color name="gold">#FFC2A100</color>
+    <color name="color_464646">#464646</color>
+    <color name="color_B3E6E7EA">#B3E6E7EA</color>
+    <color name="color_BB8B7D">#BB8B7D</color>
     <!--首页tab，顶部的导航颜色-->
     <color name="home_title_bg_color">#24273e</color>
     <color name="trade_line_title_tab">#636677</color>

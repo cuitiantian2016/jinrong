@@ -19,12 +19,12 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.ConfirmDialog;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
-import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -53,6 +53,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private String mPushCode;
     private String mLastPrice;//最新价格
     private KLinePositionDialogAdapter mAdapter;
+    private ConfirmDialog mConfirmDialog = null;
 
 
     @Override
@@ -71,7 +72,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     @Override
     public void showErrorMsg(String msg, String type) {
         if (!TextUtils.isEmpty(msg))
-        ToastUtil.show(msg);
+            ToastUtil.show(msg);
     }
 
     public KLinePositionDialog(@NonNull Activity mContext) {
@@ -118,44 +119,59 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
 
                     HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
-                    int exPrice = mAdapter.getExPrice(); //价格
-                    int exPcNum = mAdapter.getExpcNum(); //手数
-                    int lastPrice = Integer.parseInt(mLastPrice);//最新价
-                    int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
-                    int type = holdPositionBean.getType();  //1 跌  2涨
-                    String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
-                    String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
-                    String instrumentId = holdPositionBean.getInstrumentId();
-                    String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
-                    String company = "GUOFU";
+                    final int exPrice = mAdapter.getExPrice(); //价格
+                    final int exPcNum = mAdapter.getExpcNum(); //手数
+                    final int lastPrice = Integer.parseInt(mLastPrice);//最新价
+                    final int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
+                    final int type = holdPositionBean.getType();  //1 跌  2涨
+                    final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+                    final String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
+                    final String instrumentId = holdPositionBean.getInstrumentId();
+                    final String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
+                    final String company = "GUOFU";
 
-                    if (exPcNum <= 0 || exPrice <=0){
+                    if (exPcNum <= 0 || exPrice <= 0) {
                         return;
                     }
-                    //当价格等于
-                    if (lastPrice == exPrice){
-                        mPresenter.ksCloseOrder(
-                                String.valueOf(todayPosition),
-                                userId,
-                                token,
-                                String.valueOf(exPcNum),
-                                String.valueOf(type),
-                                String.valueOf(exPrice),
-                                instrumentId,
-                                holdAvgPrice,
-                                company);
-                    }else {
-                        mPresenter.closeOrder(
-                                String.valueOf(todayPosition),
-                                userId,
-                                token,
-                                String.valueOf(exPcNum),
-                                String.valueOf(type),
-                                String.valueOf(exPrice),
-                                instrumentId,
-                                holdAvgPrice,
-                                company);
+                    if (mConfirmDialog == null){
+                        mConfirmDialog = new ConfirmDialog(mContext);
                     }
+
+                    String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌":"买涨";
+                    String ykprice = mYkprice.getText().toString();
+                    String content = String.format(mContext.getString(R.string.close_trade_hint),mNameValue,typeStr,exPcNum,ykprice);
+                    mConfirmDialog.setTitle("确认平仓")
+                            .setContent(content).setRightListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //当价格等于
+                            if (lastPrice == exPrice) {
+                                mPresenter.ksCloseOrder(
+                                        String.valueOf(todayPosition),
+                                        userId,
+                                        token,
+                                        String.valueOf(exPcNum),
+                                        String.valueOf(type),
+                                        String.valueOf(exPrice),
+                                        instrumentId,
+                                        holdAvgPrice,
+                                        company);
+                            } else {
+                                mPresenter.closeOrder(
+                                        String.valueOf(todayPosition),
+                                        userId,
+                                        token,
+                                        String.valueOf(exPcNum),
+                                        String.valueOf(type),
+                                        String.valueOf(exPrice),
+                                        instrumentId,
+                                        holdAvgPrice,
+                                        company);
+                            }
+
+                        }
+                    }).showDialog();
+
                 }
 
             }
@@ -182,7 +198,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     @Override
     public void dismiss() {
         super.dismiss();
-        if (mAdapter !=null){
+        if (mAdapter != null) {
             mAdapter.resetData();
         }
         MPushUtil.pauseRequest();
@@ -198,41 +214,39 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     }
 
     /**
-     *
      * @param lowerLimitPrice 跌停板价
      * @param upperLimitPrice 涨停板价
-     * @param lastPrice 最新价
+     * @param lastPrice       最新价
      */
-    public void pushRefresh(String lowerLimitPrice,String upperLimitPrice ,String lastPrice) {
+    public void pushRefresh(String lowerLimitPrice, String upperLimitPrice, String lastPrice) {
         this.mLastPrice = lastPrice;
-        if (mAdapter !=null && mAdapter.isMpushRefresh()){
-            mAdapter.setMpushRefreshData(lowerLimitPrice,upperLimitPrice);
+        if (mAdapter != null && mAdapter.isMpushRefresh()) {
+            mAdapter.setMpushRefreshData(lowerLimitPrice, upperLimitPrice);
         }
     }
 
     public void showDialog() {
-        if (TextUtils.isEmpty(mNameValue) || mList == null || mList.size() <= 0) {
-            return;
+        if (!TextUtils.isEmpty(mNameValue) && mList != null && mList.size() >0) {
+            show();
+            mName.setText("平仓-" + mNameValue);
+            if (isClosed) {
+                mPingcang.setEnabled(false);
+                mPingcang.setText("休市中");
+                mPingcang.setBackgroundResource(R.color.color_B1B1B3);
+            } else {
+                mPingcang.setEnabled(false);
+                mPingcang.setText("平仓");
+                mPingcang.setBackgroundResource(R.color.color_B1B1B3);
+            }
+            mAdapter.notifyDataChanged(mList);
+            //启动mpush
+            requestMarket(mPushCode);
         }
-        show();
-        mName.setText("平仓-" + mNameValue);
-        if (isClosed) {
-            mPingcang.setEnabled(false);
-            mPingcang.setText("休市中");
-            mPingcang.setBackgroundResource(R.color.color_B1B1B3);
-        } else {
-            mPingcang.setEnabled(false);
-            mPingcang.setText("平仓");
-            mPingcang.setBackgroundResource(R.color.color_B1B1B3);
-        }
-        mAdapter.notifyDataChanged(mList);
-        //启动mpush
-        requestMarket(mPushCode);
     }
 
 
     //根据接口返回的数据改变平仓按钮
-    public void setPingcangSatte(int type, float mProfitLoss) {
+    public void setPingcangSatte(int type, double mProfitLoss) {
         if (isClosed) {
             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
             mPingcang.setEnabled(false);
@@ -246,14 +260,17 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 mPingcang.setBackgroundResource(R.color.color_FB4F4F);
             }
         }
-        if (mProfitLoss > 0){
+
+        if (mProfitLoss > 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-        }else if (mProfitLoss < 0){
+            mYkprice.setText("￥+" + mProfitLoss);
+        } else if (mProfitLoss < 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-        }else {
+            mYkprice.setText("￥" + mProfitLoss);
+        } else {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_B1B1B3));
+            mYkprice.setText("￥" + mProfitLoss);
         }
-        mYkprice.setText("￥" + mProfitLoss);
     }
 
 
@@ -271,16 +288,16 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     //委托平仓 / 快速平仓
     @Override
     public void closeOrderSuccess() {
-         ToastUtil.show("平仓成功");
-         if (mAdapter !=null
-                 && mAdapter.getData() !=null
-                 && mAdapter.getData().size() > mAdapter.getMPosition()
-                 && mAdapter.getMPosition()  !=-1){
-             mAdapter.getData().remove(mAdapter.getMPosition());
-             mAdapter.resetData();
-             mAdapter.notifyDataSetChanged();
-             EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CLOSETRAD_REFRESH,String.valueOf(mAdapter.getMPosition()),null));
-         }
+        ToastUtil.show("平仓成功");
+        if (mAdapter != null
+                && mAdapter.getData() != null
+                && mAdapter.getData().size() > mAdapter.getMPosition()
+                && mAdapter.getMPosition() != -1) {
+            mAdapter.getData().remove(mAdapter.getMPosition());
+            mAdapter.resetData();
+            mAdapter.notifyDataSetChanged();
+            EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CLOSETRAD_REFRESH, String.valueOf(mAdapter.getMPosition()), null));
+        }
 
     }
 }

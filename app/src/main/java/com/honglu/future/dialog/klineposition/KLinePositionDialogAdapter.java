@@ -15,8 +15,10 @@ import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -52,14 +54,15 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     /**
      * mpush 刷新对应数据
+     *
      * @param lowerLimitPrice
      * @param upperLimitPrice
      */
-    public void setMpushRefreshData(String lowerLimitPrice ,String upperLimitPrice){
+    public void setMpushRefreshData(String lowerLimitPrice, String upperLimitPrice) {
         this.mLowerLimitPrice = lowerLimitPrice;
         this.mUpperLimitPrice = upperLimitPrice;
-        if (mViewHolder !=null)
-         mViewHolder.mPriceHint.setText("≥" + getFloatNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getFloatNum(mUpperLimitPrice) + "涨停价");
+        if (mViewHolder != null)
+            mViewHolder.mPriceHint.setText("≥" + getIntNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getIntNum(mUpperLimitPrice) + "涨停价");
     }
 
     //当前展开的 position
@@ -83,17 +86,17 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     }
 
     //是否刷新mpush 消息
-    public boolean isMpushRefresh(){
+    public boolean isMpushRefresh() {
 
-        return mProductListBean !=null && mPosition != -1;
+        return mProductListBean != null && mPosition != -1;
     }
 
     //重置数据
-    public void  resetData(){
+    public void resetData() {
         this.mProductListBean = null;
         this.mExpcNum = 0;
         this.mExPrice = 0;
-         clearPosition();
+        clearPosition();
     }
 
     public void notifyDataChanged(List<HoldPositionBean> list) {
@@ -139,7 +142,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         }
 
-         mViewHolder = holder;
+        mViewHolder = holder;
         final HoldPositionBean mBean = item;
 
         if (position == mPosition) {
@@ -148,33 +151,36 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             holder.mLayoutContent.setVisibility(View.VISIBLE);
             holder.mEtMaxpc.setEnabled(false);
 
-            //平仓手数 最多
-            holder.mMaxpcNum.setText("平仓手数(最多" + item.getPosition() + "手)");
-            //最大输入平仓手数
-            holder.mEtMaxpc.setText(item.getPosition() + "");
-            //手数
-            this.mExpcNum = item.getPosition();
-            //设置手数事件
-            setPositionListener(mViewHolder, mBean);
+            if (mProductListBean !=null) {
+                //获取最大平仓手数
+                int maxCloseTradeNum = getMaxCloseTradeNum(mBean);
+                //设置全局手数
+                this.mExpcNum = maxCloseTradeNum;
 
-            if (mProductListBean != null) {
+                holder.mMaxpcNum.setText("平仓手数(最多" + maxCloseTradeNum + "手)");
+
+                //最大输入平仓手数
+                holder.mEtMaxpc.setText(String.valueOf(maxCloseTradeNum));
+
+                //设置手数事件
+                setPositionListener(mViewHolder, mBean);
+
 
                 this.mExPrice = getIntNum(mProductListBean.getLastPrice());
-                holder.mEtPrice.setText(mExPrice+"");
+                holder.mEtPrice.setText(mExPrice + "");
                 setPriceListener(mViewHolder);
 
-                holder.mPriceHint.setText("≥" + getFloatNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getFloatNum(mUpperLimitPrice) + "涨停价");
+                holder.mPriceHint.setText("≥" + getIntNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getIntNum(mUpperLimitPrice) + "涨停价");
 
                 //实际盈亏
-                holder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), holder.mEtMaxpc, item));
+                holder.mYkprice.setText("￥" + getActualProfitLoss(maxCloseTradeNum, mBean));
 
                 //平仓手续费
-                holder.mSxprice.setText("￥"+getPCprice(item.getType(),holder.mEtMaxpc,item));
+                holder.mSxprice.setText("￥" + getCloseTradePrice(maxCloseTradeNum, mBean));
 
                 //平仓盈亏
-                mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), holder.mEtMaxpc, item));
+                mDialog.setPingcangSatte(mBean.getType(), getCloseProfitLoss(maxCloseTradeNum, mBean));
             }
-
         } else {
             holder.mGouxuan.setSelected(false);
             holder.mGouxuan.setEnabled(true);
@@ -203,11 +209,11 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                     textNum--;
                     mHolder.mEtMaxpc.setText(textNum + "");
                     //实际盈亏
-                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(textNum,mBean));
                     //平仓手续费
-                    mHolder.mSxprice.setText("￥"+getPCprice(item.getType(),mHolder.mEtMaxpc,item));
+                    mHolder.mSxprice.setText("￥" + getCloseTradePrice(textNum, mBean));
                     //平仓盈亏
-                    mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    mDialog.setPingcangSatte(item.getType(), getCloseProfitLoss(textNum, mBean));
                 }
             }
         });
@@ -220,11 +226,11 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                     textNum++;
                     mHolder.mEtMaxpc.setText(textNum + "");
                     //实际盈亏
-                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    mHolder.mYkprice.setText("￥" + getActualProfitLoss(textNum,mBean));
                     //平仓手续费
-                    mHolder.mSxprice.setText("￥"+getPCprice(item.getType(),mHolder.mEtMaxpc,item));
+                    mHolder.mSxprice.setText("￥" + getCloseTradePrice(textNum, mBean));
                     //平仓盈亏
-                    mDialog.setPingcangSatte(item.getType(), getPCProfitLoss(item.getType(), mHolder.mEtMaxpc, item));
+                    mDialog.setPingcangSatte(mBean.getType(), getCloseProfitLoss(textNum, mBean));
                 }
             }
         });
@@ -298,93 +304,156 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Double.parseDouble(mText.getText().toString()) : 0;
     }
 
-    /**
-     * 实际盈亏
-     *
-     * @param type  1 跌  2涨
-     * @param mText
-     * @param bean
-     * @return
-     */
-    private float getActualProfitLoss(int type, EditText mText, HoldPositionBean bean) {
-        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
 
-        float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
-
-        float priceTick = getFloatNum(mProductListBean.getPriceTick());
-
-        float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
-
-        return mProfitLoss;
-    }
-
-    /**
-     * 平仓盈亏
-     *
-     * @param type  1 跌  2涨
-     * @param mText
-     * @param bean
-     * @return
-     */
-    private float getPCProfitLoss(int type, EditText mText, HoldPositionBean bean) {
-        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
-
-        float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
-
-        float priceTick = getFloatNum(mProductListBean.getPriceTick());
-
-        float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
-
-        return mProfitLoss;
-    }
-
-
-    /**
-     * 平仓手续费
-     * @param type
-     * @param mText
-     * @param bean
-     * @return
-     */
-    private float getPCprice(int type,EditText mText, HoldPositionBean bean){
-        float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
-
-        float closeRatio = getFloatNum(mProductListBean.getCloseRatioByMoney());
-
-        int buyCount = getText(mText);
-
-        float fee = 0;
-        boolean isToday = bean.getTodayPosition() > 0;
-
-        if (closeRatio !=0){
-            if (isToday){
-                closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByMoney());
-            }
-            fee = closePrice * mProductListBean.getVolumeMultiple() * closeRatio * buyCount;
-        }else {
-            closeRatio = getFloatNum(mProductListBean.getCloseRatioByVolume());
-            if (isToday){
-                closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByVolume());
-            }
-            fee = closeRatio * buyCount;
-        }
-        return fee;
-    }
-
-
-    private float getFloatNum(String num){
-        if (!TextUtils.isEmpty(num)){
-            return Float.parseFloat(num);
-        }
-        return 0;
-    }
-
-    private int getIntNum(String num){
-        if (!TextUtils.isEmpty(num)){
+    private int getIntNum(String num) {
+        if (!TextUtils.isEmpty(num)) {
             return Integer.parseInt(num);
         }
         return 0;
     }
+
+    /**
+     * 获取最大平仓手数
+     *
+     * @param mBean
+     * @return
+     */
+    private int getMaxCloseTradeNum(HoldPositionBean mBean) {
+        int maxCloseTrade = 0;
+
+        if (Constant.CODE_SHFE.equals(mBean.getExcode())) {
+            //上期所
+            if (item.getTodayPosition() > 0) {  //今平手数
+                maxCloseTrade = mBean.getPosition();
+            } else {  //昨平手数
+                maxCloseTrade = mBean.getYdPosition();
+            }
+        } else { //其他交易所
+            maxCloseTrade = mBean.getPosition();
+        }
+        return maxCloseTrade;
+    }
+
+
+    /**
+     * 平仓盈亏
+     *
+     * @param tradeNum 手数
+     * @param bean
+     * @return
+     */
+    private double getCloseProfitLoss(int tradeNum, HoldPositionBean bean) {
+        try {
+            double oneProfitAndLossToday = 0;
+            if (Constant.TYPE_BUY_DOWN == bean.getType()) {
+                oneProfitAndLossToday = NumberUtil.multiply(NumberUtil.divide(NumberUtil.subtract(new BigDecimal(bean.getHoldAvgPrice()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()),
+                        new BigDecimal(mProductListBean.getPriceTick()).doubleValue()), NumberUtil.multiply(new BigDecimal(mProductListBean.getVolumeMultiple()).doubleValue(), new BigDecimal(mProductListBean.getPriceTick()).doubleValue()));
+            } else {
+                oneProfitAndLossToday = NumberUtil.multiply(NumberUtil.divide(NumberUtil.subtract(new BigDecimal(mProductListBean.getBidPrice1()).doubleValue(), new BigDecimal(bean.getHoldAvgPrice()).doubleValue()),
+                        new BigDecimal(mProductListBean.getPriceTick()).doubleValue()),
+                        NumberUtil.multiply(new BigDecimal(mProductListBean.getVolumeMultiple()).doubleValue(), new BigDecimal(mProductListBean.getPriceTick()).doubleValue()));
+            }
+            return NumberUtil.multiply(oneProfitAndLossToday, new BigDecimal(tradeNum).doubleValue());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
+    /**
+     * 实际盈亏
+     *
+     * @param tradeNum 手数
+     * @param bean
+     * @return
+     */
+    private double getActualProfitLoss(int tradeNum, HoldPositionBean bean) {
+        try {
+            double oneProfitAndLossTotal = 0;
+            if (Constant.TYPE_BUY_DOWN == bean.getType()) {
+
+                oneProfitAndLossTotal = NumberUtil.multiply(NumberUtil.divide(NumberUtil.subtract(new BigDecimal(bean.getOpenAvgPrice()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()),
+                        new BigDecimal(mProductListBean.getPriceTick()).doubleValue()),
+                        NumberUtil.multiply(new BigDecimal(mProductListBean.getVolumeMultiple()).doubleValue(), new BigDecimal(mProductListBean.getPriceTick()).doubleValue()));
+            } else {
+                oneProfitAndLossTotal = NumberUtil.multiply(NumberUtil.divide(NumberUtil.subtract(new BigDecimal(mProductListBean.getBidPrice1()).doubleValue(), new BigDecimal(bean.getOpenAvgPrice()).doubleValue()),
+                        new BigDecimal(mProductListBean.getPriceTick()).doubleValue()),
+                        NumberUtil.multiply(new BigDecimal(mProductListBean.getVolumeMultiple()).doubleValue(), new BigDecimal(mProductListBean.getPriceTick()).doubleValue()));
+            }
+
+            return NumberUtil.multiply(oneProfitAndLossTotal, new BigDecimal(tradeNum).doubleValue());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
+    /**
+     * 获取平仓手续费
+     *
+     * @param tradeNum 手数
+     * @param bean
+     * @return
+     */
+    private String getCloseTradePrice(int tradeNum, HoldPositionBean bean) {
+        try {
+            boolean mCloseTodayRatioByMoney = TextUtils.isEmpty(mProductListBean.getCloseTodayRatioByMoney())
+                    || Double.parseDouble(mProductListBean.getCloseTodayRatioByMoney()) == 0 ? false : true;
+
+            double oneCloseToday; //今平一手
+            if (mCloseTodayRatioByMoney) {
+                if (bean.getType() == Constant.TYPE_BUY_DOWN) {
+                    oneCloseToday = NumberUtil.multiply(new BigDecimal(mProductListBean.getCloseTodayRatioByMoney()).doubleValue(),
+                            new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                } else {
+                    oneCloseToday = NumberUtil.multiply(new BigDecimal(mProductListBean.getCloseTodayRatioByMoney()).doubleValue(),
+                            new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                }
+            } else {
+                oneCloseToday = Double.parseDouble(mProductListBean.getCloseTodayRatioByVolume());
+            }
+
+            double oneCloseYD = 0;// 昨平一手的手续费
+            if (mCloseTodayRatioByMoney) {
+                if (bean.getType() == Constant.TYPE_BUY_DOWN) {//买跌
+                    oneCloseYD = NumberUtil.multiply(new BigDecimal(mProductListBean.getCloseRatioByMoney()).doubleValue(),
+                            new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                } else {//买涨
+                    oneCloseYD = NumberUtil.multiply(new BigDecimal(mProductListBean.getCloseRatioByMoney()).doubleValue(),
+                            new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                }
+            } else {
+                oneCloseYD = Double.parseDouble(mProductListBean.getCloseRatioByVolume());
+            }
+
+
+            double closeTradePrice = 0;
+            if (Constant.CODE_SHFE.equals(bean.getExcode())) {
+                if (bean.getTodayPosition() > 0) {
+                    closeTradePrice = NumberUtil.multiply(oneCloseToday, new BigDecimal(tradeNum).doubleValue());
+                } else {
+                    closeTradePrice = NumberUtil.multiply(oneCloseYD, new BigDecimal(tradeNum).doubleValue());
+                }
+            } else {
+                if (tradeNum <= bean.getTodayPosition()) {
+                    closeTradePrice = NumberUtil.multiply(oneCloseToday, new BigDecimal(tradeNum).doubleValue());
+                } else {
+                    double todaySXF = NumberUtil.multiply(oneCloseToday, new BigDecimal(bean.getTodayPosition()).doubleValue());
+                    double ydSXF = NumberUtil.multiply(oneCloseYD, new BigDecimal(tradeNum - bean.getTodayPosition()).doubleValue());
+                    closeTradePrice = todaySXF + ydSXF;
+                }
+            }
+
+            return String.valueOf(closeTradePrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "--";
+        }
+    }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mGouxuan;
@@ -426,4 +495,94 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             mLine = view.findViewById(R.id.v_line);
         }
     }
+
+
+    /**
+     * 平仓手续费
+     * @param type
+     * @param mText
+     * @param bean
+     * @return private float getPCprice(int type,EditText mText, HoldPositionBean bean){
+    float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
+
+    float closeRatio = getFloatNum(mProductListBean.getCloseRatioByMoney());
+
+    int buyCount = getText(mText);
+
+    float fee = 0;
+    boolean isToday = bean.getTodayPosition() > 0;
+
+    if (closeRatio !=0){
+    if (isToday){
+    closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByMoney());
+    }
+    fee = closePrice * mProductListBean.getVolumeMultiple() * closeRatio * buyCount;
+    }else {
+    closeRatio = getFloatNum(mProductListBean.getCloseRatioByVolume());
+    if (isToday){
+    closeRatio = getFloatNum(mProductListBean.getCloseTodayRatioByVolume());
+    }
+    fee = closeRatio * buyCount;
+    }
+    return fee;
+    }
+
+     */
+
+
+    /**
+     * 平仓盈亏
+     *
+     * @param type  1 跌  2涨
+     * @param mText
+     * @param bean
+     * @return private float getPCProfitLoss(int type, EditText mText, HoldPositionBean bean) {
+    float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
+
+    float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
+
+    float priceTick = getFloatNum(mProductListBean.getPriceTick());
+
+    float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
+
+    return mProfitLoss;
+    }
+
+     */
+
+
+    /**
+     * 实际盈亏
+     *
+     * @param type  1 跌  2涨
+     * @param mText
+     * @param bean
+     * @return private float getActualProfitLoss(int type, EditText mText, HoldPositionBean bean) {
+    float closePrice = "2".equals(type) ? getFloatNum(mProductListBean.getBidPrice1()) : getFloatNum(mProductListBean.getAskPrice1());
+
+    float price = closePrice - getFloatNum(bean.getOpenAvgPrice());
+
+    float priceTick = getFloatNum(mProductListBean.getPriceTick());
+
+    float mProfitLoss = price / priceTick * priceTick * mProductListBean.getVolumeMultiple() * getText(mText);
+
+    return mProfitLoss;
+    }
+
+
+    private float getFloatNum(String num) {
+    if (!TextUtils.isEmpty(num)) {
+    return Float.parseFloat(num);
+    }
+    return 0;
+    }
+
+    private int getIntNum(String num) {
+    if (!TextUtils.isEmpty(num)) {
+    return Integer.parseInt(num);
+    }
+    return 0;
+    }
+     */
+
 }

@@ -48,6 +48,8 @@ public class Constant {
     public static final int TYPE_BUY_DOWN = 1;
     public static final int TYPE_BUY_UP = 2;
 
+    public static final String CODE_SHFE = "SHFE";//上海期货交易所
+
     //支付结果
     public static final String PAY_RESULT_LEND_FAILED = "PAY_RESULT_LEND_FAILED";
 

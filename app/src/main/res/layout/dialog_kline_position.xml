@@ -112,8 +112,8 @@
                    android:textSize="@dimen/dimen_18sp"
                    android:paddingTop="@dimen/dimen_15dp"
                    android:paddingBottom="@dimen/dimen_15dp"
-                   android:paddingLeft="@dimen/dimen_15dp"
-                   android:paddingRight="@dimen/dimen_15dp"
+                   android:paddingLeft="@dimen/dimen_30dp"
+                   android:paddingRight="@dimen/dimen_30dp"
                    android:textColor="@color/color_white"
                    android:text="休市中"/>
           </LinearLayout>

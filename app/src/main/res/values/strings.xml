@@ -158,6 +158,7 @@
     <string name="buy_down_num">买跌%d手</string>
 
     <string name="conform_call_phone">确定拨打: %s ?</string>
+    <string name="close_trade_hint">%1$s %2$s %3$d手 平仓盈亏 %4$s元</string>
 
     <string name="create_order_tips">每浮动%1$s点,盈亏%2$s元</string>
 

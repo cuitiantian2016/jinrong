@@ -40,6 +40,7 @@
     <dimen name="dimen_14sp">14sp</dimen>
     <dimen name="dimen_15sp">15sp</dimen>
     <dimen name="dimen_16sp">16sp</dimen>
+    <dimen name="dimen_17sp">17sp</dimen>
     <dimen name="dimen_25sp">25sp</dimen>
     <dimen name="dimen_18sp">18sp</dimen>
     <dimen name="dimen_20sp">20sp</dimen>
@@ -50,6 +51,7 @@
     <dimen name="dimen_28sp">28sp</dimen>
     <dimen name="dimen_30sp">30sp</dimen>
     <dimen name="dimen_32sp">32sp</dimen>
+
 
     <!-- bound size -->
     <dimen name="dimen_1dp_half">0.5dp</dimen>
@@ -115,6 +117,7 @@
     <dimen name="dimen_100dp">100dp</dimen>
     <dimen name="dimen_120dp">120dp</dimen>
     <dimen name="dimen_150dp">150dp</dimen>
+    <dimen name="dimen_270dp">270dp</dimen>
     <dimen name="dimen_line">0.5dp</dimen>
 
 </resources>
