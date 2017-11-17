@@ -100,13 +100,15 @@
                     android:layout_marginLeft="16dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.honglu.future.widget.RiseNumberTextView
                         android:id="@+id/tv_new_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="1678"
-                        android:textColor="@color/color_2CC593"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="@color/color_opt_gt"
                         android:textSize="40sp" />
 
                     <LinearLayout
@@ -118,7 +120,8 @@
                             android:id="@+id/tv_rise_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-73"
+                            android:includeFontPadding="false"
+                            android:text="0"
                             android:textColor="@color/color_1DB98F"
                             android:textSize="@dimen/dimen_14sp" />
 
@@ -126,8 +129,9 @@
                             android:id="@+id/tv_rise_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
                             android:layout_marginLeft="@dimen/dimen_30dp"
-                            android:text="-1.91%"
+                            android:text="0"
                             android:textColor="@color/color_1DB98F"
                             android:textSize="@dimen/dimen_14sp" />
                     </LinearLayout>
@@ -183,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_vol"
                     android:layout_marginRight="12dp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dimen_5dp"
-                    android:layout_toRightOf="@+id/text_close"
                     android:gravity="left"
                     android:minHeight="16dp"
                     android:minWidth="35dp"
@@ -315,7 +319,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1766"
+                        android:text="--"
                         android:textColor="@color/color_special_red"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -340,7 +344,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1685"
+                        android:text="--"
                         android:textColor="@color/color_special_red"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -365,7 +369,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1687"
+                        android:text="--"
                         android:textColor="@color/color_special_red"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -396,7 +400,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1598"
+                        android:text="--"
                         android:textColor="@color/color_2CC593"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -421,7 +425,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1682"
+                        android:text="--"
                         android:textColor="@color/color_special_red"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -446,7 +450,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1676"
+                        android:text="--"
                         android:textColor="@color/color_special_red"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -477,7 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1686"
+                        android:text="--"
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -502,7 +506,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1681"
+                        android:text="--"
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -527,7 +531,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimen_20dp"
-                        android:text="1682"
+                        android:text="--"
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
@@ -592,7 +596,7 @@
                         android:id="@+id/tv_rise_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3725"
+                        android:text="--"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dimen_16sp" />
 
@@ -618,7 +622,7 @@
                         android:id="@+id/tv_down_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3725"
+                        android:text="--"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dimen_16sp" />
 

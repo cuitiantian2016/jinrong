@@ -33,15 +33,20 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
+import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.NumberUtils;
+import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.widget.RiseNumberTextView;
 import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
 import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
 import com.honglu.future.widget.popupwind.KLinePopupWin;
 import com.honglu.future.widget.tab.OnTabSelectListener;
+import com.xulu.mpush.message.RequestMarketMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +75,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @BindView(R.id.tv_closed)
     TextView mTvClosed;
     @BindView(R.id.tv_new_price)
-    TextView mTvNewPrice;
+    RiseNumberTextView mTvNewPrice;
     @BindView(R.id.tv_rise_num)
     TextView mTvRiseNum;
     @BindView(R.id.tv_rise_radio)
@@ -164,20 +169,20 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
-         if (mKLinePositionDialog !=null
-                 && mKLinePositionDialog.isShowing()
-                 && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())){
-                mKLinePositionDialog.pushRefresh(event.marketMessage.getLowerLimitPrice(),event.marketMessage.getUpperLimitPrice(),event.marketMessage.getLastPrice());
-         }
+        if (mKLinePositionDialog != null
+                && mKLinePositionDialog.isShowing()
+                && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
+            mKLinePositionDialog.pushRefresh(event.marketMessage.getLowerLimitPrice(), event.marketMessage.getUpperLimitPrice(), event.marketMessage.getLastPrice());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(UIBaseEvent event) {
         if (event instanceof RefreshUIEvent) {
             int type = ((RefreshUIEvent) event).getType();
-            if (event.EVENT_CLOSETRAD_REFRESH == type){
+            if (event.EVENT_CLOSETRAD_REFRESH == type) {
                 int position = Integer.parseInt(event.getCode());
-                if (mChiCangList !=null && mChiCangList.size() > position){
+                if (mChiCangList != null && mChiCangList.size() > position) {
                     mChiCangList.remove(position);
                     mHoldNum.setText(String.valueOf(mChiCangList.size()));
                 }
@@ -347,44 +352,112 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (bean == null || bean.getList() == null || bean.getList().size() == 0) {
             return;
         }
-        RealTimeBean.Data mRealBean = bean.getList().get(0);
-        String lastPrice = mRealBean.getLastPrice();
-        float riseNum = Float.valueOf(lastPrice) - Float.valueOf(mRealBean.getPreSettlementPrice());
-        float radio = (riseNum / Float.valueOf(mRealBean.getPreSettlementPrice())) * 100;
-        mTvName.setText(mRealBean.getName());
-        mTvNewPrice.setText(lastPrice);
+        RealTimeBean.Data mBean =  bean.getList().get(0);
+        mTvName.setText(mBean.getName());
 
-        if (riseNum >= 0) {
-            mTvRiseNum.setText("+" + riseNum);
-            mTvRiseNumLand.setText("+" + riseNum);
-            mTvRiseRadio.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
-            mTvRiseRadioLand.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
-        } else {
-            mTvRiseNum.setText(""+riseNum);
-            mTvRiseNumLand.setText("" + riseNum);
-            mTvRiseRadio.setText("" + NumberUtils.getFloatStr2(radio) + "%");
-            mTvRiseRadioLand.setText("" + NumberUtils.getFloatStr2(radio) + "%");
-        }
-        mTvBuyPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
-        mTvSellPrice.setText(lastPrice);
-        mTvVol.setText(mRealBean.getAskVolume1());
-        mHoldVol.setText(mRealBean.getBidVolume1());
-        mTvZd.setText(mRealBean.getUpperLimitPrice());
-        mTvKp.setText(mRealBean.getOpenPrice());
-        mTvZg.setText(mRealBean.getHighestPrice());
-        mTvDt.setText(mRealBean.getLowerLimitPrice());
-        mTvJj.setText(mRealBean.getAveragePrice());
-        mTvZd.setText(mRealBean.getLowestPrice());
-        mTvZs.setText(mRealBean.getClosePrice());
-        mTvJs.setText(mRealBean.getSettlementPrice());
-        mTvZj.setText(mRealBean.getPreSettlementPrice());
-        mTvRisePrice.setText(lastPrice);
-        mTvDownPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
-        mTvNameLand.setText(mRealBean.getName());
+        mTvNameLand.setText(mBean.getName());
 
+        setTextValue(mBean);
 
-        initViewPager(mRealBean.getPreClosePrice());
+        initViewPager(mBean.getPreClosePrice());
         initListener();
+    }
+
+    public void setTextValue(RealTimeBean.Data bean) {
+        if (mTvBuyPrice != null)
+            mTvBuyPrice.setText(bean.getBidPrice1());
+        if (mTvVol != null)
+            mTvVol.setText(bean.getVolume());
+        if (mTvSellPrice != null)
+            mTvSellPrice.setText(bean.getAskPrice1());
+        if (mHoldVol != null)
+            mHoldVol.setText(bean.getOpenInterest());
+        if (mTvZt != null)
+            mTvZt.setText(bean.getUpperLimitPrice());
+        if (mTvKp != null)
+            mTvKp.setText(bean.getOpenPrice());
+        if (mTvZg != null)
+            mTvZg.setText(bean.getHighestPrice());
+        if (mTvDt != null)
+            mTvDt.setText(bean.getLowerLimitPrice());
+        if (mTvJj != null)
+            mTvJj.setText(bean.getAveragePrice());
+        if (mTvZd != null)
+            mTvZd.setText(bean.getLowestPrice());
+        if (mTvZs != null)
+            mTvZs.setText(bean.getPreClosePrice());
+        if (mTvRisePrice != null)
+            mTvRisePrice.setText(bean.getAskPrice1());
+        if (mTvDownPrice != null)
+            mTvDownPrice.setText(bean.getBidPrice1());
+
+        if (mTvJs != null) {
+            if (TextUtils.isEmpty(bean.getSettlementPrice())) {
+                mTvJs.setText("--");
+            } else {
+                if (Double.parseDouble(bean.getSettlementPrice()) == 0) {
+                    mTvJs.setText("--");
+                } else {
+                    mTvJs.setText(bean.getSettlementPrice());
+                }
+            }
+        }
+
+        if (mTvZj != null) {
+            if (TextUtils.isEmpty(bean.getPreSettlementPrice())) {
+                mTvZj.setText("--");
+            } else {
+                if (Double.parseDouble(bean.getPreSettlementPrice()) == 0) {
+                    mTvZj.setText("--");
+                } else {
+                    mTvZj.setText(bean.getPreSettlementPrice());
+                }
+            }
+        }
+
+        String prefix = "";
+        int mcolor = getResources().getColor(R.color.color_opt_lt);
+
+        double diff = Double.parseDouble(bean.getChange());
+        if (diff > 0) {
+            mcolor = getResources().getColor(R.color.color_opt_gt);
+            prefix = "+";
+        }
+        if (diff == 0) {
+            mcolor = getResources().getColor(R.color.color_opt_eq);
+            prefix = "";
+        }
+
+        mTvKp.setTextColor(mcolor);
+        mTvZg.setTextColor(mcolor);
+        mTvJj.setTextColor(mcolor);
+        mTvZd.setTextColor(mcolor);
+
+        //格式化小数点
+        String change = bean.getChange();
+        String changeRate = bean.getChg();
+
+        if (mTvNewPrice != null) {
+            mTvNewPrice.setOptional(bean);
+            mTvNewPrice.setTextByAnimation(ConvertUtil.NVL(bean.getLastPrice(), ""));
+
+            mTvNewPrice.setTextByAnimation(ProFormatConfig.formatByCodes(bean.getInstrumentID(), ConvertUtil.NVL(bean.getLastPrice(), ConvertUtil.NVL(bean.getLastPrice(), ""))));
+            mTvNewPrice.setTextColor(mcolor);
+        }
+
+        if (mTvRiseNum != null) {
+            mTvRiseNum.setTextColor(mcolor);
+            mTvRiseNum.setText(prefix + NumberUtil.moveLast0(change));
+            mTvRiseRadio.setTextColor(mcolor);
+            mTvRiseRadio.setText(prefix + changeRate);
+        }
+
+        if (mTvRiseNumLand != null) {
+            mTvRiseNumLand.setText(prefix + NumberUtil.moveLast0(change));
+            mTvRiseNumLand.setTextColor(mcolor);
+            mTvRiseRadioLand.setText(prefix + changeRate);
+            mTvRiseRadioLand.setTextColor(mcolor);
+        }
     }
 
     private void getPositionList() {
