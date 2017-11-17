@@ -421,3 +421,26 @@
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 
+-dontwarn android.net.compatibility.**
+ -dontwarn android.net.http.**
+ -dontwarn com.android.internal.http.multipart.**
+ -dontwarn org.apache.commons.**
+ -dontwarn org.apache.http.**
+ -keep class android.net.compatibility.**{*;}
+ -keep class android.net.http.**{*;}
+ -keep class com.android.internal.http.multipart.**{*;}
+ -keep class org.apache.commons.**{*;}
+ -keep class org.apache.http.**{*;}
+
+
+-keep class com.cfmmc.app.sjkh.** {*;}
+-dontwarn com.cfmmc.app.sjkh.**
+
+-keep class com.bairuitech.** {*;}
+-dontwarn com.bairuitech.**
+
+-keep class com.ca.** {*;}
+-dontwarn com.ca.**
+
+-keep class com.google.zxing.client.** {*;}
+-dontwarn com.google.zxing.client.**
