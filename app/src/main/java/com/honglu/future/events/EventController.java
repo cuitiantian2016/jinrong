@@ -103,6 +103,9 @@ public class EventController {
         Intent loginIntent = new Intent(App.getContext(), LoginActivity.class);
         loginIntent.putExtra("tag", StringUtil.changeMobile(uName));
         loginIntent.putExtra("phone", uName);
+        if (!TextUtils.isEmpty(event.redirect)){
+            loginIntent.putExtra("redirect", event.redirect);
+        }
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         App.getContext().startActivity(loginIntent);
         clearLoginStatus(App.getContext(), event.getTAG());

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
@@ -28,6 +30,7 @@ import butterknife.OnClick;
  * Created by hefei on 2017/10/24.
  * 出入金
  */
+@Route(path = "/trade/pay")
 public class InAndOutGoldActivity extends BaseActivity {
     private static final String KEY_POSITION = "KEY_POSITION";
     private ArrayList<CustomTabEntity> mTabList;
@@ -40,6 +43,8 @@ public class InAndOutGoldActivity extends BaseActivity {
     @BindView(R.id.trade_common_tab_layout)
     CommonTabLayout mCommonTabLayout;
     private int mCurrentPosition;
+    @Autowired
+    public boolean isLogin;
 
     public static void startInAndOutGoldActivity(Context context,int position){
         Intent intent = new Intent(context, InAndOutGoldActivity.class);

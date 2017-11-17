@@ -1,9 +1,12 @@
 package com.honglu.future.ARouter;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -53,6 +56,12 @@ public class DebugActivity extends Activity {
         ARouter.getInstance()
                 .build("/future/main")
                 .withInt("select",3)
+                .navigation(this);
+    }
+    public void goToReChange(View view) {
+        String uri = "xn://future/trade/pay?isLogin=true";
+        ARouter.getInstance()
+                .build(Uri.parse(uri))
                 .navigation(this);
     }
     public void change126(View view) {

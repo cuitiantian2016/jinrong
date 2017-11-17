@@ -74,6 +74,23 @@
             android:layout_marginBottom="@dimen/dimen_30dp"
             android:background="@color/color_F35B5A"
             android:gravity="center"
+            android:onClick="goToReChange"
+            android:text="登录后跳转到出入金页面"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginBottom="@dimen/dimen_30dp"
+            android:background="@color/color_F35B5A"
+            android:gravity="center"
             android:onClick="change126"
             android:text="126环境"
             android:textColor="@color/white"

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -48,7 +49,6 @@ import butterknife.BindView;
  * @author wsw
  *         自选行情界面
  */
-
 public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter> implements OptionalQuotesContract.View {
 
     @BindView(R.id.rv_save_recycler_view)

@@ -6,6 +6,7 @@ public class LogoutEvent extends BaseEvent {
 
     private Context context;
     private int TAG;//为0时（登录失效时）调用退出接口，为1时（手动退出已调用退出接口）不调用
+    public String redirect;
 
     public LogoutEvent(Context context, int tag) {
         this.context = context;
