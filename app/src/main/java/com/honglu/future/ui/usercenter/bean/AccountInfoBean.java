@@ -16,7 +16,7 @@ public class AccountInfoBean {
     private int deposit;
     private String entrustInstrumentId;
     private String exchangeName;
-    private int frozenCash;
+    private double frozenCash;
     private double frozenCommission;
     private String isInit;
     private String mobile;
@@ -120,11 +120,11 @@ public class AccountInfoBean {
         return exchangeName;
     }
 
-    public void setFrozenCash(int frozenCash) {
+    public void setFrozenCash(double frozenCash) {
         this.frozenCash = frozenCash;
     }
 
-    public int getFrozenCash() {
+    public double getFrozenCash() {
         return frozenCash;
     }
 
