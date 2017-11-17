@@ -25,6 +25,27 @@ public class StringUtil {
         return (str == null || str.length() == 0 || "null".equals(str));
     }
 
+    public static boolean isEmpty(String str) {
+        if (null == str)
+            return true;
+        if (str.trim().length() == 0)
+            return true;
+        if (str.trim().equalsIgnoreCase("null"))
+            return true;
+        return false;
+    }
+
+    /**
+     * 数字每三位显示,
+     *
+     * @param number
+     * @return
+     */
+    public static String forNumber(double number) {
+        DecimalFormat df = new DecimalFormat("#,###.##");
+        return df.format(number);
+    }
+
     // unicode转中文
     public static String decode(String unicodeStr) {
         if (unicodeStr == null) {

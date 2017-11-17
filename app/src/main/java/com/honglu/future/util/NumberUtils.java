@@ -30,6 +30,27 @@ public class NumberUtils {
     }
 
     /**
+     * 获取小数点之后有几位小数点
+     *
+     * @param d
+     * @return 小数点有效位数
+     */
+    public static int getPointPow(String str) {
+        try {
+            //去科学计数发
+            BigDecimal bigDecimal = new BigDecimal(str);
+            str = bigDecimal.toString();
+            if (str.contains(".")) {
+                String[] ss = str.split("\\.");
+                return ss[1].length();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
      * 保留两位小数字符串
      *
      * @param str

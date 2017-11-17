@@ -344,10 +344,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mTvRiseRadio.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
             mTvRiseRadioLand.setText("+" + NumberUtils.getFloatStr2(radio) + "%");
         } else {
-            mTvRiseNum.setText("-" + riseNum);
-            mTvRiseNumLand.setText("-" + riseNum);
-            mTvRiseRadio.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
-            mTvRiseRadioLand.setText("-" + NumberUtils.getFloatStr2(radio) + "%");
+            mTvRiseNum.setText(""+riseNum);
+            mTvRiseNumLand.setText("" + riseNum);
+            mTvRiseRadio.setText("" + NumberUtils.getFloatStr2(radio) + "%");
+            mTvRiseRadioLand.setText("" + NumberUtils.getFloatStr2(radio) + "%");
         }
         mTvBuyPrice.setText(String.valueOf(Float.valueOf(lastPrice) - 1));
         mTvSellPrice.setText(lastPrice);

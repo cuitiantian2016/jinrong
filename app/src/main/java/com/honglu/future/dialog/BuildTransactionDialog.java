@@ -25,8 +25,12 @@ import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
+
+import java.math.BigDecimal;
 
 import static com.honglu.future.util.ToastUtil.showToast;
 
@@ -47,15 +51,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private BuildTransactionPresenter mBuildTransactionPresenter;
     private String mInstrumentId;
     private TextView mTotal;
-    private int mHandsNum;
-    private int mVolumeMultiple;
-    private float mFeeRate;
     private TextView marginMoney;
     private TextView sxf;
     private boolean mIsStopChangePrice = false;
-    private float mLowestPrice, mHighestprice;
-    private int mMinHands, mMaxHands;
-    private float mChangedPrice;
+
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, String instrumentId) {
         super(context, R.style.DateDialog);
@@ -92,54 +91,23 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mBuildTransactionPresenter.getProductDetail(mInstrumentId);
     }
 
-    /**
-     * @param askPrice1 买涨价
-     * @param bidPrice1 买跌价
-     */
-    public void pushRefresh(String askPrice1, String bidPrice1) {
-        if (!mIsStopChangePrice) {
-            if (mTvRise != null) {
-                mTvRise.setText(askPrice1);
-            }
 
-            if (mTvDown != null) {
-                mTvDown.setText(bidPrice1);
+    public void pushRefresh(ProductListBean bean) {
+        mProductListBean = bean;
+        if (mTvRise != null) {
+            mTvRise.setText(bean.getAskPrice1());
+            mTvDown.setText(bean.getBidPrice1());
+            if (mBuyType.equals("2")) {
+                mPrice.setText(bean.getAskPrice1());
+            } else {
+                mPrice.setText(bean.getBidPrice1());
             }
-
-            if (mPrice != null) {
-                if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
-                    mPrice.setText(askPrice1);
-                } else {
-                    mPrice.setText(bidPrice1);
-                }
-            }
-
-            String bzj = "";
-            if (marginMoney != null) {
-                bzj = getBzjStr(mHandsNum, askPrice1, bidPrice1);
-                marginMoney.setText("￥" + bzj);
-            }
-
-            String sxfStr = "";
-            if (sxf != null) {
-                sxfStr = getSxfStr(mHandsNum, askPrice1, bidPrice1);
-                sxf.setText("￥" + sxfStr);
-            }
-
-            if (mTotal != null) {
-                mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
-            }
+            setTotalMoney();
         }
     }
 
     private void showDialogData(ProductListBean bean) {
         mProductListBean = bean;
-        mVolumeMultiple = bean.getVolumeMultiple();
-        mFeeRate = mBuyRiseOrDown.equals(TRADE_BUY_DOWN) ? Float.valueOf(bean.getOpenRatioByVolume()) : Float.valueOf(bean.getOpenRatioByMoney());
-        mLowestPrice = Float.valueOf(bean.getLowerLimitPrice());
-        mHighestprice = Float.valueOf(bean.getUpperLimitPrice());
-        mMinHands = bean.getMinSl();
-        mMaxHands = bean.getMaxSl();
 
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
@@ -156,7 +124,6 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mPrice = (EditText) findViewById(R.id.amountView);
         mHands = (EditText) findViewById(R.id.av_hands);
         mHands.setText(String.valueOf(mProductListBean.getMinSl()));
-        mHandsNum = Integer.valueOf(mHands.getText().toString());
         if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
             mBuyType = "2";
             mPrice.setText(bean.getAskPrice1());
@@ -189,19 +156,13 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView useAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
         useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_ASSES));
         marginMoney = (TextView) findViewById(R.id.tv_margin_money);
-        String bzj = getBzjStr(mHandsNum, bean.getAskPrice1(), bean.getBidPrice1());
-        marginMoney.setText("￥" + bzj);
-
         sxf = (TextView) findViewById(R.id.tv_sxf);
-        String sxfStr = getSxfStr(mHandsNum, bean.getAskPrice1(), bean.getBidPrice1());
-        sxf.setText("￥" + sxfStr);
-
         mTotal = (TextView) findViewById(R.id.tv_total);
-        mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
 
         TextView goRecharge = (TextView) findViewById(R.id.btn_go_recharge);
         goRecharge.setOnClickListener(this);
 
+        setTotalMoney();
         mPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -215,18 +176,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                //mIsStopChangePrice = true;
-                if (s.length() < 1) {
-                    mChangedPrice = mLowestPrice;
-                    mPrice.setText(String.valueOf(mLowestPrice));
-                } else {
-                    mChangedPrice = Float.valueOf(mPrice.getText().toString());
-                    if (mChangedPrice > mHighestprice) {
-                        mChangedPrice = mHighestprice;
-                        mPrice.setText(String.valueOf(mHighestprice));
-                    }
-                }
-                calResult();
+                //setTotalMoney();
             }
         });
         mHands.addTextChangedListener(new TextWatcher() {
@@ -242,40 +192,65 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() < 1) {
-                    mHandsNum = mMinHands;
-                    mHands.setText(String.valueOf(mMinHands));
-                } else {
-                    mHandsNum = Integer.valueOf(mHands.getText().toString());
-                    if (mHandsNum > mMaxHands) {
-                        mHandsNum = mMaxHands;
-                        mHands.setText(String.valueOf(mMaxHands));
-                    }
-                }
-                calResult();
-
+                //setTotalMoney();
             }
         });
     }
 
-    private void calResult() {
-        String bzj = getBzjStr(mHandsNum, String.valueOf(mChangedPrice), String.valueOf(mChangedPrice));
-        marginMoney.setText("￥" + bzj);
 
-        String sxfStr = getSxfStr(mHandsNum, String.valueOf(mChangedPrice), String.valueOf(mChangedPrice));
-        sxf.setText("￥" + sxfStr);
-        mTotal.setText("￥" + (Float.valueOf(sxfStr) + Float.valueOf(bzj)));
-    }
+    /**
+     * 显示需要的预付款
+     */
+    void setTotalMoney() {
+        try {
+            if (mProductListBean == null)
+                return;
+            if (StringUtil.isEmpty(mHands.getText().toString()))
+                return;
 
-    private String getBzjStr(int hands, String askPrice1, String bidPrice1) {
-        //float rate = mBuyType.equals("1") ? Float.valueOf(bean.getShortMarginRatioByMoney()) : Float.valueOf(bean.getLongMarginRatioByMoney());
-        float price = mBuyType.equals("1") ? Float.valueOf(askPrice1) : Float.valueOf(bidPrice1);
-        return String.valueOf(hands * 0.15 * price * mVolumeMultiple);
-    }
+            int shouShu = Integer.parseInt(mHands.getText().toString());
+            if (shouShu <= 0) {
+                shouShu = mProductListBean.getMinSl();
+            }
+            // 先计算一手保证金的金额
+            double oneSlBZj = 0;
+            if (mBuyType.equals("1")) {//买跌
+//                if (TextUtils.isEmpty(mProductListBean.getLongMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getLongMarginRatioByMoney()) == 0) {
+//                    oneSlBZj = Double.parseDouble(mProductListBean.getLongMarginRatioByVolume());
+//                } else {
+                    oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+//                }
+            } else {//买涨
+//                if (TextUtils.isEmpty(mProductListBean.getShortMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getShortMarginRatioByMoney()) == 0) {
+//                    oneSlBZj = Double.parseDouble(mProductListBean.getShortMarginRatioByVolume());
+//                } else {
+                    oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+//                }
+            }
+            String totalBZJ = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(shouShu).doubleValue()));
 
-    private String getSxfStr(int hands, String askPrice1, String bidPrice1) {
-        float price = mBuyType.equals("1") ? Float.valueOf(askPrice1) : Float.valueOf(bidPrice1);
-        return String.valueOf(mFeeRate * hands * mVolumeMultiple * price);
+            marginMoney.setText("￥" + StringUtil.forNumber(new BigDecimal(totalBZJ).doubleValue()));
+
+            // 先计算一手手续费的金额
+            double oneSlSXF = 0;
+            if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
+                oneSlSXF = Double.parseDouble(mProductListBean.getOpenRatioByVolume());
+            } else {
+                if (mBuyType.equals("1")) {//买跌
+                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                } else {
+                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                }
+            }
+            String totalSXF = NumberUtil.moveLast0(NumberUtil.multiply(oneSlSXF, new BigDecimal(shouShu).doubleValue()));
+            sxf.setText("￥" + StringUtil.forNumber(new BigDecimal(totalSXF).doubleValue()));
+
+            String totalMoney = NumberUtil.moveLast0(NumberUtil.multiply((oneSlSXF + oneSlBZj), new BigDecimal(shouShu).doubleValue()));
+            mTotal.setText(StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

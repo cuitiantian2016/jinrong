@@ -40,7 +40,7 @@
                         android:id="@+id/tv_danger_chance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="56.5%"
+                        android:text="--"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/dimen_22sp" />
 
@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_16dp"
-                        android:text="1000.16"
+                        android:text="--"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/dimen_22sp" />
 
@@ -82,7 +82,7 @@
                         android:id="@+id/tv_rights_interests"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13232.1"
+                        android:text="--"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/dimen_22sp" />
 
@@ -100,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_16dp"
-                        android:text="1000.16"
+                        android:text="--"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/dimen_22sp" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="+100"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="92000"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>
@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="2400"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>
@@ -238,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="0"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>
@@ -273,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="23.4"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>
@@ -308,7 +308,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="0"
+                    android:text="--"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
             </RelativeLayout>

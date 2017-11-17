@@ -143,8 +143,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 break;
             }
         }
+        ProductListBean productListBean = null;
         if (index > 0) {
-            ProductListBean productListBean = data.get(index);
+            productListBean = data.get(index);
             productListBean.setAskPrice1(marketMessage.getAskPrice1());
             productListBean.setBidPrice1(marketMessage.getBidPrice1());
             productListBean.setTradeVolume(marketMessage.getVolume());
@@ -155,7 +156,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (mBuildTransactionDialog != null
                 && mBuildTransactionDialog.isShowing()
                 && !TextUtils.isEmpty(mSelectCode) && mSelectCode.equals(marketMessage.getInstrumentID())) {
-            mBuildTransactionDialog.pushRefresh(marketMessage.getAskPrice1(), marketMessage.getBidPrice1());
+            mBuildTransactionDialog.pushRefresh(productListBean);
         }
     }
 
