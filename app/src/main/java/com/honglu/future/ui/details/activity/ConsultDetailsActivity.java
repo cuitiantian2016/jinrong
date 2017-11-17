@@ -24,6 +24,7 @@ import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
 import com.honglu.future.ui.details.presenter.ConsultDetailsPresenter;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -147,7 +148,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             public void onClick(View view) {
                 String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
                 if (TextUtils.isEmpty(uID)){
-                    ToastUtil.show("请登录后点赞");
+                    startActivity(new Intent(ConsultDetailsActivity.this, LoginActivity.class));
                     return;
                 }
                 mPresenter.praiseMessage(informationId,uID);

@@ -19,11 +19,13 @@ import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.market.activity.OptionalQuotesActivity;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.contract.MarketContract;
 import com.honglu.future.ui.market.presenter.MarketPresenter;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -183,11 +185,15 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onAddAptional() {
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
-                List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
-                Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
-                intent.putExtra("allmarketlist", (Serializable) mAllMarketList);
-                intent.putExtra("zxmarketlist", (Serializable) zxList);
-                startActivity(intent);
+                if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+                    List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
+                    Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
+                    intent.putExtra("allmarketlist", (Serializable) mAllMarketList);
+                    intent.putExtra("zxmarketlist", (Serializable) zxList);
+                    startActivity(intent);
+                }else {
+                   startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
             }
         }
     }
