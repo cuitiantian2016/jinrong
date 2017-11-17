@@ -3,6 +3,9 @@
     <item name="np__increment" type="id" />
     <item name="np__decrement" type="id" />
     <string name="app_short">xnsudai</string>
+
+    <!-- 开启 与baseActivity SystemBar 一起使用-->
+    <bool name="fitsSystemWindows">true</bool>
     <!--额度-->
     <string name="limit_hint">为保证提额申请顺利通过，请务必填写真实信息！</string>
     <!--完善资料-->
@@ -155,5 +158,7 @@
     <string name="buy_down_num">买跌%d手</string>
 
     <string name="conform_call_phone">确定拨打: %s ?</string>
+
+    <string name="create_order_tips">每浮动%1$s点,盈亏%2$s元</string>
 
 </resources>

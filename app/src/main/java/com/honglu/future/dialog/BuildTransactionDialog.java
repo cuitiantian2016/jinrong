@@ -53,6 +53,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private TextView mTotal;
     private TextView marginMoney;
     private TextView sxf;
+    private TextView text_create_tips;
     private boolean mIsStopChangePrice = false;
 
 
@@ -102,6 +103,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             } else {
                 mPrice.setText(bean.getBidPrice1());
             }
+            ykTips();
             setTotalMoney();
         }
     }
@@ -117,6 +119,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mTvDown = (TextView) findViewById(R.id.tv_down);
         mTvDown.setText(mProductListBean.getBidPrice1());
         mTvDown.setOnClickListener(this);
+        text_create_tips = (TextView) findViewById(R.id.text_create_tips);
         TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
         riseRadio.setText(mProductListBean.getLongRate() + "%");
         TextView downRadio = (TextView) findViewById(R.id.tv_down_radio);
@@ -162,6 +165,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView goRecharge = (TextView) findViewById(R.id.btn_go_recharge);
         goRecharge.setOnClickListener(this);
 
+        ykTips();
         setTotalMoney();
         mPrice.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,7 +196,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                //setTotalMoney();
+                ykTips();
             }
         });
     }
@@ -251,6 +255,24 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 计算每波动一个点的盈利
+     */
+    public void ykTips() {
+        String input = mHands.getText().toString();
+        if (TextUtils.isEmpty(input)) {
+            return;
+        }
+        int shouShu = Integer.parseInt(input.trim());
+        if (shouShu <= 0) {
+            shouShu = mProductListBean.getMinSl();
+        }
+        text_create_tips.setText(mContext.getResources().getString(R.string.create_order_tips,
+                mProductListBean.getPriceTick(),
+                NumberUtil.moveLast0(NumberUtil.multiply(Double.parseDouble(mProductListBean.getPriceTick()), Double.parseDouble(mProductListBean.getVolumeMultiple() * shouShu + "")))));
+
     }
 
     @Override

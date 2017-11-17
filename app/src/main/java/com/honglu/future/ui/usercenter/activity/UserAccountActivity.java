@@ -1,11 +1,13 @@
 package com.honglu.future.ui.usercenter.activity;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.TradeTipDialog;
@@ -15,6 +17,8 @@ import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,6 +56,14 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     TextView mWithdrawals;
     @BindView(R.id.tv_recharge)
     TextView mRecharge;
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getAccountBasicInfo();//每隔3秒刷一次
+            mHandler.postDelayed(this, 3000);
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -62,7 +74,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     public void loadData() {
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.user_account));
         mTitle.setRightTitle(R.mipmap.ic_trade_tip, this);
-        getAccountBasicInfo();
+        startRun();
     }
 
     @OnClick({R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_right})
@@ -119,6 +131,26 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
 
     private void getAccountBasicInfo() {
         mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+    }
+
+    /**
+     * 开始刷新用户信息
+     */
+    public void startRun() {
+        if (App.getConfig().getAccountLoginStatus()) {
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.post(mRunnable);
+        }
+    }
+
+    public void stopRun() {
+        mHandler.removeCallbacks(mRunnable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopRun();
     }
 
 }
