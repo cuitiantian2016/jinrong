@@ -3,7 +3,6 @@ package com.honglu.future.ui.home.viewmodel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -14,12 +13,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
 import com.honglu.future.config.ConfigUtil;
-import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -29,7 +26,6 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
-import com.honglu.future.util.SpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -131,16 +127,10 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
             });
         }
     }
-    /**
-     * 立即开户
-     */
     private void goOpenAccount() {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.putExtra("brokerId", "0101");
-        String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
-        if (!TextUtils.isEmpty(userMobile)) {
-            intent.putExtra("mobile", userMobile);
-        }
+        Intent intent = new Intent(mContext, WebViewActivity.class);
+        intent.putExtra("title", "开户");
+        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
         mContext.startActivity(intent);
     }
 }
