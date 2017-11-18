@@ -177,8 +177,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mRequestBean = event.marketMessage;
             transferBean(mRequestBean);
             fragment.setLastKData(mRequestBean);
-            if(mPosition!=0) {
-                ((KLineFragment)fragments.get(mPosition)).setLastKData(mRequestBean,mKlineCycleType);
+            if (mPosition != 0) {
+                ((KLineFragment) fragments.get(mPosition)).setLastKData(mRequestBean, mKlineCycleType);
             }
             if (mKLinePositionDialog != null
                     && mKLinePositionDialog.isShowing() && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
@@ -244,9 +244,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");
         isClosed = getIntent().getStringExtra("isClosed");//是否休市
-        if (isClosed.equals("2")) {
-            mTvClosed.setVisibility(View.VISIBLE);
-        }
         mKLinePositionDialog = new KLinePositionDialog(KLineMarketActivity.this);
         mKLinePopupWin = new KLinePopupWin(this);
         mKLinePopupWin.setOnPopItemClickListener(this);
@@ -546,6 +543,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         productListBean = bean;
+        if (bean.getIsClosed().equals("2")) {
+            mTvClosed.setVisibility(View.VISIBLE);
+        }
         mProductRuleDialog = new ProductRuleDialog(this, bean);
     }
 
