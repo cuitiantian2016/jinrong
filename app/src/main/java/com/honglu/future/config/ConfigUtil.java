@@ -59,6 +59,9 @@ public class ConfigUtil {
     //资金术语
     public static String ZIJIN_SHUYU = baseH5Url + "jargon/fund";
 
+    //保证金监控中心查询的链接
+    public static String QUERY_FUTURE = "https://investorservice.cfmmc.com";
+
 
     //爬取支付宝数据js
     public String GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";

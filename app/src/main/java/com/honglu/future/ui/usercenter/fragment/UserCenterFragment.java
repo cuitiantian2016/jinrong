@@ -192,7 +192,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus})
+            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
+            R.id.tv_bond_query})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -264,6 +265,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
                 intentAbout.putExtra("title", "关于我们");
                 startActivity(intentAbout);
+                break;
+            case R.id.tv_bond_query:
+                Intent intentQuery = new Intent(mActivity, WebViewActivity.class);
+                intentQuery.putExtra("url", ConfigUtil.QUERY_FUTURE);
+                intentQuery.putExtra("title", "保证金监控中心查询");
+                startActivity(intentQuery);
                 break;
         }
     }
