@@ -32,7 +32,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     private int mPosition = -1;
     private int mExpcNum = 0; //平仓手数
-    private int mExPrice = 0;//价格
+    private float mExPrice = 0;//价格
 
     private String mLowerLimitPrice; //跌停板价
     private String mUpperLimitPrice; //涨停板价
@@ -81,7 +81,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     }
 
     //价格
-    public int getExPrice() {
+    public float getExPrice() {
         return mExPrice;
     }
 
@@ -204,7 +204,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         mHolder.mMaxpcDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int textNum = getText(mHolder.mEtMaxpc);
+                int textNum = getIntText(mHolder.mEtMaxpc);
                 if (textNum > 1) {
                     textNum--;
                     mHolder.mEtMaxpc.setText(textNum + "");
@@ -221,7 +221,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         mHolder.mMaxpcAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int textNum = getText(mHolder.mEtMaxpc);
+                int textNum = getIntText(mHolder.mEtMaxpc);
                 if (textNum < mBean.getPosition()) {
                     textNum++;
                     mHolder.mEtMaxpc.setText(textNum + "");
@@ -246,7 +246,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
             @Override
             public void afterTextChanged(Editable s) {
-                mExpcNum = getText(mHolder.mEtMaxpc);
+                mExpcNum = getIntText(mHolder.mEtMaxpc);
             }
         });
     }
@@ -258,7 +258,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         mHolder.mPriceDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int textNum = getText(mHolder.mEtPrice);
+                float textNum = getText(mHolder.mEtPrice);
                 if (textNum > 1) {
                     textNum--;
                     mHolder.mEtPrice.setText(textNum + "");
@@ -294,7 +294,12 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         });
     }
 
-    private int getText(EditText mText) {
+    private float getText(EditText mText) {
+
+        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Float.parseFloat(mText.getText().toString()) : 0;
+    }
+
+    private int getIntText(EditText mText) {
 
         return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Integer.parseInt(mText.getText().toString()) : 0;
     }
