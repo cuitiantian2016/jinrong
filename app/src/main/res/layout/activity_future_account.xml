@@ -38,9 +38,10 @@
                 android:textSize="@dimen/dimen_16sp" />
 
             <TextView
+                android:id="@+id/tv_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01010327"
+                android:text="--"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
