@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +67,9 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
     private boolean mIsShowFilter;
+    private List<EntrustBean> mAllList;
+    private List<EntrustBean> mOpenList;
+    private List<EntrustBean> mCloseList;
 
     @Override
     public int getLayoutId() {
@@ -169,6 +174,16 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
+                if (mAllList == null || mAllList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    return;
+                }
+                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mEntrustAdapter.clearData();
+                mEntrustAdapter.addData(mAllList);
+                if (mAllList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                }
             }
         });
 
@@ -183,6 +198,19 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
+                mOpenList = new ArrayList<>();
+                for (EntrustBean bean : mAllList) {
+                    if (bean.getOpenClose() == 1) {
+                        mOpenList.add(bean);
+                    }
+                }
+                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mEntrustAdapter.clearData();
+                mEntrustAdapter.addData(mOpenList);
+                if (mOpenList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                }
+
             }
         });
 
@@ -197,6 +225,20 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
+
+                mCloseList = new ArrayList<>();
+                for (EntrustBean bean : mAllList) {
+                    if (bean.getOpenClose() == 2) {
+                        mCloseList.add(bean);
+                    }
+                }
+
+                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mEntrustAdapter.clearData();
+                mEntrustAdapter.addData(mCloseList);
+                if (mCloseList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                }
             }
         });
     }
@@ -214,6 +256,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
+        mAllList = list;
         mLoadingLayout.setStatus(LoadingLayout.Success);
         mEntrustAdapter.clearData();
         mEntrustAdapter.addData(list);
