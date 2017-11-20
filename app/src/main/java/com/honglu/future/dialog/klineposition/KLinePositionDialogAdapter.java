@@ -32,10 +32,11 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     private int mPosition = -1;
     private int mExpcNum = 0; //平仓手数
-    private float mExPrice = 0;//价格
+    private double mExPrice = 0;//价格
+    private double mExLastPrice = 0; //上一次输入的价格
 
-    private String mLowerLimitPrice; //跌停板价
-    private String mUpperLimitPrice; //涨停板价
+    private double mLowerLimitPrice; //跌停板价
+    private double mUpperLimitPrice; //涨停板价
     private KLinePositionDialogAdapter.ViewHolder mViewHolder;
 
     public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog) {
@@ -46,9 +47,10 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     public void setProductListBean(ProductListBean bean) {
         this.mExpcNum = 0;
         this.mExPrice = 0;
+        this.mExLastPrice = 0;
         this.mProductListBean = bean;
-        this.mLowerLimitPrice = mProductListBean.getLowerLimitPrice();
-        this.mUpperLimitPrice = mProductListBean.getUpperLimitPrice();
+        this.mLowerLimitPrice = getDouble(mProductListBean.getLowerLimitPrice());
+        this.mUpperLimitPrice = getDouble(mProductListBean.getUpperLimitPrice());
         notifyDataSetChanged();
     }
 
@@ -59,10 +61,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
      * @param upperLimitPrice
      */
     public void setMpushRefreshData(String lowerLimitPrice, String upperLimitPrice) {
-        this.mLowerLimitPrice = lowerLimitPrice;
-        this.mUpperLimitPrice = upperLimitPrice;
-        if (mViewHolder != null)
-            mViewHolder.mPriceHint.setText("≥" + getIntNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getIntNum(mUpperLimitPrice) + "涨停价");
+
     }
 
     //当前展开的 position
@@ -81,7 +80,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     }
 
     //价格
-    public float getExPrice() {
+    public double getExPrice() {
         return mExPrice;
     }
 
@@ -96,6 +95,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         this.mProductListBean = null;
         this.mExpcNum = 0;
         this.mExPrice = 0;
+        this.mExLastPrice = 0;
         clearPosition();
     }
 
@@ -165,12 +165,13 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 //设置手数事件
                 setPositionListener(mViewHolder, mBean);
 
-
-                this.mExPrice = getIntNum(mProductListBean.getLastPrice());
+                double mLastPrice = getDouble(mProductListBean.getLastPrice());
+                this.mExPrice = mLastPrice;
+                this.mExLastPrice = mLastPrice;
                 holder.mEtPrice.setText(mExPrice + "");
                 setPriceListener(mViewHolder);
 
-                holder.mPriceHint.setText("≥" + getIntNum(mLowerLimitPrice) + " 跌停价 且 ≤" + getIntNum(mUpperLimitPrice) + "涨停价");
+                holder.mPriceHint.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
 
                 //实际盈亏
                 holder.mYkprice.setText("￥" + getActualProfitLoss(maxCloseTradeNum, mBean));
@@ -207,7 +208,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 int textNum = getIntText(mHolder.mEtMaxpc);
                 if (textNum > 1) {
                     textNum--;
-                    mHolder.mEtMaxpc.setText(textNum + "");
+                    mHolder.mEtMaxpc.setText(String.valueOf(textNum));
                     //实际盈亏
                     mHolder.mYkprice.setText("￥" + getActualProfitLoss(textNum,mBean));
                     //平仓手续费
@@ -224,7 +225,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 int textNum = getIntText(mHolder.mEtMaxpc);
                 if (textNum < mBean.getPosition()) {
                     textNum++;
-                    mHolder.mEtMaxpc.setText(textNum + "");
+                    mHolder.mEtMaxpc.setText(String.valueOf(textNum));
                     //实际盈亏
                     mHolder.mYkprice.setText("￥" + getActualProfitLoss(textNum,mBean));
                     //平仓手续费
@@ -258,10 +259,10 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         mHolder.mPriceDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float textNum = getText(mHolder.mEtPrice);
+                double textNum = getDoubleText(mHolder.mEtPrice);
                 if (textNum > 1) {
                     textNum--;
-                    mHolder.mEtPrice.setText(textNum + "");
+                    mHolder.mEtPrice.setText(String.valueOf(textNum));
                 }
             }
         });
@@ -273,7 +274,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 double lastPrice = !TextUtils.isEmpty(mProductListBean.getLastPrice()) ? Double.parseDouble(mProductListBean.getLastPrice()) : 0;
                 if (textNum < lastPrice) {
                     textNum++;
-                    mHolder.mEtPrice.setText(textNum + "");
+                    mHolder.mEtPrice.setText(String.valueOf(textNum));
                 }
             }
         });
@@ -289,14 +290,15 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
             @Override
             public void afterTextChanged(Editable s) {
-                mExPrice = getText(mHolder.mEtPrice);
+                //跌停板价 mLowerLimitPrice  mUpperLimitPrice; //涨停板价
+                if (mExPrice >= mLowerLimitPrice && mExPrice <= mUpperLimitPrice){
+                    mExPrice = getDoubleText(mHolder.mEtPrice);
+                    mExLastPrice = mExPrice;
+                }else {
+                    mHolder.mEtPrice.setText(String.valueOf(mExLastPrice));
+                }
             }
         });
-    }
-
-    private float getText(EditText mText) {
-
-        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Float.parseFloat(mText.getText().toString()) : 0;
     }
 
     private int getIntText(EditText mText) {
@@ -309,10 +311,9 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Double.parseDouble(mText.getText().toString()) : 0;
     }
 
-
-    private int getIntNum(String num) {
-        if (!TextUtils.isEmpty(num)) {
-            return Integer.parseInt(num);
+    private double getDouble(String num){
+        if (!TextUtils.isEmpty(num)){
+            return Float.parseFloat(num);
         }
         return 0;
     }
@@ -455,7 +456,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             return String.valueOf(closeTradePrice);
         } catch (Exception e) {
             e.printStackTrace();
-            return "--";
+            return "0";
         }
     }
 
