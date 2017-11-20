@@ -15,6 +15,8 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -29,6 +31,8 @@ import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -226,6 +230,24 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void cancelOrderSuccess() {
         getPositionList();
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
+                if (!App.getConfig().getAccountLoginStatus()) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mEntrustAdapter.clearData();
+                }
+            }
+        }
     }
 
 }
