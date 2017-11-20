@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -33,6 +34,7 @@ import com.honglu.future.R;
 import com.honglu.future.util.TextViewUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖
@@ -63,6 +65,7 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     private float mTabPadding;
     private boolean mTabSpaceEqual;
     private float mTabWidth;
+    private ArrayMap<Integer,Integer> mInitMap = new ArrayMap<>();
 
     /**
      * indicator
@@ -129,6 +132,9 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     private float mLeftMargin;
     private float mWindMargin;
     private float mTextWidth;
+
+
+    private boolean mViewDelay;
     /**
      * anim
      */
@@ -136,6 +142,7 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     private OvershootInterpolator mInterpolator = new OvershootInterpolator(1.5f);
 
     private FragmentChangeManager mFragmentChangeManager;
+
 
     public HorizontalTabLayout(Context context) {
         this(context, null, 0);
@@ -228,6 +235,7 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
         mRightMargin = ta.getDimension(R.styleable.CommonTabLayout_tl_rightMargin, 0.0f);
         mLeftMargin = ta.getDimension(R.styleable.CommonTabLayout_tl_leftMargin, 0.0f);
         mWindMargin = ta.getDimension(R.styleable.CommonTabLayout_tl_windMargin,0.0f);
+        mViewDelay = ta.getBoolean(R.styleable.CommonTabLayout_tl_view_delay,false);
         mTextWidth = TextViewUtil.getTextWidth(mTextsize,"测");
         ta.recycle();
     }
@@ -276,6 +284,9 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
      */
     public void setTabData(ArrayList<CustomTabEntity> tabEntitys, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
         mFragmentChangeManager = new FragmentChangeManager(fa.getSupportFragmentManager(), containerViewId, fragments);
+        if (mViewDelay){
+            mInitMap.put(0,0);
+        }
         setTabData(tabEntitys);
     }
 
@@ -617,18 +628,36 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     }
 
     //setter and getter
-    public void setCurrentTab(int currentTab) {
+    public void setCurrentTab(final int currentTab) {
         mLastTab = this.mCurrentTab;
         this.mCurrentTab = currentTab;
         this.mIndicatorWidth = mTabEntitys.get(currentTab).getTabTitle().length() * mTextWidth;
         updateTabSelection(currentTab);
-        if (mFragmentChangeManager != null) {
-            mFragmentChangeManager.setFragments(currentTab);
-        }
         if (mIndicatorAnimEnable) {
             calcOffset();
         } else {
             invalidate();
+        }
+        if (mViewDelay){
+            if (mInitMap.containsKey(currentTab)){
+                if (mFragmentChangeManager != null) {
+                    mFragmentChangeManager.setFragments(currentTab);
+                }
+            }else {
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mInitMap.put(currentTab,currentTab);
+                        if (mFragmentChangeManager != null) {
+                            mFragmentChangeManager.setFragments(currentTab);
+                        }
+                    }
+                },mIndicatorAnimDuration);
+            }
+        }else {
+            if (mFragmentChangeManager != null) {
+                mFragmentChangeManager.setFragments(currentTab);
+            }
         }
     }
 

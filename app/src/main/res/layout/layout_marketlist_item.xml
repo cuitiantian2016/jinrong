@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_marginLeft="@dimen/dimen_15dp"
-    android:layout_marginRight="@dimen/dimen_15dp"
-    android:layout_marginTop="@dimen/dimen_10dp"
-    android:layout_marginBottom="@dimen/dimen_10dp"
-    android:gravity="center_vertical"
+    android:id="@+id/rootView"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
     <TextView
         android:id="@+id/text_contract_name"
         android:layout_width="@dimen/dimen_70dp"
@@ -32,18 +37,11 @@
             android:text="@string/text_latest_price"/>
 
          <View
-             android:id="@+id/v_red"
+             android:id="@+id/v_color_shansuo"
              android:layout_width="@dimen/dimen_60dp"
              android:layout_gravity="center"
              android:layout_height="match_parent"
-             android:background="@drawable/market_red_bg"/>
-
-        <View
-            android:id="@+id/v_green"
-            android:layout_width="@dimen/dimen_60dp"
-            android:layout_gravity="center"
-            android:layout_height="match_parent"
-            android:background="@drawable/market_green_bg"/>
+             android:visibility="gone"/>
     </FrameLayout>
 
     <com.honglu.future.widget.DinTextView
@@ -79,6 +77,5 @@
              android:layout_marginLeft="@dimen/dimen_10dp"
              android:visibility="visible"/>
      </LinearLayout>
-
-
+    </LinearLayout>
 </LinearLayout>

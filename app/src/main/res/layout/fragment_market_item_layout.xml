@@ -2,20 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/market_smart_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/market_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        android:paddingBottom="5dp" />
-
+        <ListView
+            android:id="@+id/lv_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@null"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

@@ -24,21 +24,11 @@
         app:tl_textUnselectColor="@color/color_323232"
         app:tl_textsize="@dimen/dimen_16sp"
         app:tl_underline_color="@color/color_E6E6E6"
-        app:tl_windMargin="@dimen/dimen_20dp" />
+        app:tl_windMargin="@dimen/dimen_20dp"
+        app:tl_view_delay="true"/>
 
     <View style="@style/line_base_horizontal" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_10dp"
-        android:background="@color/color_F7F8F9"/>
-
-    <include layout="@layout/layout_markettitle_item" />
-
-    <View
-        android:layout_marginLeft="@dimen/dimen_15dp"
-        android:layout_marginRight="@dimen/dimen_15dp"
-        style="@style/line_base_horizontal" />
 
     <FrameLayout
         android:id="@+id/market_fragment_container"
