@@ -83,7 +83,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         showToast("登录成功");
         mToken = bean.getToken();
         mAccountLoginDialog.dismiss();
-        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
+       // SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         startRun();
     }
 
