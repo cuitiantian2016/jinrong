@@ -79,10 +79,7 @@ public class MarketListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            long oldTime = System.currentTimeMillis();
             convertView = mInflater.inflate(R.layout.layout_marketlist_item, null);
-            long newTime = System.currentTimeMillis();
-            Log.d("wahcc","=====time===="+(newTime - oldTime));
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
