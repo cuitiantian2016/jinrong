@@ -250,19 +250,19 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             // 先计算一手保证金的金额
             double oneSlBZj = 0;
             if (mIsStopChangePrice) {
-                oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
             } else {
                 if (mBuyType.equals("1")) {//买跌
 //                if (TextUtils.isEmpty(mProductListBean.getLongMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getLongMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getLongMarginRatioByVolume());
 //                } else {
-                    oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                    oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 } else {//买涨
 //                if (TextUtils.isEmpty(mProductListBean.getShortMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getShortMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getShortMarginRatioByVolume());
 //                } else {
-                    oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                    oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 }
             }
