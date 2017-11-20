@@ -356,7 +356,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                                 mBuildTransactionPresenter.buildTransaction(mHands.getText().toString(),
                                         mBuyType,
                                         mPrice.getText().toString(),
-                                        mProductListBean.getInstrumentId(),
+                                        mInstrumentId,
                                         SpUtil.getString(Constant.CACHE_TAG_UID),
                                         SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
                                         "GUOFU"
