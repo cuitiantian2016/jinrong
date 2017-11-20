@@ -225,7 +225,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                 //// TODO: 2017/11/2 跳转客服
                 break;
             case R.id.tv_confirm:
-                mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+                mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), getIntent().getStringExtra("token"));
                 finish();
                 break;
         }
