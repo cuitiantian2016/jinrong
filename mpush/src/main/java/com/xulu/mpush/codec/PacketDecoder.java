@@ -54,9 +54,9 @@ public final class PacketDecoder {
     private static Packet decodeFrame(ByteBuffer in) {
         if (in.remaining() >= Packet.HEADER_LEN) {
             in.mark();
-            int bodyLength = in.getInt();
             int bufferSize = in.remaining();
-            if (bufferSize >= bodyLength) {
+            int bodyLength = in.getInt();
+            if (bufferSize >= (bodyLength + Packet.HEADER_LEN)) {
                 return readPacket(in, bodyLength);
             }
             in.reset();

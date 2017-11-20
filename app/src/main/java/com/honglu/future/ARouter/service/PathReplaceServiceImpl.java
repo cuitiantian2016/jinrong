@@ -6,12 +6,8 @@ import android.text.TextUtils;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.service.PathReplaceService;
-import com.alibaba.android.arouter.facade.service.SerializationService;
-import com.alibaba.fastjson.JSON;
 import com.honglu.future.config.Constant;
 import com.honglu.future.util.SpUtil;
-
-import java.lang.reflect.Type;
 
 /**
  * Used for json converter
