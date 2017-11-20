@@ -1,9 +1,13 @@
 package com.honglu.future.ui.main.presenter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
@@ -14,6 +18,8 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
+import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
 
@@ -22,8 +28,11 @@ import com.honglu.future.util.SpUtil;
  */
 
 public class AccountPresenter extends BasePresenter<AccountContract.View> implements AccountContract.Presenter {
+    private Context mContext;
+
     @Override
-    public void login(final String account, String password, String userId, String company, final TextView tv_pass, final Context context) {
+    public void login(final String account, String password, final String userId, final String company, final TextView tv_pass, final Context context) {
+        mContext = context;
         toSubscribe(HttpManager.getApi().loginAccount(account, AESUtils.encrypt(password), userId, company), new HttpSubscriber<AccountBean>() {
             @Override
             public void _onStart() {
@@ -31,9 +40,15 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             }
 
             @Override
-            protected void _onNext(AccountBean bean) {
+            protected void _onNext(final AccountBean bean) {
                 SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
-                SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
+                tv_pass.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        querySettlementInfo(userId, bean.getToken(), company);
+                    }
+                }, 500);
                 mView.loginSuccess(bean);
             }
 
@@ -54,6 +69,39 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                 } else {
                     mView.showErrorMsg(message, null);
                 }
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void querySettlementInfo(String userId, final String token, String company) {
+        toSubscribe(HttpManager.getApi().querySettlementInfo(userId, token, company), new HttpSubscriber<SettlementInfoBean>() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("查询结算单中...");
+            }
+
+            @Override
+            protected void _onNext(SettlementInfoBean bean) {
+                if (bean == null) {
+                    SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, token);
+                    return;
+                }
+                //SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                Intent intent = new Intent(mContext, BillConfirmActivity.class);
+                intent.putExtra("SettlementBean", new Gson().toJson(bean));
+                intent.putExtra("token", token);
+                mContext.startActivity(intent);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
             }
 
             @Override

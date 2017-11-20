@@ -21,5 +21,6 @@ public interface AccountContract {
     }
     interface Presenter{
         void login(String account, String password, String userId, String company, TextView tv_pass, Context mContext);
+        void querySettlementInfo(String userId, String token, String company);
     }
 }
