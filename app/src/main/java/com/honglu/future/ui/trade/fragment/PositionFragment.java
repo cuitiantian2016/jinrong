@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -80,7 +81,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            getPositionList();
+            getAccountInfo();//每隔3秒刷一次
+            mHandler.postDelayed(this, 3000);
         }
     };
 
@@ -135,23 +137,32 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            Log.i("testUrl","1111111111111");
             if (App.getConfig().getLoginStatus()) {
                 if (!App.getConfig().getAccountLoginStatus()) {
                     if (isVisible()) {
+                        stopRun();
                         mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
                         mAccountLoginDialog.show();
                     }
                 } else {
                     if (isVisible()) {
-                        getAccountInfo();
-                        mHandler.postDelayed(mRunnable, 500);
+                        startRun();
                     }
                 }
             } else {
+                Log.i("testUrl","2222222222222222222222");
                 EventBus.getDefault().post(new ChangeTabEvent(0));
                 startActivity(LoginActivity.class);
             }
+        } else {
+            Log.i("testUrl","333333333333333333");
+            stopRun();
         }
+    }
+
+    public void stopRun() {
+        mHandler.removeCallbacks(mRunnable);
     }
 
     @Override
@@ -230,6 +241,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 }
             }
         });
+        getPositionList();
     }
 
     private void getPositionList() {
@@ -243,8 +255,17 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void loginSuccess(AccountBean bean) {
         mAccountLoginDialog.dismiss();
-        getAccountInfo();
-        mHandler.postDelayed(mRunnable, 500);
+        startRun();
+    }
+
+    /**
+     * 开始刷新用户信息
+     */
+    public void startRun() {
+        if (App.getConfig().getAccountLoginStatus()) {
+            mHandler.removeCallbacks(mRunnable);
+            mHandler.post(mRunnable);
+        }
     }
 
 
@@ -327,6 +348,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
                 if (!App.getConfig().getAccountLoginStatus()) {
+                    stopRun();
                     mDangerChance.setText("--");
                     mRightsInterests.setText("--");
                     mMoney.setText("--");
