@@ -3,10 +3,12 @@ package com.honglu.future.ui.trade.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.ui.trade.bean.ClosePositionListBean;
+import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.ui.trade.details.CloseTransactionDetailsActivity;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
@@ -16,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by zq on 2017/10/28.
  */
 
-public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapter.ViewHolder, ClosePositionListBean> {
+public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapter.ViewHolder, HistoryClosePositionBean> {
 
     @Override
     public ClosePositionAdapter.ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
@@ -26,24 +28,30 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
 
     @Override
     public void mOnBindViewHolder(ClosePositionAdapter.ViewHolder holder, int position) {
-        holder.mTvProductName.setText(item.getInstrumentName());
-        if (item.getType() == 1) {
-            holder.mTvBuyHands.setText("买跌" + item.getPosition() + "手");
+        holder.mTvProductName.setText(item.instrumentName);
+        if (item.type == 1) {
+            holder.mTvBuyHands.setText("买跌" + item.position + "手");
         } else {
-            holder.mTvBuyHands.setText("买涨" + item.getPosition() + "手");
+            holder.mTvBuyHands.setText("买涨" + item.position + "手");
         }
 
-        holder.mTvAveragePrice.setText(item.getHoldAvgPrice());
+        holder.mTvAveragePrice.setText(item.holdAvgPrice);
         // TODO: 2017/11/6 确认是否展示最新价（猜测为平仓价） 
-        holder.mTvNewPrice.setText(item.getClosePrice());
-        holder.mTvProfitLoss.setText(item.getCloseProfitLoss());
-        if (item.getType() == 2) {
+        holder.mTvNewPrice.setText(item.closePrice);
+        holder.mTvProfitLoss.setText(item.closeProfitLoss);
+        if (item.type == 2) {
             holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else {
             holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         }
+        holder.llItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext, item);
+            }
+        });
     }
 
 
@@ -58,6 +66,8 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         TextView mTvNewPrice;
         @BindView(R.id.tv_profit_loss)
         TextView mTvProfitLoss;
+        @BindView(R.id.ll_item)
+        LinearLayout llItem;
 
 
         ViewHolder(View view) {

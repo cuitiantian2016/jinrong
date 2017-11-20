@@ -21,20 +21,23 @@ import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
-import com.honglu.future.ui.trade.bean.ClosePositionListBean;
+import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,9 +57,14 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     TextView mTvTip;
     @BindView(R.id.loading_layout)
     LoadingLayout mLoadingLayout;
+    @BindView(R.id.srl_refreshView)
+    SmartRefreshLayout mSmartRefreshLayout;
     private ClosePositionAdapter mClosePositionAdapter;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
+    int page = 1;
+    int pageSize = 10;
+    boolean isMore;
 
     @Override
     public int getLayoutId() {
@@ -98,6 +106,32 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mPositionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mClosePositionAdapter = new ClosePositionAdapter();
         mPositionListView.setAdapter(mClosePositionAdapter);
+        mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                loadMore();
+            }
+        });
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                mSmartRefreshLayout.setEnableLoadmore(true);
+                getClosePositionList();
+            }
+        });
+    }
+
+    /**
+     * 加载更多
+     */
+    private void loadMore() {
+        if (!isMore){
+            mSmartRefreshLayout.finishLoadmore();
+            mSmartRefreshLayout.setEnableLoadmore(false);
+            return;
+        }
+        getClosePositionList();
     }
 
     @OnClick({R.id.tv_tip, R.id.ll_see_all})
@@ -140,7 +174,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateNowStr = sdf.format(d);
-        mPresenter.getCloseList("", dateNowStr, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "", "");
+        mPresenter.getCloseList("", dateNowStr, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
     }
 
     @Override
@@ -150,13 +184,21 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     }
 
     @Override
-    public void getCloseListSuccess(List<ClosePositionListBean> list) {
+    public void getCloseListSuccess(List<HistoryClosePositionBean> list) {
         if (list == null || list.size() == 0) {
             mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
         mLoadingLayout.setStatus(LoadingLayout.Success);
-        mClosePositionAdapter.clearData();
+        if (page == 1){
+            mClosePositionAdapter.clearData();
+        }
+        if (list.size()>=pageSize){
+            isMore = true;
+            ++pageSize;
+        }else {
+            isMore = false;
+        }
         mClosePositionAdapter.addData(list);
     }
 
@@ -178,6 +220,8 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
                 if (!App.getConfig().getAccountLoginStatus()) {
                     mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    page = 1;
+                    mSmartRefreshLayout.setEnableLoadmore(true);
                     mClosePositionAdapter.clearData();
                 }
             }
