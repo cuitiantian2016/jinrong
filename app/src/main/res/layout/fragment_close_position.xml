@@ -36,30 +36,6 @@
                 </LinearLayout>
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </com.honglu.future.widget.loading.LoadingLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_see_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/dimen_11dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查看全部"
-                android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_14sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_8dp"
-                android:src="@mipmap/right_arrow_grey" />
-
-        </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

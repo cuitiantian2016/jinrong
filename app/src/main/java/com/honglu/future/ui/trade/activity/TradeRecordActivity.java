@@ -290,35 +290,37 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     boolean isHistoryMissMore = false;
     @Override
     public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
-        refreshView.finishRefresh();
-        if (list ==null||list.size()<=0){
-            mLinearTitle.setVisibility(View.GONE);
+        if (pageMiss>1){
+            mAdapter.setMList(list,true);
+            refreshView.finishLoadmore();
         }else {
-            if (pageBuider>1){
-                mAdapter.setMList(list,true);
-                refreshView.finishLoadmore();
-            }else {
-                mAdapter.setMList(list,false);
-                refreshView.finishRefresh();
+            if (list.size()==0){
+                mLinearTitle.setVisibility(View.GONE);
+                return;
             }
-            if (list.size()>=pageSize){
-                ++pageMiss;
-                isHistoryMissMore = true;
-            }else {
-                isHistoryMissMore = false;
-            }
+            mLinearTitle.setVisibility(View.VISIBLE);
+            mAdapter.setMList(list,false);
+            refreshView.finishRefresh();
+        }
+        if (list.size()>=pageSize){
+            ++pageMiss;
+            isHistoryMissMore = true;
+        }else {
+            isHistoryMissMore = false;
         }
     }
     boolean isHistoryCloseMore = false;
     @Override
     public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
-        if (list ==null||list.size()<=0){
-            mLinearTitle.setVisibility(View.GONE);
-        }else {
-            if (pageBuider>1){
+            if (pageClose>1){
                 mAdapter.setCList(list,true);
                 refreshView.finishLoadmore();
             }else {
+                if (list.size()==0){
+                    mLinearTitle.setVisibility(View.GONE);
+                    return;
+                }
+                mLinearTitle.setVisibility(View.VISIBLE);
                 mAdapter.setCList(list,false);
                 refreshView.finishRefresh();
             }
@@ -328,28 +330,28 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             }else {
                 isHistoryCloseMore = false;
             }
-        }
+
     }
     boolean isHistoryBuilderMore = false;
     @Override
     public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
-        if (list ==null||list.size()<=0){
-            mLinearTitle.setVisibility(View.GONE);
+        if (pageBuider>1){
+            mAdapter.setBList(list,true);
+            refreshView.finishLoadmore();
         }else {
-            if (pageBuider>1){
-                mAdapter.setBList(list,true);
-                refreshView.finishLoadmore();
-            }else {
-                mAdapter.setBList(list,false);
-                refreshView.finishRefresh();
-            }
-            if (list.size()>=pageSize){
-                ++pageBuider;
-                isHistoryBuilderMore = true;
-            }else {
-                isHistoryBuilderMore = false;
+            if (list.size()==0){
+                mLinearTitle.setVisibility(View.GONE);
+                return;
             }
             mLinearTitle.setVisibility(View.VISIBLE);
+            mAdapter.setBList(list,false);
+            refreshView.finishRefresh();
+        }
+        if (list.size()>=pageSize){
+            ++pageBuider;
+            isHistoryBuilderMore = true;
+        }else {
+            isHistoryBuilderMore = false;
         }
     }
 

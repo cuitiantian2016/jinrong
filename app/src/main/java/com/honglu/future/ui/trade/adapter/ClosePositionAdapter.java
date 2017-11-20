@@ -27,7 +27,7 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
     }
 
     @Override
-    public void mOnBindViewHolder(ClosePositionAdapter.ViewHolder holder, int position) {
+    public void mOnBindViewHolder(ClosePositionAdapter.ViewHolder holder, final int position) {
         holder.mTvProductName.setText(item.instrumentName);
         if (item.type == 1) {
             holder.mTvBuyHands.setText("买跌" + item.position + "手");
@@ -49,7 +49,7 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext, item);
+                CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext,data.get(position));
             }
         });
     }

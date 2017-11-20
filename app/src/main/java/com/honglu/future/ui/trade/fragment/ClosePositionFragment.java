@@ -24,6 +24,7 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
 import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
@@ -53,8 +54,6 @@ import static com.honglu.future.util.ToastUtil.showToast;
 public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View {
     @BindView(R.id.rv_position)
     RecyclerView mPositionListView;
-    @BindView(R.id.tv_tip)
-    TextView mTvTip;
     @BindView(R.id.loading_layout)
     LoadingLayout mLoadingLayout;
     @BindView(R.id.srl_refreshView)
@@ -65,6 +64,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     int page = 1;
     int pageSize = 10;
     boolean isMore;
+    private View foot;
 
     @Override
     public int getLayoutId() {
@@ -106,6 +106,14 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mPositionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mClosePositionAdapter = new ClosePositionAdapter();
         mPositionListView.setAdapter(mClosePositionAdapter);
+        foot = View.inflate(getContext(), R.layout.item_see_all, null);
+        foot.findViewById(R.id.ll_see_all).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               startActivity(TradeRecordActivity.class);
+           }
+        });
+        mClosePositionAdapter.addFooterView(foot, DeviceUtils.dip2px(getContext(),50));
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -134,16 +142,13 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         getClosePositionList();
     }
 
-    @OnClick({R.id.tv_tip, R.id.ll_see_all})
+    @OnClick({R.id.tv_tip})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_tip:
                 TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_closed_tip);
                 tipDialog.show();
-                break;
-            case R.id.ll_see_all:
-                startActivity(TradeRecordActivity.class);
                 break;
         }
     }
@@ -193,6 +198,9 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mLoadingLayout.setStatus(LoadingLayout.Success);
         if (page == 1){
             mClosePositionAdapter.clearData();
+            mSmartRefreshLayout.finishRefresh();
+        }else {
+            mSmartRefreshLayout.finishLoadmore();
         }
         if (list.size()>=pageSize){
             isMore = true;
