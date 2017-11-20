@@ -57,6 +57,8 @@ import java.util.ListIterator;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.honglu.future.util.ToastUtil.showToast;
+
 /**
  * Created by zq on 2017/11/7.
  */
@@ -623,6 +625,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public void loginSuccess(AccountBean bean) {
+        showToast("登录成功");
         mAccountLoginDialog.dismiss();
     }
 

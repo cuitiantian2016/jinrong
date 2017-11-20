@@ -203,6 +203,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void loginSuccess(AccountBean bean) {
+        showToast("登录成功");
         mAccountLoginDialog.dismiss();
         getPositionList();
     }

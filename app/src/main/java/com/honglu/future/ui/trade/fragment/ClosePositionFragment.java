@@ -179,6 +179,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
 
     @Override
     public void loginSuccess(AccountBean bean) {
+        showToast("登录成功");
         mAccountLoginDialog.dismiss();
         getClosePositionList();
     }
