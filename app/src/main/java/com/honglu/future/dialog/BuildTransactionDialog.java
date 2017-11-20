@@ -353,7 +353,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                             @Override
                             public void dialogRightBtnClick(String string) {
-                                mBuildTransactionPresenter.buildTransaction(mHands.getText().toString(),
+                                mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
                                         mBuyType,
                                         mPrice.getText().toString(),
                                         mInstrumentId,
@@ -383,7 +383,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     }
 
     private void setTextChange() {
-        if(!mIsStopChangePrice) {
+        if (!mIsStopChangePrice) {
             if (mBuyType.equals("2")) {
                 mPrice.setText(mProductListBean.getAskPrice1());
             } else {
@@ -396,6 +396,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvDown.setText(mPrice.getText().toString().trim());
         }
     }
+
     /**
      * 加减号的点击
      *

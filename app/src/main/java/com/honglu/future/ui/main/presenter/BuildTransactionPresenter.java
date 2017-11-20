@@ -10,10 +10,16 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
  * Created by zq on 2017/11/10.
  */
 
-public class BuildTransactionPresenter extends BasePresenter<BuildTransactionContract.View> implements BuildTransactionContract.Presenter{
+public class BuildTransactionPresenter extends BasePresenter<BuildTransactionContract.View> implements BuildTransactionContract.Presenter {
     @Override
-    public void buildTransaction(String orderNumber, String type, String price, String instrumentId, String userId, String token, String company) {
-        toSubscribe(HttpManager.getApi().buildTransaction(orderNumber, type, price, instrumentId, userId, token, company), new HttpSubscriber() {
+    public void buildTransaction(boolean isFast, String orderNumber, String type, String price, String instrumentId, String userId, String token, String company) {
+        rx.Observable ob;
+        if (isFast) {
+            ob = HttpManager.getApi().fastTransaction(orderNumber, type, price, instrumentId, userId, token);
+        } else {
+            ob = HttpManager.getApi().buildTransaction(orderNumber, type, price, instrumentId, userId, token, company);
+        }
+        toSubscribe(ob, new HttpSubscriber() {
             @Override
             public void _onStart() {
                 mView.showLoading("建仓中...");

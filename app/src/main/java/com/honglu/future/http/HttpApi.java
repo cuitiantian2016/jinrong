@@ -194,6 +194,16 @@ public interface HttpApi {
                                               @Field("token") String token,
                                               @Field("company") String company);
 
+    //快速建仓
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/future/exchange/trade/create/order")
+    Observable<BaseResponse> fastTransaction(@Field("orderNumber") String orderNumber,
+                                              @Field("type") String type,
+                                              @Field("price") String price,
+                                              @Field("instrumentId") String instrumentId,
+                                              @Field("userId") String userId,
+                                              @Field("token") String token);
+
     //委托平仓
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/close/order/v2")

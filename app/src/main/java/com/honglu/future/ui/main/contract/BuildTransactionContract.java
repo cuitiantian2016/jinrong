@@ -14,7 +14,7 @@ public interface BuildTransactionContract {
     }
 
     interface Presenter {
-        void buildTransaction(String orderNumber, String type, String price, String instrumentId, String userId, String token, String company);
+        void buildTransaction(boolean isFast,String orderNumber, String type, String price, String instrumentId, String userId, String token, String company);
         void getProductDetail(String instrumentId);
     }
 }
