@@ -33,6 +33,7 @@ import rx.observables.SyncOnSubscribe;
 
 public class AccountPresenter extends BasePresenter<AccountContract.View> implements AccountContract.Presenter {
     private Context mContext;
+    private AccountBean mBean;
 
     @Override
     public void login(final String account, String password, final String userId, final String company, final TextView tv_pass, final Context context) {
@@ -53,7 +54,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                         querySettlementInfo(userId, bean.getToken(), company);
                     }
                 }, 500);
-                mView.loginSuccess(bean);
+
             }
 
             @Override
@@ -94,6 +95,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             protected void _onNext(SettlementInfoBean bean) {
                 if (bean == null) {
                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, token);
+                    mView.loginSuccess(mBean);
                     return;
                 }
                 //SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
