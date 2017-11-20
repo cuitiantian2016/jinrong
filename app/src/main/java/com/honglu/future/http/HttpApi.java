@@ -56,7 +56,7 @@ public interface HttpApi {
     //用户注册
     @FormUrlEncoded
     @POST("futures-mobile-api/user/info/register")
-    Observable<BaseResponse<RegisterBean>> register(@Field("code") String code,
+    Observable<BaseResponse<UserInfoBean>> register(@Field("code") String code,
                                                     @Field("sourceId") String sourceId,
                                                     @Field("mobileNum") String mobileNum,
                                                     @Field("password") String password,

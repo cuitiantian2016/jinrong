@@ -3,8 +3,10 @@ package com.honglu.future.ui.register.presenter;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.login.bean.LoginBean;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.register.contract.RegisterContract;
+import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.EncryptUtils;
 
@@ -15,15 +17,15 @@ import com.honglu.future.util.EncryptUtils;
 public class RegisterPresenter extends BasePresenter<RegisterContract.View> implements RegisterContract.Presenter {
     @Override
     public void register(String code, String sourceId, String mobileNum, String password, String nickName) {
-        toSubscribe(HttpManager.getApi().register(code, sourceId, mobileNum, AESUtils.encrypt(password), nickName), new HttpSubscriber<RegisterBean>() {
+        toSubscribe(HttpManager.getApi().register(code, sourceId, mobileNum, AESUtils.encrypt(password), nickName), new HttpSubscriber<UserInfoBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("注册中...");
             }
 
             @Override
-            protected void _onNext(RegisterBean login) {
-                mView.registerSuccess(login.getItem());
+            protected void _onNext(UserInfoBean login) {
+                mView.registerSuccess(login);
             }
 
             @Override
