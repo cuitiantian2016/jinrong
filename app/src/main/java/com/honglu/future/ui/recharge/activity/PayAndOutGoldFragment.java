@@ -253,13 +253,15 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 mrlCard.addView(cardItem);
             }
         }else {
-            View cardItem = View.inflate(getActivity(), R.layout.item_card_layout, null);
-            mrlCard.addView(cardItem);
+            bindBankErr(null);
         }
     }
 
     @Override
     public void bindBankErr(String msg) {
+        if (isHidden()){
+            return;
+        }
         new AlertFragmentDialog.Builder(mActivity)
                 .setLeftBtnText("稍后再说").setContent("您没有绑定银行卡", R.color.color_333333, R.dimen.dimen_16sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
                 .setRightBtnText("去绑卡").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
