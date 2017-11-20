@@ -119,6 +119,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initView();
         setButtonListeners();
     }
@@ -248,6 +249,12 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 }
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
 }

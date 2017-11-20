@@ -41,13 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/officialDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/officialDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/officialDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/official/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/official/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/official/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/official/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/official/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/official/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/official/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/assets" type="java-test-resource" />
@@ -55,6 +48,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testOfficialDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/official/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/official/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/official/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/official/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/official/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/official/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/official/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/official/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/official/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/official/assets" type="java-resource" />
@@ -119,6 +119,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard-rules" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
@@ -130,23 +132,21 @@
     <orderEntry type="jdk" jdkName="Android API 25 Platform (1)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="fresco-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="Xg_sdk_v3.0_20170301_1733" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-base-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="fragmentation-core-1.1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.3" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.10.1" level="project" />
-    <orderEntry type="library" exported="" name="jpush-android-3.0.8" level="project" />
     <orderEntry type="library" exported="" name="zxing" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="Luban-1.0.9" level="project" />
     <orderEntry type="library" exported="" name="fbcore-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="fragmentation-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="library-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="crashreport_upgrade-1.3.1" level="project" />
     <orderEntry type="library" exported="" name="sun.misc.BASE64Decoder" level="project" />
+    <orderEntry type="library" exported="" name="jpush-2.1.8" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="arouter-annotation-1.0.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="locSDK_4.2" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-1.3.0" level="project" />
@@ -156,6 +156,7 @@
     <orderEntry type="library" exported="" name="retrofit-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="PhotoView" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
@@ -166,7 +167,6 @@
     <orderEntry type="library" exported="" name="support-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="nativecrashreport-3.3.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp3-integration-1.4.0" level="project" />
-    <orderEntry type="library" exported="" name="zmxySDKALCmini_V1.01450366738902_release" level="project" />
     <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.3" level="project" />
     <orderEntry type="library" exported="" name="design-25.3.1" level="project" />
@@ -177,30 +177,26 @@
     <orderEntry type="library" exported="" name="okhttp-urlconnection-3.8.1" level="project" />
     <orderEntry type="library" exported="" name="bcprov-jdk16-1.46" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
-    <orderEntry type="library" exported="" name="wup-1.0.0.E-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
+    <orderEntry type="library" exported="" name="arouter-api-1.2.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
-    <orderEntry type="library" exported="" name="mid-core-sdk-3.7.2" level="project" />
     <orderEntry type="library" exported="" name="rxpermissions-0.7.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.24" level="project" />
     <orderEntry type="library" exported="" name="okio-1.13.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.6" level="project" />
-    <orderEntry type="library" exported="" name="utdid4all-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="animated-base-1.3.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="jg_filter_sdk_1.1" level="project" />
     <orderEntry type="library" exported="" name="payload_reader-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.8.1" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="animated-gif-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="jcore-android-1.1.6" level="project" />
     <orderEntry type="library" exported="" name="org.apache.http.legacy" level="project" />
     <orderEntry type="library" exported="" name="sjkhapp_sdk_proguard" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
@@ -214,13 +210,13 @@
     <orderEntry type="module" module-name="SpinkitLoadingLib" exported="" />
     <orderEntry type="module" module-name="mpush" exported="" />
     <orderEntry type="module" module-name="UdeskSDKUI" exported="" />
+    <orderEntry type="module" module-name="updateLib" exported="" />
     <orderEntry type="module" module-name="smart-refresh" exported="" />
     <orderEntry type="module" module-name="PlatFormLibs" exported="" />
     <orderEntry type="library" exported="" name="android-android-25" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="happy-dns-0.2.7" level="project" />
     <orderEntry type="library" exported="" name="bolts-tasks-1.4.0" level="project" />
-    <orderEntry type="library" exported="" name="crashreport_upgrade-1.2.3" level="project" />
     <orderEntry type="library" exported="" name="udesk-asmack-8-4.0.6" level="project" />
     <orderEntry type="library" exported="" name="qiniu-android-sdk-7.2.3" level="project" />
     <orderEntry type="library" exported="" name="udesk_sdk_3.4.4" level="project" />
