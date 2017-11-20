@@ -15,7 +15,7 @@ public class HistoryBillPresenter extends BasePresenter<HistoryBillContract.View
         toSubscribe(HttpManager.getApi().querySettlementInfoByDate(userId, token, company, day), new HttpSubscriber<SettlementInfoBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("查询结算单中...");
+                //mView.showLoading("查询结算单中...");
             }
 
             @Override
@@ -25,12 +25,12 @@ public class HistoryBillPresenter extends BasePresenter<HistoryBillContract.View
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+               // mView.showErrorMsg(message, null);
             }
 
             @Override
             protected void _onCompleted() {
-                mView.stopLoading();
+                //mView.stopLoading();
             }
         });
     }

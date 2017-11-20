@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -54,8 +55,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private TextView marginMoney;
     private TextView sxf;
     private TextView text_create_tips;
-    private boolean mIsStopChangePrice = false;
-
+    private boolean mIsStopChangePrice;
+    private ImageView mReducePrice, mAddPrice;
+    private ImageView mReduceHands, mAddHands;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, String instrumentId) {
         super(context, R.style.DateDialog);
@@ -94,17 +96,19 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
 
     public void pushRefresh(ProductListBean bean) {
-        mProductListBean = bean;
-        if (mTvRise != null) {
-            mTvRise.setText(bean.getAskPrice1());
-            mTvDown.setText(bean.getBidPrice1());
-            if (mBuyType.equals("2")) {
-                mPrice.setText(bean.getAskPrice1());
-            } else {
-                mPrice.setText(bean.getBidPrice1());
+        if (!mIsStopChangePrice) {
+            mProductListBean = bean;
+            if (mTvRise != null) {
+                mTvRise.setText(bean.getAskPrice1());
+                mTvDown.setText(bean.getBidPrice1());
+                if (mBuyType.equals("2")) {
+                    mPrice.setText(bean.getAskPrice1());
+                } else {
+                    mPrice.setText(bean.getBidPrice1());
+                }
+                mPrice.setSelection(mPrice.getText().toString().length());
+                setTotalMoney();
             }
-            ykTips();
-            setTotalMoney();
         }
     }
 
@@ -167,10 +171,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
         ykTips();
         setTotalMoney();
+
         mPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -180,9 +184,26 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                //setTotalMoney();
+                if (mIsStopChangePrice) {
+                    setTextChange();
+                    setTotalMoney();
+                }
             }
         });
+
+        mPrice.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (!mIsStopChangePrice) {
+                        mIsStopChangePrice = true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
         mHands.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -197,15 +218,25 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             @Override
             public void afterTextChanged(Editable s) {
                 ykTips();
+                setTotalMoney();
             }
         });
+
+        mReducePrice = (ImageView) findViewById(R.id.btn_deal_reduce);
+        mReducePrice.setOnClickListener(this);
+        mAddPrice = (ImageView) findViewById(R.id.btn_deal_add);
+        mAddPrice.setOnClickListener(this);
+        mReduceHands = (ImageView) findViewById(R.id.btn_hands_reduce);
+        mReduceHands.setOnClickListener(this);
+        mAddHands = (ImageView) findViewById(R.id.btn_hands_add);
+        mAddHands.setOnClickListener(this);
     }
 
 
     /**
      * 显示需要的预付款
      */
-    void setTotalMoney() {
+    private void setTotalMoney() {
         try {
             if (mProductListBean == null)
                 return;
@@ -218,32 +249,39 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             }
             // 先计算一手保证金的金额
             double oneSlBZj = 0;
-            if (mBuyType.equals("1")) {//买跌
+            if (mIsStopChangePrice) {
+                oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
+            } else {
+                if (mBuyType.equals("1")) {//买跌
 //                if (TextUtils.isEmpty(mProductListBean.getLongMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getLongMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getLongMarginRatioByVolume());
 //                } else {
                     oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
-            } else {//买涨
+                } else {//买涨
 //                if (TextUtils.isEmpty(mProductListBean.getShortMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getShortMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getShortMarginRatioByVolume());
 //                } else {
                     oneSlBZj = NumberUtil.multiply(new BigDecimal("0.15").doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
+                }
             }
             String totalBZJ = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(shouShu).doubleValue()));
 
             marginMoney.setText("￥" + StringUtil.forNumber(new BigDecimal(totalBZJ).doubleValue()));
-
             // 先计算一手手续费的金额
             double oneSlSXF = 0;
             if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
                 oneSlSXF = Double.parseDouble(mProductListBean.getOpenRatioByVolume());
             } else {
-                if (mBuyType.equals("1")) {//买跌
-                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                if (mIsStopChangePrice) {
+                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                 } else {
-                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                    if (mBuyType.equals("1")) {//买跌
+                        oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                    } else {
+                        oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                    }
                 }
             }
             String totalSXF = NumberUtil.moveLast0(NumberUtil.multiply(oneSlSXF, new BigDecimal(shouShu).doubleValue()));
@@ -287,6 +325,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvRise.setBackgroundResource(R.drawable.bg_buy_rise);
                 mTvRise.setTextColor(Color.WHITE);
+                setTextChange();
                 break;
             case R.id.tv_down:
                 mBuyType = "1";
@@ -294,6 +333,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvDown.setBackgroundResource(R.drawable.bg_buy_down);
                 mTvDown.setTextColor(Color.WHITE);
+                setTextChange();
                 break;
             case R.id.iv_open_account_tip:
                 TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
@@ -327,8 +367,99 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             case R.id.btn_go_recharge:
                 InAndOutGoldActivity.startInAndOutGoldActivity(mContext, 0);
                 break;
+            case R.id.btn_deal_reduce:
+                lessAddPrice(false);
+                break;
+            case R.id.btn_deal_add:
+                lessAddPrice(true);
+                break;
+            case R.id.btn_hands_reduce:
+                lessAddHands(false);
+                break;
+            case R.id.btn_hands_add:
+                lessAddHands(true);
+                break;
         }
     }
+
+    private void setTextChange() {
+        if(!mIsStopChangePrice) {
+            if (mBuyType.equals("2")) {
+                mPrice.setText(mProductListBean.getAskPrice1());
+            } else {
+                mPrice.setText(mProductListBean.getBidPrice1());
+            }
+            mPrice.setSelection(mPrice.getText().toString().length());
+            setTotalMoney();
+        } else {
+            mTvRise.setText(mPrice.getText().toString().trim());
+            mTvDown.setText(mPrice.getText().toString().trim());
+        }
+    }
+    /**
+     * 加减号的点击
+     *
+     * @param isAdd true表示加号
+     */
+    private void lessAddHands(boolean isAdd) {
+        String input = mHands.getText().toString();
+        int shouShu = 0;
+        if (TextUtils.isEmpty(input)) {
+
+        } else {
+            shouShu = Integer.parseInt(input.trim());
+        }
+        if (isAdd) {
+            shouShu += 1;
+            if (shouShu >= mProductListBean.getMaxSl()) {
+                shouShu = mProductListBean.getMaxSl();
+            }
+        } else {
+            shouShu -= 1;
+            if (shouShu <= mProductListBean.getMinSl()) {
+                shouShu = mProductListBean.getMinSl();
+            }
+        }
+        mHands.setText(String.valueOf(shouShu));
+        mHands.setSelection(mHands.getText().toString().length());
+        ykTips();
+        setTotalMoney();
+    }
+
+    /**
+     * 加减号的点击
+     *
+     * @param isAdd true表示加号
+     */
+    private void lessAddPrice(boolean isAdd) {
+        if (!mIsStopChangePrice) {
+            mIsStopChangePrice = true;
+        }
+        String input = mPrice.getText().toString();
+        double price = 0;
+        if (TextUtils.isEmpty(input)) {
+
+        } else {
+            price = Double.parseDouble(input.trim());
+        }
+        if (isAdd) {
+            price += 1;
+            if (price >= Double.parseDouble(mProductListBean.getUpperLimitPrice())) {
+                price = Double.parseDouble(mProductListBean.getUpperLimitPrice());
+            }
+        } else {
+            price -= 1;
+            if (price <= Double.parseDouble(mProductListBean.getLowerLimitPrice())) {
+                price = Double.parseDouble(mProductListBean.getLowerLimitPrice());
+            }
+        }
+        mPrice.setText(String.valueOf(price));
+        mPrice.setSelection(mPrice.getText().toString().length());
+        setTextChange();
+        ykTips();
+        setTotalMoney();
+    }
+
 
     @Override
     public void showLoading(String content) {

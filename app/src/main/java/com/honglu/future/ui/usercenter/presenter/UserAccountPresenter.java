@@ -18,7 +18,7 @@ public class UserAccountPresenter extends BasePresenter<UserAccountContract.View
         toSubscribe(HttpManager.getApi().getAccountInfo(userId, token, company), new HttpSubscriber<AccountInfoBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("获取中...");
+                //mView.showLoading("获取中...");
             }
 
             @Override
@@ -29,12 +29,12 @@ public class UserAccountPresenter extends BasePresenter<UserAccountContract.View
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+                //mView.showErrorMsg(message, null);
             }
 
             @Override
             protected void _onCompleted() {
-                mView.stopLoading();
+                //mView.stopLoading();
             }
         });
     }
