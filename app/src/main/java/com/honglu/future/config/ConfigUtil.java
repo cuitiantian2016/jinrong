@@ -19,9 +19,9 @@ public class ConfigUtil {
     public static final String KEY_URL = "KEY_URL";
     public static String URL_85 = "http://106.15.158.85:800/";
     public static String URL_85_AllotServer = "http://106.15.158.85:9999";
-    //public static String URL_126_AllotServer= "http://192.168.85.126:9999";
+    public static String URL_126_test_AllotServer= "http://192.168.85.126:9999";
     public static String URL_126_AllotServer= "http://qihuo.xnsudai.com:9999";//外网
-    // public static String URL_126 = "http://192.168.85.126/";
+     public static String URL_test_126 = "http://192.168.85.126/";
     public static String URL_126 = "http://qihuo.xnsudai.com/";//外网
     //public static String baseUrl = "http://106.15.158.85:800/";
     public static String baseUrl = TextUtils.isEmpty(SpUtil.getString(KEY_URL))?URL_126:SpUtil.getString(KEY_URL);

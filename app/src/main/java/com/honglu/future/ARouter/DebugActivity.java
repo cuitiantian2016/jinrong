@@ -66,10 +66,20 @@ public class DebugActivity extends Activity {
     }
     public void change126(View view) {
         if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_126)){
-            ToastUtil.show("当前环境已经是126");
+            ToastUtil.show("当前环境已经是正式环境");
             return;
         }
         SpUtil.putString(ConfigUtil.KEY_URL,ConfigUtil.URL_126);
+        EventBus.getDefault().post(new LogoutEvent(App.getContext(),0));
+        EventBus.getDefault().post(new LogoutEvent(App.getContext(),1));
+        Runtime.getRuntime().exit(0);
+    }
+    public void changeTest126(View view) {
+        if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_test_126)){
+            ToastUtil.show("当前环境已经是126");
+            return;
+        }
+        SpUtil.putString(ConfigUtil.KEY_URL,ConfigUtil.URL_test_126);
         EventBus.getDefault().post(new LogoutEvent(App.getContext(),0));
         EventBus.getDefault().post(new LogoutEvent(App.getContext(),1));
         Runtime.getRuntime().exit(0);

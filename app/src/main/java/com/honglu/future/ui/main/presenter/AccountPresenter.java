@@ -2,6 +2,7 @@ package com.honglu.future.ui.main.presenter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -16,6 +17,10 @@ import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.observables.SyncOnSubscribe;
 
 /**
  * Created by zq on 2017/11/3.
