@@ -167,18 +167,19 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             stopRun();
             MPushUtil.pauseRequest();
         } else {
-            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
-                MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
-            }
             if (!App.getConfig().getAccountLoginStatus()) {
                 stopRun();
             } else {
                 startRun();
             }
+            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
+                MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+            }
+
             if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)) || TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
                 return;
             }
-            mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+//            mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
         }
     }
 
@@ -188,7 +189,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)) || TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
             return;
         }
-        mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+        //mPresenter.querySettlementInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
     }
 
     @Override
