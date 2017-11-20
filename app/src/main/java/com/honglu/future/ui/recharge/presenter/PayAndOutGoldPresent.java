@@ -23,6 +23,12 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
                 super._onNext(o);
                 mView.bindBnakList(o);
             }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                mView.bindBankErr(message);
+            }
         });
     }
 

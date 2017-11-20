@@ -23,6 +23,12 @@ public interface PayAndOutGoldContract{
         void bindBnakList(List<BindCardBean> list);
 
         /**
+         * 绑定银行卡错误
+         * @param msg
+         */
+        void bindBankErr(String msg);
+
+        /**
          * 充值成功
          */
         void rechageSuccess();

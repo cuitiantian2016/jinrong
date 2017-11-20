@@ -284,8 +284,9 @@ public interface HttpApi {
     Observable<BaseResponse<List<HomeIcon>>> getHomeIcon();
 
     //首页新闻
+    @FormUrlEncoded
     @POST("futures-mobile-api/app/information/informationList")
-    Observable<BaseResponse<List<HomeMessageItem>>> getNewsColumnData();
+    Observable<BaseResponse<List<HomeMessageItem>>> getNewsColumnData(@Field("userId") String userId);
 
     //首页24小时
     @POST("futures-mobile-api/app/index/newsList")

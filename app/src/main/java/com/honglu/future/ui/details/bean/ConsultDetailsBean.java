@@ -10,4 +10,5 @@ public class ConsultDetailsBean {
     public ArrayList<String> praiseAvatars;
     public ArrayList<String> picList;
     public String content;
+    public int isPraise;
 }

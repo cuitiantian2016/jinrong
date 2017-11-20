@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.recharge.contract.PayAndOutGoldContract;
 import com.honglu.future.ui.recharge.presenter.PayAndOutGoldPresent;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
@@ -131,7 +133,18 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mBtnPay.setText(getString(R.string.confirm_out));
             mCheckAsses.setEnabled(false);
         }
+    }
+
+    public void getBankList(){
         mPresenter.getBankList(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            getBankList();
+        }
     }
 
     @OnClick({R.id.et_check_bank_asses, R.id.btn_pay})
@@ -246,6 +259,20 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     }
 
     @Override
+    public void bindBankErr(String msg) {
+        new AlertFragmentDialog.Builder(mActivity)
+                .setLeftBtnText("稍后再说").setContent("您没有绑定银行卡", R.color.color_333333, R.dimen.dimen_16sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
+                .setRightBtnText("去绑卡").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+            @Override
+            public void dialogRightBtnClick(String string) {
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra("url", ConfigUtil.BIND_CARD_TEACH);
+                startActivity(intent);
+            }
+        }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+    }
+
+    @Override
     public void rechageSuccess() {
         ToastUtil.show("充值成功");
     }
@@ -262,7 +289,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     @Override
     public void cashoutErr(String msg) {
         new AlertFragmentDialog.Builder(mActivity)
-                .setLeftBtnText("取消").setTitle("资金密码错误", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.fail_tixian)
+                .setLeftBtnText("取消").setTitle("提现失败", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.fail_tixian)
                 .setRightBtnText("重新提现").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
     }
 

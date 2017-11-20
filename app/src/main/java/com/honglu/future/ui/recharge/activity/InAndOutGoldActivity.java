@@ -45,6 +45,8 @@ public class InAndOutGoldActivity extends BaseActivity {
     private int mCurrentPosition;
     @Autowired
     public boolean isLogin;
+    private PayAndOutGoldFragment pay;
+    private PayAndOutGoldFragment rechange;
 
     public static void startInAndOutGoldActivity(Context context,int position){
         Intent intent = new Intent(context, InAndOutGoldActivity.class);
@@ -87,8 +89,10 @@ public class InAndOutGoldActivity extends BaseActivity {
      */
     private void addFragments() {
         ArrayList<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(PayAndOutGoldFragment.getInstance(true));
-        mFragments.add(PayAndOutGoldFragment.getInstance(false));
+        pay = PayAndOutGoldFragment.getInstance(true);
+        rechange = PayAndOutGoldFragment.getInstance(false);
+        mFragments.add(pay);
+        mFragments.add(rechange);
         mFragments.add(InAndOutDetailFragment.getInstance());
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);
         mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {

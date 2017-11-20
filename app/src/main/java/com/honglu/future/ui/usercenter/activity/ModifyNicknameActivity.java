@@ -94,6 +94,7 @@ public class ModifyNicknameActivity extends BaseActivity<ModifyNicknamePresenter
         showToast("修改昵称成功");
         SpUtil.putString(Constant.CACHE_TAG_USERNAME, mNickName.getText().toString());
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_UPDATE_NICK_NAME));
+        finish();
     }
 
 }

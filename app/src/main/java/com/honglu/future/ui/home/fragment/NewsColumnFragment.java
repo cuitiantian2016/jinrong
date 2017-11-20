@@ -5,12 +5,19 @@ import android.widget.LinearLayout;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
+import com.honglu.future.events.BaseEvent;
 import com.honglu.future.events.ClickPraiseEvent;
+import com.honglu.future.events.EventController;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
+import com.honglu.future.events.LoginEvent;
+import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.mpush.MPush;
 import com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
+import com.honglu.future.util.SpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +52,16 @@ public class NewsColumnFragment extends BaseFragment {
         mLinearLayout.removeAllViews();
         NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
     }
+
+    /*******
+     * 将事件交给事件派发controller处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(LoginEvent event) {
+        refresh();
+    }
     /**
      * 错误信息处理
      */
@@ -65,7 +82,7 @@ public class NewsColumnFragment extends BaseFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().getNewsColumnData(), new HttpSubscriber<List<HomeMessageItem>>() {
+                    toSubscribe(HttpManager.getApi().getNewsColumnData(SpUtil.getString(Constant.CACHE_TAG_UID)), new HttpSubscriber<List<HomeMessageItem>>() {
                         @Override
                         protected void _onNext(List<HomeMessageItem> o) {
                             super._onNext(o);
@@ -120,6 +137,7 @@ public class NewsColumnFragment extends BaseFragment {
         if (mListData!=null&&mListData.size()>0){
             HomeMessageItem item = mListData.get(position);
             item.praiseCounts = item.praiseCounts+1;
+            item.isPraise = 1;
             NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
         }
     }
