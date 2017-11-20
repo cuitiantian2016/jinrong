@@ -41,18 +41,30 @@ public class TradeRecordAdapter extends BaseAdapter {
         this.mContext = context;
     }
 
-    public void setMList(List<HistoryMissPositionBean> list){
-        mMissList = list;
+    public void setMList(List<HistoryMissPositionBean> list,boolean isMore){
+        if (isMore){
+            mMissList.addAll(list);
+        }else {
+            mMissList = list;
+        }
         mType = TYPE_IS_MISS;
         notifyDataSetChanged();
     }
-    public void setCList(List<HistoryClosePositionBean> list){
-        mCloseList = list;
+    public void setCList(List<HistoryClosePositionBean> list,boolean isMore){
+        if (isMore){
+            mCloseList.addAll(list);
+        }else {
+            mCloseList = list;
+        }
         mType = TYPE_IS_CLOSE;
         notifyDataSetChanged();
     }
-    public void setBList(List<HistoryBuiderPositionBean> list){
-        mBudierList = list;
+    public void setBList(List<HistoryBuiderPositionBean> list ,boolean isMore){
+        if (isMore){
+            mBudierList.addAll(list);
+        }else {
+            mBudierList = list;
+        }
         mType = TYPE_IS_builder;
         notifyDataSetChanged();
     }

@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="风险率"
+                android:text="实际盈亏"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_12sp" />
         </LinearLayout>

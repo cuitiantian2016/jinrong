@@ -21,6 +21,7 @@ import com.honglu.future.ui.trade.presenter.TradeRecordPresenter;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.text.SimpleDateFormat;
@@ -70,6 +71,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     private DateDialog mDateDialog;
     private String startTime, endTime;
     private int clickId = R.id.tab_jcLayout;
+    int pageBuider = 1;
+    int pageClose = 1;
+    int pageMiss = 1;
+    int pageSize = 5;
 
 
     @Override
@@ -154,9 +159,41 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 getHistoryData(clickId);
             }
         });
+        refreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                loadMore();
+            }
+        });
         tvTwo.setVisibility(View.INVISIBLE);
         tvThr.setVisibility(View.INVISIBLE);
         tvFour.setText("建仓价");
+    }
+
+    private void loadMore() {
+        switch (clickId){
+            case R.id.tab_jcLayout:
+                if (!isHistoryBuilderMore){
+                    refreshView.finishLoadmore();
+                    return;
+                }
+                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageBuider,pageSize);
+                break;
+            case R.id.tab_ccLayout:
+                if (!isHistoryCloseMore){
+                    refreshView.finishLoadmore();
+                    return;
+                }
+                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageClose,pageSize);
+                break;
+            case R.id.tab_rLayout:
+                if (!isHistoryMissMore){
+                    refreshView.finishLoadmore();
+                   return;
+                }
+                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageMiss,pageSize);
+                break;
+        }
     }
 
     private String getStartTime(){
@@ -232,13 +269,13 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     private void getHistoryData(int id){
         switch (id){
             case R.id.tab_jcLayout:
-                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
                 break;
             case R.id.tab_ccLayout:
-                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
                 break;
             case R.id.tab_rLayout:
-                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
                 break;
         }
     }
@@ -250,43 +287,76 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         tvPingcang.setText(bean.close);
         tvRevoke.setText(bean.cancel);
     }
-
+    boolean isHistoryMissMore = false;
     @Override
     public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
         refreshView.finishRefresh();
         if (list ==null||list.size()<=0){
             mLinearTitle.setVisibility(View.GONE);
         }else {
-            mLinearTitle.setVisibility(View.VISIBLE);
+            if (pageBuider>1){
+                mAdapter.setMList(list,true);
+                refreshView.finishLoadmore();
+            }else {
+                mAdapter.setMList(list,false);
+                refreshView.finishRefresh();
+            }
+            if (list.size()>=pageSize){
+                ++pageMiss;
+                isHistoryMissMore = true;
+            }else {
+                isHistoryMissMore = false;
+            }
         }
-        mAdapter.setMList(list);
     }
-
+    boolean isHistoryCloseMore = false;
     @Override
     public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
-        refreshView.finishRefresh();
         if (list ==null||list.size()<=0){
             mLinearTitle.setVisibility(View.GONE);
         }else {
-            mLinearTitle.setVisibility(View.VISIBLE);
+            if (pageBuider>1){
+                mAdapter.setCList(list,true);
+                refreshView.finishLoadmore();
+            }else {
+                mAdapter.setCList(list,false);
+                refreshView.finishRefresh();
+            }
+            if (list.size()>=pageSize){
+                ++pageClose;
+                isHistoryCloseMore = true;
+            }else {
+                isHistoryCloseMore = false;
+            }
         }
-        mAdapter.setCList(list);
     }
-
+    boolean isHistoryBuilderMore = false;
     @Override
     public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
-        refreshView.finishRefresh();
         if (list ==null||list.size()<=0){
             mLinearTitle.setVisibility(View.GONE);
         }else {
+            if (pageBuider>1){
+                mAdapter.setBList(list,true);
+                refreshView.finishLoadmore();
+            }else {
+                mAdapter.setBList(list,false);
+                refreshView.finishRefresh();
+            }
+            if (list.size()>=pageSize){
+                ++pageBuider;
+                isHistoryBuilderMore = true;
+            }else {
+                isHistoryBuilderMore = false;
+            }
             mLinearTitle.setVisibility(View.VISIBLE);
         }
-        mAdapter.setBList(list);
     }
 
     @Override
     public void showErrorMsg(String msg, String type) {
         super.showErrorMsg(msg, type);
        refreshView.finishRefresh();
+        refreshView.finishLoadmore();
     }
 }

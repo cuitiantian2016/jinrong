@@ -29,16 +29,22 @@ public interface TradeRecordContract {
                 String dayStart,
                 String userId,
                 String token,
-                String dayEnd);
+                String dayEnd,
+                int page,
+                int pageSize);
         void getHistoryCloseBean(
                 String dayStart,
                 String userId,
                 String token,
-                String dayEnd);
+                String dayEnd,
+                int page,
+                int pageSize);
         void getHistoryBuilderBean(
                 String dayStart,
                 String userId,
                 String token,
-                String dayEnd);
+                String dayEnd,
+                int page,
+                int pageSize);
     }
 }

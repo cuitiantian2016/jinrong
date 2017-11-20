@@ -37,8 +37,10 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     }
 
     @Override
-    public void getHistoryMissBean(String dayStart, String userId, String token, String dayEnd) {
-        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd), new HttpSubscriber<List<HistoryMissPositionBean>>() {
+    public void getHistoryMissBean(String dayStart, String userId, String token, String dayEnd,
+                                   int page,
+                                   int pageSize) {
+        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryMissPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryMissPositionBean> o) {
                 super._onNext(o);
@@ -55,8 +57,10 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     }
 
     @Override
-    public void getHistoryCloseBean(String dayStart, String userId, String token, String dayEnd) {
-        toSubscribe(HttpManager.getApi().getHistoryCloseBean(dayStart, userId, token, dayEnd), new HttpSubscriber<List<HistoryClosePositionBean>>() {
+    public void getHistoryCloseBean(String dayStart, String userId, String token, String dayEnd,
+                                    int page,
+                                    int pageSize) {
+        toSubscribe(HttpManager.getApi().getHistoryCloseBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryClosePositionBean>>() {
             @Override
             protected void _onNext(List<HistoryClosePositionBean> o) {
                 super._onNext(o);
@@ -74,8 +78,10 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     }
 
     @Override
-    public void getHistoryBuilderBean(String dayStart, String userId, String token, String dayEnd) {
-        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd), new HttpSubscriber<List<HistoryBuiderPositionBean>>() {
+    public void getHistoryBuilderBean(String dayStart, String userId, String token, String dayEnd,
+                                      int page,
+                                      int pageSize) {
+        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryBuiderPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryBuiderPositionBean> o) {
                 super._onNext(o);
