@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -98,6 +99,41 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             }
         });
         initView();
+        mBtnPay.setEnabled(false);
+        setListener();
+    }
+
+    private void setListener() {
+        final TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String amount = mEtPayAsses.getText().toString();
+                String asses_password = mEt_asses_password.getText().toString();
+                String bank_password = mEt_bank_password.getText().toString();
+                if (!TextUtils.isEmpty(amount)&&!TextUtils.isEmpty(asses_password)){
+                    if (mBean!=null){
+                        if (mBean.cashoutFlag ==1||mBean.rechargeFlag==1){
+                            mBtnPay.setEnabled(true);
+                        }else {
+                           if (!TextUtils.isEmpty(bank_password)){
+                               mBtnPay.setEnabled(true);
+                           }else {
+                               mBtnPay.setEnabled(false);
+                           }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        };
+        mEtPayAsses.addTextChangedListener(textWatcher);
+        mEt_asses_password.addTextChangedListener(textWatcher);
+        mEt_bank_password.addTextChangedListener(textWatcher);
     }
 
     private PermissionsListener requestPermissions = new PermissionsListener() {
@@ -129,6 +165,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mTypeAsses.setText(getString(R.string.put_assess));
             mBtnPay.setText(getString(R.string.confirm_pay));
             mCheckAsses.setEnabled(true);
+            mEtPayAsses.setHint("请填写充值金额");
         } else {
             String string = SpUtil.getString(Constant.CACHE_USER_ASSES);
             mCheckAsses.setText(getString(R.string.can_bank_asses,string));
@@ -136,6 +173,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mCheckAsses.setTextColor(getResources().getColor(R.color.color_A4A5A6));
             mBtnPay.setText(getString(R.string.confirm_out));
             mCheckAsses.setEnabled(false);
+            mEtPayAsses.setHint("请填写提现金额");
         }
     }
 
@@ -219,18 +257,25 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                     }
                 }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
             }else {
-                if (mBean!=null){
-                    mPresenter.rechage(SpUtil.getString(Constant.CACHE_TAG_UID),
-                            mBean.getBrokerBranchId(),
-                            AESUtils.encrypt(password),
-                            mBean.getBankId(),
-                            mBean.getBankBranchId(),
-                            mBean.getBankAccount(),
-                            AESUtils.encrypt(bankPassword),
-                            amount,
-                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
-                    );
-                }
+                new AlertFragmentDialog.Builder(mActivity)
+                        .setLeftBtnText("取消").setContent(amount, R.color.color_333333, R.dimen.dimen_25sp).setTitle("确认充值", R.color.color_3C383F, R.dimen.dimen_16sp)
+                        .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                    @Override
+                    public void dialogRightBtnClick(String string) {
+                        if (mBean!=null){
+                            mPresenter.rechage(SpUtil.getString(Constant.CACHE_TAG_UID),
+                                    mBean.getBrokerBranchId(),
+                                    AESUtils.encrypt(password),
+                                    mBean.getBankId(),
+                                    mBean.getBankBranchId(),
+                                    mBean.getBankAccount(),
+                                    AESUtils.encrypt(bankPassword),
+                                    amount,
+                                    SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
+                            );
+                        }
+                    }
+                }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
             }
         }
     }
