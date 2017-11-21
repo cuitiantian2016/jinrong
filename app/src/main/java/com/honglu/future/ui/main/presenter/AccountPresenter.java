@@ -46,6 +46,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
 
             @Override
             protected void _onNext(final AccountBean bean) {
+                mBean = bean;
                 SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
                 tv_pass.postDelayed(new Runnable() {
                     @Override
