@@ -57,8 +57,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.scwang.smartrefresh.layout.util.DelayedRunable;
+import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.scwang.smartrefresh.layout.util.ViscousFluidInterpolator;
 
 import java.util.ArrayList;
@@ -744,11 +744,6 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
 
         //<editor-fold desc="多点触摸计算代码">
@@ -766,7 +761,6 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
             if (skipIndex == i) continue;
             sumX += e.getX(i);
             sumY += e.getY(i);
-
         }
         final int div = pointerUp ? count - 1 : count;
         final float touchX = sumX / div;
@@ -934,7 +928,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
         // scrolling, ignore this request so that the vertical scroll event
         // isn't stolen
         View target = mRefreshContent.getScrollableView();
-        if ((android.os.Build.VERSION.SDK_INT >= 21 || !(target instanceof AbsListView))
+        if ((Build.VERSION.SDK_INT >= 21 || !(target instanceof AbsListView))
                 && (target == null || ViewCompat.isNestedScrollingEnabled(target))) {
                     super.requestDisallowInterceptTouchEvent(b);
                 //} else {
@@ -1396,7 +1390,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SmartRefreshLayout_Layout);
             backgroundColor = ta.getColor(R.styleable.SmartRefreshLayout_Layout_srlBackgroundColor, backgroundColor);
             if (ta.hasValue(R.styleable.SmartRefreshLayout_Layout_srlSpinnerStyle)) {
-                spinnerStyle = SpinnerStyle.values()[ta.getInt(R.styleable.SmartRefreshLayout_Layout_srlSpinnerStyle,SpinnerStyle.Translate.ordinal())];
+                spinnerStyle = SpinnerStyle.values()[ta.getInt(R.styleable.SmartRefreshLayout_Layout_srlSpinnerStyle, SpinnerStyle.Translate.ordinal())];
             }
             ta.recycle();
         }
@@ -2061,7 +2055,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
     @Override
     public SmartRefreshLayout finishRefresh(){
         long passTime =  System.currentTimeMillis() - mLastRefreshingTime;
-        return finishRefresh(Math.max(0, 1000 ));//保证刷新动画有1000毫秒的时间
+        return finishRefresh(Math.max(0, 1000 - (int)passTime));//保证刷新动画有1000毫秒的时间
     }
     /**
      * 完成加载
@@ -2085,7 +2079,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout {
     @Override
     public SmartRefreshLayout finishRefresh(boolean success){
         long passTime =  System.currentTimeMillis() - mLastRefreshingTime;
-        return finishRefresh(Math.max(0, 1000), success);
+        return finishRefresh(Math.max(0, 1000 - (int) passTime), success);
     }
 
     /**
