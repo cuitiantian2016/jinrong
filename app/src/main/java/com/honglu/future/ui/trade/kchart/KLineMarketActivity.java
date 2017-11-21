@@ -135,7 +135,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private String isClosed;
     private boolean mIsShowDetail;
 
-    private String[] mTitles = {"分时", "1分钟", "5分钟", "15分钟", "30分钟", "1小时", "4小时", "日线", "周线"};
+    private String[] mTitles = {"分时", "1分钟", "5分钟", "15分钟", "30分钟", "1小时", "4小时", "日线"};
 
     private KLineFragment mKLineFragment;
     private BuildTransactionDialog mBuildTransactionDialog;

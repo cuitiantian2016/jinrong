@@ -29,6 +29,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
 
 import java.math.BigDecimal;
@@ -481,6 +482,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
     @Override
     public void buildTransactionSuccess() {
+        ToastUtil.showToast("建仓成功");
         dismiss();
     }
 

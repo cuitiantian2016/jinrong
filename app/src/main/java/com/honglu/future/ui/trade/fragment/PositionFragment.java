@@ -321,6 +321,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void closeOrderSuccess() {
+        showToast("平仓成功");
         mCloseDialog.dismiss();
         mPopWind.dismiss();
         getPositionList();
