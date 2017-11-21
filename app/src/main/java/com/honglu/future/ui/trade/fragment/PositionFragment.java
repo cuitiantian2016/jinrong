@@ -321,6 +321,13 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
         mProfitLoss.setText(bean.getPositionProfit() + "");
+        if (bean.getPositionProfit() > 0) {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+        } else if (bean.getPositionProfit() < 0) {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
+        } else {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+        }
     }
 
     @Override
