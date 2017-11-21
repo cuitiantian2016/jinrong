@@ -41,15 +41,22 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         holder.mTvProfitLoss.setText(item.closeProfitLoss);
         if (item.type == 2) {
             holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else {
             holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         }
+
+        if (Double.parseDouble(item.closeProfitLoss) > 0) {
+            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+        } else if (Double.parseDouble(item.closeProfitLoss) < 0) {
+            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+        } else {
+            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+        }
+
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext,data.get(position));
+                CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext, data.get(position));
             }
         });
     }
