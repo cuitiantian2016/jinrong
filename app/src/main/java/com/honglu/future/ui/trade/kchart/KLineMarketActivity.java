@@ -178,8 +178,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (event.marketMessage.getInstrumentID().equals(mCode)) {
             mRequestBean = event.marketMessage;
             transferBean(mRequestBean);
-            fragment.setLastKData(mRequestBean);
-            if (mPosition != 0) {
+            if (mPosition == 0) {
+                fragment.setLastKData(mRequestBean);
+            } else {
                 ((KLineFragment) fragments.get(mPosition)).setLastKData(mRequestBean, mKlineCycleType);
             }
             if (mKLinePositionDialog != null

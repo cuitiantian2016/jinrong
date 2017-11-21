@@ -21,12 +21,11 @@ import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
-import com.honglu.future.widget.kchart.util.BakSourceInterface;
-import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
 import com.honglu.future.widget.kchart.listener.OnKChartClickListener;
 import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
 import com.honglu.future.widget.kchart.listener.OnKLineTouchDisableListener;
+import com.honglu.future.widget.kchart.util.BakSourceInterface;
 import com.honglu.future.widget.kchart.util.KDisplayUtil;
 import com.honglu.future.widget.kchart.util.KParamConfig;
 import com.honglu.future.widget.kchart.util.KParseUtils;
@@ -34,6 +33,7 @@ import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
+import com.xulu.mpush.message.KCandleObj;
 import com.xulu.mpush.message.RequestMarketMessage;
 
 import java.text.SimpleDateFormat;
@@ -598,8 +598,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
      *
      * @param optional
      */
-    public void setLastKData(RequestMarketMessage optional,String cycle) {
-        Log.i("testUrl",cycle);
+    public void setLastKData(RequestMarketMessage optional, String cycle) {
         //周线不好处理，直接不管
         if (BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN.equals(cycle)) {
             return;
@@ -677,7 +676,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                         Log.v(TAG, "remove");
                         isReplaceLast = true;
                         list.remove(lastK);
-                    }else {
+                    } else {
                         isReplaceLast = false;
                     }
                 } else {
@@ -726,7 +725,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                     //大于一分钟的  直接使用替换的时间对的上
                     String strT = TimeUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd HH:mm");
                     // 日线不显示分钟
-                    if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)){
+                    if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
                         strT = TimeUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd");
                     }
                     toAddendK.setTime(strT);
