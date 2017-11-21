@@ -31,19 +31,16 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         holder.mTvProductName.setText(item.instrumentName);
         if (item.type == 1) {
             holder.mTvBuyHands.setText("买跌" + item.position + "手");
+            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
             holder.mTvBuyHands.setText("买涨" + item.position + "手");
+            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         }
 
         holder.mTvAveragePrice.setText(item.holdAvgPrice);
         // TODO: 2017/11/6 确认是否展示最新价（猜测为平仓价） 
         holder.mTvNewPrice.setText(item.closePrice);
         holder.mTvProfitLoss.setText(item.closeProfitLoss);
-        if (item.type == 2) {
-            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-        } else {
-            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-        }
 
         if (Double.parseDouble(item.closeProfitLoss) > 0) {
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));

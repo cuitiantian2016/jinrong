@@ -39,8 +39,10 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
         holder.mTvProductName.setText(item.getInstrumentName());
         if (item.getType() == 1) {
             holder.mTvBuyHands.setText("买跌" + item.getPosition() + "手");
+            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
             holder.mTvBuyHands.setText("买涨" + item.getPosition() + "手");
+            holder.mTvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         }
 
 
