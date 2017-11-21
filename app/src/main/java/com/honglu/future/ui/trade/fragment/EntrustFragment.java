@@ -198,6 +198,10 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_A4A5A6));
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
+                if (mAllList == null || mAllList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    return;
+                }
                 mOpenList = new ArrayList<>();
                 for (EntrustBean bean : mAllList) {
                     if (bean.getOpenClose() == 1) {
@@ -225,7 +229,10 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mClosed.setTextColor(mActivity.getResources().getColor(R.color.color_333333));
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
-
+                if (mAllList == null || mAllList.size() == 0) {
+                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    return;
+                }
                 mCloseList = new ArrayList<>();
                 for (EntrustBean bean : mAllList) {
                     if (bean.getOpenClose() == 2) {
@@ -253,6 +260,9 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void getEntrustListSuccess(List<EntrustBean> list) {
         if (list == null || list.size() == 0) {
+            if (mAllList != null && mAllList.size() > 0) {
+                mAllList.clear();
+            }
             mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
