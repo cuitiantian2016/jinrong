@@ -258,7 +258,7 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
     }
 
     private double getPrice(EditText text) {
-        return !TextUtils.isEmpty(text.getText().toString()) ? Integer.parseInt(mPrice.getText().toString()) : 0;
+        return !TextUtils.isEmpty(text.getText().toString()) ? Double.parseDouble(mPrice.getText().toString()) : 0;
     }
 
     private double getDouble(String num){

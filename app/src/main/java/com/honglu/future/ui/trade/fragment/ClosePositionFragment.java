@@ -26,6 +26,7 @@ import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -39,6 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     int pageSize = 10;
     boolean isMore;
     private View foot;
+    private String mEndDate;
 
     @Override
     public int getLayoutId() {
@@ -98,6 +101,10 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        mEndDate = sdf.format(c.getTime());
         initView();
     }
 
@@ -108,12 +115,12 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mPositionListView.setAdapter(mClosePositionAdapter);
         foot = View.inflate(getContext(), R.layout.item_see_all, null);
         foot.findViewById(R.id.ll_see_all).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               startActivity(TradeRecordActivity.class);
-           }
+            @Override
+            public void onClick(View view) {
+                startActivity(TradeRecordActivity.class);
+            }
         });
-        mClosePositionAdapter.addFooterView(foot, DeviceUtils.dip2px(getContext(),50));
+        mClosePositionAdapter.addFooterView(foot, DeviceUtils.dip2px(getContext(), 50));
         mSmartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -134,7 +141,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
      * 加载更多
      */
     private void loadMore() {
-        if (!isMore){
+        if (!isMore) {
             mSmartRefreshLayout.finishLoadmore();
             mSmartRefreshLayout.setEnableLoadmore(false);
             return;
@@ -176,10 +183,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     }
 
     private void getClosePositionList() {
-        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateNowStr = sdf.format(d);
-        mPresenter.getCloseList("", dateNowStr, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
+        mPresenter.getCloseList("", mEndDate, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
     }
 
     @Override
@@ -196,16 +200,16 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
             return;
         }
         mLoadingLayout.setStatus(LoadingLayout.Success);
-        if (page == 1){
+        if (page == 1) {
             mClosePositionAdapter.clearData();
             mSmartRefreshLayout.finishRefresh();
-        }else {
+        } else {
             mSmartRefreshLayout.finishLoadmore();
         }
-        if (list.size()>=pageSize){
+        if (list.size() >= pageSize) {
             isMore = true;
             ++pageSize;
-        }else {
+        } else {
             isMore = false;
         }
         mClosePositionAdapter.addData(list);
