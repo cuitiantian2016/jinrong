@@ -28,6 +28,7 @@ import com.honglu.future.ui.trade.adapter.PositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
@@ -288,11 +289,21 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 
+    //显示平仓
     @Override
     public void onCloseClick(HoldPositionBean bean) {
-        mHoldPositionBean = bean;
-        mCloseDialog.showDialog(bean);
+        if (bean !=null && !TextUtils.isEmpty(bean.getInstrumentId())){
+            this.mHoldPositionBean = bean;
+            mPresenter.getProductDetail(bean.getInstrumentId());
+        }
     }
+
+    //产品详情
+    @Override
+    public void getProductDetailSuccess(ProductListBean productListBean) {
+        mCloseDialog.showDialog(mHoldPositionBean,productListBean);
+    }
+
 
     @Override
     public void onPostCloseClick(String todayPosition, String orderNumber, String type, String price, String insId, String avgPrice) {
@@ -329,6 +340,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
     }
+
+
 
     @Override
     public void onShowPopupClick(View view, HoldPositionBean bean) {

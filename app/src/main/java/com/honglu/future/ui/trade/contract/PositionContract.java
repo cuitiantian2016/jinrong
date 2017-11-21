@@ -3,6 +3,7 @@ package com.honglu.future.ui.trade.contract;
 import com.honglu.future.base.BaseView;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface PositionContract {
         void getHoldDetailListSuccess(List<HoldDetailBean> list);
         void closeOrderSuccess();
         void getAccountInfoSuccess(AccountInfoBean bean);
+        void getProductDetailSuccess(ProductListBean bean);
     }
 
     interface Presenter {
@@ -25,5 +27,6 @@ public interface PositionContract {
         void closeOrder(String todayPosition, String userId, String token, String orderNumber, String type, String price,
                         String instrumentId, String holdAvgPrice, String company);
         void getAccountInfo(String userId, String token, String company);
+        void getProductDetail(String instrumentId);
     }
 }

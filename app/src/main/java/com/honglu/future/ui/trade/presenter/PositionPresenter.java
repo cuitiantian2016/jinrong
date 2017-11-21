@@ -9,6 +9,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.AESUtils;
@@ -124,5 +125,33 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
                 mView.stopLoading();
             }
         });
+    }
+
+
+    //产品详情
+    @Override
+    public void getProductDetail(String instrumentId) {
+        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("获取产品详情中...");
+            }
+            @Override
+            protected void _onError(String message) {
+                mView.stopLoading();
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onNext(ProductListBean bean) {
+                mView.stopLoading();
+                if (bean !=null){
+                    mView.getProductDetailSuccess(bean);
+                }else {
+                    mView.showErrorMsg("请求失败", null);
+                }
+            }
+        });
+
     }
 }
