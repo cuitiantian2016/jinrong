@@ -48,6 +48,7 @@
         android:descendantFocusability="blocksDescendants"
         android:divider="@android:color/transparent"
         android:horizontalSpacing="1dp"
+        android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         android:verticalSpacing="1dp"
         android:layout_marginLeft="@dimen/dimen_20dp"
