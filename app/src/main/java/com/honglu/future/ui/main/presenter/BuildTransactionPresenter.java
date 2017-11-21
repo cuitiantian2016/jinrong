@@ -47,7 +47,7 @@ public class BuildTransactionPresenter extends BasePresenter<BuildTransactionCon
         toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("获取产品详情中...");
+                //mView.showLoading("获取产品详情中...");
             }
 
             @Override

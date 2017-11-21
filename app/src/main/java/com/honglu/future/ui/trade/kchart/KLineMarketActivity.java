@@ -545,8 +545,11 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         productListBean = bean;
+        isClosed = bean.getIsClosed();
         if (bean.getIsClosed().equals("2")) {
             mTvClosed.setVisibility(View.VISIBLE);
+        } else {
+            mTvClosed.setVisibility(View.GONE);
         }
         mProductRuleDialog = new ProductRuleDialog(this, bean);
     }

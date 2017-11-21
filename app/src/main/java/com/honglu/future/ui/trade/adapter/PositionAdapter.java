@@ -1,6 +1,7 @@
 package com.honglu.future.ui.trade.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.fragment.PositionFragment;
+import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 
 import java.util.ArrayList;
@@ -112,6 +114,16 @@ public class PositionAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 mListener.onShowPopupClick(v, holdPositionBean);
+            }
+        });
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, KLineMarketActivity.class);
+                intent.putExtra("excode",holdPositionBean.getExcode());
+                intent.putExtra("code",holdPositionBean.getInstrumentId());
+                intent.putExtra("isClosed","1");
+                mContext.startActivity(intent);
             }
         });
         return convertView;

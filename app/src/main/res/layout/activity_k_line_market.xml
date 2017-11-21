@@ -285,7 +285,7 @@
             android:layout_marginRight="@dimen/dimen_20dp"
             android:layout_marginTop="@dimen/dimen_10dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
