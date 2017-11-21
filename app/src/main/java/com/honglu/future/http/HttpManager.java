@@ -85,9 +85,9 @@ public class HttpManager {
                     .sslSocketFactory(sslParams.sSLSocketFactory)
                     .cookieJar(new JavaNetCookieJar(cookieManager))//设置持续化cookie
                     .retryOnConnectionFailure(true)//失败重连
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
                     .hostnameVerifier(new HostnameVerifier() {
                         @Override
                         public boolean verify(String hostname, SSLSession session) {
@@ -213,9 +213,9 @@ public class HttpManager {
                 .cookieJar(new JavaNetCookieJar(cookieManager))//设置持续化cookie
                 .addInterceptor(logging)    //打印日志
                 .retryOnConnectionFailure(true)//失败重连
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {
