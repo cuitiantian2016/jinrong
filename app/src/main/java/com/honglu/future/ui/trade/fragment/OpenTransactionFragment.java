@@ -83,7 +83,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         showToast("登录成功");
         mToken = bean.getToken();
         mAccountLoginDialog.dismiss();
-       // SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
+        // SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         startRun();
     }
 
@@ -214,6 +214,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
         mProfitLoss.setText(bean.getPositionProfit() + "");
+        if (bean.getPositionProfit() > 0) {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+        } else if (bean.getPositionProfit() < 0) {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
+        } else {
+            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+        }
     }
 
 
