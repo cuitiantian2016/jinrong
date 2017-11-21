@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.EntrustBean;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
@@ -44,7 +45,7 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
 
 
         holder.mTvEntrustPrice.setText(item.getPrice());
-        holder.mTvDate.setText(item.getInsertTime());
+        holder.mTvDate.setText(TimeUtil.getStringByFormat(item.getInsertTime(),TimeUtil.dateFormatYMD));
         holder.mTvServiceCharge.setText(item.getSxf());
         // TODO: 2017/11/6 确定是否需要区分当日有效 today
         holder.mTvLimitDate.setText("当日有效");
