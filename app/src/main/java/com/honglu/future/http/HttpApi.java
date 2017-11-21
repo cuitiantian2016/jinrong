@@ -12,6 +12,7 @@ import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.bean.RechangeDetailData;
 import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
@@ -484,7 +485,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/transfer/select/balance")
-    Observable<BaseResponse<String>> getBalanceAsses(
+    Observable<BaseResponse<AssesData>> getBalanceAsses(
             @Field("userId") String userId,
             @Field("brokerBranchId") String brokerBranchId,
             @Field("password") String password,

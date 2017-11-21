@@ -19,9 +19,11 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.contract.PayAndOutGoldContract;
 import com.honglu.future.ui.recharge.presenter.PayAndOutGoldPresent;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
+import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -56,6 +58,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     TextView tv_phone_num;
     @BindView(R.id.rl_card)
     LinearLayout mrlCard;//银行卡显示列表
+    @BindView(R.id.ll_bank_password)
+    LinearLayout ll_bank_password;//银行卡密码
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
 
@@ -144,6 +148,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         super.onHiddenChanged(hidden);
         if (!hidden){
             getBankList();
+        }else {
+            mEtPayAsses.setText("");
+            mEt_asses_password.setText("");
+            mEt_bank_password.setText("");
         }
     }
 
@@ -153,30 +161,29 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         if (id == R.id.et_check_bank_asses) {
             int type = AlertFragmentDialog.Builder.TYPE_INPUT_TWO;
             if (mIsPay){
-               if (mBean !=null &&mBean.rechargeFlag != 1){
+               if (mBean !=null &&mBean.rechargeFlag == 1){
                    type = AlertFragmentDialog.Builder.TYPE_INPUT_ONE;
                }
             }else {
-                if (mBean !=null &&mBean.cashoutFlag != 1){
+                if (mBean !=null &&mBean.cashoutFlag == 1){
                     type = AlertFragmentDialog.Builder.TYPE_INPUT_ONE;
                 }
             }
             new AlertFragmentDialog.Builder(mActivity)
-                    .setLeftBtnText("稍后在说").setContent("招商银行：622 **** **** 2234").setTitle("输入资金密码")
+                    .setLeftBtnText("稍后在说").setContent(mBean.getBankName()+"："+mBean.getBankAccount()).setTitle("输入资金密码")
                     .setEtHintText("输入资金密码")
                     .setRightBtnText("确定").setRightClickInputCallBack(new AlertFragmentDialog.RightClickInputCallBack() {
                 @Override
                 public void dialogRightBtnClick(String inputOne, String inputTwo) {
-                    ToastUtil.show("inputOne-->"+inputOne+"inputTwo-->"+inputTwo);
                     if (mIsPay){
                         if (mBean!=null){
                             mPresenter.getBalanceAsses(SpUtil.getString(Constant.CACHE_TAG_UID),
                                     mBean.getBrokerBranchId(),
-                                    inputOne,
+                                    AESUtils.encrypt(inputOne),
                                     mBean.getBankId(),
                                     mBean.getBankBranchId(),
                                     mBean.getBankAccount(),
-                                    inputTwo,
+                                    AESUtils.encrypt(inputTwo),
                                     SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
                             );
                         }
@@ -187,7 +194,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             final String amount = mEtPayAsses.getText().toString();
             final String password = mEt_asses_password.getText().toString();
             final String bankPassword = mEt_bank_password.getText().toString();
-            if (TextUtils.isEmpty(amount)||TextUtils.isEmpty(password)||TextUtils.isEmpty(bankPassword)){
+            if (TextUtils.isEmpty(amount)||TextUtils.isEmpty(password)||(TextUtils.isEmpty(bankPassword)&&(mBean.rechargeFlag!=1||mBean.cashoutFlag!=1))){
                 ToastUtil.show("请输入正确的信息");
                 return;
             }
@@ -198,13 +205,13 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                     @Override
                     public void dialogRightBtnClick(String string) {
                         if (mBean!=null){
-                            mPresenter.rechage(SpUtil.getString(Constant.CACHE_TAG_UID),
+                            mPresenter.cashout(SpUtil.getString(Constant.CACHE_TAG_UID),
                                     mBean.getBrokerBranchId(),
-                                    password,
+                                    AESUtils.encrypt(password),
                                     mBean.getBankId(),
                                     mBean.getBankBranchId(),
                                     mBean.getBankAccount(),
-                                    bankPassword,
+                                    AESUtils.encrypt(bankPassword),
                                     amount,
                                     SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
                             );
@@ -213,13 +220,13 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
             }else {
                 if (mBean!=null){
-                    mPresenter.cashout(SpUtil.getString(Constant.CACHE_TAG_UID),
+                    mPresenter.rechage(SpUtil.getString(Constant.CACHE_TAG_UID),
                             mBean.getBrokerBranchId(),
-                            password,
+                            AESUtils.encrypt(password),
                             mBean.getBankId(),
                             mBean.getBankBranchId(),
                             mBean.getBankAccount(),
-                            bankPassword,
+                            AESUtils.encrypt(bankPassword),
                             amount,
                             SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
                     );
@@ -233,6 +240,11 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         if (list!=null&&list.size()>0){
             mrlCard.removeAllViews();
             mBean = list.get(0);
+            if (mBean.rechargeFlag == 1 ||mBean.cashoutFlag==1){
+                ll_bank_password.setVisibility(View.GONE);
+            }else {
+                ll_bank_password.setVisibility(View.VISIBLE);
+            }
             for (BindCardBean bean : list){
                 View cardItem = View.inflate(getActivity(), R.layout.item_card_layout, null);
                 ImageView icon = (ImageView) cardItem.findViewById(R.id.icon_bank_card);
@@ -242,12 +254,15 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 TextView tvBankNum = (TextView) cardItem.findViewById(R.id.tv_bank_number);
                 tvBankNum.setText(bean.getBankAccount());
                 cardItem.setTag(bean);
-                final ImageView iconArr = (ImageView) cardItem.findViewById(R.id.icon_arr);
                 cardItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        iconArr.setVisibility(View.INVISIBLE);
                         mBean = (BindCardBean) view.getTag();
+                        if (mBean.rechargeFlag == 1||mBean.cashoutFlag==1){
+                            ll_bank_password.setVisibility(View.GONE);
+                        }else {
+                            ll_bank_password.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 mrlCard.addView(cardItem);
@@ -276,12 +291,28 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
 
     @Override
     public void rechageSuccess() {
-        ToastUtil.show("充值成功");
+        new AlertFragmentDialog.Builder(mActivity)
+                .setLeftBtnText("取消").setTitle("充值成功", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.success_tixian)
+                .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                    @Override
+                    public void dialogLeftBtnClick() {
+                        getActivity().finish();
+                    }
+                })
+                .setRightBtnText("继续充值").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
     }
 
     @Override
     public void cashout() {
-        ToastUtil.show("提现成功");
+        new AlertFragmentDialog.Builder(mActivity)
+                .setLeftBtnText("取消").setTitle("提现成功", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.success_tixian)
+                .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                    @Override
+                    public void dialogLeftBtnClick() {
+                        getActivity().finish();
+                    }
+                })
+                .setRightBtnText("继续提现").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
     }
 
     /**
@@ -296,7 +327,9 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     }
 
     @Override
-    public void bindAssess(String amount) {
-        ToastUtil.show(amount);
+    public void bindAssess(AssesData amount) {
+        mCheckAsses.setText(getString(R.string.bank_asses,amount.amount));
+        mCheckAsses.setTextColor(getResources().getColor(R.color.color_A4A5A6));
+        mCheckAsses.setEnabled(false);
     }
 }

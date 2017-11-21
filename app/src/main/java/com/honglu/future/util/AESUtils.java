@@ -4,6 +4,8 @@ package com.honglu.future.util;
 //import sun.misc.BASE64Decoder;
 //import sun.misc.BASE64Encoder;
 
+import android.text.TextUtils;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -41,6 +43,9 @@ public class AESUtils {
 
     // 加密
     public static String encrypt(String sSrc) {
+        if (TextUtils.isEmpty(sSrc)){
+            return null;
+        }
         String encryptStr = "";
         try {
             encryptStr = encrypt(sSrc, sKey, ivParameter);// 此处使用BASE64做转码。

@@ -213,12 +213,9 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                     mRightCallBack.dialogRightBtnClick(inputStr);
                 }
                 if (rightClickInputCallBack!=null){
+                    inputStr = mEtInput.getText().toString();
                     if (builder.type == Builder.TYPE_INPUT_TWO) {
-                        inputStr = mEtInput.getText().toString();
                         inputStrTwo = mEtInputTwo.getText().toString();
-                        if (TextUtils.isEmpty(inputStr)||TextUtils.isEmpty(inputStrTwo)) {
-                            return;
-                        }
                     }
                     rightClickInputCallBack.dialogRightBtnClick(inputStr,inputStrTwo);
                 }

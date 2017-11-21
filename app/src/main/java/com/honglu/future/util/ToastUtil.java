@@ -30,7 +30,7 @@ import com.honglu.future.R;
  * Created by wangkw on 2016/8/24.
  */
 
-public final class ToastUtil {
+public final class  ToastUtil {
 
     /**
      * 单例

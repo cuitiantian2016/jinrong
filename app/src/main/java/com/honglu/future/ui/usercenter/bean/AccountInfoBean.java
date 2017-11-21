@@ -13,7 +13,7 @@ public class AccountInfoBean {
     private double commission;
     private double currMargin;
     private String customerServicephone;
-    private int deposit;
+    private Double deposit;
     private String entrustInstrumentId;
     private String exchangeName;
     private double frozenCash;
@@ -96,13 +96,6 @@ public class AccountInfoBean {
         return customerServicephone;
     }
 
-    public void setDeposit(int deposit) {
-        this.deposit = deposit;
-    }
-
-    public int getDeposit() {
-        return deposit;
-    }
 
     public void setEntrustInstrumentId(String entrustInstrumentId) {
         this.entrustInstrumentId = entrustInstrumentId;

@@ -4,9 +4,12 @@ import com.google.gson.JsonNull;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.contract.PayAndOutGoldContract;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
+import com.honglu.future.util.ToastUtil;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 
@@ -27,7 +30,9 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                mView.bindBankErr(message);
+                if ("您没有绑定银行卡".equals(message)){
+                    mView.bindBankErr(message);
+                }
             }
         });
     }
@@ -40,6 +45,12 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
                     protected void _onNext(JsonNull o) {
                         super._onNext(o);
                         mView.rechageSuccess();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        super._onError(message);
+                        ToastUtil.show(message);
                     }
                 });
     }
@@ -65,11 +76,17 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
     @Override
     public void getBalanceAsses(String userId, String brokerBranchId, String password, String bankId, String bankBranchId, String bankAccount, String bankPassword, String token) {
         toSubscribe(HttpManager.getApi().getBalanceAsses(userId, brokerBranchId, password, bankId, bankBranchId, bankAccount, bankPassword,token)
-                , new HttpSubscriber<String>() {
+                , new HttpSubscriber<AssesData>() {
                     @Override
-                    protected void _onNext(String o) {
+                    protected void _onNext(AssesData o) {
                         super._onNext(o);
                         mView.bindAssess(o);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        super._onError(message);
+                        ToastUtil.show(message);
                     }
                 });
     }

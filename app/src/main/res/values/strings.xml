@@ -150,6 +150,7 @@
     <string name="rule_out_in_gold">出入金规则</string>
     <string name="check_bank_asses">查询银行卡余额</string>
     <string name="can_bank_asses">可提现%s元</string>
+    <string name="bank_asses">账户余额%s元</string>
     <string name="put_assess">充值金额</string>
     <string name="get_assess">提现金额</string>
     <string name="confirm_pay">确认充值</string>

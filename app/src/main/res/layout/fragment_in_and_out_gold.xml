@@ -56,19 +56,20 @@
                 android:id="@+id/et_pay_asses"
                 android:hint="请填写充值金额"
                 android:textSize="16sp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textColorHint="#CACBCC"
                 android:layout_width="wrap_content"
                 android:maxLines="1"
                 android:textColor="@color/color_333333"
                 android:maxLength="9"
                 android:maxWidth="120dp"
+                android:minWidth="@dimen/dimen_120dp"
                 android:background="@null"
                 android:layout_height="wrap_content" />
                 <View
                     android:id="@+id/line_two"
                     android:layout_width="1dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@color/color_line"
                     android:layout_toRightOf="@+id/et_pay_asses"
                     android:layout_height="21dp"/>

@@ -2,6 +2,7 @@ package com.honglu.future.ui.recharge.contract;
 
 
 import com.honglu.future.base.BaseView;
+import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public interface PayAndOutGoldContract{
          * 获取银行资产
          * @param amount
          */
-        void bindAssess(String amount);
+        void bindAssess(AssesData amount);
 
     }
 

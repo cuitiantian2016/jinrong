@@ -9,7 +9,6 @@ public class BaseResponse<T> implements Serializable {
     public boolean success;
     public String errorCode;
     public String errorInfo;
-    public String pagerManager;
     private int status;
 
 
@@ -44,14 +43,6 @@ public class BaseResponse<T> implements Serializable {
         this.errorInfo = message;
     }
 
-    public String getPagerManager() {
-        return pagerManager;
-    }
-
-    public void setPagerManager(String pagerManager) {
-        this.pagerManager = pagerManager;
-    }
-
     public T getData() {
         return data;
     }
@@ -66,7 +57,6 @@ public class BaseResponse<T> implements Serializable {
         return "BaseResponse{" +
                 "code='" + errorCode + '\'' +
                 ", message='" + errorInfo + '\'' +
-                ", pagerManager='" + pagerManager + '\'' +
                 ", time='" + time + '\'' +
                 ", data=" + data +
                 '}';

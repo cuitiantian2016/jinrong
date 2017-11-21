@@ -238,4 +238,8 @@ public class NumberUtil {
         double d = multiply(0.6, 3);
         System.out.println("dd=" + d);
     }
+
+    public static String bankNameFilter(String bankNum){
+        return bankNum.substring(0, 3) + " ********* " + bankNum.substring(bankNum.length() - 4, bankNum.length());
+    }
 }
