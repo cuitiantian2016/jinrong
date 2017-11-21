@@ -80,16 +80,17 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
 
     /**
      * 平仓类型3.手动平仓,4.止盈平仓,5.止损平仓,6.爆仓,7.休市平仓
+     *
      * @param context
      * @param item
      */
-    private String[] closeType = new String[]{"手动平仓","止盈平仓","止损平仓","爆仓","休市平仓"};
+    private String[] closeType = new String[]{"手动平仓", "止盈平仓", "止损平仓", "爆仓", "休市平仓"};
     private BasePresenter<CloseTransactionDetailsActivity> basePresenter;
     private HistoryClosePositionBean bean;
 
-    public static void startCloseTransactionDetailsActivity(Context context, HistoryClosePositionBean item){
-        Intent intent = new Intent(context,CloseTransactionDetailsActivity.class);
-        intent.putExtra(KEY_DATA,item);
+    public static void startCloseTransactionDetailsActivity(Context context, HistoryClosePositionBean item) {
+        Intent intent = new Intent(context, CloseTransactionDetailsActivity.class);
+        intent.putExtra(KEY_DATA, item);
         context.startActivity(intent);
     }
 
@@ -100,17 +101,17 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        basePresenter = new BasePresenter<CloseTransactionDetailsActivity>(CloseTransactionDetailsActivity.this){
+        basePresenter = new BasePresenter<CloseTransactionDetailsActivity>(CloseTransactionDetailsActivity.this) {
             @Override
             public void getData() {
                 super.getData();
                 toSubscribe(HttpManager.getApi().getCloseBuiderBean(
-                        SpUtil.getString(Constant.CACHE_TAG_UID),bean.id, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
+                        SpUtil.getString(Constant.CACHE_TAG_UID), bean.id, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
                 ), new HttpSubscriber<List<CloseBuiderBean>>() {
                     @Override
                     protected void _onNext(List<CloseBuiderBean> o) {
                         super._onNext(o);
-                        if (o!=null&&o.size()>=1){
+                        if (o != null && o.size() >= 1) {
                             bindBuildCloseData(o.get(0));
                         }
                     }
@@ -128,64 +129,78 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        mTitle.setTitle(true,R.mipmap.ic_back_black,null,R.color.color_white,"平仓详情");
+        mTitle.setTitle(true, R.mipmap.ic_back_black, null, R.color.color_white, "平仓详情");
         mExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mExpandableView.getVisibility() == View.VISIBLE){
+                if (mExpandableView.getVisibility() == View.VISIBLE) {
                     mExpandableView.setVisibility(View.GONE);
                     mExpandableLayout.collapse(true);
-                }else {
+                } else {
                     mExpandableView.setVisibility(View.VISIBLE);
                     mExpandableLayout.expand(true);
                 }
             }
         });
         Intent intent = getIntent();
-        if (intent!=null){
-            bean = (HistoryClosePositionBean)intent.getSerializableExtra(KEY_DATA);
-            if (bean !=null){
+        if (intent != null) {
+            bean = (HistoryClosePositionBean) intent.getSerializableExtra(KEY_DATA);
+            if (bean != null) {
                 mName.setText(bean.instrumentName);
                 String num;
-                if (bean.type == 1){
+                if (bean.type == 1) {
                     mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-                    num =  mContext.getString(R.string.buy_down_num, bean.position);
-                }else {
+                    num = mContext.getString(R.string.buy_down_num, bean.position);
+                } else {
                     mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                    num =  mContext.getString(R.string.buy_up_num, bean.position);
+                    num = mContext.getString(R.string.buy_up_num, bean.position);
                 }
                 mBuyRise.setText(num);
                 mServiceCharge.setText(bean.closeSxf);
                 mProfitLoss.setText(bean.closeProfitLoss);
+                if (Double.parseDouble(bean.closeProfitLoss) > 0) {
+                    mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                } else if (Double.parseDouble(bean.closeProfitLoss) < 0) {
+                    mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                } else {
+                    mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                }
                 real_profit_loss.setText(bean.profitLoss);
+                if (Double.parseDouble(bean.profitLoss) > 0) {
+                    real_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                } else if (Double.parseDouble(bean.profitLoss) < 0) {
+                    real_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                } else {
+                    real_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                }
                 mChicangAveragePrice.setText(bean.holdAvgPrice);
                 mJiancangAveragePrice.setText(bean.price);
                 mPrice.setText(bean.closePrice);
                 mTiem.setText(bean.tradeTime);
                 mBaodanNum.setText(bean.orderSysId);
                 mDealNum.setText(bean.tradeId);
-                if (bean.closeType>1){
-                    mType.setText(closeType[bean.closeType-1]);
+                if (bean.closeType > 1) {
+                    mType.setText(closeType[bean.closeType - 1]);
                 }
             }
         }
         basePresenter.getData();
     }
 
-    private void bindBuildCloseData(CloseBuiderBean data){
+    private void bindBuildCloseData(CloseBuiderBean data) {
         String num;
-        if (data.type == 1){
-            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            num =  mContext.getString(R.string.buy_down_num,data.position);
-        }else {
-            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            num =  mContext.getString(R.string.buy_up_num,data.position);
+        if (data.type == 1) {
+            mExpBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            num = mContext.getString(R.string.buy_down_num, data.position);
+        } else {
+            mExpBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            num = mContext.getString(R.string.buy_up_num, data.position);
         }
         mExpBuyRise.setText(num);
-        mExpJiancangPrice.setText("建仓价 "+data.openPrice);
+        mExpJiancangPrice.setText("建仓价 " + data.openPrice);
         mExpTime.setText(data.openTime);
-        mExpBaodanNum.setText("报单编号 "+data.orderSysId);
-        mBuildSXF.setText("建仓手续费 "+data.openSxf);
-        mTradeId.setText("成交编号 "+data.openSxf);
+        mExpBaodanNum.setText("报单编号 " + data.orderSysId);
+        mBuildSXF.setText("建仓手续费 " + data.openSxf);
+        mTradeId.setText("成交编号 " + data.openSxf);
     }
 }

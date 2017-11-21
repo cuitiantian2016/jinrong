@@ -30,7 +30,6 @@ import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.util.ViewUtil;
 
 import java.math.BigDecimal;
 
@@ -44,14 +43,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     public static final String TRADE_BUY_RISE = "TRADE_BUY_RISE";
     public static final String TRADE_BUY_DOWN = "TRADE_BUY_DOWN";
     private AppCompatActivity mContext;
-    private int mScreenHeight;
     private String mBuyRiseOrDown;
     private ProductListBean mProductListBean;
     private TextView mTvRise, mTvDown;
     private String mBuyType;
     private EditText mHands, mPrice;
     private BuildTransactionPresenter mBuildTransactionPresenter;
-    private String mInstrumentId;
     private TextView mTotal;
     private TextView marginMoney;
     private TextView sxf;
@@ -59,12 +56,13 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private boolean mIsStopChangePrice;
     private ImageView mReducePrice, mAddPrice;
     private ImageView mReduceHands, mAddHands;
+    private TextView mBuild;
 
-    public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, String instrumentId) {
+    public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
         this.mContext = (AppCompatActivity) context;
         mBuyRiseOrDown = buyRiseOrDown;
-        mInstrumentId = instrumentId;
+        mProductListBean = bean;
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
     }
@@ -74,7 +72,6 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_transaction_popup_window);
-        mScreenHeight = ViewUtil.getScreenHeight(mContext);
         Window mWindow = this.getWindow();
         WindowManager.LayoutParams params = mWindow.getAttributes();
         WindowManager manage = (WindowManager) mContext
@@ -92,7 +89,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         close.setOnClickListener(this);
         ImageView tip = (ImageView) findViewById(R.id.iv_open_account_tip);
         tip.setOnClickListener(this);
-        mBuildTransactionPresenter.getProductDetail(mInstrumentId);
+        mBuildTransactionPresenter.getProductDetail(mProductListBean.getInstrumentId());
     }
 
 
@@ -144,7 +141,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
         }
 
-        TextView mBuild = (TextView) findViewById(R.id.btn_fast_open);
+        mBuild = (TextView) findViewById(R.id.btn_fast_open);
         mBuild.setOnClickListener(this);
         TextView isClose = (TextView) findViewById(R.id.tv_closed);
         if (bean.getIsClosed().equals("2")) {
@@ -153,8 +150,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mBuild.setText("休市中");
             mBuild.setClickable(false);
         } else {
+            if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
+                mBuild.setBackgroundResource(R.color.color_FB4F4F);
+            } else {
+                mBuild.setBackgroundResource(R.color.color_2CC593);
+            }
             isClose.setVisibility(View.GONE);
-            mBuild.setBackgroundResource(R.color.color_2CC593);
             mBuild.setText("快速建仓");
             mBuild.setClickable(true);
         }
@@ -198,6 +199,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
                     if (!mIsStopChangePrice) {
                         mIsStopChangePrice = true;
+                        mBuild.setText("委托建仓");
                     }
                 }
                 return false;
@@ -326,6 +328,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvRise.setBackgroundResource(R.drawable.bg_buy_rise);
                 mTvRise.setTextColor(Color.WHITE);
+                if (!mProductListBean.getIsClosed().equals("2")) {
+                    mBuild.setBackgroundResource(R.color.color_FB4F4F);
+                }
                 setTextChange();
                 break;
             case R.id.tv_down:
@@ -334,6 +339,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvDown.setBackgroundResource(R.drawable.bg_buy_down);
                 mTvDown.setTextColor(Color.WHITE);
+                if (!mProductListBean.getIsClosed().equals("2")) {
+                    mBuild.setBackgroundResource(R.color.color_2CC593);
+                }
                 setTextChange();
                 break;
             case R.id.iv_open_account_tip:
@@ -357,7 +365,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                                 mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
                                         mBuyType,
                                         mPrice.getText().toString(),
-                                        mInstrumentId,
+                                        mProductListBean.getInstrumentId(),
                                         SpUtil.getString(Constant.CACHE_TAG_UID),
                                         SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
                                         "GUOFU"
@@ -436,6 +444,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private void lessAddPrice(boolean isAdd) {
         if (!mIsStopChangePrice) {
             mIsStopChangePrice = true;
+            mBuild.setText("委托建仓");
         }
         String input = mPrice.getText().toString();
         double price = 0;

@@ -578,7 +578,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.buy_up:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, mCode);
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
                     mBuildTransactionDialog.show();
                 } else {
                     showAccountLoginDialog();
@@ -586,7 +586,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.buy_down:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, mCode);
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
                     mBuildTransactionDialog.show();
                 } else {
                     showAccountLoginDialog();
