@@ -26,6 +26,7 @@ import com.honglu.future.ui.recharge.presenter.PayAndOutGoldPresent;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 
@@ -208,7 +209,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 }
             }
             new AlertFragmentDialog.Builder(mActivity)
-                    .setLeftBtnText("稍后在说").setContent(mBean.getBankName()+"："+mBean.getBankAccount()).setTitle("输入资金密码")
+                    .setLeftBtnText("稍后在说").setContent(mBean.getBankName()+"："+NumberUtil.bankNameFilter(mBean.getBankAccount())).setTitle("输入资金密码")
                     .setEtHintText("输入资金密码")
                     .setRightBtnText("确定").setRightClickInputCallBack(new AlertFragmentDialog.RightClickInputCallBack() {
                 @Override
@@ -297,7 +298,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 TextView tvBank = (TextView) cardItem.findViewById(R.id.tv_bank);
                 tvBank.setText(bean.getBankName());
                 TextView tvBankNum = (TextView) cardItem.findViewById(R.id.tv_bank_number);
-                tvBankNum.setText(bean.getBankAccount());
+                tvBankNum.setText(NumberUtil.bankNameFilter(bean.getBankAccount()));
                 cardItem.setTag(bean);
                 cardItem.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -1,5 +1,7 @@
 package com.honglu.future.util;
 
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -216,7 +218,7 @@ public class NumberUtil {
     /**
      * 获取小数点之后有几位小数点
      *
-     * @param d
+     * @param str
      * @return 小数点有效位数
      */
     public static int getPointPow(String str) {
@@ -240,6 +242,8 @@ public class NumberUtil {
     }
 
     public static String bankNameFilter(String bankNum){
-        return bankNum.substring(0, 3) + " ********* " + bankNum.substring(bankNum.length() - 4, bankNum.length());
+        String text = bankNum.substring(0, 3) + " ********* " + bankNum.substring(bankNum.length() - 4, bankNum.length());
+        Log.d("num", "bankNameFilter:--> "+text);
+        return text;
     }
 }
