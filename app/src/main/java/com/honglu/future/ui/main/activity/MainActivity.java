@@ -410,7 +410,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         button.setBackgroundColor(getResources().getColor(R.color.actionsheet_blue));
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         // 类型
-        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
         // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
         // 设置flag
         int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
