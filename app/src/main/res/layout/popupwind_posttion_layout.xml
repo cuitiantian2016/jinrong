@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/dimen_14sp"
                 android:textColor="@color/color_A4A5A6"
-                android:text="当日交割日期"/>
+                android:text="交割日期"/>
 
 
             <TextView
