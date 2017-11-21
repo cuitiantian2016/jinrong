@@ -61,8 +61,10 @@ public class PositionDialogAdapter extends BaseAdapter {
         HoldDetailBean holdDetailBean = mList.get(position);
         if (holdDetailBean.getType() == 1) {
             holder.tvBuyHands.setText("买跌" + holdDetailBean.getCount() + "手");
+            holder.tvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
         } else {
             holder.tvBuyHands.setText("买涨" + holdDetailBean.getCount() + "手");
+            holder.tvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
         }
         holder.tvTime.setText(holdDetailBean.getOpenDate());
         holder.tvPrice.setText(holdDetailBean.getCreatePrice());

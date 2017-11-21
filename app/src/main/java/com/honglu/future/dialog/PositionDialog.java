@@ -37,6 +37,7 @@ public class PositionDialog extends Dialog {
     private ListView mListView;
     private PositionDialogAdapter mAdapter;
     private int mScreenHeight;
+    private int mRedColor, mGreenColor, mNormalColor;
 
 
     public PositionDialog(@NonNull Context context) {
@@ -88,16 +89,36 @@ public class PositionDialog extends Dialog {
     }
 
     public void showPopupWind(HoldPositionBean bean, List<HoldDetailBean> list) {
+        mRedColor = mContext.getResources().getColor(R.color.color_opt_gt);
+        mGreenColor = mContext.getResources().getColor(R.color.color_opt_lt);
+        mNormalColor = mContext.getResources().getColor(R.color.color_333333);
         show();
         mName.setText(bean.getInstrumentName());
         //1 买跌 2 买涨
         if (bean.getType() == 1) {
             mBuyNumber.setText("买跌" + bean.getPosition() + "手");
+            mBuyNumber.setTextColor(mGreenColor);
         } else {
             mBuyNumber.setText("买涨" + bean.getPosition() + "手");
+            mBuyNumber.setTextColor(mRedColor);
         }
         mPosProfitLoss.setText(bean.getTodayProfit());
+        if (Double.parseDouble(bean.getTodayProfit()) > 0) {
+            mPosProfitLoss.setTextColor(mRedColor);
+        } else if (Double.parseDouble(bean.getTodayProfit()) < 0) {
+            mPosProfitLoss.setTextColor(mGreenColor);
+        } else {
+            mPosProfitLoss.setTextColor(mNormalColor);
+        }
         mActualProfitLoss.setText(bean.getTotalProfit());
+
+        if (Double.parseDouble(bean.getTotalProfit()) > 0) {
+            mActualProfitLoss.setTextColor(mRedColor);
+        } else if (Double.parseDouble(bean.getTotalProfit()) < 0) {
+            mActualProfitLoss.setTextColor(mGreenColor);
+        } else {
+            mActualProfitLoss.setTextColor(mNormalColor);
+        }
 
         if (list != null && list.size() >= 6) {
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
