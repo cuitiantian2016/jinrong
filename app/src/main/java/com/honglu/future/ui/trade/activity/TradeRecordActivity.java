@@ -269,13 +269,16 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     private void getHistoryData(int id){
         switch (id){
             case R.id.tab_jcLayout:
-                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
+                pageBuider = 1;
+                mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageBuider,pageSize);
                 break;
             case R.id.tab_ccLayout:
-                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
+                pageClose = 1;
+                mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageClose,pageSize);
                 break;
             case R.id.tab_rLayout:
-                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,1,pageSize);
+                pageMiss = 1;
+                mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime,pageMiss,pageSize);
                 break;
         }
     }
@@ -294,13 +297,13 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             mAdapter.setMList(list,true);
             refreshView.finishLoadmore();
         }else {
+            mAdapter.setMList(list,false);
+            refreshView.finishRefresh();
             if (list.size()==0){
                 mLinearTitle.setVisibility(View.GONE);
                 return;
             }
             mLinearTitle.setVisibility(View.VISIBLE);
-            mAdapter.setMList(list,false);
-            refreshView.finishRefresh();
         }
         if (list.size()>=pageSize){
             ++pageMiss;
@@ -316,13 +319,13 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 mAdapter.setCList(list,true);
                 refreshView.finishLoadmore();
             }else {
+                mAdapter.setCList(list,false);
+                refreshView.finishRefresh();
                 if (list.size()==0){
                     mLinearTitle.setVisibility(View.GONE);
                     return;
                 }
                 mLinearTitle.setVisibility(View.VISIBLE);
-                mAdapter.setCList(list,false);
-                refreshView.finishRefresh();
             }
             if (list.size()>=pageSize){
                 ++pageClose;
@@ -339,13 +342,13 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             mAdapter.setBList(list,true);
             refreshView.finishLoadmore();
         }else {
+            mAdapter.setBList(list,false);
+            refreshView.finishRefresh();
             if (list.size()==0){
                 mLinearTitle.setVisibility(View.GONE);
                 return;
             }
             mLinearTitle.setVisibility(View.VISIBLE);
-            mAdapter.setBList(list,false);
-            refreshView.finishRefresh();
         }
         if (list.size()>=pageSize){
             ++pageBuider;
