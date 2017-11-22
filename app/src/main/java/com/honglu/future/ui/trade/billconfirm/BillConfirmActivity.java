@@ -3,7 +3,6 @@ package com.honglu.future.ui.trade.billconfirm;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -179,7 +178,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                 super.onTabSelect(position);
                 mList.clear();
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getTransactionList().size(); i++) {
+                    for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
@@ -189,7 +188,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                         mList.add(bean);
                     }
                 } else if (position == 1 && settlementInfoBean.getCloseList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getCloseList().size(); i++) {
+                    for (int i = 0; i < settlementInfoBean.getCloseList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getCloseList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getCloseList().get(i).getBs());
@@ -199,7 +198,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                         mList.add(bean);
                     }
                 } else if (position == 1 && settlementInfoBean.getPositionsList() != null) {
-                    for (int i = 0; i <= settlementInfoBean.getPositionsList().size(); i++) {
+                    for (int i = 0; i < settlementInfoBean.getPositionsList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getPositionsList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getPositionsList().get(i).getSh());
@@ -215,14 +214,11 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
         });
     }
 
-    @OnClick({R.id.tv_back, R.id.tv_right, R.id.tv_confirm})
+    @OnClick({R.id.tv_back, R.id.tv_confirm})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back:
                 finish();
-                break;
-            case R.id.tv_right:
-                //// TODO: 2017/11/2 跳转客服
                 break;
             case R.id.tv_confirm:
                 mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), getIntent().getStringExtra("token"));
