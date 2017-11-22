@@ -42,6 +42,7 @@ public class Constant {
     public static final String ZX_MARKET_KEY = "zx_market_key";//行情自选保存key
     //判断是不是第一次进app 是的话暂时引导页
     public static final String CACHE_IS_FIRST_LOGIN = "FirstLogin";//key
+    public static final String GUIDE_OPEN_TRANSACTION = "guide_open_transaction"; //是否交易建仓引导 key
     public static final int HAS_ALREADY_LOGIN = 1;//首次
     public static final int NOT_FIRST_LOGIN = -1;
 

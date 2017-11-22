@@ -19,6 +19,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
+import com.honglu.future.dialog.TradeGuideDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -75,6 +76,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private BuildTransactionDialog mBuildTransactionDialog;
     private String mToken;
     private String mSelectCode;
+    private boolean mIsOneGuide; //是否开启交易引导
 
     @Override
     public void loginSuccess(AccountBean bean) {
@@ -199,6 +201,10 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
+        if (!mIsOneGuide){
+            mIsOneGuide = true;
+            new TradeGuideDialog(getActivity()).show();
+        }
     }
 
     private TextView mDangerChance;
@@ -276,6 +282,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        mIsOneGuide = SpUtil.getBoolean(Constant.GUIDE_OPEN_TRANSACTION,false);
         initView();
         initData();
     }

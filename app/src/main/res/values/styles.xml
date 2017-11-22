@@ -198,6 +198,22 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="trade_guide_dialog" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowAnimationStyle">@style/ScaleAnimTools</item>
+    </style>
+
+    <style name="ScaleAnimTools" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_popup_position_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_popup_position_out</item>
+    </style>
 </resources>
 
 
