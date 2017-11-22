@@ -2,6 +2,7 @@ package com.honglu.future.ui.market.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -161,12 +162,14 @@ public class MarketListAdapter extends BaseAdapter {
         mTvLatestPrice.setText(mLastPrice);
         mTvHavedPositions.setText(openInterest);
 
-        if (mChg.indexOf("-") != -1) {
-            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-        } else {
-            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
-            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+        if (!mChg.equals(mOldChg)){
+            if (mChg.indexOf("-") != -1) {
+                mTvLatestPrice.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
+                mTvQuoteChange.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
+            } else {
+                mTvLatestPrice.setTextColor(ContextCompat.getColor(mContext,R.color.color_FA455B));
+                mTvQuoteChange.setTextColor(ContextCompat.getColor(mContext,R.color.color_FA455B));
+            }
         }
 
         double lastPriceValue = lastPrice - oldLastPrice;
