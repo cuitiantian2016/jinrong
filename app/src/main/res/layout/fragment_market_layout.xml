@@ -27,8 +27,10 @@
         app:tl_windMargin="@dimen/dimen_20dp"
         app:tl_view_delay="true"/>
 
-    <View style="@style/line_base_horizontal" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_F7F8F9"/>
 
     <FrameLayout
         android:id="@+id/market_fragment_container"

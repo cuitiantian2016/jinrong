@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10dp"
@@ -10,7 +12,10 @@
     <include layout="@layout/layout_markettitle_item" />
 
     <View
+        android:id="@+id/v_titleLine"
         android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
-        style="@style/line_base_horizontal" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_F7F8F9" />
 </LinearLayout>

@@ -157,6 +157,7 @@
     <string name="confirm_out">确认提现</string>
     <string name="buy_up_num">买涨%d手</string>
     <string name="buy_down_num">买跌%d手</string>
+    <string name="close_trade">休市中</string>
 
     <string name="conform_call_phone">确定拨打: %s ?</string>
     <string name="close_trade_hint">%1$s %2$s %3$d手 平仓盈亏 %4$s元</string>
