@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -75,6 +76,13 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     private List<EntrustBean> mAllList;
     private List<EntrustBean> mOpenList;
     private List<EntrustBean> mCloseList;
+    private Handler mHandler = new Handler();
+    private Runnable mRunable = new Runnable() {
+        @Override
+        public void run() {
+            getPositionList();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -124,6 +132,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 EventBus.getDefault().post(new ChangeTabEvent(0));
                 startActivity(LoginActivity.class);
             }
+        } else {
+            mHandler.removeCallbacks(mRunable);
         }
     }
 
@@ -142,7 +152,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                getPositionList();
+               getPositionList();
             }
         });
     }
@@ -265,7 +275,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
         mAccountLoginDialog.dismiss();
-        getPositionList();
+        mHandler.postDelayed(mRunable, 1000);
     }
 
     @Override
@@ -296,7 +306,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void cancelOrderSuccess() {
-        getPositionList();
+        mHandler.postDelayed(mRunable, 1000);
     }
 
     /***********
