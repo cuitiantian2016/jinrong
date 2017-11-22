@@ -14,9 +14,8 @@
         android:layout_marginTop="@dimen/dimen_10dp"
         android:background="@android:color/white"
         android:maxLines="1"
-        android:maxLength="10"
+        android:maxLength="12"
         android:paddingLeft="@dimen/dimen_20dp"
-        android:text="小牛user"
         android:textColor="@color/color_333333" />
 
     <TextView
