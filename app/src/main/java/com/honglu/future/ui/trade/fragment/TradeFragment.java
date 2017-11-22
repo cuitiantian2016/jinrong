@@ -159,6 +159,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
             }
             if (currentPosition == 0) {
+                mOpenTransactionFragment.refreshProductList();
                 mOpenTransactionFragment.startRun();
             }
         }

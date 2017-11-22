@@ -110,6 +110,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
     }
 
+    /**
+     * 切换底部tab刷新产品列表
+     */
+    public void refreshProductList() {
+        if (App.getConfig().getAccountLoginStatus()) {
+            mPresenter.getProductList();
+        }
+    }
+
     public void stopRun() {
         mHandler.removeCallbacks(mRunnable);
     }
