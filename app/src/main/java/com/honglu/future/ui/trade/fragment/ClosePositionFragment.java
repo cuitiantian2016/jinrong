@@ -208,7 +208,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         }
         if (list.size() >= pageSize) {
             isMore = true;
-            ++pageSize;
+            ++page;
         } else {
             isMore = false;
         }
