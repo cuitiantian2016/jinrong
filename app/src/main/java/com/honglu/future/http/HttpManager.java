@@ -21,13 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
-import javax.security.auth.x500.X500Principal;
 
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
@@ -193,19 +190,10 @@ public class HttpManager {
         //CookieManager管理器
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-
-        InputStream certiIs = null;
-        try {
-            //certiIs = App.getContext().getAssets().open("nginx.cer");
-            certiIs = App.getContext().getAssets().open("sslnginx.pem");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(new InputStream[]{certiIs}, null, null);
-
+        InputStream inputStream = App.mApp.getResources().openRawResource(R.raw.calffutuer);
         OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
                 .cache(cache)   //缓存
-                .sslSocketFactory(sslParams.sSLSocketFactory)
+                .sslSocketFactory(HttpsUtils.getCertificates(inputStream))
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(paramsInterceptor)
                 .addInterceptor(new LogInterceptor())
@@ -216,37 +204,7 @@ public class HttpManager {
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        try {
-                            String peerHost = session.getPeerHost(); //服务器返回的主机名
-                            String str_new = "";
-                            X509Certificate[] peerCertificates = (X509Certificate[]) session
-                                    .getPeerCertificates();
-                            for (X509Certificate certificate : peerCertificates) {
-                                X500Principal subjectX500Principal = certificate
-                                        .getSubjectX500Principal();
-                                String name = subjectX500Principal.getName();
-                                String[] split = name.split(",");
-                                for (String str : split) {
-                                    if (str.startsWith("CN")) {//证书绑定的域名或者ip
-//                                        if (str.contains(hostname)
-//                                                && str.contains(peerHost)) {
-//                                            return true;
-//                                        }
-                                        return true;
-                                    }
-                                }
-                            }
-                        } catch (SSLPeerUnverifiedException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-                        //不忽略的时候，要改为false
-                        return true;
-                    }
-                })
+                .hostnameVerifier(HttpsUtils.getHostnameVerifier())
                 .build();
         return mOkHttpClient;
     }

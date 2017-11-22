@@ -22,13 +22,13 @@ public class ConfigUtil {
     public static String URL_126_test_AllotServer= "http://192.168.85.126:9999";
     public static String URL_126_AllotServer= "http://qihuo.xnsudai.com:9999";//外网
      public static String URL_test_126 = "http://192.168.85.126/";
-    public static String URL_126 = "http://qihuo.xnsudai.com/";//外网
+    public static String URL_126 = "https://qihuo.xnsudai.com/";//外网
     //public static String baseUrl = "http://106.15.158.85:800/";
     public static String baseUrl = TextUtils.isEmpty(SpUtil.getString(KEY_URL))?URL_126:SpUtil.getString(KEY_URL);
 
     public static String baseImageUserUrl = "http://qihuo-product.oss-cn-shanghai.aliyuncs.com/";
 
-    public static String baseH5Url = "http://106.15.158.85:800/";
+    public static String baseH5Url = "https://qihuo.xnsudai.com/";
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/
 
 
