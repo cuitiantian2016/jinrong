@@ -87,6 +87,13 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         }
     };
 
+    private Runnable mPositionRunnable = new Runnable() {
+        @Override
+        public void run() {
+           getPositionList();
+        }
+    };
+
     private List<HoldPositionBean> mList;
 
     @Override
@@ -162,6 +169,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     public void stopRun() {
         mHandler.removeCallbacks(mRunnable);
+        mHandler.removeCallbacks(mPositionRunnable);
     }
 
     @Override
@@ -250,6 +258,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
         mAccountLoginDialog.dismiss();
+        mHandler.postDelayed(mPositionRunnable,1000);
         startRun();
     }
 
