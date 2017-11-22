@@ -79,7 +79,7 @@
     <string name="text_user_update">版本检测</string>
     <string name="text_user_qihuo_signin">登录期货账户</string>
     <string name="text_user_aqsignout">安全退出</string>
-    <string name="text_user_danger_chance">危险率</string>
+    <string name="text_user_danger_chance">风险率</string>
     <string name="text_user_kymoney">可用资金</string>
     <string name="text_user_rights_interests">当前权益</string>
     <string name="text_user_profit_loss">总持仓盈亏</string>
