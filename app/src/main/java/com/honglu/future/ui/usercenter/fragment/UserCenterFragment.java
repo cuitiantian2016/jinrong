@@ -20,6 +20,7 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -32,6 +33,7 @@ import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.historybill.HistoryBillActivity;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.KeFuActivity;
@@ -66,7 +68,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
-        UserCenterContract.View, AccountContract.View {
+        UserCenterContract.View, AccountContract.View,BillConfirmDialog.OnConfirmClickListener {
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
@@ -132,8 +134,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     FrameLayout mFlConfig;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
-
-
+    private BillConfirmDialog billConfirmDialog;
     public static UserCenterFragment userCenterFragment;
 
     public static UserCenterFragment getInstance() {
@@ -406,6 +407,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         startRun();
     }
 
+    @Override
+    public void showSettlementDialog(SettlementInfoBean bean) {
+        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog.setOnConfirmClickListenerr(this);
+        billConfirmDialog.show();
+    }
+
     /**
      * 开始刷新用户信息
      */
@@ -469,5 +477,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     private void getAccountBasicInfo() {
         mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+    }
+
+    @Override
+    public void onConfirmClick() {
+        mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 }

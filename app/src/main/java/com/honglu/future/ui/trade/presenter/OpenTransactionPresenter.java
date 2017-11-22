@@ -21,31 +21,6 @@ import java.util.List;
 public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContract.View> implements OpenTransactionContract.Presenter {
 
     @Override
-    public void querySettlementInfo(String userId, String token, String company) {
-        toSubscribe(HttpManager.getApi().querySettlementInfo(userId, token, company), new HttpSubscriber<SettlementInfoBean>() {
-            @Override
-            public void _onStart() {
-                mView.showLoading("查询结算单中...");
-            }
-
-            @Override
-            protected void _onNext(SettlementInfoBean bean) {
-                mView.querySettlementSuccess(bean);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
-            }
-
-            @Override
-            protected void _onCompleted() {
-                mView.stopLoading();
-            }
-        });
-    }
-
-    @Override
     public void getProductList() {
         toSubscribe(HttpManager.getApi().getProductList(), new HttpSubscriber<List<ProductListBean>>() {
             @Override

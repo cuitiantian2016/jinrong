@@ -68,6 +68,9 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
         ImageView ivTip = (ImageView) findViewById(R.id.iv_open_account_tip);
         ivTip.setOnClickListener(this);
         mAccount = (EditText) findViewById(R.id.et_account);
+        if(!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))){
+            mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
+        }
         mPwd = (EditText) findViewById(R.id.et_password);
         TextView mLoginAccount = (TextView) findViewById(R.id.btn_login_account);
         mLoginAccount.setOnClickListener(this);

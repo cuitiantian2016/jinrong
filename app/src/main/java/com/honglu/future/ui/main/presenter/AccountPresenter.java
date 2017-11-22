@@ -1,13 +1,9 @@
 package com.honglu.future.ui.main.presenter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
@@ -18,14 +14,10 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
-import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.observables.SyncOnSubscribe;
 
 /**
  * Created by zq on 2017/11/3.
@@ -100,11 +92,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                     mView.loginSuccess(mBean);
                     return;
                 }
-                //SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
-                Intent intent = new Intent(mContext, BillConfirmActivity.class);
-                intent.putExtra("SettlementBean", new Gson().toJson(bean));
-                intent.putExtra("token", token);
-                mContext.startActivity(intent);
+                mView.showSettlementDialog(bean);
             }
 
             @Override
@@ -118,4 +106,31 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             }
         });
     }
+
+    @Override
+    public void settlementConfirm(String userId) {
+        toSubscribe(HttpManager.getApi().settlementConfirm(userId, mBean.getToken()), new HttpSubscriber<ConfirmBean>() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("结算单确认中...");
+            }
+
+            @Override
+            protected void _onNext(ConfirmBean bean) {
+                SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, mBean.getToken());
+                mView.loginSuccess(mBean);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
+
 }

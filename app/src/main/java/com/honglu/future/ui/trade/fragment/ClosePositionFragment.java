@@ -11,6 +11,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -22,6 +23,7 @@ import com.honglu.future.ui.trade.activity.TradeRecordActivity;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.DeviceUtils;
@@ -53,7 +55,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 
-public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View {
+public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View,BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_position)
     RecyclerView mPositionListView;
     @BindView(R.id.loading_layout)
@@ -68,6 +70,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     boolean isMore;
     private View foot;
     private String mEndDate;
+    private BillConfirmDialog billConfirmDialog;
 
     @Override
     public int getLayoutId() {
@@ -192,8 +195,18 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
+        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+            billConfirmDialog.dismiss();
+        }
         mAccountLoginDialog.dismiss();
         getClosePositionList();
+    }
+
+    @Override
+    public void showSettlementDialog(SettlementInfoBean bean) {
+        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog.setOnConfirmClickListenerr(this);
+        billConfirmDialog.show();
     }
 
     @Override
@@ -242,5 +255,10 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
                 }
             }
         }
+    }
+
+    @Override
+    public void onConfirmClick() {
+        mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 }

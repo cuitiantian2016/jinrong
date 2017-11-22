@@ -9,10 +9,10 @@ import com.honglu.future.ui.trade.bean.ConfirmBean;
 
 public interface BillConfirmContract {
     interface View extends BaseView {
-        void queryConfirmSuccess(ConfirmBean bean);
+
     }
 
     interface Presenter {
-        void settlementConfirm(String userId, String token);
+
     }
 }

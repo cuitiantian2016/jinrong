@@ -15,6 +15,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -24,7 +25,9 @@ import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
+import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.EntrustContract;
 import com.honglu.future.ui.trade.presenter.EntrustPresenter;
 import com.honglu.future.util.SpUtil;
@@ -51,7 +54,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 
-public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View, AccountContract.View, EntrustAdapter.OnCancelClickListener {
+public class EntrustFragment extends BaseFragment<EntrustPresenter> implements EntrustContract.View, AccountContract.View, EntrustAdapter.OnCancelClickListener,BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_entrust_list_view)
     RecyclerView mEntrustListView;
     @BindView(R.id.ll_filter)
@@ -69,6 +72,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mSmartRefreshLayout;
 
+    private BillConfirmDialog billConfirmDialog;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
@@ -274,9 +278,20 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
+        if(billConfirmDialog!=null&&billConfirmDialog.isShowing()){
+            billConfirmDialog.dismiss();
+        }
         mAccountLoginDialog.dismiss();
         mHandler.postDelayed(mRunable, 1000);
     }
+
+    @Override
+    public void showSettlementDialog(SettlementInfoBean bean) {
+        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog.setOnConfirmClickListenerr(this);
+        billConfirmDialog.show();
+    }
+
 
     @Override
     public void getEntrustListSuccess(List<EntrustBean> list) {
@@ -333,4 +348,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onConfirmClick() {
+        mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
 }

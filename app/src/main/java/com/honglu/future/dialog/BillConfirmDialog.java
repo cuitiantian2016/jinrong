@@ -1,19 +1,24 @@
-package com.honglu.future.ui.trade.billconfirm;
+package com.honglu.future.dialog;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.honglu.future.R;
-import com.honglu.future.app.App;
-import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
-import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
+import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
 import com.honglu.future.util.DeviceUtils;
@@ -28,104 +33,105 @@ import com.honglu.future.widget.tab.TabEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
-import static com.honglu.future.util.ToastUtil.showToast;
-
 /**
- * Created by zq on 2017/11/2.
+ * Created by zq on 2017/11/22.
  */
 
-public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> implements
-        BillConfirmContract.View {
-    @BindView(R.id.trade_common_tab_layout)
+public class BillConfirmDialog extends Dialog implements View.OnClickListener {
+    private Context mContext;
     CommonTabLayout mCommonTabLayout;
-    @BindView(R.id.rv_records)
     RecyclerView mRecordsListView;
-    @BindView(R.id.tv_back)
     ImageView mIvBack;
-    @BindView(R.id.tv_right)
     DrawableCenterTextView mRightTitle;
-    @BindView(R.id.tv_confirm)
     TextView mTvConfirm;
-    @BindView(R.id.tv_comp_name)
     TextView mCompName;
-    @BindView(R.id.tv_customer_name)
     TextView mCustomerName;
-    @BindView(R.id.tv_client_id)
     TextView mClientId;
-    @BindView(R.id.tv_currency)
     TextView mCurrency;
-    @BindView(R.id.tv_trade_date)
     TextView mTradeDate;
-    @BindView(R.id.tv_query_date)
     TextView mQueryDate;
-    @BindView(R.id.tv_prev_sttl)
     TextView mPrevSttl;
-    @BindView(R.id.tv_cur_day_jc)
     TextView mCurDayJc;
-    @BindView(R.id.tv_khqy)
     TextView mKhqy;
-    @BindView(R.id.tv_cur_day_crj)
     TextView mDrcrj;
-    @BindView(R.id.tv_kyzj)
     TextView mKyzj;
-    @BindView(R.id.tv_cur_day_pcyk)
     TextView mDrpcyk;
-    @BindView(R.id.tv_ztzj)
     TextView mZtzj;
-    @BindView(R.id.tv_cur_day_sxf)
     TextView mDrsxf;
-    @BindView(R.id.tv_ccyk)
     TextView mCcyk;
-    @BindView(R.id.tv_append_money)
     TextView mYzjzj;
-    @BindView(R.id.tv_zybzj)
     TextView mZybzj;
-    @BindView(R.id.tv_fengxian_rate)
     TextView mFxl;
+    TextView mTitle;
     private ArrayList<CustomTabEntity> mTabList;
     private HistoryRecordsAdapter mHistoryRecordsAdapter;
     private List<HistoryRecordsBean> mList;
     private SettlementInfoBean settlementInfoBean;
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_bill_confirm;
+    public interface OnConfirmClickListener {
+        void onConfirmClick();
+    }
+
+    private OnConfirmClickListener mListener;
+
+    public void setOnConfirmClickListenerr(OnConfirmClickListener listener) {
+        mListener = listener;
+    }
+
+    public BillConfirmDialog(@NonNull Context context, SettlementInfoBean bean) {
+        super(context, R.style.DateDialog);
+        this.mContext = context;
+        this.settlementInfoBean = bean;
     }
 
     @Override
-    public void initPresenter() {
-        mPresenter.init(this);
-    }
-
-    @Override
-    public void loadData() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bill_confirm);
+        Window mWindow = this.getWindow();
+        WindowManager.LayoutParams params = mWindow.getAttributes();
+        WindowManager manage = (WindowManager) mContext
+                .getSystemService(Context.WINDOW_SERVICE);
+        params.width = manage.getDefaultDisplay().getWidth();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.BOTTOM;
+        mWindow.setAttributes(params);
+        setCanceledOnTouchOutside(false);
         initView();
         initData();
     }
 
-    @Override
-    public void showLoading(String content) {
-        if (!TextUtils.isEmpty(content)) {
-            App.loadingContent(this, content);
-        }
-    }
-
-    @Override
-    public void stopLoading() {
-        App.hideLoading();
-    }
-
-    @Override
-    public void showErrorMsg(String msg, String type) {
-        showToast(msg);
-    }
-
     private void initView() {
+        mCommonTabLayout = (CommonTabLayout) findViewById(R.id.trade_common_tab_layout);
+        mRecordsListView = (RecyclerView) findViewById(R.id.rv_records);
+        mIvBack = (ImageView) findViewById(R.id.tv_back);
+        mIvBack.setOnClickListener(this);
+        mRightTitle = (DrawableCenterTextView) findViewById(R.id.tv_right);
+        mRightTitle.setOnClickListener(this);
+        mTvConfirm = (TextView) findViewById(R.id.tv_confirm);
+        mTvConfirm.setOnClickListener(this);
+        mCompName = (TextView) findViewById(R.id.tv_comp_name);
+        mCustomerName = (TextView) findViewById(R.id.tv_customer_name);
+        mClientId = (TextView) findViewById(R.id.tv_client_id);
+        mCurrency = (TextView) findViewById(R.id.tv_currency);
+        mTradeDate = (TextView) findViewById(R.id.tv_trade_date);
+        mQueryDate = (TextView) findViewById(R.id.tv_query_date);
+        mPrevSttl = (TextView) findViewById(R.id.tv_prev_sttl);
+        mCurDayJc = (TextView) findViewById(R.id.tv_cur_day_jc);
+        mKhqy = (TextView) findViewById(R.id.tv_khqy);
+        mDrcrj = (TextView) findViewById(R.id.tv_cur_day_crj);
+        mKyzj = (TextView) findViewById(R.id.tv_kyzj);
+        mDrpcyk = (TextView) findViewById(R.id.tv_cur_day_pcyk);
+        mZtzj = (TextView) findViewById(R.id.tv_ztzj);
+        mDrsxf = (TextView) findViewById(R.id.tv_cur_day_sxf);
+        mCcyk = (TextView) findViewById(R.id.tv_ccyk);
+        mYzjzj = (TextView) findViewById(R.id.tv_append_money);
+        mZybzj = (TextView) findViewById(R.id.tv_zybzj);
+        mFxl = (TextView) findViewById(R.id.tv_fengxian_rate);
+        mTitle = (TextView) findViewById(R.id.tv_title);
+
         mIvBack.setVisibility(View.VISIBLE);
-        mTitle.setTitle(false, R.color.white, "账单确认");
+        mTitle.setText("账单确认");
         mRightTitle.setText("客服");
         int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
         int indicatorWidth = (int) (screenWidthDip * 0.12f);
@@ -139,8 +145,6 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
     }
 
     private void initData() {
-        String settlementJson = getIntent().getStringExtra("SettlementBean");
-        settlementInfoBean = new Gson().fromJson(settlementJson, SettlementInfoBean.class);
         //基本资料
         mCompName.setText(settlementInfoBean.getExchangeName());
         mCustomerName.setText(settlementInfoBean.getClientName());
@@ -164,6 +168,9 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
         mFxl.setText(settlementInfoBean.getRiskDegree());
 
         mList = new ArrayList<>();
+        setTabData();
+        mHistoryRecordsAdapter.clearData();
+        mHistoryRecordsAdapter.addData(mList);
     }
 
     private void addTabEntities() {
@@ -178,15 +185,7 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                 super.onTabSelect(position);
                 mList.clear();
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
-                    for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
-                        HistoryRecordsBean bean = new HistoryRecordsBean();
-                        bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
-                        bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
-                        bean.setBuyHands(settlementInfoBean.getTransactionList().get(i).getLots());
-                        bean.setBuildPrice(settlementInfoBean.getTransactionList().get(i).getPrice());
-                        bean.setServicePrice(settlementInfoBean.getTransactionList().get(i).getFee());
-                        mList.add(bean);
-                    }
+                    setTabData();
                 } else if (position == 1 && settlementInfoBean.getCloseList() != null) {
                     for (int i = 0; i < settlementInfoBean.getCloseList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
@@ -208,28 +207,36 @@ public class BillConfirmActivity extends BaseActivity<BillConfirmPresenter> impl
                         mList.add(bean);
                     }
                 }
-
+                mHistoryRecordsAdapter.clearData();
                 mHistoryRecordsAdapter.addData(mList);
             }
         });
     }
 
-    @OnClick({R.id.tv_back, R.id.tv_confirm})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_back:
-                finish();
-                break;
-            case R.id.tv_confirm:
-                mPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID), getIntent().getStringExtra("token"));
-                finish();
-                break;
+    private void setTabData() {
+        for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
+            HistoryRecordsBean bean = new HistoryRecordsBean();
+            bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
+            bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
+            bean.setBuyHands(settlementInfoBean.getTransactionList().get(i).getLots());
+            bean.setBuildPrice(settlementInfoBean.getTransactionList().get(i).getPrice());
+            bean.setServicePrice(settlementInfoBean.getTransactionList().get(i).getFee());
+            mList.add(bean);
         }
     }
 
     @Override
-    public void queryConfirmSuccess(ConfirmBean bean) {
-        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, getIntent().getStringExtra("token"));
-        showToast("结算单确认成功");
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_back:
+                dismiss();
+                break;
+            case R.id.tv_right:
+                mContext.startActivity(new Intent(mContext, KeFuActivity.class));
+                break;
+            case R.id.tv_confirm:
+                mListener.onConfirmClick();
+                break;
+        }
     }
 }

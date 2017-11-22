@@ -11,13 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.TradeGuideDialog;
 import com.honglu.future.dialog.TradeTipDialog;
@@ -32,7 +32,6 @@ import com.honglu.future.ui.trade.adapter.OpenTransactionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
-import com.honglu.future.ui.trade.billconfirm.BillConfirmActivity;
 import com.honglu.future.ui.trade.contract.OpenTransactionContract;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
@@ -62,7 +61,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View,
-        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener {
+        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener,BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
     @BindView(R.id.srl_refreshView)
@@ -77,14 +76,25 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private String mToken;
     private String mSelectCode;
     private boolean mIsOneGuide; //是否开启交易引导
+    private BillConfirmDialog billConfirmDialog;
 
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
+        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+            billConfirmDialog.dismiss();
+        }
         mToken = bean.getToken();
         mAccountLoginDialog.dismiss();
         // SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         startRun();
+    }
+
+    @Override
+    public void showSettlementDialog(SettlementInfoBean bean) {
+        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog.setOnConfirmClickListenerr(this);
+        billConfirmDialog.show();
     }
 
     private Handler mHandler = new Handler();
@@ -123,17 +133,6 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mHandler.removeCallbacks(mRunnable);
     }
 
-    @Override
-    public void querySettlementSuccess(SettlementInfoBean bean) {
-        if (bean == null) {
-            return;
-        }
-        //SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
-        Intent intent = new Intent(mActivity, BillConfirmActivity.class);
-        intent.putExtra("SettlementBean", new Gson().toJson(bean));
-        intent.putExtra("token", mToken);
-        startActivity(intent);
-    }
 
     /*******
      * 将事件交给事件派发controller处理
@@ -417,4 +416,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         startActivity(intent);
     }
 
+    @Override
+    public void onConfirmClick() {
+        mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
 }

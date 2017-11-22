@@ -15,6 +15,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.dialog.TradeTipDialog;
@@ -29,6 +30,7 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldDetailBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
@@ -58,7 +60,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View,
         PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener,
-        CloseTransactionDialog.OnPostCloseClickListener {
+        CloseTransactionDialog.OnPostCloseClickListener,BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -76,6 +78,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private AccountLoginDialog mAccountLoginDialog;
     private PositionDialog mPositionDialog;
     private CloseTransactionDialog mCloseDialog;
+    private BillConfirmDialog billConfirmDialog;
     private PositionPopWind mPopWind;
     private HoldPositionBean mHoldPositionBean;
     private Handler mHandler = new Handler();
@@ -250,8 +253,18 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
+        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+            billConfirmDialog.dismiss();
+        }
         mAccountLoginDialog.dismiss();
         startRun();
+    }
+
+    @Override
+    public void showSettlementDialog(SettlementInfoBean bean) {
+        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog.setOnConfirmClickListenerr(this);
+        billConfirmDialog.show();
     }
 
     /**
@@ -377,4 +390,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         }
     }
 
+    @Override
+    public void onConfirmClick() {
+        mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
 }
