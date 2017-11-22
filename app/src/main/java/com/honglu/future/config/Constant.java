@@ -11,6 +11,7 @@ public class Constant {
     public static final String CACHE_TAG_USERNAME = "username"; //用户名
     public static final String CACHE_TAG_SESSIONID = "sessionid";//sessionId
     public static final String CACHE_TAG_UID = "uid";//uid
+    public static final String CACHE_TAG_BANK_LIST = "bank_list";//uid
 
     public static final String CACHE_USERLIST_KEY = "userList";
 
