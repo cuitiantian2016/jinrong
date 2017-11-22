@@ -74,7 +74,6 @@ public class ProductRuleDialog extends Dialog implements View.OnClickListener {
         notTodayClose.setText(Double.valueOf(mBean.getCloseRatioByMoney()) * 100 + "%");
         TextView jydw = (TextView) findViewById(R.id.tv_jydw);
         jydw.setText(mBean.getVolumeMultiple() + mBean.getUnit() + "/手");
-        notTodayClose.setText(mBean.getCloseRatioByMoney() + "%");
         TextView bjdw = (TextView) findViewById(R.id.tv_bjdw);
         bjdw.setText(mBean.getUnit() + "/手");
         TextView zxbddw = (TextView) findViewById(R.id.tv_zxbddw);
