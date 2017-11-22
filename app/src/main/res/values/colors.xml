@@ -175,6 +175,7 @@
     <color name="p_bottom_bg">#24273E</color>
     <color name="c_464646">#464646</color>
     <color name="t_less_line">#e4e5e8</color>
+    <color name="cross_info_bg">#24273E</color>
 
 
     <!--<drawable name="cursor_color">#D6B06A</drawable>-->

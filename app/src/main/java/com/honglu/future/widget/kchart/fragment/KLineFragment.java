@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -18,6 +19,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.util.NumberUtil;
+import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
@@ -27,6 +30,7 @@ import com.honglu.future.widget.kchart.listener.OnKCrossLineMoveListener;
 import com.honglu.future.widget.kchart.listener.OnKLineTouchDisableListener;
 import com.honglu.future.widget.kchart.util.BakSourceInterface;
 import com.honglu.future.widget.kchart.util.KDisplayUtil;
+import com.honglu.future.widget.kchart.util.KNumberUtil;
 import com.honglu.future.widget.kchart.util.KParamConfig;
 import com.honglu.future.widget.kchart.util.KParseUtils;
 import com.honglu.future.widget.tab.CommonTabLayout;
@@ -111,6 +115,22 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     View mKdjView;
     @BindView(R.id.rsi_land_view)
     View mRsiView;
+    @BindView(R.id.crossInfoView)
+    LinearLayout crossInfoView;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
+    @BindView(R.id.tv_close)
+    TextView tv_close;
+    @BindView(R.id.tv_open)
+    TextView tv_open;
+    @BindView(R.id.tv_high)
+    TextView tv_high;
+    @BindView(R.id.tv_low)
+    TextView tv_low;
+    @BindView(R.id.tv_rate)
+    TextView tv_rate;
+    @BindView(R.id.tv_rateChange)
+    TextView tv_rateChange;
     //tab 数据
     private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
     private ArrayList<CustomTabEntity> mBottmTabList = new ArrayList<>();
@@ -755,9 +775,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
      */
     @Override
     public void onCrossLineMove(KCandleObj object) {
-        // EventBus.getDefault().post(new OnKCrossLineMoveEvent(false, object, kLineView.getkCandleObjList(), kLineView.getTouchIndex()));
-
-        /*try {
+        try {
             if (crossInfoView == null)
                 return;
             if (object == null)
@@ -774,7 +792,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                 zuoClose = kLineView.getkCandleObjList().get(index).getClose();
             }
 
-//            tv_time.setText(object.getTime());
+            tv_time.setText(object.getTime());
 
             //收盘价用白色标示，其他大于close 红色，小于绿色
             tv_close.setText(ProFormatConfig.formatByCodes(type + "|" + code, object.getClose()));//KNumberUtil
@@ -823,18 +841,15 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
                 crossInfoView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 
     @Override
     public void onCrossLineHide() {
-//        if (crossInfoView == null)
-//            return;
-//        crossInfoView.setVisibility(View.INVISIBLE);
-
-        //EventBus.getDefault().post(new OnKCrossLineMoveEvent(true, null, null, 0));
-
+        if (crossInfoView == null)
+            return;
+        crossInfoView.setVisibility(View.INVISIBLE);
     }
 
     @Override

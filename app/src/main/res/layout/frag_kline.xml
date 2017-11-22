@@ -113,6 +113,16 @@
             android:id="@+id/crossLineView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/crossInfoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainNormal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/kline_cross_info" />
+        </LinearLayout>
 
     </FrameLayout>
 
