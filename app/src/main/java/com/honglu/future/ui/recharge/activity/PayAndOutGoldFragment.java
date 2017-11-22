@@ -191,6 +191,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mEtPayAsses.setText("");
             mEt_asses_password.setText("");
             mEt_bank_password.setText("");
+            mBtnPay.setEnabled(false);
         }
     }
 
