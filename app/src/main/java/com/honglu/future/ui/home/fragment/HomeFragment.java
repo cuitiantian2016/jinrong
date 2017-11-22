@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
+import com.honglu.future.events.LoginEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.MarketData;
@@ -73,6 +74,18 @@ public class HomeFragment extends BaseFragment {
             dataBean.chg = event.marketMessage.getChg();
             dataBean.lastPrice = event.marketMessage.getLastPrice();
             homeMarketPriceViewModel.refreshPrice(dataBean);
+        }
+    }
+
+    /*******
+     * 将事件交给事件派发controller处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(LoginEvent event) {
+        if (homeBottomTabViewModel!=null){
+            homeBottomTabViewModel.refreshData();
         }
     }
 

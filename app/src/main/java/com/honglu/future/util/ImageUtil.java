@@ -25,7 +25,7 @@ public class ImageUtil {
             imageUrl = "http://xiaoniutaojin.jpg";
         }
         if (errorImgResouce == null) {
-            errorImgResouce = R.mipmap.iv_no_image;
+            errorImgResouce = R.mipmap.img_head;
         }
         Glide.with(imageView.getContext()).load(imageUrl).
                 placeholder(errorImgResouce).error(errorImgResouce).
@@ -39,7 +39,7 @@ public class ImageUtil {
             imageUrl = "http://xiaoniutaojin.jpg";
         }
         if (errorImgResouce == null) {
-            errorImgResouce = R.mipmap.iv_no_image;
+            errorImgResouce = R.mipmap.img_head;
         }
         if (imageView.getContext()==null){
             return;
@@ -55,7 +55,7 @@ public class ImageUtil {
             imageUrl = "http://xiaoniutaojin.jpg";
         }
         if (errorImgResouce == null) {
-            errorImgResouce = R.mipmap.iv_no_image;
+            errorImgResouce = R.mipmap.img_head;
         }
         Glide.with(context).load(imageUrl).
                 placeholder(errorImgResouce).error(errorImgResouce).
@@ -68,7 +68,7 @@ public class ImageUtil {
             imageUrl = "http://xiaoniutaojin.jpg";
         }
         if (errorImgResouce == null) {
-            errorImgResouce = R.mipmap.iv_no_image;
+            errorImgResouce = R.mipmap.img_head;
         }
         Glide.with(context).load(imageUrl).
                 placeholder(errorImgResouce).error(errorImgResouce).
@@ -79,7 +79,7 @@ public class ImageUtil {
 
     public static void display(File file, ImageView imageView, Integer errorImgResouce) {
         if (errorImgResouce == null) {
-            errorImgResouce = R.mipmap.iv_no_image;
+            errorImgResouce = R.mipmap.img_head;
         }
         Glide.with(imageView.getContext()).load(file).
                 placeholder(errorImgResouce).error(errorImgResouce).

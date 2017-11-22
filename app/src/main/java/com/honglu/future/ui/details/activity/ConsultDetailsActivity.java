@@ -129,7 +129,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 return;
             }
             ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
-            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mUserIcon, R.mipmap.iv_no_image);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mUserIcon, R.mipmap.img_head);
             mTvTitle.setText(item.title);
             mPosition = item.position;
             mTvName.setText(item.nickname);
@@ -231,7 +231,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 CircleImageView headIV = new CircleImageView(this);
                 int size = getResources().getDimensionPixelSize(R.dimen.dimen_36dp);
                 mLinearPraise.addView(headIV, new LinearLayout.LayoutParams(size, size));
-                ImageUtil.display(ConfigUtil.baseImageUserUrl + praiseUser, headIV, R.mipmap.iv_no_image);
+                ImageUtil.display(ConfigUtil.baseImageUserUrl + praiseUser, headIV, R.mipmap.img_head);
                 //最多显示5个
                 if (mLinearPraise.getChildCount() >= 5)
                     break;

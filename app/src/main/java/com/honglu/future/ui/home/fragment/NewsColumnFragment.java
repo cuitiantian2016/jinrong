@@ -1,5 +1,6 @@
 package com.honglu.future.ui.home.fragment;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.honglu.future.R;
@@ -53,15 +54,6 @@ public class NewsColumnFragment extends BaseFragment {
         NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
     }
 
-    /*******
-     * 将事件交给事件派发controller处理
-     *
-     * @param event
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(LoginEvent event) {
-        refresh();
-    }
     /**
      * 错误信息处理
      */

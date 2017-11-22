@@ -181,7 +181,7 @@ public class NewsCloumnViewUtils {
         public void bindView(final HomeMessageItem item, final int position) {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
-            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.iv_no_image);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.img_head);
             if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
                 tv_time.setText(computingTime(item.showTime));
             }
