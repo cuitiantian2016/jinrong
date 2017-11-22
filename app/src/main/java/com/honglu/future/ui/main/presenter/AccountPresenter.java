@@ -53,8 +53,9 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                     public void run() {
 
                         querySettlementInfo(userId, bean.getToken(), company);
+
                     }
-                }, 500);
+                }, 1000);
 
             }
 
