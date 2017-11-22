@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
@@ -26,6 +29,10 @@ public class TradeGuideDialog extends Dialog{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_trade_guide);
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
         mImg1 = (ImageView) findViewById(R.id.iv_img1);
         mImg2 = (ImageView) findViewById(R.id.iv_img2);
 
