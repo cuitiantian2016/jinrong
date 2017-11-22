@@ -83,6 +83,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         @Override
         public void run() {
             getAccountInfo();//每隔3秒刷一次
+            getPositionList();
             mHandler.postDelayed(this, 3000);
         }
     };
