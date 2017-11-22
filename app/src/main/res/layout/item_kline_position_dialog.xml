@@ -89,11 +89,12 @@
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
                 android:background="@drawable/gray_radius_bg"
-                android:inputType="number"
+                android:digits="0123456789."
                 android:paddingBottom="@dimen/dimen_2dp"
                 android:paddingLeft="@dimen/dimen_10dp"
                 android:paddingRight="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_2dp"
+                android:maxLength="9"
                 android:text="0"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_14sp" />

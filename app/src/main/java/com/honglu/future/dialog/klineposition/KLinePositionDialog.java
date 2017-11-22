@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,7 +40,7 @@ import java.util.List;
  * Created by zhuaibing on 2017/11/14
  */
 
-public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View {
+public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View, View.OnLayoutChangeListener {
     private TextView mName;
     private ImageView mClose;
     private RecyclerView mRecyclerView;
@@ -52,6 +54,8 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private String mInstrumentId;
     private String mPushCode;
     private String mLastPrice;//最新价格
+
+    private int mScreenHeight;
     private KLinePositionDialogAdapter mAdapter;
     private ConfirmDialog mConfirmDialog = null;
 
@@ -94,6 +98,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         mWindow.setAttributes(params);
         setCanceledOnTouchOutside(false);
 
+        mScreenHeight = ViewUtil.getScreenHeight(mContext);
         mName = (TextView) findViewById(R.id.tv_name);
         mClose = (ImageView) findViewById(R.id.iv_close);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -130,16 +135,23 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                     final String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
                     final String company = "GUOFU";
 
-                    if (exPcNum <= 0 || exPrice <= 0) {
+                    double lowerLimitPrice = mAdapter.getLowerLimitPrice();
+                    double upperLimitPrice = mAdapter.getUpperLimitPrice();
+                    if (exPrice <= 0 || exPrice < lowerLimitPrice || exPrice > upperLimitPrice){
+                        showErrorMsg("平仓委托价必须≥"+lowerLimitPrice +"且≤"+upperLimitPrice,null);
                         return;
                     }
-                    if (mConfirmDialog == null){
+                    if (exPcNum <= 0) {
+                        showErrorMsg("手数必须大于0",null);
+                        return;
+                    }
+                    if (mConfirmDialog == null) {
                         mConfirmDialog = new ConfirmDialog(mContext);
                     }
 
-                    String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌":"买涨";
+                    String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌" : "买涨";
                     String ykprice = mYkprice.getText().toString();
-                    String content = String.format(mContext.getString(R.string.close_trade_hint),mNameValue,typeStr,exPcNum,ykprice);
+                    String content = String.format(mContext.getString(R.string.close_trade_hint), mNameValue, typeStr, exPcNum, ykprice);
                     mConfirmDialog.setTitle("确认平仓")
                             .setContent(content).setRightListener(new View.OnClickListener() {
                         @Override
@@ -176,6 +188,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
             }
         });
+
     }
 
     /**
@@ -226,7 +239,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     }
 
     public void showDialog() {
-        if (!TextUtils.isEmpty(mNameValue) && mList != null && mList.size() >0) {
+        if (!TextUtils.isEmpty(mNameValue) && mList != null && mList.size() > 0) {
             show();
             mName.setText("平仓-" + mNameValue);
             if (isClosed) {
@@ -300,5 +313,15 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CLOSETRAD_REFRESH, String.valueOf(mAdapter.getMPosition()), null));
         }
 
+    }
+
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > mScreenHeight / 3)) {
+            Log.d("wahcc","====弹起======");
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > mScreenHeight / 3)) {
+            Log.d("wahcc","====隐藏======");
+        }
     }
 }

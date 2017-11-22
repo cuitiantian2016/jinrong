@@ -15,12 +15,10 @@ import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
-import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.TradeUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
-
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by zq on 2017/11/2.
@@ -84,6 +82,16 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     //价格
     public double getExPrice() {
         return mExPrice;
+    }
+
+    //跌停板价
+    public double getLowerLimitPrice(){
+        return mLowerLimitPrice;
+    }
+
+    //涨停板价
+    public double getUpperLimitPrice(){
+        return mUpperLimitPrice;
     }
 
     //是否刷新mpush 消息
@@ -292,12 +300,10 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             @Override
             public void afterTextChanged(Editable s) {
                 //跌停板价 mLowerLimitPrice  mUpperLimitPrice; //涨停板价
+                //boolean isInt = Pattern.compile("^-?[1-9]\\d*$").matcher(s.toString()).find();
+                //boolean isDouble = Pattern.compile("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$").matcher(s.toString()).find();
                 mExPrice = getDoubleText(mHolder.mEtPrice);
-                if (mExPrice >= mLowerLimitPrice && mExPrice <= mUpperLimitPrice){
-                    mExLastPrice = mExPrice;
-                }else {
-                    mHolder.mEtPrice.setText(String.valueOf(mExLastPrice));
-                }
+                mHolder.mEtPrice.setSelection(mHolder.mEtPrice.length());
             }
         });
     }
