@@ -2,14 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F8F8F9"
     android:orientation="vertical">
-
-    <include layout="@layout/position_header_layout" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <com.honglu.future.widget.loading.LoadingLayout
             android:id="@+id/loading_layout"
@@ -18,26 +11,17 @@
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/srl_refreshView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/color_F7F8F9">
                 <com.scwang.smartrefresh.layout.header.ClassicsHeader
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <LinearLayout
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_position"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_15dp"
-                    android:background="@android:color/white"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_position"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </com.honglu.future.widget.loading.LoadingLayout>
-    </FrameLayout>
-
 </LinearLayout>

@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_46dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/color_white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_45dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_20dp">
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp">
 
         <FrameLayout
             android:layout_width="@dimen/dimen_80dp"
@@ -56,6 +57,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/v_colorLine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp_half"
         android:layout_marginLeft="@dimen/dimen_20dp"

@@ -415,4 +415,14 @@ public class ViewUtil {
         ((Activity) context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         ((Activity) context).getWindow().setAttributes(lp);
     }
+
+    public static boolean isSoftShowing(Activity activity) {
+        //获取当前屏幕内容的高度
+        int screenHeight = activity.getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom != 0;
+    }
 }

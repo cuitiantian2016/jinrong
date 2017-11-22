@@ -24,7 +24,7 @@
         app:tl_textUnselectColor="@color/color_323232"
         app:tl_textsize="@dimen/dimen_16sp"
         app:tl_underline_color="@color/color_E6E6E6"
-        app:tl_windMargin="@dimen/dimen_20dp"
+        app:tl_windMargin="@dimen/dimen_15dp"
         app:tl_view_delay="true"/>
 
         <View

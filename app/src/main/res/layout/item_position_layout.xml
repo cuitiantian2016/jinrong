@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/color_white"
     android:id="@+id/ll_item"
-    android:paddingLeft="@dimen/dimen_20dp"
-    android:paddingRight="@dimen/dimen_20dp"
+    android:paddingLeft="@dimen/dimen_15dp"
+    android:paddingRight="@dimen/dimen_15dp"
     android:paddingTop="@dimen/dimen_15dp">
 
     <TextView
@@ -67,6 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp_half"
         android:layout_marginTop="@dimen/dimen_15dp"
-        android:background="@color/color_E3E3E3" />
+        android:background="@color/color_EDEDED" />
 
 </LinearLayout>

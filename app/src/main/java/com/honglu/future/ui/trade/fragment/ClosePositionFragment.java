@@ -111,7 +111,12 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     private void initView() {
         mPositionListView.setLayoutManager(new LinearLayoutManager(mContext));
         mPositionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
+        View headView = View.inflate(getActivity(),R.layout.layout_close_position_head,null);
+        TextView mTip = (TextView) headView.findViewById(R.id.tv_tip);
+        View mColorLine = headView.findViewById(R.id.v_colorLine);
+        mColorLine.setVisibility(View.INVISIBLE);
         mClosePositionAdapter = new ClosePositionAdapter();
+        mClosePositionAdapter.addHeaderView(headView);
         mPositionListView.setAdapter(mClosePositionAdapter);
         foot = View.inflate(getContext(), R.layout.item_see_all, null);
         foot.findViewById(R.id.ll_see_all).setOnClickListener(new View.OnClickListener() {
@@ -135,6 +140,15 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
                 getClosePositionList();
             }
         });
+
+        mTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Tool.isFastDoubleClick()) return;
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_closed_tip);
+                tipDialog.show();
+            }
+        });
     }
 
     /**
@@ -147,17 +161,6 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
             return;
         }
         getClosePositionList();
-    }
-
-    @OnClick({R.id.tv_tip})
-    public void onClick(View view) {
-        if (Tool.isFastDoubleClick()) return;
-        switch (view.getId()) {
-            case R.id.tv_tip:
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_closed_tip);
-                tipDialog.show();
-                break;
-        }
     }
 
     @Override

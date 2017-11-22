@@ -72,6 +72,11 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
                 mListener.onItemClick(data.get(position));
             }
         });
+        if (position == getData().size() -1){
+            holder.mColorLine.setVisibility(View.INVISIBLE);
+        }else {
+            holder.mColorLine.setVisibility(View.VISIBLE);
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,6 +98,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         LinearLayout mLlRise;
         @BindView(R.id.ll_down)
         LinearLayout mLlDown;
+        @BindView(R.id.v_colorLine)
+        View mColorLine;
 
         ViewHolder(View view) {
             super(view);

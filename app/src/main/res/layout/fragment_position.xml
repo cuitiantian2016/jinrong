@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/color_F8F8F9"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_F7F8F9">
 
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -31,5 +31,5 @@
         android:layout_marginBottom="@dimen/dimen_13dp"
         android:layout_gravity="center_horizontal"
         android:text="备注：暂时支持查看可交易品种的持仓和交易记录"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 </LinearLayout>

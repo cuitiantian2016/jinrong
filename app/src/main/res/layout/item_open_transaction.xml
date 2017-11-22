@@ -173,8 +173,9 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/v_colorLine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp_half"
         android:layout_marginTop="@dimen/dimen_16dp"
-        android:background="@color/color_E3E3E3" />
+        android:background="@color/color_EDEDED" />
 </LinearLayout>

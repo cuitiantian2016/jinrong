@@ -12,7 +12,7 @@
         android:background="@drawable/shape_white_8dp_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dimen_15dp"
-        android:paddingRight="@dimen/dimen_20dp"
+        android:paddingRight="@dimen/dimen_15dp"
         android:paddingTop="@dimen/dimen_12dp">
 
         <RelativeLayout
