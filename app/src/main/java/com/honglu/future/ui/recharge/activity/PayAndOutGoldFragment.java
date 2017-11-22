@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.PermissionsListener;
@@ -30,6 +33,7 @@ import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.BindView;
@@ -179,6 +183,13 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     }
 
     public void getBankList(){
+        String cathch = SpUtil.getString(Constant.CACHE_TAG_BANK_LIST);
+        if (!TextUtils.isEmpty(cathch)){
+            Type type = new TypeToken<List<BindCardBean>>() {
+            }.getType();
+            List<BindCardBean> list = new Gson().fromJson(cathch, type);
+            bindBnakList(list);
+        }
         mPresenter.getBankList(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 
@@ -284,6 +295,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
 
     @Override
     public void bindBnakList(List<BindCardBean> list) {
+        if (mrlCard == null){
+            return;
+        }
+        SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
         if (list!=null&&list.size()>0){
             mrlCard.removeAllViews();
             mBean = list.get(0);
@@ -315,25 +330,40 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 mrlCard.addView(cardItem);
             }
         }else {
-            bindBankErr(null);
+            bindBankErr("您没有绑定银行卡");
         }
     }
-
+    boolean isReQuest = false;
     @Override
     public void bindBankErr(String msg) {
         if (isHidden()){
             return;
         }
-        new AlertFragmentDialog.Builder(mActivity)
-                .setLeftBtnText("稍后再说").setContent("您没有绑定银行卡", R.color.color_333333, R.dimen.dimen_16sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
-                .setRightBtnText("去绑卡").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-            @Override
-            public void dialogRightBtnClick(String string) {
-                Intent intent = new Intent(mActivity, WebViewActivity.class);
-                intent.putExtra("url", ConfigUtil.BIND_CARD_TEACH);
-                startActivity(intent);
+        if ("您没有绑定银行卡".equals(msg)){
+            new AlertFragmentDialog.Builder(mActivity)
+                    .setLeftBtnText("稍后再说").setContent("您没有绑定银行卡", R.color.color_333333, R.dimen.dimen_16sp).setTitle("", R.color.color_3C383F, R.dimen.dimen_16sp)
+                    .setRightBtnText("去绑卡").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                @Override
+                public void dialogRightBtnClick(String string) {
+                    Intent intent = new Intent(mActivity, WebViewActivity.class);
+                    intent.putExtra("url", ConfigUtil.BIND_CARD_TEACH);
+                    startActivity(intent);
+                }
+            }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+        }else if ("请求太频繁 请稍后再试(-2)".equals(msg)){
+            if (isReQuest){
+                return;
             }
-        }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+            mCheckAsses.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("Tag","request");
+                    isReQuest = true;
+                    getBankList();
+                }
+            },700);
+        }
+
     }
 
     @Override

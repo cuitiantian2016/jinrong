@@ -30,9 +30,7 @@ public class PayAndOutGoldPresent extends BasePresenter<PayAndOutGoldContract.Vi
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                if ("您没有绑定银行卡".equals(message)){
-                    mView.bindBankErr(message);
-                }
+                mView.bindBankErr(message);
             }
         });
     }
