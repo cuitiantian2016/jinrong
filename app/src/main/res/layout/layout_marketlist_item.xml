@@ -40,8 +40,7 @@
              android:id="@+id/v_color_shansuo"
              android:layout_width="@dimen/dimen_60dp"
              android:layout_gravity="center"
-             android:layout_height="match_parent"
-             android:visibility="gone"/>
+             android:layout_height="match_parent"/>
     </FrameLayout>
 
     <com.honglu.future.widget.DinTextView
