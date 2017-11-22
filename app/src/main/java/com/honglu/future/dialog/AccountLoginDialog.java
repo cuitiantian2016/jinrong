@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
@@ -94,12 +96,9 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
     }
 
     private void goOpenAccount() {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.putExtra("brokerId", "0101");
-        String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
-        if (!TextUtils.isEmpty(userMobile)) {
-            intent.putExtra("mobile", userMobile);
-        }
+        Intent intent = new Intent(mContext, WebViewActivity.class);
+        intent.putExtra("title", "开户");
+        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
         mContext.startActivity(intent);
     }
 
