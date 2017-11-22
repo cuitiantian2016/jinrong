@@ -198,6 +198,22 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         }
     }
 
+    @Override
+    public void showLoading(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            App.loadingContent(this, content);
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        App.hideLoading();
+    }
+
+    @Override
+    public void showErrorMsg(String msg, String type) {
+        showToast(msg);
+    }
 
     private void transferBean(RequestMarketMessage bean) {
         mBean.setBidPrice1(bean.getBidPrice1());
