@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
@@ -7,10 +7,12 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <View style="@style/line_base_horizontal" />
+    <View android:layout_below="@+id/toolbar" android:id="@+id/ll" style="@style/line_base_horizontal" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/bindcard_smart_view"
+        android:layout_above="@+id/tv_add_card"
+        android:layout_below="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
@@ -22,4 +24,15 @@
             android:nestedScrollingEnabled="false"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_add_card"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_18dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_5dp"
+        android:textColor="#979899"
+        android:textSize="@dimen/dimen_14sp"
+        android:text="如何添加银行卡"/>
+</RelativeLayout>

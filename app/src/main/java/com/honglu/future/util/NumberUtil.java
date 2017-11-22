@@ -242,7 +242,7 @@ public class NumberUtil {
     }
 
     public static String bankNameFilter(String bankNum){
-        String text = bankNum.substring(0, 3) + " ********* " + bankNum.substring(bankNum.length() - 4, bankNum.length());
+        String text = bankNum.substring(0, 3) + " **** **** " + bankNum.substring(bankNum.length() - 4, bankNum.length());
         Log.d("num", "bankNameFilter:--> "+text);
         return text;
     }

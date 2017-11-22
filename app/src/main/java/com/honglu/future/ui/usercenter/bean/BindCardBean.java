@@ -1,10 +1,15 @@
 package com.honglu.future.ui.usercenter.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by zhuaibing on 2017/11/13
  */
 
-public class BindCardBean {
+public class BindCardBean implements Serializable {
     private String bankId;  //银行编码
     private String bankBranchId; //银行分支机构编码
     private String bankAccount;//银行帐号

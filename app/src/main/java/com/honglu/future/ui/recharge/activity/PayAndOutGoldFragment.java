@@ -26,6 +26,7 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.contract.PayAndOutGoldContract;
 import com.honglu.future.ui.recharge.presenter.PayAndOutGoldPresent;
+import com.honglu.future.ui.usercenter.activity.BindCardActivity;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.ImageUtil;
@@ -68,6 +69,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     LinearLayout ll_bank_password;//银行卡密码
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
+    private List<BindCardBean> mList;
 
     /**
      * @param isPay 充值
@@ -188,6 +190,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             Type type = new TypeToken<List<BindCardBean>>() {
             }.getType();
             List<BindCardBean> list = new Gson().fromJson(cathch, type);
+            this.mList = list;
             bindBnakList(list);
         }
         mPresenter.getBankList(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
@@ -294,10 +297,11 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     }
 
     @Override
-    public void bindBnakList(List<BindCardBean> list) {
+    public void bindBnakList(final List<BindCardBean> list) {
         if (mrlCard == null){
             return;
         }
+        this.mList = list;
         SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
         if (list!=null&&list.size()>0){
             mrlCard.removeAllViews();
@@ -325,6 +329,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                         }else {
                             ll_bank_password.setVisibility(View.VISIBLE);
                         }
+                        BindCardActivity.startBindCardActivity(getActivity(),mList);
                     }
                 });
                 mrlCard.addView(cardItem);
@@ -348,6 +353,11 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                     Intent intent = new Intent(mActivity, WebViewActivity.class);
                     intent.putExtra("url", ConfigUtil.BIND_CARD_TEACH);
                     startActivity(intent);
+                }
+            }).setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                @Override
+                public void dialogLeftBtnClick() {
+                    getActivity().finish();
                 }
             }).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
         }else if ("请求太频繁 请稍后再试(-2)".equals(msg)){

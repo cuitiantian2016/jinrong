@@ -13,6 +13,8 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.NumberUtil;
+import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
@@ -34,12 +36,12 @@ public class BindCardAdapter extends BaseRecyclerAdapter<BindCardAdapter.ViewHol
     @Override
     public void mOnBindViewHolder(BindCardAdapter.ViewHolder holder, int position) {
 
-        ImageUtil.display(ConfigUtil.baseImageUserUrl + item.getBankIcon(), holder.mIcon, R.mipmap.img_head);
+        ImageUtil.display(item.getBankIcon(), holder.mIcon, R.mipmap.img_head);
         holder.mBankName.setText(item.getBankName());
 
         String bankAccount = item.getBankAccount();
 
-        holder.mBankCard.setText(bankAccount.substring(0, 4) + " **** **** " + bankAccount.substring(bankAccount.length() - 4, bankAccount.length()));
+        holder.mBankCard.setText(NumberUtil.bankNameFilter(bankAccount));
 
         int bgResourceId = getBgResourceId(item.getBankId());
         if (bgResourceId == -1){
