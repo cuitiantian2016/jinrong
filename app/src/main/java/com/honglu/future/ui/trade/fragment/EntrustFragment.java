@@ -30,6 +30,9 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,6 +65,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     ImageView mIvTip;
     @BindView(R.id.loading_layout)
     LoadingLayout mLoadingLayout;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout mSmartRefreshLayout;
 
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
@@ -134,6 +139,12 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         mEntrustListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mEntrustAdapter = new EntrustAdapter();
         mEntrustListView.setAdapter(mEntrustAdapter);
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getPositionList();
+            }
+        });
     }
 
     private void getPositionList() {
@@ -259,6 +270,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void getEntrustListSuccess(List<EntrustBean> list) {
+        mSmartRefreshLayout.finishRefresh();
         if (list == null || list.size() == 0) {
             if (mAllList != null && mAllList.size() > 0) {
                 mAllList.clear();
