@@ -39,6 +39,7 @@ import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -196,11 +197,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mAdapter.setOnShowPopupClickListener(this);
         mPopWind.setOnButtonClickListener(this);
         mCloseDialog.setOnPostCloseClickListener(this);
-        mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-            }
-
+        mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getPositionList();
