@@ -39,6 +39,7 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.RiseNumberTextView;
 import com.honglu.future.widget.kchart.SlidingTabLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
@@ -66,7 +67,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/11/7.
  */
 
-public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View, KLinePopupWin.OnPopItemClickListener,BillConfirmDialog.OnConfirmClickListener {
+public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View, KLinePopupWin.OnPopItemClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.tablayout)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewpager)
@@ -283,10 +284,12 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.i("testUrl", "横屏");
             //当前为横屏
             handLandView(true);
 
         } else {
+            Log.i("testUrl", "竖屏");
             //切换到竖屏
             handLandView(false);
         }
@@ -650,7 +653,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }
         mAccountLoginDialog.dismiss();
@@ -658,7 +661,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog = new BillConfirmDialog(mContext, bean);
         billConfirmDialog.setOnConfirmClickListenerr(this);
         billConfirmDialog.show();
     }
@@ -669,8 +672,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 if (isLandScape()) {
+                    Log.i("testUrl", "是横屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 } else {
+                    Log.i("testUrl", "是竖屏");
                     finish();
                 }
                 return true;
@@ -682,6 +687,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     public boolean isLandScape() {
+        Log.i("testUrl", getResources()
+                .getConfiguration().orientation + "是否横竖屏");
         return Configuration.ORIENTATION_LANDSCAPE == getResources()
                 .getConfiguration().orientation;
     }

@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--横竖屏切换 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     <!--极光推送权限 -->
     <uses-permission android:name="android.permission.REORDER_TASKS" />

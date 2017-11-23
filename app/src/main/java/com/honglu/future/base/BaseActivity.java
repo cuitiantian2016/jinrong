@@ -50,7 +50,7 @@ import butterknife.Unbinder;
 /**
  * 基类
  */
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView{
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
     public T mPresenter;
     public Context mContext;
     public BaseActivity mActivity;
@@ -357,7 +357,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mUnbinder !=null){
+        if (mUnbinder != null) {
             mUnbinder.unbind();
         }
         if (mPresenter != null) {
@@ -390,23 +390,33 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     }
 
+    /**
+     * 重写getResources  保证改变系统字体大小不引起适配问题
+     *
+     * @return
+     */
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
-        try {
-            Configuration config = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                config = new Configuration();
-            }else {
-                config = res.getConfiguration();
-            }
-            if (config !=null){
-                config.setToDefaults();
-                res.updateConfiguration(config, res.getDisplayMetrics());
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        //此种方式会影响横竖屏切换
+//        Resources res = super.getResources();
+//        try {
+//            Configuration config = null;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+//                config = new Configuration();
+//            }else {
+//                config = res.getConfiguration();
+//            }
+//            if (config !=null){
+//                config.setToDefaults();
+//                res.updateConfiguration(config, res.getDisplayMetrics());
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
         return res;
     }
 }

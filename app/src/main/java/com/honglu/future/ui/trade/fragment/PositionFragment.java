@@ -185,6 +185,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         LinearLayout tradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         TextView tvTip = (TextView) headView.findViewById(R.id.tv_tip);
         ImageView ivTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
+        TextView tvNewPrice = (TextView) headView.findViewById(R.id.tv_new_price);
+        tvNewPrice.setText("最新价");
 
         //剩余平分
         LinearLayout rootLayoutLeft = (LinearLayout) headView.findViewById(R.id.rootLayout_left);
