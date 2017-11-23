@@ -189,7 +189,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 ((KLineFragment) fragments.get(mPosition)).setLastKData(mRequestBean, mKlineCycleType);
             }
             if (mKLinePositionDialog != null
-                    && mKLinePositionDialog.isShowing() && !TextUtils.isEmpty(mKLinePositionDialog.getPushCode())) {
+                    && mKLinePositionDialog.isShowing()) {
                 mKLinePositionDialog.pushRefresh(mRequestBean.getLowerLimitPrice(), mRequestBean.getUpperLimitPrice(), mRequestBean.getLastPrice());
             }
 

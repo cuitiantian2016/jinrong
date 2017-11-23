@@ -40,7 +40,7 @@ import java.util.List;
  * Created by zhuaibing on 2017/11/14
  */
 
-public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View, View.OnLayoutChangeListener {
+public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter> implements KLinePositionDialogContract.View{
     private TextView mName;
     private ImageView mClose;
     private RecyclerView mRecyclerView;
@@ -52,7 +52,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private boolean isClosed; //是否休市
     private String mExcode;
     private String mInstrumentId;
-    private String mPushCode;
     private String mLastPrice;//最新价格
 
     private int mScreenHeight;
@@ -203,7 +202,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         this.mExcode = excode;
         this.mInstrumentId = instrumentId;
         this.mList = mList;
-        this.mPushCode = excode + "|" + instrumentId;
         return KLinePositionDialog.this;
     }
 
@@ -214,16 +212,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         if (mAdapter != null) {
             mAdapter.resetData();
         }
-        //MPushUtil.pauseRequest();不注释上下文的Activity会停止push
-    }
-
-    public void requestMarket(String productList) {
-        if (!TextUtils.isEmpty(productList))
-            MPushUtil.requestMarket(productList);
-    }
-
-    public String getPushCode() {
-        return mPushCode;
     }
 
     /**
@@ -234,7 +222,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     public void pushRefresh(String lowerLimitPrice, String upperLimitPrice, String lastPrice) {
         this.mLastPrice = lastPrice;
         if (mAdapter != null && mAdapter.isMpushRefresh()) {
-            mAdapter.setMpushRefreshData(lowerLimitPrice, upperLimitPrice);
+            mAdapter.setMpushRefreshData(lowerLimitPrice, upperLimitPrice,lastPrice);
         }
     }
 
@@ -253,8 +241,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             }
             mYkprice.setText("---");
             mAdapter.notifyDataChanged(mList);
-            //启动mpush
-            requestMarket(mPushCode);
         }
     }
 
@@ -283,7 +269,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             mYkprice.setText("￥" + mProfitLoss);
         } else {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_B1B1B3));
-            mYkprice.setText("￥" + mProfitLoss);
+            mYkprice.setText("￥"+mProfitLoss);
         }
     }
 
@@ -302,7 +288,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     //委托平仓 / 快速平仓
     @Override
     public void closeOrderSuccess() {
-        ToastUtil.show("平仓成功");
+        ToastUtil.show("平仓申请已提交");
         if (mAdapter != null
                 && mAdapter.getData() != null
                 && mAdapter.getData().size() > mAdapter.getMPosition()
@@ -313,15 +299,5 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CLOSETRAD_REFRESH, String.valueOf(mAdapter.getMPosition()), null));
         }
 
-    }
-
-
-    @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > mScreenHeight / 3)) {
-            Log.d("wahcc","====弹起======");
-        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > mScreenHeight / 3)) {
-            Log.d("wahcc","====隐藏======");
-        }
     }
 }

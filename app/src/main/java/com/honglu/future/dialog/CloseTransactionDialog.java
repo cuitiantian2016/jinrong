@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,13 +19,15 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
-import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.TradeUtil;
-import com.honglu.future.widget.popupwind.PositionPopWind;
 
-import java.math.BigDecimal;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 平仓 dialog
@@ -53,10 +56,14 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
 
     private HoldPositionBean mHoldPositionBean;
     private ProductListBean mProductListBean;
-    private double mLowerLimitPrice; //跌停板价
-    private double mUpperLimitPrice; //涨停板价
+    private String mLowerLimitPrice; //跌停板价
+    private String mUpperLimitPrice; //涨停板价
+    private String mLastPrice;
     private int mMaxCloseTradeNum; //最大平仓手数
-    private double mExLastPrice;
+    private String mMPushCode;
+    private String mInstrumentId;
+    private String mExcode;
+    private boolean mEtHasFocus = false;
 
 
     public interface OnPostCloseClickListener {
@@ -73,6 +80,29 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         super(context, R.style.DateDialog);
         this.mContext = context;
     }
+
+    private void requestMarket(String code){
+        if (!TextUtils.isEmpty(code)){
+            this.mMPushCode = code;
+            MPushUtil.requestMarket(code);
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
+         if (!TextUtils.isEmpty(mMPushCode)
+                 && event.marketMessage.getExchangeID().equals(mExcode)
+                 && event.marketMessage.getInstrumentID().equals(mInstrumentId)
+                 && isShowing()){
+             this.mLowerLimitPrice = event.marketMessage.getLowerLimitPrice();
+             this.mUpperLimitPrice = event.marketMessage.getUpperLimitPrice();
+             this.mLastPrice = event.marketMessage.getLastPrice();
+              mPricePrompt.setText("≥" + mLowerLimitPrice+ " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
+             if (!mEtHasFocus){
+                 mPrice.setText(mLastPrice);
+             }
+         }
+    }
+
 
 
     @Override
@@ -115,21 +145,32 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         setOrdeListener();
     }
 
-    public void showDialog(HoldPositionBean holdPositionBean ,ProductListBean productListBean) {
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void showDialog(HoldPositionBean holdPositionBean , ProductListBean productListBean) {
         show();
+        EventBus.getDefault().register(this);
         this.mHoldPositionBean = holdPositionBean;
         this.mProductListBean = productListBean;
-        this.mLowerLimitPrice = getDouble(mProductListBean.getLowerLimitPrice());
-        this.mUpperLimitPrice = getDouble(mProductListBean.getUpperLimitPrice());
-        this.mMaxCloseTradeNum = TradeUtil.getMaxCloseTradeNum(mHoldPositionBean.getPosition() ,mHoldPositionBean.getYdPosition(),mHoldPositionBean.getTodayPosition(),mHoldPositionBean.getExcode());
-
+        this.mLowerLimitPrice = mProductListBean.getLowerLimitPrice();
+        this.mUpperLimitPrice = mProductListBean.getUpperLimitPrice();
+        this.mMaxCloseTradeNum = holdPositionBean.getPosition();
+        this.mInstrumentId = holdPositionBean.getInstrumentId();
+        this.mExcode = holdPositionBean.getExcode();
+        mPrice.clearFocus();
+        mPrice.setFocusable(false);
         mName.setText(holdPositionBean.getInstrumentName());
 
         if (Constant.TYPE_BUY_DOWN == holdPositionBean.getType()) {
-            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            mBuyRise.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
             mBuyRise.setText("买跌" + mMaxCloseTradeNum + "手");
         } else {
-            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mBuyRise.setTextColor(ContextCompat.getColor(mContext,R.color.color_FB4F4F));
             mBuyRise.setText("买涨" + mMaxCloseTradeNum + "手");
         }
 
@@ -143,29 +184,8 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
 
         mPricePrompt.setText("≥" + mLowerLimitPrice+ " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
 
-        //平仓手续费
-        String closeTradePrice = getCloseTradePrice(mMaxCloseTradeNum);
-        mCloseTransactionPrice.setText("￥" + StringUtil.forNumber(new BigDecimal(closeTradePrice).doubleValue()));
+        setTextViewData(Double.parseDouble(mProductListBean.getLastPrice()),mMaxCloseTradeNum);
 
-        //实际盈亏
-        double actualProfitLoss = getActualProfitLoss(mMaxCloseTradeNum);
-        if (actualProfitLoss > 0){
-            mCankaoProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            mCankaoProfitLoss.setText("￥" + actualProfitLoss);
-        }else {
-            mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mCankaoProfitLoss.setText("￥" + actualProfitLoss);
-        }
-
-        //平仓盈亏
-        double closeProfitLoss = getCloseProfitLoss(mMaxCloseTradeNum);
-        if (closeProfitLoss > 0){
-            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            mProfitLoss.setText("￥" + closeProfitLoss);
-        }else {
-            mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mProfitLoss.setText("￥" + closeProfitLoss);
-        }
         boolean mClosed = "2".equals(mProductListBean.getIsClosed());
         if (mClosed){
             mFastCloseTransaction.setEnabled(false);
@@ -180,8 +200,42 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
                 mFastCloseTransaction.setBackgroundResource(R.color.color_FB4F4F);
             }
         }
+
+        //启动mpus
+        requestMarket(holdPositionBean.getExcode()+"|"+holdPositionBean.getInstrumentId());
     }
 
+    private void setTextViewData(double price,int tradeNum){
+
+        if (price == 0){
+            mCloseTransactionPrice.setText("---");
+            mCankaoProfitLoss.setText("---");
+            mProfitLoss.setText("---");
+        }else {
+            //平仓手续费
+            String closeTradePrice = getCloseTradePrice(price,tradeNum);
+            mCloseTransactionPrice.setText("￥" + closeTradePrice);
+            //实际盈亏
+            double actualProfitLoss = getActualProfitLoss(price,tradeNum);
+            if (actualProfitLoss > 0){
+                mCankaoProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                mCankaoProfitLoss.setText("￥" + actualProfitLoss);
+            }else {
+                mBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mCankaoProfitLoss.setText("￥" + actualProfitLoss);
+            }
+
+            //平仓盈亏
+            double closeProfitLoss = getCloseProfitLoss(price,tradeNum);
+            if (closeProfitLoss > 0){
+                mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                mProfitLoss.setText("￥" + closeProfitLoss);
+            }else {
+                mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mProfitLoss.setText("￥" + closeProfitLoss);
+            }
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -191,14 +245,14 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.iv_price_del: //平仓委托价 -
                 double delPrice = getPrice(mPrice);
-                if (delPrice - mLowerLimitPrice > 1) {
+                if (delPrice - getDouble(mLowerLimitPrice) > 1) {
                     delPrice--;
                     mPrice.setText(String.valueOf(delPrice));
                 }
                 break;
             case R.id.iv_price_add://平仓委托价 +
                 double addPrice = getPrice(mPrice);
-                if (mUpperLimitPrice - addPrice > 1) {
+                if (getDouble(mUpperLimitPrice) - addPrice > 1) {
                     addPrice++;
                     mPrice.setText(String.valueOf(addPrice));
                 }
@@ -233,27 +287,36 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
         }
     }
 
-     private void setOrdeListener(){
-         mPrice.addTextChangedListener(new TextWatcher() {
-             @Override
-             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-             }
+    private void setOrdeListener(){
+        mPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                setTextViewData(getPrice(mPrice),getSize(mSize));
+            }
+        });
 
-             @Override
-             public void onTextChanged(CharSequence s, int start, int before, int count) {
-             }
+        mSize.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                setTextViewData(getPrice(mPrice),getSize(mSize));
+            }
+        });
 
-             @Override
-             public void afterTextChanged(Editable s) {
-                 double price = getPrice(mPrice);
-                 if (price >= mLowerLimitPrice && price <= mUpperLimitPrice){
-                     mExLastPrice = price;
-                 }else {
-                     mPrice.setText(String.valueOf(mExLastPrice));
-                 }
-             }
-         });
-     }
+        mPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mEtHasFocus = hasFocus;
+            }
+        });
+    }
 
 
     private int getSize(EditText text) {
@@ -277,21 +340,15 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
      * @param tradeNum 手数
      * @return
      */
-    private String getCloseTradePrice(int tradeNum) {
-        //String closeTodayRatioByMoney,String bidPrice1,String askPrice1,int volumeMultiple,String closeTodayRatioByVolume
-        // ,String closeRatioByMoney,String closeRatioByVolume, int todayPosition , int type , int tradeNum ,String excode
+    private String getCloseTradePrice(double price,int tradeNum) {
         String closeTodayRatioByMoney = mProductListBean.getCloseTodayRatioByMoney();
-        String bidPrice1 = mProductListBean.getBidPrice1();
-        String askPrice1 = mProductListBean.getAskPrice1();
         int volumeMultiple = mProductListBean.getVolumeMultiple();
         String closeTodayRatioByVolume = mProductListBean.getCloseTodayRatioByVolume();
         String closeRatioByMoney = mProductListBean.getCloseRatioByMoney();
         String closeRatioByVolume = mProductListBean.getCloseRatioByVolume();
         int todayPosition = mHoldPositionBean.getTodayPosition();
-        int type = mHoldPositionBean.getType();
-        String excode = mHoldPositionBean.getExcode();
         try {
-            double closeTradePrice  = TradeUtil.getCloseTradePrice(closeTodayRatioByMoney,bidPrice1,askPrice1,volumeMultiple,closeTodayRatioByVolume,closeRatioByMoney,closeRatioByVolume,todayPosition,type,tradeNum,excode);
+            double closeTradePrice  = TradeUtil.getCloseTradePrice(todayPosition,closeTodayRatioByMoney,closeTodayRatioByVolume,closeRatioByMoney,closeRatioByVolume,price,tradeNum,volumeMultiple);
             return String.valueOf(closeTradePrice);
         }catch (Exception e){
             e.printStackTrace();
@@ -305,16 +362,13 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
      * @param tradeNum 手数
      * @return
      */
-    private double getActualProfitLoss(int tradeNum) {
-        //String openAvgPrice,String bidPrice1,String askPrice1,String priceTick,int volumeMultiple,int type ,int tradeNum
+    private double getActualProfitLoss(double price, int tradeNum) {
         String openAvgPrice = mHoldPositionBean.getOpenAvgPrice();
-        String bidPrice1 = mProductListBean.getBidPrice1();
-        String askPrice1 = mProductListBean.getAskPrice1();
         String priceTick = mProductListBean.getPriceTick();
         int volumeMultiple = mProductListBean.getVolumeMultiple();
         int type = mHoldPositionBean.getType();
         try {
-            return TradeUtil.getActualProfitLoss(openAvgPrice,bidPrice1,askPrice1,priceTick,volumeMultiple,type,tradeNum);
+            return TradeUtil.getActualProfitLoss(type,openAvgPrice,priceTick,volumeMultiple,price,tradeNum);
         }catch (Exception e){
             e.printStackTrace();
             return 0;
@@ -327,16 +381,13 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
      * @param tradeNum 手数
      * @return
      */
-    private double getCloseProfitLoss(int tradeNum) {
-        //String holdAvgPrice ,String askPrice1 ,String bidPrice1 ,String priceTick ,int volumeMultiple ,int type ,int tradeNum
+    private double getCloseProfitLoss(double price,int tradeNum) {
         String holdAvgPrice = mHoldPositionBean.getHoldAvgPrice();
-        String askPrice1 = mProductListBean.getAskPrice1();
-        String bidPrice1 = mProductListBean.getBidPrice1();
         String priceTick = mProductListBean.getPriceTick();
         int volumeMultiple = mProductListBean.getVolumeMultiple();
         int type = mHoldPositionBean.getType();
         try {
-            return   TradeUtil.getCloseProfitLoss(holdAvgPrice,askPrice1,bidPrice1,priceTick,volumeMultiple,type,tradeNum);
+            return   TradeUtil.getCloseProfitLoss(type,holdAvgPrice,priceTick,volumeMultiple,price,tradeNum);
         }catch (Exception e){
             e.printStackTrace();
             return 0;
