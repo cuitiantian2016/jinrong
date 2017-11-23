@@ -47,7 +47,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                         querySettlementInfo(userId, bean.getToken(), company);
 
                     }
-                }, 2000);
+                }, 1000);
 
             }
 
