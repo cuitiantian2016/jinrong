@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="最新价"
+            android:text="平仓价"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_14dp" />
 
