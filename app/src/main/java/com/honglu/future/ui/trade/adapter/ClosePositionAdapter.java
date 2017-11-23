@@ -38,16 +38,17 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         }
 
         holder.mTvAveragePrice.setText(item.holdAvgPrice);
-        // TODO: 2017/11/6 确认是否展示最新价（猜测为平仓价） 
         holder.mTvNewPrice.setText(item.closePrice);
-        holder.mTvProfitLoss.setText(item.closeProfitLoss);
 
         if (Double.parseDouble(item.closeProfitLoss) > 0) {
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            holder.mTvProfitLoss.setText("+" + item.closeProfitLoss);
         } else if (Double.parseDouble(item.closeProfitLoss) < 0) {
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            holder.mTvProfitLoss.setText(item.closeProfitLoss);
         } else {
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            holder.mTvProfitLoss.setText(item.closeProfitLoss);
         }
 
         holder.llItem.setOnClickListener(new View.OnClickListener() {

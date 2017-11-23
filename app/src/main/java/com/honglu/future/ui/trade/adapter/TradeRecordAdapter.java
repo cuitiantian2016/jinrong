@@ -41,28 +41,30 @@ public class TradeRecordAdapter extends BaseAdapter {
         this.mContext = context;
     }
 
-    public void setMList(List<HistoryMissPositionBean> list,boolean isMore){
-        if (isMore){
+    public void setMList(List<HistoryMissPositionBean> list, boolean isMore) {
+        if (isMore) {
             mMissList.addAll(list);
-        }else {
+        } else {
             mMissList = list;
         }
         mType = TYPE_IS_MISS;
         notifyDataSetChanged();
     }
-    public void setCList(List<HistoryClosePositionBean> list,boolean isMore){
-        if (isMore){
+
+    public void setCList(List<HistoryClosePositionBean> list, boolean isMore) {
+        if (isMore) {
             mCloseList.addAll(list);
-        }else {
+        } else {
             mCloseList = list;
         }
         mType = TYPE_IS_CLOSE;
         notifyDataSetChanged();
     }
-    public void setBList(List<HistoryBuiderPositionBean> list ,boolean isMore){
-        if (isMore){
+
+    public void setBList(List<HistoryBuiderPositionBean> list, boolean isMore) {
+        if (isMore) {
             mBudierList.addAll(list);
-        }else {
+        } else {
             mBudierList = list;
         }
         mType = TYPE_IS_builder;
@@ -71,26 +73,26 @@ public class TradeRecordAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (mType == TYPE_IS_CLOSE){
+        if (mType == TYPE_IS_CLOSE) {
             return mCloseList != null ? mCloseList.size() : 0;
-        }else if (mType == TYPE_IS_MISS){
+        } else if (mType == TYPE_IS_MISS) {
             return mMissList != null ? mMissList.size() : 0;
-        }else if (mType == TYPE_IS_builder){
+        } else if (mType == TYPE_IS_builder) {
             return mBudierList != null ? mBudierList.size() : 0;
-        }else {
+        } else {
             return 0;
         }
     }
 
     @Override
     public Object getItem(int position) {
-        if (mType == TYPE_IS_CLOSE){
+        if (mType == TYPE_IS_CLOSE) {
             return mCloseList.get(position);
-        }else if (mType == TYPE_IS_MISS){
+        } else if (mType == TYPE_IS_MISS) {
             return mMissList.get(position);
-        }else if (mType == TYPE_IS_builder){
+        } else if (mType == TYPE_IS_builder) {
             return mBudierList.get(position);
-        }else {
+        } else {
             return null;
         }
     }
@@ -111,23 +113,23 @@ public class TradeRecordAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Object item = getItem(position);
-        if (mType == TYPE_IS_CLOSE){
+        if (mType == TYPE_IS_CLOSE) {
             holder.bindView((HistoryClosePositionBean) item);
-        }else if (mType == TYPE_IS_MISS){
+        } else if (mType == TYPE_IS_MISS) {
             holder.bindView((HistoryMissPositionBean) item);
-        }else if (mType == TYPE_IS_builder){
+        } else if (mType == TYPE_IS_builder) {
             holder.bindView((HistoryBuiderPositionBean) item);
-        }else {
+        } else {
             return null;
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mType == TYPE_IS_builder){
-                    OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext,(HistoryBuiderPositionBean)getItem(position));
-                }else if (mType == TYPE_IS_MISS){
-                    TradeRecordDetailsActivity.startTradeRecordDetailsActivity(mContext,(HistoryMissPositionBean)getItem(position));
-                }else if (mType== TYPE_IS_CLOSE){
+                if (mType == TYPE_IS_builder) {
+                    OpenTransactionDetailsActivity.startOpenTransactionDetailsActivity(mContext, (HistoryBuiderPositionBean) getItem(position));
+                } else if (mType == TYPE_IS_MISS) {
+                    TradeRecordDetailsActivity.startTradeRecordDetailsActivity(mContext, (HistoryMissPositionBean) getItem(position));
+                } else if (mType == TYPE_IS_CLOSE) {
                     CloseTransactionDetailsActivity.startCloseTransactionDetailsActivity(mContext, (HistoryClosePositionBean) getItem(position));
                 }
             }
@@ -151,64 +153,82 @@ public class TradeRecordAdapter extends BaseAdapter {
         @BindView(R.id.v_line)
         View vLine;
         View view;
+
         ViewHolder(View view) {
             this.view = view;
             mContext = view.getContext();
             ButterKnife.bind(this, view);
         }
 
-        void bindView(HistoryMissPositionBean bean){
+        void bindView(HistoryMissPositionBean bean) {
             tvCcmoney.setVisibility(View.INVISIBLE);
             tvNewMoney.setVisibility(View.VISIBLE);
-            tvProfitLossMoney.setText(bean.price);
             tvName.setText(bean.instrumentName);
             String num;
-            if (bean.type == 1){
+            if (bean.type == 1) {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-                num =  mContext.getString(R.string.buy_down_num,bean.position);
-            }else {
+                num = mContext.getString(R.string.buy_down_num, bean.position);
+            } else {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                num =  mContext.getString(R.string.buy_up_num,bean.position);
+                num = mContext.getString(R.string.buy_up_num, bean.position);
             }
             tvPurchaseSize.setText(num);
-            if (bean.openClose ==1){
+            if (bean.openClose == 1) {
                 tvNewMoney.setText("平仓");
-            }else {
+            } else {
                 tvNewMoney.setText("建仓");
             }
-            tvProfitLossMoney.setText(bean.price);
+
+            setProfitValueAndColor(tvProfitLossMoney,bean.price);
         }
-        void bindView(HistoryClosePositionBean bean){
+
+        void bindView(HistoryClosePositionBean bean) {
             tvCcmoney.setVisibility(View.VISIBLE);
             tvNewMoney.setVisibility(View.VISIBLE);
             tvName.setText(bean.instrumentName);
-           tvCcmoney.setText(bean.price);
+            tvCcmoney.setText(bean.price);
             String num;
-            if (bean.type == 1){
+            if (bean.type == 1) {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-                num =  mContext.getString(R.string.buy_down_num,bean.position);
-            }else {
+                num = mContext.getString(R.string.buy_down_num, bean.position);
+            } else {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                num =  mContext.getString(R.string.buy_up_num,bean.position);
+                num = mContext.getString(R.string.buy_up_num, bean.position);
             }
             tvPurchaseSize.setText(num);
             tvNewMoney.setText(bean.closePrice);
-            tvProfitLossMoney.setText(bean.closeProfitLoss);
+            setProfitValueAndColor(tvProfitLossMoney, bean.closeProfitLoss);
         }
-        void bindView(final HistoryBuiderPositionBean bean){
+
+        void bindView(final HistoryBuiderPositionBean bean) {
             tvCcmoney.setVisibility(View.INVISIBLE);
             tvNewMoney.setVisibility(View.INVISIBLE);
             String num;
-            if (bean.type == 1){
+            if (bean.type == 1) {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-                num =  mContext.getString(R.string.buy_down_num,bean.position);
-            }else {
+                num = mContext.getString(R.string.buy_down_num, bean.position);
+            } else {
                 tvPurchaseSize.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                num =  mContext.getString(R.string.buy_up_num,bean.position);
+                num = mContext.getString(R.string.buy_up_num, bean.position);
             }
             tvPurchaseSize.setText(num);
             tvName.setText(bean.instrumentName);
-            tvProfitLossMoney.setText(bean.price);
+
+            setProfitValueAndColor(tvProfitLossMoney, bean.price);
+        }
+
+        private void setProfitValueAndColor(TextView tvProfitLossMoney, String price) {
+            if (Double.parseDouble(price) > 0) {
+                tvProfitLossMoney.setText("+" + price);
+                tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            } else if (Double.parseDouble(price) < 0) {
+                tvProfitLossMoney.setText(String.valueOf(price));
+                tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            } else {
+                tvProfitLossMoney.setText(String.valueOf(price));
+                tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            }
         }
     }
+
 }

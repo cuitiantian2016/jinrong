@@ -109,15 +109,17 @@ public class PositionAdapter extends BaseAdapter {
         }
 
         holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
-        // TODO: 2017/11/6 需要确认最新价的字段 zq
         holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
-        holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
+
         if(Double.parseDouble(holdPositionBean.getTotalProfit())>0){
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+            holder.tvProfitLoss.setText("+"+holdPositionBean.getTotalProfit());
         } else if(Double.parseDouble(holdPositionBean.getTotalProfit())<0){
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
+            holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
         } else {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
         }
 
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
