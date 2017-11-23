@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.activity;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,9 @@ import com.honglu.future.ui.trade.bean.HistoryMissPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryTradeBean;
 import com.honglu.future.ui.trade.contract.TradeRecordContract;
 import com.honglu.future.ui.trade.presenter.TradeRecordPresenter;
+import com.honglu.future.util.DateUtil;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -69,12 +72,14 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     private View tabRLine;
     private TradeRecordAdapter mAdapter;
     private DateDialog mDateDialog;
-    private String startTime, endTime;
+    private String startTime, endTime,today;
     private int clickId = R.id.tab_jcLayout;
     int pageBuider = 1;
     int pageClose = 1;
     int pageMiss = 1;
     int pageSize = 5;
+
+    private Handler mHandler = new Handler();
 
 
     @Override
@@ -139,6 +144,14 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
             @Override
             public void onClick(String start, String end) {
+                if (DateUtil.compareDate(start, end)) {
+                    ToastUtil.show("结束日期不能早于开始日期");
+                    return;
+                }
+                if (DateUtil.compareDate(end, today)) {
+                    ToastUtil.show("结束日期不能晚于今天");
+                    return;
+                }
                 startTime = start;
                 endTime = end;
                 tvStartTime.setText(start);
@@ -148,11 +161,23 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             }
         });
         endTime = mDateDialog.getYear() + "-" + mDateDialog.getMonth() + "-" + mDateDialog.getDay();
+        today = endTime;
         startTime = getStartTime();
         tvStartTime.setText(startTime);
         tvEndTime.setText(endTime);
-        mPresenter.getHistoryTradeBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
-        getHistoryData(clickId);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.getHistoryTradeBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+            }
+        },500);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getHistoryData(clickId);
+            }
+        },1000);
+
         refreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -357,11 +382,27 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             isHistoryBuilderMore = false;
         }
     }
-
+    private int count = 0;
     @Override
     public void showErrorMsg(String msg, String type) {
         super.showErrorMsg(msg, type);
+        if (msg.contains("服务器忙")||msg.contains("频繁")){
+            if (TradeRecordPresenter.TYPE_HISTORY_TRADE.equals(type)){
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ++count;
+                        if (count>2){
+                            return;
+                        }
+                        mPresenter.getHistoryTradeBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
+                    }
+                },500);
+            }else {
+                getHistoryData(clickId);
+            }
+        }
        refreshView.finishRefresh();
-        refreshView.finishLoadmore();
+       refreshView.finishLoadmore();
     }
 }

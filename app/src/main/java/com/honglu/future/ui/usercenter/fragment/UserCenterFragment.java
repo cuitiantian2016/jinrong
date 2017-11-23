@@ -205,6 +205,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(intentTeach);
                 break;
             case R.id.tv_trade_details:
+                stopRun();
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
                 break;
             case R.id.tv_account_manage:

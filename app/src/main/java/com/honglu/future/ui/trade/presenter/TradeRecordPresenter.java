@@ -18,9 +18,14 @@ import java.util.List;
 
 public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View> implements TradeRecordContract.Presenter{
 
+    public static final String TYPE_HISTORY_TRADE="TYPE_HISTORY_TRADE";
+    public static final String TYPE_HISTORY_Build="TYPE_HISTORY_Build";
+    public static final String TYPE_HISTORY_MISS="TYPE_HISTORY_MISS";
+    public static final String TYPE_HISTORY_cLOSE="TYPE_HISTORY_cLOSE";
+
     @Override
-    public void getHistoryTradeBean(String dayStart, String userId, String token, String dayEnd) {
-        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd), new HttpSubscriber<HistoryTradeBean>() {
+    public void getHistoryTradeBean(final String dayStart, final String userId, final String token, final String dayEnd) {
+        HttpSubscriber<HistoryTradeBean> httpSubscriber = new HttpSubscriber<HistoryTradeBean>() {
             @Override
             protected void _onNext(HistoryTradeBean o) {
                 super._onNext(o);
@@ -30,30 +35,29 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                ToastUtil.show(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message, TYPE_HISTORY_TRADE);
             }
-        });
+        };
+        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd),httpSubscriber);
     }
 
     @Override
-    public void getHistoryMissBean(String dayStart, String userId, String token, String dayEnd,
-                                   int page,
-                                   int pageSize) {
-        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryMissPositionBean>>() {
+    public void getHistoryMissBean(final String dayStart, final String userId, final String token, final String dayEnd,
+                                   final int page,
+                                   final int pageSize) {
+        HttpSubscriber<List<HistoryMissPositionBean>> httpSubscriber = new HttpSubscriber<List<HistoryMissPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryMissPositionBean> o) {
                 super._onNext(o);
                 mView.bindHistoryMissBean(o);
             }
-
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
-                ToastUtil.show(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message, TYPE_HISTORY_MISS);
             }
-        });
+        };
+        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd,page,pageSize),httpSubscriber);
     }
 
     @Override
@@ -71,30 +75,29 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
             protected void _onError(String message, int code) {
                 super._onError(message, code);
                 ToastUtil.show(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message,TYPE_HISTORY_cLOSE);
             }
         });
 
     }
 
     @Override
-    public void getHistoryBuilderBean(String dayStart, String userId, String token, String dayEnd,
-                                      int page,
-                                      int pageSize) {
-        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryBuiderPositionBean>>() {
+    public void getHistoryBuilderBean(final String dayStart, final String userId, final String token, final String dayEnd,
+                                      final int page,
+                                      final int pageSize) {
+        HttpSubscriber<List<HistoryBuiderPositionBean>> httpSubscriber = new HttpSubscriber<List<HistoryBuiderPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryBuiderPositionBean> o) {
                 super._onNext(o);
                 mView.bindHistoryBuilderBean(o);
             }
-
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
-                ToastUtil.show(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message, TYPE_HISTORY_Build);
             }
-        });
+        };
+        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd,page,pageSize),httpSubscriber);
 
     }
 }
