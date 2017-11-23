@@ -81,6 +81,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 finish();
             }
         }
+        if(!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))){
+            mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+        }
     }
 
     @OnClick({R.id.tv_login, R.id.tv_forget_pwd, R.id.btn_login, R.id.iv_close})
