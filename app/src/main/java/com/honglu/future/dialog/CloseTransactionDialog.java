@@ -20,8 +20,11 @@ import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.TradeUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
+
+import java.math.BigDecimal;
 
 /**
  * 平仓 dialog
@@ -142,7 +145,7 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
 
         //平仓手续费
         String closeTradePrice = getCloseTradePrice(mMaxCloseTradeNum);
-        mCloseTransactionPrice.setText("￥" + closeTradePrice);
+        mCloseTransactionPrice.setText("￥" + StringUtil.forNumber(new BigDecimal(closeTradePrice).doubleValue()));
 
         //实际盈亏
         double actualProfitLoss = getActualProfitLoss(mMaxCloseTradeNum);
