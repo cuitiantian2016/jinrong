@@ -37,6 +37,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     private double mLowerLimitPrice; //跌停板价
     private double mUpperLimitPrice; //涨停板价
     private KLinePositionDialogAdapter.ViewHolder mViewHolder;
+    private HoldPositionBean mBean;
 
     public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog) {
         this.mPresenter = mPresenter;
@@ -66,6 +67,9 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         }
         if (!mEtHasFocus){
             mViewHolder.mEtPrice.setText(lastPrice);
+            if (mBean !=null){
+                setTextViewData(mViewHolder,mBean,mExPrice,mExpcNum);
+            }
         }
     }
 
@@ -165,7 +169,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             holder.mLayoutContent.setVisibility(View.VISIBLE);
             holder.mEtMaxpc.setEnabled(false);
             holder.mEtPrice.setFocusableInTouchMode(true);
-
+            this.mBean = mBean;
             if (mProductListBean !=null) {
                 //获取最大平仓手数
                 mMaxCloseTradeNum = mBean.getPosition();

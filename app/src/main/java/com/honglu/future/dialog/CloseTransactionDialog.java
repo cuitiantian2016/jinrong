@@ -99,6 +99,7 @@ public class CloseTransactionDialog extends Dialog implements View.OnClickListen
               mPricePrompt.setText("≥" + mLowerLimitPrice+ " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
              if (!mEtHasFocus){
                  mPrice.setText(mLastPrice);
+                 setTextViewData(getPrice(mPrice),getSize(mSize));
              }
          }
     }
