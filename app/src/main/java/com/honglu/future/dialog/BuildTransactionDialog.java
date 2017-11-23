@@ -57,6 +57,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private ImageView mReducePrice, mAddPrice;
     private ImageView mReduceHands, mAddHands;
     private TextView mBuild;
+    private TextView isClose;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
@@ -143,7 +144,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
         mBuild = (TextView) findViewById(R.id.btn_fast_open);
         mBuild.setOnClickListener(this);
-        TextView isClose = (TextView) findViewById(R.id.tv_closed);
+        isClose = (TextView) findViewById(R.id.tv_closed);
         if (bean.getIsClosed().equals("2")) {
             isClose.setVisibility(View.VISIBLE);
             mBuild.setBackgroundResource(R.color.color_CACCCB);
@@ -293,8 +294,48 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             String totalMoney = NumberUtil.moveLast0(NumberUtil.multiply((oneSlSXF + oneSlBZj), new BigDecimal(shouShu).doubleValue()));
             mTotal.setText(StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
 
+
+            if (!"2".equals(mProductListBean.getIsClosed())) {
+                if (Double.parseDouble(totalMoney) > Double.parseDouble(SpUtil.getString(Constant.CACHE_USER_ASSES))) {
+                    mBuild.setBackgroundResource(R.color.color_CACCCB);
+                    mBuild.setText("余额不足");
+                    mBuild.setClickable(false);
+                } else {
+                    setViewBG(mBuyType.equals("2"));
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 改变背景色
+     *
+     * @param isUp
+     */
+    private void setViewBG(boolean isUp) {
+        if (isUp) {
+            if (!"2".equals(mProductListBean.getIsClosed())) {
+                mBuild.setBackgroundResource(R.color.color_FB4F4F);
+                mBuild.setClickable(true);
+                if (mIsStopChangePrice) {
+                    mBuild.setText("委托建仓");
+                } else {
+                    mBuild.setText("快速建仓");
+                }
+            }
+        } else {
+            if (!"2".equals(mProductListBean.getIsClosed())) {
+                mBuild.setBackgroundResource(R.color.color_2CC593);
+                mBuild.setClickable(true);
+                if (mIsStopChangePrice) {
+                    mBuild.setText("委托建仓");
+                } else {
+                    mBuild.setText("快速建仓");
+                }
+            }
         }
     }
 
