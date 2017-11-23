@@ -413,7 +413,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-//        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
+        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+            billConfirmDialog.dismiss();
+        }
         mAccountLoginDialog.dismiss();
         signinExpandCollapse(true);
         startRun();
