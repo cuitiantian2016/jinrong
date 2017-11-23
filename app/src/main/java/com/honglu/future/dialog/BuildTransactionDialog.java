@@ -491,7 +491,11 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
     @Override
     public void buildTransactionSuccess() {
-        ToastUtil.showToast("建仓成功");
+        if (mIsStopChangePrice) {
+            ToastUtil.showToast("委托建仓成功");
+        } else {
+            ToastUtil.showToast("快速建仓成功");
+        }
         dismiss();
     }
 
