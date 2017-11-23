@@ -63,6 +63,9 @@ public class ConfigUtil {
     //保证金监控中心查询的链接
     public static String QUERY_FUTURE = "https://investorservice.cfmmc.com";
 
+    //用户协议
+    public static String USER_PROTPCOL = baseH5Url + "protocol";
+
 
     //爬取支付宝数据js
     public String GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";

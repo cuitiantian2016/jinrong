@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.LoginEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.register.contract.RegisterContract;
 import com.honglu.future.ui.register.presenter.RegisterPresenter;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
@@ -81,7 +83,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private void initViews() {
     }
 
-    @OnClick({R.id.tv_login, R.id.iv_close, R.id.btn_register, R.id.btn_sendCode})
+    @OnClick({R.id.tv_login, R.id.iv_close, R.id.btn_register, R.id.btn_sendCode,R.id.tv_protocol})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -116,6 +118,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 break;
             case R.id.iv_close:
                 finish();
+                break;
+            case R.id.tv_protocol:
+                Intent intentProtocol = new Intent(mActivity, WebViewActivity.class);
+                intentProtocol.putExtra("title", "用户协议");
+                intentProtocol.putExtra("url", ConfigUtil.USER_PROTPCOL);
+                startActivity(intentProtocol);
                 break;
         }
     }
