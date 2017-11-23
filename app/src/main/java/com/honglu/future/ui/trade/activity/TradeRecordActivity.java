@@ -397,7 +397,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                         }
                         mPresenter.getHistoryTradeBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),endTime);
                     }
-                },500);
+                },1000);
             }else {
                 getHistoryData(clickId);
             }
