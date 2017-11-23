@@ -28,7 +28,7 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
         toSubscribe(HttpManager.getApi().getHoldPositionList(userId, token, company), new HttpSubscriber<List<HoldPositionBean>>() {
             @Override
             public void _onStart() {
-                mView.showLoading("查询持仓列表...");
+                //mView.showLoading("查询持仓列表...");
             }
 
             @Override

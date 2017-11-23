@@ -153,6 +153,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         super.onHiddenChanged(hidden);
         if (hidden) {
             mOpenTransactionFragment.stopRun();
+            mPositionFragment.stopRun();
             MPushUtil.pauseRequest();
         } else {
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
@@ -161,6 +162,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             if (currentPosition == 0) {
                 mOpenTransactionFragment.refreshProductList();
                 mOpenTransactionFragment.startRun();
+            } else if (currentPosition == 1) {
+                mPositionFragment.startRun();
             }
         }
     }
@@ -169,14 +172,19 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onPause() {
         super.onPause();
         mOpenTransactionFragment.stopRun();
+        mPositionFragment.stopRun();
         MPushUtil.pauseRequest();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (currentPosition == 0 && !isHidden() && isVisible()) {
-            mOpenTransactionFragment.startRun();
+        if (!isHidden() && isVisible()) {
+            if (currentPosition == 0) {
+                mOpenTransactionFragment.startRun();
+            } else if (currentPosition == 1) {
+                mPositionFragment.startRun();
+            }
         }
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);

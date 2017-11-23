@@ -60,7 +60,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View,
         PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener,
-        CloseTransactionDialog.OnPostCloseClickListener,BillConfirmDialog.OnConfirmClickListener {
+        CloseTransactionDialog.OnPostCloseClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -86,8 +86,14 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         @Override
         public void run() {
             getAccountInfo();//每隔3秒刷一次
-            getPositionList();
             mHandler.postDelayed(this, 3000);
+        }
+    };
+
+    private Runnable mPositionRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getPositionList();
         }
     };
 
@@ -151,7 +157,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                     }
                 } else {
                     if (isVisible()) {
-                        getPositionList();
                         startRun();
                     }
                 }
@@ -166,6 +171,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     public void stopRun() {
         mHandler.removeCallbacks(mRunnable);
+        mHandler.removeCallbacks(mPositionRunnable);
     }
 
     @Override
@@ -253,7 +259,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }
         mAccountLoginDialog.dismiss();
@@ -262,7 +268,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog = new BillConfirmDialog(mContext, bean);
         billConfirmDialog.setOnConfirmClickListenerr(this);
         billConfirmDialog.show();
     }
@@ -303,7 +309,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     //显示平仓
     @Override
     public void onCloseClick(HoldPositionBean bean) {
-        if (bean !=null && !TextUtils.isEmpty(bean.getInstrumentId())){
+        if (bean != null && !TextUtils.isEmpty(bean.getInstrumentId())) {
             this.mHoldPositionBean = bean;
             mPresenter.getProductDetail(bean.getInstrumentId());
         }
@@ -312,7 +318,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     //产品详情
     @Override
     public void getProductDetailSuccess(ProductListBean productListBean) {
-        mCloseDialog.showDialog(mHoldPositionBean,productListBean);
+        mCloseDialog.showDialog(mHoldPositionBean, productListBean);
     }
 
 
@@ -351,8 +357,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         } else {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
+        mHandler.postDelayed(mPositionRunnable, 1000);
     }
-
 
 
     @Override
