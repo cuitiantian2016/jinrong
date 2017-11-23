@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -664,16 +665,25 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if (Configuration.ORIENTATION_LANDSCAPE == getResources()
-                    .getConfiguration().orientation) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // TODO Auto-generated method stub
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (isLandScape()) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                } else {
+                    finish();
+                }
                 return true;
-            } else {
-                finish();
-            }
+            default:
+                break;
         }
+
         return super.onKeyDown(keyCode, event);
+    }
+
+    public boolean isLandScape() {
+        return Configuration.ORIENTATION_LANDSCAPE == getResources()
+                .getConfiguration().orientation;
     }
 
     @Override

@@ -214,14 +214,16 @@ public class BillConfirmDialog extends Dialog implements View.OnClickListener {
     }
 
     private void setTabData() {
-        for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
-            HistoryRecordsBean bean = new HistoryRecordsBean();
-            bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
-            bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
-            bean.setBuyHands(settlementInfoBean.getTransactionList().get(i).getLots());
-            bean.setBuildPrice(settlementInfoBean.getTransactionList().get(i).getPrice());
-            bean.setServicePrice(settlementInfoBean.getTransactionList().get(i).getFee());
-            mList.add(bean);
+        if (settlementInfoBean.getTransactionList() != null && settlementInfoBean.getTransactionList().size() > 0) {
+            for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
+                HistoryRecordsBean bean = new HistoryRecordsBean();
+                bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
+                bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
+                bean.setBuyHands(settlementInfoBean.getTransactionList().get(i).getLots());
+                bean.setBuildPrice(settlementInfoBean.getTransactionList().get(i).getPrice());
+                bean.setServicePrice(settlementInfoBean.getTransactionList().get(i).getFee());
+                mList.add(bean);
+            }
         }
     }
 
