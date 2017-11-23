@@ -71,10 +71,6 @@
              </LinearLayout>
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_10dp"/>
-
         <com.honglu.future.widget.ExpandableLayout
             android:id="@+id/ex_expandableView"
             android:layout_width="match_parent"
@@ -85,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_20dp"
-            android:paddingRight="@dimen/dimen_20dp"
+            android:paddingLeft="@dimen/dimen_15dp"
+            android:paddingRight="@dimen/dimen_15dp"
             android:background="@color/color_white"
             android:paddingTop="@dimen/dimen_32dp"
             android:paddingBottom="@dimen/dimen_32dp">
@@ -97,20 +93,21 @@
                 android:textSize="@dimen/dimen_18sp"
                 android:textColor="@color/color_333333"
                 android:layout_gravity="center_vertical"
-                android:text="@string/text_me_account"
+                android:text="@string/text_login_qihuo_account"
                 android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/tv_signin"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/dimen_30dp"
+                android:paddingRight="@dimen/dimen_15dp"
+                android:paddingLeft="@dimen/dimen_15dp"
                 android:gravity="center"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_008EFF"
+                android:textSize="@dimen/dimen_15sp"
+                android:textColor="@color/color_white"
                 android:layout_gravity="center_vertical"
-                android:drawableRight="@mipmap/ic_right_blue_small_arrow"
-                android:drawablePadding="@dimen/dimen_2dp"
-                android:text="@string/text_user_qihuo_signin"/>
+                android:background="@drawable/btn_user_recharge_bg"
+                android:text="@string/text_q_login"/>
         </LinearLayout>
        </com.honglu.future.widget.ExpandableLayout>
 
@@ -126,13 +123,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/color_white"
-            android:paddingTop="@dimen/dimen_17dp">
+            android:background="@color/color_white">
 
             <TextView
                 android:id="@+id/tv_open_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_marginBottom="@dimen/dimen_17dp"
                 android:drawableTop="@mipmap/ic_user_open_account"
                 android:gravity="center_horizontal"
                 android:text="@string/text_user_open_account"
@@ -141,10 +139,17 @@
                 android:drawablePadding="@dimen/dimen_16dp"
                 android:textSize="@dimen/dimen_12sp" />
 
+                <View
+                    android:layout_width="@dimen/dimen_line"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_EDEDED"/>
+
             <TextView
                 android:id="@+id/tv_novice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_marginBottom="@dimen/dimen_17dp"
                 android:drawableTop="@mipmap/ic_user_novice"
                 android:gravity="center_horizontal"
                 android:text="@string/text_user_novice"
@@ -153,10 +158,18 @@
                 android:drawablePadding="@dimen/dimen_16dp"
                 android:textSize="@dimen/dimen_12sp" />
 
+
+            <View
+                android:layout_width="@dimen/dimen_line"
+                android:layout_height="match_parent"
+                android:background="@color/color_EDEDED"/>
+
             <TextView
                 android:id="@+id/tv_kefu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_marginBottom="@dimen/dimen_17dp"
                 android:textSize="@dimen/dimen_12sp"
                 android:textColor="@color/color_333333"
                 android:drawableTop="@mipmap/ic_user_kefu"
@@ -166,13 +179,16 @@
                 android:text="@string/text_user_kefu"/>
         </LinearLayout>
 
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/dimen_line"
+              android:background="@color/color_EDEDED"/>
+
          <LinearLayout
              android:id="@+id/ll_bottomLayout2"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:orientation="horizontal"
-             android:paddingTop="@dimen/dimen_35dp"
-             android:paddingBottom="@dimen/dimen_23dp"
              android:background="@color/color_white">
 
 
@@ -180,6 +196,8 @@
                  android:id="@+id/tv_phone"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/dimen_17dp"
+                 android:layout_marginBottom="@dimen/dimen_17dp"
                  android:drawableTop="@mipmap/ic_user_phone"
                  android:drawablePadding="@dimen/dimen_16dp"
                  android:gravity="center_horizontal"
@@ -189,10 +207,17 @@
                  android:layout_weight="1"/>
 
 
+             <View
+                 android:layout_width="@dimen/dimen_line"
+                 android:layout_height="match_parent"
+                 android:background="@color/color_EDEDED"/>
+
              <TextView
                  android:id="@+id/tv_aboutus"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/dimen_17dp"
+                 android:layout_marginBottom="@dimen/dimen_17dp"
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_333333"
                  android:drawableTop="@mipmap/ic_user_aboutus"
@@ -201,10 +226,17 @@
                  android:text="@string/text_user_aboutus"
                  android:layout_weight="1"/>
 
+             <View
+                 android:layout_width="@dimen/dimen_line"
+                 android:layout_height="match_parent"
+                 android:background="@color/color_EDEDED"/>
+
              <TextView
                  android:id="@+id/tv_update"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/dimen_17dp"
+                 android:layout_marginBottom="@dimen/dimen_17dp"
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_333333"
                  android:drawableTop="@mipmap/ic_user_appupdate"
@@ -214,5 +246,8 @@
                  android:layout_weight="1"/>
          </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_10dp"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

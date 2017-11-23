@@ -49,6 +49,7 @@ import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
 
@@ -90,6 +91,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mSignout;
     @BindView(R.id.tv_danger_chance)
     TextView mDangerChance;
+    @BindView(R.id.ll_leftAccount)
+    LinearLayout mLeftAccountView;
     @BindView(R.id.tv_money)
     TextView mMoney;
     @BindView(R.id.tv_rights_interests)
@@ -177,6 +180,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        int screenWidth = ViewUtil.getScreenWidth(getActivity());
+        int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
+        int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLeftAccountView.getLayoutParams();
+        params.width  =  (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;;
+        mLeftAccountView.setLayoutParams(params);
+
         if (!App.getConfig().getAccountLoginStatus()) {
             signinExpandCollapse(false);
         } else {

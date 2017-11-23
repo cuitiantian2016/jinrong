@@ -11,16 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="@dimen/dimen_20dp">
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:layout_marginBottom="@dimen/dimen_10dp">
 
         <TextView
             android:id="@+id/tv_my_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_18sp"
+            android:textSize="@dimen/dimen_15sp"
             android:textColor="@color/color_333333"
             android:layout_gravity="center_vertical"
-            android:text="@string/text_me_account"
+            android:text="@string/text_login_qihuo_account"
             android:layout_weight="1"/>
 
           <TextView
@@ -29,30 +32,29 @@
               android:layout_height="wrap_content"
               android:textColor="@color/color_FB4F4F"
               android:textSize="@dimen/dimen_14sp"
+              android:drawablePadding="@dimen/dimen_7dp"
+              android:drawableLeft="@mipmap/ic_user_signout"
               android:text="@string/text_user_aqsignout"/>
 
     </LinearLayout>
-
-     <View
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/dimen_line"
-         android:background="@color/color_E3E3E3"/>
 
      <LinearLayout
          android:id="@+id/ll_account"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:orientation="horizontal"
-         android:layout_marginTop="@dimen/dimen_25dp"
-         android:layout_marginLeft="@dimen/dimen_20dp"
-         android:layout_marginBottom="@dimen/dimen_25dp">
+         android:background="@mipmap/bg_trade_head"
+         android:layout_marginLeft="@dimen/dimen_10dp"
+         android:layout_marginRight="@dimen/dimen_10dp">
 
 
          <LinearLayout
+             android:id="@+id/ll_leftAccount"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:orientation="vertical">
-
+             android:orientation="vertical"
+             android:layout_marginLeft="@dimen/dimen_20dp"
+             android:layout_marginTop="@dimen/dimen_20dp">
 
              <TextView
                  android:id="@+id/tv_danger_chance"
@@ -93,7 +95,8 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:orientation="vertical"
-             android:layout_marginLeft="@dimen/dimen_80dp">
+             android:layout_marginLeft="@dimen/dimen_10dp"
+             android:layout_marginTop="@dimen/dimen_20dp">
 
 
              <TextView
@@ -136,8 +139,9 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:orientation="horizontal"
-         android:layout_marginLeft="@dimen/dimen_20dp"
-         android:layout_marginRight="@dimen/dimen_20dp">
+         android:layout_marginLeft="@dimen/dimen_15dp"
+         android:layout_marginRight="@dimen/dimen_15dp"
+         android:layout_marginTop="@dimen/dimen_10dp">
 
          <TextView
              android:id="@+id/tv_withdrawals"
@@ -171,14 +175,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_E3E3E3"
-        android:layout_margin="@dimen/dimen_20dp"/>
+        android:background="@color/color_EDEDED"
+        android:layout_margin="@dimen/dimen_15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginBottom="@dimen/dimen_20dp">
 
        <LinearLayout

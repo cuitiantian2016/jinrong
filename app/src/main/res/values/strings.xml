@@ -71,6 +71,8 @@
     <string name="text_setup">设置</string>
     <string name="text_login_register">登录/注册</string>
     <string name="text_me_account">我的账户</string>
+    <string name="text_login_qihuo_account">我的期货账户</string>
+    <string name="text_q_login">去登录</string>
     <string name="text_user_open_account">立即开户</string>
     <string name="text_user_novice">新手入门</string>
     <string name="text_user_kefu">在线客服</string>
