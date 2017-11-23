@@ -415,6 +415,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         showToast("登录成功");
 //        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         mAccountLoginDialog.dismiss();
+        signinExpandCollapse(true);
         startRun();
     }
 
@@ -475,7 +476,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
         mProfitLoss.setText(bean.getPositionProfit() + "");
-        signinExpandCollapse(true);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                         querySettlementInfo(userId, bean.getToken(), company);
 
                     }
-                }, 1000);
+                }, 2000);
 
             }
 
@@ -82,7 +82,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
         toSubscribe(HttpManager.getApi().querySettlementInfo(userId, token, company), new HttpSubscriber<SettlementInfoBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("查询结算单中...");
+                //mView.showLoading("查询结算单中...");
             }
 
             @Override
