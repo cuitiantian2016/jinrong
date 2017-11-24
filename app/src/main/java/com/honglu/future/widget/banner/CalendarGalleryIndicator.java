@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.honglu.future.R;
+import com.honglu.future.util.DeviceUtils;
 
 
 public class CalendarGalleryIndicator extends View {

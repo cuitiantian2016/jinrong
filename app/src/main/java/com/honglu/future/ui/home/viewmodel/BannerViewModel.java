@@ -92,6 +92,7 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
         }
         mBanner.setBackground(null);
         mAutoFlingBannerAdapter.setData(bannerData);
+        mBanner.setRule(Banner.Rule.RIGHT);
         mBanner.changeIndicatorStyle(bannerData.size(), 35, Color.TRANSPARENT);
         mBanner.start();
     }

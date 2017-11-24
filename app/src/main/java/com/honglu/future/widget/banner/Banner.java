@@ -22,7 +22,7 @@ public class Banner extends LinearLayout {
 
     private AutoFlingPager           mPager;
     private AutoFlingPagerAdapter<?> mPagerAdapter;
-    private GalleryIndicator         mPagerIndicator;
+    private CalendarGalleryIndicator         mPagerIndicator;
     private TextView mIndicatorTitle;
     private RelativeLayout mIndicatorLayout;
     private Rule mRule = Rule.CENTER;
@@ -119,7 +119,7 @@ public class Banner extends LinearLayout {
         mPager = (AutoFlingPager) findViewById(R.id.pager_adbanner);
         mPager.setOnPageChangeListener(createOnPagerChangeListener());
         mPager.setDuration(1000);
-        mPagerIndicator = (GalleryIndicator) findViewById(R.id.indicator);
+        mPagerIndicator = (CalendarGalleryIndicator) findViewById(R.id.indicator);
         mIndicatorTitle = (TextView) findViewById(R.id.tv_title);
         mIndicatorLayout = (RelativeLayout) findViewById(R.id.indicator_layout);
     }

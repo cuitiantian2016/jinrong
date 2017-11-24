@@ -34,12 +34,13 @@
 
     </RelativeLayout>
 
-    <com.honglu.future.widget.banner.GalleryIndicator xmlns:indicator="http://schemas.android.com/apk/res-auto"
+    <com.honglu.future.widget.banner.CalendarGalleryIndicator xmlns:indicator="http://schemas.android.com/apk/res-auto"
         android:id="@+id/indicator"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        indicator:space="12dip" />
+        indicator:point_style = "0"
+        indicator:space = "8dp" />
 
 </RelativeLayout>
