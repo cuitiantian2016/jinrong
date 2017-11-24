@@ -60,8 +60,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View,
-        PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener,
-        CloseTransactionDialog.OnPostCloseClickListener, BillConfirmDialog.OnConfirmClickListener {
+        PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -215,7 +214,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 startRun();
             }
         });
-        mCloseDialog.setOnPostCloseClickListener(this);
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -331,20 +329,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mCloseDialog.showDialog(mHoldPositionBean, productListBean);
     }
 
-
-    @Override
-    public void onPostCloseClick(String todayPosition, String orderNumber, String type, String price, String insId, String avgPrice) {
-        mPresenter.closeOrder(todayPosition,
-                SpUtil.getString(Constant.CACHE_TAG_UID),
-                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                orderNumber,
-                type,
-                price,
-                insId,
-                avgPrice,
-                "GUOFU"
-        );
-    }
 
     @Override
     public void closeOrderSuccess() {

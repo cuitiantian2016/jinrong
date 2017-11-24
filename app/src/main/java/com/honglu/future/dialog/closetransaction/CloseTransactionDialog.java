@@ -315,7 +315,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                     }
 
                     String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌" : "买涨";
-                    String ykprice = mFastCloseTransaction.getText().toString();
+                    String ykprice = mProfitLoss.getText().toString();
                     String content = String.format(mContext.getString(R.string.close_trade_hint), mHoldPositionBean.getInstrumentName(), typeStr, mPcNum, ykprice);
 
                     mConfirmDialog.setTitle("确认平仓")
