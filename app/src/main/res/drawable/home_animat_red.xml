@@ -52,7 +52,7 @@
     <item android:duration="50">
         <shape>
             <!--<corners android:radius="5dip"/>-->
-            <solid android:color="@android:color/transparent" />
+            <solid android:color="@android:color/white" />
         </shape>
     </item>
     <!--<item android:drawable="@android:color/transparent"

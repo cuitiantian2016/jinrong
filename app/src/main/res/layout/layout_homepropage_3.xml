@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -11,32 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1.0"
-        android:paddingLeft="16dp">
+        android:background="#FFFFFF"
+        android:layout_margin="5dp">
 
         <TextView
             android:id="@+id/tv_product_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:gravity="center|left"
-            android:textColor="@color/c_464646"
-            android:textSize="15sp"/>
+            android:gravity="center"
+            android:textColor="#4A4A4A"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_pro_open_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_1"
-            android:gravity="center|left"
+            android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_1"
-            android:gravity="center|left">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tv_pro_rate_1"
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_pro_ratechange_1"
@@ -55,7 +55,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -63,43 +63,35 @@
     <RelativeLayout
         android:id="@+id/rl_product_2"
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="100dp"
-        android:layout_weight="1.0" >
-
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@color/c_E6E7EA_70" />
+        android:background="#FFFFFF"
+        android:layout_margin="5dp" >
 
         <TextView
             android:id="@+id/tv_product_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:gravity="center|left"
+            android:gravity="center"
             android:textColor="@color/c_464646"
-            android:textSize="15sp"
-            android:paddingLeft="16dp"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_pro_open_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_2"
-            android:gravity="center|left"
+            android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
-            android:textSize="24sp"
-            android:paddingLeft="16dp"/>
+            android:textSize="22sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_2"
-            android:gravity="center|left"
-            android:paddingLeft="16dp">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tv_pro_rate_2"
@@ -108,7 +100,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_pro_ratechange_2"
@@ -118,7 +110,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -127,42 +119,35 @@
         android:id="@+id/rl_product_3"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_weight="1.0">
+        android:layout_weight="1.0"
+        android:background="#FFFFFF"
+        android:layout_margin="5dp">
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@color/c_E6E7EA_70" />
 
         <TextView
             android:id="@+id/tv_product_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:gravity="center|left"
+            android:gravity="center"
             android:textColor="@color/c_464646"
-            android:textSize="15sp"
-            android:paddingLeft="16dp"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_pro_open_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_3"
-            android:gravity="center|left"
+            android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
-            android:textSize="24sp"
-            android:paddingLeft="16dp"/>
+            android:textSize="22sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_3"
-            android:gravity="center|left"
-            android:paddingLeft="16dp">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tv_pro_rate_3"
@@ -171,7 +156,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_pro_ratechange_3"
@@ -181,7 +166,7 @@
                 android:gravity="center"
                 android:text="--"
                 android:textColor="@color/trade_up"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

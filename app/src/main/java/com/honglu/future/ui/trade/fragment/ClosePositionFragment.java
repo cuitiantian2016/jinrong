@@ -28,7 +28,6 @@ import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -43,11 +42,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.honglu.future.util.ToastUtil.showToast;
 

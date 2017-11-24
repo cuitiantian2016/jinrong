@@ -12,9 +12,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="@color/white"
-        android:paddingBottom="@dimen/dimen_15dp"
-        android:paddingTop="@dimen/dimen_6dp"
+        android:paddingBottom="@dimen/dimen_6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </LinearLayout>
