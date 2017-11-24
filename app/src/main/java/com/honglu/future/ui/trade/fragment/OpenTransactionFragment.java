@@ -61,7 +61,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View,
-        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener,BillConfirmDialog.OnConfirmClickListener {
+        AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
     RecyclerView mOpenTransactionListView;
     @BindView(R.id.srl_refreshView)
@@ -81,7 +81,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }
         mToken = bean.getToken();
@@ -92,7 +92,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog = new BillConfirmDialog(mContext, bean);
         billConfirmDialog.setOnConfirmClickListenerr(this);
         billConfirmDialog.show();
     }
@@ -209,7 +209,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         }
         mOpenTransactionAdapter.clearData();
         mOpenTransactionAdapter.addData(bean);
-        if (!mIsOneGuide){
+        if (!mIsOneGuide) {
             mIsOneGuide = true;
             new TradeGuideDialog(getActivity()).show();
         }
@@ -290,7 +290,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-        mIsOneGuide = SpUtil.getBoolean(Constant.GUIDE_OPEN_TRANSACTION,false);
+        mIsOneGuide = SpUtil.getBoolean(Constant.GUIDE_OPEN_TRANSACTION, false);
         initView();
         initData();
     }
@@ -372,9 +372,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mSelectCode = bean.getInstrumentId();
-                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean);
-                mBuildTransactionDialog.show();
+                if (bean != null) {
+                    mSelectCode = bean.getInstrumentId();
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, bean);
+                    mBuildTransactionDialog.show();
+                } else {
+                    showToast("暂未获取数据");
+                }
             } else {
                 mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
                 mAccountLoginDialog.show();
@@ -397,9 +401,13 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     }).build();
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
-                mSelectCode = bean.getInstrumentId();
-                mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean);
-                mBuildTransactionDialog.show();
+                if (bean != null) {
+                    mSelectCode = bean.getInstrumentId();
+                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, bean);
+                    mBuildTransactionDialog.show();
+                } else {
+                    showToast("暂未获取数据");
+                }
             } else {
                 mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
                 mAccountLoginDialog.show();

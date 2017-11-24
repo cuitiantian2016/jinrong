@@ -601,16 +601,24 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 break;
             case R.id.buy_up:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
-                    mBuildTransactionDialog.show();
+                    if (productListBean != null) {
+                        mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
+                        mBuildTransactionDialog.show();
+                    } else {
+                        showToast("暂未获取数据");
+                    }
                 } else {
                     showAccountLoginDialog();
                 }
                 break;
             case R.id.buy_down:
                 if (App.getConfig().getAccountLoginStatus()) {
-                    mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
-                    mBuildTransactionDialog.show();
+                    if (productListBean != null) {
+                        mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
+                        mBuildTransactionDialog.show();
+                    } else {
+                        showToast("暂未获取数据");
+                    }
                 } else {
                     showAccountLoginDialog();
                 }
@@ -640,7 +648,11 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 mKLinePopupWin.showPopupWind(v);
                 break;
             case R.id.show_tip:
-                mProductRuleDialog.show();
+                if (mProductRuleDialog != null) {
+                    mProductRuleDialog.show();
+                } else {
+                    showToast("暂未获取数据");
+                }
                 break;
         }
     }
