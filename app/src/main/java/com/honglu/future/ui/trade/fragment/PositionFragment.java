@@ -365,6 +365,9 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        if (mCloseDialog !=null){
+            mCloseDialog.onDestroy();
+        }
     }
 
     /***********
