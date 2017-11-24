@@ -110,11 +110,17 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void stopLoading() {
         App.hideLoading();
+        if(mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
     }
 
     @Override
     public void showErrorMsg(String msg, String type) {
         showToast(msg);
+        if(mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
     }
 
     @Override
@@ -129,7 +135,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                     }
                 } else {
                     if (isVisible()) {
-                        getPositionList();
+                       mHandler.postDelayed(mRunable,1000);
                     }
                 }
             } else {
@@ -295,7 +301,9 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     @Override
     public void getEntrustListSuccess(List<EntrustBean> list) {
-        mSmartRefreshLayout.finishRefresh();
+        if(mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
         if (list == null || list.size() == 0) {
             if (mAllList != null && mAllList.size() > 0) {
                 mAllList.clear();

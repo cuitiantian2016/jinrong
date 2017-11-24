@@ -46,28 +46,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.honglu.future.widget.loading.LoadingLayout
-            android:id="@+id/loading_layout"
-            style="@style/MatchMatch">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refresh_layout"
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
+            <com.honglu.future.widget.loading.LoadingLayout
+                android:id="@+id/loading_layout"
+                style="@style/MatchMatch">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_entrust_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    android:scrollbars="none">
-
-                </android.support.v7.widget.RecyclerView>
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-        </com.honglu.future.widget.loading.LoadingLayout>
+                    android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+            </com.honglu.future.widget.loading.LoadingLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <LinearLayout
             android:id="@+id/ll_filter"
