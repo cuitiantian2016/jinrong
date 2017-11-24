@@ -17,7 +17,7 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
-import com.honglu.future.dialog.CloseTransactionDialog;
+import com.honglu.future.dialog.closetransaction.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.ChangeTabEvent;
@@ -180,7 +180,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         EventBus.getDefault().register(this);
         mPopWind = new PositionPopWind(mContext);
         mPositionDialog = new PositionDialog(mContext);
-        mCloseDialog = new CloseTransactionDialog(mContext);
+        mCloseDialog = new CloseTransactionDialog(getActivity());
         mAdapter = new PositionAdapter(PositionFragment.this);
         View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_trade_position_list_header, null);
         LinearLayout tradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);

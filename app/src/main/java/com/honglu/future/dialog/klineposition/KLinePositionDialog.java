@@ -125,7 +125,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                     HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
                     final double exPrice = mAdapter.getExPrice(); //价格
                     final int exPcNum = mAdapter.getExpcNum(); //手数
-                    final int lastPrice = Integer.parseInt(mLastPrice);//最新价
+                    final double lastPrice = Integer.parseInt(mLastPrice);//最新价
                     final int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
                     final int type = holdPositionBean.getType();  //1 跌  2涨
                     final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
@@ -268,7 +268,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
             mYkprice.setText("￥" + mProfitLoss);
         } else {
-            mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_B1B1B3));
+            mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             mYkprice.setText("￥"+mProfitLoss);
         }
     }

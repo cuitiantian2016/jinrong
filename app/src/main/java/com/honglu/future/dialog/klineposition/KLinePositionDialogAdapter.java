@@ -1,5 +1,6 @@
 package com.honglu.future.dialog.klineposition;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -219,6 +220,14 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             mDialog.setPingcangSatte(mBean.getType(), 0);
         }else {
             //实际盈亏
+            double actualProfitLoss = getActualProfitLoss(mPrice, mPcNum, mBean);
+            if (actualProfitLoss > 0){
+                mHolder.mYkprice.setTextColor(ContextCompat.getColor(mContext,R.color.color_FB4F4F));
+            }else if (actualProfitLoss < 0){
+                mHolder.mYkprice.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
+            }else {
+                mHolder.mYkprice.setTextColor(ContextCompat.getColor(mContext,R.color.color_333333));
+            }
             mHolder.mYkprice.setText("￥" + getActualProfitLoss(mPrice,mPcNum,mBean));
             //平仓手续费
             mHolder.mSxprice.setText("￥" + getCloseTradePrice(mPrice,mPcNum, mBean));
