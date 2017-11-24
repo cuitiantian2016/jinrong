@@ -74,6 +74,16 @@ public class DebugActivity extends Activity {
         EventBus.getDefault().post(new LogoutEvent(App.getContext(),1));
         Runtime.getRuntime().exit(0);
     }
+    public void goToHttp(View view) {
+        if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_126_http)){
+            ToastUtil.show("当前环境已经是正式环境http");
+            return;
+        }
+        SpUtil.putString(ConfigUtil.KEY_URL,ConfigUtil.URL_126_http);
+        EventBus.getDefault().post(new LogoutEvent(App.getContext(),0));
+        EventBus.getDefault().post(new LogoutEvent(App.getContext(),1));
+        Runtime.getRuntime().exit(0);
+    }
     public void changeTest126(View view) {
         if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_test_126)){
             ToastUtil.show("当前环境已经是126");
