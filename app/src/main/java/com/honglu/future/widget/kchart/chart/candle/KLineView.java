@@ -157,39 +157,6 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
         return (int) (axisYtopHeight + getDataHeightMian() + longitudeFontSize);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        //获取手指在屏幕上的坐标
-        float x = event.getX();
-        float y = event.getY();
-
-        //获取手指的操作--》按下、移动、松开
-        int action = event.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN://按下
-                if (y > mTabsTop && y < mTabsTop + 80) {
-                    if (x > 0 && x < mWidth / 4) {
-                        mListener.onVOLClick();
-                    } else if (x > mWidth / 4 && x < mWidth / 2) {
-                        mListener.onMACDClick();
-                    } else if (x > mWidth / 2 && x < mWidth * 3 / 4) {
-                        mListener.onKDJClick();
-                    } else if (x > mWidth * 3 / 4 && x < mWidth) {
-                        mListener.onRSIClick();
-                    }
-                    return false;
-                }
-                break;
-
-            case MotionEvent.ACTION_MOVE://移动
-                break;
-            case MotionEvent.ACTION_UP://松开
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
-
     /**
      * 画出最大最小值的K线文字
      *

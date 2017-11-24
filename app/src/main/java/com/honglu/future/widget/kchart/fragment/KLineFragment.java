@@ -123,7 +123,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     private Activity mActivity;
 
     //默认值 也就是NormUnionCandleStickChart的默认值  modify by fangzhu
-    private int lastBottomNorm = KLineNormal.NORMAL_VOL;
+    private int lastBottomNorm = KLineNormal.NORMAL_MACD;
     private int lastTopNorm = KLineNormal.NORMAL_SMA;
 
     float mainF = 4 / 5F;//竖屏时候主图占整体的高度
