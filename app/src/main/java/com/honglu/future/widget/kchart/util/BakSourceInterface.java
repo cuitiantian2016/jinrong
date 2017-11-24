@@ -77,7 +77,7 @@ public class BakSourceInterface {
         klineCycleList.add(new KlineCycle("2小时", PARAM_KLINE_2H));
         klineCycleList.add(new KlineCycle("4小时", PARAM_KLINE_4H));
         klineCycleList.add(new KlineCycle("日线", PARAM_KLINE_1D));
-        klineCycleList.add(new KlineCycle("周线", PARAM_KLINE_WEEK));
+       // klineCycleList.add(new KlineCycle("周线", PARAM_KLINE_WEEK));
 //        klineCycleList.add(new KlineCycle("月线", PARAM_KLINE_MONTH));
     }
 
@@ -94,7 +94,7 @@ public class BakSourceInterface {
 //        specialklineCycleList.add(new KlineCycle("2小时", PARAM_KLINE_2H_WEIPAN));
         specialklineCycleList.add(new KlineCycle("4小时", PARAM_KLINE_4H_WEIPAN));
         specialklineCycleList.add(new KlineCycle("日线", PARAM_KLINE_1D_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("周线", PARAM_KLINE_WEEK_WEIPAN));
+        //specialklineCycleList.add(new KlineCycle("周线", PARAM_KLINE_WEEK_WEIPAN));
 //        klineCycleList.add(new KlineCycle("月线", PARAM_KLINE_MONTH)_WEIPAN);
     }
 //    public static final String PARAM_EXCODE = "excode";

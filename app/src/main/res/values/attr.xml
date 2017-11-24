@@ -384,4 +384,21 @@
         <attr name="tl_textAllCaps"/>
 
     </declare-styleable>
+
+    <declare-styleable name="UnderLineTextView">
+        <attr name="UnderLineColor" format="color" />
+        <attr name="mlineHeight" format="dimension" />
+        <attr name="mlineWidth" format="dimension" />
+        <attr name="upOrunder">
+            <enum name="under" value="0" />
+            <enum name="up" value="1" />
+            <enum name="left" value="2" />
+            <enum name="right" value="3" />
+        </attr>
+        <attr name="fitsPadding" format="boolean" />
+        <attr name="isLineEnable" format="boolean" />
+        <attr name="isLineEnableWhileSelected" format="boolean" />
+        <attr name="isBlodWhileSelected" format="boolean" />
+
+    </declare-styleable>
 </resources>

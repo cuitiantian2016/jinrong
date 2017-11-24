@@ -3,7 +3,6 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/dialog_view"
-	android:background="@drawable/shape_dialog_progress_back"
 	android:layout_gravity="center"
 	android:orientation="vertical"
 	android:gravity="center"
@@ -20,6 +19,7 @@
 		android:layout_marginLeft="15dp"
         android:text="安全加载中..."
         android:textColor="#ffffff"
+		android:visibility="gone"
         android:textSize="14sp" />
 
 	<com.loan.loading.spinkit.SpinKitView

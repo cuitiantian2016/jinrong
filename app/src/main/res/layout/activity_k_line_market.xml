@@ -129,8 +129,8 @@
                             android:id="@+id/tv_rise_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
                             android:layout_marginLeft="@dimen/dimen_30dp"
+                            android:includeFontPadding="false"
                             android:text="0"
                             android:textColor="@color/color_1DB98F"
                             android:textSize="@dimen/dimen_14sp" />
@@ -172,8 +172,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:minHeight="16dp"
                     android:minWidth="35dp"
@@ -185,8 +185,8 @@
                     android:id="@+id/tv_hold_vol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_vol"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@id/tv_vol"
                     android:layout_marginRight="@dimen/dimen_8dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:gravity="left"
@@ -220,10 +220,10 @@
                     android:id="@+id/tv_buy_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_8dp"
                     android:layout_marginTop="5dp"
                     android:layout_toLeftOf="@id/text_open"
                     android:gravity="left"
-                    android:layout_marginRight="@dimen/dimen_8dp"
                     android:minHeight="16dp"
                     android:minWidth="35dp"
                     android:text="--"
@@ -554,111 +554,149 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.honglu.future.widget.kchart.ViewPagerEx
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/ll_bottom_tabs"
-                android:layout_below="@+id/tablayout" />
+            <!--<com.honglu.future.widget.kchart.ViewPagerEx-->
+            <!--android:id="@+id/viewpager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_above="@+id/ll_bottom_tabs"-->
+            <!--android:layout_below="@+id/tablayout" />-->
 
-            <com.honglu.future.widget.kchart.SlidingTabLayout
-                android:id="@+id/tablayout"
+            <!--<com.honglu.future.widget.kchart.SlidingTabLayout-->
+            <!--android:id="@+id/tablayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dimen_36dp"-->
+            <!--android:background="@color/color_292A34"-->
+            <!--app:tl_indicator_color="@color/color_008EFF"-->
+            <!--app:tl_indicator_height="@dimen/dimen_2dp"-->
+            <!--app:tl_tab_padding="0dp"-->
+            <!--app:tl_textSelectColor="@android:color/white"-->
+            <!--app:tl_textUnselectColor="@color/color_B1B3B2"-->
+            <!--app:tl_textsize="@dimen/dimen_14sp"-->
+            <!--app:tl_underline_color="@color/transparent"-->
+            <!--app:tl_underline_height="@dimen/dimen_1dp_half" />-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_36dp"
-                android:background="@color/color_292A34"
-                app:tl_indicator_color="@color/color_008EFF"
-                app:tl_indicator_height="@dimen/dimen_2dp"
-                app:tl_tab_padding="0dp"
-                app:tl_textSelectColor="@android:color/white"
-                app:tl_textUnselectColor="@color/color_B1B3B2"
-                app:tl_textsize="@dimen/dimen_14sp"
-                app:tl_underline_color="@color/transparent"
-                app:tl_underline_height="@dimen/dimen_1dp_half" />
+                android:background="@color/color_292A34" />
 
             <LinearLayout
-                android:id="@+id/ll_bottom_tabs"
+                android:id="@+id/fragment_container"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/recycleView"
+                android:layout_above="@+id/bottom_layout"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/bottom_layout"
                 android:layout_width="match_parent"
-                android:layout_height="61dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="@dimen/dimen_2dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/buy_up"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/color_FB4F4F"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:id="@+id/layoutBottom_land"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/tv_rise_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/dimen_16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_2dp"
-                        android:text="买涨"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen_16sp" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/landRecycleViewCycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/color_292A34"
+                        android:visibility="visible" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/buy_down"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/color_2CC593"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_down_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/dimen_16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_2dp"
-                        android:text="买跌"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen_16sp" />
-                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/hold_position"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/white"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:id="@+id/ll_bottom_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="61dp"
 
-                    <TextView
-                        android:id="@+id/tv_hold_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/color_333333"
-                        android:textSize="@dimen/dimen_16sp" />
+                    android:layout_marginTop="@dimen/dimen_2dp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_2dp"
-                        android:text="持仓"
-                        android:textColor="@color/color_333333"
-                        android:textSize="@dimen/dimen_16sp" />
+                    <LinearLayout
+                        android:id="@+id/buy_up"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/color_FB4F4F"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_rise_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_2dp"
+                            android:text="买涨"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/buy_down"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/color_2CC593"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_down_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_2dp"
+                            android:text="买跌"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/hold_position"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_hold_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/dimen_16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_2dp"
+                            android:text="持仓"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/dimen_16sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 

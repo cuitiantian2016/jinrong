@@ -3,6 +3,7 @@ package com.honglu.future.widget.kchart.fragment;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.TimeUtil;
+import com.honglu.future.widget.kchart.UnderLineTextView;
 import com.honglu.future.widget.kchart.chart.candle.KLineView;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
@@ -54,67 +58,13 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * 硬件加速问题  导致多层次的view重新绘制
  * 设置hardwareAccelerated true
  */
-public class KLineFragment extends PagerFragment implements KLineContract.View, OnKCrossLineMoveListener,
-        OnKLineTouchDisableListener, OnKChartClickListener, KLineView.OnSubTabClickListener {
+public class KLineFragment extends BaseFragment<KLinePresenter> implements KLineContract.View, OnKCrossLineMoveListener,
+        OnKLineTouchDisableListener, OnKChartClickListener {
     public static final String TAG = "KLineFragment";
     @BindView(R.id.klineView)
     KLineView kLineView;
     @BindView(R.id.crossLineView)
     KCrossLineView crossLineView;
-    @BindView(R.id.layoutContent)
-    View layoutContent = null;
-    @BindView(R.id.mainNormal)
-    View mainNormal;
-    @BindView(R.id.subNormal)
-    View subNormal;
-    @BindView(R.id.tab_SMA_land)
-    View mainNormalViewLand;
-    @BindView(R.id.tab_VOL_land)
-    View subNormalViewLand;
-    @BindView(R.id.tab_EMA_land)
-    View tab_EMA_land;
-    @BindView(R.id.tab_BOLL_land)
-    View tab_BOLL_land;
-    @BindView(R.id.tab_MACD_land)
-    View tab_MACD_land;
-    @BindView(R.id.tab_RSI_land)
-    View tab_RSI_land;
-    @BindView(R.id.tab_KDJ_land)
-    View tab_KDJ_land;
-    @BindView(R.id.ll_bottom)
-    CommonTabLayout mBottomTabs;
-    @BindView(R.id.top_common_tab_layout)
-    CommonTabLayout mTopTabLayout;
-    @BindView(R.id.ll_right_tab)
-    LinearLayout mLlRightTab;
-    @BindView(R.id.sma_land)
-    TextView mTvLandSma;
-    @BindView(R.id.ema_land)
-    TextView mTvLandEma;
-    @BindView(R.id.boll_land)
-    TextView mTvLandBoll;
-    @BindView(R.id.vol_land)
-    TextView mTvLandVol;
-    @BindView(R.id.macd_land)
-    TextView mTvLandMacd;
-    @BindView(R.id.kdj_land)
-    TextView mTvLandKdj;
-    @BindView(R.id.rsi_land)
-    TextView mTvLandRsi;
-    @BindView(R.id.sma_land_view)
-    View mSmaView;
-    @BindView(R.id.ema_land_view)
-    View mEmaView;
-    @BindView(R.id.boll_land_view)
-    View mBollView;
-    @BindView(R.id.vol_land_view)
-    View mVolView;
-    @BindView(R.id.macd_land_view)
-    View mMacdView;
-    @BindView(R.id.kdj_land_view)
-    View mKdjView;
-    @BindView(R.id.rsi_land_view)
-    View mRsiView;
     @BindView(R.id.crossInfoView)
     LinearLayout crossInfoView;
     @BindView(R.id.tv_time)
@@ -131,6 +81,42 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     TextView tv_rate;
     @BindView(R.id.tv_rateChange)
     TextView tv_rateChange;
+    @BindView(R.id.layoutContent)
+    View layoutContent = null;
+    @BindView(R.id.mainNormal)
+    View mainNormal;
+    @BindView(R.id.subNormal)
+    View subNormal;
+    @BindView(R.id.tab_SMA)
+    View mainNormalView;
+    @BindView(R.id.tab_MACD)
+    View subNormalView;
+    @BindView(R.id.tab_SMA_land)
+    View mainNormalViewLand;
+    @BindView(R.id.tab_MACD_land)
+    View subNormalViewLand;
+    @BindView(R.id.landTypeView)
+    View landTypeView;
+    @BindView(R.id.tab_EMA)
+    UnderLineTextView mTabEma;
+    @BindView(R.id.tab_BOLL)
+    UnderLineTextView mTabBoll;
+    @BindView(R.id.tab_RSI)
+    UnderLineTextView mTabRsi;
+    @BindView(R.id.tab_KDJ)
+    UnderLineTextView mTabKdj;
+
+    @BindView(R.id.tab_EMA_land)
+    UnderLineTextView mTabEmaLand;
+    @BindView(R.id.tab_BOLL_land)
+    UnderLineTextView mTabBollLand;
+    @BindView(R.id.tab_RSI_land)
+    UnderLineTextView mTabRsiLand;
+    @BindView(R.id.tab_KDJ_land)
+    UnderLineTextView mTabKdjLand;
+    @BindView(R.id.root_view)
+    View rootView;
+
     //tab 数据
     private ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
     private ArrayList<CustomTabEntity> mBottmTabList = new ArrayList<>();
@@ -144,11 +130,9 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     float subF = 1 / 5F;//竖屏时候附图占整体的高度
     float lanMainF = 2 / 3F;//横屏时候主图占整体的高度
     float lanSubF = 1 / 3F;//横屏时候附图占整体的高度
-    private FrameLayout.LayoutParams mParams;
     //传入的code
-    String excode, code, type;
-    //    String cycle;//周期
-    private KLinePresenter mKLinePresenter;
+    String excode, code;
+    String cycle;//周期
     private int mTopPosition = 0;
     private int mBottomPosition = 0;
     private static final int UNSELECT_TAB_TEXT_COLOR = 0xffB1B3B2;
@@ -169,22 +153,10 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         return fragment;
     }
 
-    public void setExcode(String excode) {
-        this.excode = excode;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public void showLoading(String content) {
         if (!TextUtils.isEmpty(content)) {
-            App.loadingContent(mActivity, content);
+            App.loadingDefault(mActivity);
         }
     }
 
@@ -214,115 +186,54 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
 
     @Override
     public void initPresenter() {
-        mKLinePresenter = new KLinePresenter();
-        mKLinePresenter.init(this);
+        mPresenter.init(this);
     }
 
     @Override
     public void loadData() {
         Log.v(TAG, "onCreateView--");
-//        lastBottomNorm = AppSetting.getInstance(getActivity()).getKlineNormalSubChart();
 //        if (savedInstanceState != null) {
 //            lastTopNorm = savedInstanceState.getInt("toptype", KLineNormal.NORMAL_SMA);
 //            lastBottomNorm = savedInstanceState.getInt("bottomtype", lastBottomNorm);
 //        }
-//        type = getArguments().getString("type");
-//        code = getArguments().getString("code");
-//        cycle = getArguments().getString("interval");
+        excode = getArguments().getString("exCode");
+        code = getArguments().getString("code");
+        cycle = getArguments().getString("interval");
 
         initView();
-        //tab 切换
-        mTopTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                mTopPosition = position;
-                switch (position) {
-                    case 0:
-                        event4SMA();
-                        break;
-                    case 1:
-                        event4EMA();
-                        break;
-                    case 2:
-                        event4BOLL();
-                        break;
-                }
-            }
-        });
-        mBottomTabs.setOnTabSelectListener(new SimpleOnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                mBottomPosition = position;
-                switch (position) {
-                    case 0:
-                        event4VOL();
-                        break;
-                    case 1:
-                        event4MACD();
-                        break;
-                    case 2:
-                        event4KDJ();
-                        break;
-                    case 3:
-                        event4RSI();
-                        break;
-                }
-            }
-        });
-        mTabList.clear();
-        mTabList.add(new TabEntity("SMA"));
-        mTabList.add(new TabEntity("EMA"));
-        mTabList.add(new TabEntity("BOLL"));
-        mTopTabLayout.setTabData(mTabList);
-        mTopTabLayout.setCurrentTab(0);
-        //底部TAB指标
-        mBottmTabList.clear();
-        mBottmTabList.add(new TabEntity("VOL"));
-        mBottmTabList.add(new TabEntity("MACD"));
-        mBottmTabList.add(new TabEntity("KDJ"));
-        mBottmTabList.add(new TabEntity("RSI"));
-        mBottomTabs.setTabData(mBottmTabList);
-        mBottomTabs.setCurrentTab(0);
-        setTabsLocation();
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        mTopPosition = 0;
-        mBottomPosition = 0;
-        performTabClick();
         getKlineData();
     }
 
-    @Override
-    protected void onInvisible() {
-        super.onInvisible();
-    }
-
     private void getKlineData() {
-        mKLinePresenter.getKLineData(excode, code, type);
+        if (layoutContent != null)
+            layoutContent.setVisibility(View.INVISIBLE);
+        mPresenter.getKLineData(excode, code, cycle);
     }
 
     @Override
     public void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
     }
 
-
     public void initView() {
-        //设置k线里tab位置
-        mParams = (FrameLayout.LayoutParams) mBottomTabs.getLayoutParams();
-        mParams.setMargins(0, kLineView.getTabHeight(), 0, 0);// 通过自定义坐标来放置你的控件
-        mBottomTabs.setLayoutParams(mParams);
+        int numberScale = ProFormatConfig.getProFormatMap(excode + "|" + code);
+        kLineView.setNumberScal(numberScale != -1 ? numberScale : 2);
+        if ("XAG1".equals(code)
+                || BakSourceInterface.TRUDE_SOURCE_WEIPANP_JN.equals(excode)) {
+            //如果品种是银，直接使用整数
+            kLineView.setNumberScal(0);
+        }
+
         //设置配置的k线颜色
         kLineView.setCandlePostColor(getResources().getColor(R.color.actionsheet_red));
         kLineView.setCandleNegaColor(getResources().getColor(R.color.actionsheet_blue));
 
         kLineView.setCrossLineView(crossLineView);
-        kLineView.setShowSubChart(false);
-//        kLineView.setAxisYtopHeight(0);//最顶部不留白 顶部的时间就画不出来
+        kLineView.setShowSubChart(true);
+        kLineView.setAxisYtopHeight(0);//最顶部不留白 顶部的时间就画不出来
         kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 47));
         //Y轴价格坐标 在边框内部
         kLineView.setAxisTitlein(true);
@@ -337,26 +248,26 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         //阻断touch事件的分发逻辑  listView headerView,这里还是用listview的onitemClick，touch太容易触发
 //        kLineView.setOnKLineTouchDisableListener(this);
         kLineView.setOnKChartClickListener(this);
-        kLineView.setOnSubTabClickListener(this);
 
+        mainNormalView.setSelected(true);
+        subNormalView.setSelected(true);
         mainNormalViewLand.setSelected(true);
         subNormalViewLand.setSelected(true);
 
-        mainNormalViewLand.setOnClickListener(normalLinstener);
-        tab_EMA_land.setOnClickListener(normalLinstener);
-        tab_BOLL_land.setOnClickListener(normalLinstener);
-        subNormalViewLand.setOnClickListener(normalLinstener);
-        tab_MACD_land.setOnClickListener(normalLinstener);
-        tab_RSI_land.setOnClickListener(normalLinstener);
-        tab_KDJ_land.setOnClickListener(normalLinstener);
+        mainNormalView.setOnClickListener(normalLinstener);
+        mTabEma.setOnClickListener(normalLinstener);
+        mTabBoll.setOnClickListener(normalLinstener);
+        subNormalView.setOnClickListener(normalLinstener);
+        mTabRsi.setOnClickListener(normalLinstener);
+        mTabKdj.setOnClickListener(normalLinstener);
 
-        mTvLandSma.setOnClickListener(normalLinstener);
-        mTvLandEma.setOnClickListener(normalLinstener);
-        mTvLandBoll.setOnClickListener(normalLinstener);
-        mTvLandVol.setOnClickListener(normalLinstener);
-        mTvLandMacd.setOnClickListener(normalLinstener);
-        mTvLandKdj.setOnClickListener(normalLinstener);
-        mTvLandRsi.setOnClickListener(normalLinstener);
+        mainNormalViewLand.setOnClickListener(normalLinstener);
+        mTabEmaLand.setOnClickListener(normalLinstener);
+        mTabBollLand.setOnClickListener(normalLinstener);
+        subNormalViewLand.setOnClickListener(normalLinstener);
+        mTabRsiLand.setOnClickListener(normalLinstener);
+        mTabKdjLand.setOnClickListener(normalLinstener);
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //当前为横屏
             handLandView(true);
@@ -380,85 +291,40 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //当前为横屏
             handLandView(true);
+
             kLineView.setMainF(lanMainF);
             kLineView.setSubF(lanSubF);
         } else {
             //切换到竖屏
             handLandView(false);
+
             kLineView.setMainF(mainF);
             kLineView.setSubF(subF);
-            mTopTabLayout.setCurrentTab(mTopPosition);
-            mBottomTabs.setCurrentTab(mBottomPosition);
         }
-    }
-
-
-    private void performTabClick() {
-        switch (mTopPosition) {
-            case 0:
-                mTvLandSma.performClick();
-                break;
-            case 1:
-                mTvLandEma.performClick();
-                break;
-            case 2:
-                mTvLandBoll.performClick();
-                break;
-        }
-
-        switch (mBottomPosition) {
-            case 0:
-                mTvLandVol.performClick();
-                break;
-            case 1:
-                mTvLandMacd.performClick();
-                break;
-            case 2:
-                mTvLandKdj.performClick();
-                break;
-            case 3:
-                mTvLandRsi.performClick();
-                break;
-        }
-
-
     }
 
     void handLandView(boolean isLand) {
         if (isLand) {
             kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 15));
+
             //隐藏竖屏的指标
             mainNormal.setVisibility(View.GONE);
             subNormal.setVisibility(View.GONE);
-            mBottomTabs.setVisibility(View.GONE);
-            mTopTabLayout.setVisibility(View.GONE);
-            //显示横屏指标
-            if (mLlRightTab != null) {
-                mLlRightTab.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        performTabClick();
-                    }
-                }, 300);
 
-            }
+            //显示横屏指标
+            if (landTypeView != null)
+                landTypeView.setVisibility(View.VISIBLE);
         } else {
             kLineView.setAxisYmiddleHeight(KDisplayUtil.dip2px(getActivity(), 47));
             //显示竖屏的指标
             mainNormal.setVisibility(View.VISIBLE);
             subNormal.setVisibility(View.VISIBLE);
-            mTopTabLayout.setVisibility(View.VISIBLE);
-            setTabsLocation();
+
             //隐藏横屏指标
-            if (mLlRightTab != null) {
-                mLlRightTab.setVisibility(View.GONE);
-            }
+            if (landTypeView != null)
+                landTypeView.setVisibility(View.GONE);
         }
-
     }
-
 
     public boolean isLandScape() {
         return Configuration.ORIENTATION_LANDSCAPE == getActivity().getResources()
@@ -487,32 +353,27 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         kLineView.setSubNormal(KLineNormal.NORMAL_VOL);
     }
 
-    public void setTabsLocation() {
-        if (!isLandScape()) {
-            mBottomTabs.setVisibility(View.VISIBLE);
-            kLineView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    kLineView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    mParams.setMargins(0, kLineView.getTabHeight(), 0, 0);// 通过自定义坐标来放置你的控件
-                    mBottomTabs.setLayoutParams(mParams);
-                }
-            });
-        }
-    }
-
     void event4RSI() {
         kLineView.setSubLineData(KParseUtils.getRsiLineDatas(list,
                 KParamConfig.getRsiParam1(getActivity()),
                 KParamConfig.getRsiParam2(getActivity()),
                 KParamConfig.getRsiParam3(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_RSI);
+
     }
+
 
     void event4SMA() {
         kLineView.setMainNormal(KLineNormal.NORMAL_SMA);
-        kLineView.setMainLineData(KParseUtils.getSMAData(list,
-                KParamConfig.getSMAcfg(getActivity(), true)));
+        if (BakSourceInterface.PARAM_KLINE_5M_WEIPAN.equals(cycle)
+                || BakSourceInterface.PARAM_KLINE_5M.equals(cycle)
+                || BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
+            kLineView.setMainLineData(KParseUtils.getSMAData(list,
+                    KParamConfig.getSMAcfg(getActivity(), false)));
+        } else {
+            kLineView.setMainLineData(KParseUtils.getSMAData(list,
+                    KParamConfig.getSMAcfg(getActivity(), true)));
+        }
     }
 
     void event4BOLL() {
@@ -532,83 +393,169 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         @Override
         public void onClick(View view) {
             int id = view.getId();
-            if (id == R.id.sma_land) {
-                setTopViewVisible(id, 0);
+            if (id == R.id.tab_SMA) {
                 event4SMA();
+                mainNormalView.setSelected(false);
+                mainNormalView = view;
+                mainNormalView.setSelected(true);
+
+                mainNormalViewLand.setSelected(false);
+                mainNormalViewLand = rootView.findViewById(R.id.tab_SMA_land);
+                mainNormalViewLand.setSelected(true);
             }
-            if (id == R.id.ema_land) {
-                setTopViewVisible(id, 1);
+            if (id == R.id.tab_EMA) {
                 event4EMA();
+                mainNormalView.setSelected(false);
+                mainNormalView = view;
+                mainNormalView.setSelected(true);
+
+                mainNormalViewLand.setSelected(false);
+                mainNormalViewLand = rootView.findViewById(R.id.tab_EMA_land);
+                mainNormalViewLand.setSelected(true);
             }
-            if (id == R.id.boll_land) {
-                setTopViewVisible(id, 2);
+            if (id == R.id.tab_BOLL) {
                 event4BOLL();
+                mainNormalView.setSelected(false);
+                mainNormalView = view;
+                mainNormalView.setSelected(true);
+
+                mainNormalViewLand.setSelected(false);
+                mainNormalViewLand = rootView.findViewById(R.id.tab_BOLL_land);
+                mainNormalViewLand.setSelected(true);
             }
 
-            if (id == R.id.vol_land) {
-                setBottomViewVisible(id, 0);
-                event4VOL();
-            }
-            if (id == R.id.macd_land) {
-                setBottomViewVisible(id, 1);
+            //附图
+            if (id == R.id.tab_MACD) {
                 event4MACD();
+                subNormalView.setSelected(false);
+                subNormalView = view;
+                subNormalView.setSelected(true);
+
+                subNormalViewLand.setSelected(false);
+                subNormalViewLand = rootView.findViewById(R.id.tab_MACD_land);
+                subNormalViewLand.setSelected(true);
             }
-            if (id == R.id.kdj_land) {
-                setBottomViewVisible(id, 2);
-                event4KDJ();
-            }
-            if (id == R.id.rsi_land) {
-                setBottomViewVisible(id, 3);
+            if (id == R.id.tab_RSI) {
                 event4RSI();
+                subNormalView.setSelected(false);
+                subNormalView = view;
+                subNormalView.setSelected(true);
+
+                subNormalViewLand.setSelected(false);
+                subNormalViewLand = rootView.findViewById(R.id.tab_RSI_land);
+                subNormalViewLand.setSelected(true);
+            }
+            if (id == R.id.tab_KDJ) {
+                event4KDJ();
+                subNormalView.setSelected(false);
+                subNormalView = view;
+                subNormalView.setSelected(true);
+
+                subNormalViewLand.setSelected(false);
+                subNormalViewLand = rootView.findViewById(R.id.tab_KDJ_land);
+                subNormalViewLand.setSelected(true);
+            }
+
+            if (id == R.id.tab_SMA_land) {
+                rootView.findViewById(R.id.tab_SMA).performClick();
+            }
+            if (id == R.id.tab_EMA_land) {
+                rootView.findViewById(R.id.tab_EMA).performClick();
+            }
+            if (id == R.id.tab_BOLL_land) {
+                rootView.findViewById(R.id.tab_BOLL).performClick();
+            }
+
+            if (id == R.id.tab_MACD_land) {
+                rootView.findViewById(R.id.tab_MACD).performClick();
+            }
+            if (id == R.id.tab_RSI_land) {
+                rootView.findViewById(R.id.tab_RSI).performClick();
+            }
+            if (id == R.id.tab_KDJ_land) {
+                rootView.findViewById(R.id.tab_KDJ).performClick();
             }
         }
     };
 
 
-    private void setTopViewVisible(int id, int position) {
-        mTopPosition = position;
-        mSmaView.setVisibility(View.GONE);
-        mEmaView.setVisibility(View.GONE);
-        mBollView.setVisibility(View.GONE);
-        mTvLandSma.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        mTvLandEma.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        mTvLandBoll.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        if (id == R.id.sma_land) {
-            mSmaView.setVisibility(View.VISIBLE);
-            mTvLandSma.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        } else if (id == R.id.ema_land) {
-            mEmaView.setVisibility(View.VISIBLE);
-            mTvLandEma.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        } else if (id == R.id.boll_land) {
-            mBollView.setVisibility(View.VISIBLE);
-            mTvLandBoll.setTextColor(SELECTED_TAB_TEXT_COLOR);
+    /**
+     * 十字线 滑动显示对应的日期K线信息
+     *
+     * @param object
+     */
+    @Override
+    public void onCrossLineMove(KCandleObj object) {
+        try {
+            if (crossInfoView == null)
+                return;
+            if (object == null)
+                return;
+            if (kLineView.getkCandleObjList() == null)
+                return;
+            //昨收价格为上一个k线的收盘价,如果是第一个k线就是open价
+            double zuoClose = object.getClose();
+            //获取到当前的位置
+            int index = kLineView.getTouchIndex();
+            //上一个k线的位置
+            index = index - 1;
+            if (index >= 0 && index < kLineView.getkCandleObjList().size()) {
+                zuoClose = kLineView.getkCandleObjList().get(index).getClose();
+            }
+
+            tv_time.setText(object.getTime());
+
+            //收盘价用白色标示，其他大于close 红色，小于绿色
+            tv_close.setText(ProFormatConfig.formatByCodes(excode + "|" + code, object.getClose()));//KNumberUtil
+            tv_open.setText(ProFormatConfig.formatByCodes(excode + "|" + code, object.getOpen() + ""));
+            tv_high.setText(ProFormatConfig.formatByCodes(excode + "|" + code, object.getHigh() + ""));
+            tv_low.setText(ProFormatConfig.formatByCodes(excode + "|" + code, object.getLow() + ""));
+            //开盘价大于上一个k线的收盘价 红色
+            if (object.getOpen() >= zuoClose) {
+                tv_open.setTextColor(getResources().getColor(R.color.color_opt_gt));
+            } else {
+                tv_open.setTextColor(getResources().getColor(R.color.color_opt_lt));
+            }
+            //最高价大于上一个k线的收盘价 红色
+            if (object.getHigh() >= object.getClose()) {
+                tv_high.setTextColor(getResources().getColor(R.color.color_opt_gt));
+            } else {
+                tv_high.setTextColor(getResources().getColor(R.color.color_opt_lt));
+            }
+            //最低价大于上一个k线的收盘价 红色
+            if (object.getLow() >= object.getClose()) {
+                tv_low.setTextColor(getResources().getColor(R.color.color_opt_gt));
+            } else {
+                tv_low.setTextColor(getResources().getColor(R.color.color_opt_lt));
+            }
+            double rate = object.getClose() - zuoClose;
+            //涨幅的计算  (当前k线的收盘价-上一个k线的收盘价)/上一个k线的收盘价*100%
+            tv_rate.setText(KNumberUtil.beautifulDouble(rate));
+            String percent = KNumberUtil.beautifulDouble(NumberUtil.divide(NumberUtil.multiply(rate, 100), zuoClose));
+            tv_rateChange.setText("" + percent + "%");
+            if (rate >= 0) {
+                tv_rate.setTextColor(getResources().getColor(R.color.color_opt_gt));
+                tv_rateChange.setTextColor(getResources().getColor(R.color.color_opt_gt));
+            } else {
+                tv_rate.setTextColor(getResources().getColor(R.color.color_opt_lt));
+                tv_rateChange.setTextColor(getResources().getColor(R.color.color_opt_lt));
+            }
+
+            if (!kLineView.isToucInLeftChart()) {
+                //touch在右边，将信息放在左边
+                crossInfoView.setGravity(Gravity.LEFT);
+            } else {
+                crossInfoView.setGravity(Gravity.RIGHT);
+            }
+
+            if (crossInfoView.getVisibility() != View.VISIBLE)
+                crossInfoView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
-    private void setBottomViewVisible(int id, int position) {
-        mBottomPosition = position;
-        mVolView.setVisibility(View.GONE);
-        mMacdView.setVisibility(View.GONE);
-        mKdjView.setVisibility(View.GONE);
-        mRsiView.setVisibility(View.GONE);
-        mTvLandVol.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        mTvLandMacd.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        mTvLandKdj.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        mTvLandRsi.setTextColor(UNSELECT_TAB_TEXT_COLOR);
-        if (id == R.id.vol_land) {
-            mVolView.setVisibility(View.VISIBLE);
-            mTvLandVol.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        } else if (id == R.id.macd_land) {
-            mMacdView.setVisibility(View.VISIBLE);
-            mTvLandMacd.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        } else if (id == R.id.kdj_land) {
-            mKdjView.setVisibility(View.VISIBLE);
-            mTvLandKdj.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        } else if (id == R.id.rsi_land) {
-            mRsiView.setVisibility(View.VISIBLE);
-            mTvLandRsi.setTextColor(SELECTED_TAB_TEXT_COLOR);
-        }
-    }
 
     /**
      * 刷新最后一个K线 update by  haiyang 08-06
@@ -618,7 +565,7 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
      *
      * @param optional
      */
-    public void setLastKData(RequestMarketMessage optional, String cycle) {
+    public void setLastKData(RequestMarketMessage optional) {
         //周线不好处理，直接不管
         if (BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN.equals(cycle)) {
             return;
@@ -768,82 +715,6 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
         }
     }
 
-    /**
-     * 十字线 滑动显示对应的日期K线信息
-     *
-     * @param object
-     */
-    @Override
-    public void onCrossLineMove(KCandleObj object) {
-        try {
-            if (crossInfoView == null)
-                return;
-            if (object == null)
-                return;
-            if (kLineView.getkCandleObjList() == null)
-                return;
-            //昨收价格为上一个k线的收盘价,如果是第一个k线就是open价
-            double zuoClose = object.getClose();
-            //获取到当前的位置
-            int index = kLineView.getTouchIndex();
-            //上一个k线的位置
-            index = index - 1;
-            if (index >= 0 && index < kLineView.getkCandleObjList().size()) {
-                zuoClose = kLineView.getkCandleObjList().get(index).getClose();
-            }
-
-            tv_time.setText(object.getTime());
-
-            //收盘价用白色标示，其他大于close 红色，小于绿色
-            tv_close.setText(ProFormatConfig.formatByCodes(type + "|" + code, object.getClose()));//KNumberUtil
-            tv_open.setText(ProFormatConfig.formatByCodes(type + "|" + code, object.getOpen() + ""));
-            tv_high.setText(ProFormatConfig.formatByCodes(type + "|" + code, object.getHigh() + ""));
-            tv_low.setText(ProFormatConfig.formatByCodes(type + "|" + code, object.getLow() + ""));
-            //开盘价大于上一个k线的收盘价 红色
-            if (object.getOpen() >= zuoClose) {
-                tv_open.setTextColor(getResources().getColor(R.color.color_opt_gt));
-            } else {
-                tv_open.setTextColor(getResources().getColor(R.color.color_opt_lt));
-            }
-            //最高价大于上一个k线的收盘价 红色
-            if (object.getHigh() >= object.getClose()) {
-                tv_high.setTextColor(getResources().getColor(R.color.color_opt_gt));
-            } else {
-                tv_high.setTextColor(getResources().getColor(R.color.color_opt_lt));
-            }
-            //最低价大于上一个k线的收盘价 红色
-            if (object.getLow() >= object.getClose()) {
-                tv_low.setTextColor(getResources().getColor(R.color.color_opt_gt));
-            } else {
-                tv_low.setTextColor(getResources().getColor(R.color.color_opt_lt));
-            }
-            double rate = object.getClose() - zuoClose;
-            //涨幅的计算  (当前k线的收盘价-上一个k线的收盘价)/上一个k线的收盘价*100%
-            tv_rate.setText(KNumberUtil.beautifulDouble(rate));
-            String percent = KNumberUtil.beautifulDouble(NumberUtil.divide(NumberUtil.multiply(rate, 100), zuoClose));
-            tv_rateChange.setText("" + percent + "%");
-            if (rate >= 0) {
-                tv_rate.setTextColor(getResources().getColor(R.color.color_opt_gt));
-                tv_rateChange.setTextColor(getResources().getColor(R.color.color_opt_gt));
-            } else {
-                tv_rate.setTextColor(getResources().getColor(R.color.color_opt_lt));
-                tv_rateChange.setTextColor(getResources().getColor(R.color.color_opt_lt));
-            }
-
-            if (!kLineView.isToucInLeftChart()) {
-                //touch在右边，将信息放在左边
-                crossInfoView.setGravity(Gravity.LEFT);
-            } else {
-                crossInfoView.setGravity(Gravity.RIGHT);
-            }
-
-            if (crossInfoView.getVisibility() != View.VISIBLE)
-                crossInfoView.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onCrossLineHide() {
@@ -884,109 +755,43 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
 
     @Override
     public void getKLineDataSuccess(KLineBean bean) {
+        if (!isAdded())
+            return;
+
+        if (layoutContent != null)
+            layoutContent.setVisibility(View.VISIBLE);
+
         if (bean == null || bean.getCandle() == null || bean.getCandle().size() == 0) {
-            showToast("暂无数据");
+            if (layoutContent != null)
+                layoutContent.setVisibility(View.INVISIBLE);
             return;
         }
-        mBottomTabs.setCurrentTab(0);
-        mTopTabLayout.setCurrentTab(0);
-        list = new ArrayList<KCandleObj>();
+
+        list = new ArrayList<>();
         List<KLineBean.Candle> kLineList = bean.getCandle();
-//        try {
-//
-//            JSONArray jsonArr = new JSONArray(jsonStr);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
-////            if (BakSourceInterface.PARAM_KLINE_1D.equals(cycle)
-////                    || BakSourceInterface.PARAM_KLINE_WEEK.equals(cycle)
-////                    || BakSourceInterface.PARAM_KLINE_MONTH.equals(cycle) ) {
-////                //周期大于日线级别了 时间格式化就不显示时分秒
-////                sdf = new SimpleDateFormat("yyyy-MM-dd");
-////            }
-        double sum = 0;
+        
         for (int i = 0; i < kLineList.size(); i++) {
-//                JSONObject jsonObj = jsonArr.getJSONObject(i);
             KCandleObj entity = new KCandleObj();
             KLineBean.Candle candle = kLineList.get(i);
-            //entity.setId(JSONObjectUtil.getString(jsonObj, "id", ""));
             entity.setHigh(Double.parseDouble(candle.getH()));
             entity.setLow(Double.parseDouble(candle.getL()));
             entity.setOpen(Double.parseDouble(candle.getO()));
             entity.setClose(Double.parseDouble(candle.getC()));
             entity.setTimeLong(candle.getU() * 1000);
-            entity.setTime(sdf.format(entity.getTimeLong()));//2015-02-10 15:15
-            entity.setVol(Double.parseDouble(candle.getV()));
-            entity.setTotalVol(Double.parseDouble(bean.getTotalVolume()));
+            entity.setTime(candle.getT());
+            if (entity.getOpen() == 0)
+                continue;
+            if (entity.getHigh() == 0)
+                continue;
+            if (entity.getLow() == 0)
+                continue;
+            if (entity.getClose() == 0)
+                continue;
 
-            //绘制均线使用
-            sum += entity.getClose();
-            entity.setNormValue(sum / (i + 1));
-
-            //if (asc)
             list.add(entity);
         }
         setData(list);
     }
-
-    @Override
-    public void getTickDataSuccess(TickChartBean bean) {
-
-    }
-
-//    class GetKlineDataTask extends AsyncTask<String, Void, List<KCandleObj>> {
-//        @Override
-//        protected void onPreExecute() {
-//            // TODO Auto-generated method stub
-//            super.onPreExecute();
-//            if (layoutContent != null)
-//                layoutContent.setVisibility(View.INVISIBLE);
-//            if (layoutLoding != null)
-//                layoutLoding.setVisibility(View.VISIBLE);
-//        }
-//
-//        @Override
-//        protected List<KCandleObj> doInBackground(String... params) {
-//            // TODO Auto-generated method stub
-//            try {
-//                String source = getArguments().getString("source");
-//
-//                if (list == null && BaseInterface.isBakSource) {
-//                    String code = getArguments().getString("code");
-//
-//                    if (BakSourceInterface.specialSource.contains(source)) {
-//                        String id = getArguments().getInt("goodsid") + "";
-//                        list = KLineHelper.getKlineAsc4Weipan(source, code, cycle);
-//                    } else {
-//                        list = KLineHelper.getKlineAsc(source, code, cycle);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//            return list;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<KCandleObj> result) {
-//            // TODO Auto-generated method stub
-//            super.onPostExecute(result);
-//            if (!isAdded())
-//                return;
-//
-//            if (layoutContent != null)
-//                layoutContent.setVisibility(View.VISIBLE);
-//            if (layoutLoding != null)
-//                layoutLoding.setVisibility(View.GONE);
-//
-//            if (result == null || result.size() == 0) {
-//                ToastUtil.show("暂无数据");
-//                if (layoutContent != null)
-//                    layoutContent.setVisibility(View.INVISIBLE);
-//                return;
-//            }
-//            setData(list);
-//        }
-//    }
 
     void setData(List<KCandleObj> list) {
         kLineView.setkCandleObjList(list);
@@ -1012,217 +817,8 @@ public class KLineFragment extends PagerFragment implements KLineContract.View, 
     }
 
     @Override
-    public void onVOLClick() {
-        event4VOL();
+    public void getTickDataSuccess(TickChartBean bean) {
 
-//        subNormalView.setSelected(false);
-//        subNormalView.setSelected(true);
-
-        subNormalViewLand.setSelected(false);
-        subNormalViewLand = subNormalViewLand;
-        subNormalViewLand.setSelected(true);
     }
-
-    @Override
-    public void onMACDClick() {
-        event4MACD();
-
-//        subNormalView.setSelected(false);
-//
-//        subNormalView.setSelected(true);
-
-
-        subNormalViewLand.setSelected(false);
-        subNormalViewLand = tab_MACD_land;
-        subNormalViewLand.setSelected(true);
-    }
-
-    @Override
-    public void onKDJClick() {
-        event4KDJ();
-
-//        subNormalView.setSelected(false);
-//        subNormalView.setSelected(true);
-
-        subNormalViewLand.setSelected(false);
-        subNormalViewLand = tab_KDJ_land;
-        subNormalViewLand.setSelected(true);
-    }
-
-    @Override
-    public void onRSIClick() {
-        event4RSI();
-
-//        subNormalView.setSelected(false);
-//        subNormalView.setSelected(true);
-
-
-        subNormalViewLand.setSelected(false);
-        subNormalViewLand = tab_RSI_land;
-        subNormalViewLand.setSelected(true);
-    }
-
-//    /**
-//     * 刷新最后一个K线 update by  haiyang 08-06
-//     * 由于期货的间隔休市时间过多  所以服务器返回周期线的时候带上最新的周期
-//     * 如果最新的行情时间在尾巴里面  不添加新的周期  不再新的尾巴之内  就添加一个新的周期
-//     * 有夜市的产品,日线在夜市开盘之后 当天需要画两根
-//     *
-//     * @param optional
-//     */
-//    public void setLastKData(Optional optional) {
-//        //周线不好处理，直接不管
-//        if (BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN.equals(cycle)) {
-//            return;
-//        }
-//
-//        // 待添加的对象
-//        KCandleObj toAddendK = optional.obj2KCandleObj();
-//        if (toAddendK != null) {
-//            List<KCandleObj> list = kLineView.getkCandleObjList();
-//            if (list == null || list.size() == 0)
-//                return;
-//            //如果少于两条k线值
-//            if (list.size() < 2)
-//                return;
-//            // 最后一根蜡烛线
-//            KCandleObj lastK = list.get(list.size() - 1);
-//            //格式化显示的时间
-//            String formartT = DateUtil.formatDate(new Date(toAddendK.getTimeLong()), "MM-dd HH:mm");
-//            if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
-//                //日线
-//                formartT = DateUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd");
-//            }
-//            toAddendK.setTime(formartT);
-//            String toAddendKT = DateUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm:ss");
-//            String lastKT = DateUtil.formatDate(new Date(lastK.getTimeLong()), "yyyy-MM-dd HH:mm:ss");
-//            Log.v(TAG, "toAddendKT=" + toAddendKT + "  lastKT=" + lastKT + "  formartT=" + formartT);
-//
-//            /**
-//             * 按照5分钟来算
-//             *
-//             * 出现的情况
-//             * 添加的时间是  17:03
-//             * 1、17:00  17:01  替换最后一个 -－>  17:00 17:03
-//             *
-//             * 添加的时间是  17:06
-//             * 2、17:00 17:04
-//             *
-//             * 第一个k线刚好是停盘之后的k线
-//             * 添加时间是 08:00
-//             */
-//            //刷新最后一个k线；1、替换最后一根k线 2、时间停留久了，添加一根新的k线 默认改为true
-//            boolean isReplaceLast = true;
-//            //k线传过来的最后一个k线就是当前没结束的周期k线，
-//            // 比如5分钟周期的，上一个是17:00，当前时间是17:01，那么传过来的是17:05的k线；传过来的时间就是 17:05的
-//            // 需要更新的和最后一个是同一个
-//            String strlastKT = DateUtil.formatDate(new Date(lastK.getTimeLong()), "yyyy-MM-dd HH:mm");
-//            String strtoAddendKT = DateUtil.formatDate(new Date(toAddendK.getTimeLong()), "yyyy-MM-dd HH:mm");
-//            //  以下为(原)替换或者添加的核心代码
-////            if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
-////                //分时图 一分钟
-////                if (strlastKT.equals(strtoAddendKT)) {
-////                    Log.v(TAG, "remove");
-////                    isReplaceLast = true;
-////                    list.remove(lastK);
-////                }
-////            } else if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
-////                //如果是日线直接替换
-////                isReplaceLast = true;
-////                list.remove(lastK);
-////            } else {
-////                if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
-////                    if (lastK.getTimeLong() - list.get(list.size() - 2).getTimeLong() >=
-////                            BakSourceInterface.cycleTMap.get(cycle).longValue()
-////                            && toAddendK.getTimeLong() < lastK.getTimeLong()) {
-////                        isReplaceLast = true;
-////                        list.remove(lastK);
-////                    }
-////                }
-////            }
-//            // 新的替换代码 因为有尾巴 直接比较是否在时间之内(去除比较最后两根线的周期跨度)
-//            if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
-//                if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
-////                //分时图 一分钟
-//                    if (strlastKT.equals(strtoAddendKT)) {
-//                        Log.v(TAG, "remove");
-//                        isReplaceLast = true;
-//                        list.remove(lastK);
-//                    } else {
-//                        isReplaceLast = false;
-//                    }
-//                } else {
-//                    if (toAddendK.getTimeLong() > lastK.getTimeLong()) {
-//                        isReplaceLast = false;
-//                    } else {
-//                        isReplaceLast = true;
-//                        list.remove(lastK);
-//                    }
-//                }
-//            }
-//
-//            long addT = 0;// 跨度周期
-//            if (BakSourceInterface.cycleTMap.containsKey(cycle)) {
-//                addT = BakSourceInterface.cycleTMap.get(cycle).longValue();
-//            }
-//
-//            //设置K线的开高低收
-//            if (isReplaceLast) {
-//                //如果是替换的话,
-//                // 开盘价就是 最后k线的开盘价，
-//                toAddendK.setOpen(lastK.getOpen());
-//                // 最高价就是最后k线和当前的价比较的较高价，字段close 接收的最新价
-//                toAddendK.setHigh(Math.max(lastK.getHigh(), toAddendK.getClose()));
-//                // 最低价就是最后k线和当前的价比较的较低价,字段close 接收的最新价
-//                toAddendK.setLow(Math.min(lastK.getLow(), toAddendK.getClose()));
-//                //收盘价就是最新价格
-//
-//                //因为最后一个k线就是下一个k线周期的结束时间，如果是替换最后一个K线的话，时间设置成下一个k线的结束结时间
-//                toAddendK.setTime(lastK.getTime());
-//                toAddendK.setTimeLong(lastK.getTimeLong());
-//
-//                toAddendK.setVol(toAddendK.getTotalVol() - lastK.getTotalVol() + lastK.getVol());
-//
-//            } else {
-////                //新加的k线 都是最新价格
-//                toAddendK.setOpen(lastK.getClose());
-//                toAddendK.setHigh(lastK.getClose());
-//                toAddendK.setLow(lastK.getClose());
-//                toAddendK.setVol(toAddendK.getTotalVol() - lastK.getTotalVol());
-//                toAddendK.setReqTime(toAddendK.getTimeLong());
-//
-//                //update at 2017-04-19
-//                //因为最后一个k线就是下一个k线周期的结束时间 新加的k线就要设置成 下一个周期的结束时间
-//                if (BakSourceInterface.PARAM_KLINE_1M_WEIPAN.equals(cycle)) {
-//                    //直接使用刷新获取到的时间
-//                    String strT = DateUtil.formatDate(new Date(toAddendK.getTimeLong()), "MM-dd HH:mm");
-//                    toAddendK.setTime(strT);
-//                    toAddendK.setTimeLong(toAddendK.getTimeLong());
-//                } else {
-//                    //大于一分钟的  直接使用替换的时间对的上
-//                    String strT = DateUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd HH:mm");
-//                    // 日线不显示分钟
-//                    if (BakSourceInterface.PARAM_KLINE_1D_WEIPAN.equals(cycle)) {
-//                        strT = DateUtil.formatDate(new Date(lastK.getTimeLong() + addT), "MM-dd");
-//                    }
-//                    toAddendK.setTime(strT);
-//                    toAddendK.setTimeLong(lastK.getTimeLong() + addT);
-//                }
-//            }
-//            Log.v(TAG, "add");
-//            list.add(toAddendK);
-//            //上一次在最后的位置，或者是新加了一根k线还在最后位置，手动移动位置显示最新的k线
-//            if (kLineView.getDrawIndexEnd() == list.size() - 1 - 1
-//                    || kLineView.getDrawIndexEnd() == list.size() - 1) {
-//                Log.v(TAG, "getDrawIndexEnd() " + kLineView.getDrawIndexEnd() + " list.size()=" + list.size());
-//                //是最后一个
-//                kLineView.setDrawIndexEnd(list.size());
-//            }
-//            lastTopNorm = kLineView.getMainNormal();
-//            lastBottomNorm = kLineView.getSubNormal();
-//
-//            setData(list);
-//        }
-//    }
 
 }

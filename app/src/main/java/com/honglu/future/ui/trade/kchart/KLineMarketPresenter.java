@@ -20,7 +20,7 @@ public class KLineMarketPresenter extends BasePresenter<KLineMarketContract.View
         toSubscribe(HttpManager.getApi().getProductRealTime(codes.replace("|", "%7C")), new HttpSubscriber<RealTimeBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("查询行情中...");
+                //mView.showLoading("查询行情中...");
             }
 
             @Override
@@ -45,7 +45,7 @@ public class KLineMarketPresenter extends BasePresenter<KLineMarketContract.View
         toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
             @Override
             public void _onStart() {
-                mView.showLoading("获取产品详情中...");
+               // mView.showLoading("获取产品详情中...");
             }
 
             @Override

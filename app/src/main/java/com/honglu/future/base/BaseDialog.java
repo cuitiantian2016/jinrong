@@ -15,7 +15,7 @@ import com.honglu.future.util.TUtil;
  * Created by zhuaibing on 2017/11/15
  */
 
-public abstract class BaseDialog<T extends BasePresenter> extends Dialog implements BaseView{
+public abstract class BaseDialog<T extends BasePresenter> extends Dialog implements BaseView {
     public T mPresenter;
     public Activity mContext;
 
@@ -27,11 +27,12 @@ public abstract class BaseDialog<T extends BasePresenter> extends Dialog impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-          mPresenter = TUtil.getT(this, 0);
+        mPresenter = TUtil.getT(this, 0);
+        initPresenter();
     }
 
-    public void onDestroy(){
-        if (mPresenter !=null){
+    public void onDestroy() {
+        if (mPresenter != null) {
             mPresenter.onDestroy();
         }
     }
@@ -50,4 +51,7 @@ public abstract class BaseDialog<T extends BasePresenter> extends Dialog impleme
     public void showErrorMsg(String msg, String type) {
 
     }
+
+    //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
+    public abstract void initPresenter();
 }

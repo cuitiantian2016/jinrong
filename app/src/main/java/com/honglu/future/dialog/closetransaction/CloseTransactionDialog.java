@@ -81,6 +81,11 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         }
     }
 
+    @Override
+    public void initPresenter() {
+        mPresenter.init(this);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketEventMainThread(ReceiverMarketMessageEvent event) {
         if (!TextUtils.isEmpty(mMPushCode)
@@ -322,6 +327,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                             .setContent(content).setRightListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            mConfirmDialog.dismiss();
                             //当价格等于
                             if (lastPrice == mPcPrice) {
                                 mPresenter.ksCloseOrder(

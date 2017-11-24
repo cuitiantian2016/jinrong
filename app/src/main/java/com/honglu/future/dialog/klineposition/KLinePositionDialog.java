@@ -73,6 +73,11 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     }
 
     @Override
+    public void initPresenter() {
+        mPresenter.init(this);
+    }
+
+    @Override
     public void showErrorMsg(String msg, String type) {
         if (!TextUtils.isEmpty(msg))
             ToastUtil.show(msg);
@@ -155,6 +160,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                             .setContent(content).setRightListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            mConfirmDialog.dismiss();
                             //当价格等于
                             if (lastPrice == exPrice) {
                                 mPresenter.ksCloseOrder(
@@ -289,6 +295,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     @Override
     public void closeOrderSuccess() {
         ToastUtil.show("平仓申请已提交");
+        dismiss();
         if (mAdapter != null
                 && mAdapter.getData() != null
                 && mAdapter.getData().size() > mAdapter.getMPosition()

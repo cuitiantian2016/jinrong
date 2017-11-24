@@ -4,294 +4,279 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_1C1D28"
+    android:id="@+id/root_view"
     android:orientation="vertical">
 
-    <com.honglu.future.widget.tab.CommonTabLayout
-        android:id="@+id/top_common_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40dp"
-        android:layout_toLeftOf="@+id/right_layout"
-        app:tl_iconVisible="false"
-        app:tl_indicator_anim_duration="400"
-        app:tl_indicator_anim_enable="true"
-        app:tl_indicator_color="@android:color/white"
-        app:tl_indicator_gravity="BOTTOM"
-        app:tl_indicator_height="@dimen/dimen_2dp"
-        app:tl_indicator_style="NORMAL"
-        app:tl_textBold="SELECT"
-        app:tl_textSelectColor="@android:color/white"
-        app:tl_textUnselectColor="@color/color_B1B3B2"
-        app:tl_textsize="@dimen/dimen_14sp" />
-
-    <FrameLayout
-        android:id="@+id/kline_view"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/layoutContent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top_common_tab_layout"
-        android:layout_toLeftOf="@+id/ll_right_tab">
+        android:layout_margin="2dip"
+        android:layout_marginRight="0dip"
+        android:visibility="invisible">
 
-        <View
-            android:id="@+id/layoutContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/landTypeView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/mainNormal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/subNormal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <View
-            android:id="@+id/tab_SMA_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/tab_VOL_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/tab_EMA_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/tab_BOLL_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/tab_MACD_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/tab_RSI_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <View
-            android:id="@+id/tab_KDJ_land"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.honglu.future.widget.kchart.chart.candle.KLineView
-            android:id="@+id/klineView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.honglu.future.widget.tab.CommonTabLayout
-            android:id="@+id/ll_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_35dp"
-            android:layout_toLeftOf="@+id/right_layout"
-            app:tl_iconVisible="false"
-            app:tl_indicator_anim_duration="400"
-            app:tl_indicator_anim_enable="true"
-            app:tl_indicator_color="@android:color/white"
-            app:tl_indicator_gravity="BOTTOM"
-            app:tl_indicator_height="@dimen/dimen_2dp"
-            app:tl_indicator_style="NORMAL"
-            app:tl_textBold="SELECT"
-            app:tl_textSelectColor="@android:color/white"
-            app:tl_textUnselectColor="@color/color_B1B3B2"
-            app:tl_textsize="@dimen/dimen_14sp" />
-
-        <com.honglu.future.widget.kchart.chart.cross.KCrossLineView
-            android:id="@+id/crossLineView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <LinearLayout
-            android:id="@+id/crossInfoView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mainNormal"
+            android:layout_toLeftOf="@+id/landTypeView"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/mainNormal"
+                android:layout_width="match_parent"
+                android:layout_height="32dip"
+                android:orientation="horizontal">
+
+                <com.honglu.future.widget.kchart.UnderLineTextView
+                    android:id="@+id/tab_SMA"
+                    android:layout_width="0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="SMA"
+                    android:textColor="@color/kline_cycle_item_tvcolor"
+                    android:textSize="@dimen/dimen_15sp"
+                    app:isLineEnable="true"
+                    app:lineColor="@android:color/white"
+                    app:mlineHeight="3dip"
+                    app:upOrunder="under" />
+
+                <com.honglu.future.widget.kchart.UnderLineTextView
+                    android:id="@+id/tab_EMA"
+                    android:layout_width="0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="EMA"
+                    android:textColor="@color/kline_cycle_item_tvcolor"
+                    android:textSize="@dimen/dimen_15sp"
+                    app:isLineEnable="false"
+                    app:lineColor="@android:color/white"
+                    app:mlineHeight="3dip"
+                    app:upOrunder="under" />
+
+                <com.honglu.future.widget.kchart.UnderLineTextView
+                    android:id="@+id/tab_BOLL"
+                    android:layout_width="0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="BOLL"
+                    android:textColor="@color/kline_cycle_item_tvcolor"
+                    android:textSize="@dimen/dimen_15sp"
+                    app:isLineEnable="false"
+                    app:lineColor="@android:color/white"
+                    app:mlineHeight="3dip"
+                    app:upOrunder="under" />
+
+
+            </LinearLayout>
+
+            <com.honglu.future.widget.kchart.chart.candle.KLineView
+                android:id="@+id/klineView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/mainNormal" />
+
+            <com.honglu.future.widget.kchart.chart.cross.KCrossLineView
+                android:id="@+id/crossLineView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/mainNormal"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/crossInfoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mainNormal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/kline_cross_info" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/subNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/mainNormal"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="0dip"
+                    android:layout_weight="4" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_marginTop="-32dip"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="0dip"
+                        android:background="#33848999" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dip"
+                        android:orientation="horizontal">
+
+                        <com.honglu.future.widget.kchart.UnderLineTextView
+                            android:id="@+id/tab_MACD"
+                            android:layout_width="0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="MACD"
+                            android:textColor="@color/kline_cycle_item_tvcolor"
+                            android:textSize="@dimen/dimen_15sp"
+                            app:isLineEnable="true"
+                            app:lineColor="@android:color/white"
+                            app:mlineHeight="3dip"
+                            app:upOrunder="under" />
+                        <com.honglu.future.widget.kchart.UnderLineTextView
+                            android:id="@+id/tab_KDJ"
+                            android:layout_width="0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="KDJ"
+                            android:textColor="@color/kline_cycle_item_tvcolor"
+                            android:textSize="@dimen/dimen_15sp"
+                            app:isLineEnable="false"
+                            app:lineColor="@android:color/white"
+                            app:mlineHeight="3dip"
+                            app:upOrunder="under" />
+                        <com.honglu.future.widget.kchart.UnderLineTextView
+                            android:id="@+id/tab_RSI"
+                            android:layout_width="0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="RSI"
+                            android:textColor="@color/kline_cycle_item_tvcolor"
+                            android:textSize="@dimen/dimen_15sp"
+                            app:isLineEnable="false"
+                            app:lineColor="@android:color/white"
+                            app:mlineHeight="3dip"
+                            app:upOrunder="under" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/landTypeView"
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/c_262626"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
 
-            <include layout="@layout/kline_cross_info" />
-        </LinearLayout>
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_right_tab"
-        android:layout_width="@dimen/dimen_50dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/sma_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white" />
-
-            <TextView
-                android:id="@+id/sma_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_SMA_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="SMA"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="true"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/ema_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/ema_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_EMA_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="EMA"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="false"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/boll_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/boll_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_BOLL_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="BOLL"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dimen_2dp"
-            android:layout_weight="1">
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="false"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
             <View
-                android:id="@+id/vol_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white" />
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/product_bg" />
 
-            <TextView
-                android:id="@+id/vol_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:text="VOL"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/macd_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/macd_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_MACD_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="MACD"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="true"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/kdj_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/kdj_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_KDJ_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="KDJ"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="false"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/rsi_land_view"
-                android:layout_width="@dimen/dimen_2dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/rsi_land"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
+            <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_RSI_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="RSI"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/dimen_14sp" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="false"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
 
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

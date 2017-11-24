@@ -71,7 +71,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
     @Override
     public void showLoading(String content) {
         if (!TextUtils.isEmpty(content)) {
-            App.loadingContent(mActivity, content);
+            App.loadingDefault(mActivity);
         }
     }
 
@@ -131,6 +131,10 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
             // int numberScale = ProFormatConfig.getProFormatMap(type + "|" + code.split("(\\d+)")[0]);
             //minuteView.setNumberScal(numberScale != -1 ? numberScale : 2);
         }
+
+        excode = getArguments().getString("exCode");
+        code = getArguments().getString("code");
+        closed = getArguments().getDouble("closePrice");
 
         minuteView.setCrossLineView(crossLineView);
         //阻断touch事件的分发逻辑  listView headerView,这里还是用listview的onitemClick，touch太容易触发
@@ -259,7 +263,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
         //开盘休盘停盘时间段
         String startTime = bean.getStartTime();
         String endTime = bean.getEndTime();
-        String closeTime = bean.getCloseTime();
+        String middleTime = bean.getCloseTime();
         double totalVol = Double.valueOf(bean.getTotalVolume());
         long reqTime = bean.getReqTime();
         double sum = 0;
@@ -277,7 +281,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
 
             entity.setStartTime(startTime);
             entity.setEndTime(endTime);
-            entity.setMiddleTime(closeTime);
+            entity.setMiddleTime(middleTime);
             entity.setTotalVol(totalVol);
             entity.setReqTime(reqTime);
 
@@ -399,7 +403,9 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
     }
 
 
