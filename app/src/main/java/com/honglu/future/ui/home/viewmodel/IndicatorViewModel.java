@@ -31,12 +31,12 @@ public class IndicatorViewModel{
         if (mPreNum>0){//
             if (mPreNum!=num){
                 mPreNum = num;
-                linearLayout.setWeightSum(mPreNum);//设置权重
+               // linearLayout.setWeightSum(mPreNum);//设置权重
                 addView(mPreNum);
             }
         }else {
             mPreNum = 2;
-            linearLayout.setWeightSum(mPreNum);//设置权重
+            //linearLayout.setWeightSum(mPreNum);//设置权重
             addView(mPreNum);
         }
 
@@ -52,9 +52,9 @@ public class IndicatorViewModel{
         }
         for (int i = 0; i < sum; i++) {
             View view = new View(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = 1;
-            params.setMargins(0,0,DeviceUtils.dip2px(mContext,2),0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mContext.getResources().getDimensionPixelSize(R.dimen.dimen_12dp), ViewGroup.LayoutParams.MATCH_PARENT);
+           // params.weight = 1;
+            params.setMargins(0,0,DeviceUtils.dip2px(mContext,5),0);
             linearLayout.addView(view,params);
             linearLayout.getChildAt(i).setBackground(mContext.getResources().getDrawable(R.drawable.bg_indicator_ll));
         }

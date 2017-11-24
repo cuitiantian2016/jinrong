@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/circleImageView"
-        android:layout_width="@dimen/dimen_50dp"
-        android:layout_height="55dp"
+        android:layout_width="@dimen/dimen_74dp"
+        android:layout_height="@dimen/dimen_74dp"
         android:layout_gravity="center"
         android:src="@mipmap/iv_no_image" />
 
@@ -22,9 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="@color/color_333333"
         android:singleLine="true"
-        android:textSize="@dimen/dimen_12sp"
-        android:layout_marginTop="@dimen/dimen_2dp"
+        android:textSize="@dimen/dimen_13sp"
+        android:layout_marginTop="-6dp"
         android:text="在线客服" />
 
 </LinearLayout>

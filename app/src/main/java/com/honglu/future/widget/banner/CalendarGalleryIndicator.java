@@ -17,8 +17,8 @@ import com.honglu.future.util.DeviceUtils;
 
 public class CalendarGalleryIndicator extends View {
 
-    private static int DOT_NORMAL_ID = R.mipmap.calnormal;
-    private static int DOT_PRESS_ID = R.mipmap.calselect;
+    private static int DOT_NORMAL_ID = R.mipmap.banner_dot_off;
+    private static int DOT_PRESS_ID = R.mipmap.banner_dot_on;
 
     private int mCount;
 

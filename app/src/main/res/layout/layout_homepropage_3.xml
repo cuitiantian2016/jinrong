@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -10,23 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1.0"
-        android:background="#FFFFFF"
-        android:layout_margin="5dp">
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_shape_homepropage"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:layout_marginTop="@dimen/dimen_10dp">
 
         <TextView
             android:id="@+id/tv_product_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:gravity="center"
             android:textColor="#4A4A4A"
             android:textSize="13sp"/>
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_pro_open_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_1"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
@@ -36,9 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_1"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_rate_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +50,7 @@
                 android:textColor="@color/trade_up"
                 android:textSize="11sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_ratechange_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,23 +68,26 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="100dp"
-        android:background="#FFFFFF"
-        android:layout_margin="5dp" >
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_shape_homepropage"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:layout_marginTop="@dimen/dimen_10dp">
 
         <TextView
             android:id="@+id/tv_product_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:gravity="center"
             android:textColor="@color/c_464646"
             android:textSize="13sp"/>
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_pro_open_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_2"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
@@ -91,9 +97,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_2"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_rate_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +109,7 @@
                 android:textColor="@color/trade_up"
                 android:textSize="11sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_ratechange_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,24 +127,27 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1.0"
-        android:background="#FFFFFF"
-        android:layout_margin="5dp">
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_shape_homepropage"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:layout_marginTop="@dimen/dimen_10dp">
 
 
         <TextView
             android:id="@+id/tv_product_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:gravity="center"
             android:textColor="@color/c_464646"
             android:textSize="13sp"/>
 
-        <TextView
+        <com.honglu.future.widget.DinTextView
             android:id="@+id/tv_pro_open_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_3"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center"
             android:text="--"
             android:textColor="@color/trade_up"
@@ -147,9 +157,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pro_open_3"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:gravity="center">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_rate_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,7 +169,7 @@
                 android:textColor="@color/trade_up"
                 android:textSize="11sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pro_ratechange_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

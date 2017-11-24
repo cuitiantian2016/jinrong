@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
@@ -23,6 +24,7 @@ import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.ViewUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
     public View mView;
     public String productList;
     private ProductViewHold4Home productViewHold4Home;
+    private int mWidth;
 
     public HomeMarketPriceViewModel(Context context) {
         mContext = context;
@@ -101,10 +104,15 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
     private void initView(View view) {
         mViewPager = (ViewPager) view.findViewById(R.id.vp_market);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_indicator_view);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dp2px(60), DensityUtil.dp2px(2));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(2));
         params.gravity = Gravity.CENTER;
         indicatorViewModel = new IndicatorViewModel(mContext, 3);
         linearLayout.addView(indicatorViewModel.mView,params);
+
+        mWidth = (ViewUtil.getScreenWidth(mContext) - mContext.getResources().getDimensionPixelSize(R.dimen.dimen_30dp) ) / 3;
+        LinearLayout.LayoutParams viewPagePrarams = (LinearLayout.LayoutParams) mViewPager.getLayoutParams();
+        viewPagePrarams.height = mWidth + mContext.getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
+        mViewPager.setLayoutParams(viewPagePrarams);
     }
     @Override
     public void bindData(MarketData marketData) {
@@ -210,8 +218,25 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
         if (decentCount != 0) {
             count += 1;
         }
-        for (int i = 0; i < count; i++) {
-            mListViews.add(View.inflate(mContext, R.layout.layout_homepropage_3, null));
+
+       for (int i = 0; i < count; i++) {
+           View view = View.inflate(mContext, R.layout.layout_homepropage_3, null);
+           RelativeLayout mItemView1 = (RelativeLayout) view.findViewById(R.id.rl_product_1);
+           RelativeLayout mItemView2 = (RelativeLayout) view.findViewById(R.id.rl_product_2);
+           RelativeLayout mItemView3 = (RelativeLayout) view.findViewById(R.id.rl_product_3);
+           LinearLayout.LayoutParams mItemParams1 = (LinearLayout.LayoutParams) mItemView1.getLayoutParams();
+           LinearLayout.LayoutParams mItemParams2 = (LinearLayout.LayoutParams) mItemView2.getLayoutParams();
+           LinearLayout.LayoutParams mItemParams3 = (LinearLayout.LayoutParams) mItemView3.getLayoutParams();
+           mItemParams1.height = mWidth;
+           mItemView1.setLayoutParams(mItemParams1);
+
+           mItemParams2.height = mWidth;
+           mItemView2.setLayoutParams(mItemParams2);
+
+           mItemParams3.height = mWidth;
+           mItemView3.setLayoutParams(mItemParams3);
+
+           mListViews.add(view);
         }
         mViewPager.setAdapter(new MyProductViewPagerAdapter(mListViews));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
