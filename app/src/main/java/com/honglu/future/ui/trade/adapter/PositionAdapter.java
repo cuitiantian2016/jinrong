@@ -111,15 +111,15 @@ public class PositionAdapter extends BaseAdapter {
         holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
         holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
 
-        if(Double.parseDouble(holdPositionBean.getTotalProfit())>0){
+        if(Double.parseDouble(holdPositionBean.getTodayProfit())>0){
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
-            holder.tvProfitLoss.setText("+"+holdPositionBean.getTotalProfit());
-        } else if(Double.parseDouble(holdPositionBean.getTotalProfit())<0){
+            holder.tvProfitLoss.setText("+"+holdPositionBean.getTodayProfit());
+        } else if(Double.parseDouble(holdPositionBean.getTodayProfit())<0){
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
-            holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
+            holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
         } else {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            holder.tvProfitLoss.setText(holdPositionBean.getTotalProfit());
+            holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
         }
 
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
