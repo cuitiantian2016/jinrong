@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -208,6 +209,12 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
         mAdapter.setOnShowPopupClickListener(this);
         mPopWind.setOnButtonClickListener(this);
+        mPopWind.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                startRun();
+            }
+        });
         mCloseDialog.setOnPostCloseClickListener(this);
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -366,6 +373,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void onShowPopupClick(View view, HoldPositionBean bean) {
+        stopRun();
         mPopWind.showPopupWind(view, bean);
     }
 
