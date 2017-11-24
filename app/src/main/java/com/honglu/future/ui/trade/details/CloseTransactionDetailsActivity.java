@@ -201,6 +201,6 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
         mExpTime.setText(data.openTime);
         mExpBaodanNum.setText("报单编号 " + data.orderSysId);
         mBuildSXF.setText("建仓手续费 " + data.openSxf);
-        mTradeId.setText("成交编号 " + data.openSxf);
+        mTradeId.setText("成交编号 " + data.tradeId);
     }
 }
