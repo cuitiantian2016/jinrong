@@ -42,6 +42,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -186,7 +187,17 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     }
 
     private void getClosePositionList() {
-        mPresenter.getCloseList("", mEndDate, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
+        mPresenter.getCloseList(getStartTime(), mEndDate, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
+    }
+
+    private String getStartTime(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        //过去七天
+        c.setTime(new Date());
+        c.add(Calendar.DATE, - 7);
+        Date d = c.getTime();
+        return format.format(d);
     }
 
     @Override
