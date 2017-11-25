@@ -42,6 +42,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
@@ -57,6 +58,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
@@ -477,7 +479,17 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
-        mProfitLoss.setText(bean.getPositionProfit() + "");
+
+        if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() > 0) {
+            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_FB4F4F));
+            mProfitLoss.setText("+" + StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        } else if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() < 0) {
+            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_2CC593));
+            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        } else {
+            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_333333));
+            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        }
     }
 
     @Override

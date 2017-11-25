@@ -230,7 +230,7 @@
                 android:text="银联"
                 android:layout_marginRight="@dimen/dimen_20dp"
                 android:drawablePadding="@dimen/dimen_3dp"
-                android:drawableLeft="@mipmap/icon_hours"
+                android:drawableLeft="@mipmap/ic_union_pay"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp"/>
             <com.honglu.future.widget.DrawableCenterTextView
@@ -239,10 +239,10 @@
                 android:minWidth="@dimen/title_height"
                 android:layout_gravity="end"
                 android:gravity="center"
-                android:text="银联"
+                android:text="国富期货"
                 android:layout_marginRight="@dimen/dimen_20dp"
                 android:drawablePadding="@dimen/dimen_3dp"
-                android:drawableLeft="@mipmap/icon_hours"
+                android:drawableLeft="@mipmap/ic_guofu"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp"/>
             <com.honglu.future.widget.DrawableCenterTextView
@@ -252,9 +252,9 @@
                 android:layout_gravity="end"
                 android:drawablePadding="@dimen/dimen_3dp"
                 android:gravity="center"
-                android:text="银联"
+                android:text="智投"
                 android:layout_marginRight="@dimen/dimen_20dp"
-                android:drawableLeft="@mipmap/icon_hours"
+                android:drawableLeft="@mipmap/ic_logo_charge"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp"/>
             <com.honglu.future.widget.DrawableCenterTextView
@@ -264,8 +264,8 @@
                 android:layout_gravity="end"
                 android:gravity="center"
                 android:drawablePadding="@dimen/dimen_3dp"
-                android:text="银联"
-                android:drawableLeft="@mipmap/icon_hours"
+                android:text="中国证监会"
+                android:drawableLeft="@mipmap/ic_zjh"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp"/>
         </LinearLayout>

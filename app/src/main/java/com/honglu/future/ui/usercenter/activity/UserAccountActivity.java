@@ -15,10 +15,14 @@ import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
+import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,8 +124,19 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
-        mProfitLoss.setText(bean.getPositionProfit() + "");
-        mPositionProfitLoss.setText(bean.getCloseProfit() + "");
+
+        if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() > 0) {
+            mProfitLoss.setTextColor(getResources().getColor(R.color.color_FB4F4F));
+            mProfitLoss.setText("+" + StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        } else if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() < 0) {
+            mProfitLoss.setTextColor(getResources().getColor(R.color.color_2CC593));
+            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        } else {
+            mProfitLoss.setTextColor(getResources().getColor(R.color.color_333333));
+            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
+        }
+
+        mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
         mTakeBond.setText(NumberUtils.formatFloatNumber(bean.getWithdrawQuota()));
         mOccupyBond.setText(String.valueOf(bean.getCurrMargin()));
         mFrozenBond.setText(bean.getFrozenCash() + "");

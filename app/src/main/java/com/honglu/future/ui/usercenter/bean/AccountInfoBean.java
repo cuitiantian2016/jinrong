@@ -9,7 +9,7 @@ public class AccountInfoBean {
     private double available;
     private String capitalProportion;
     private String capitalProportionNum;
-    private int closeProfit;
+    private String closeProfit;
     private double commission;
     private double currMargin;
     private String customerServicephone;
@@ -21,7 +21,7 @@ public class AccountInfoBean {
     private String isInit;
     private String mobile;
     private String positionInstrumentId;
-    private int positionProfit;
+    private String positionProfit;
     private double preBalance;
     private int profit;
     private double rightsInterests;
@@ -64,11 +64,11 @@ public class AccountInfoBean {
         return capitalProportionNum;
     }
 
-    public void setCloseProfit(int closeProfit) {
+    public void setCloseProfit(String closeProfit) {
         this.closeProfit = closeProfit;
     }
 
-    public int getCloseProfit() {
+    public String getCloseProfit() {
         return closeProfit;
     }
 
@@ -153,11 +153,11 @@ public class AccountInfoBean {
         return positionInstrumentId;
     }
 
-    public void setPositionProfit(int positionProfit) {
+    public void setPositionProfit(String positionProfit) {
         this.positionProfit = positionProfit;
     }
 
-    public int getPositionProfit() {
+    public String getPositionProfit() {
         return positionProfit;
     }
 

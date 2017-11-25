@@ -3,11 +3,9 @@ package com.honglu.future.ui.recharge.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.recharge.bean.RechangeDetailData;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
@@ -29,7 +27,11 @@ public class InAndOutDetailAdapter extends BaseRecyclerAdapter<InAndOutDetailAda
     public void mOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvAsses.setText(item.amount);
         holder.mTvType.setText(item.type);
-        holder.mTvBank.setText(item.bankName);
+        String bankAccount = item.bankAccount;
+        if (bankAccount.length() >= 4) {
+            bankAccount = bankAccount.substring(bankAccount.length() - 4);
+        }
+        holder.mTvBank.setText(item.bankName + " 尾号" + bankAccount);
         holder.mTvTime.setText(item.date);
         holder.mTvState.setText(item.status);
     }
