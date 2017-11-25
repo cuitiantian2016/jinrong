@@ -16,14 +16,17 @@ import com.honglu.future.dialog.SingleDateDialog;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
+import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,16 +190,19 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
                     setTabData();
                 } else if (position == 1 && settlementInfoBean.getCloseList() != null) {
+                    mHistoryRecordsAdapter.setType(HistoryRecordsAdapter.TYPE_CLOSED);
                     for (int i = 0; i < settlementInfoBean.getCloseList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getCloseList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getCloseList().get(i).getBs());
                         bean.setBuyHands(settlementInfoBean.getCloseList().get(i).getLots());
-                        bean.setBuildPrice(settlementInfoBean.getCloseList().get(i).getTransPrice());
-                        bean.setServicePrice(settlementInfoBean.getCloseList().get(i).getPremiumReceivedPaid());
+                        bean.setBuildPrice(settlementInfoBean.getCloseList().get(i).getPosOpenPrice());
+                        bean.setClosePrice(settlementInfoBean.getCloseList().get(i).getTransPrice());
+                        bean.setProfitLoss(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getRealizedPL(),"0")).doubleValue()));
                         mList.add(bean);
                     }
                 } else if (position == 2 && settlementInfoBean.getPositionsList() != null) {
+                    mHistoryRecordsAdapter.setType(HistoryRecordsAdapter.TYPE_POSITION);
                     for (int i = 0; i < settlementInfoBean.getPositionsList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
                         bean.setName(settlementInfoBean.getPositionsList().get(i).getProduct());
@@ -214,6 +220,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
     }
 
     private void setTabData() {
+        mHistoryRecordsAdapter.setType(HistoryRecordsAdapter.TYPE_BUILD);
         if (settlementInfoBean.getTransactionList() != null && settlementInfoBean.getTransactionList().size() > 0) {
             for (int i = 0; i < settlementInfoBean.getTransactionList().size(); i++) {
                 HistoryRecordsBean bean = new HistoryRecordsBean();

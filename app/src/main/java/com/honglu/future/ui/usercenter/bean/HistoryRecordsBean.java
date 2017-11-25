@@ -52,4 +52,23 @@ public class HistoryRecordsBean {
 
     private String buildPrice;
     private String servicePrice;
+
+    public String getClosePrice() {
+        return closePrice;
+    }
+
+    public void setClosePrice(String closePrice) {
+        this.closePrice = closePrice;
+    }
+
+    public String getProfitLoss() {
+        return profitLoss;
+    }
+
+    public void setProfitLoss(String profitLoss) {
+        this.profitLoss = profitLoss;
+    }
+
+    private String closePrice;
+    private String profitLoss;
 }
