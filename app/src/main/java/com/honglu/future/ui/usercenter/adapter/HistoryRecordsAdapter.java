@@ -33,7 +33,7 @@ public class HistoryRecordsAdapter extends BaseRecyclerAdapter<HistoryRecordsAda
     @Override
     public void mOnBindViewHolder(HistoryRecordsAdapter.ViewHolder holder, int position) {
         holder.mTvProductName.setText(item.getName());
-        holder.mTvBuyHands.setText(item.getBuyHands());
+        holder.mTvBuyHands.setText(item.getBuyHands()+"手");
         if (mType.equals(TYPE_CLOSED)) {
             holder.mLlBuild.setVisibility(View.GONE);
             holder.mLlClosed.setVisibility(View.VISIBLE);
