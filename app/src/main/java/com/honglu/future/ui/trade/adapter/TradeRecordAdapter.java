@@ -178,8 +178,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             } else {
                 tvNewMoney.setText("建仓");
             }
-
-            setProfitValueAndColor(tvProfitLossMoney,bean.price);
+            tvProfitLossMoney.setText(bean.price);
         }
 
         void bindView(HistoryClosePositionBean bean) {
@@ -213,8 +212,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             tvName.setText(bean.instrumentName);
-
-            setProfitValueAndColor(tvProfitLossMoney, bean.price);
+            tvProfitLossMoney.setText(bean.price);
         }
 
         private void setProfitValueAndColor(TextView tvProfitLossMoney, String price) {
