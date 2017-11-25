@@ -73,6 +73,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <!--RxPermissions-->
     <!-- <uses-permission android:name="android.permission.READ_CALL_LOG"/>
      <uses-permission android:name="android.permission.GET_ACCOUNTS"/>-->
@@ -211,7 +212,7 @@
             android:value="5a17c25cb27b0a3e36000108" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${channel}" />
+            android:value="official" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="59032abb1867c192bf7dbf339be113a3" />
