@@ -153,7 +153,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             }
         }
         ProductListBean productListBean = null;
-        if (index > 0) {
+        if (index >= 0) {
             productListBean = data.get(index);
             productListBean.setAskPrice1(marketMessage.getAskPrice1());
             productListBean.setBidPrice1(marketMessage.getBidPrice1());

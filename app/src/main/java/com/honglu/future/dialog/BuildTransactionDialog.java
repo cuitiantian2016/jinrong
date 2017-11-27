@@ -66,6 +66,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private int volumeMultiple;
     private int maxSl;
     private int minSl;
+    private String isClosed;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
@@ -80,6 +81,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         volumeMultiple = bean.getVolumeMultiple();
         maxSl = bean.getMaxSl();
         minSl = bean.getMinSl();
+        isClosed = bean.getIsClosed();
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
     }
@@ -216,7 +218,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
                     if (!mIsStopChangePrice) {
                         mIsStopChangePrice = true;
-                        if(!"2".equals(mProductListBean.getIsClosed())) {
+                        if(!"2".equals(isClosed)) {
                             mBuild.setText("委托建仓");
                         }
                     }
@@ -322,7 +324,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTotal.setText(StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
 
 
-            if (!"2".equals(mProductListBean.getIsClosed())) {
+            if (!"2".equals(isClosed)) {
                 if (Double.parseDouble(totalMoney) > Double.parseDouble(SpUtil.getString(Constant.CACHE_USER_ASSES))) {
                     mBuild.setBackgroundResource(R.color.color_CACCCB);
                     mBuild.setText("余额不足");
@@ -344,7 +346,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
      */
     private void setViewBG(boolean isUp) {
         if (isUp) {
-            if (!"2".equals(mProductListBean.getIsClosed())) {
+            if (!"2".equals(isClosed)) {
                 mBuild.setBackgroundResource(R.color.color_FB4F4F);
                 mBuild.setClickable(true);
                 if (mIsStopChangePrice) {
@@ -354,7 +356,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 }
             }
         } else {
-            if (!"2".equals(mProductListBean.getIsClosed())) {
+            if (!"2".equals(isClosed)) {
                 mBuild.setBackgroundResource(R.color.color_2CC593);
                 mBuild.setClickable(true);
                 if (mIsStopChangePrice) {
@@ -396,7 +398,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvRise.setBackgroundResource(R.drawable.bg_buy_rise);
                 mTvRise.setTextColor(Color.WHITE);
-                if (!mProductListBean.getIsClosed().equals("2")) {
+                if (!isClosed.equals("2")) {
                     mBuild.setBackgroundResource(R.color.color_FB4F4F);
                 }
                 setTextChange();
@@ -407,7 +409,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 mTvDown.setBackgroundResource(R.drawable.bg_buy_down);
                 mTvDown.setTextColor(Color.WHITE);
-                if (!mProductListBean.getIsClosed().equals("2")) {
+                if (!isClosed.equals("2")) {
                     mBuild.setBackgroundResource(R.color.color_2CC593);
                 }
                 setTextChange();
@@ -541,7 +543,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private void lessAddPrice(boolean isAdd) {
         if (!mIsStopChangePrice) {
             mIsStopChangePrice = true;
-            if(!"2".equals(mProductListBean.getIsClosed())) {
+            if(!"2".equals(isClosed)) {
                 mBuild.setText("委托建仓");
             }
         }
