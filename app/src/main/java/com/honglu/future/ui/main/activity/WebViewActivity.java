@@ -81,8 +81,8 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     private String mUrl;
     private HashMap<String, String> mHashMap;
     private boolean isZhbTitle;
-    private boolean isFinish;
     private Dialog dialog;
+    private OnClickListener onClickListener;
 
     @Override
     public int getLayoutId() {
@@ -96,7 +96,13 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
     @Override
     public void loadData() {
-        mTitle.setTitle("");
+        onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        };
+        mTitle.setTitle(true,onClickListener,"");
         mTitle.showClose(null);
         initView();
         if (!TextUtils.isEmpty(mUrl)) {
@@ -110,7 +116,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         if (getIntent() != null) {
             if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
                 title = getIntent().getStringExtra("title");
-                mTitle.setTitle(title);
+                mTitle.setTitle(true,onClickListener,title);
             }
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
@@ -678,7 +684,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                         }
                     }).build();
         } else {
-            if (mWebView.canGoBack() && !isFinish) {
+            if (mWebView.canGoBack()) {
                 mWebView.goBack();
             } else {
                 finish();
@@ -779,11 +785,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             } else {
                 //mTitle.hintClose();
             }
-            if (url.contains("repayment/detail")) {
-                isFinish = true;
-            } else {
-                isFinish = false;
-            }
             Log.e("web", "url==" + url);
             //往当前页面插入一段JS
             if (url.contains("https://my.alipay.com/portal/i.htm") || url.contains("https://shanghu.alipay.com/i.htm")) {
@@ -830,7 +831,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                                             }
                                         }).build();
                             } else {
-                                if (mWebView.canGoBack() && !isFinish) {
+                                if (mWebView.canGoBack()) {
                                     mWebView.goBack();
                                 } else {
                                     finish();
@@ -841,7 +842,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                     mTitle.setRightTitle("", null);
                 }
             } else {
-                mTitle.setTitle("认证中");
+                mTitle.setTitle(true,onClickListener,"认证中");
             }
 
         }
