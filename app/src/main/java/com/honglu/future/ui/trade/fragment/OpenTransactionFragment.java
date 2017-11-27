@@ -225,12 +225,15 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
-        mProfitLoss.setText(bean.getPositionProfit() + "");
+
         if (Integer.parseInt(bean.getPositionProfit()) > 0) {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+            mProfitLoss.setText("+" + bean.getPositionProfit());
         } else if (Integer.parseInt(bean.getPositionProfit()) < 0) {
+            mProfitLoss.setText(bean.getPositionProfit());
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
         } else {
+            mProfitLoss.setText(bean.getPositionProfit());
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
     }

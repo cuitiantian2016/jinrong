@@ -343,13 +343,16 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mDangerChance.setText(bean.getCapitalProportion());
         mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
         mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
-        mProfitLoss.setText(bean.getPositionProfit() + "");
+
         if (Integer.parseInt(bean.getPositionProfit()) > 0) {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+            mProfitLoss.setText("+" + bean.getPositionProfit());
         } else if (Integer.parseInt(bean.getPositionProfit()) < 0) {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
+            mProfitLoss.setText(bean.getPositionProfit());
         } else {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mProfitLoss.setText(bean.getPositionProfit());
         }
         mHandler.postDelayed(mPositionRunnable, 1000);
     }
@@ -365,7 +368,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
-        if (mCloseDialog !=null){
+        if (mCloseDialog != null) {
             mCloseDialog.onDestroy();
         }
     }
