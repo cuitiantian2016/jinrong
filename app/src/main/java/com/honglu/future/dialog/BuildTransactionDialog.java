@@ -321,7 +321,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             sxf.setText("¥" + StringUtil.forNumber(new BigDecimal(totalSXF).doubleValue()));
 
             String totalMoney = NumberUtil.moveLast0(NumberUtil.multiply((oneSlSXF + oneSlBZj), new BigDecimal(shouShu).doubleValue()));
-            mTotal.setText(StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
+            mTotal.setText("¥"+StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
 
 
             if (!"2".equals(isClosed)) {
