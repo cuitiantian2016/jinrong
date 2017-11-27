@@ -3,17 +3,21 @@ package com.honglu.future.ui.main.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -22,6 +26,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,6 +37,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cfmmc.app.sjkh.*;
+import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
@@ -43,6 +50,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.ui.main.bean.MoreContentBean;
 import com.honglu.future.ui.main.contract.MyContract;
 import com.honglu.future.ui.main.presenter.MyPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -81,8 +89,10 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     private String mUrl;
     private HashMap<String, String> mHashMap;
     private boolean isZhbTitle;
-    private Dialog dialog;
     private OnClickListener onClickListener;
+    private Button button;
+    private WindowManager mWindowManager;
+    private boolean isShow;
 
     @Override
     public int getLayoutId() {
@@ -152,41 +162,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         mWebView.addJavascriptInterface(new JavaMethod(), "nativeMethod");
         mWebView.setDownloadListener(new MyWebViewDownLoadListener());
         mWebView.setWebViewClient(new MyWebViewClient());
-        mWebView.setWebChromeClient(new MyWebChromeClient());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        if (message != null) {
-//            //打开WebViewActivity,自定义参数必须传入"url"，选传"title"
-//            String customContent = message.getCustomContent();
-//            if (!TextUtils.isEmpty(customContent)) {//自定义参数是否为空
-//                try {
-//                    JSONObject contentObj = new JSONObject(customContent);
-//                    mUrl = contentObj.optString("url");
-//                    XgTitle = contentObj.optString("title");
-//                    if (!TextUtils.isEmpty(mUrl)) {
-//                        mUrl = HttpManager.getUrl(mUrl);
-//                        mWebView.loadUrl(mUrl);
-//                        if (!TextUtils.isEmpty(XgTitle)) {
-//                            title = XgTitle;
-//                            mTitle.setTitle(XgTitle);
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        XGPushManager.onActivityStoped(this);
-    }
+        mWebView.setWebChromeClient(new MyWebChromeClient());}
 
     private void showDialog() {
         mWebView.setVisibility(View.GONE);
@@ -201,26 +177,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         ToastUtil.showToast(message);
         finish();
     }
-
-//    public void toShare() {
-//        if (mMoreContentBean == null) {
-//            mPresenter.getInfo();
-//        } else {
-//            showShare();
-//        }
-//    }
-
-//    private void showShare() {
-//        if (mMoreContentBean != null) {
-//          /*  new ShareAction(WebViewActivity.this).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA
-//                    .WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-//                    .withTitle(mMoreContentBean.getShare_title())
-//                    .withText(mMoreContentBean.getShare_body())
-//                    .withTargetUrl(mMoreContentBean.getShare_url())
-//                    .withMedia(new UMImage(WebViewActivity.this, mMoreContentBean.getShare_logo()))
-//                    .setCallback(umShareListener).open();*/
-//        }
-//    }
 
     @Override
     protected void onDestroy() {
@@ -266,37 +222,13 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     }
 
     public class JavaMethod {
-        /*************** START  支付宝和淘宝等第三方数据抓取和认证操作***************/
-        /**
-         * 隐藏页面 显示认证进度 布局
-         *
-         * @param type 传入 0
-         */
-        @JavascriptInterface
-        public void goneLayout(int type) {
-            switch (type) {
-                //隐藏webview
-                case 0:
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mWebView.setVisibility(View.GONE);
-//                            isZhbTitle = true;
-//                            mDialogView.setVisibility(View.VISIBLE);
-//                            mTvTagContent.setText(AUTHTAG + "0%");
-//                        }
-//                    });
-                    break;
-                default:
-                    break;
-            }
-        }
 
         /**
          * 跳转开户页面
          */
         @JavascriptInterface
         public void openAccount() {
+            showPopupWindow();
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", "0101");
             intent.putExtra("channel", "@200$088-2");
@@ -342,86 +274,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             //调用这个方法返回数据
             WebViewActivity.this.finish();
         }
-
-        /**
-         * 设置当前的认证进度
-         *
-         * @param progress 当前进度  0-100
-         */
-        @JavascriptInterface
-        public void setProgress(final int progress) {
-
-        }
-
-        /**
-         * 上传传入的数据 到info-capture/info-upload这个接口 入参： String data
-         */
-        @JavascriptInterface
-        public void submitText(String text) {
-
-        }
-
         /***************END 支付宝和淘宝等第三方数据抓取和认证操作***************/
-
-
-        /**
-         * 跳转到app的方法
-         *
-         * @param type json字符串
-         *             {
-         *             type:"0";
-         *             }
-         *             0：关闭当前页面
-         *             1：跳转到忘记登录密码
-         *             2：跳转到忘记支付密码
-         *             3：跳转到认证中心
-         *             4：跳转到首页
-         *             5：跳转到qq，并打开指定号码的客服聊天界面
-         */
-        @JavascriptInterface
-        public void returnNativeMethod(String type) {
-//            LogUtils.logd("TAG", "type:" + type);
-//            if ("0".equals(type)) {
-//                finish();
-//            } else if ("1".equals(type)) {
-//                Intent intent = new Intent(mContext, ResetPwdActivity.class);
-//                intent.putExtra(Constant.CACHE_TAG_USERNAME, SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-//                startActivity(intent);
-//            } else if ("2".equals(type)) {
-//                Intent intent = new Intent(mContext, ResetPwdActivity.class);
-//                startActivity(intent);
-//            } else if ("3".equals(type)) {
-//                Intent intent = new Intent(mContext, PerfectInformationActivity.class);
-//                startActivity(intent);
-//            } else if ("4".equals(type)) {
-//                Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//                EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Lend));
-//            } else if ("5".equals(type)) {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mTitle.setRightTitle("咨询客服", new OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                // 这里只能为联系客服特殊处理，转到联系我们的页面
-//                                String qq_url =
-//                                        "mqqwpa://im/chat?chat_type=crm&uin=2152872885&version=1&src_type=web&web_src" +
-//                                                "=file:://";//938009600
-//                                try {
-//                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(qq_url)));
-//                                } catch (Exception e) {
-//                                    ToastUtil.showToast("请确认安装了QQ客户端");
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
-//
-//            }
-        }
-
         /**
          * 调用改方法去发送短信
          *
@@ -435,22 +288,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
-        }
-
-        /**
-         * 调用该方法可以复制文字到手机的粘贴板
-         *
-         * @param text 需要复制的文字
-         *             PS:暂未使用到
-         */
-        @JavascriptInterface
-        public void copyTextMethod(String text) {
-//            CopyTextBean bean = ConvertUtil.toObject(text, CopyTextBean.class);
-//
-//            ClipboardManager c = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-//            c.setPrimaryClip(ClipData.newPlainText("text", bean.getText()));
-//
-//            ToastUtil.showToast(bean.getTip());
         }
 
         /**
@@ -480,14 +317,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         }
 
         /**
-         * 跳转到智齿机器人界面
-         */
-        @JavascriptInterface
-        public void sobot() {
-            //UDeskUtils.getInstance().entryChat(WebViewActivity.this);
-        }
-
-        /**
          * 协议下载(留存)
          */
         @JavascriptInterface
@@ -496,173 +325,51 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             intent.addCategory("android.intent.category.DEFAULT");
             startActivity(intent);
         }
+    }
 
-        /**
-         * 调用app的分享
-         *
-         * @param shareBean 分享的json字符串
-         *                  int type;   //类型  如需要点击标题右上角“分享"按钮再分享 ，则传入1。  否则传入其他  会直接弹出分享弹窗
-         *                  String share_title; //分享标题
-         *                  String share_body;  //分享的内容
-         *                  String share_url;   //分享后点击打开的地址
-         *                  String share_logo;  //分享的图标
-         */
-        @JavascriptInterface
-        public void shareMethod(String shareBean) {
-            //
-//            final WebShareBean bean = ConvertUtil.toObject(shareBean, WebShareBean.class);
-//            if (bean != null) {
-//                if (bean.getType() == 1) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mTitle.setRightTitle("分享", new OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-//                                            SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-//                                            .withTitle(bean.getShare_title())
-//                                            .withText(bean.getShare_body())
-//                                            .withTargetUrl(bean.getShare_url())
-//                                            .withMedia(new UMImage(WebViewActivity.this, bean.getShare_logo()))
-//                                            .setCallback(umShareListener).open();
-//
-//                                }
-//                            });
-//                        }
-//                    });
-//                } else {
-//                    new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-//                            SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-//                            .withTitle(bean.getShare_title())
-//                            .withText(bean.getShare_body())
-//                            .withTargetUrl(bean.getShare_url())
-//                            .withMedia(new UMImage(WebViewActivity.this, bean.getShare_logo()))
-//                            .setCallback(umShareListener).open();
-//                }
-//            }
-        }
-
-        @JavascriptInterface
-        public void authenticationResult(String message) {
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mWindowManager!=null&&isShow){
+            isShow = false;
+            mWindowManager.removeView(button);
         }
     }
 
-    // private void shareStart(WebShareBean bean){
-       /* new ShareAction(mActivity)
-                .setPlatform(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-                        SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                .withTitle(mMoreContentBean.getShare_title())
-                .withText(mMoreContentBean.getShare_title())
-                .withTargetUrl(mMoreContentBean.getShare_url())
-                .withMedia(new UMImage(mActivity, mMoreContentBean.getShare_logo()))
-                .setCallback(umShareListener)//回调监听器
-                .share();*/
-       /* UMImage umImage = new UMImage(mActivity, bean.getShare_logo());
-        umImage.compressFormat = Bitmap.CompressFormat.PNG;
-        UMWeb web = new UMWeb(bean.getShare_url());
-        web.setTitle(bean.getShare_title());//标题
-        web.setThumb(umImage); //缩略图
-        web.setDescription(bean.getShare_body());//描述
-        new ShareAction(mActivity)
-                .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-                        SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                .withMedia(web)
-                .setCallback(umShareListener)
-                .share();*/
-    // }
-
-//    private void showShareDialog() {
-//        dialog = new Dialog(WebViewActivity.this, R.style.alert_dialog);
-//        View dialogView = LayoutInflater.from(WebViewActivity.this).inflate(R.layout.dialog_share_layout, null);
-//        //计算宽高
-//                /*int width = DeviceUtils.getScreenWidth(activity) - 150;
-//                int height = width * 870 / 600;*/
-//        ImageView mImageLose = (ImageView) dialogView.findViewById(R.id.image_lose);
-//        mImageLose.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        dialogView.findViewById(R.id.text_wx).setOnClickListener(shareListener);
-//        dialogView.findViewById(R.id.text_wxq).setOnClickListener(shareListener);
-//        dialogView.findViewById(R.id.text_qq).setOnClickListener(shareListener);
-//        dialogView.findViewById(R.id.text_kongjian).setOnClickListener(shareListener);
-//        dialog.setContentView(dialogView);
-//        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-//        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//        lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//        lp.dimAmount = 0.75f;
-//        lp.gravity = Gravity.BOTTOM;
-//        dialog.getWindow().setAttributes(lp);
-//        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        dialog.setCancelable(false);
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
-//    }
-//
-//    OnClickListener shareListener = new OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//                case R.id.text_wx:
-//                    shareStart(SHARE_MEDIA.WEIXIN);
-//                    break;
-//                case R.id.text_wxq:
-//                    shareStart(SHARE_MEDIA.WEIXIN_CIRCLE);
-//                    break;
-//                case R.id.text_qq:
-//                    shareStart(SHARE_MEDIA.QQ);
-//                    break;
-//                case R.id.text_kongjian:
-//                    shareStart(SHARE_MEDIA.QZONE);
-//                    break;
-//            }
-//            dialog.dismiss();
-//        }
-//    };
-//
-//    private void shareStart(SHARE_MEDIA var1) {
-//
-//       /* UMImage umImage = new UMImage(mActivity, mMoreContentBean.getShare_logo());
-//        umImage.compressFormat = Bitmap.CompressFormat.PNG;
-//        UMWeb  web = new UMWeb(mMoreContentBean.getShare_url());
-//        web.setTitle(mMoreContentBean.getShare_title());//标题
-//        web.setThumb(umImage); //缩略图
-//        web.setDescription(mMoreContentBean.getShare_body());//描述
-//        new ShareAction(mActivity)
-//                .setPlatform(var1)
-//                .withMedia(web)
-//                .setCallback(umShareListener)
-//                .share();*/
-//        new ShareAction(mActivity)
-//                .setPlatform(var1)//传入平台
-//                .withTitle(mMoreContentBean.getShare_title())
-//                .withText(mMoreContentBean.getShare_body())
-//                .withTargetUrl(mMoreContentBean.getShare_url())
-//                .withMedia(new UMImage(mActivity, R.mipmap.icon_logo))
-//                .setCallback(umShareListener)//回调监听器
-//                .share();
-//    }
-
-    private UMShareListener umShareListener = new UMShareListener() {
-
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            ToastUtil.showToast("分享成功");
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            ToastUtil.showToast("分享失败");
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-        }
-    };
+    /**
+     * 显示弹出框
+     */
+    public void showPopupWindow() {
+        isShow = true;
+        // 获取WindowManager
+        mWindowManager = (WindowManager) getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        button = new Button(getApplicationContext());
+        button.setText("区间号：088");
+        button.setTextColor(getResources().getColor(R.color.white));
+        button.setBackgroundColor(getResources().getColor(R.color.actionsheet_blue));
+        button.setAlpha(0.5f);
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        // 类型
+        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+        // 设置flag
+        int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+        // | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        // 如果设置了WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE，弹出的View收不到Back键的事件
+        params.flags = flags;
+        // 不设置这个弹出框的透明遮罩显示为黑色
+        params.format = PixelFormat.TRANSLUCENT;
+        // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗口
+        // 设置 FLAG_NOT_FOCUSABLE 悬浮窗口较小时，后面的应用图标由不可长按变为可长按
+        // 不设置这个flag的话，home页的划屏会有问题
+        params.width = FrameLayout.LayoutParams.MATCH_PARENT;
+        params.height = DeviceUtils.dip2px(this, 40);
+        params.gravity = Gravity.BOTTOM;
+        mWindowManager.addView(button, params);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -726,7 +433,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            //handler.cancel(); // Android默认的处理方式
             handler.proceed();  // 接受所有网站的证书  解决https拦截问题
         }
 
