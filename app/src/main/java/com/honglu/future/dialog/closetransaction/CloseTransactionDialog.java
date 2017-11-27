@@ -83,7 +83,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
+        mPresenter.init(CloseTransactionDialog.this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -180,6 +180,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         this.mMaxCloseTradeNum = holdPositionBean.getPosition();
         this.mInstrumentId = holdPositionBean.getInstrumentId();
         this.mExcode = holdPositionBean.getExcode();
+        this.mLastPrice = mProductListBean.getLastPrice();
         mPrice.clearFocus();
         mPrice.setFocusable(false);
         mName.setText(holdPositionBean.getInstrumentName());
