@@ -50,10 +50,12 @@
         </shape>
     </item>
     <item android:duration="50">
-        <shape>
-            <!--<corners android:radius="5dip"/>-->
-            <solid android:color="@android:color/white"/>
-        </shape>
+            <shape>
+                <stroke
+                    android:width="@dimen/dimen_1dp_half"
+                    android:color="@color/color_EDEDED" />
+                <solid android:color="@color/white" />
+            </shape>
     </item>
 
     <!--<item android:drawable="@android:color/transparent"
