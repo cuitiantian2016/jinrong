@@ -202,6 +202,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void getProductListSuccess(List<ProductListBean> bean) {
+        if (bean  == null || bean.size() <= 0){
+            return;
+        }
         mSmartRefreshLayout.finishRefresh();
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
