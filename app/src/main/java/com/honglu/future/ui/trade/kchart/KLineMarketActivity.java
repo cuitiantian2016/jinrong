@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.kchart;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.bean.AccountBean;
@@ -787,27 +789,37 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 finish();
                 break;
             case R.id.buy_up:
-                if (App.getConfig().getAccountLoginStatus()) {
-                    if (productListBean != null) {
-                        mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
-                        mBuildTransactionDialog.show();
-                    } else {
-                        showToast("暂未获取数据");
-                    }
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
                 } else {
-                    showAccountLoginDialog();
+                    if (App.getConfig().getAccountLoginStatus()) {
+                        if (productListBean != null) {
+                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
+                            mBuildTransactionDialog.show();
+                        } else {
+                            showToast("暂未获取数据");
+                        }
+                    } else {
+                        showAccountLoginDialog();
+                    }
                 }
                 break;
             case R.id.buy_down:
-                if (App.getConfig().getAccountLoginStatus()) {
-                    if (productListBean != null) {
-                        mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
-                        mBuildTransactionDialog.show();
-                    } else {
-                        showToast("暂未获取数据");
-                    }
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
                 } else {
-                    showAccountLoginDialog();
+                    if (App.getConfig().getAccountLoginStatus()) {
+                        if (productListBean != null) {
+                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
+                            mBuildTransactionDialog.show();
+                        } else {
+                            showToast("暂未获取数据");
+                        }
+                    } else {
+                        showAccountLoginDialog();
+                    }
                 }
                 break;
             case R.id.hold_position:
