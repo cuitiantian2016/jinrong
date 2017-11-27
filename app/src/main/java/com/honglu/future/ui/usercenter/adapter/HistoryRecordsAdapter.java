@@ -33,21 +33,30 @@ public class HistoryRecordsAdapter extends BaseRecyclerAdapter<HistoryRecordsAda
     @Override
     public void mOnBindViewHolder(HistoryRecordsAdapter.ViewHolder holder, int position) {
         holder.mTvProductName.setText(item.getName());
-        holder.mTvBuyHands.setText(item.getBuyHands()+"手");
+        holder.mTvBuyHands.setText(item.getBuyHands() + "手");
         if (mType.equals(TYPE_CLOSED)) {
             holder.mLlBuild.setVisibility(View.GONE);
             holder.mLlClosed.setVisibility(View.VISIBLE);
+            holder.mLlPosition.setVisibility(View.GONE);
             holder.mBuildPriceClosed.setText(item.getBuildPrice());
             holder.mClosePrice.setText(item.getClosePrice());
             holder.mProfitLoss.setText(item.getProfitLoss());
-        } else{
+        } else if (mType.equals(TYPE_POSITION)) {
+            holder.mLlBuild.setVisibility(View.GONE);
+            holder.mLlClosed.setVisibility(View.GONE);
+            holder.mLlPosition.setVisibility(View.VISIBLE);
+            holder.mSettlePrice.setText(item.getSettlePrice());
+            holder.mTodayPl.setText(item.getTodayPl());
+            holder.mActualPl.setText(item.getProfitLoss());
+        } else {
             holder.mLlBuild.setVisibility(View.VISIBLE);
             holder.mLlClosed.setVisibility(View.GONE);
+            holder.mLlPosition.setVisibility(View.GONE);
             holder.mTvBuildPrice.setText(item.getBuildPrice());
             holder.mTvServicePrice.setText(item.getServicePrice());
         }
 
-        if (item.getBuyType().equals("rise")) {
+        if (item.getBuyType().equals("买涨")) {
             holder.mTvBuyType.setText("买涨");
             holder.mTvBuyType.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else {
@@ -81,6 +90,14 @@ public class HistoryRecordsAdapter extends BaseRecyclerAdapter<HistoryRecordsAda
         TextView mClosePrice;
         @BindView(R.id.tv_profit_loss)
         TextView mProfitLoss;
+        @BindView(R.id.ll_position)
+        LinearLayout mLlPosition;
+        @BindView(R.id.tv_settlement_price)
+        TextView mSettlePrice;
+        @BindView(R.id.tv_today_pl)
+        TextView mTodayPl;
+        @BindView(R.id.tv_actual_pl)
+        TextView mActualPl;
 
         ViewHolder(View view) {
             super(view);

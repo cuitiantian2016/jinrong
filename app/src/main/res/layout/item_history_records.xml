@@ -99,7 +99,7 @@
             android:id="@+id/tv_build_price_closed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/dimen_8dp"
             android:text="1665"
             android:textColor="@color/color_151515"
             android:textSize="@dimen/dimen_14sp" />
@@ -107,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="34dp"
+            android:layout_marginLeft="30dp"
             android:text="平仓价"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
@@ -116,14 +116,14 @@
             android:id="@+id/tv_closed_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/dimen_8dp"
             android:text="6.65"
             android:textColor="@color/color_151515"
             android:textSize="@dimen/dimen_14sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="34dp"
+            android:layout_marginLeft="30dp"
             android:text="实际盈亏"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
@@ -132,12 +132,68 @@
             android:id="@+id/tv_profit_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/dimen_8dp"
             android:text="6.65"
             android:textColor="@color/color_151515"
             android:textSize="@dimen/dimen_14sp" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_7dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结算价"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_settlement_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="1665"
+            android:textColor="@color/color_151515"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="当日盈亏"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_today_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="6.65"
+            android:textColor="@color/color_151515"
+            android:textSize="@dimen/dimen_14sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="实际盈亏"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_actual_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:text="6.65"
+            android:textColor="@color/color_151515"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp_half"

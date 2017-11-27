@@ -591,7 +591,7 @@ public class SettlementInfoBean{
 
     }
 
-    private class PositionsDetailList{
+    public class PositionsDetailList{
 
         private String accumPL;
         private String bs;

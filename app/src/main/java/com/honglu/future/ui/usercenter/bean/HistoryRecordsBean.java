@@ -71,4 +71,24 @@ public class HistoryRecordsBean {
 
     private String closePrice;
     private String profitLoss;
+
+    public String getSettlePrice() {
+        return settlePrice;
+    }
+
+    public void setSettlePrice(String settlePrice) {
+        this.settlePrice = settlePrice;
+    }
+
+    public String getTodayPl() {
+        return todayPl;
+    }
+
+    public void setTodayPl(String todayPl) {
+        this.todayPl = todayPl;
+    }
+
+    private String settlePrice;
+    private String todayPl;
+
 }
