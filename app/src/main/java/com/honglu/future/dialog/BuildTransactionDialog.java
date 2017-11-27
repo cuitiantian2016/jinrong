@@ -58,12 +58,16 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private ImageView mReduceHands, mAddHands;
     private TextView mBuild;
     private TextView isClose;
+    private String instrumentName;
+    private String instrumentId;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
         this.mContext = (AppCompatActivity) context;
         mBuyRiseOrDown = buyRiseOrDown;
         mProductListBean = bean;
+        instrumentName = bean.getInstrumentName();
+        instrumentId = bean.getInstrumentId();
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
     }
@@ -397,7 +401,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     buyTypeStr = "买涨";
                 }
 
-                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(mProductListBean.getInstrumentName() + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString())
+
+                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString())
                         .setRightBtnText("确定")
                         .setLeftBtnText("取消")
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
@@ -406,7 +411,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                                 mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
                                         mBuyType,
                                         mPrice.getText().toString(),
-                                        mProductListBean.getInstrumentId(),
+                                        instrumentId,
                                         SpUtil.getString(Constant.CACHE_TAG_UID),
                                         SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
                                         "GUOFU"
