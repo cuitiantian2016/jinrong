@@ -61,26 +61,29 @@
 }
 
 #bean 防混淆
--keep class com.xulu.xnpacket.bean.** { *; }
--keep class com.xulu.xnpacket.ui.authentication.bean.** { *; }
--keep class com.xulu.xnpacket.ui.lend.bean.** { *; }
--keep class com.xulu.xnpacket.ui.login.bean.** { *; }
--keep class com.xulu.xnpacket.ui.my.bean.** { *; }
--keep class com.xulu.xnpacket.ui.repayment.bean.** { *; }
--keep class com.yintong.bean.** { *; }
+-keep class com.honglu.future.bean.** { *; }
+-keep class com.honglu.future.ui.details.bean.** { *; }
+-keep class com.honglu.future.ui.home.bean.** { *; }
+-keep class com.honglu.future.ui.login.bean.** { *; }
+-keep class com.honglu.future.ui.main.bean.** { *; }
+-keep class com.honglu.future.ui.market.bean.** { *; }
+-keep class com.honglu.future.ui.recharge.bean.** { *; }
+-keep class com.honglu.future.ui.register.bean.** { *; }
+-keep class com.honglu.future.ui.trade.bean.** { *; }
+-keep class com.honglu.future.ui.usercenter.bean.** { *; }
 
 #网络层混淆
--keep class com.xulu.xnpacket.http.** {*;}
+-keep class com.honglu.future.http.** {*;}
 
 # javascript 防混淆
--keep class com.xulu.xnpacket.ui.main.WebViewActivity$JavaMethod{*;}
+-keep class com.honglu.future.ui.main.activity.WebViewActivity$JavaMethod{*;}
 -keepattributes *JavascriptInterface*
 -keep class android.webkit.JavascriptInterface {*;}
 
 -keepclassmembers class * {
      public <init>(org.json.JSONObject);
     }
- -keep public class com.xulu.xnpacket.R$*{
+ -keep public class com.honglu.future.R$*{
       public static final int *;
  }
 
@@ -444,3 +447,4 @@
 
 -keep class com.google.zxing.client.** {*;}
 -dontwarn com.google.zxing.client.**
+
