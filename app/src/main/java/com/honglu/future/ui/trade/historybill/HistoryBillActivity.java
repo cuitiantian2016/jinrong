@@ -18,6 +18,7 @@ import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -196,20 +197,21 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         bean.setName(settlementInfoBean.getCloseList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getCloseList().get(i).getBs());
                         bean.setBuyHands(settlementInfoBean.getCloseList().get(i).getLots());
-                        bean.setBuildPrice(settlementInfoBean.getCloseList().get(i).getPosOpenPrice());
-                        bean.setClosePrice(settlementInfoBean.getCloseList().get(i).getTransPrice());
-                        bean.setProfitLoss(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getRealizedPL(),"0")).doubleValue()));
+                        bean.setBuildPrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getPosOpenPrice(),"0")).doubleValue()));
+                        bean.setClosePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getTransPrice(),"0")).doubleValue()));
+                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getRealizedPL(),"0")).doubleValue()));
                         mList.add(bean);
                     }
                 } else if (position == 2 && settlementInfoBean.getPositionsList() != null) {
                     mHistoryRecordsAdapter.setType(HistoryRecordsAdapter.TYPE_POSITION);
                     for (int i = 0; i < settlementInfoBean.getPositionsList().size(); i++) {
                         HistoryRecordsBean bean = new HistoryRecordsBean();
-                        bean.setName(settlementInfoBean.getPositionsList().get(i).getProduct());
-                        bean.setBuyType(settlementInfoBean.getPositionsList().get(i).getSh());
-                        bean.setBuyHands(settlementInfoBean.getPositionsList().get(i).getLongPos());
-                        bean.setBuildPrice(settlementInfoBean.getPositionsList().get(i).getAvgBuyPrice());
-                        bean.setServicePrice(settlementInfoBean.getPositionsList().get(i).getMarkeValueLong());
+                        bean.setName(settlementInfoBean.getPositionsDetailList().get(i).getProduct());
+                        bean.setBuyType(settlementInfoBean.getPositionsDetailList().get(i).getBs());
+                        bean.setBuyHands(settlementInfoBean.getPositionsDetailList().get(i).getPositon());
+                        bean.setSettlePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getSettlementPrice(),"0")).doubleValue()));
+                        bean.setTodayPl(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getMtmPl(),"0")).doubleValue()));
+                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getAccumPL(),"0")).doubleValue()));
                         mList.add(bean);
                     }
                 }
