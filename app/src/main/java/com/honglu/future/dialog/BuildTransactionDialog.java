@@ -60,6 +60,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private TextView isClose;
     private String instrumentName;
     private String instrumentId;
+    private String lowerLimitPrice;
+    private String upperLimitPrice;
+    private String priceTick;
+    private int volumeMultiple;
+    private int maxSl;
+    private int minSl;
 
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
@@ -68,6 +74,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mProductListBean = bean;
         instrumentName = bean.getInstrumentName();
         instrumentId = bean.getInstrumentId();
+        lowerLimitPrice = bean.getLowerLimitPrice();
+        upperLimitPrice = bean.getUpperLimitPrice();
+        priceTick = bean.getPriceTick();
+        volumeMultiple = bean.getVolumeMultiple();
+        maxSl = bean.getMaxSl();
+        minSl = bean.getMinSl();
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
     }
@@ -204,7 +216,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
                     if (!mIsStopChangePrice) {
                         mIsStopChangePrice = true;
-                        mBuild.setText("委托建仓");
+                        if(!"2".equals(mProductListBean.getIsClosed())) {
+                            mBuild.setText("委托建仓");
+                        }
                     }
                 }
                 return false;
@@ -225,6 +239,15 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(mHands.getText().toString())) {
+                    mHands.setText(String.valueOf(minSl));
+                } else {
+                    if (Integer.parseInt(mHands.getText().toString()) < minSl) {
+                        mHands.setText(String.valueOf(minSl));
+                    } else if (Integer.parseInt(mHands.getText().toString()) > maxSl) {
+                        mHands.setText(String.valueOf(maxSl));
+                    }
+                }
                 ykTips();
                 setTotalMoney();
             }
@@ -356,8 +379,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             shouShu = mProductListBean.getMinSl();
         }
         text_create_tips.setText(mContext.getResources().getString(R.string.create_order_tips,
-                mProductListBean.getPriceTick(),
-                NumberUtil.moveLast0(NumberUtil.multiply(Double.parseDouble(mProductListBean.getPriceTick()), Double.parseDouble(mProductListBean.getVolumeMultiple() * shouShu + "")))));
+                priceTick,
+                NumberUtil.moveLast0(NumberUtil.multiply(Double.parseDouble(priceTick), Double.parseDouble(volumeMultiple * shouShu + "")))));
 
     }
 
@@ -401,6 +424,21 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     buyTypeStr = "买涨";
                 }
 
+                if (TextUtils.isEmpty(mPrice.getText().toString())) {
+                    mPrice.setText(lowerLimitPrice);
+                    showToast("委托价低于跌停价，已经帮您调整至跌停价");
+                    return;
+                } else {
+                    if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
+                        mPrice.setText(lowerLimitPrice);
+                        showToast("委托价低于跌停价，已经帮您调整至跌停价");
+                        return;
+                    } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
+                        mPrice.setText(upperLimitPrice);
+                        showToast("委托价高于涨停价，已经帮您调整至涨停价");
+                        return;
+                    }
+                }
 
                 new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString())
                         .setRightBtnText("确定")
@@ -450,6 +488,19 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvRise.setText(mPrice.getText().toString().trim());
             mTvDown.setText(mPrice.getText().toString().trim());
         }
+
+        if (TextUtils.isEmpty(mPrice.getText().toString())|| mPrice.getText().toString().equals(".")) {
+            mTvRise.setText(lowerLimitPrice);
+            mTvDown.setText(lowerLimitPrice);
+        } else {
+            if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
+                mTvRise.setText(lowerLimitPrice);
+                mTvDown.setText(lowerLimitPrice);
+            } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
+                mTvRise.setText(upperLimitPrice);
+                mTvDown.setText(upperLimitPrice);
+            }
+        }
     }
 
     /**
@@ -467,13 +518,13 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         }
         if (isAdd) {
             shouShu += 1;
-            if (shouShu >= mProductListBean.getMaxSl()) {
-                shouShu = mProductListBean.getMaxSl();
+            if (shouShu >= maxSl) {
+                shouShu = maxSl;
             }
         } else {
             shouShu -= 1;
-            if (shouShu <= mProductListBean.getMinSl()) {
-                shouShu = mProductListBean.getMinSl();
+            if (shouShu <= minSl) {
+                shouShu = minSl;
             }
         }
         mHands.setText(String.valueOf(shouShu));
@@ -490,7 +541,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private void lessAddPrice(boolean isAdd) {
         if (!mIsStopChangePrice) {
             mIsStopChangePrice = true;
-            mBuild.setText("委托建仓");
+            if(!"2".equals(mProductListBean.getIsClosed())) {
+                mBuild.setText("委托建仓");
+            }
         }
         String input = mPrice.getText().toString();
         double price = 0;
@@ -510,7 +563,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 price = Double.parseDouble(mProductListBean.getLowerLimitPrice());
             }
         }
-        mPrice.setText(String.valueOf(price));
+        mPrice.setText(NumberUtil.beautifulDouble(price));
         mPrice.setSelection(mPrice.getText().toString().length());
         setTextChange();
         ykTips();
