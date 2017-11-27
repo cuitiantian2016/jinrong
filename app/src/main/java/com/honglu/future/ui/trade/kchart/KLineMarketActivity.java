@@ -823,21 +823,26 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 }
                 break;
             case R.id.hold_position:
-                if (App.getConfig().getAccountLoginStatus()) {
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                } else {
+                    if (App.getConfig().getAccountLoginStatus()) {
 
-                    String mName = mTvName.getText().toString();
-                    if (!TextUtils.isEmpty(mName)) {
-                        if (mChiCangList != null && mChiCangList.size() > 0) {
-                            boolean mClosed = "2".equals(isClosed);
-                            mKLinePositionDialog.setPositionData(mClosed, mExcode, mCode, mName, mChiCangList).showDialog();
-                        } else {
-                            //getPositionList();
+                        String mName = mTvName.getText().toString();
+                        if (!TextUtils.isEmpty(mName)) {
+                            if (mChiCangList != null && mChiCangList.size() > 0) {
+                                boolean mClosed = "2".equals(isClosed);
+                                mKLinePositionDialog.setPositionData(mClosed, mExcode, mCode, mName, mChiCangList).showDialog();
+                            } else {
+                                //getPositionList();
 //                            EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
 //                            finish();
+                            }
                         }
+                    } else {
+                        showAccountLoginDialog();
                     }
-                } else {
-                    showAccountLoginDialog();
                 }
                 break;
             case R.id.iv_full_screen:
