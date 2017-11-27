@@ -24,6 +24,7 @@ public class UserAccountPresenter extends BasePresenter<UserAccountContract.View
             @Override
             protected void _onNext(AccountInfoBean bean) {
                 SpUtil.putString(Constant.CACHE_USER_ASSES,bean.getWithdrawQuota() + "");
+                SpUtil.putString(Constant.CACHE_USER_AVAILABLE_MONEY,bean.getAvailable() + "");
                 mView.getAccountInfoSuccess(bean);
             }
 

@@ -182,7 +182,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView limitPrice = (TextView) findViewById(R.id.tv_limit_price);
         limitPrice.setText("≥" + mProductListBean.getLowerLimitPrice() + " 跌停价 且 ≤" + mProductListBean.getUpperLimitPrice() + " 涨停价");
         TextView useAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
-        useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_ASSES));
+        useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_AVAILABLE_MONEY));
         marginMoney = (TextView) findViewById(R.id.tv_margin_money);
         sxf = (TextView) findViewById(R.id.tv_sxf);
         mTotal = (TextView) findViewById(R.id.tv_total);
@@ -325,7 +325,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
 
             if (!"2".equals(isClosed)) {
-                if (Double.parseDouble(totalMoney) > Double.parseDouble(SpUtil.getString(Constant.CACHE_USER_ASSES))) {
+                if (Double.parseDouble(totalMoney) > Double.parseDouble(SpUtil.getString(Constant.CACHE_USER_AVAILABLE_MONEY))) {
                     mBuild.setBackgroundResource(R.color.color_CACCCB);
                     mBuild.setText("余额不足");
                     mBuild.setClickable(false);
