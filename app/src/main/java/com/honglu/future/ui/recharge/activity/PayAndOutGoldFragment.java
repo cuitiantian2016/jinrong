@@ -302,8 +302,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             return;
         }
         this.mList = list;
-        SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
         if (list!=null&&list.size()>0){
+            SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
             mrlCard.removeAllViews();
             mBean = list.get(0);
             if (mBean.rechargeFlag == 1 ||mBean.cashoutFlag==1){
@@ -335,6 +335,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 mrlCard.addView(cardItem);
             }
         }else {
+            SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,"");
+            mrlCard.removeAllViews();
             bindBankErr("您没有绑定银行卡");
         }
     }
@@ -343,6 +345,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     public void bindBankErr(String msg) {
         if (isHidden()){
             return;
+        }
+        if (mrlCard!=null){
+            SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,"");
+            mrlCard.removeAllViews();
         }
         if ("您没有绑定银行卡".equals(msg)){
             new AlertFragmentDialog.Builder(mActivity)
