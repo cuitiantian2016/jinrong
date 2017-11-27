@@ -301,7 +301,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             }
             String totalBZJ = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(shouShu).doubleValue()));
 
-            marginMoney.setText("￥" + StringUtil.forNumber(new BigDecimal(totalBZJ).doubleValue()));
+            marginMoney.setText("¥" + StringUtil.forNumber(new BigDecimal(totalBZJ).doubleValue()));
             // 先计算一手手续费的金额
             double oneSlSXF = 0;
             if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
@@ -318,7 +318,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 }
             }
             String totalSXF = NumberUtil.moveLast0(NumberUtil.multiply(oneSlSXF, new BigDecimal(shouShu).doubleValue()));
-            sxf.setText("￥" + StringUtil.forNumber(new BigDecimal(totalSXF).doubleValue()));
+            sxf.setText("¥" + StringUtil.forNumber(new BigDecimal(totalSXF).doubleValue()));
 
             String totalMoney = NumberUtil.moveLast0(NumberUtil.multiply((oneSlSXF + oneSlBZj), new BigDecimal(shouShu).doubleValue()));
             mTotal.setText(StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
