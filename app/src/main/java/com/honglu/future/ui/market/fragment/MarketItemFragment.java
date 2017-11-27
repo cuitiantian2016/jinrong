@@ -416,7 +416,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
     private void getHttpRefreshData() {
-        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
+        //if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
            /*
            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
            if (zxMarketList == null || zxMarketList.size() <= 0){
@@ -426,9 +426,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
            }
              mAdapter.refreshData(mTabSelectType, mList);
              */
-        } else {
-            mPresenter.getMarketData();
-        }
+        //} else {
+
+        //}
+        mPresenter.getMarketData();
     }
 
     @Override
@@ -436,26 +437,45 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         if (alysiBean == null
                 || mAdapter == null
                 || alysiBean.getList() == null
-                || TextUtils.isEmpty(mTabSelectType)
-                || MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
+                || TextUtils.isEmpty(mTabSelectType)) {
             return;
         }
 
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.OnZXMarketList();
-        List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
 
-        if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
-            mAdapter.notifyDataChanged(true,zlhyMarketList);
-        } else {
-            for (MarketnalysisBean.ListBean listBean : allList) {
-                if (mTabSelectType.equals(listBean.getExcode())) {
-                    List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
-                    mAdapter.notifyDataChanged(true,dataList);
-                    break;
+        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxDataList = mAdapter.getData();
+            for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : zxDataList){
+
+                for (MarketnalysisBean.ListBean listBean : alysiBean.getList()){
+
+                    if (zxBean.getExcode().equals(listBean.getExcode())){
+                        for (MarketnalysisBean.ListBean.QuotationDataListBean allBean : listBean.getQuotationDataList()){
+
+                            if (zxBean.getInstrumentID().equals(allBean.getInstrumentID())){
+                                zxBean.setLastPrice(allBean.getLastPrice());
+                                zxBean.setChg(allBean.getChg());
+                                zxBean.setOpenInterest(allBean.getOpenInterest());
+                            }
+                        }
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        }else {
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.OnZXMarketList();
+            List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
+            if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
+                List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
+                mAdapter.notifyDataChanged(true,zlhyMarketList);
+            } else {
+                for (MarketnalysisBean.ListBean listBean : allList) {
+                    if (mTabSelectType.equals(listBean.getExcode())) {
+                        List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
+                        mAdapter.notifyDataChanged(true,dataList);
+                        break;
+                    }
                 }
             }
         }
-
     }
 }
