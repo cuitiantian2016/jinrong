@@ -178,6 +178,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             } else {
                 tvNewMoney.setText("建仓");
             }
+            tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
         }
 
@@ -212,6 +213,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             tvName.setText(bean.instrumentName);
+            tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
         }
 

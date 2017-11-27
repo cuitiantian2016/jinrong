@@ -312,7 +312,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     public void bindHistoryTradeBean(HistoryTradeBean bean) {
         //持仓盈亏
         if (Double.parseDouble(bean.profitLoss) > 0) {
-            tvRisk.setText("+" + bean.profitLoss);
+            tvRisk.setText(bean.profitLoss);
             tvRisk.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else if (Double.parseDouble(bean.profitLoss) < 0) {
             tvRisk.setText(bean.profitLoss);
