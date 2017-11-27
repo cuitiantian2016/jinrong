@@ -16,7 +16,6 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
-import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.TradeGuideDialog;
@@ -392,16 +391,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     @Override
     public void onDownClick(View view, ProductListBean bean) {
         if (!App.getConfig().getLoginStatus()) {
-            new AlertFragmentDialog.Builder(mActivity).setContent("请登陆后再操作")
-                    .setRightBtnText("确定")
-                    .setLeftBtnText("取消")
-                    .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                        @Override
-                        public void dialogRightBtnClick(String string) {
-                            Intent intent = new Intent(mContext, LoginActivity.class);
-                            mContext.startActivity(intent);
-                        }
-                    }).build();
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent);
         } else {
             if (App.getConfig().getAccountLoginStatus()) {
                 if (bean != null) {
