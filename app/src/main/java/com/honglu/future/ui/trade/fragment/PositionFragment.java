@@ -17,9 +17,9 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
-import com.honglu.future.dialog.closetransaction.CloseTransactionDialog;
 import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.dialog.TradeTipDialog;
+import com.honglu.future.dialog.closetransaction.CloseTransactionDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
@@ -43,7 +43,6 @@ import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -152,7 +151,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 if (!App.getConfig().getAccountLoginStatus()) {
                     if (isVisible()) {
                         stopRun();
-                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog = AccountLoginDialog.getInstance(mActivity, mAccountPresenter);
                         mAccountLoginDialog.show();
                     }
                 } else {

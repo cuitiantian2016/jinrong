@@ -171,7 +171,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
             if (App.getConfig().getLoginStatus()) {
                 if (!App.getConfig().getAccountLoginStatus()) {
                     if (isVisible()) {
-                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog = AccountLoginDialog.getInstance(mActivity, mAccountPresenter);
                         mAccountLoginDialog.show();
                     }
                 } else {

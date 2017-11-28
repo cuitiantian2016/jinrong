@@ -28,6 +28,6 @@
 		android:layout_height="30dp"
 		android:layout_marginBottom="15dp"
 		app:SpinKit_Style="ThreeBounce"
-		app:SpinKit_Color="#FFF"/>
+		app:SpinKit_Color="@color/color_008EFF"/>
 	
 </LinearLayout>

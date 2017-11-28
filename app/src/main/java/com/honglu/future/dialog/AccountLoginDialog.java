@@ -24,6 +24,7 @@ import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
 
@@ -35,9 +36,20 @@ import org.greenrobot.eventbus.EventBus;
 
 public class AccountLoginDialog extends Dialog implements View.OnClickListener {
     private Context mContext;
-    private int mScreenHeight;
+    private static AccountLoginDialog dialog = null;
     private AccountPresenter mPresenter;
     private EditText mAccount, mPwd;
+
+    public static AccountLoginDialog getInstance(Context context, AccountPresenter presenter) {
+        if (dialog == null) {
+            synchronized (AccountLoginDialog.class) {
+                if (dialog == null) {
+                    dialog = new AccountLoginDialog(context, presenter);
+                }
+            }
+        }
+        return dialog;
+    }
 
     public AccountLoginDialog(@NonNull Context context, AccountPresenter presenter) {
         super(context, R.style.DateDialog);
@@ -45,11 +57,11 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
         mPresenter = presenter;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.future_login_popup_window);
-        mScreenHeight = ViewUtil.getScreenHeight(mContext);
         Window mWindow = this.getWindow();
         WindowManager.LayoutParams params = mWindow.getAttributes();
         WindowManager manage = (WindowManager) mContext
@@ -68,7 +80,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
         ImageView ivTip = (ImageView) findViewById(R.id.iv_open_account_tip);
         ivTip.setOnClickListener(this);
         mAccount = (EditText) findViewById(R.id.et_account);
-        if(!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))){
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))) {
             mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
         }
         mPwd = (EditText) findViewById(R.id.et_password);
@@ -86,11 +98,17 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.iv_open_account_tip:
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext,R.layout.layout_trade_entrust_tip);
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_entrust_tip);
                 tipDialog.show();
                 break;
             case R.id.btn_login_account:
-                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU",mPwd,mContext);
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
+                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU", mPwd, mContext);
                 break;
             case R.id.btn_open_account:
                 goOpenAccount();

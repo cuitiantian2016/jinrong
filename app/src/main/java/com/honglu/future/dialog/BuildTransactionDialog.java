@@ -26,6 +26,7 @@ import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -393,6 +394,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 dismiss();
                 break;
             case R.id.tv_rise:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 mBuyType = "2";
                 mTvDown.setBackgroundResource(R.drawable.rise_down_bg_block);
                 mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
@@ -404,6 +408,9 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 setTextChange();
                 break;
             case R.id.tv_down:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 mBuyType = "1";
                 mTvRise.setBackgroundResource(R.drawable.rise_down_bg_block);
                 mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
@@ -415,10 +422,16 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 setTextChange();
                 break;
             case R.id.iv_open_account_tip:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
                 break;
             case R.id.btn_fast_open:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 String buyTypeStr;
                 if (mBuyType.equals("1")) {
                     buyTypeStr = "买跌";

@@ -39,6 +39,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.util.ConvertUtil;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.SpUtil;
@@ -140,8 +141,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private String mClosed;
     private String isClosed;
     private boolean mIsShowDetail;
-
-    private String[] mTitles = {"分时", "1分钟", "5分钟", "15分钟", "30分钟", "1小时", "4小时", "日线"};
 
     private BuildTransactionDialog mBuildTransactionDialog;
     private AccountPresenter mAccountPresenter;
@@ -300,11 +299,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     private void handLandView(boolean isLand) {
-//        RelativeLayout.LayoutParams params =
-//                (RelativeLayout.LayoutParams) mTabLayout.getLayoutParams();
-//        RelativeLayout.LayoutParams viewPagerParams =
-//                (RelativeLayout.LayoutParams) mViewPager.getLayoutParams();
-
         View layoutBottom_land = findViewById(R.id.layoutBottom_land);
         if (isLand) {
             mLlTitleBar.setVisibility(View.GONE);
@@ -321,12 +315,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 layoutBottom_land.setVisibility(View.VISIBLE);
             if (landRecycleViewCycle != null)
                 landRecycleViewCycle.getAdapter().notifyDataSetChanged();
-//            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//            mTabLayout.setLayoutParams(params);
-//            viewPagerParams.removeRule(RelativeLayout.BELOW);
-//            viewPagerParams.removeRule(RelativeLayout.ABOVE);
-//            viewPagerParams.addRule(RelativeLayout.ABOVE, R.id.tablayout);
-//            mViewPager.setLayoutParams(viewPagerParams);
         } else {
             mLlTitleBar.setVisibility(View.VISIBLE);
             mTvNameLand.setVisibility(View.GONE);
@@ -342,119 +330,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 layoutBottom_land.setVisibility(View.GONE);
             if (recyclerView != null)
                 recyclerView.getAdapter().notifyDataSetChanged();
-//            params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//            mTabLayout.setLayoutParams(params);
-//            viewPagerParams.addRule(RelativeLayout.BELOW, R.id.tablayout);
-//            viewPagerParams.removeRule(RelativeLayout.ABOVE);
-//            viewPagerParams.addRule(RelativeLayout.ABOVE, R.id.ll_bottom_tabs);
-//            mViewPager.setLayoutParams(viewPagerParams);
         }
 
     }
 
-    private void initListener() {
 
-//        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelect(int position) {
-//                //setUmengKLine(position);
-//                mPosition = position;
-//                switch (position) {
-//                    case 1:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_1M_WEIPAN;
-//                        break;
-//                    case 2:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_5M_WEIPAN;
-//                        break;
-//                    case 3:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_15M_WEIPAN;
-//                        break;
-//                    case 4:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_30M_WEIPAN;
-//                        break;
-//                    case 5:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_60M_WEIPAN;
-//                        break;
-//                    case 6:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_4H_WEIPAN;
-//                        break;
-//                    case 7:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_1D_WEIPAN;
-//                        break;
-//                    case 8:
-//                        mKlineCycleType = BakSourceInterface.PARAM_KLINE_WEEK_WEIPAN;
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onTabReselect(int position) {
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(int position) {
-//
-//            }
-//        });
-    }
-
-    private void initViewPager(String closePrice) {
-//        fragments = new ArrayList<>();
-//        for (int i = 0; i < mTitles.length; i++) {
-//            if (i == 0) {
-//                fragment = new KMinuteFragment();
-//                fragment.setExcode(mExcode);
-//                fragment.setCode(mCode);
-//                fragment.setClosed(closePrice);
-//                fragments.add(fragment);
-//            } else {
-//                mKLineFragment = new KLineFragment();
-//                mKLineFragment.setExcode(mExcode);
-//                mKLineFragment.setCode(mCode);
-//                switch (i) {
-//                    case 1:
-//                        mKLineFragment.setType("10");
-//                        break;
-//                    case 2:
-//                        mKLineFragment.setType("2");
-//                        break;
-//                    case 3:
-//                        mKLineFragment.setType("3");
-//                        break;
-//                    case 4:
-//                        mKLineFragment.setType("4");
-//                        break;
-//                    case 5:
-//                        mKLineFragment.setType("5");
-//                        break;
-//                    case 6:
-//                        mKLineFragment.setType("9");
-//                        break;
-//                    case 7:
-//                        mKLineFragment.setType("6");
-//                        break;
-//                    case 8:
-//                        mKLineFragment.setType("7");
-//                        break;
-//
-//                }
-//                fragments.add(mKLineFragment);
-//            }
-//        }
-//        KChartFragmentAdapter adapter = new KChartFragmentAdapter(getSupportFragmentManager());
-//        adapter.setTitles(mTitles);
-//        adapter.setFragments(fragments);
-//        mViewPager.setAdapter(adapter);
-//        int screenWidthDip = DeviceUtils.px2dip(this, DeviceUtils.getScreenWidth(this) - DeviceUtils.dip2px(this, 45));
-//        int tabWidth = (int) ((float) screenWidthDip / 5.7f);
-//        int indicatorWidth = (int) (tabWidth * 0.8f);
-//        mTabLayout.setTabWidth(tabWidth);
-//        mTabLayout.setIndicatorWidth(indicatorWidth);
-//        mTabLayout.setViewPager(mViewPager);
+    private void initViewPager() {
         List<KlineCycle> klineCycles = new ArrayList<>();
         if (BakSourceInterface.specialSource.contains(mExcode)) {
-            //
             klineCycles.addAll(BakSourceInterface.specialklineCycleList);
             //如果不需要天玑线去掉下面代码
 //            klineCycles.add(1, new KlineCycle(getResources().getString(R.string.str_dk_shock), CODE_DK_SHOCK));
@@ -535,10 +418,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         List<KlineCycle> goodsList;
         int type;
-        public static final int ITEM_NORMAL = 0;//正常状态下 竖屏
-        public static final int ITEM_LAND = 1;//横屏状态下
+        private static final int ITEM_NORMAL = 0;//正常状态下 竖屏
+        private static final int ITEM_LAND = 1;//横屏状态下
 
-        public MyAdapter(List<KlineCycle> goodsList, int type) {
+        private MyAdapter(List<KlineCycle> goodsList, int type) {
             this.goodsList = goodsList;
             this.type = type;
         }
@@ -583,6 +466,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             myViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(DeviceUtils.isFastDoubleClick()){
+                        return;
+                    }
                     String code = goodsList.get(position).getCode();
                     String name = goodsList.get(position).getName();
 
@@ -591,7 +477,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                         replaceFragment(getCurrentMinuteFragment());
                     } else if (CODE_DK_FUTURE.equals(code) || CODE_DK_SHOCK.equals(code)) {
 //                        //八卦线
-
                     } else {
                         //周期K线
                         replaceFragment(getKlineFragment(code));
@@ -622,7 +507,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
             TextView textView;
 
-            public MyViewHolder(View itemView) {
+            private MyViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.item_name);
             }
@@ -641,8 +526,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
         setTextValue(mBean);
 
-        initViewPager(mBean.getPreClosePrice());
-        initListener();
+        initViewPager();
     }
 
     public void setTextValue(RealTimeBean.Data bean) {
@@ -789,6 +673,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 finish();
                 break;
             case R.id.buy_up:
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
@@ -806,6 +693,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 }
                 break;
             case R.id.buy_down:
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
@@ -823,6 +713,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 }
                 break;
             case R.id.hold_position:
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
@@ -852,6 +745,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 mKLinePopupWin.showPopupWind(v);
                 break;
             case R.id.show_tip:
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
                 if (mProductRuleDialog != null) {
                     mProductRuleDialog.show();
                 } else {

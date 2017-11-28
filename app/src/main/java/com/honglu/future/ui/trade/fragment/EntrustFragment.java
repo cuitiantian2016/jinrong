@@ -130,7 +130,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             if (App.getConfig().getLoginStatus()) {
                 if (!App.getConfig().getAccountLoginStatus()) {
                     if (isVisible()) {
-                        mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
+                        mAccountLoginDialog = AccountLoginDialog.getInstance(mActivity, mAccountPresenter);
                         mAccountLoginDialog.show();
                     }
                 } else {

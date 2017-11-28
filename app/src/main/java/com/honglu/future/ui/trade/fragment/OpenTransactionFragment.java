@@ -36,6 +36,7 @@ import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
@@ -358,6 +359,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     startActivity(intent);
@@ -381,6 +385,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
                 tradeTipDialog.show();
             }
@@ -393,6 +400,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void onRiseClick(View view, ProductListBean bean) {
+        if(DeviceUtils.isFastDoubleClick()){
+            return;
+        }
         if (!App.getConfig().getLoginStatus()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
@@ -414,6 +424,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void onDownClick(View view, ProductListBean bean) {
+        if(DeviceUtils.isFastDoubleClick()){
+            return;
+        }
         if (!App.getConfig().getLoginStatus()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
@@ -444,6 +457,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void onConfirmClick() {
+        if(DeviceUtils.isFastDoubleClick()){
+            return;
+        }
         mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 }
