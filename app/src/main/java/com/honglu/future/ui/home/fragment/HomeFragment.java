@@ -106,7 +106,7 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        if (homeMarketPriceViewModel != null) {
+        if (homeMarketPriceViewModel != null && !isHidden()) {
             homeMarketPriceViewModel.requestMarket();
         }
     }

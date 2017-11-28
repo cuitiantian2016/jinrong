@@ -116,10 +116,12 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     @Override
     public void onResume() {
         super.onResume();
-        requestMarket(mPushCode);
-        if (mHttpState == 0 && mPresenter !=null){
-            mHttpState = 1;
-            mPresenter.getMarketData();
+        if (!isHidden()){
+            requestMarket(mPushCode);
+            if (mHttpState == 0 && mPresenter !=null){
+                mHttpState = 1;
+                mPresenter.getMarketData();
+            }
         }
     }
 

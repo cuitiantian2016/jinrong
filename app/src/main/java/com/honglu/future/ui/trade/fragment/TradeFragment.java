@@ -186,7 +186,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 mPositionFragment.startRun();
             }
         }
-        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0 && !isHidden()) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }
     }
