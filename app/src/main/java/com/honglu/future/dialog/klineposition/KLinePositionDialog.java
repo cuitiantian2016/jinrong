@@ -266,6 +266,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             }
             mYkprice.setText("---");
             mAdapter.notifyDataChanged(mList);
+            mKeyBoardView.setVisibility(View.GONE);
         }
     }
 
