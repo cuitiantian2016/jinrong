@@ -105,7 +105,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     public void stopLoading() {}
     @Override
     public void showErrorMsg(String msg, String type) {
-        mStrReplyPostmanId = "";
         mRefreshView.finishRefresh();
     }
     @Override
@@ -382,7 +381,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     @Override
     public void commentSuccess() {
-        mStrReplyPostmanId = "";
         ++commentNum;
         mTvComment.setText(commentNum+ "条评论");
         pinglun_num.setText("("+commentNum+ ")");
@@ -395,8 +393,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @Override
     public void bindReplyList(List<InformationCommentBean> list) {
         mRefreshView.finishRefresh();
-        mInputEdit.setText("");
-        mStrReplyPostmanId = "";
         //加载评论列表
         mTopicAdapter.setDatas(list);
         //滚到第一条
