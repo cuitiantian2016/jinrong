@@ -386,17 +386,17 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     private int getIntText(EditText mText) {
 
-        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Integer.parseInt(mText.getText().toString()) : 0;
+        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString().trim()) ? Integer.parseInt(mText.getText().toString().trim()) : 0;
     }
 
     private double getDoubleText(EditText mText) {
 
-        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString()) ? Double.parseDouble(mText.getText().toString()) : 0;
+        return mText.getText() != null && !TextUtils.isEmpty(mText.getText().toString().trim()) ? Double.parseDouble(mText.getText().toString().trim()) : 0;
     }
 
     private double getDouble(String num) {
         if (!TextUtils.isEmpty(num)) {
-            return Float.parseFloat(num);
+            return Double.parseDouble(num.trim());
         }
         return 0;
     }

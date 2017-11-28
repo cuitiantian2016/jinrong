@@ -136,7 +136,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                     HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
                     final double exPrice = mAdapter.getExPrice(); //价格
                     final int exPcNum = mAdapter.getExpcNum(); //手数
-                    final double lastPrice = Integer.parseInt(mLastPrice);//最新价
+                    final double lastPrice =  Double.parseDouble(mLastPrice.trim());//最新价
                     final int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
                     final int type = holdPositionBean.getType();  //1 跌  2涨
                     final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);

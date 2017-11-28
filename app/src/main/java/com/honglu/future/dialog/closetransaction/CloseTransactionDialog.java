@@ -115,7 +115,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                     mPrice.setSelection(mPrice.getText().length());
                 }
             }
-            setTextViewData(getPrice(mPrice), getSize(mSize));
+            setTextViewData(getDouble(mPrice), getInt(mSize));
         }
     }
 
@@ -299,28 +299,28 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                 dismiss();
                 break;
             case R.id.iv_price_del: //平仓委托价 -
-                double delPrice = getPrice(mPrice);
+                double delPrice = getDouble(mPrice);
                 if (delPrice - getDouble(mLowerLimitPrice) > 1) {
                     delPrice--;
                     mPrice.setText(String.valueOf(delPrice));
                 }
                 break;
             case R.id.iv_price_add://平仓委托价 +
-                double addPrice = getPrice(mPrice);
+                double addPrice = getDouble(mPrice);
                 if (getDouble(mUpperLimitPrice) - addPrice > 1) {
                     addPrice++;
                     mPrice.setText(String.valueOf(addPrice));
                 }
                 break;
             case R.id.iv_size_del://平仓手数 -
-                int delSize = getSize(mSize);
+                int delSize = getInt(mSize);
                 if (delSize > 1) {
                     delSize--;
                     mSize.setText(String.valueOf(delSize));
                 }
                 break;
             case R.id.iv_size_add: //平仓手数 +
-                int addSize = getSize(mSize);
+                int addSize = getInt(mSize);
                 if (addSize < mMaxCloseTradeNum) {
                     addSize++;
                     mSize.setText(String.valueOf(addSize));
@@ -329,9 +329,9 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             case R.id.tv_fast_close_transaction:
                 if (mHoldPositionBean != null && mProductListBean !=null){
 
-                    final double mPcPrice = getPrice(mPrice);//平仓价格
-                    final int  mPcNum = getSize(mSize); //平仓手数
-                    final double lastPrice = Integer.parseInt(mLastPrice);//最新价
+                    final double mPcPrice = getDouble(mPrice);//平仓价格
+                    final int  mPcNum = getInt(mSize); //平仓手数
+                    final double lastPrice =  getDouble(mLastPrice);//最新价
                     final int todayPosition = mHoldPositionBean.getTodayPosition(); //今日持仓
                     final int type = mHoldPositionBean.getType();  //1 跌  2涨
                     final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
@@ -410,7 +410,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
             @Override
             public void afterTextChanged(Editable s) {
-                setTextViewData(getPrice(mPrice), getSize(mSize));
+                setTextViewData(getDouble(mPrice), getInt(mSize));
             }
         });
 
@@ -425,7 +425,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
             @Override
             public void afterTextChanged(Editable s) {
-                setTextViewData(getPrice(mPrice), getSize(mSize));
+                setTextViewData(getDouble(mPrice), getInt(mSize));
             }
         });
 
@@ -442,7 +442,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             mPrice.setOnKeyboardListener(new KeyBoardEditText.OnKeyboardListener() {
                 @Override
                 public void onComplete() {
-                    double  mExPrice = getPrice(mPrice);
+                    double  mExPrice = getDouble(mPrice);
                     double mCompletePrice = mExPrice < Double.parseDouble(mLowerLimitPrice) ? Double.parseDouble(mLowerLimitPrice) : (mExPrice >  Double.parseDouble(mUpperLimitPrice) ? Double.parseDouble(mUpperLimitPrice) : 0);
                     if (mCompletePrice != 0){
                         mPrice.setText(String.valueOf(mCompletePrice));
@@ -454,7 +454,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
                 @Override
                 public void onCancel() {
-                    double  mExPrice = getPrice(mPrice);
+                    double  mExPrice = getDouble(mPrice);
                     double mCompletePrice = mExPrice < Double.parseDouble(mLowerLimitPrice) ? Double.parseDouble(mLowerLimitPrice) : (mExPrice >  Double.parseDouble(mUpperLimitPrice) ? Double.parseDouble(mUpperLimitPrice) : 0);
                     if (mCompletePrice != 0) {
                         mPrice.setText(String.valueOf(mCompletePrice));
@@ -466,17 +466,17 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     }
 
 
-    private int getSize(EditText text) {
-        return !TextUtils.isEmpty(text.getText().toString()) ? Integer.parseInt(mSize.getText().toString()) : 0;
+    private int getInt(EditText text) {
+        return  text.getText() !=null && !TextUtils.isEmpty(text.getText().toString().trim()) ? Integer.parseInt(mSize.getText().toString().trim()) : 0;
     }
 
-    private double getPrice(EditText text) {
-        return !TextUtils.isEmpty(text.getText().toString()) ? Double.parseDouble(mPrice.getText().toString()) : 0;
+    private double getDouble(EditText text) {
+        return text.getText() !=null && !TextUtils.isEmpty(text.getText().toString().trim()) ? Double.parseDouble(mPrice.getText().toString().trim()) : 0;
     }
 
     private double getDouble(String num) {
         if (!TextUtils.isEmpty(num)) {
-            return Float.parseFloat(num);
+            return Double.parseDouble(num.trim());
         }
         return 0;
     }
