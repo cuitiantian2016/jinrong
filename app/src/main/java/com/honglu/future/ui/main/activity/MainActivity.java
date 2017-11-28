@@ -195,43 +195,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         }
     };
 
-//    /**
-//     * 设置 Fragment 根布局间距预留出状态栏高度
-//     */
-//    public void setPaddingAndFillStatusBar(Fragment fragment) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            View contentView = findViewById(android.R.id.content);
-//            if (contentView != null) {
-//                ViewGroup rootView;
-//                rootView = (ViewGroup) ((ViewGroup) contentView).getChildAt(0);
-//                if (rootView.getPaddingTop() != 0) {
-//                    rootView.setPadding(0, 0, 0, 0);
-//                }
-//            }
-//            if (fragment.getView() != null)
-//                fragment.getView().setPadding(0, DeviceUtils.getStatusBarHeight(MainActivity.this), 0, 0);
-//        }
-//        StatusBarUtils.setColor(MainActivity.this, getResources().getColor(R.color.black), 255);
-//    }
-
-    private void toLogin() {
-        mGroup.setOnCheckedChangeListener(null);
-        ((RadioButton) findViewById(oldCheckId)).setChecked(true);
-        String uName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
-        LogUtils.loge(uName);
-        if (!StringUtil.isBlank(uName) && StringUtil.isMobileNO(uName)) {
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            intent.putExtra("phone", uName);
-            startActivity(intent);
-            /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("tag", StringUtil.changeMobile(uName));
-            intent.putExtra("phone", uName);
-            startActivity(intent);*/
-        } else {
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        }
-    }
 
     /***********
      * eventBus 监听
@@ -326,14 +289,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         }
     }
 
-    public RadioGroup getGroup() {
-        return mGroup;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //MobclickAgent.onKillProcess(this);
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().AppExit(this);
     }

@@ -15,12 +15,15 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -29,7 +32,13 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ViewUtil {
 
@@ -425,4 +434,25 @@ public class ViewUtil {
 
         return screenHeight - rect.bottom != 0;
     }
+
+    public static void setEmojiFilter(EditText et) {
+        InputFilter emojiFilter = new InputFilter() {
+            Pattern pattern = Pattern.compile("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|" +
+                    "[\u2600-\u27ff]", Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                Matcher matcher = pattern.matcher(source);
+                if (matcher.find()) {
+                    ToastUtil.show("暂不支持表情输入!");
+                    return "";
+                }
+                return null;
+            }
+        };
+        et.setFilters(new InputFilter[]{emojiFilter});
+    }
+
+
+
 }

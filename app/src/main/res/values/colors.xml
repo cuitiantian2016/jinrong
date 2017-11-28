@@ -11,6 +11,8 @@
 
     <!-- 白色 -->
     <color name="white">#ffffff</color>
+    <color name="color_grey">#eeeeee</color>
+    <color name="title_blue">#00A3CC</color>
 
     <!-- title textColor-->
     <color name="title_text">#333333</color>

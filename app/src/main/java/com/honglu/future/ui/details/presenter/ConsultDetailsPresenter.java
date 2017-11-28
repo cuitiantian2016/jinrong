@@ -42,4 +42,14 @@ public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContrac
             }
         });
     }
+
+    @Override
+    public void commentMessage(String userID, String messageId, String repayUserID,String content) {
+
+    }
+
+    @Override
+    public void getReplyList(String messageId) {
+
+    }
 }

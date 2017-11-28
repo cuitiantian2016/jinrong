@@ -4,12 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,16 +26,23 @@ import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ClickPraiseEvent;
+import com.honglu.future.events.CommentEvent;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
+import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
 import com.honglu.future.ui.details.presenter.ConsultDetailsPresenter;
+import com.honglu.future.ui.details.presenter.TopicAdapter;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
@@ -51,36 +64,34 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     private static final String KEY_MESSAGE_ITEM = "KEY_MESSAGE_ITEM";
 
-    @BindView(R.id.webView_content)
+
     WebView mContentWv;
-    @BindView(R.id.image_head)
     ImageView mImageHead;
-    @BindView(R.id.support_iv)
     ImageView mSupportIv;
-    @BindView(R.id.tv_support)
     TextView mTvSupportNum;
-    @BindView(R.id.tv_title)
     TextView mTvTitle;
-    @BindView(R.id.user_icon)
     CircleImageView mUserIcon;
-    @BindView(R.id.tv_name)
     TextView mTvName;
-    @BindView(R.id.tv_position)
     TextView mTvPosition;
-    @BindView(R.id.tv_comment)
     TextView mTvComment;
-    @BindView(R.id.tv_time)
-    TextView mTvTime;
-    @BindView(R.id.ly_likes_user)
+    TextView mTvTime ,pinglun_num;
     LinearLayout mLinearPraise;
-    @BindView(R.id.ll_agree)
     LinearLayout mLlAgree;
-    @BindView(R.id.pics_linear)
     LinearLayout mLlPics;
-    private List<String> mPraiseUserList;
+
+    @BindView(R.id.pullTo_refresh_view)
+    SmartRefreshLayout mRefreshView;
+    @BindView(R.id.list_view)
+    ListView mListView;
+    @BindView(R.id.reply_edit)
+    EditText mInputEdit;
+    @BindView(R.id.btn_publish)
+    TextView mPublishBtn;
     private String informationId;
     private int praiseCounts;
+    private int commentNum;
     private int mPosition;
+    private TopicAdapter mTopicAdapter;
 
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
@@ -93,7 +104,10 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @Override
     public void stopLoading() {}
     @Override
-    public void showErrorMsg(String msg, String type) {}
+    public void showErrorMsg(String msg, String type) {
+        mStrReplyPostmanId = "";
+        mRefreshView.finishRefresh();
+    }
     @Override
     public int getLayoutId() {
         return R.layout.acticity_consult_details;
@@ -113,28 +127,62 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     }
     private void initView() {
         mTitle.setTitle(true, R.color.trans, "");
-        mTitle.setRightTitle(R.mipmap.ic_details_shape, new View.OnClickListener() {
+        LinearLayout headerView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.news_detail_header, null);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                /*String url = App.getConfig().ACTIVITY_CENTER;
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url", url);
-                startActivity(intent);*/
+            public void onClick(View view) {
+                if (isLogin()) {
+                    mInputEdit.setText("");
+                    mStrReplyPostmanId = "";
+                }
+            }
+        };
+        headerView.setOnClickListener(onClickListener);
+        mInputEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isLogin();
             }
         });
+        mContentWv = (WebView) headerView.findViewById(R.id.webView_content);
+        mImageHead = (ImageView) headerView.findViewById(R.id.image_head);
+        mSupportIv = (ImageView) headerView.findViewById(R.id.support_iv);
+        mTvSupportNum = (TextView) headerView.findViewById(R.id.tv_support);
+        mContentWv = (WebView) headerView.findViewById(R.id.webView_content);
+        mTvTitle = (TextView) headerView.findViewById(R.id.tv_title);
+        mUserIcon = (CircleImageView) headerView.findViewById(R.id.user_icon);
+        mTvName = (TextView) headerView.findViewById(R.id.tv_name);
+        mTvPosition = (TextView) headerView.findViewById(R.id.tv_position);
+        mTvComment = (TextView) headerView.findViewById(R.id.tv_comment);
+        mTvTime = (TextView) headerView.findViewById(R.id.tv_time);
+        pinglun_num = (TextView) headerView.findViewById(R.id.pinglun_num);
+        mLinearPraise = (LinearLayout) headerView.findViewById(R.id.ly_likes_user);
+        mLlAgree = (LinearLayout) headerView.findViewById(R.id.ll_agree);
+        mLlPics = (LinearLayout) headerView.findViewById(R.id.pics_linear);
+        //表情过滤
+        ViewUtil.setEmojiFilter(mInputEdit);
+        mInputEdit.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mListView.addHeaderView(headerView);
+        mTopicAdapter = new TopicAdapter();
+        mListView.setAdapter(mTopicAdapter);
+        //设置监听
+        setListener();
         Intent intent = getIntent();
         if (intent!=null){
             HomeMessageItem item = (HomeMessageItem) intent.getSerializableExtra(KEY_MESSAGE_ITEM);
-            if (item==null){
+            if (item ==null){
                 return;
             }
             ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
-            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mUserIcon, R.mipmap.img_head);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.userAvatar, mUserIcon, R.mipmap.img_head);
             mTvTitle.setText(item.title);
             mPosition = item.position;
             mTvName.setText(item.nickname);
+            mTopicAdapter.setNickName(item.nickname);
             mTvPosition.setText(item.userRole);
-            mTvComment.setText(item.commentNum+ "条评论");
+            commentNum = item.commentNum;
+            mTvComment.setText(commentNum+ "条评论");
+            pinglun_num.setText("("+commentNum+ ")");
             praiseCounts = item.praiseCounts;
             mTvSupportNum.setText(praiseCounts+"人点赞");
             if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
@@ -152,16 +200,83 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             @Override
             public void onClick(View view) {
                 String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
-                if (TextUtils.isEmpty(uID)){
-                    startActivity(new Intent(ConsultDetailsActivity.this, LoginActivity.class));
-                    return;
+                if (isLogin()){
+                    mPresenter.praiseMessage(informationId,uID);
                 }
-                mPresenter.praiseMessage(informationId,uID);
             }
         });
     }
+
+    private boolean isLogin(){
+        String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
+        if (TextUtils.isEmpty(uID)){
+            startActivity(new Intent(ConsultDetailsActivity.this, LoginActivity.class));
+            return false;
+        }
+        return true;
+    }
+    private String mStrReplyPostmanId = "";
+    private void setListener() {
+        mRefreshView.setEnableLoadmore(false);
+        mInputEdit.setFocusable(true);
+        mInputEdit.setFocusableInTouchMode(true);
+        mInputEdit.requestFocus();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InformationCommentBean bbs = (InformationCommentBean) parent.getItemAtPosition(position);
+                if (bbs != null) {
+                    mInputEdit.setFocusable(true);
+                    mInputEdit.setFocusableInTouchMode(true);
+                    mInputEdit.requestFocus();
+                    mInputEdit.setText("");
+                    String frontStr = "回复:" + bbs.getNickname() + ":";
+                    mInputEdit.setHint(frontStr);
+                    InputMethodManager inputManager =
+                            (InputMethodManager) mInputEdit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.showSoftInput(mInputEdit, 0);
+                    if (!TextUtils.isEmpty(bbs.getPostmanId())) {
+                        mStrReplyPostmanId = bbs.getPostmanId();
+                    } else {
+                        mStrReplyPostmanId = "";
+                    }
+                } else {
+                    mInputEdit.setHint("");
+                    mStrReplyPostmanId = "";
+                }
+            }
+        });
+
+        //发表评论
+        mPublishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLogin()){
+                    return;
+                }
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
+                if (!TextUtils.isEmpty(mInputEdit.getText().toString().trim())) {
+                    String content = mInputEdit.getText().toString();
+                  mPresenter.commentMessage(SpUtil.getString(Constant.CACHE_TAG_UID),informationId,mStrReplyPostmanId,content);
+                } else {
+                    ToastUtil.show("请填写评论内容");
+                }
+            }
+        });
+        mRefreshView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.getReplyList(informationId);
+            }
+        });
+    }
+
     @Override
     public void bindData(ConsultDetailsBean bean) {
+        mPresenter.getReplyList(informationId);
         //设置字体大小
         WebSettings settings = mContentWv.getSettings();
         settings.setSupportZoom(true);
@@ -219,7 +334,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
      * @param praiseUserList
      */
     private void updatePraiseUser(List<String> praiseUserList) {
-        this.mPraiseUserList = praiseUserList;
         mLinearPraise.removeAllViews();
         if (praiseUserList != null) {
             if (praiseUserList.size()==0){
@@ -262,5 +376,31 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         EventBus.getDefault().post(clickPraiseEvent);
         mTvSupportNum.setText(praiseCounts+"人点赞");
         updatePraiseUser(praiseUserList);
+    }
+
+    @Override
+    public void commentSuccess() {
+        mStrReplyPostmanId = "";
+        ++commentNum;
+        mTvComment.setText(commentNum+ "条评论");
+        pinglun_num.setText("("+commentNum+ ")");
+        CommentEvent clickPraiseEvent = new CommentEvent();
+        clickPraiseEvent.position = mPosition;
+        EventBus.getDefault().post(clickPraiseEvent);
+        mPresenter.getReplyList(informationId);
+    }
+
+    @Override
+    public void bindReplyList(List<InformationCommentBean> list) {
+        mRefreshView.finishRefresh();
+        mInputEdit.setText("");
+        mStrReplyPostmanId = "";
+        //加载评论列表
+        mTopicAdapter.setDatas(list);
+        //滚到第一条
+        mListView.setSelection(1);
+        //隐藏小键盘
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mInputEdit.getWindowToken(), 0);
     }
 }

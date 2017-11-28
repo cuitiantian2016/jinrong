@@ -9,6 +9,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BaseEvent;
 import com.honglu.future.events.ClickPraiseEvent;
+import com.honglu.future.events.CommentEvent;
 import com.honglu.future.events.EventController;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.LoginEvent;
@@ -121,6 +122,16 @@ public class NewsColumnFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ClickPraiseEvent event) {
         praise(event.position);
+    }
+
+
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(CommentEvent event) {
+        comment(event.position);
     }
     /**
      * 点赞之后刷新布局

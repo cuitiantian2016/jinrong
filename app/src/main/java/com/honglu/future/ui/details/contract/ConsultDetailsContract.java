@@ -2,6 +2,7 @@ package com.honglu.future.ui.details.contract;
 
 import com.honglu.future.base.BaseView;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
+import com.honglu.future.ui.details.bean.InformationCommentBean;
 
 import java.util.List;
 
@@ -21,6 +22,16 @@ public interface ConsultDetailsContract {
          * 点赞成功
          */
         void praiseSuccess(List<String> praiseUserList);
+        /**
+         * 评论回复成功
+         */
+        void commentSuccess();
+        /**
+         * 绑定消息返回消息的集合
+         * @param list
+         */
+        void bindReplyList(List<InformationCommentBean> list);
+
     }
     interface Presenter{
         /**
@@ -33,5 +44,14 @@ public interface ConsultDetailsContract {
          * @param messageId
          */
         void praiseMessage(String messageId,String userId);
+        /**
+         * 评论或者回复
+         */
+        void commentMessage(String userID,String messageId,String repayUserID,String ontent);
+        /**
+         * 获取帖子的评论列表
+         * @param messageId 消息id
+         */
+        void getReplyList(String messageId);
     }
 }
