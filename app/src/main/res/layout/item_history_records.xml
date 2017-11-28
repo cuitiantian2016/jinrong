@@ -107,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:text="平仓价"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
@@ -123,7 +123,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:text="实际盈亏"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
@@ -164,7 +164,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:text="当日盈亏"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
@@ -180,7 +180,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:text="实际盈亏"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
