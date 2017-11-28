@@ -26,6 +26,7 @@ import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.ResetPwdActivity;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.MediaStoreUtils;
 import com.honglu.future.util.SpUtil;
@@ -113,6 +114,9 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
                 startActivity(ResetPwdActivity.class);
                 break;
             case R.id.btn_logout:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 new AlertFragmentDialog.Builder(mActivity).setContent("确认退出登录吗？")
                         .setRightBtnText("确定")
                         .setLeftBtnText("取消")
