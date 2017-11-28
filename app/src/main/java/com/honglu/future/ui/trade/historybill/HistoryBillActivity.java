@@ -135,6 +135,16 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
             @Override
             public void OnBirthday(String time) {
                 mTvDate.setText(time);
+                setEmpty();
+                if (mList != null) {
+                    mList.clear();
+                }
+                if (mHistoryRecordsAdapter.getData() != null) {
+                    mHistoryRecordsAdapter.clearData();
+                }
+                if (settlementInfoBean != null) {
+                    settlementInfoBean = null;
+                }
                 mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", time);
                 mDateDialog.dismiss();
             }
@@ -171,6 +181,26 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         mHistoryRecordsAdapter.addData(mList);
     }
 
+    private void setEmpty() {
+        //基本资料
+        mCompName.setText("--");
+        mCustomerName.setText("--");
+        mClientId.setText("--");
+        mCurrency.setText("--");
+        mTradeDate.setText("--");
+        mQueryDate.setText("--");
+
+        //资金详情
+        mPrevSttl.setText("--");
+        mCurDayJc.setText("--");
+        mKhqy.setText("--");
+        mDrcrj.setText("--");
+        mKyzj.setText("--");
+        mDrpcyk.setText("--");
+        mDjzj.setText("--");
+        mDrsxf.setText("--");
+    }
+
     private void addTabEntities() {
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_build)));
@@ -197,9 +227,9 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         bean.setName(settlementInfoBean.getCloseList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getCloseList().get(i).getBs());
                         bean.setBuyHands(settlementInfoBean.getCloseList().get(i).getLots());
-                        bean.setBuildPrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getPosOpenPrice(),"0")).doubleValue()));
-                        bean.setClosePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getTransPrice(),"0")).doubleValue()));
-                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getRealizedPL(),"0")).doubleValue()));
+                        bean.setBuildPrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getPosOpenPrice(), "0")).doubleValue()));
+                        bean.setClosePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getTransPrice(), "0")).doubleValue()));
+                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getCloseList().get(i).getRealizedPL(), "0")).doubleValue()));
                         mList.add(bean);
                     }
                 } else if (position == 2 && settlementInfoBean.getPositionsList() != null) {
@@ -209,9 +239,9 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                         bean.setName(settlementInfoBean.getPositionsDetailList().get(i).getProduct());
                         bean.setBuyType(settlementInfoBean.getPositionsDetailList().get(i).getBs());
                         bean.setBuyHands(settlementInfoBean.getPositionsDetailList().get(i).getPositon());
-                        bean.setSettlePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getSettlementPrice(),"0")).doubleValue()));
-                        bean.setTodayPl(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getMtmPl(),"0")).doubleValue()));
-                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getAccumPL(),"0")).doubleValue()));
+                        bean.setSettlePrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getSettlementPrice(), "0")).doubleValue()));
+                        bean.setTodayPl(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getMtmPl(), "0")).doubleValue()));
+                        bean.setProfitLoss(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getPositionsDetailList().get(i).getAccumPL(), "0")).doubleValue()));
                         mList.add(bean);
                     }
                 }
@@ -229,7 +259,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 bean.setName(settlementInfoBean.getTransactionList().get(i).getProduct());
                 bean.setBuyType(settlementInfoBean.getTransactionList().get(i).getBs());
                 bean.setBuyHands(settlementInfoBean.getTransactionList().get(i).getLots());
-                bean.setBuildPrice(settlementInfoBean.getTransactionList().get(i).getPrice());
+                bean.setBuildPrice(NumberUtil.beautifulDouble(new BigDecimal(ConvertUtil.NVL(settlementInfoBean.getTransactionList().get(i).getPrice(), "0")).doubleValue()));
                 bean.setServicePrice(settlementInfoBean.getTransactionList().get(i).getFee());
                 mList.add(bean);
             }
@@ -250,8 +280,10 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
 
     @Override
     public void querySettlementSuccess(SettlementInfoBean bean) {
-        settlementInfoBean = bean;
-        showToast("查询成功");
-        initData();
+        if (bean != null) {
+            settlementInfoBean = bean;
+            showToast("查询成功");
+            initData();
+        }
     }
 }
