@@ -92,6 +92,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private int commentNum;
     private int mPosition;
     private TopicAdapter mTopicAdapter;
+    private boolean isRefrsh;
 
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
@@ -271,12 +272,14 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 mPresenter.getReplyList(informationId);
+                isRefrsh = true;
             }
         });
     }
 
     @Override
     public void bindData(ConsultDetailsBean bean) {
+        isRefrsh = true;
         mPresenter.getReplyList(informationId);
         //设置字体大小
         WebSettings settings = mContentWv.getSettings();
@@ -387,18 +390,23 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         CommentEvent clickPraiseEvent = new CommentEvent();
         clickPraiseEvent.position = mPosition;
         EventBus.getDefault().post(clickPraiseEvent);
+        isRefrsh = false;
         mPresenter.getReplyList(informationId);
     }
 
     @Override
-    public void bindReplyList(List<InformationCommentBean> list) {
-        mRefreshView.finishRefresh();
+    public void bindReplyList(final List<InformationCommentBean> list) {
+        mRefreshView.finishRefresh(0,true);
+        mInputEdit.setText("");
         //加载评论列表
         mTopicAdapter.setDatas(list);
-        //滚到第一条
-        mListView.setSelection(1);
+        if (!isRefrsh){
+            //滚到第一条
+            mListView.setSelection(1);
+        }
         //隐藏小键盘
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mInputEdit.getWindowToken(), 0);
+
     }
 }
