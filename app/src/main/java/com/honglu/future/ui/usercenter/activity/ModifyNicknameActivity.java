@@ -13,6 +13,7 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.usercenter.contract.ModifyNicknameContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyNicknamePresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,6 +81,9 @@ public class ModifyNicknameActivity extends BaseActivity<ModifyNicknamePresenter
                 finish();
                 break;
             case R.id.btn_save:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (TextUtils.isEmpty(mNickName.getText().toString().trim())) {
                     showToast("昵称不能为空");
                     return;

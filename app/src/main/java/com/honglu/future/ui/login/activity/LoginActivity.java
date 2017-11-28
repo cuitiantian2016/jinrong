@@ -23,6 +23,7 @@ import com.honglu.future.ui.login.contract.LoginContract;
 import com.honglu.future.ui.login.presenter.LoginPresenter;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 
@@ -91,16 +92,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_login:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.tv_forget_pwd:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 Intent resetPwd = new Intent(this, ResetPwdActivity.class);
                 startActivity(resetPwd);
                 finish();
                 break;
             case R.id.btn_login:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (mMobile.length() < 11) {
                     showToast("请输入正确的手机号码");
                     return;

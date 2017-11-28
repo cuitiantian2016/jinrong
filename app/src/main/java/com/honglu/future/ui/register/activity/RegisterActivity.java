@@ -18,6 +18,7 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.register.contract.RegisterContract;
 import com.honglu.future.ui.register.presenter.RegisterPresenter;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CheckUtils;
 import com.honglu.future.widget.CountDownTextView;
@@ -88,11 +89,17 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_login:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.btn_register:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (mMobile.length() < 11) {
                     showToast("请输入正确的手机号码");
                     return;
@@ -110,6 +117,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         mMobile.getText().toString(), mEtPassword.getText().toString(), mMobile.getText().toString());
                 break;
             case R.id.btn_sendCode:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (CheckUtils.checkPhoneNum(mMobile.getText().toString())) {
                     mSendCodeView.start();
                     mSmsCode.requestFocus();

@@ -11,6 +11,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.ui.login.contract.ResetPwdContract;
 import com.honglu.future.ui.login.presenter.ResetPwdPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CheckUtils;
@@ -83,6 +84,9 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.btn_sendCode:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (CheckUtils.checkPhoneNum(mMobile.getText().toString())) {
                     mSendCodeView.start();
                     mSmsCode.requestFocus();
@@ -90,6 +94,9 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
                 }
                 break;
             case R.id.btn_reset_pwd:
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (mMobile.length() < 11) {
                     showToast("请输入正确的手机号码");
                     return;
