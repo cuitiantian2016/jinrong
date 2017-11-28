@@ -38,6 +38,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -49,6 +50,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,6 +79,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private String mSelectCode;
     private boolean mIsOneGuide; //是否开启交易引导
     private BillConfirmDialog billConfirmDialog;
+    private NumberFormat nf;
 
     @Override
     public void loginSuccess(AccountBean bean) {
@@ -202,7 +206,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void getProductListSuccess(List<ProductListBean> bean) {
-        if (bean  == null || bean.size() <= 0){
+        if (bean == null || bean.size() <= 0) {
             return;
         }
         mSmartRefreshLayout.finishRefresh();
@@ -238,6 +242,22 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             mProfitLoss.setText(bean.getPositionProfit());
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
+        try {
+            Number danger = nf.parse(bean.getCapitalProportion());
+            if (danger.doubleValue() >= 0.8) {
+                if (!TimeUtil.isToday(SpUtil.getString(Constant.CACHE_ACCOUNT_DANGER_ALERT_DATE))) {
+                    SpUtil.putBoolean(Constant.CACHE_ACCOUNT_DANGER_HAS_ALERT, false);
+                    if (!SpUtil.getBoolean(Constant.CACHE_ACCOUNT_DANGER_HAS_ALERT)) {
+                        SpUtil.putString(Constant.CACHE_ACCOUNT_DANGER_ALERT_DATE, TimeUtil.getCurrentDay2());
+                        SpUtil.putBoolean(Constant.CACHE_ACCOUNT_DANGER_HAS_ALERT, true);
+                        showToast("风险率高于80%");
+                    }
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -296,6 +316,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     public void loadData() {
         EventBus.getDefault().register(this);
         mIsOneGuide = SpUtil.getBoolean(Constant.GUIDE_OPEN_TRANSACTION, false);
+        nf = NumberFormat.getPercentInstance();
         initView();
         initData();
     }

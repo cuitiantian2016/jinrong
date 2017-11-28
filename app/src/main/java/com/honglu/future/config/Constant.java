@@ -19,6 +19,8 @@ public class Constant {
     public static final String CACHE_USER_AVATAR= "useravatar";//用户信息
     public static final String CACHE_USER_ASSES= "userasses";//用户资产
     public static final String CACHE_USER_AVAILABLE_MONEY = "user_available_money";//用户资产
+    public static final String CACHE_ACCOUNT_DANGER_ALERT_DATE= "CACHE_ACCOUNT_DANGER_ALERT_DATE"; //风险率高于80%弹窗日期
+    public static final String CACHE_ACCOUNT_DANGER_HAS_ALERT= "CACHE_ACCOUNT_DANGER_HAS_ALERT"; //风险率高于80%当天是否弹窗
 
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
     public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号
