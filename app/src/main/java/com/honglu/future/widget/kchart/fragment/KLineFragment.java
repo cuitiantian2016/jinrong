@@ -3,15 +3,11 @@ package com.honglu.future.widget.kchart.fragment;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,8 +16,6 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
-import com.honglu.future.ui.trade.fragment.PagerFragment;
-import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.TimeUtil;
@@ -37,14 +31,10 @@ import com.honglu.future.widget.kchart.util.KDisplayUtil;
 import com.honglu.future.widget.kchart.util.KNumberUtil;
 import com.honglu.future.widget.kchart.util.KParamConfig;
 import com.honglu.future.widget.kchart.util.KParseUtils;
-import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
-import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
-import com.honglu.future.widget.tab.TabEntity;
 import com.xulu.mpush.message.KCandleObj;
 import com.xulu.mpush.message.RequestMarketMessage;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,16 +79,18 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     View subNormal;
     @BindView(R.id.tab_SMA)
     View mainNormalView;
-    @BindView(R.id.tab_MACD)
+    @BindView(R.id.tab_VOL)
     View subNormalView;
     @BindView(R.id.tab_SMA_land)
     View mainNormalViewLand;
-    @BindView(R.id.tab_MACD_land)
+    @BindView(R.id.tab_VOL_land)
     View subNormalViewLand;
     @BindView(R.id.landTypeView)
     View landTypeView;
     @BindView(R.id.tab_EMA)
     UnderLineTextView mTabEma;
+    @BindView(R.id.tab_MACD)
+    UnderLineTextView mTabMacd;
     @BindView(R.id.tab_BOLL)
     UnderLineTextView mTabBoll;
     @BindView(R.id.tab_RSI)
@@ -108,6 +100,8 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
     @BindView(R.id.tab_EMA_land)
     UnderLineTextView mTabEmaLand;
+    @BindView(R.id.tab_MACD_land)
+    UnderLineTextView mTabMacdLand;
     @BindView(R.id.tab_BOLL_land)
     UnderLineTextView mTabBollLand;
     @BindView(R.id.tab_RSI_land)
@@ -123,7 +117,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
     private Activity mActivity;
 
     //默认值 也就是NormUnionCandleStickChart的默认值  modify by fangzhu
-    private int lastBottomNorm = KLineNormal.NORMAL_MACD;
+    private int lastBottomNorm = KLineNormal.NORMAL_VOL;
     private int lastTopNorm = KLineNormal.NORMAL_SMA;
 
     float mainF = 4 / 5F;//竖屏时候主图占整体的高度
@@ -255,6 +249,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         subNormalViewLand.setSelected(true);
 
         mainNormalView.setOnClickListener(normalLinstener);
+        mTabMacd.setOnClickListener(normalLinstener);
         mTabEma.setOnClickListener(normalLinstener);
         mTabBoll.setOnClickListener(normalLinstener);
         subNormalView.setOnClickListener(normalLinstener);
@@ -262,6 +257,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         mTabKdj.setOnClickListener(normalLinstener);
 
         mainNormalViewLand.setOnClickListener(normalLinstener);
+        mTabMacdLand.setOnClickListener(normalLinstener);
         mTabEmaLand.setOnClickListener(normalLinstener);
         mTabBollLand.setOnClickListener(normalLinstener);
         subNormalViewLand.setOnClickListener(normalLinstener);
@@ -403,6 +399,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 mainNormalViewLand = rootView.findViewById(R.id.tab_SMA_land);
                 mainNormalViewLand.setSelected(true);
             }
+
             if (id == R.id.tab_EMA) {
                 event4EMA();
                 mainNormalView.setSelected(false);
@@ -425,6 +422,17 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
             }
 
             //附图
+            if (id == R.id.tab_VOL) {
+                event4VOL();
+                subNormalView.setSelected(false);
+                subNormalView = view;
+                subNormalView.setSelected(true);
+
+                subNormalViewLand.setSelected(false);
+                subNormalViewLand = rootView.findViewById(R.id.tab_VOL_land);
+                subNormalViewLand.setSelected(true);
+            }
+
             if (id == R.id.tab_MACD) {
                 event4MACD();
                 subNormalView.setSelected(false);
@@ -458,6 +466,10 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
             if (id == R.id.tab_SMA_land) {
                 rootView.findViewById(R.id.tab_SMA).performClick();
+            }
+
+            if (id == R.id.tab_VOL_land) {
+                rootView.findViewById(R.id.tab_VOL).performClick();
             }
             if (id == R.id.tab_EMA_land) {
                 rootView.findViewById(R.id.tab_EMA).performClick();
@@ -556,14 +568,124 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
     }
 
+    @Override
+    public void onCrossLineHide() {
+        if (crossInfoView == null)
+            return;
+        crossInfoView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void event() {
+
+    }
+
+
+    private List<KCandleObj> list = null;
+
+    @Override
+    public boolean onSingleClick() {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleClick() {
+        //双击横屏竖屏切换
+        if (Configuration.ORIENTATION_LANDSCAPE == getResources()
+                .getConfiguration().orientation) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onLongPress() {
+        return false;
+    }
+
+    @Override
+    public void getKLineDataSuccess(KLineBean bean) {
+        if (!isAdded())
+            return;
+
+        if (layoutContent != null)
+            layoutContent.setVisibility(View.VISIBLE);
+
+        if (bean == null || bean.getCandle() == null || bean.getCandle().size() == 0) {
+            if (layoutContent != null)
+                layoutContent.setVisibility(View.INVISIBLE);
+            return;
+        }
+
+        list = new ArrayList<>();
+        List<KLineBean.Candle> kLineList = bean.getCandle();
+        double sum = 0;
+        for (int i = 0; i < kLineList.size(); i++) {
+            KCandleObj entity = new KCandleObj();
+            KLineBean.Candle candle = kLineList.get(i);
+            entity.setHigh(Double.parseDouble(candle.getH()));
+            entity.setLow(Double.parseDouble(candle.getL()));
+            entity.setOpen(Double.parseDouble(candle.getO()));
+            entity.setClose(Double.parseDouble(candle.getC()));
+            entity.setTimeLong(candle.getU() * 1000);
+            entity.setTime(candle.getT());
+            entity.setVol(Double.parseDouble(candle.getV()));
+            entity.setTotalVol(Double.parseDouble(bean.getTotalVolume()));
+            //绘制均线使用
+            sum += entity.getClose();
+            entity.setNormValue(sum / (i + 1));
+            if (entity.getOpen() == 0)
+                continue;
+            if (entity.getHigh() == 0)
+                continue;
+            if (entity.getLow() == 0)
+                continue;
+            if (entity.getClose() == 0)
+                continue;
+
+            list.add(entity);
+        }
+        setData(list);
+    }
+
+    void setData(List<KCandleObj> list) {
+        kLineView.setkCandleObjList(list);
+        //主图指标
+        if (lastTopNorm == KLineNormal.NORMAL_SMA) {
+            event4SMA();
+        } else if (lastTopNorm == KLineNormal.NORMAL_EMA) {
+            event4EMA();
+        } else if (lastTopNorm == KLineNormal.NORMAL_BOLL) {
+            event4BOLL();
+        }
+        //附图指标，根据历史记录设置
+        if (lastBottomNorm == KLineNormal.NORMAL_KDJ) {
+            event4KDJ();
+        } else if (lastBottomNorm == KLineNormal.NORMAL_RSI) {
+            event4RSI();
+        } else if (lastBottomNorm == KLineNormal.NORMAL_MACD) {
+            event4MACD();
+        } else if (lastBottomNorm == KLineNormal.NORMAL_VOL) {
+            event4VOL();
+        }
+        kLineView.postInvalidate();
+    }
+
+    @Override
+    public void getTickDataSuccess(TickChartBean bean) {
+
+    }
 
     /**
-     * 刷新最后一个K线 update by  haiyang 08-06
-     * 由于期货的间隔休市时间过多  所以服务器返回周期线的时候带上最新的周期
-     * 如果最新的行情时间在尾巴里面  不添加新的周期  不再新的尾巴之内  就添加一个新的周期
-     * 有夜市的产品,日线在夜市开盘之后 当天需要画两根
-     *
-     * @param optional
+     * //     * 刷新最后一个K线 update by  haiyang 08-06
+     * //     * 由于期货的间隔休市时间过多  所以服务器返回周期线的时候带上最新的周期
+     * //     * 如果最新的行情时间在尾巴里面  不添加新的周期  不再新的尾巴之内  就添加一个新的周期
+     * //     * 有夜市的产品,日线在夜市开盘之后 当天需要画两根
+     * //     *
+     * //     * @param optional
+     * //
      */
     public void setLastKData(RequestMarketMessage optional) {
         //周线不好处理，直接不管
@@ -675,11 +797,16 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 //因为最后一个k线就是下一个k线周期的结束时间，如果是替换最后一个K线的话，时间设置成下一个k线的结束结时间
                 toAddendK.setTime(lastK.getTime());
                 toAddendK.setTimeLong(lastK.getTimeLong());
+
+                toAddendK.setVol(toAddendK.getTotalVol() - lastK.getTotalVol() + lastK.getVol());
+
             } else {
 //                //新加的k线 都是最新价格
                 toAddendK.setOpen(lastK.getClose());
                 toAddendK.setHigh(lastK.getClose());
                 toAddendK.setLow(lastK.getClose());
+                toAddendK.setVol(toAddendK.getTotalVol() - lastK.getTotalVol());
+                toAddendK.setReqTime(toAddendK.getTimeLong());
 
                 //update at 2017-04-19
                 //因为最后一个k线就是下一个k线周期的结束时间 新加的k线就要设置成 下一个周期的结束时间
@@ -713,112 +840,6 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
 
             setData(list);
         }
-    }
-
-
-    @Override
-    public void onCrossLineHide() {
-        if (crossInfoView == null)
-            return;
-        crossInfoView.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void event() {
-
-    }
-
-
-    private List<KCandleObj> list = null;
-
-    @Override
-    public boolean onSingleClick() {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleClick() {
-        //双击横屏竖屏切换
-        if (Configuration.ORIENTATION_LANDSCAPE == getResources()
-                .getConfiguration().orientation) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onLongPress() {
-        return false;
-    }
-
-    @Override
-    public void getKLineDataSuccess(KLineBean bean) {
-        if (!isAdded())
-            return;
-
-        if (layoutContent != null)
-            layoutContent.setVisibility(View.VISIBLE);
-
-        if (bean == null || bean.getCandle() == null || bean.getCandle().size() == 0) {
-            if (layoutContent != null)
-                layoutContent.setVisibility(View.INVISIBLE);
-            return;
-        }
-
-        list = new ArrayList<>();
-        List<KLineBean.Candle> kLineList = bean.getCandle();
-        
-        for (int i = 0; i < kLineList.size(); i++) {
-            KCandleObj entity = new KCandleObj();
-            KLineBean.Candle candle = kLineList.get(i);
-            entity.setHigh(Double.parseDouble(candle.getH()));
-            entity.setLow(Double.parseDouble(candle.getL()));
-            entity.setOpen(Double.parseDouble(candle.getO()));
-            entity.setClose(Double.parseDouble(candle.getC()));
-            entity.setTimeLong(candle.getU() * 1000);
-            entity.setTime(candle.getT());
-            if (entity.getOpen() == 0)
-                continue;
-            if (entity.getHigh() == 0)
-                continue;
-            if (entity.getLow() == 0)
-                continue;
-            if (entity.getClose() == 0)
-                continue;
-
-            list.add(entity);
-        }
-        setData(list);
-    }
-
-    void setData(List<KCandleObj> list) {
-        kLineView.setkCandleObjList(list);
-        //主图指标
-        if (lastTopNorm == KLineNormal.NORMAL_SMA) {
-            event4SMA();
-        } else if (lastTopNorm == KLineNormal.NORMAL_EMA) {
-            event4EMA();
-        } else if (lastTopNorm == KLineNormal.NORMAL_BOLL) {
-            event4BOLL();
-        }
-        //附图指标，根据历史记录设置
-        if (lastBottomNorm == KLineNormal.NORMAL_VOL) {
-            event4VOL();
-        } else if (lastBottomNorm == KLineNormal.NORMAL_KDJ) {
-            event4KDJ();
-        } else if (lastBottomNorm == KLineNormal.NORMAL_RSI) {
-            event4RSI();
-        } else if (lastBottomNorm == KLineNormal.NORMAL_MACD) {
-            event4MACD();
-        }
-        kLineView.postInvalidate();
-    }
-
-    @Override
-    public void getTickDataSuccess(TickChartBean bean) {
-
     }
 
 }

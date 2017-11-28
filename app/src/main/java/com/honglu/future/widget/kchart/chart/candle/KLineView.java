@@ -8,14 +8,13 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
-import com.xulu.mpush.message.KCandleObj;
 import com.honglu.future.widget.kchart.entity.KLineNormal;
 import com.honglu.future.widget.kchart.entity.KLineObj;
 import com.honglu.future.widget.kchart.util.KDisplayUtil;
 import com.honglu.future.widget.kchart.util.KLogUtil;
+import com.xulu.mpush.message.KCandleObj;
 
 import java.util.List;
 
@@ -497,7 +496,6 @@ public class KLineView extends KLineTouchView implements KCrossLineView.IDrawCro
     protected void drawSubVol(Canvas canvas) {
         if (kCandleObjList == null || kCandleObjList.size() == 0)
             return;
-
         //成交量画笔
         Paint volPaint = getPaint();
         volPaint.setStyle(Paint.Style.FILL);

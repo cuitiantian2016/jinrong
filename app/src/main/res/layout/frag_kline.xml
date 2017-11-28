@@ -125,6 +125,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="32dip"
                         android:orientation="horizontal">
+                        <com.honglu.future.widget.kchart.UnderLineTextView
+                            android:id="@+id/tab_VOL"
+                            android:layout_width="0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="VOL"
+                            android:textColor="@color/kline_cycle_item_tvcolor"
+                            android:textSize="@dimen/dimen_15sp"
+                            app:isLineEnable="true"
+                            app:lineColor="@android:color/white"
+                            app:mlineHeight="3dip"
+                            app:upOrunder="under" />
+
 
                         <com.honglu.future.widget.kchart.UnderLineTextView
                             android:id="@+id/tab_MACD"
@@ -135,10 +149,13 @@
                             android:text="MACD"
                             android:textColor="@color/kline_cycle_item_tvcolor"
                             android:textSize="@dimen/dimen_15sp"
-                            app:isLineEnable="true"
+                            app:isLineEnable="false"
                             app:lineColor="@android:color/white"
                             app:mlineHeight="3dip"
                             app:upOrunder="under" />
+
+
+
                         <com.honglu.future.widget.kchart.UnderLineTextView
                             android:id="@+id/tab_KDJ"
                             android:layout_width="0dip"
@@ -196,6 +213,8 @@
                 app:mlineWidth="3dip"
                 app:upOrunder="left" />
 
+
+
             <com.honglu.future.widget.kchart.UnderLineTextView
                 android:id="@+id/tab_EMA_land"
                 android:layout_width="match_parent"
@@ -232,6 +251,21 @@
                 android:background="@color/product_bg" />
 
             <com.honglu.future.widget.kchart.UnderLineTextView
+                android:id="@+id/tab_VOL_land"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="VOL"
+                android:textColor="@color/kline_cycle_item_tvcolor"
+                android:textSize="12sp"
+                app:isLineEnable="true"
+                app:lineColor="@android:color/white"
+                app:mlineHeight="0dip"
+                app:mlineWidth="3dip"
+                app:upOrunder="left" />
+
+            <com.honglu.future.widget.kchart.UnderLineTextView
                 android:id="@+id/tab_MACD_land"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
@@ -240,11 +274,13 @@
                 android:text="MACD"
                 android:textColor="@color/kline_cycle_item_tvcolor"
                 android:textSize="12sp"
-                app:isLineEnable="true"
+                app:isLineEnable="false"
                 app:lineColor="@android:color/white"
                 app:mlineHeight="0dip"
                 app:mlineWidth="3dip"
                 app:upOrunder="left" />
+
+
 
             <com.honglu.future.widget.kchart.UnderLineTextView
                 android:id="@+id/tab_KDJ_land"
