@@ -3,6 +3,27 @@ package com.honglu.future.ui.details.bean;
 /**
  * 评论实体类
  * Created by tie on 2017/2/21.
+ *
+ * "auditMan": "",
+ "auditTime": 1511859526000,
+ "commentContent": "this is the comment",
+ "commentTitle": "",
+ "createMan": 3,
+ "createTime": 1511859526000,
+ "fatherId": 3,
+ "informationCommentId": 1,
+ "informationId": 8,
+ "layers": 0,
+ "modifyMan": 3,
+ "modifyTime": 1511859526000,
+ "nickname": "贺飞",
+ "postTime": 1511859526000,
+ "postmanId": 3,
+ "remark": "",
+ "replyNickname": "贺飞",
+ "state": 1,
+ "userAvatar": "user/20171121/1511258391266-3.png",
+ "userRole": ""
  */
 
 public class InformationCommentBean {
@@ -14,7 +35,7 @@ public class InformationCommentBean {
     private String informationId;
     private int isAttention;
     private String modifyMan;
-    private String modifyTime;
+    private String showTime;
     private String nickname;
     private String postmanId;
     private String registerMan;
@@ -109,11 +130,11 @@ public class InformationCommentBean {
     }
 
     public String getModifyTime() {
-        return modifyTime;
+        return showTime;
     }
 
     public void setModifyTime(String modifyTime) {
-        this.modifyTime = modifyTime;
+        this.showTime = modifyTime;
     }
 
     public String getNickname() {

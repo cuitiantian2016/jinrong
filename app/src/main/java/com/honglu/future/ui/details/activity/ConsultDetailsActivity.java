@@ -132,6 +132,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             @Override
             public void onClick(View view) {
                 if (isLogin()) {
+                    mInputEdit.setHint("说点什么吧~");
                     mInputEdit.setText("");
                     mStrReplyPostmanId = "";
                 }
@@ -242,7 +243,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                         mStrReplyPostmanId = "";
                     }
                 } else {
-                    mInputEdit.setHint("");
+                    mInputEdit.setHint("说点什么吧~");
+                    mInputEdit.setText("");
                     mStrReplyPostmanId = "";
                 }
             }

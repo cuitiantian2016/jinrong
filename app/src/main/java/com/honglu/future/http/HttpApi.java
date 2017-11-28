@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
+import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
@@ -344,6 +345,28 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/information/informationDetail")
     Observable<BaseResponse<ConsultDetailsBean>> getMessageData(@Field("informationId") String informationId);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15533135
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/information/informationComment")
+    Observable<BaseResponse<List<InformationCommentBean>>> getInformationComment(@Field("informationId") String informationId);
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15533135
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-mobile-api/app/information/informationReply")
+    Observable<BaseResponse<JsonNull>> getInformationReply(
+            @Field("informationId") String informationId,
+            @Field("userId") String userId,
+            @Field("postManId") String postManId,
+            @Field("commentContent") String commentContent);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15533135

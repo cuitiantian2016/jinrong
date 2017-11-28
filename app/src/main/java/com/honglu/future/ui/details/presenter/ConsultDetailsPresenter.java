@@ -1,9 +1,11 @@
 package com.honglu.future.ui.details.presenter;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
+import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
 import com.honglu.future.util.ToastUtil;
 
@@ -42,14 +44,36 @@ public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContrac
             }
         });
     }
-
     @Override
     public void commentMessage(String userID, String messageId, String repayUserID,String content) {
+        toSubscribe(HttpManager.getApi().getInformationReply(messageId, userID, repayUserID, content), new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull o) {
+                super._onNext(o);
+                mView.commentSuccess();
+            }
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                mView.showErrorMsg(message,null);
+            }
+        });
 
     }
-
     @Override
-    public void getReplyList(String messageId) {
+    public void getReplyList(final String messageId) {
+        toSubscribe(HttpManager.getApi().getInformationComment(messageId), new HttpSubscriber<List<InformationCommentBean>>() {
+            @Override
+            protected void _onNext(List<InformationCommentBean> o) {
+                super._onNext(o);
+                mView.bindReplyList(o);
+            }
 
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                mView.showErrorMsg(message,null);
+            }
+        });
     }
 }
