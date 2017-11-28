@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <View
         android:id="@+id/view_alpha"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="73dp"
             android:background="@drawable/bg_dialog"
             android:orientation="vertical">
 
@@ -32,11 +32,11 @@
                 android:id="@+id/jjdxm_update_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="80dp"
                 android:gravity="bottom|center"
                 android:paddingLeft="15dp"
                 android:text="发现新版本"
-                android:textColor="#42a7f3"
+                android:textColor="#3C3342"
                 android:textSize="18sp" />
 
             <View
@@ -62,47 +62,47 @@
                 android:id="@+id/jjdxm_update_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="19dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingMultiplier="1.2"
-                android:paddingLeft="19dp"
-                android:paddingRight="19dp"
-                android:textColor="#1a1a1a"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:textColor="#A4A5A6"
                 android:textSize="14sp" />
 
             <View
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#FFD8D7D7" />
+                android:background="#EDEDED" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="50dp">
 
                 <Button
                     android:id="@+id/jjdxm_update_id_cancel"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
-                    android:text="以后再说"
-                    android:textColor="#878787"
-                    android:textSize="18sp" />
+                    android:text="下次再说"
+                    android:textColor="#A4A5A6"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/jjdxm_update_id_ok"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="马上升级"
-                    android:textColor="#42a7f3"
-                    android:textSize="18sp" />
+                    android:text="立即更新"
+                    android:textColor="#008EFF"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </LinearLayout>
