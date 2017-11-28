@@ -1,5 +1,6 @@
 package com.honglu.future.dialog.klineposition;
 
+import android.inputmethodservice.KeyboardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.TradeUtil;
+import com.honglu.future.widget.KeyBoardEditText;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import java.util.List;
@@ -29,24 +31,30 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     private ProductListBean mProductListBean;
     private KLinePositionDialogPresenter mPresenter;
     private KLinePositionDialog mDialog;
+    private KeyboardView mKeyboardView;
+    private boolean mInitKeyBoard = true;
 
     private int mPosition = -1;
     private int mExpcNum = 0; //平仓手数
     private int mMaxCloseTradeNum;//最大平仓手数
     private double mExPrice = 0;//价格
     private boolean mEtHasFocus = false;
+    private boolean mKeyboardComplete = false;
 
     private double mLowerLimitPrice; //跌停板价
     private double mUpperLimitPrice; //涨停板价
     private KLinePositionDialogAdapter.ViewHolder mViewHolder;
     private HoldPositionBean mBean;
 
-    public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog) {
+    public KLinePositionDialogAdapter(KLinePositionDialogPresenter mPresenter, KLinePositionDialog mDialog ,KeyboardView mKeyboardView ,boolean mInitKeyBoard) {
         this.mPresenter = mPresenter;
         this.mDialog = mDialog;
+        this.mKeyboardView = mKeyboardView;
+        this.mInitKeyBoard = mInitKeyBoard;
     }
 
     public void setProductListBean(ProductListBean bean) {
+        this.mKeyboardComplete = false;
         this.mExpcNum = 0;
         this.mExPrice = 0;
         this.mProductListBean = bean;
@@ -64,13 +72,20 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
     public void setMpushRefreshData(String lowerLimitPrice, String upperLimitPrice, String lastPrice) {
         this.mLowerLimitPrice = Double.parseDouble(lowerLimitPrice);
         this.mUpperLimitPrice = Double.parseDouble(upperLimitPrice);
-        if (mViewHolder != null && mPosition != -1) {
-            mViewHolder.mPriceHint.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
+        if (mViewHolder == null || mPosition == -1){
+            return;
         }
-        if (!mEtHasFocus) {
-            mViewHolder.mEtPrice.setText(lastPrice);
-            if (mBean != null) {
-                setTextViewData(mViewHolder, mBean, mExPrice, mExpcNum);
+        mViewHolder.mPriceHint.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
+
+        setTextViewData(mViewHolder, mBean, mExPrice, mExpcNum);
+
+        if (mInitKeyBoard){
+            if (mKeyboardView.getVisibility() == View.GONE && !mKeyboardComplete){
+                mViewHolder.mEtPrice.setText(lastPrice);
+            }
+        }else {
+            if (!mEtHasFocus){
+                mViewHolder.mEtPrice.setText(lastPrice);
             }
         }
     }
@@ -339,6 +354,34 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 }
             }
         });
+
+        if (mInitKeyBoard){
+            mKeyboardComplete = false;
+            mHolder.mEtPrice.setKeyboard(mKeyboardView);
+            mHolder.mEtPrice.setOnKeyboardListener(new KeyBoardEditText.OnKeyboardListener() {
+                @Override
+                public void onComplete() {
+                   double  mExPrice = getDoubleText(mHolder.mEtPrice);
+                   double mCompletePrice = mExPrice < mLowerLimitPrice ? mLowerLimitPrice : (mExPrice > mUpperLimitPrice ? mUpperLimitPrice : 0);
+                   if (mCompletePrice != 0){
+                       mHolder.mEtPrice.setText(String.valueOf(mCompletePrice));
+                       mKeyboardComplete = false;
+                   }else {
+                       mKeyboardComplete = true;
+                   }
+                }
+
+                @Override
+                public void onCancel() {
+                    double  mExPrice = getDoubleText(mHolder.mEtPrice);
+                    double mCompletePrice = mExPrice < mLowerLimitPrice ? mLowerLimitPrice : (mExPrice > mUpperLimitPrice ? mUpperLimitPrice : 0);
+                    if (mCompletePrice != 0){
+                        mHolder.mEtPrice.setText(String.valueOf(mCompletePrice));
+                    }
+                    mKeyboardComplete = false;
+                }
+            });
+        }
     }
 
     private int getIntText(EditText mText) {
@@ -431,7 +474,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         TextView mPriced;
         TextView mProfitLoss;
         ImageView mPriceDel;
-        EditText mEtPrice;
+        KeyBoardEditText mEtPrice;
         ImageView mPriceAdd;
         TextView mPriceHint;
         TextView mMaxpcNum;
@@ -451,7 +494,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             mPriced = (TextView) view.findViewById(R.id.tv_priced);
             mProfitLoss = (TextView) view.findViewById(R.id.tv_profit_loss);
             mPriceDel = (ImageView) view.findViewById(R.id.iv_price_del);
-            mEtPrice = (EditText) view.findViewById(R.id.et_price);
+            mEtPrice = (KeyBoardEditText) view.findViewById(R.id.et_price);
             mPriceAdd = (ImageView) view.findViewById(R.id.iv_price_add);
             mPriceHint = (TextView) view.findViewById(R.id.tv_price_hint);
             mMaxpcNum = (TextView) view.findViewById(R.id.tv_maxpc_num);

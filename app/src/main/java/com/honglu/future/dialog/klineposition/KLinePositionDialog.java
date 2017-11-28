@@ -2,6 +2,8 @@ package com.honglu.future.dialog.klineposition;
 
 import android.app.Activity;
 import android.content.Context;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,6 +59,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private int mScreenHeight;
     private KLinePositionDialogAdapter mAdapter;
     private ConfirmDialog mConfirmDialog = null;
+    private KeyboardView mKeyBoardView;
 
 
     @Override
@@ -109,9 +112,12 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         mYkprice = (TextView) findViewById(R.id.tv_ykprice);
         mPingcang = (TextView) findViewById(R.id.tv_pingcang);
 
+        mKeyBoardView = (KeyboardView) findViewById(R.id.kv_keyboardview);
+        boolean mInitKeyBoard = initKeyBoard();
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        mAdapter = new KLinePositionDialogAdapter(mPresenter, KLinePositionDialog.this);
+        mAdapter = new KLinePositionDialogAdapter(mPresenter, KLinePositionDialog.this ,mKeyBoardView ,mInitKeyBoard);
         mRecyclerView.setAdapter(mAdapter);
 
         mClose.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +200,19 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             }
         });
 
+    }
+
+
+    private boolean initKeyBoard(){
+        try {
+            Keyboard keyboard = new Keyboard(mContext,R.xml.keyboard_view_layout);
+            mKeyBoardView.setKeyboard(keyboard);
+            mKeyBoardView.setPreviewEnabled(false);//按下预览
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**

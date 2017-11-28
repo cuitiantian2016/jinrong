@@ -2,6 +2,8 @@ package com.honglu.future.dialog.closetransaction;
 
 import android.app.Activity;
 import android.content.Context;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +32,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.TradeUtil;
+import com.honglu.future.widget.KeyBoardEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +49,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     private TextView mBuyRise;
     private TextView mChicangAveragePrice;
     private ImageView mPriceDel;
-    private EditText mPrice;
+    private KeyBoardEditText mPrice;
     private ImageView mPriceAdd;
     private TextView mPricePrompt;
     private ImageView mSizeDel;
@@ -57,6 +60,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     private TextView mFastCloseTransaction;
     private TextView mCloseHands;
     private TextView mProfitLoss;
+    private KeyboardView mKeyBoardView;
 
     private HoldPositionBean mHoldPositionBean;
     private ProductListBean mProductListBean;
@@ -69,6 +73,9 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     private String mExcode;
     private boolean mEtHasFocus = false;
     private ConfirmDialog mConfirmDialog = null;
+    private boolean mInitKeyBoard = true;
+    private boolean mKeyboardComplete = false;
+
 
     public CloseTransactionDialog(@NonNull Activity context) {
         super(context, R.style.DateDialog);
@@ -96,10 +103,19 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             this.mUpperLimitPrice = event.marketMessage.getUpperLimitPrice();
             this.mLastPrice = event.marketMessage.getLastPrice();
             mPricePrompt.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
-            if (!mEtHasFocus) {
-                mPrice.setText(mLastPrice);
-                setTextViewData(getPrice(mPrice), getSize(mSize));
+
+            if (mInitKeyBoard){
+                if (mKeyBoardView.getVisibility() == View.GONE && !mKeyboardComplete){
+                    mPrice.setText(mLastPrice);
+                    mPrice.setSelection(mPrice.getText().length());
+                }
+            }else {
+                if (!mEtHasFocus) {
+                    mPrice.setText(mLastPrice);
+                    mPrice.setSelection(mPrice.getText().length());
+                }
             }
+            setTextViewData(getPrice(mPrice), getSize(mSize));
         }
     }
 
@@ -141,7 +157,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         mBuyRise = (TextView) findViewById(R.id.tv_buy_rise);
         mChicangAveragePrice = (TextView) findViewById(R.id.tv_chicang_average_price);
         mPriceDel = (ImageView) findViewById(R.id.iv_price_del);
-        mPrice = (EditText) findViewById(R.id.et_price);
+        mPrice = (KeyBoardEditText) findViewById(R.id.et_price);
         mPriceAdd = (ImageView) findViewById(R.id.iv_price_add);
         mPricePrompt = (TextView) findViewById(R.id.tv_price_prompt);
         mSizeDel = (ImageView) findViewById(R.id.iv_size_del);
@@ -153,6 +169,10 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         mCloseHands = (TextView) findViewById(R.id.tv_close_hands);
         mProfitLoss = (TextView) findViewById(R.id.tv_profit_loss);
 
+        mKeyBoardView = (KeyboardView) findViewById(R.id.kv_keyboardview);
+        mInitKeyBoard = initKeyBoard();
+
+
         mClose.setOnClickListener(this);
         mPriceDel.setOnClickListener(this);
         mPriceAdd.setOnClickListener(this);
@@ -163,6 +183,17 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         setOrdeListener();
     }
 
+    private boolean initKeyBoard(){
+        try {
+            Keyboard keyboard = new Keyboard(mContext,R.xml.keyboard_view_layout);
+            mKeyBoardView.setKeyboard(keyboard);
+            mKeyBoardView.setPreviewEnabled(false);//按下预览
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void dismiss() {
@@ -181,8 +212,8 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         this.mInstrumentId = holdPositionBean.getInstrumentId();
         this.mExcode = holdPositionBean.getExcode();
         this.mLastPrice = mProductListBean.getLastPrice();
-        mPrice.clearFocus();
-        mPrice.setFocusable(false);
+        this.mKeyboardComplete = false;
+        mPrice.setFocusableInTouchMode(true);
         mName.setText(holdPositionBean.getInstrumentName());
 
         if (Constant.TYPE_BUY_DOWN == holdPositionBean.getType()) {
@@ -404,6 +435,34 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                 mEtHasFocus = hasFocus;
             }
         });
+
+        if (mInitKeyBoard){
+            mKeyboardComplete = false;
+            mPrice.setKeyboard(mKeyBoardView);
+            mPrice.setOnKeyboardListener(new KeyBoardEditText.OnKeyboardListener() {
+                @Override
+                public void onComplete() {
+                    double  mExPrice = getPrice(mPrice);
+                    double mCompletePrice = mExPrice < Double.parseDouble(mLowerLimitPrice) ? Double.parseDouble(mLowerLimitPrice) : (mExPrice >  Double.parseDouble(mUpperLimitPrice) ? Double.parseDouble(mUpperLimitPrice) : 0);
+                    if (mCompletePrice != 0){
+                        mPrice.setText(String.valueOf(mCompletePrice));
+                        mKeyboardComplete = false;
+                    }else {
+                        mKeyboardComplete = true;
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+                    double  mExPrice = getPrice(mPrice);
+                    double mCompletePrice = mExPrice < Double.parseDouble(mLowerLimitPrice) ? Double.parseDouble(mLowerLimitPrice) : (mExPrice >  Double.parseDouble(mUpperLimitPrice) ? Double.parseDouble(mUpperLimitPrice) : 0);
+                    if (mCompletePrice != 0) {
+                        mPrice.setText(String.valueOf(mCompletePrice));
+                    }
+                    mKeyboardComplete = false;
+                }
+            });
+        }
     }
 
 

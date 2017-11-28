@@ -83,7 +83,7 @@
                 android:padding="@dimen/dimen_5dp"
                 android:src="@mipmap/ic_del" />
 
-            <EditText
+            <com.honglu.future.widget.KeyBoardEditText
                 android:id="@+id/et_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
