@@ -171,13 +171,13 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
         //持仓盈亏
         if (Double.parseDouble(item.getTodayProfit()) > 0) {
-            holder.mProfitLoss.setText("+" + item.getTotalProfit());
+            holder.mProfitLoss.setText("+" + item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else if (Double.parseDouble(item.getTodayProfit()) < 0) {
-            holder.mProfitLoss.setText(item.getTotalProfit());
+            holder.mProfitLoss.setText(item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
-            holder.mProfitLoss.setText(item.getTotalProfit());
+            holder.mProfitLoss.setText(item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
 
