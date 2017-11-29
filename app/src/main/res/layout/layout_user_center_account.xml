@@ -44,6 +44,7 @@
          android:layout_height="wrap_content"
          android:orientation="horizontal"
          android:background="@mipmap/bg_trade_head"
+         android:layout_gravity="center_vertical"
          android:layout_marginLeft="@dimen/dimen_10dp"
          android:layout_marginRight="@dimen/dimen_10dp">
 
@@ -54,9 +55,10 @@
              android:layout_height="wrap_content"
              android:orientation="vertical"
              android:layout_marginLeft="@dimen/dimen_20dp"
-             android:layout_marginTop="@dimen/dimen_20dp">
+             android:layout_marginTop="@dimen/dimen_20dp"
+             android:layout_marginBottom="@dimen/dimen_26dp">
 
-             <TextView
+             <com.honglu.future.widget.DinTextView
                  android:id="@+id/tv_danger_chance"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -73,7 +75,7 @@
                    android:text="@string/text_user_danger_chance"/>
 
 
-             <TextView
+             <com.honglu.future.widget.DinTextView
                  android:id="@+id/tv_money"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -96,10 +98,11 @@
              android:layout_height="wrap_content"
              android:orientation="vertical"
              android:layout_marginLeft="@dimen/dimen_10dp"
-             android:layout_marginTop="@dimen/dimen_20dp">
+             android:layout_marginTop="@dimen/dimen_20dp"
+             android:layout_marginBottom="@dimen/dimen_26dp">
 
 
-             <TextView
+             <com.honglu.future.widget.DinTextView
                  android:id="@+id/tv_rights_interests"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -116,7 +119,7 @@
                  android:text="@string/text_user_rights_interests"/>
 
 
-             <TextView
+             <com.honglu.future.widget.DinTextView
                  android:id="@+id/tv_profit_loss"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -141,7 +144,7 @@
          android:orientation="horizontal"
          android:layout_marginLeft="@dimen/dimen_15dp"
          android:layout_marginRight="@dimen/dimen_15dp"
-         android:layout_marginTop="@dimen/dimen_10dp">
+         android:layout_marginTop="7.5dp">
 
          <TextView
              android:id="@+id/tv_withdrawals"
@@ -151,7 +154,7 @@
              android:textColor="@color/color_white"
              android:paddingTop="@dimen/dimen_11dp"
              android:paddingBottom="@dimen/dimen_11dp"
-             android:layout_marginRight="@dimen/dimen_10dp"
+             android:layout_marginRight="7.5dp"
              android:gravity="center_horizontal"
              android:layout_weight="1"
              android:background="@drawable/btn_user_withdrawals_bg"
@@ -165,7 +168,7 @@
              android:layout_weight="1"
              android:textColor="@color/color_white"
              android:background="@drawable/btn_user_recharge_bg"
-             android:layout_marginLeft="@dimen/dimen_10dp"
+             android:layout_marginLeft="7.5dp"
              android:paddingTop="@dimen/dimen_11dp"
              android:paddingBottom="@dimen/dimen_11dp"
              android:gravity="center_horizontal"

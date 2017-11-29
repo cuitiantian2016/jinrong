@@ -25,22 +25,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:padding="@dimen/dimen_5dp"
-                android:layout_marginTop="@dimen/dimen_27dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
                 android:src="@mipmap/ic_setup"/>
 
             <TextView
                 android:id="@+id/tv_loginRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radius_white_3dp_bg"
-                android:textSize="@dimen/dimen_14sp"
+                android:textSize="@dimen/dimen_15sp"
                 android:paddingTop="@dimen/dimen_7dp"
                 android:paddingBottom="@dimen/dimen_7dp"
                 android:paddingLeft="@dimen/dimen_12dp"
                 android:paddingRight="@dimen/dimen_12dp"
-                android:textColor="@color/white"
                 android:layout_gravity="center"
+                android:background="@drawable/radius_white_2dp_bg"
+                android:textColor="@color/white"
                 android:text="@string/text_login_register"
                 android:visibility="visible"/>
 
@@ -93,13 +93,14 @@
                 android:textSize="@dimen/dimen_18sp"
                 android:textColor="@color/color_333333"
                 android:layout_gravity="center_vertical"
+                android:textStyle="bold"
                 android:text="@string/text_login_qihuo_account"
                 android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/tv_signin"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_30dp"
+                android:layout_height="@dimen/dimen_32dp"
                 android:paddingRight="@dimen/dimen_15dp"
                 android:paddingLeft="@dimen/dimen_15dp"
                 android:gravity="center"
