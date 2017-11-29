@@ -394,9 +394,6 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 dismiss();
                 break;
             case R.id.tv_rise:
-                if(DeviceUtils.isFastDoubleClick()){
-                    return;
-                }
                 mBuyType = "2";
                 mTvDown.setBackgroundResource(R.drawable.rise_down_bg_block);
                 mTvDown.setTextColor(mContext.getResources().getColor(R.color.color_151515));
@@ -408,9 +405,6 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 setTextChange();
                 break;
             case R.id.tv_down:
-                if(DeviceUtils.isFastDoubleClick()){
-                    return;
-                }
                 mBuyType = "1";
                 mTvRise.setBackgroundResource(R.drawable.rise_down_bg_block);
                 mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));

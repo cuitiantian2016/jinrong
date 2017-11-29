@@ -35,17 +35,17 @@ import java.util.List;
  * Created by hefei on 2017/6/6.
  * <p>
  * 新的首页组件
- *
+ * <p>
  * 取集合的list/3+list%3为页数。
  * 页数*3为步长。再刷新
  * 首頁market組件
  */
 
-public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
+public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
     private static final String TAG = "HomeMarketPrice";
 
     private ViewPager mViewPager;
-    private ArrayList<MarketData.MarketDataBean> arrayList ;
+    private ArrayList<MarketData.MarketDataBean> arrayList;
     private static final int PAGE_SIZE = 3;//每页显示的个数
     private IndicatorViewModel indicatorViewModel;
     private boolean isRefresh;
@@ -62,11 +62,12 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
         initView(mView);
         refreshData();
     }
+
     /**
      * 刷新数据
      */
     public void refreshData() {
-        if (marketPresenter ==null) {
+        if (marketPresenter == null) {
             marketPresenter = new BasePresenter<IBaseView<MarketData>>(this) {
                 @Override
                 public void getData() {
@@ -81,12 +82,13 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
                             productList = o.productList;
                             MPushUtil.CODES_TRADE_HOME = productList;
                             String replace = productList.replace("|", "%7C");
-                            toSubscribe(HttpManager.getApi().getMarketCodesData(replace,2), new HttpSubscriber<MarketData>() {
+                            toSubscribe(HttpManager.getApi().getMarketCodesData(replace, 2), new HttpSubscriber<MarketData>() {
                                 @Override
                                 protected void _onNext(MarketData o) {
                                     super._onNext(o);
-                                   mView.bindData(o);
+                                    mView.bindData(o);
                                 }
+
                                 @Override
                                 protected void _onError(String message) {
                                     super._onError(message);
@@ -101,27 +103,29 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
         }
         marketPresenter.getData();
     }
+
     private void initView(View view) {
         mViewPager = (ViewPager) view.findViewById(R.id.vp_market);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_indicator_view);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(2));
         params.gravity = Gravity.CENTER;
         indicatorViewModel = new IndicatorViewModel(mContext, 3);
-        linearLayout.addView(indicatorViewModel.mView,params);
+        linearLayout.addView(indicatorViewModel.mView, params);
 
-        mWidth = (ViewUtil.getScreenWidth(mContext) - mContext.getResources().getDimensionPixelSize(R.dimen.dimen_30dp) ) / 3;
+        mWidth = (ViewUtil.getScreenWidth(mContext) - mContext.getResources().getDimensionPixelSize(R.dimen.dimen_30dp)) / 3;
         LinearLayout.LayoutParams viewPagePrarams = (LinearLayout.LayoutParams) mViewPager.getLayoutParams();
         viewPagePrarams.height = mWidth + mContext.getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
         mViewPager.setLayoutParams(viewPagePrarams);
     }
+
     @Override
     public void bindData(MarketData marketData) {
-        if (marketData==null||marketData.list==null||marketData.list.size()<=0)return;
+        if (marketData == null || marketData.list == null || marketData.list.size() <= 0) return;
         MPushUtil.requestMarket(productList);
         ArrayList<MarketData.MarketDataBean> dataList = marketData.list;
-        if (arrayList!=null){
+        if (arrayList != null) {
             arrayList.clear();
-        }else {
+        } else {
             arrayList = new ArrayList<>();
         }
         for (int n = 0; n < dataList.size(); n++) {
@@ -131,51 +135,56 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
         }
         initProductViewPager();
         initProLayout(dataList);
-        if (arrayList!=null&&arrayList.size()>0){
-            if (!isRefresh){
+        if (arrayList != null && arrayList.size() > 0) {
+            if (!isRefresh) {
                 isRefresh = true;
-                int sum ;
-                if (arrayList.size() % PAGE_SIZE>0){
+                int sum;
+                if (arrayList.size() % PAGE_SIZE > 0) {
                     sum = (arrayList == null || arrayList.size() == 0) ? 0 : arrayList.size() / PAGE_SIZE + 1;
-                }else {
+                } else {
                     sum = (arrayList == null || arrayList.size() == 0) ? 0 : arrayList.size() / PAGE_SIZE;
                 }
-                if (indicatorViewModel!=null){
+                if (indicatorViewModel != null) {
                     indicatorViewModel.refreshNum(sum);
                 }
             }
         }
     }
-    public void requestMarket(){
+
+    public void requestMarket() {
         if (!TextUtils.isEmpty(productList))
-        MPushUtil.requestMarket(productList);
+            MPushUtil.requestMarket(productList);
     }
+
     /**
      * 刷新数据
+     *
      * @param dataBean
      */
-    public void refreshPrice(MarketData.MarketDataBean dataBean){
-        if (arrayList!=null&&arrayList.size()>0){
+    public void refreshPrice(MarketData.MarketDataBean dataBean) {
+        if (arrayList != null && arrayList.size() > 0) {
             int index = -1;
             MarketData.MarketDataBean marketDataBean = null;
-            for (int i = 0;i<arrayList.size();i++) {
+            for (int i = 0; i < arrayList.size(); i++) {
                 marketDataBean = arrayList.get(i);
-                if (marketDataBean.instrumentID.equals(dataBean.instrumentID)){
+                if (marketDataBean.instrumentID.equals(dataBean.instrumentID)) {
                     index = i;
                     break;
                 }
             }
-            if (index > 0){
-                marketDataBean.change =   dataBean.change;
-                marketDataBean.chg =  dataBean.chg;
-                marketDataBean.lastPrice =  dataBean.lastPrice;
-                arrayList.set(index,marketDataBean);
+            if (index >= 0) {
+                marketDataBean.change = dataBean.change;
+                marketDataBean.chg = dataBean.chg;
+                marketDataBean.lastPrice = dataBean.lastPrice;
+                arrayList.set(index, marketDataBean);
                 productViewHold4Home.updateProductViewListDisplay(marketDataBean);
             }
 
         }
     }
+
     private HashMap<String, Double> checkChangeMap = new HashMap<String, Double>();
+
     /**
      * 初始化界面
      *
@@ -197,9 +206,9 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, KLineMarketActivity.class);
-                    intent.putExtra("excode",optional.exchangeID);
-                    intent.putExtra("code",optional.instrumentID);
-                    intent.putExtra("isClosed","1");
+                    intent.putExtra("excode", optional.exchangeID);
+                    intent.putExtra("code", optional.instrumentID);
+                    intent.putExtra("isClosed", "1");
                     mContext.startActivity(intent);
                 }
             });
@@ -210,7 +219,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
     /**
      * 首页产品viewpager
      */
-   private void initProductViewPager() {
+    private void initProductViewPager() {
         List<View> mListViews = new ArrayList<>();
         String[] allProducts = productList.split(",");
         int count = allProducts.length / 3;
@@ -219,41 +228,41 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
             count += 1;
         }
 
-       for (int i = 0; i < count; i++) {
-           View view = View.inflate(mContext, R.layout.layout_homepropage_3, null);
-           RelativeLayout mItemView1 = (RelativeLayout) view.findViewById(R.id.rl_product_1);
-           RelativeLayout mItemView2 = (RelativeLayout) view.findViewById(R.id.rl_product_2);
-           RelativeLayout mItemView3 = (RelativeLayout) view.findViewById(R.id.rl_product_3);
-           LinearLayout.LayoutParams mItemParams1 = (LinearLayout.LayoutParams) mItemView1.getLayoutParams();
-           LinearLayout.LayoutParams mItemParams2 = (LinearLayout.LayoutParams) mItemView2.getLayoutParams();
-           LinearLayout.LayoutParams mItemParams3 = (LinearLayout.LayoutParams) mItemView3.getLayoutParams();
-           mItemParams1.height = mWidth;
-           mItemView1.setLayoutParams(mItemParams1);
+        for (int i = 0; i < count; i++) {
+            View view = View.inflate(mContext, R.layout.layout_homepropage_3, null);
+            RelativeLayout mItemView1 = (RelativeLayout) view.findViewById(R.id.rl_product_1);
+            RelativeLayout mItemView2 = (RelativeLayout) view.findViewById(R.id.rl_product_2);
+            RelativeLayout mItemView3 = (RelativeLayout) view.findViewById(R.id.rl_product_3);
+            LinearLayout.LayoutParams mItemParams1 = (LinearLayout.LayoutParams) mItemView1.getLayoutParams();
+            LinearLayout.LayoutParams mItemParams2 = (LinearLayout.LayoutParams) mItemView2.getLayoutParams();
+            LinearLayout.LayoutParams mItemParams3 = (LinearLayout.LayoutParams) mItemView3.getLayoutParams();
+            mItemParams1.height = mWidth;
+            mItemView1.setLayoutParams(mItemParams1);
 
-           mItemParams2.height = mWidth;
-           mItemView2.setLayoutParams(mItemParams2);
+            mItemParams2.height = mWidth;
+            mItemView2.setLayoutParams(mItemParams2);
 
-           mItemParams3.height = mWidth;
-           mItemView3.setLayoutParams(mItemParams3);
+            mItemParams3.height = mWidth;
+            mItemView3.setLayoutParams(mItemParams3);
 
-           mListViews.add(view);
+            mListViews.add(view);
         }
         mViewPager.setAdapter(new MyProductViewPagerAdapter(mListViews));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-           @Override
-           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-           }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
-           @Override
-           public void onPageSelected(int position) {
-               indicatorViewModel.showIndicator(position);
-           }
+            @Override
+            public void onPageSelected(int position) {
+                indicatorViewModel.showIndicator(position);
+            }
 
-           @Override
-           public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-           }
-       });
+            }
+        });
         productViewHold4Home = new ProductViewHold4Home(mListViews, mContext, productList);
     }
 
