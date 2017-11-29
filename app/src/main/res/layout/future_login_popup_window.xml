@@ -79,6 +79,7 @@
                     android:maxLength="8"
                     android:maxLines="1"
                     android:textColorHint="@color/color_B1B1B3"
+                    android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
 
                 <View
@@ -120,6 +121,7 @@
                     android:inputType="textPassword"
                     android:maxLength="16"
                     android:maxLines="1"
+                    android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_16sp" />
 
