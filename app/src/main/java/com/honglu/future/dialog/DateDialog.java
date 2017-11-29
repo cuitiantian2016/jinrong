@@ -99,10 +99,11 @@ public class DateDialog extends Dialog {
         wv_start_yearmonth.setViewAdapter(mStartYearMonthAdapter);
         wv_start_yearmonth.setCurrentItem(getYearMonthIndex(getYear(), getMonth()));
 
-        mStartDayAdapter = new CalendarTextAdapter(context, arry_days, currentDay - 1, maxTextSize, minTextSize);
+        mStartDayAdapter = new CalendarTextAdapter(context, arry_days, currentDay - 7, maxTextSize, minTextSize);
         wv_start_day.setVisibleItems(3);
         wv_start_day.setViewAdapter(mStartDayAdapter);
-        wv_start_day.setCurrentItem(currentDay - 1);
+        wv_start_day.setCurrentItem(currentDay - 8);
+        selectStartDay = String.valueOf(currentDay - 7);
 
         mEndYearMonthAdapter = new CalendarTextAdapter(context, arry_yearsMonths,
                 getYearMonthIndex(getYear(), getMonth()), maxTextSize, minTextSize);
@@ -329,12 +330,25 @@ public class DateDialog extends Dialog {
     }
 
     public void initData() {
-        setDate(getYear(), getMonth(), getDay());
+        setStartDate(getYear(), getMonth(), getDay());
+        setEndDate(getYear(), getMonth(), getDay());
     }
 
-    public void setDate(int year, int month, int day) {
-        selectEndYearMonth = selectStartYearMonth = year + "年" + month + "月";
-        selectEndDay = selectStartDay = day + "";
+    public void setStartDate(int year, int month, int day) {
+        selectStartYearMonth = year + "年" + month + "月";
+        selectStartDay = day + "";
+        issetdata = true;
+        if (year == getYear()) {
+            this.month = getMonth();
+        } else {
+            this.month = 12;
+        }
+        calDays(year, month);
+    }
+
+    public void setEndDate(int year, int month, int day) {
+        selectEndYearMonth = year + "年" + month + "月";
+        selectEndDay = day + "";
         issetdata = true;
         if (year == getYear()) {
             this.month = getMonth();

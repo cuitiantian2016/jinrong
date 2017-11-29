@@ -16,12 +16,12 @@ import java.util.List;
  * Created by zhuaibing on 2017/10/26
  */
 
-public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View> implements TradeRecordContract.Presenter{
+public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View> implements TradeRecordContract.Presenter {
 
-    public static final String TYPE_HISTORY_TRADE="TYPE_HISTORY_TRADE";
-    public static final String TYPE_HISTORY_Build="TYPE_HISTORY_Build";
-    public static final String TYPE_HISTORY_MISS="TYPE_HISTORY_MISS";
-    public static final String TYPE_HISTORY_cLOSE="TYPE_HISTORY_cLOSE";
+    public static final String TYPE_HISTORY_TRADE = "TYPE_HISTORY_TRADE";
+    public static final String TYPE_HISTORY_Build = "TYPE_HISTORY_Build";
+    public static final String TYPE_HISTORY_MISS = "TYPE_HISTORY_MISS";
+    public static final String TYPE_HISTORY_cLOSE = "TYPE_HISTORY_cLOSE";
 
     @Override
     public void getHistoryTradeBean(final String dayStart, final String userId, final String token, final String dayEnd) {
@@ -38,7 +38,7 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
                 mView.showErrorMsg(message, TYPE_HISTORY_TRADE);
             }
         };
-        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd),httpSubscriber);
+        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd), httpSubscriber);
     }
 
     @Override
@@ -51,20 +51,21 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
                 super._onNext(o);
                 mView.bindHistoryMissBean(o);
             }
+
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
                 mView.showErrorMsg(message, TYPE_HISTORY_MISS);
             }
         };
-        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd,page,pageSize),httpSubscriber);
+        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd, page, pageSize), httpSubscriber);
     }
 
     @Override
     public void getHistoryCloseBean(String dayStart, String userId, String token, String dayEnd,
                                     int page,
                                     int pageSize) {
-        toSubscribe(HttpManager.getApi().getHistoryCloseBean(dayStart, userId, token, dayEnd,page,pageSize), new HttpSubscriber<List<HistoryClosePositionBean>>() {
+        toSubscribe(HttpManager.getApi().getHistoryCloseBean(dayStart, userId, token, dayEnd, page, pageSize), new HttpSubscriber<List<HistoryClosePositionBean>>() {
             @Override
             protected void _onNext(List<HistoryClosePositionBean> o) {
                 super._onNext(o);
@@ -75,7 +76,7 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
             protected void _onError(String message, int code) {
                 super._onError(message, code);
                 ToastUtil.show(message);
-                mView.showErrorMsg(message,TYPE_HISTORY_cLOSE);
+                mView.showErrorMsg(message, TYPE_HISTORY_cLOSE);
             }
         });
 
@@ -91,13 +92,14 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
                 super._onNext(o);
                 mView.bindHistoryBuilderBean(o);
             }
+
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
                 mView.showErrorMsg(message, TYPE_HISTORY_Build);
             }
         };
-        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd,page,pageSize),httpSubscriber);
+        toSubscribe(HttpManager.getApi().getHistoryBuilderBean(dayStart, userId, token, dayEnd, page, pageSize), httpSubscriber);
 
     }
 }
