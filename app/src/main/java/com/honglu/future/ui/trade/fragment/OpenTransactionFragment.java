@@ -92,6 +92,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mAccountLoginDialog.dismiss();
         // SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, bean.getToken());
         startRun();
+
     }
 
     @Override
