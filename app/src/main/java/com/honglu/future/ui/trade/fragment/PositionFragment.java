@@ -216,7 +216,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                mRefreshView.finishRefresh();
             }
 
         });
