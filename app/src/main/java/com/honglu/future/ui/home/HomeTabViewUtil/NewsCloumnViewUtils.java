@@ -151,7 +151,7 @@ public class NewsCloumnViewUtils {
      */
     private static class TypeOneViewHolder extends BaseViewHolder {
         ImageView newest_content_iv;
-        RelativeLayout rel_left;
+        LinearLayout rel_left;
         LinearLayout content_ll;
         TextView tv_title;
         TextView tv_time;
@@ -164,7 +164,7 @@ public class NewsCloumnViewUtils {
 
         TypeOneViewHolder(View convertView) {
             Type = 0;
-            rel_left = (RelativeLayout) convertView.findViewById(R.id.rel_left);
+            rel_left = (LinearLayout) convertView.findViewById(R.id.rel_left);
             newest_content_iv = (ImageView) convertView.findViewById(R.id.newest_content_iv);
             content_ll = (LinearLayout) convertView.findViewById(R.id.content_ll);
             tv_title = (TextView) convertView.findViewById(R.id.tv_title);
@@ -212,13 +212,13 @@ public class NewsCloumnViewUtils {
                                           }
 
             );
-            rel_left.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    initParams(newest_content_iv, rel_left.getHeight());
-                    rel_left.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
+//            rel_left.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    initParams(newest_content_iv, rel_left.getHeight());
+//                    rel_left.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                }
+//            });
         }
     }
 
@@ -288,7 +288,7 @@ public class NewsCloumnViewUtils {
     private static void initParams(View view, int height) {
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) view.getLayoutParams();
         rlp.height = height;
-        rlp.width = (int) (210 * rlp.height / 166);
+        rlp.width = (int) (210 * rlp.height / 136);
         view.setLayoutParams(rlp);
     }
 

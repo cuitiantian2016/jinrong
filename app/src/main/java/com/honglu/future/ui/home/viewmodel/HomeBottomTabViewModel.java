@@ -44,9 +44,8 @@ public class HomeBottomTabViewModel {
 
     public void initView(View view) {
         mCommonTabLayout = (CommonTabLayout) view.findViewById(R.id.home_common_tab_layout);
-        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
-        int indicatorWidth = (int) (screenWidthDip*0.2f);
-        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
+        //int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
+         //mCommonTabLayout.setIndicatorWidth((int) (screenWidthDip*0.2f));
         ArrayList<CustomTabEntity> entities = new ArrayList<>();
         entities.add(new TabEntity(mContext.getString(R.string.news_column)));
         entities.add(new TabEntity(mContext.getString(R.string.news_flash)));

@@ -17,12 +17,13 @@
         app:tl_indicator_anim_duration="400"
         app:tl_indicator_color="@color/color_008EFF"
         app:tl_indicator_corner_radius="2dp"
-        app:tl_indicator_height="@dimen/dimen_2dp"
+        app:tl_indicator_height="@dimen/dimen_3dp"
         app:tl_textsize="@dimen/dimen_16sp"
+        app:tl_indicator_width="@dimen/dimen_50dp"
         app:tl_indicator_anim_enable="true"
         app:tl_textSelectColor="@color/color_008EFF"
         app:tl_textUnselectColor="#B2B2B2"
-        app:tl_underline_color="@color/color_d8d7d7"
+        app:tl_underline_color="@color/color_EDEDED"
         app:tl_special_select_color_blue="true"
         app:tl_underline_height="@dimen/dimen_1dp_half"/>
 
