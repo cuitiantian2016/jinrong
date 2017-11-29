@@ -151,7 +151,7 @@ public class NewsCloumnViewUtils {
      */
     private static class TypeOneViewHolder extends BaseViewHolder {
         ImageView newest_content_iv;
-        LinearLayout rel_left;
+        RelativeLayout rel_left;
         LinearLayout content_ll;
         TextView tv_title;
         TextView tv_time;
@@ -164,7 +164,7 @@ public class NewsCloumnViewUtils {
 
         TypeOneViewHolder(View convertView) {
             Type = 0;
-            rel_left = (LinearLayout) convertView.findViewById(R.id.rel_left);
+            rel_left = (RelativeLayout) convertView.findViewById(R.id.rel_left);
             newest_content_iv = (ImageView) convertView.findViewById(R.id.newest_content_iv);
             content_ll = (LinearLayout) convertView.findViewById(R.id.content_ll);
             tv_title = (TextView) convertView.findViewById(R.id.tv_title);
