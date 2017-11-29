@@ -341,6 +341,9 @@ public final class MPushClient implements Client, AckCallback {
 
     @Override
     public void requestMarketData(String code) {
+        if(!connection.isConnected()){
+            return;
+        }
         RequestMarketMessage message = new RequestMarketMessage(connection,code);
         message.encodeBody();
         message.sendRaw();
