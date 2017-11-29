@@ -259,6 +259,8 @@ public final class MPush {
     public void requestMarket(String code) {
         if (hasStarted() && client.isRunning()) {
             client.requestMarketData(code);
+        }else {
+            startPush();
         }
     }
 
