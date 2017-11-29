@@ -38,7 +38,7 @@
                 android:maxLines="1"
                 android:textColor="@color/global_black_color"
                 android:textColorHint="@color/color_BFBFBF"
-                android:textSize="@dimen/dimen_18sp" />
+                android:textSize="@dimen/dimen_17sp" />
 
         </LinearLayout>
 
@@ -51,7 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="19dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -73,7 +73,7 @@
                 android:maxLines="1"
                 android:textColor="@color/global_black_color"
                 android:textColorHint="@color/color_BFBFBF"
-                android:textSize="@dimen/dimen_18sp" />
+                android:textSize="@dimen/dimen_17sp" />
 
             <!--<TextView-->
                 <!--android:layout_width="0dp"-->
@@ -125,7 +125,7 @@
                 android:maxLines="1"
                 android:textColor="@color/global_black_color"
                 android:textColorHint="@color/color_BFBFBF"
-                android:textSize="@dimen/dimen_18sp" />
+                android:textSize="@dimen/dimen_17sp" />
 
         </LinearLayout>
 
@@ -140,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
             android:layout_marginTop="@dimen/dimen_30dp"
-            android:background="@color/color_008EFF"
+            android:background="@drawable/btn_user_recharge_bg"
             android:gravity="center"
             android:text="完成"
             android:textColor="@color/white"

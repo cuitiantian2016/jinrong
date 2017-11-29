@@ -33,7 +33,7 @@
             android:textColor="@color/global_black_color"
             android:textColorHint="@color/color_BFBFBF"
             android:background="@null"
-            android:textSize="@dimen/dimen_18sp" />
+            android:textSize="@dimen/dimen_17sp" />
 
 
     </LinearLayout>
@@ -72,7 +72,7 @@
             android:background="@null"
             android:textColor="@color/global_black_color"
             android:textColorHint="@color/color_BFBFBF"
-            android:textSize="@dimen/dimen_18sp" />
+            android:textSize="@dimen/dimen_17sp" />
 
 
     </LinearLayout>
@@ -103,7 +103,7 @@
         android:layout_marginLeft="@dimen/dimen_36dp"
         android:layout_marginRight="@dimen/dimen_36dp"
         android:layout_marginTop="@dimen/dimen_20dp"
-        android:background="@color/color_008EFF"
+        android:background="@drawable/btn_user_recharge_bg"
         android:gravity="center"
         android:text="登录"
         android:textColor="@color/white"

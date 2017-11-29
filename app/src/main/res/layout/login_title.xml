@@ -44,6 +44,7 @@
         android:layout_below="@+id/close_layout"
         android:layout_marginLeft="37dp"
         android:layout_marginTop="@dimen/dimen_20dp"
+        android:textStyle="bold"
         android:text="您好，请登录"
         android:textColor="@color/global_black_color"
         android:textSize="30sp" />
