@@ -103,7 +103,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 onBackPressed();
             }
         };
-        mTitle.setTitle(true, onClickListener, "");
+        mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, "");
         //mTitle.showClose(null);
         initView();
         if (!TextUtils.isEmpty(mUrl)) {
@@ -117,7 +117,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         if (getIntent() != null) {
             if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
                 title = getIntent().getStringExtra("title");
-                mTitle.setTitle(true, onClickListener, title);
+                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
             }
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
