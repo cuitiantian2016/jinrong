@@ -24,6 +24,7 @@ import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.ResetPwdActivity;
+import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.usercenter.contract.ModifyUserContract;
 import com.honglu.future.ui.usercenter.presenter.ModifyUserPresenter;
 import com.honglu.future.util.DeviceUtils;
@@ -279,13 +280,14 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
                     //设置回调
                     @Override
                     public void onStart() {
+                        App.loadingContent(ModifyUserActivity.this, "");
                         // TODO 压缩开始前调用，可以在方法内启动 loading UI
                     }
 
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        mPresenter.updateUserAvatar(filePath);
+                        mPresenter.updateUserAvatar(file.getPath());
                     }
 
                     @Override
