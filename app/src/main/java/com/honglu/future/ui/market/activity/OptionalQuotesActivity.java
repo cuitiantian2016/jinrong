@@ -89,13 +89,13 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     @Override
     public void initPresenter() {
-
+        mPresenter.init(this);
     }
 
     @Override
     public void loadData() {
         mAllMarketList = (List<MarketnalysisBean.ListBean>) getIntent().getSerializableExtra("allmarketlist");
-        zxMarketList =  (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getIntent().getSerializableExtra("zxmarketlist");
+        zxMarketList = (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getIntent().getSerializableExtra("zxmarketlist");
 
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
         View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes_footerview, null);
@@ -156,7 +156,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 //移除自选
                 zxAdapter.getData().remove(position);
                 //重新设置底部数据
-                if (!TextUtils.isEmpty(bean.getExcode()) && bean.getExcode().equals(mTabSelectType)){
+                if (!TextUtils.isEmpty(bean.getExcode()) && bean.getExcode().equals(mTabSelectType)) {
                     setMarketData(mTabSelectType);
                 }
                 zxAdapter.notifyDataSetChanged();
@@ -173,7 +173,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 //添加到自选
                 zxAdapter.getData().add(bean);
                 //移除 对应的数据
-                removeAllListData(bean.getExcode(),bean.getInstrumentID());
+                removeAllListData(bean.getExcode(), bean.getInstrumentID());
                 //移除 add 里面的数据
                 addAdapter.removeItemData(position);
 
@@ -223,7 +223,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 int toPosition = target.getAdapterPosition();
                 //addFooterView - 1 最后 - 1
                 if (toPosition <= zxAdapter.getItemCount() - 2) {
-                     isSort = true;
+                    isSort = true;
                     if (fromPosition < toPosition) {
                         for (int i = fromPosition; i < toPosition; i++) {
                             Collections.swap(zxAdapter.getData(), i, i + 1);
@@ -287,14 +287,14 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     //根据 type 设置对应adapter 数据
     private void setMarketData(String type) {
-        if (!TextUtils.isEmpty(type)){
+        if (!TextUtils.isEmpty(type)) {
             mTabSelectType = type;
             addAdapter.getData().clear();
 
-            if (mAllMarketList !=null && mAllMarketList.size() > 0){
+            if (mAllMarketList != null && mAllMarketList.size() > 0) {
                 for (MarketnalysisBean.ListBean alysisBean : mAllMarketList) {
                     if (type.equals(alysisBean.getExcode())) {
-                        if (alysisBean.getQuotationDataList() !=null && alysisBean.getQuotationDataList().size() > 0){
+                        if (alysisBean.getQuotationDataList() != null && alysisBean.getQuotationDataList().size() > 0) {
                             addAdapter.getData().addAll(alysisBean.getQuotationDataList());
 
                         }
@@ -309,22 +309,22 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
     /**
      * 过滤数据
+     *
      * @param zxMarketList
      */
     private void filterMarketData(List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList) {
 
         //把对应excode添加到每条数据
-        if (mAllMarketList !=null && mAllMarketList.size() > 0){
-            for (MarketnalysisBean.ListBean allBena : mAllMarketList){
+        if (mAllMarketList != null && mAllMarketList.size() > 0) {
+            for (MarketnalysisBean.ListBean allBena : mAllMarketList) {
                 String excode = allBena.getExcode();
-                if (allBena.getQuotationDataList() !=null && allBena.getQuotationDataList().size() > 0){
-                    for (MarketnalysisBean.ListBean.QuotationDataListBean bean : allBena.getQuotationDataList()){
+                if (allBena.getQuotationDataList() != null && allBena.getQuotationDataList().size() > 0) {
+                    for (MarketnalysisBean.ListBean.QuotationDataListBean bean : allBena.getQuotationDataList()) {
                         bean.setExcode(excode);
                     }
                 }
             }
         }
-
 
 
         if (zxMarketList != null && zxMarketList.size() > 0 || mAllMarketList == null && mAllMarketList.size() > 0) {
@@ -333,15 +333,17 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 String excode = zxBean.getExcode();
                 String instrumentID = zxBean.getInstrumentID();
 
-                if (TextUtils.isEmpty(excode) || TextUtils.isEmpty(instrumentID)){continue;}
+                if (TextUtils.isEmpty(excode) || TextUtils.isEmpty(instrumentID)) {
+                    continue;
+                }
 
-                for (MarketnalysisBean.ListBean allBean : mAllMarketList){
-                    if (excode.equals(allBean.getExcode()) && allBean.getQuotationDataList() !=null && allBean.getQuotationDataList().size()>0){
+                for (MarketnalysisBean.ListBean allBean : mAllMarketList) {
+                    if (excode.equals(allBean.getExcode()) && allBean.getQuotationDataList() != null && allBean.getQuotationDataList().size() > 0) {
 
                         ListIterator<MarketnalysisBean.ListBean.QuotationDataListBean> iterator = allBean.getQuotationDataList().listIterator();
-                        while (iterator.hasNext()){
+                        while (iterator.hasNext()) {
                             MarketnalysisBean.ListBean.QuotationDataListBean bean = iterator.next();
-                            if (excode.equals(bean.getExcode()) && instrumentID.equals(bean.getInstrumentID())){
+                            if (excode.equals(bean.getExcode()) && instrumentID.equals(bean.getInstrumentID())) {
                                 iterator.remove();
                             }
                         }
@@ -355,16 +357,16 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     /**
      * 移除 mAllMarketList 里面对应的数据
      */
-    private void removeAllListData(String excode ,String instrumentId){
+    private void removeAllListData(String excode, String instrumentId) {
         if (!TextUtils.isEmpty(excode)
                 && !TextUtils.isEmpty(instrumentId)
-                && mAllMarketList !=null
-                && mAllMarketList.size() > 0){
+                && mAllMarketList != null
+                && mAllMarketList.size() > 0) {
 
-            for (MarketnalysisBean.ListBean allBean : mAllMarketList){
-                if (excode.equals(allBean.getExcode())){
+            for (MarketnalysisBean.ListBean allBean : mAllMarketList) {
+                if (excode.equals(allBean.getExcode())) {
 
-                    if (allBean.getQuotationDataList() !=null && allBean.getQuotationDataList().size() > 0) {
+                    if (allBean.getQuotationDataList() != null && allBean.getQuotationDataList().size() > 0) {
 
                         ListIterator<MarketnalysisBean.ListBean.QuotationDataListBean> iterator = allBean.getQuotationDataList().listIterator();
                         while (iterator.hasNext()) {
@@ -382,16 +384,16 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     }
 
 
-    private void addAllListData(MarketnalysisBean.ListBean.QuotationDataListBean addBean){
+    private void addAllListData(MarketnalysisBean.ListBean.QuotationDataListBean addBean) {
         if (!TextUtils.isEmpty(addBean.getExcode())
                 && !TextUtils.isEmpty(addBean.getInstrumentID())
-                && mAllMarketList !=null
-                && mAllMarketList.size() > 0){
-            for (MarketnalysisBean.ListBean mBean : mAllMarketList){
-                 if (addBean.getExcode().equals(mBean.getExcode())){
-                     mBean.getQuotationDataList().add(addBean);
-                     break;
-                 }
+                && mAllMarketList != null
+                && mAllMarketList.size() > 0) {
+            for (MarketnalysisBean.ListBean mBean : mAllMarketList) {
+                if (addBean.getExcode().equals(mBean.getExcode())) {
+                    mBean.getQuotationDataList().add(addBean);
+                    break;
+                }
             }
         }
     }
@@ -399,19 +401,19 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     @Override
     public void finish() {
         if (isSort) {
-           saveMarketData(zxAdapter !=null ? zxAdapter.getData() : null);
-           EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_SORT_MARKET,MarketFragment.ZXHQ_TYPE,null));
+            saveMarketData(zxAdapter != null ? zxAdapter.getData() : null);
+            EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_SORT_MARKET, MarketFragment.ZXHQ_TYPE, null));
         }
         super.finish();
     }
 
-     private void saveMarketData(List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
-         if (list !=null && list.size() > 0){
-             Gson gson = new Gson();
-             String toJson = gson.toJson(list);
-             SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
-         }else {
-             SpUtil.putString(Constant.ZX_MARKET_KEY, "");
-         }
-     }
+    private void saveMarketData(List<MarketnalysisBean.ListBean.QuotationDataListBean> list) {
+        if (list != null && list.size() > 0) {
+            Gson gson = new Gson();
+            String toJson = gson.toJson(list);
+            SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+        } else {
+            SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+        }
+    }
 }
