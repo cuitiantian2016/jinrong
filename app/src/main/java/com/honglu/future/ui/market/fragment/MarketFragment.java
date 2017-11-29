@@ -129,7 +129,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            //MPushUtil.pauseRequest();
+            MPushUtil.pauseRequest();
         } else {
             requestMarket(mPushCode);
             if (mHttpState == 0 && mPresenter !=null){
