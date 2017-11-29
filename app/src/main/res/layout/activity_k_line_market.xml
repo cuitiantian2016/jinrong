@@ -26,14 +26,18 @@
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_20dp"
+                android:paddingTop="@dimen/dimen_20dp"
+                android:paddingBottom="@dimen/dimen_20dp"
+                android:paddingLeft="@dimen/dimen_15dp"
+                android:paddingRight="@dimen/dimen_15dp"
                 android:src="@mipmap/ic_back_white" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dimen_2dp"
                 android:text="--"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
@@ -43,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="3dp"
                 android:src="@mipmap/ic_name_arrow" />
 
             <TextView
@@ -55,7 +59,7 @@
                 android:background="@drawable/shape_xiushi_bg_2dp"
                 android:gravity="center"
                 android:text="休市中"
-                android:textColor="@android:color/white"
+                android:textColor="@color/color_white"
                 android:textSize="@dimen/dimen_12sp"
                 android:visibility="gone" />
 
@@ -75,19 +79,23 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_numHeadLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_name_land"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
+                    android:layout_marginBottom="@dimen/dimen_3dp"
                     android:gravity="center"
                     android:text="--"
                     android:textColor="@android:color/white"
@@ -96,7 +104,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:orientation="vertical">
 
@@ -104,7 +112,6 @@
                         android:id="@+id/tv_new_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="1"
                         android:text="0"
@@ -116,44 +123,48 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_rise_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:includeFontPadding="false"
                             android:text="0"
                             android:textColor="@color/color_1DB98F"
-                            android:textSize="@dimen/dimen_14sp" />
+                            android:textSize="@dimen/dimen_14sp"
+                            android:visibility="visible"/>
 
-                        <TextView
+                        <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_rise_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dimen_30dp"
+                            android:layout_marginLeft="@dimen/dimen_15dp"
                             android:includeFontPadding="false"
                             android:text="0"
                             android:textColor="@color/color_1DB98F"
-                            android:textSize="@dimen/dimen_14sp" />
+                            android:textSize="@dimen/dimen_14sp"
+                            android:visibility="visible"/>
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_rise_num_land"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/dimen_3dp"
+                    android:layout_gravity="center_vertical"
                     android:text="-73"
                     android:textColor="@color/color_1DB98F"
                     android:textSize="@dimen/dimen_14sp"
                     android:visibility="gone" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_rise_radio_land"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_15dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/dimen_3dp"
+                    android:layout_gravity="center_vertical"
                     android:text="-1.91%"
                     android:textColor="@color/color_1DB98F"
                     android:textSize="@dimen/dimen_14sp"
@@ -161,18 +172,28 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/iv_full_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/dimen_15dp"
+                android:src="@mipmap/ic_full_screen"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/iv_full_screen">
+                android:layout_toLeftOf="@id/iv_full_screen"
+                android:layout_alignParentStart="true">
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_vol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginRight="@dimen/dimen_15dp"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:minHeight="16dp"
@@ -181,13 +202,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/dimen_13sp" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_hold_vol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/tv_vol"
-                    android:layout_marginRight="@dimen/dimen_8dp"
+                    android:layout_marginRight="@dimen/dimen_15dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:gravity="left"
                     android:minHeight="16dp"
@@ -216,7 +237,7 @@
                     android:textColor="@color/color_B1B3B2"
                     android:textSize="@dimen/dimen_13sp" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_buy_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -245,13 +266,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/text_close"
-
                     android:layout_toLeftOf="@id/tv_buy_price"
                     android:text="卖价："
                     android:textColor="@color/color_B1B3B2"
                     android:textSize="@dimen/dimen_13sp" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_sell_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -265,15 +285,6 @@
                     android:textSize="@dimen/dimen_13sp" />
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_full_screen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/dimen_20dp"
-                android:src="@mipmap/ic_full_screen"
-                android:visibility="gone" />
         </RelativeLayout>
 
 
@@ -281,16 +292,17 @@
             android:id="@+id/ll_pull_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_10dp"
             android:orientation="vertical"
             android:visibility="gone">
 
             <View
+                android:id="@+id/v_lineView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_1dp_half"
-                android:background="@color/color_line" />
+                android:background="@color/color_EDEDED" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -311,7 +323,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_zt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -336,7 +348,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_kp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -362,7 +374,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_zg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -393,7 +405,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_dt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -418,7 +430,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_jj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -444,7 +456,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_zd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -475,7 +487,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_zs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -500,7 +512,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_js"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -526,7 +538,7 @@
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_zj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -629,7 +641,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_rise_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -655,7 +667,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_down_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -681,7 +693,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_hold_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

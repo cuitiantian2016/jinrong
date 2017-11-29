@@ -244,6 +244,7 @@
     <color name="color_opt_gt_50">#80f16161</color>
     <color name="color_opt_gt_75">#BFf16161</color>
     <color name="color_opt_eq">#eeeeee</color>
+    <color name="color_3C3B41">#3C3B41</color>
 
     <color name="color_opt_gt_shan">#20f54a40</color>
     <color name="color_opt_lt_shan">#201fb73c</color>

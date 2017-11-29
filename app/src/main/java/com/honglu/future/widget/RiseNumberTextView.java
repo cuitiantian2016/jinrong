@@ -2,8 +2,10 @@ package com.honglu.future.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -291,5 +293,16 @@ public class RiseNumberTextView extends TextView {
             }
         });
         animator.start();
+    }
+
+    //设置字体样式
+    public void setTextFonts(String path) {
+        //fonts/DIN-Medium.ttf
+        //得到AssetManager
+        AssetManager mgr = getContext().getAssets();
+        //根据路径得到Typeface
+        Typeface tf = Typeface.createFromAsset(mgr, path);
+        //设置字体
+        this.setTypeface(tf);
     }
 }

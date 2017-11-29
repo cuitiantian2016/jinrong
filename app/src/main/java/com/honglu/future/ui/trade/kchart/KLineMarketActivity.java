@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -135,6 +136,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     RecyclerView recyclerView;
     @BindView(R.id.landRecycleViewCycle)
     RecyclerView landRecycleViewCycle;
+    @BindView(R.id.v_lineView)
+    View mLineView;
+    @BindView(R.id.rl_numHeadLayout)
+    RelativeLayout mHeadLaout;
 
     private String mExcode;
     private String mCode;
@@ -270,6 +275,9 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        mTvNewPrice.setTextFonts("fonts/DIN-Medium.ttf");
+        mTvClosed.getBackground().setAlpha(100);
+        mLineView.getBackground().setAlpha(60);
         mExcode = getIntent().getStringExtra("excode");
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");
@@ -315,6 +323,11 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 layoutBottom_land.setVisibility(View.VISIBLE);
             if (landRecycleViewCycle != null)
                 landRecycleViewCycle.getAdapter().notifyDataSetChanged();
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeadLaout.getLayoutParams();
+            params.topMargin = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
+            mHeadLaout.setLayoutParams(params);
+
         } else {
             mLlTitleBar.setVisibility(View.VISIBLE);
             mTvNameLand.setVisibility(View.GONE);
@@ -330,6 +343,10 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 layoutBottom_land.setVisibility(View.GONE);
             if (recyclerView != null)
                 recyclerView.getAdapter().notifyDataSetChanged();
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mHeadLaout.getLayoutParams();
+            params.topMargin = 0;
+            mHeadLaout.setLayoutParams(params);
         }
 
     }
