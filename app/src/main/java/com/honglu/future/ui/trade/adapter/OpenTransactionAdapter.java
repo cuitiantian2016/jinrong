@@ -45,8 +45,8 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         holder.mTvNum.setText(item.getTradeVolume());
         holder.mTvRise.setText(item.getAskPrice1());
         holder.mTvDown.setText(item.getBidPrice1());
-        holder.mTvRiseRadio.setText(item.getLongRate() + "%");
-        holder.mTvDownRadio.setText((100 - Integer.valueOf(item.getLongRate())) + "%");
+//        holder.mTvRiseRadio.setText(item.getLongRate() + "%");
+//        holder.mTvDownRadio.setText((100 - Integer.valueOf(item.getLongRate())) + "%");
         if (item.getIsClosed().equals("2")) {
             holder.mTvClosed.setVisibility(View.VISIBLE);
         } else {
@@ -88,10 +88,10 @@ public class OpenTransactionAdapter extends BaseRecyclerAdapter<OpenTransactionA
         TextView mTvRise;
         @BindView(R.id.tv_down)
         TextView mTvDown;
-        @BindView(R.id.tv_rise_radio)
-        TextView mTvRiseRadio;
-        @BindView(R.id.tv_down_radio)
-        TextView mTvDownRadio;
+//        @BindView(R.id.tv_rise_radio)
+//        TextView mTvRiseRadio;
+//        @BindView(R.id.tv_down_radio)
+//        TextView mTvDownRadio;
         @BindView(R.id.tv_closed)
         TextView mTvClosed;
         @BindView(R.id.ll_rise)
