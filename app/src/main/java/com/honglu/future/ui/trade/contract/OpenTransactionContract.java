@@ -15,6 +15,7 @@ public interface OpenTransactionContract {
     interface View extends BaseView {
         void getProductListSuccess(List<ProductListBean> bean);
         void getAccountInfoSuccess(AccountInfoBean bean);
+        void finishRefreshView();
     }
     interface Presenter{
         void getProductList();

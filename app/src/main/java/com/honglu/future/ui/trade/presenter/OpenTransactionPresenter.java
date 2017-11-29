@@ -31,11 +31,13 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
             @Override
             protected void _onNext(List<ProductListBean> bean) {
                 mView.getProductListSuccess(bean);
+                mView.finishRefreshView();
             }
 
             @Override
             protected void _onError(String message) {
                 mView.showErrorMsg(message, null);
+                mView.finishRefreshView();
             }
 
             @Override
