@@ -47,7 +47,7 @@ public final class ErrorMessageHandler extends BaseMessageHandler<ErrorMessage> 
             ClientConfig.I.getSessionStorage().clearSession();
             message.getConnection().getClient().handshake();
         } else if (message.cmd == Command.HANDSHAKE.cmd) {
-            message.getConnection().getClient().stop();
+            message.getConnection().reconnect();
         } else {
           message.getConnection().reconnect();
         }
