@@ -106,15 +106,15 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        if (homeMarketPriceViewModel != null && !isHidden()) {
-            homeMarketPriceViewModel.requestMarket();
-        }
+//        if (homeMarketPriceViewModel != null && !isHidden()) {
+//            homeMarketPriceViewModel.requestMarket();
+//        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MPushUtil.pauseRequest();
+       // MPushUtil.pauseRequest();
     }
 
     /*******

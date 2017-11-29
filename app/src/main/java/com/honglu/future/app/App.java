@@ -298,10 +298,9 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onActivityStarted(Activity activity) {
         mActivity = activity;
-        Log.d("XXX", "START");
         ++activityNum;
         isBack = false;
-        startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
+    //    startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 
     @Override
@@ -319,7 +318,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         --activityNum;
         if (activityNum <= 0) {
             isBack = true;
-            MPush.I.stopPush();
+           // MPush.I.stopPush();
         }
     }
 
