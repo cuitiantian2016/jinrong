@@ -74,7 +74,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/color_333333"
                 android:textSize="18sp"
-                tools:text="独守空房都没胃口发我发我发我发我份没看到我们我可没的口吻没看是否" />
+                tools:text="你好" />
 
 
             <LinearLayout
