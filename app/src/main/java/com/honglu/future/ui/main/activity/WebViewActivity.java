@@ -113,7 +113,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             }
         };
         mTitle.setTitle(true,onClickListener,"");
-        mTitle.showClose(null);
+        //mTitle.showClose(null);
         initView();
         if (!TextUtils.isEmpty(mUrl)) {
             mUrl = HttpManager.getUrl(mUrl);
@@ -469,25 +469,25 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 mProgressBar.setVisibility(View.GONE);
             }
             if (view.canGoBack()) { //如果当前不是初始页面则显示关闭按钮
-                mTitle.showClose(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isZhbTitle) {
-                            new AlertFragmentDialog.Builder(mActivity)
-                                    .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
-                                    .setLeftBtnText("取消认证")
-                                    .setRightBtnText("继续认证")
-                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                                        @Override
-                                        public void dialogLeftBtnClick() {
-                                            finish();
-                                        }
-                                    }).build();
-                        } else {
-                            finish();
-                        }
-                    }
-                });
+//                mTitle.showClose(new OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (isZhbTitle) {
+//                            new AlertFragmentDialog.Builder(mActivity)
+//                                    .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
+//                                    .setLeftBtnText("取消认证")
+//                                    .setRightBtnText("继续认证")
+//                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+//                                        @Override
+//                                        public void dialogLeftBtnClick() {
+//                                            finish();
+//                                        }
+//                                    }).build();
+//                        } else {
+//                            finish();
+//                        }
+//                    }
+//                });
             } else {
                 //mTitle.hintClose();
             }
