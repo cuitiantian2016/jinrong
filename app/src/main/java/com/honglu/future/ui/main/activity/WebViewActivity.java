@@ -2,7 +2,6 @@ package com.honglu.future.ui.main.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,14 +35,11 @@ import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.cfmmc.app.sjkh.*;
-import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
 import com.honglu.future.config.Constant;
-import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
@@ -56,12 +52,8 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +80,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     private String title;
     private String mUrl;
     private HashMap<String, String> mHashMap;
-    private boolean isZhbTitle;
     private OnClickListener onClickListener;
     private Button button;
     private WindowManager mWindowManager;
@@ -112,7 +103,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 onBackPressed();
             }
         };
-        mTitle.setTitle(true,onClickListener,"");
+        mTitle.setTitle(true, onClickListener, "");
         //mTitle.showClose(null);
         initView();
         if (!TextUtils.isEmpty(mUrl)) {
@@ -126,7 +117,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         if (getIntent() != null) {
             if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
                 title = getIntent().getStringExtra("title");
-                mTitle.setTitle(true,onClickListener,title);
+                mTitle.setTitle(true, onClickListener, title);
             }
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
@@ -162,17 +153,16 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         mWebView.addJavascriptInterface(new JavaMethod(), "nativeMethod");
         mWebView.setDownloadListener(new MyWebViewDownLoadListener());
         mWebView.setWebViewClient(new MyWebViewClient());
-        mWebView.setWebChromeClient(new MyWebChromeClient());}
+        mWebView.setWebChromeClient(new MyWebChromeClient());
+    }
 
     private void showDialog() {
         mWebView.setVisibility(View.GONE);
-        isZhbTitle = true;
         mDialogView.setVisibility(View.VISIBLE);
         mTvTagContent.setText("正在认证中...");
     }
 
     private void dismissDialog(String message) {
-        isZhbTitle = false;
         mDialogView.setVisibility(View.GONE);
         ToastUtil.showToast(message);
         finish();
@@ -330,7 +320,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     @Override
     protected void onResume() {
         super.onResume();
-        if (mWindowManager!=null&&isShow){
+        if (mWindowManager != null && isShow) {
             isShow = false;
             mWindowManager.removeView(button);
         }
@@ -379,23 +369,10 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
     @Override
     public void onBackPressed() {
-        if (isZhbTitle) {
-            new AlertFragmentDialog.Builder(this)
-                    .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
-                    .setLeftBtnText("取消认证")
-                    .setRightBtnText("继续认证")
-                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                        @Override
-                        public void dialogLeftBtnClick() {
-                            finish();
-                        }
-                    }).build();
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
         } else {
-            if (mWebView.canGoBack()) {
-                mWebView.goBack();
-            } else {
-                finish();
-            }
+            finish();
         }
     }
 
@@ -417,7 +394,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             Uri url = request.getUrl();
-            Log.d("tag","url-->"+url);
+            Log.d("tag", "url-->" + url);
             if (url.getScheme().contains("xn")) {
                 ARouter.getInstance().build(url)
                         .navigation(WebViewActivity.this, new NavCallback() {
@@ -446,7 +423,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d("tag","url-->"+url);
+            Log.d("tag", "url-->" + url);
             if (url.startsWith("xn")) {
                 ARouter.getInstance().build(Uri.parse(url))
                         .navigation(WebViewActivity.this, new NavCallback() {
@@ -468,29 +445,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             if (mProgressBar != null) {
                 mProgressBar.setVisibility(View.GONE);
             }
-            if (view.canGoBack()) { //如果当前不是初始页面则显示关闭按钮
-//                mTitle.showClose(new OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (isZhbTitle) {
-//                            new AlertFragmentDialog.Builder(mActivity)
-//                                    .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
-//                                    .setLeftBtnText("取消认证")
-//                                    .setRightBtnText("继续认证")
-//                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-//                                        @Override
-//                                        public void dialogLeftBtnClick() {
-//                                            finish();
-//                                        }
-//                                    }).build();
-//                        } else {
-//                            finish();
-//                        }
-//                    }
-//                });
-            } else {
-                //mTitle.hintClose();
-            }
+
             Log.e("web", "url==" + url);
             //往当前页面插入一段JS
             if (url.contains("https://my.alipay.com/portal/i.htm") || url.contains("https://shanghu.alipay.com/i.htm")) {
@@ -515,42 +470,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            //是否是支付宝认证
-            if (!isZhbTitle) {
-                //正常情况下，如果没有传入title，我们则使用h5的title。
-                // 当是点推送消息进来的时候,getIntent().getStringExtra("title")会拿到推送传入的乱码般的title字符串。
-                // 所以如果是点推送消息进来的，并且推送没有设置title,我们直接使用h5 title
-                if (TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
-                    WebViewActivity.this.title = title;
-                    mTitle.setTitle(true, new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isZhbTitle) {
-                                new AlertFragmentDialog.Builder(mActivity)
-                                        .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
-                                        .setLeftBtnText("取消认证")
-                                        .setRightBtnText("继续认证")
-                                        .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                                            @Override
-                                            public void dialogLeftBtnClick() {
-                                                finish();
-                                            }
-                                        }).build();
-                            } else {
-                                if (mWebView.canGoBack()) {
-                                    mWebView.goBack();
-                                } else {
-                                    finish();
-                                }
-                            }
-                        }
-                    }, title);
-                    mTitle.setRightTitle("", null);
-                }
-            } else {
-                mTitle.setTitle(true,onClickListener,"认证中");
-            }
-
         }
 
     }
