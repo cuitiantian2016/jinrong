@@ -3,17 +3,13 @@ package com.honglu.future.ui.register.presenter;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.ui.login.bean.LoginBean;
-import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.register.contract.RegisterContract;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.util.AESUtils;
-import com.honglu.future.util.EncryptUtils;
 
 /**
  * Created by zq on 2017/10/24.
  */
-
 public class RegisterPresenter extends BasePresenter<RegisterContract.View> implements RegisterContract.Presenter {
     @Override
     public void register(String code, String sourceId, String mobileNum, String password, String nickName) {

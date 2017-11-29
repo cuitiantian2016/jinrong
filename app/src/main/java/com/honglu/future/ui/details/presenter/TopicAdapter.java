@@ -102,7 +102,7 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
             ViewHelper.safelySetText(userNameTv, item.getNickname());
             ViewHelper.safelySetText(announceTimeTv, AndroidUtil.splitDateNew(item.getModifyTime()));
             if (!TextUtils.isEmpty(item.getReplyNickname())) {
-                contentTv.setText(Html.fromHtml("回复" + "<font color='#878787'>" + item.getReplyNickname() + "</font>" + ": " + item.getCommentContent()));
+                contentTv.setText(Html.fromHtml("<font color='#86A2B0'>" +"回复"+ "</font>" + "<font color='#979899'>" + item.getReplyNickname() + "</font>" + ": " + item.getCommentContent()));
             } else {
                 ViewHelper.safelySetText(contentTv, item.getCommentContent());
             }

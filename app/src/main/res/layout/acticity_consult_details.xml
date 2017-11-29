@@ -51,7 +51,7 @@
             android:background="@drawable/bg_button_d7d7d7l"
             android:focusable="false"
             android:gravity="center_vertical"
-            android:hint="楼主说的怎么样，点评一下吧！"
+            android:hint="憋说话，敲字～"
             android:imeActionLabel="发表"
             android:inputType="text"
             android:lines="1"
@@ -61,7 +61,7 @@
             android:singleLine="true"
             android:textCursorDrawable="@null"
             android:textColor="#323232"
-            android:textColorHint="@color/color_b2b2b2"
+            android:textColorHint="#008EFF"
             android:textSize="@dimen/dimen_16sp" />
 
         <TextView

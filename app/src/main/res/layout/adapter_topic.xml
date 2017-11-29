@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="小牛9115"
-                    android:textColor="@color/color_008EFF"
+                    android:textColor="#979899"
                     android:textSize="@dimen/dimen_16sp" />
 
 
@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dimen_10dp"
                     android:paddingBottom="@dimen/dimen_12dp"
-                    android:textColor="@color/color_323232"
+                    android:textColor="#333333"
                     android:textSize="@dimen/dimen_14sp"
                     tools:text="周二(8月2日)早盘现货白银开美元/盎司开盘后银价小幅下跌，但在跌破20.40美元后行情跌势停止之后开始止跌反弹。" />
 
