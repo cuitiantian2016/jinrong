@@ -300,7 +300,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         mActivity = activity;
         ++activityNum;
         isBack = false;
-    //    startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
+       startPush(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 
     @Override
@@ -318,7 +318,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         --activityNum;
         if (activityNum <= 0) {
             isBack = true;
-           // MPush.I.stopPush();
+            MPush.I.stopPush();
         }
     }
 
