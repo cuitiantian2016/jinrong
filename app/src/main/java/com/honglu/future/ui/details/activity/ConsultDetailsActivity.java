@@ -208,6 +208,17 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
+        if (!TextUtils.isEmpty(uID)){
+            mInputEdit.setFocusable(true);
+            mInputEdit.setFocusableInTouchMode(true);
+            mInputEdit.requestFocus();
+        }
+    }
+
     private boolean isLogin(){
         String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
         if (TextUtils.isEmpty(uID)){
@@ -219,15 +230,15 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private String mStrReplyPostmanId = "";
     private void setListener() {
         mRefreshView.setEnableLoadmore(false);
-        mInputEdit.setFocusable(true);
-        mInputEdit.setFocusableInTouchMode(true);
-        mInputEdit.requestFocus();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 InformationCommentBean bbs = (InformationCommentBean) parent.getItemAtPosition(position);
                 if (bbs != null) {
+                    if(!isLogin()){
+                        return;
+                    }
                     mInputEdit.setFocusable(true);
                     mInputEdit.setFocusableInTouchMode(true);
                     mInputEdit.requestFocus();

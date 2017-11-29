@@ -176,6 +176,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
                     }
                 } else {
                     if (isVisible()) {
+                        page = 1;
                         getClosePositionList();
                     }
                 }
