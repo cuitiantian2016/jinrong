@@ -65,7 +65,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData>{
     /**
      * 刷新数据
      */
-    private void refreshData() {
+    public void refreshData() {
         if (marketPresenter ==null) {
             marketPresenter = new BasePresenter<IBaseView<MarketData>>(this) {
                 @Override
