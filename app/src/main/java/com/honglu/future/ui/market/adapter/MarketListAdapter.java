@@ -91,15 +91,20 @@ public class MarketListAdapter extends BaseAdapter {
 
         holder.mTvContractName.setText(listBean.getName());
         holder.mTvLatestPrice.setText(listBean.getLastPrice());
-        holder.mTvQuoteChange.setText(listBean.getChg());
         holder.mTvHavedPositions.setText(listBean.getOpenInterest());
-
-        if (listBean.getChg().indexOf("-") != -1) {
-            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-        } else {
+         double mChange = Double.parseDouble(listBean.getChange());
+        if (mChange > 0){
             holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
             holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+            holder.mTvQuoteChange.setText("+"+listBean.getChg());
+        }else if (mChange < 0){
+            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            holder.mTvQuoteChange.setText(listBean.getChg());
+        }else {
+            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            holder.mTvQuoteChange.setText(listBean.getChg());
         }
 
         if (mTabSelectType.equals(MarketFragment.ZXHQ_TYPE)) {
@@ -153,23 +158,28 @@ public class MarketListAdapter extends BaseAdapter {
     }
 
     public void updateItemView(TextView mTvQuoteChange, TextView mTvLatestPrice, TextView mTvHavedPositions, View mColorView
-            , String mOldChg, String mOldLastPrice, String mOldopenInterest, String mChg, String mLastPrice, String openInterest) {
-        double oldChe = string2Double(mOldChg);
+            , String mOldChg, String mOldLastPrice, String mOldopenInterest, String mChg, String mLastPrice, String openInterest ,String change) {
+        //double oldChe = string2Double(mOldChg);
         double oldLastPrice = string2Double(mOldLastPrice);
-        double che = string2Double(mChg);
+        //double che = string2Double(mChg);
         double lastPrice = string2Double(mLastPrice);
-        mTvQuoteChange.setText(mChg);
+        //mTvQuoteChange.setText(mChg);
         mTvLatestPrice.setText(mLastPrice);
         mTvHavedPositions.setText(openInterest);
 
-        if (!mChg.equals(mOldChg)){
-            if (mChg.indexOf("-") != -1) {
-                mTvLatestPrice.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
-                mTvQuoteChange.setTextColor(ContextCompat.getColor(mContext,R.color.color_2CC593));
-            } else {
-                mTvLatestPrice.setTextColor(ContextCompat.getColor(mContext,R.color.color_FA455B));
-                mTvQuoteChange.setTextColor(ContextCompat.getColor(mContext,R.color.color_FA455B));
-            }
+        double mChange = Double.parseDouble(change);
+        if (mChange > 0){
+            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+            mTvQuoteChange.setText("+"+mChg);
+        }else if (mChange < 0){
+            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mTvQuoteChange.setText(mChg);
+        }else {
+            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mTvQuoteChange.setText(mChg);
         }
 
         double lastPriceValue = lastPrice - oldLastPrice;

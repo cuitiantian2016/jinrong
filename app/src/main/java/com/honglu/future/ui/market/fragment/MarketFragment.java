@@ -148,7 +148,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (!TextUtils.isEmpty(mPushCode) && mPushCode.equals(MPushUtil.requestCodes) && !(isHidden())) {
             if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
                 MarketItemFragment fragment = (MarketItemFragment) mFragments.get(mPosition);
-                fragment.mPushRefresh(event.marketMessage.getInstrumentID(), event.marketMessage.getLastPrice(), event.marketMessage.getChg(), event.marketMessage.getOpenInterest());
+                fragment.mPushRefresh(event.marketMessage.getInstrumentID(), event.marketMessage.getLastPrice(), event.marketMessage.getChg(), event.marketMessage.getOpenInterest(),event.marketMessage.getChange());
             }
         }
     }

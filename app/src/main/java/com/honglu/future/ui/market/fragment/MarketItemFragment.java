@@ -309,7 +309,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
      * @param chg          涨跌幅
      * @param openInterest 持仓量
      */
-    public void mPushRefresh(final String instrumentID, final String lastPrice, final String chg, final String openInterest) {
+    public void mPushRefresh(final String instrumentID, final String lastPrice, final String chg, final String openInterest , final String change) {
         if (isHidden() || mAdapter ==null ||  mAdapter.getData().size() <= 0 || TextUtils.isEmpty(instrumentID)){
             return;
         }
@@ -337,7 +337,8 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         listBean.setChg(chg);
                         listBean.setLastPrice(lastPrice);
                         listBean.setOpenInterest(openInterest);
-                        mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldChg,mOldLastPrice,mOldopenInterest,chg,lastPrice,openInterest);
+                        listBean.setChange(change);
+                        mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldChg,mOldLastPrice,mOldopenInterest,chg,lastPrice,openInterest,change);
                 }
             }
         });
