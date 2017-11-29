@@ -190,9 +190,9 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         //剩余平分
         LinearLayout rootLayoutLeft = (LinearLayout) headView.findViewById(R.id.rootLayout_left);
         int screenWidth = ViewUtil.getScreenWidth(getActivity());
-        int pixelSize_15 = getResources().getDimensionPixelSize(R.dimen.dimen_15dp);
+        int pixelSize_60 = getResources().getDimensionPixelSize(R.dimen.dimen_60dp);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rootLayoutLeft.getLayoutParams();
-        params.width = (screenWidth - pixelSize_15 * 4) / 2;
+        params.width = (screenWidth - pixelSize_60) / 2;
         rootLayoutLeft.setLayoutParams(params);
 
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);

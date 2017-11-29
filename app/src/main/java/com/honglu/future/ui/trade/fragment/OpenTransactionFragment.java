@@ -342,19 +342,23 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mOpenTransactionAdapter = new OpenTransactionAdapter();
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.item_trade_list_header, null);
 
+        mTradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
+        LinearLayout.LayoutParams mTradeHeaderParams = (LinearLayout.LayoutParams) mTradeHeader.getLayoutParams();
+        mTradeHeaderParams.bottomMargin = getActivity().getResources().getDimensionPixelSize(R.dimen.dimen_7dp);
+        mTradeHeader.setLayoutParams(mTradeHeaderParams);
+
         //剩余平分
         LinearLayout rootLayoutLeft = (LinearLayout) headView.findViewById(R.id.rootLayout_left);
         int screenWidth = ViewUtil.getScreenWidth(getActivity());
-        int pixelSize_15 = getResources().getDimensionPixelSize(R.dimen.dimen_15dp);
+        int pixelSize_60 = getResources().getDimensionPixelSize(R.dimen.dimen_60dp);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rootLayoutLeft.getLayoutParams();
-        params.width = (screenWidth - pixelSize_15 * 4) / 2;
+        params.width = (screenWidth - pixelSize_60) / 2;
         rootLayoutLeft.setLayoutParams(params);
 
         mDangerChance = (TextView) headView.findViewById(R.id.tv_danger_chance);
         mRightsInterests = (TextView) headView.findViewById(R.id.tv_rights_interests);
         mMoney = (TextView) headView.findViewById(R.id.tv_money);
         mProfitLoss = (TextView) headView.findViewById(R.id.tv_profit_loss);
-        mTradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
         mTradeTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
         mOpenTransactionAdapter.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);

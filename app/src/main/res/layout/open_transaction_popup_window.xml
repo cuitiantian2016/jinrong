@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_20dp">
+            android:paddingLeft="@dimen/dimen_15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dimen_10dp"
+                    android:layout_marginRight="@dimen/dimen_5dp"
                     android:padding="10dp"
                     android:src="@mipmap/ic_close_popup" />
             </RelativeLayout>
@@ -58,11 +58,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_20dp">
+            android:paddingLeft="@dimen/dimen_15dp">
 
             <TextView
                 android:id="@+id/tv_name"
@@ -98,8 +98,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_45dp"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
             android:orientation="horizontal">
 
@@ -109,6 +109,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_buy_rise"
+                android:layout_marginRight="7.5dp"
                 android:gravity="center"
                 android:text="买涨1678"
                 android:textColor="@android:color/white"
@@ -119,6 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginLeft="7.5dp"
                 android:background="@drawable/bg_buy_down"
                 android:gravity="center"
                 android:text="买跌1677"
@@ -175,8 +177,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_26dp"
             android:orientation="horizontal">
 
@@ -255,8 +257,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_15dp"
             android:orientation="horizontal">
 
@@ -319,8 +321,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
             android:orientation="horizontal">
 
@@ -374,8 +376,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
             android:orientation="horizontal">
 
@@ -410,8 +412,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
             android:orientation="horizontal">
 
@@ -451,7 +453,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:text="总计"
                     android:layout_marginTop="@dimen/dimen_3dp"
                     android:layout_gravity="center"

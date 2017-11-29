@@ -18,7 +18,7 @@
         android:layout_marginBottom="@dimen/dimen_15dp"
         android:layout_marginLeft="@dimen/dimen_10dp"
         android:layout_marginRight="@dimen/dimen_10dp"
-        android:layout_marginTop="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_12dp"
         android:orientation="horizontal">
 
 
@@ -26,8 +26,9 @@
             android:id="@+id/rootLayout_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_18dp"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginBottom="@dimen/dimen_26dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -73,8 +74,7 @@
                 android:id="@+id/ll_left_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_18dp"
-                android:layout_marginTop="@dimen/dimen_21dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
                 android:orientation="vertical">
 
                 <com.honglu.future.widget.DinTextView
@@ -99,8 +99,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_18dp"
+            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginBottom="@dimen/dimen_26dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -146,8 +147,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_18dp"
-                android:layout_marginTop="@dimen/dimen_21dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
                 android:minWidth="100dp"
                 android:orientation="vertical">
 

@@ -7,7 +7,7 @@
     <com.honglu.future.widget.tab.HorizontalTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/market_common_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_54dp"
+        android:layout_height="@dimen/dimen_50dp"
         android:layout_toLeftOf="@+id/right_layout"
         app:tl_iconVisible="false"
         app:tl_indicator_anim_duration="400"

@@ -95,9 +95,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     }
 
     private void initView() {
-        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
-        int indicatorWidth = (int) (screenWidthDip * 0.12f);
-        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
         //添加tab实体
         addTabEntities();
         //添加fragment
