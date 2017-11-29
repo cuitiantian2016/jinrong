@@ -343,6 +343,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                             if (!TextUtils.isEmpty(mBean.getInstrumentID()) && mBean.getInstrumentID().equals(zxBean.getInstrumentID())) {
                                 //已经存在自选 img 显示删除
                                 mBean.setIcAdd("1");
+                                zxBean.setChg(mBean.getChg());
+                                zxBean.setLastPrice(mBean.getLastPrice());
+                                zxBean.setOpenInterest(mBean.getOpenInterest());
                             } else {
                                 //不存在自选 img 显示添加
                                 if (!"1".equals(mBean.getIcAdd())) {
