@@ -61,10 +61,7 @@ import static com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils.comp
  */
 
 public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter> implements ConsultDetailsContract.View {
-
     private static final String KEY_MESSAGE_ITEM = "KEY_MESSAGE_ITEM";
-
-
     WebView mContentWv;
     ImageView mImageHead;
     ImageView mSupportIv;
@@ -78,7 +75,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     LinearLayout mLinearPraise;
     LinearLayout mLlAgree;
     LinearLayout mLlPics;
-
     @BindView(R.id.pullTo_refresh_view)
     SmartRefreshLayout mRefreshView;
     @BindView(R.id.list_view)
@@ -93,7 +89,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private int mPosition;
     private TopicAdapter mTopicAdapter;
     private boolean isRefrsh;
-
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
         intent.putExtra(KEY_MESSAGE_ITEM,item);
@@ -182,7 +177,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             mTvPosition.setText(item.userRole);
             commentNum = item.commentNum;
             mTvComment.setText(commentNum+ "条评论");
-            pinglun_num.setText("("+commentNum+ ")");
+            pinglun_num.setText(""+commentNum);
             praiseCounts = item.praiseCounts;
             mTvSupportNum.setText(praiseCounts+"人点赞");
             if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
@@ -191,9 +186,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             informationId = item.informationId;
             mPresenter.getMessageData(informationId);
             if (item.isPraise>0){
-                mSupportIv.setImageResource(R.mipmap.icon_support_click);
-            }else {
                 mSupportIv.setImageResource(R.mipmap.icon_support_normal);
+            }else {
+                mSupportIv.setImageResource(R.mipmap.icon_support_click);
             }
         }
         mSupportIv.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +379,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     public void praiseSuccess(List<String> praiseUserList) {
         ToastUtil.show("点赞成功");
         ++praiseCounts;
-        mSupportIv.setImageResource(R.mipmap.icon_support_click);
+        mSupportIv.setImageResource(R.mipmap.icon_support_normal);
         ClickPraiseEvent clickPraiseEvent = new ClickPraiseEvent();
         clickPraiseEvent.position = mPosition;
         EventBus.getDefault().post(clickPraiseEvent);
@@ -396,7 +391,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     public void commentSuccess() {
         ++commentNum;
         mTvComment.setText(commentNum+ "条评论");
-        pinglun_num.setText("("+commentNum+ ")");
+        pinglun_num.setText(commentNum+ "");
         CommentEvent clickPraiseEvent = new CommentEvent();
         clickPraiseEvent.position = mPosition;
         EventBus.getDefault().post(clickPraiseEvent);

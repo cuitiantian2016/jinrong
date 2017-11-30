@@ -22,108 +22,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dimen_15dp"
+                android:paddingRight="12dp"
                 android:orientation="horizontal">
 
                 <com.honglu.future.widget.CircleImageView
                     android:id="@+id/header_img"
-                    android:layout_width="@dimen/dimen_36dp"
-                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_width="@dimen/dimen_25dp"
+                    android:layout_height="@dimen/dimen_25dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:layout_marginRight="@dimen/dimen_10dp"
+                    android:layout_marginRight="@dimen/dimen_8dp"
                     android:src="@mipmap/iv_no_image" />
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                <LinearLayout
-                    android:id="@+id/ll_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:layout_marginLeft="@dimen/dimen_8dp"
+                    android:layout_gravity="center_vertical"
                     android:text="小牛9115"
                     android:textColor="#979899"
-                    android:textSize="@dimen/dimen_16sp" />
-
-
+                    android:textSize="@dimen/dimen_13sp" />
                 <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/announce_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dimen_3dp"
-                    android:paddingRight="@dimen/dimen_3dp"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@color/title_blue"
-                    android:textSize="@dimen/dimen_12sp"
-                    android:visibility="visible"
-                    tools:text="分析师" />
-                    <ImageView
-                        android:id="@+id/img_upstairs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dimen_4dp"
-                        android:layout_toRightOf="@+id/status"
-                        android:src="@mipmap/bbs_detail_upstairs"
-                        android:visibility="gone" />
-                </LinearLayout>
-                    <TextView
-                        android:id="@+id/announce_time"
-                        android:layout_below="@+id/ll_title"
-                        android:layout_width="@dimen/dimen_36dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/dimen_12sp"
-                        tools:text="12-26" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
-
-                    <LinearLayout
-                        android:id="@+id/support_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/dimen_10dp"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/iv_heart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_support_done" />
-
-                        <TextView
-                            android:id="@+id/support"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dimen_2dp"
-                            android:textColor="@color/color_878787"
-                            android:textSize="@dimen/dimen_12sp"
-                            tools:text="0" />
-                    </LinearLayout>
-                </RelativeLayout>
-
+                    android:textColor="#CACBCC"
+                    android:textSize="@dimen/dimen_11sp"
+                    tools:text="13:45" />
             </LinearLayout>
-
-
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_6dp"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="@dimen/dimen_36dp"
                 android:layout_height="wrap_content"
@@ -136,7 +72,6 @@
                 android:textColor="@color/grey"
                 android:textSize="@dimen/dimen_12sp"
                 tools:text="12-26" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,12 +82,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dimen_10dp"
                     android:paddingBottom="@dimen/dimen_12dp"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/dimen_14sp"
+                    android:textColor="#151515"
+                    android:textSize="@dimen/dimen_15sp"
                     tools:text="周二(8月2日)早盘现货白银开美元/盎司开盘后银价小幅下跌，但在跌破20.40美元后行情跌势停止之后开始止跌反弹。" />
-
-                <!--<View style="@style/SeparatorLine.Horizontal" />-->
-
                 <View
                     android:id="@+id/viewLine"
                     android:layout_width="match_parent"

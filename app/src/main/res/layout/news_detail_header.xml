@@ -32,15 +32,16 @@
             layout="@layout/layout_consult_details_publish_man"/>
         <View
             style="@style/line_base_horizontal"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
             android:background="#FFE6E6E6" />
         <WebView
             android:id="@+id/webView_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"/>
+            android:layout_marginLeft="@dimen/dimen_7dp"
+            android:layout_marginRight="@dimen/dimen_7dp"/>
         <LinearLayout
             android:id="@+id/pics_linear"
             android:layout_width="match_parent"
@@ -51,20 +52,18 @@
             android:layout_marginRight="@dimen/dimen_20dp"/>
         <ImageView
             android:id="@+id/support_iv"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimen_30dp"
-            android:src="@mipmap/icon_support_click"
-            android:paddingLeft="@dimen/dimen_12dp"
-            android:paddingRight="@dimen/dimen_12dp"/>
+            android:src="@mipmap/icon_support_click"/>
 
         <TextView
             android:id="@+id/tv_support"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimen_3dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
             android:textColor="#B1B1B3"
             android:text="11人点赞"
             android:textSize="@dimen/dimen_14sp" />
@@ -92,24 +91,24 @@
         android:background="#F8F8F9"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/dimen_8dp"
-        android:paddingLeft="@dimen/dimen_12dp"
-        android:paddingRight="@dimen/dimen_12dp"
-        android:paddingTop="@dimen/dimen_8dp">
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dimen_12dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部评论"
             android:textSize="@dimen/dimen_15sp"
+            android:textStyle="bold"
             android:textColor="@color/color_333333" />
         <TextView
             android:id="@+id/pinglun_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_15sp"
+            android:textStyle="bold"
             android:textColor="@color/color_333333"
             tools:text="(290)" />
     </LinearLayout>

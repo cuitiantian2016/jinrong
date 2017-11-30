@@ -79,22 +79,16 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
     }
 
     class ViewHolder {
-        LinearLayout support_iv;
         CircleImageView userIv;
         TextView userNameTv;
         TextView announceTimeTv;
         TextView contentTv;
-        TextView status;
-        ImageView img_upstairs;
 
         public ViewHolder(View convertView) {
-            support_iv = (LinearLayout) convertView.findViewById(R.id.support_iv);
             userIv = (CircleImageView) convertView.findViewById(R.id.header_img);
             userNameTv = (TextView) convertView.findViewById(R.id.user_name);
             announceTimeTv = (TextView) convertView.findViewById(R.id.announce_time);
             contentTv = (TextView) convertView.findViewById(R.id.content);
-            status = (TextView) convertView.findViewById(R.id.status);
-            img_upstairs = (ImageView) convertView.findViewById(R.id.img_upstairs);
         }
 
         public void bindView(final InformationCommentBean item, final View convertView, int position) {
@@ -106,20 +100,6 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
             } else {
                 ViewHelper.safelySetText(contentTv, item.getCommentContent());
             }
-            if (convertView != null && nickName != null) {
-                if (item.getNickname().equals(nickName)){
-                    img_upstairs.setVisibility(View.VISIBLE);
-                }else{
-                    img_upstairs.setVisibility(View.GONE);
-                }
-            }
-            if (!TextUtils.isEmpty(item.getUserRole())) {
-                ViewHelper.safelySetText(status, item.getUserRole());
-            } else {
-                ViewHelper.safelySetText(status, "");
-            }
-            support_iv.setVisibility(View.GONE);
-
             //头像点击
             userIv.setOnClickListener(new View.OnClickListener() {
                 @Override
