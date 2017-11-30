@@ -3,16 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="@bool/fitsSystemWindows"
     android:background="@color/color_white"
     android:orientation="vertical">
 
     <include layout="@layout/login_title" />
-
+    <ScrollView
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:fitsSystemWindows="@bool/fitsSystemWindows"
+        android:orientation="vertical">
     <LinearLayout
+        android:id="@+id/register_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_36dp"
-        android:layout_marginRight="@dimen/dimen_36dp"
+
         android:layout_marginTop="68dp"
         android:orientation="vertical">
 
@@ -20,6 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -47,12 +57,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
             android:layout_marginTop="@dimen/dimen_12dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:background="@color/global_grey_divider_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -97,12 +111,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
             android:layout_marginTop="@dimen/dimen_12dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:background="@color/global_grey_divider_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="33dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -116,6 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_15dp"
+
                 android:layout_weight="0.6"
                 android:background="@null"
                 android:hint="6-12位登录密码"
@@ -132,6 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
             android:layout_marginTop="@dimen/dimen_12dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:background="@color/global_grey_divider_color" />
 
         <TextView
@@ -141,6 +162,8 @@
             android:layout_marginTop="@dimen/dimen_30dp"
             android:background="@drawable/btn_user_recharge_bg"
             android:gravity="center"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
             android:text="注册"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_18sp" />
@@ -169,4 +192,5 @@
 
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

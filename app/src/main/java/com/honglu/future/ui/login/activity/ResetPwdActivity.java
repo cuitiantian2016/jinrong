@@ -1,9 +1,12 @@
 package com.honglu.future.ui.login.activity;
 
+import android.graphics.Rect;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -43,6 +46,8 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
     EditText mPwd;
     @BindView(R.id.btn_sendCode)
     CountDownTextView mSendCodeView;
+    @BindView(R.id.reset_content)
+    LinearLayout mResetView;
 
     @Override
     public void showLoading(String content) {
@@ -77,6 +82,56 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
         mClose.setVisibility(View.GONE);
         mBack.setVisibility(View.VISIBLE);
         mTvLogin.setVisibility(View.GONE);
+        controlKeyboardLayout(findViewById(R.id.rootView));
+    }
+
+    /**
+     * @param root 最外层布局，需要调整的布局
+     * 输入框，滚动root,使输入框在root可视区域的底部
+     */
+    private void controlKeyboardLayout(final View root) {
+        if (root == null)
+            return;
+        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (mResetView == null)
+                    return;
+
+                Rect rect = new Rect();
+                //获取root在窗体的可视区域
+                root.getWindowVisibleDisplayFrame(rect);
+                //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)
+                int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+                //若不可视区域高度大于100，则键盘显示
+                if (rootInvisibleHeight > 100) {
+                    int[] location = new int[2];
+//                    int[] focuseLocation = new int[2];
+//                    获取scrollToView在窗体的坐标
+//                    focuseInputView.getLocationInWindow(focuseLocation);
+
+                    mResetView.getLocationInWindow(location);
+
+//                    int minH = (int)((double)getWindowManager().getDefaultDisplay().getHeight() * (1D/2D));
+//                    if (focuseLocation[1] < minH)
+//                        return;
+                    //计算root滚动高度，使scrollToView在可见区域
+//                    int srollHeight = (location[1] + focuseInputView.getHeight()) - rect.bottom;
+                    final int srollHeight = mResetView.getHeight() + location[1];
+                    root.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            root.scrollTo(0, srollHeight);
+                        }
+                    }, 50);
+
+//                    root.scrollTo(0, 1483);
+                } else {
+                    //键盘隐藏
+                    root.scrollTo(0, 0);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_reset_pwd, R.id.iv_back, R.id.btn_sendCode})
