@@ -269,13 +269,14 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
             //平仓手续费
             double closeTradePrice = getCloseTradePrice(mPrice, mPcNum, mBean);
-            if (closeTradePrice > 0){
-                mHolder.mSxprice.setText(String.format(mContext.getString(R.string.z_yuan),String.valueOf(closeTradePrice)));
-            }else if (closeTradePrice < 0){
-                mHolder.mSxprice.setText(String.valueOf(closeTradePrice).replace("-",mContext.getString(R.string.f_yuan)));
-            }else {
-                mHolder.mSxprice.setText(String.format(mContext.getString(R.string.yuan),String.valueOf(closeTradePrice)));
-            }
+            mHolder.mSxprice.setText(String.format(mContext.getString(R.string.yuan),String.valueOf(closeTradePrice)));
+//            if (closeTradePrice > 0){
+//
+//            }else if (closeTradePrice < 0){
+//                mHolder.mSxprice.setText(String.valueOf(closeTradePrice).replace("-",mContext.getString(R.string.f_yuan)));
+//            }else {
+//                mHolder.mSxprice.setText(String.format(mContext.getString(R.string.yuan),String.valueOf(closeTradePrice)));
+//            }
 
             //平仓盈亏
             mDialog.setPingcangSatte(mBean.getType(), getCloseProfitLoss(mPrice, mPcNum, mBean));
@@ -401,11 +402,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
                 @Override
                 public void onCancel() {
-                    double  mExPrice = getDoubleText(mHolder.mEtPrice);
-                    double mCompletePrice = mExPrice < mLowerLimitPrice ? mLowerLimitPrice : (mExPrice > mUpperLimitPrice ? mUpperLimitPrice : 0);
-                    if (mCompletePrice != 0){
-                        mHolder.mEtPrice.setText(mLastPrice);
-                    }
+                    mHolder.mEtPrice.setText(mLastPrice);
                     setKeyboardComplete(false);
                 }
             });

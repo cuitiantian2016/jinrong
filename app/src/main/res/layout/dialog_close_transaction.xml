@@ -8,15 +8,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/amount_white_top_radius_bg"
+        android:background="@drawable/top_left_right_radius_white"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dimen_10dp"
+                android:textStyle="bold"
                 android:drawableRight="@mipmap/ic_trade_tip"
                 android:text="------"
                 android:textColor="@color/color_333333"
@@ -38,15 +39,17 @@
         </RelativeLayout>
 
         <View
-            style="@style/line_base_horizontal"
-            android:layout_marginTop="@dimen/dimen_17dp" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED"
+            android:layout_marginTop="@dimen/dimen_16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -54,6 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@color/color_A4A5A6"
                 android:text="买张-手"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -64,28 +69,30 @@
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_chicang_average_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_8dp"
                 android:text="---"
-                android:textColor="@color/color_151515"
+                android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
         </LinearLayout>
 
         <View
-            style="@style/line_base_horizontal"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -108,16 +115,22 @@
 
             <com.honglu.future.widget.KeyBoardEditText
                 android:id="@+id/et_price"
-                android:layout_width="@dimen/dimen_70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dimen_2dp"
-                android:paddingBottom="@dimen/dimen_2dp"
-                android:background="@drawable/gray_radius_bg"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:minWidth="@dimen/dimen_70dp"
                 android:gravity="center_horizontal"
+                android:background="@drawable/bg_input_edit"
                 android:digits="0123456789."
-                android:maxLength="7"
+                android:paddingBottom="@dimen/dimen_4dp"
+                android:paddingLeft="@dimen/dimen_10dp"
+                android:paddingRight="@dimen/dimen_10dp"
+                android:paddingTop="@dimen/dimen_4dp"
+                android:maxLength="10"
                 android:text="0"
-                android:textColor="@color/color_333333" />
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
 
             <ImageView
                 android:id="@+id/iv_price_add"
@@ -134,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_12dp"
             android:text="≥--- 跌停价 且 ≤--- 涨停价"
             android:textColor="@color/color_A4A5A6"
@@ -143,9 +156,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -169,17 +182,21 @@
 
             <EditText
                 android:id="@+id/et_size"
-                android:layout_width="@dimen/dimen_70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:minWidth="@dimen/dimen_70dp"
                 android:gravity="center_horizontal"
-                android:paddingTop="@dimen/dimen_2dp"
-                android:paddingBottom="@dimen/dimen_2dp"
-                android:background="@drawable/gray_radius_bg"
+                android:background="@drawable/bg_input_edit"
                 android:inputType="number"
-                android:enabled="false"
-                android:maxLength="7"
-                android:text=""
-                android:textColor="@color/color_333333" />
+                android:paddingBottom="@dimen/dimen_4dp"
+                android:paddingLeft="@dimen/dimen_10dp"
+                android:paddingRight="@dimen/dimen_10dp"
+                android:paddingTop="@dimen/dimen_4dp"
+                android:text="0"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp" />
 
             <ImageView
                 android:id="@+id/iv_size_add"
@@ -192,17 +209,19 @@
         </LinearLayout>
 
         <View
-            style="@style/line_base_horizontal"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -214,7 +233,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_close_transaction_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -224,17 +243,19 @@
         </LinearLayout>
 
         <View
-            style="@style/line_base_horizontal"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -246,7 +267,7 @@
                 android:textSize="@dimen/dimen_16sp" />
 
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_cankao_profit_loss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -257,40 +278,45 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_20dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/dimen_60dp"
+                android:background="@color/color_F7F8F9"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="平仓盈亏"
                     android:textColor="@color/color_A4A5A6"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:textSize="@dimen/dimen_12sp" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_profit_loss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="---"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_24sp" />
 
                 <TextView
                     android:id="@+id/tv_fast_close_transaction"
-                    android:layout_width="@dimen/dimen_150dp"
-                    android:layout_height="@dimen/dimen_70dp"
-                    android:background="@color/color_FB4F4F"
-                    android:gravity="center"
-                    android:text="快速平仓"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:paddingLeft="@dimen/dimen_30dp"
+                    android:paddingRight="@dimen/dimen_30dp"
+                    android:gravity="center_vertical"
                     android:textColor="@color/color_white"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:text="休市中"/>
             </LinearLayout>
 
             <android.inputmethodservice.KeyboardView
