@@ -1,6 +1,7 @@
 package com.honglu.future.ui.trade.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,15 +41,20 @@ public class ClosePositionAdapter extends BaseRecyclerAdapter<ClosePositionAdapt
         holder.mTvAveragePrice.setText(item.holdAvgPrice);
         holder.mTvNewPrice.setText(item.closePrice);
 
-        if (Double.parseDouble(item.closeProfitLoss) > 0) {
-            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            holder.mTvProfitLoss.setText("+" + item.closeProfitLoss);
-        } else if (Double.parseDouble(item.closeProfitLoss) < 0) {
-            holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            holder.mTvProfitLoss.setText(item.closeProfitLoss);
-        } else {
+        if (TextUtils.isEmpty(item.closeProfitLoss)) {
             holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            holder.mTvProfitLoss.setText(item.closeProfitLoss);
+            holder.mTvProfitLoss.setText("--");
+        } else {
+            if (Double.parseDouble(item.closeProfitLoss) > 0) {
+                holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                holder.mTvProfitLoss.setText("+" + item.closeProfitLoss);
+            } else if (Double.parseDouble(item.closeProfitLoss) < 0) {
+                holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTvProfitLoss.setText(item.closeProfitLoss);
+            } else {
+                holder.mTvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTvProfitLoss.setText(item.closeProfitLoss);
+            }
         }
 
         holder.llItem.setOnClickListener(new View.OnClickListener() {
