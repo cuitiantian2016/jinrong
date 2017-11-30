@@ -82,7 +82,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @BindView(R.id.reply_edit)
     EditText mInputEdit;
     @BindView(R.id.btn_publish)
-    ImageView mPublishBtn;
+    TextView mPublishBtn;
     private String informationId;
     private int praiseCounts;
     private int commentNum;

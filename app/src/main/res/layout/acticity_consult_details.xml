@@ -38,10 +38,9 @@
         android:gravity="center_vertical"
         android:paddingBottom="@dimen/dimen_6dp"
         android:paddingLeft="@dimen/dimen_12dp"
-        android:paddingRight="@dimen/dimen_12dp"
+        android:paddingRight="@dimen/dimen_15dp"
         android:paddingTop="@dimen/dimen_6dp">
         <ImageView
-            android:id="@+id/btn_publish"
             android:padding="@dimen/dimen_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,9 +67,15 @@
             android:textColor="#323232"
             android:textColorHint="#008EFF"
             android:textSize="@dimen/dimen_15sp" />
-
-
-
+        <TextView
+            android:id="@+id/btn_publish"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:background="@drawable/btn_user_recharge_bg"
+            android:textSize="@dimen/dimen_15sp"
+            android:text="发表"/>
     </LinearLayout>
 
     <View
