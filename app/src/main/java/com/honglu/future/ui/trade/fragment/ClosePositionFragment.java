@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -53,7 +55,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 
-public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View,BillConfirmDialog.OnConfirmClickListener {
+public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> implements ClosePositionContract.View, AccountContract.View, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_position)
     RecyclerView mPositionListView;
     @BindView(R.id.loading_layout)
@@ -112,7 +114,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     private void initView() {
         mPositionListView.setLayoutManager(new LinearLayoutManager(mContext));
         mPositionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        View headView = View.inflate(getActivity(),R.layout.layout_close_position_head,null);
+        View headView = View.inflate(getActivity(), R.layout.layout_close_position_head, null);
         TextView mTip = (TextView) headView.findViewById(R.id.tv_tip);
         View mColorLine = headView.findViewById(R.id.v_colorLine);
         mColorLine.setVisibility(View.INVISIBLE);
@@ -123,7 +125,9 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         foot.findViewById(R.id.ll_see_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(TradeRecordActivity.class);
+                Intent intent = new Intent(mContext, TradeRecordActivity.class);
+                intent.putExtra("tabIndex",1);//交易记录第二个tab
+                startActivity(intent);
             }
         });
         mClosePositionAdapter.addFooterView(foot, DeviceUtils.dip2px(getContext(), 50));
@@ -191,12 +195,12 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
         mPresenter.getCloseList(getStartTime(), mEndDate, SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), page, pageSize);
     }
 
-    private String getStartTime(){
+    private String getStartTime() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         //过去七天
         c.setTime(new Date());
-        c.add(Calendar.DATE, - 7);
+        c.add(Calendar.DATE, -7);
         Date d = c.getTime();
         return format.format(d);
     }
@@ -204,7 +208,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }
         mAccountLoginDialog.dismiss();
@@ -213,7 +217,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
 
     @Override
     public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog = new BillConfirmDialog(mContext, bean);
         billConfirmDialog.setOnConfirmClickListenerr(this);
         billConfirmDialog.show();
     }

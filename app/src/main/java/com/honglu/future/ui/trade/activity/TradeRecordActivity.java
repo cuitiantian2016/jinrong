@@ -79,6 +79,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     int pageClose = 1;
     int pageMiss = 1;
     int pageSize = 5;
+    private int tabIndex = 0;
 
     private Handler mHandler = new Handler();
 
@@ -95,6 +96,8 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
 
     @Override
     public void loadData() {
+        tabIndex = getIntent().getIntExtra("tabIndex",0);
+
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "交易记录");
         mDateDialog = new DateDialog(TradeRecordActivity.this);
@@ -166,6 +169,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         startTime = getStartTime();
         tvStartTime.setText(startTime);
         tvEndTime.setText(endTime);
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -195,6 +199,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         tvTwo.setVisibility(View.INVISIBLE);
         tvThr.setVisibility(View.INVISIBLE);
         tvFour.setText("建仓价");
+        if(tabIndex == 1){
+            clickId = R.id.tab_ccLayout;
+            tabCcLayout.performClick();
+        }
     }
 
     private void loadMore() {

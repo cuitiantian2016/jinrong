@@ -71,6 +71,7 @@ public class ModifyNicknameActivity extends BaseActivity<ModifyNicknamePresenter
         mTitle.setTitle(false, R.color.white, "修改昵称");
         if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_USERNAME))) {
             mNickName.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            mNickName.setSelection(mNickName.getText().toString().length());
         }
     }
 
