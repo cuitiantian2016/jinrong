@@ -25,7 +25,7 @@ public class Constant {
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
     public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号
 
-    public static final String CUSTOMER_PHONE = "4001150707";//客服电话
+    public static final String CUSTOMER_PHONE = "4009610211";//客服电话
     public static final String COMPANY_CODE = "GUOFU";//公司代码
 
     public static final String CACHE_TAG_COUNT_DOWN = "showCountDown";    //显示倒计时页面
