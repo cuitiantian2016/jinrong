@@ -35,7 +35,7 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
     }
 
     @Override
-    public void mOnBindViewHolder(EntrustAdapter.ViewHolder holder, int position) {
+    public void mOnBindViewHolder(EntrustAdapter.ViewHolder holder, final int position) {
         holder.mTvProductName.setText(item.getInstrumentName());
         if (item.getType() == 1) {
             holder.mTvBuyHands.setText("买跌" + item.getPosition() + "手");
@@ -60,7 +60,7 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
         holder.mTvChedan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onCancelClick(item);
+                mListener.onCancelClick(getData().get(position));
             }
         });
     }

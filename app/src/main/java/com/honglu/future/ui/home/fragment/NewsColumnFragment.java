@@ -1,22 +1,16 @@
 package com.honglu.future.ui.home.fragment;
 
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
-import com.honglu.future.events.BaseEvent;
 import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.CommentEvent;
-import com.honglu.future.events.EventController;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
-import com.honglu.future.events.LoginEvent;
-import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.mpush.MPush;
 import com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.util.SpUtil;

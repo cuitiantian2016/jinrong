@@ -313,7 +313,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         }
         mAllList = list;
         mLoadingLayout.setStatus(LoadingLayout.Success);
-        mEntrustAdapter.clearData();
+        mEntrustAdapter.getData().clear();
         mEntrustAdapter.addData(list);
     }
 

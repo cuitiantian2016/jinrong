@@ -48,7 +48,7 @@ public class EntrustPresenter extends BasePresenter<EntrustContract.View> implem
             }
 
             @Override
-            public void onNext(Object o) {
+            public void _onNext(Object o) {
                 mView.cancelOrderSuccess();
             }
 
