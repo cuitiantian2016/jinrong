@@ -13,8 +13,9 @@
         android:layout_marginTop="@dimen/dimen_15dp"
         android:gravity="center"
         android:text="温馨提示"
+        android:textStyle="bold"
         android:textColor="@color/color_3C383F"
-        android:textSize="16sp" />
+        android:textSize="@dimen/dimen_18sp" />
 
     <TextView
         android:id="@+id/tv_content"
@@ -28,7 +29,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="@dimen/dimen_5dp"
-        android:text="招商银行：622 **** **** 2234"
+        android:text="----：--- **** **** ---"
         android:textColor="#A4A5A6"
         android:textSize="12sp" />
 
@@ -62,7 +63,11 @@
         android:hint="请输入银行卡密码"
         android:textColor="@color/color_333333"
         android:textSize="20sp" />
-    <View style="@style/line_base_horizontal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_EDEDED"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,7 +90,9 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/global_line_color" />
+            android:background="@color/color_EDEDED"
+            android:layout_marginTop="7.5dp"
+            android:layout_marginBottom="7.5dp"/>
 
         <TextView
             android:id="@+id/tv_accomplish"

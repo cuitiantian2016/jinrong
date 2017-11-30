@@ -162,6 +162,8 @@
     <string name="close_trade">休市中</string>
     <string name="yuan">￥%s</string>
     <string name="close_transaction_num_dayu0">手数必须大于0</string>
+    <string name="buy_rise">买涨%s</string>
+    <string name="buy_down">买跌%s</string>
 
     <string name="conform_call_phone">确定拨打: %s ?</string>
     <string name="close_trade_hint">%1$s %2$s %3$d手 平仓盈亏 %4$s元</string>

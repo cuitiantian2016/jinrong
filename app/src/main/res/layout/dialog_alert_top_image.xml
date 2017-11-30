@@ -25,7 +25,10 @@
         android:textColor="@color/color_333333"
         android:textSize="20sp" />
 
-    <View style="@style/line_base_horizontal" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_EDEDED"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +51,9 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/global_line_color" />
+            android:background="@color/color_EDEDED"
+            android:layout_marginTop="7.5dp"
+            android:layout_marginBottom="7.5dp"/>
 
         <TextView
             android:id="@+id/tv_accomplish"

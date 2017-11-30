@@ -22,6 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="建仓"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_20sp" />
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
             android:layout_marginTop="@dimen/dimen_6dp"
-            android:background="@color/color_E6E6E6" />
+            android:background="@color/color_EDEDED" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +69,8 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="玉米1081"
+                android:text="----"
+                android:textStyle="bold"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_18sp" />
 
@@ -111,7 +113,7 @@
                 android:background="@drawable/bg_buy_rise"
                 android:layout_marginRight="7.5dp"
                 android:gravity="center"
-                android:text="买涨1678"
+                android:text="---"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -123,7 +125,7 @@
                 android:layout_marginLeft="7.5dp"
                 android:background="@drawable/bg_buy_down"
                 android:gravity="center"
-                android:text="买跌1677"
+                android:text="----"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -208,13 +210,13 @@
                         android:padding="@dimen/dimen_10dp"
                         android:src="@mipmap/ic_del" />
 
-                    <EditText
+                    <com.honglu.future.widget.DinEditText
                         android:id="@+id/amountView"
                         android:layout_width="@dimen/dimen_100dp"
                         android:layout_height="@dimen/dimen_32dp"
                         android:layout_marginLeft="@dimen/dimen_10dp"
                         android:layout_marginRight="@dimen/dimen_10dp"
-                        android:background="@drawable/t_add_input"
+                        android:background="@drawable/bg_input_edit"
                         android:gravity="center"
                         android:maxLength="10"
                         android:inputType="numberDecimal"
@@ -249,10 +251,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_10dp"
-            android:background="@color/color_E6E6E6" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -285,13 +287,13 @@
                     android:padding="@dimen/dimen_10dp"
                     android:src="@mipmap/ic_del" />
 
-                <EditText
+                <com.honglu.future.widget.DinEditText
                     android:id="@+id/av_hands"
                     android:layout_width="@dimen/dimen_100dp"
                     android:layout_height="@dimen/dimen_32dp"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:layout_marginRight="@dimen/dimen_10dp"
-                    android:background="@drawable/t_add_input"
+                    android:background="@drawable/bg_input_edit"
                     android:gravity="center"
                     android:inputType="number"
                     android:selectAllOnFocus="false"
@@ -313,10 +315,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_15dp"
-            android:background="@color/color_E6E6E6" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -334,7 +336,7 @@
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_use_able_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -368,10 +370,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
-            android:background="@color/color_E6E6E6" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -389,13 +391,13 @@
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_margin_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="¥2509.5"
+                android:text="---"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16dp" />
 
@@ -404,10 +406,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_18dp"
-            android:background="@color/color_E6E6E6" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -425,13 +427,13 @@
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_16sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_sxf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="¥6.69"
+                android:text="---"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16dp" />
 
@@ -460,13 +462,13 @@
                     android:textColor="@color/color_A4A5A6"
                     android:textSize="@dimen/dimen_12sp" />
 
-                <TextView
+                <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_gravity="center"
-                    android:text="¥2516.19"
+                    android:text="-----"
                     android:textColor="@color/color_151515"
                     android:textSize="@dimen/dimen_24sp"
                     android:textStyle="bold" />
