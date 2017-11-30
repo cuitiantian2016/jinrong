@@ -23,6 +23,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.ConfirmDialog;
+import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
@@ -124,6 +125,14 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+
+        mName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_close_position_tip);
+                tipDialog.show();
             }
         });
 
