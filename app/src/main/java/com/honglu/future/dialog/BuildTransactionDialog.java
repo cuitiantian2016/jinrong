@@ -136,10 +136,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
         mTvRise = (TextView) findViewById(R.id.tv_rise);
-        mTvRise.setText(mProductListBean.getAskPrice1());
+        mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),mProductListBean.getAskPrice1()));
         mTvRise.setOnClickListener(this);
         mTvDown = (TextView) findViewById(R.id.tv_down);
-        mTvDown.setText(mProductListBean.getBidPrice1());
+        mTvDown.setText(String.format(mContext.getString(R.string.buy_down),mProductListBean.getBidPrice1()));
         mTvDown.setOnClickListener(this);
         text_create_tips = (TextView) findViewById(R.id.text_create_tips);
 //        TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
@@ -449,7 +449,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     }
                 }
 
-                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString())
+                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
+                        ,R.color.color_A4A5A6, R.dimen.dimen_14sp)
                         .setRightBtnText("确定")
                         .setLeftBtnText("取消")
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
