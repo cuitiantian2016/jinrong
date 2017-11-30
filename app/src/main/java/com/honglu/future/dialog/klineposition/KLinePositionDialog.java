@@ -290,13 +290,13 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
         if (mProfitLoss > 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            mYkprice.setText(String.format(mContext.getString(R.string.z_yuan),mProfitLoss));
+            mYkprice.setText(String.format(mContext.getString(R.string.z_yuan),String.valueOf(mProfitLoss)));
         } else if (mProfitLoss < 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
             mYkprice.setText(String.valueOf(mProfitLoss).replace("-",mContext.getString(R.string.f_yuan)));
         } else {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            mYkprice.setText(String.format(mContext.getString(R.string.yuan),mProfitLoss));
+            mYkprice.setText(String.format(mContext.getString(R.string.yuan),String.valueOf(mProfitLoss)));
         }
     }
 
