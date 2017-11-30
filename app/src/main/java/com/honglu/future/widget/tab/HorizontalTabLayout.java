@@ -132,6 +132,7 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     private float mLeftMargin;
     private float mWindMargin;
     private float mTextWidth;
+    private boolean mWidhtnull;
 
 
     private boolean mViewDelay;
@@ -237,6 +238,7 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
         mWindMargin = ta.getDimension(R.styleable.CommonTabLayout_tl_windMargin,0.0f);
         mViewDelay = ta.getBoolean(R.styleable.CommonTabLayout_tl_view_delay,false);
         mTextWidth = TextViewUtil.getTextWidth(mTextsize,"测");
+        mWidhtnull = ta.getBoolean(R.styleable.CommonTabLayout_tl_view_widhtnull,false);
         ta.recycle();
     }
 
@@ -631,7 +633,9 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
     public void setCurrentTab(final int currentTab) {
         mLastTab = this.mCurrentTab;
         this.mCurrentTab = currentTab;
-        this.mIndicatorWidth = mTabEntitys.get(currentTab).getTabTitle().length() * mTextWidth;
+        if (mWidhtnull){
+            this.mIndicatorWidth = mTabEntitys.get(currentTab).getTabTitle().length() * mTextWidth;
+        }
         updateTabSelection(currentTab);
         if (mIndicatorAnimEnable) {
             calcOffset();

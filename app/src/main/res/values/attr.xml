@@ -215,6 +215,7 @@
         <attr name="tl_leftMargin" format="dimension"/>
         <attr name="tl_windMargin" format="dimension"/>
         <attr name="tl_view_delay" format="boolean"/>
+        <attr name="tl_view_widhtnull" format="boolean"/>
 
     </declare-styleable>
     <declare-styleable name="MsgView">
