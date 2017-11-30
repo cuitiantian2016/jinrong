@@ -185,6 +185,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                 stopRun();
             } else {
                 startRun();
+                mPresenter.getProductList();
             }
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
