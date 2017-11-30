@@ -2,13 +2,12 @@ package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -38,10 +37,10 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
+import com.honglu.future.util.ProductViewHole4TradeContent;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ViewUtil;
-import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -53,6 +52,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,7 +66,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
 public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresenter> implements OpenTransactionContract.View,
         AccountContract.View, OpenTransactionAdapter.OnRiseDownClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.rv_open_transaction_list_view)
-    RecyclerView mOpenTransactionListView;
+    ListView mOpenTransactionListView;
     @BindView(R.id.srl_refreshView)
     SmartRefreshLayout mSmartRefreshLayout;
     private LinearLayout mTradeHeader;
@@ -81,6 +81,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     private boolean mIsOneGuide; //是否开启交易引导
     private BillConfirmDialog billConfirmDialog;
     private NumberFormat nf;
+    private List<ProductListBean> mProductList;
+    private ProductViewHole4TradeContent productViewHole4TradeContent;
 
     @Override
     public void loginSuccess(AccountBean bean) {
@@ -148,7 +150,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (MPushUtil.CODES_TRADE_HOME == null || !MPushUtil.CODES_TRADE_HOME.equals(MPushUtil.requestCodes) || isHidden()) {
             return;
         }
-        List<ProductListBean> data = mOpenTransactionAdapter.getData();
+        List<ProductListBean> data = mProductList;
         int index = -1;
         RequestMarketMessage marketMessage = event.marketMessage;
         for (int i = 0; i < data.size(); i++) {
@@ -164,7 +166,24 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
             productListBean.setBidPrice1(marketMessage.getBidPrice1());
             productListBean.setTradeVolume(marketMessage.getVolume());
             data.set(index, productListBean);
-            mOpenTransactionAdapter.notifyDataSetChanged();
+            int visiblePosition = mOpenTransactionListView.getFirstVisiblePosition();
+//                Log.e(TAG,optional.getName()+"=====");
+            int visibleLastPosition = mOpenTransactionListView.getLastVisiblePosition();
+
+            //只有当要更新的view在可见的位置时才更新，不可见时，跳过不更新
+            int itemIndex = mOpenTransactionAdapter.getProductIndex(marketMessage.getInstrumentID()) + mOpenTransactionListView.getHeaderViewsCount();
+            if (itemIndex - visiblePosition >= 0 && itemIndex < visibleLastPosition + mOpenTransactionListView.getHeaderViewsCount()) {
+                //得到要更新的item的view
+                View view = mOpenTransactionListView.getChildAt(itemIndex - visiblePosition);
+//                    //调用adapter更新界面
+//                    dateAdapter.updateView(view, itemIndex);
+                TextView tv_buyup_rate = (TextView) view.findViewById(R.id.tv_rise);
+                TextView tv_buydown_rate = (TextView) view.findViewById(R.id.tv_down);
+                TextView tv_vol = (TextView) view.findViewById(R.id.tv_num);
+                tv_buyup_rate.setText(marketMessage.getAskPrice1());
+                tv_buydown_rate.setText(marketMessage.getBidPrice1());
+                tv_vol.setText(marketMessage.getVolume());
+            }
         }
 
         if (mBuildTransactionDialog != null
@@ -209,9 +228,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void finishRefreshView() {
-      if (mSmartRefreshLayout !=null && mSmartRefreshLayout.isRefreshing()){
-          mSmartRefreshLayout.finishRefresh();
-      }
+        if (mSmartRefreshLayout != null && mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
     }
 
     @Override
@@ -219,16 +238,44 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if (bean == null || bean.size() <= 0) {
             return;
         }
+        mProductList = bean;
 
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }
-        mOpenTransactionAdapter.clearData();
-        mOpenTransactionAdapter.addData(bean);
+        if (mOpenTransactionAdapter.getProductViewHole4TradeContent() == null) {
+            productViewHole4TradeContent = new ProductViewHole4TradeContent(mContext, getProductsCodes());
+            mOpenTransactionAdapter.setProductViewHole4TradeContent(productViewHole4TradeContent);
+        }
+        mOpenTransactionAdapter.setItems(bean);
         if (!mIsOneGuide) {
             mIsOneGuide = true;
             new TradeGuideDialog(getActivity()).show();
         }
+    }
+
+    String productCodes = "";
+
+    private String getProductsCodes() {
+        if (!TextUtils.isEmpty(productCodes)) {
+            return productCodes;
+        }
+//        List<ProductObj> objects = dateAdapter.getItems();
+        if (mProductList == null) {
+            return productCodes;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (ProductListBean productObj : mProductList) {
+            stringBuffer.append(productObj.getExcode());
+            stringBuffer.append("|");
+            stringBuffer.append(productObj.getInstrumentId());
+            stringBuffer.append(",");
+        }
+        String temp = stringBuffer.toString();
+        if (!TextUtils.isEmpty(temp)) {
+            productCodes = temp.substring(0, temp.length() - 1);
+        }
+        return productCodes;
     }
 
     private TextView mDangerChance;
@@ -338,9 +385,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     }
 
     private void initView() {
-        mOpenTransactionListView.setLayoutManager(new LinearLayoutManager(mContext));
-        mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        mOpenTransactionAdapter = new OpenTransactionAdapter();
+//        mOpenTransactionListView.setLayoutManager(new LinearLayoutManager(mContext));
+//        mOpenTransactionListView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
+        mOpenTransactionAdapter = new OpenTransactionAdapter(mContext, 0, new ArrayList<ProductListBean>());
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.item_trade_list_header, null);
 
         mTradeHeader = (LinearLayout) headView.findViewById(R.id.ll_trade_header);
@@ -361,7 +408,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mMoney = (TextView) headView.findViewById(R.id.tv_money);
         mProfitLoss = (TextView) headView.findViewById(R.id.tv_profit_loss);
         mTradeTip = (ImageView) headView.findViewById(R.id.iv_trade_tip);
-        mOpenTransactionAdapter.addHeaderView(headView);
+        mOpenTransactionListView.addHeaderView(headView);
         mOpenTransactionListView.setAdapter(mOpenTransactionAdapter);
         setListener();
     }
@@ -372,7 +419,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 if (!App.getConfig().getLoginStatus()) {
@@ -398,7 +445,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         mTradeTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
@@ -470,7 +517,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
 
     @Override
     public void onConfirmClick() {
-        if(DeviceUtils.isFastDoubleClick()){
+        if (DeviceUtils.isFastDoubleClick()) {
             return;
         }
         mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
