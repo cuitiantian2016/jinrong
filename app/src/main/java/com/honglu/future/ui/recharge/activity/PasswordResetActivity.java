@@ -19,6 +19,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.util.AESUtils;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -67,28 +68,6 @@ public class PasswordResetActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        final HttpSubscriber<JsonNull> httpSubscriber = new HttpSubscriber<JsonNull>() {
-            @Override
-            protected void _onNext(JsonNull o) {
-                super._onNext(o);
-                ToastUtil.show("修改密码成功");
-                finish();
-            }
-
-            @Override
-            public void _onCompleted() {
-                super._onCompleted();
-                mBtn.setEnabled(true);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                super._onError(message);
-                if (!TextUtils.isEmpty(message)) {
-                    ToastUtil.show(message);
-                }
-            }
-        };
         mBasePresenter = new BasePresenter<PasswordResetActivity>(this) {
             @Override
             public void getData() {
@@ -96,6 +75,7 @@ public class PasswordResetActivity extends BaseActivity {
                 int flag = -1;
                 String account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME);
                 if (TextUtils.isEmpty(account)) {
+                    ToastUtil.show("请登录期货账户后重试");
                     return;
                 }
                 String account_token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
@@ -104,6 +84,7 @@ public class PasswordResetActivity extends BaseActivity {
                 }
                 String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
                 if (TextUtils.isEmpty(userId)) {
+                    ToastUtil.show("请登录后重试");
                     return;
                 }
                 LogUtils.logd(TAG, "account-->" + account + "userID--->" + userId + "token-->" + account_token);
@@ -113,13 +94,47 @@ public class PasswordResetActivity extends BaseActivity {
                             account_token,
                             AESUtils.encrypt(mNewPwd),flag,
                             userId),
-                            httpSubscriber);
+                            new HttpSubscriber<JsonNull>() {
+                                @Override
+                                protected void _onNext(JsonNull o) {
+                                    super._onNext(o);
+                                    mBtn.setEnabled(true);
+                                    ToastUtil.show("修改密码成功");
+                                    finish();
+                                }
+
+                                @Override
+                                protected void _onError(String message) {
+                                    super._onError(message);
+                                     mBtn.setEnabled(true);
+                                    if (!TextUtils.isEmpty(message)) {
+                                        ToastUtil.show(message);
+                                    }
+                                }
+                            });
                 } else {
                     toSubscribe(HttpManager.getApi().resetAssesPwd(
                             account, AESUtils.encrypt(mOldPwd),
                             account_token, AESUtils.encrypt(mNewPwd),
                             userId),
-                            httpSubscriber);
+                            new HttpSubscriber<JsonNull>() {
+                                @Override
+                                protected void _onNext(JsonNull o) {
+                                    super._onNext(o);
+                                    mBtn.setEnabled(true);
+                                    ToastUtil.show("修改密码成功");
+                                    finish();
+                                }
+
+                                @Override
+                                protected void _onError(String message) {
+                                    super._onError(message);
+                                    mBtn.setEnabled(true);
+                                    if (!TextUtils.isEmpty(message)) {
+                                        ToastUtil.show(message);
+                                    }
+                                }
+                            });
                 }
             }
         };
@@ -141,8 +156,7 @@ public class PasswordResetActivity extends BaseActivity {
                 if (TextUtils.isEmpty(mOldPwd) || TextUtils.isEmpty(mNewPwd)
                         || TextUtils.isEmpty(mConformPwd)
                         || mOldPwd.length() < 6 || mNewPwd.length() < 6
-                        || mConformPwd.length() < 6
-                        || !(mConformPwd.equals(mNewPwd))) {
+                        || mConformPwd.length() < 6) {
                     mBtn.setEnabled(false);
                 } else {
                     mBtn.setEnabled(true);
@@ -179,6 +193,17 @@ public class PasswordResetActivity extends BaseActivity {
 
     @OnClick({R.id.btn_pay})
     public void onClick(View view) {
+        if (DeviceUtils.isFastDoubleClick()){
+            return;
+        }
+        if (mNewPwd.length()<8){
+            ToastUtil.show("数字和英文字母组合，8-16位");
+            return;
+        }
+        if (!(mConformPwd.equals(mNewPwd))){
+            ToastUtil.show("两次密码输入不一致请重新输入");
+            return;
+        }
         mBtn.setEnabled(false);
         mBasePresenter.getData();
     }
