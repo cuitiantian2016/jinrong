@@ -433,7 +433,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
-                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
+                TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_build_tip_pop_window);
                 tradeTipDialog.show();
                 break;
             case R.id.btn_fast_open:
