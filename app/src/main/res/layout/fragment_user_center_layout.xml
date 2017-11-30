@@ -19,15 +19,15 @@
             android:orientation="vertical"
             android:background="@mipmap/bg_user">
 
-            <ImageView
-                android:id="@+id/iv_setup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:padding="@dimen/dimen_5dp"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:layout_marginRight="@dimen/dimen_10dp"
-                android:src="@mipmap/ic_setup"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_setup"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:padding="@dimen/dimen_5dp"-->
+                <!--android:layout_marginTop="@dimen/dimen_10dp"-->
+                <!--android:layout_marginRight="@dimen/dimen_10dp"-->
+                <!--android:src="@mipmap/ic_setup"/>-->
 
             <TextView
                 android:id="@+id/tv_loginRegister"
@@ -244,10 +244,10 @@
                  android:layout_marginBottom="@dimen/dimen_17dp"
                  android:textSize="@dimen/dimen_12sp"
                  android:textColor="@color/color_333333"
-                 android:drawableTop="@mipmap/ic_user_appupdate"
+                 android:drawableTop="@mipmap/ic_setup"
                  android:drawablePadding="@dimen/dimen_16dp"
                  android:gravity="center_horizontal"
-                 android:text="@string/text_user_update"
+                 android:text="设置"
                  android:layout_weight="1"/>
          </LinearLayout>
 

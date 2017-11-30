@@ -75,8 +75,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
-    @BindView(R.id.iv_setup)
-    ImageView mSetup;
+//    @BindView(R.id.iv_setup)
+//    ImageView mSetup;
     @BindView(R.id.ll_signin_suc_layout)
     LinearLayout mSigninSucLayout;
     @BindView(R.id.iv_head)
@@ -206,7 +206,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
             R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
-            R.id.tv_bond_query})
+            R.id.tv_bond_query,R.id.tv_update})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -286,6 +286,14 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentQuery.putExtra("title", "保证金监控中心查询");
                 startActivity(intentQuery);
                 break;
+            case R.id.tv_update:
+                if (App.getConfig().getLoginStatus()) {
+                    startActivity(ModifyUserActivity.class);
+                } else {
+                    toLogin();
+                }
+                break;
+
         }
     }
 
