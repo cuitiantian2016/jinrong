@@ -71,6 +71,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     LoadingLayout mLoadingLayout;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mSmartRefreshLayout;
+    @BindView(R.id.tv_see_all)
+    TextView mSeeAll;
 
     private BillConfirmDialog billConfirmDialog;
     private AccountLoginDialog mAccountLoginDialog;
@@ -177,9 +179,11 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
         switch (view.getId()) {
             case R.id.tv_see_all:
                 if (!mIsShowFilter) {
+                    mSeeAll.setSelected(true);
                     mLlFilter.setVisibility(View.VISIBLE);
                     mIsShowFilter = true;
                 } else {
+                    mSeeAll.setSelected(false);
                     mLlFilter.setVisibility(View.GONE);
                     mIsShowFilter = false;
                 }

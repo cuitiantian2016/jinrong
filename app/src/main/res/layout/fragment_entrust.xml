@@ -9,27 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:paddingBottom="@dimen/dimen_13dp"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_20dp"
-        android:paddingTop="@dimen/dimen_13dp">
+        android:paddingBottom="@dimen/dimen_3dp"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp"
+        android:paddingTop="@dimen/dimen_3dp">
 
         <TextView
             android:id="@+id/tv_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:paddingTop="@dimen/dimen_10dp"
+            android:paddingBottom="@dimen/dimen_10dp"
+            android:drawablePadding="@dimen/dimen_8dp"
             android:text="查看全部"
             android:textColor="@color/color_333333"
+            android:drawableRight="@drawable/selector_arrow"
             android:textSize="@dimen/dimen_12sp" />
 
-        <ImageView
-            android:layout_width="@dimen/dimen_11dp"
-            android:layout_height="@dimen/dimen_11dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8dp"
-            android:layout_toRightOf="@+id/tv_see_all"
-            android:src="@mipmap/icon_glk_arrow_down" />
 
         <ImageView
             android:id="@+id/iv_tip"
@@ -80,22 +77,20 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:paddingBottom="@dimen/dimen_13dp"
-                android:paddingLeft="@dimen/dimen_20dp"
-                android:paddingRight="@dimen/dimen_20dp"
+                android:paddingLeft="@dimen/dimen_15dp"
+                android:paddingRight="@dimen/dimen_15dp"
                 android:paddingTop="@dimen/dimen_2dp">
 
                 <TextView
                     android:id="@+id/tv_all"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dimen_20dp"
+                    android:layout_marginRight="@dimen/dimen_15dp"
                     android:layout_weight="1"
+                    android:paddingTop="@dimen/dimen_7dp"
+                    android:paddingBottom="@dimen/dimen_7dp"
                     android:background="@drawable/stroke_radio_button_bg"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/dimen_8dp"
-                    android:paddingLeft="@dimen/dimen_20dp"
-                    android:paddingRight="@dimen/dimen_20dp"
-                    android:paddingTop="@dimen/dimen_8dp"
                     android:text="查看全部"
                     android:textColor="@color/color_333333" />
 
@@ -103,14 +98,12 @@
                     android:id="@+id/tv_build"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dimen_20dp"
+                    android:layout_marginRight="@dimen/dimen_15dp"
                     android:layout_weight="1"
+                    android:paddingTop="@dimen/dimen_7dp"
+                    android:paddingBottom="@dimen/dimen_7dp"
                     android:background="@drawable/fiter_radio_button_unselect_bg"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/dimen_8dp"
-                    android:paddingLeft="@dimen/dimen_20dp"
-                    android:paddingRight="@dimen/dimen_20dp"
-                    android:paddingTop="@dimen/dimen_8dp"
                     android:text="只看建仓"
                     android:textColor="@color/color_A4A5A6" />
 
@@ -121,10 +114,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/fiter_radio_button_unselect_bg"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/dimen_8dp"
-                    android:paddingLeft="@dimen/dimen_20dp"
-                    android:paddingRight="@dimen/dimen_20dp"
-                    android:paddingTop="@dimen/dimen_8dp"
+                    android:paddingTop="@dimen/dimen_7dp"
+                    android:paddingBottom="@dimen/dimen_7dp"
                     android:text="只看平仓"
                     android:textColor="@color/color_A4A5A6" />
 
