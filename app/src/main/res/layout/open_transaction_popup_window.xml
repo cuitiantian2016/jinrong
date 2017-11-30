@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:text="委托价"
                 android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -270,7 +270,7 @@
                 android:layout_centerVertical="true"
                 android:text="数量"
                 android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -334,7 +334,7 @@
                 android:layout_centerVertical="true"
                 android:text="可用资金"
                 android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_use_able_money"
@@ -389,7 +389,7 @@
                 android:layout_centerVertical="true"
                 android:text="保证金"
                 android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_margin_money"
@@ -425,7 +425,7 @@
                 android:layout_centerVertical="true"
                 android:text="建仓手续费"
                 android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_sxf"

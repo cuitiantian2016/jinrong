@@ -147,6 +147,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
                     double lowerLimitPrice = mAdapter.getLowerLimitPrice();
                     double upperLimitPrice = mAdapter.getUpperLimitPrice();
+                    final boolean keyboardComplete = mAdapter.getKeyboardComplete();
                     if (exPrice <= 0 || exPrice < lowerLimitPrice || exPrice > upperLimitPrice){
                         showErrorMsg("平仓委托价必须≥"+lowerLimitPrice +"且≤"+upperLimitPrice,null);
                         return;
@@ -168,7 +169,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                         public void onClick(View v) {
                             mConfirmDialog.dismiss();
                             //当价格等于
-                            if (lastPrice == exPrice) {
+                            if (!keyboardComplete) {
                                 mPresenter.ksCloseOrder(
                                         String.valueOf(todayPosition),
                                         userId,
@@ -254,19 +255,19 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     public void showDialog() {
         if (!TextUtils.isEmpty(mNameValue) && mList != null && mList.size() > 0) {
             show();
-            mName.setText("平仓-" + mNameValue);
+            mName.setText(String.format(mContext.getString(R.string.close_pingcang_),mNameValue));
             if (isClosed) {
                 mPingcang.setEnabled(false);
-                mPingcang.setText("休市中");
+                mPingcang.setText(mContext.getString(R.string.close_trade));
                 mPingcang.setBackgroundResource(R.color.color_B1B1B3);
             } else {
                 mPingcang.setEnabled(false);
-                mPingcang.setText("平仓");
+                mPingcang.setText(mContext.getString(R.string.kuaisu_pingcang));
                 mPingcang.setBackgroundResource(R.color.color_B1B1B3);
             }
-            mYkprice.setText("---");
-            mAdapter.notifyDataChanged(mList);
             mKeyBoardView.setVisibility(View.GONE);
+            mYkprice.setText(mContext.getString(R.string.default___));
+            mAdapter.notifyDataChanged(mList);
         }
     }
 
@@ -276,9 +277,9 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         if (isClosed) {
             mPingcang.setBackgroundResource(R.color.color_B1B1B3);
             mPingcang.setEnabled(false);
-            mPingcang.setText("休市中");
+            mPingcang.setText(mContext.getString(R.string.close_trade));
         } else {
-            if (type == 1) { //1 跌  2涨
+            if (type == Constant.TYPE_BUY_DOWN) { //1 跌  2涨
                 mPingcang.setEnabled(true);
                 mPingcang.setBackgroundResource(R.color.color_2CC593);
             } else {
@@ -289,16 +290,26 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
         if (mProfitLoss > 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            mYkprice.setText("￥+" + mProfitLoss);
+            mYkprice.setText(String.format(mContext.getString(R.string.z_yuan),mProfitLoss));
         } else if (mProfitLoss < 0) {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mYkprice.setText("￥" + mProfitLoss);
+            mYkprice.setText(String.valueOf(mProfitLoss).replace("-",mContext.getString(R.string.f_yuan)));
         } else {
             mYkprice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            mYkprice.setText("￥"+mProfitLoss);
+            mYkprice.setText(String.format(mContext.getString(R.string.yuan),mProfitLoss));
         }
     }
 
+
+    public void setPingCangText(boolean mKeyboardComplete){
+        if (!isClosed){
+            if (mKeyboardComplete){
+                mPingcang.setText(mContext.getString(R.string.weituo_pingcang));
+            }else {
+                mPingcang.setText(mContext.getString(R.string.kuaisu_pingcang));
+            }
+        }
+    }
 
     //产品详情
     @Override

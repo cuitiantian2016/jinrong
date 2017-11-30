@@ -164,6 +164,19 @@
     <string name="close_transaction_num_dayu0">手数必须大于0</string>
     <string name="buy_rise">买涨%s</string>
     <string name="buy_down">买跌%s</string>
+    <string name="close_pingcang_">平仓-%s</string>
+    <string name="close_pingcang">平仓</string>
+    <string name="default___">---</string>
+    <string name="z_yuan">+￥%s</string>
+    <string name="f_yuan">-￥</string>
+    <string name="buy_type_num">方向/手数</string>
+    <string name="chicang_priced">持仓均价</string>
+    <string name="chicang_profit_loss">持仓盈亏</string>
+    <string name="pingcang_price">平仓委托价</string>
+    <string name="pingcang_num_">平仓手数(最多--手)</string>
+    <string name="pingcang_num">平仓手数(最多%d手)</string>
+    <string name="weituo_pingcang">委托平仓</string>
+    <string name="kuaisu_pingcang">快速平仓</string>
 
     <string name="conform_call_phone">确定拨打: %s ?</string>
     <string name="close_trade_hint">%1$s %2$s %3$d手 平仓盈亏 %4$s元</string>
