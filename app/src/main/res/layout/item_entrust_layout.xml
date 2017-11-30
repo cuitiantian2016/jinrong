@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/dimen_20dp"
-    android:paddingTop="@dimen/dimen_10dp">
+    android:paddingBottom="@dimen/dimen_10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_white_8dp_bg"
+        android:background="@drawable/shape_white_2dp_bg"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dimen_15dp"
         android:paddingRight="@dimen/dimen_15dp"
@@ -23,6 +24,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="玉米1801"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
@@ -31,7 +33,7 @@
                 android:id="@+id/tv_buy_hands"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_toRightOf="@+id/tv_name"
                 android:text="买涨 1手"
                 android:textColor="@color/color_FB4F4F"
@@ -56,7 +58,7 @@
                 android:layout_height="@dimen/dimen_1dp_half"
                 android:layout_below="@+id/btn_entrust"
                 android:layout_marginTop="@dimen/dimen_12dp"
-                android:background="@color/color_E3E3E3" />
+                android:background="@color/color_EDEDED" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -65,33 +67,55 @@
             android:layout_marginTop="@dimen/dimen_12dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/entrust_price_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/entrust_price_layout"
+                android:layout_width="72dp"
                 android:layout_height="wrap_content"
-                android:text="委    托    价"
-                android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_14sp" />
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="委"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="托"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+
+            </LinearLayout>
+
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_entrust_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_8dp"
-                android:layout_toRightOf="@+id/entrust_price_text"
+                android:layout_toRightOf="@+id/entrust_price_layout"
                 android:text="1665"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_14sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="58dp"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/tv_date"
                 android:text="委托时间"
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_14sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_date"
                 android:layout_width="@dimen/dimen_80dp"
                 android:layout_height="wrap_content"
@@ -111,13 +135,13 @@
 
             <TextView
                 android:id="@+id/service_charge_text"
-                android:layout_width="wrap_content"
+                android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:text="冻结手续费"
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_14sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_service_charge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,14 +151,35 @@
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_14sp" />
 
-            <TextView
-                android:id="@+id/text_limit_date"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="58dp"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/tv_limit_date"
-                android:text="有  效  期"
-                android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_14sp" />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="效"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="期"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_14sp" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_limit_date"
@@ -156,13 +201,13 @@
 
             <TextView
                 android:id="@+id/bond_text"
-                android:layout_width="wrap_content"
+                android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:text="冻结保证金"
                 android:textColor="@color/color_A4A5A6"
                 android:textSize="@dimen/dimen_14sp" />
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_bond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

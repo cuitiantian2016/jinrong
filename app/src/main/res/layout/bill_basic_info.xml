@@ -5,7 +5,7 @@
     android:layout_marginLeft="@dimen/dimen_20dp"
     android:layout_marginRight="@dimen/dimen_20dp"
     android:layout_marginTop="@dimen/dimen_15dp"
-    android:background="@drawable/shape_white_8dp_bg"
+    android:background="@drawable/shape_white_2dp_bg"
     android:orientation="vertical"
     android:paddingBottom="@dimen/dimen_17dp"
     android:paddingLeft="@dimen/dimen_20dp"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -73,6 +74,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     SmartRefreshLayout mSmartRefreshLayout;
     @BindView(R.id.tv_see_all)
     TextView mSeeAll;
+    @BindView(R.id.rl_headLayout)
+    RelativeLayout mRlHeadLayout;
 
     private BillConfirmDialog billConfirmDialog;
     private AccountLoginDialog mAccountLoginDialog;
@@ -180,10 +183,12 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             case R.id.tv_see_all:
                 if (!mIsShowFilter) {
                     mSeeAll.setSelected(true);
+                    mRlHeadLayout.setBackgroundResource(R.color.color_white);
                     mLlFilter.setVisibility(View.VISIBLE);
                     mIsShowFilter = true;
                 } else {
                     mSeeAll.setSelected(false);
+                    mRlHeadLayout.setBackgroundResource(R.color.color_F8F8F9);
                     mLlFilter.setVisibility(View.GONE);
                     mIsShowFilter = false;
                 }

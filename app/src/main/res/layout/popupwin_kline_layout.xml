@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dimen_10dp"
         android:layout_below="@+id/iv_top_corner"
-        android:background="@drawable/shape_white_8dp_bg"
+        android:background="@drawable/shape_white_2dp_bg"
         android:orientation="vertical">
 
         <TextView
