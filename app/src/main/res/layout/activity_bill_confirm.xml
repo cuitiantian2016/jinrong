@@ -85,7 +85,7 @@
 
                     <TextView
                         android:id="@+id/tv_cur_day_jc"
-                        android:layout_width="75dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dimen_20dp"
@@ -129,7 +129,7 @@
 
                     <TextView
                         android:id="@+id/tv_cur_day_crj"
-                        android:layout_width="75dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dimen_20dp"
@@ -173,7 +173,7 @@
 
                     <TextView
                         android:id="@+id/tv_cur_day_pcyk"
-                        android:layout_width="75dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dimen_20dp"
