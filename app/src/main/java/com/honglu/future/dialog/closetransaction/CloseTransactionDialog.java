@@ -270,7 +270,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             mCloseTransactionPrice.setText(String.format(mContext.getString(R.string.yuan), closeTradePrice));
             //实际盈亏
             double actualProfitLoss = getActualProfitLoss(price, tradeNum);
-            mCankaoProfitLoss.setText(String.format(mContext.getString(R.string.yuan), actualProfitLoss));
+            mCankaoProfitLoss.setText(String.format(mContext.getString(R.string.yuan), String.valueOf(actualProfitLoss)));
             if (actualProfitLoss > 0) {
                 mCankaoProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_FB4F4F));
             } else if (actualProfitLoss < 0) {
