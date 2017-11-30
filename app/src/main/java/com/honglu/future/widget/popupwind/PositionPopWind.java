@@ -82,8 +82,9 @@ public class PositionPopWind extends PopupWindow {
         ImageView ivTip = (ImageView) rootView.findViewById(R.id.iv_position_tip);
         View mLine1 = rootView.findViewById(R.id.v_lineView1);
         View mLine2 = rootView.findViewById(R.id.v_lineView2);
-        mLine1.getBackground().setAlpha(80);
-        mLine2.getBackground().setAlpha(80);
+        //加 mutate
+        mLine1.getBackground().mutate().setAlpha(80);
+        mLine2.getBackground().mutate().setAlpha(80);
 
         mDetails.setOnClickListener(new View.OnClickListener() {
             @Override

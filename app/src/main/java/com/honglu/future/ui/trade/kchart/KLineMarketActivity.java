@@ -276,8 +276,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     public void loadData() {
         EventBus.getDefault().register(this);
         mTvNewPrice.setTextFonts("fonts/DIN-Medium.ttf");
-        mTvClosed.getBackground().setAlpha(100);
-        mLineView.getBackground().setAlpha(60);
+        mTvClosed.getBackground().mutate().setAlpha(100);
+        mLineView.getBackground().mutate().setAlpha(60);
         mExcode = getIntent().getStringExtra("excode");
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");
