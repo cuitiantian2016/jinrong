@@ -210,7 +210,7 @@
                         android:padding="@dimen/dimen_10dp"
                         android:src="@mipmap/ic_del" />
 
-                    <com.honglu.future.widget.DinEditText
+                    <EditText
                         android:id="@+id/amountView"
                         android:layout_width="@dimen/dimen_100dp"
                         android:layout_height="@dimen/dimen_32dp"
@@ -287,7 +287,7 @@
                     android:padding="@dimen/dimen_10dp"
                     android:src="@mipmap/ic_del" />
 
-                <com.honglu.future.widget.DinEditText
+                <EditText
                     android:id="@+id/av_hands"
                     android:layout_width="@dimen/dimen_100dp"
                     android:layout_height="@dimen/dimen_32dp"

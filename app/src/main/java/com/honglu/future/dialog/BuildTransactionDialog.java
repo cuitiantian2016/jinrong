@@ -2,7 +2,9 @@ package com.honglu.future.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -147,8 +149,11 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 //        TextView downRadio = (TextView) findViewById(R.id.tv_down_radio);
 //        downRadio.setText((100 - Integer.valueOf(mProductListBean.getLongRate())) + "%");
         mPrice = (EditText) findViewById(R.id.amountView);
+        setTextFonts(mPrice);
         mHands = (EditText) findViewById(R.id.av_hands);
+        setTextFonts(mHands);
         mHands.setText(String.valueOf(mProductListBean.getMinSl()));
+        mHands.setSelection(mHands.getText().toString().length());
         if (mBuyRiseOrDown.equals(TRADE_BUY_RISE)) {
             mBuyType = "2";
             mPrice.setText(bean.getAskPrice1());
@@ -160,6 +165,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvRise.setBackgroundResource(R.drawable.rise_down_bg_block);
             mTvRise.setTextColor(mContext.getResources().getColor(R.color.color_151515));
         }
+        mPrice.setSelection(mPrice.getText().toString().length());
 
         mBuild = (TextView) findViewById(R.id.btn_fast_open);
         mBuild.setOnClickListener(this);
@@ -266,7 +272,15 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         mAddHands.setOnClickListener(this);
     }
 
-
+    //设置字体样式
+    private void setTextFonts(EditText editText) {
+        //得到AssetManager
+        AssetManager mgr = getContext().getAssets();
+        //根据路径得到Typeface
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/DIN-Medium.ttf");
+        //设置字体
+        editText.setTypeface(tf);
+    }
     /**
      * 显示需要的预付款
      */
