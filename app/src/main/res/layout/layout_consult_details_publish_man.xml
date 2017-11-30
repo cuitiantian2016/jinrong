@@ -4,10 +4,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/dimen_15dp"
-    android:layout_marginLeft="@dimen/dimen_15dp"
+    android:layout_marginRight="@dimen/dimen_10dp"
+    android:layout_marginLeft="@dimen/dimen_10dp"
     android:layout_marginTop="@dimen/dimen_10dp"
-    android:layout_marginBottom="@dimen/dimen_15dp"
+    android:layout_marginBottom="@dimen/dimen_20dp"
     android:gravity="center_vertical">
     <com.honglu.future.widget.CircleImageView
         android:id="@+id/user_icon"

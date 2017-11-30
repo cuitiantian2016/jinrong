@@ -149,7 +149,6 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mImageHead = (ImageView) headerView.findViewById(R.id.image_head);
         mSupportIv = (ImageView) headerView.findViewById(R.id.support_iv);
         mTvSupportNum = (TextView) headerView.findViewById(R.id.tv_support);
-        mContentWv = (WebView) headerView.findViewById(R.id.webView_content);
         mTvTitle = (TextView) headerView.findViewById(R.id.tv_title);
         mUserIcon = (CircleImageView) headerView.findViewById(R.id.user_icon);
         mTvName = (TextView) headerView.findViewById(R.id.tv_name);
@@ -295,7 +294,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         //设置字体大小
         WebSettings settings = mContentWv.getSettings();
         settings.setSupportZoom(true);
-        settings.setTextSize(WebSettings.TextSize.NORMAL);
+        settings.setTextZoom (110);
         // 设置加载进来的页面自适应手机屏幕
         //settings.setUseWideViewPort(true);
         //mContentTv.getSettings().setLoadWithOverviewMode(true);
