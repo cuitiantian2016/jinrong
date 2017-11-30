@@ -4,8 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/dimen_20dp"
-    android:layout_marginLeft="@dimen/dimen_20dp"
+    android:layout_marginRight="@dimen/dimen_15dp"
+    android:layout_marginLeft="@dimen/dimen_15dp"
     android:layout_marginTop="@dimen/dimen_10dp"
     android:layout_marginBottom="@dimen/dimen_15dp"
     android:gravity="center_vertical">
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="洪江龙"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp"
+                android:textSize="@dimen/dimen_13sp"
                 />
             <TextView
                 android:id="@+id/tv_position"
@@ -37,8 +37,8 @@
                 android:layout_height="wrap_content"
                 android:text="分析师"
                 android:layout_marginLeft="@dimen/dimen_10dp"
-                android:textColor="@color/color_86A2B0"
-                android:textSize="@dimen/dimen_12sp"
+                android:textColor="#86A2B0"
+                android:textSize="@dimen/dimen_11sp"
                 />
         </LinearLayout>
         <RelativeLayout
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="13:45"
                 android:textColor="@color/color_B1B1B3"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 />
             <TextView
                 android:id="@+id/tv_comment"
@@ -61,8 +61,8 @@
                 android:drawableLeft="@mipmap/ic_comments_num"
                 android:drawablePadding="@dimen/dimen_5dp"
                 android:text="356评论"
-                android:textColor="@color/color_B1B1B3"
-                android:textSize="12sp"
+                android:textColor="#B1B1B3"
+                android:textSize="11sp"
                 />
         </RelativeLayout>
     </LinearLayout>

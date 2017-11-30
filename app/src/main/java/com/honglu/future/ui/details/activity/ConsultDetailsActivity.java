@@ -86,7 +86,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @BindView(R.id.reply_edit)
     EditText mInputEdit;
     @BindView(R.id.btn_publish)
-    TextView mPublishBtn;
+    ImageView mPublishBtn;
     private String informationId;
     private int praiseCounts;
     private int commentNum;
@@ -358,7 +358,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             }
             for (String praiseUser : praiseUserList) {
                 CircleImageView headIV = new CircleImageView(this);
-                int size = getResources().getDimensionPixelSize(R.dimen.dimen_36dp);
+                int size = getResources().getDimensionPixelSize(R.dimen.dimen_30dp);
                 mLinearPraise.addView(headIV, new LinearLayout.LayoutParams(size, size));
                 ImageUtil.display(ConfigUtil.baseImageUserUrl + praiseUser, headIV, R.mipmap.img_head);
                 //最多显示5个

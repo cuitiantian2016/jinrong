@@ -20,8 +20,8 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_18dp"
+            android:layout_marginRight="@dimen/dimen_25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="铁矿石：供需矛盾依旧，多空争夺激烈，需要加强风险"
@@ -50,8 +50,8 @@
             android:layout_marginRight="@dimen/dimen_20dp"/>
         <ImageView
             android:id="@+id/support_iv"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimen_30dp"
             android:src="@mipmap/icon_support_click"
@@ -86,9 +86,9 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_line"
-        android:layout_marginTop="@dimen/dimen_30dp"/>
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:background="#F8F8F9"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,13 +102,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部评论"
-            android:textColor="@color/color_323232" />
+            android:textSize="@dimen/dimen_15sp"
+            android:textColor="@color/color_333333" />
         <TextView
             android:id="@+id/pinglun_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_b2b2b2"
-            android:textSize="@dimen/dimen_14sp"
+            android:textSize="@dimen/dimen_15sp"
+            android:textColor="@color/color_333333"
             tools:text="(290)" />
     </LinearLayout>
     <View

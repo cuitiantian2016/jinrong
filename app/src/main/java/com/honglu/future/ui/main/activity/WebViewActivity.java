@@ -218,7 +218,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
          */
         @JavascriptInterface
         public void openAccount() {
-            showPopupWindow();
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", "0101");
             intent.putExtra("channel", "@200$088-2");
@@ -324,41 +323,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             isShow = false;
             mWindowManager.removeView(button);
         }
-    }
-
-    /**
-     * 显示弹出框
-     */
-    public void showPopupWindow() {
-        isShow = true;
-        // 获取WindowManager
-        mWindowManager = (WindowManager) getApplicationContext()
-                .getSystemService(Context.WINDOW_SERVICE);
-        button = new Button(getApplicationContext());
-        button.setText("区间号：088");
-        button.setTextColor(getResources().getColor(R.color.white));
-        button.setBackgroundColor(getResources().getColor(R.color.actionsheet_blue));
-        button.setAlpha(0.5f);
-        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        // 类型
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-        // 设置flag
-        int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
-        // | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        // 如果设置了WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE，弹出的View收不到Back键的事件
-        params.flags = flags;
-        // 不设置这个弹出框的透明遮罩显示为黑色
-        params.format = PixelFormat.TRANSLUCENT;
-        // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗口
-        // 设置 FLAG_NOT_FOCUSABLE 悬浮窗口较小时，后面的应用图标由不可长按变为可长按
-        // 不设置这个flag的话，home页的划屏会有问题
-        params.width = FrameLayout.LayoutParams.MATCH_PARENT;
-        params.height = DeviceUtils.dip2px(this, 40);
-        params.gravity = Gravity.BOTTOM;
-        mWindowManager.addView(button, params);
     }
 
     @Override

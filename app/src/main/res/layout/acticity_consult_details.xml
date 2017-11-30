@@ -34,13 +34,18 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/white"
+        android:background="#FCFCFC"
         android:gravity="center_vertical"
         android:paddingBottom="@dimen/dimen_6dp"
         android:paddingLeft="@dimen/dimen_12dp"
         android:paddingRight="@dimen/dimen_12dp"
         android:paddingTop="@dimen/dimen_6dp">
-
+        <ImageView
+            android:id="@+id/btn_publish"
+            android:padding="@dimen/dimen_5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:src="@mipmap/pinglun" />
         <EditText
             android:id="@+id/reply_edit"
             android:layout_width="0dp"
@@ -48,7 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_publish"
             android:layout_weight="1"
-            android:background="@drawable/bg_button_d7d7d7l"
+            android:background="@null"
             android:focusable="false"
             android:gravity="center_vertical"
             android:hint="憋说话，敲字～"
@@ -62,24 +67,9 @@
             android:textCursorDrawable="@null"
             android:textColor="#323232"
             android:textColorHint="#008EFF"
-            android:textSize="@dimen/dimen_16sp" />
+            android:textSize="@dimen/dimen_15sp" />
 
-        <TextView
-            android:id="@+id/btn_publish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:background="@drawable/bg_button_orangenormarecl"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingLeft="@dimen/dimen_15dp"
-            android:paddingRight="@dimen/dimen_15dp"
-            android:paddingTop="5dp"
-            android:text="发表"
-            android:textColor="@color/color_008EFF"
-            android:textSize="@dimen/dimen_16sp" />
+
 
     </LinearLayout>
 
