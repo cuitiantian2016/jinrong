@@ -100,7 +100,10 @@ public class App extends Application implements Application.ActivityLifecycleCal
             allotServer = ConfigUtil.URL_126_AllotServer;
         }else if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_test_126)){
             allotServer = ConfigUtil.URL_126_test_AllotServer;
+        }else if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_126_http)){
+            allotServer = ConfigUtil.URL_126_AllotServer;
         }
+        Log.d("allotServer", "startPush:-- "+allotServer);
         //公钥有服务端提供和私钥对应
         ClientConfig cc = ClientConfig.build()
                 .setAllotServer(allotServer)
