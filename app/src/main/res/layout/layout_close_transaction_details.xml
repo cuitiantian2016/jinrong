@@ -225,7 +225,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginTop="@dimen/dimen_17dp"
-                  android:text="手动平仓"
+                  android:text="系统平仓"
                   android:textColor="@color/color_333333"
                   android:textSize="@dimen/dimen_16sp" />
 
