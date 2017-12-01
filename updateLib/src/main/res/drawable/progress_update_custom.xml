@@ -4,10 +4,9 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="rectangle">
-                <corners android:radius="10dp" />
                 <gradient
-                    android:startColor="#339DF8"
-                    android:endColor="#5878F4"
+                    android:startColor="#008EFF"
+                    android:endColor="#008EFF"
                     android:angle="0"/>
             </shape>
         </clip>
