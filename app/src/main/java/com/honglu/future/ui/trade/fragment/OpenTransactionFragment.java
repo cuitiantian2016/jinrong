@@ -15,6 +15,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.TradeGuideDialog;
@@ -35,7 +36,9 @@ import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.ui.trade.presenter.OpenTransactionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.ProductViewHole4TradeContent;
 import com.honglu.future.util.SpUtil;
@@ -309,7 +312,9 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
                     if (!SpUtil.getBoolean(Constant.CACHE_ACCOUNT_DANGER_HAS_ALERT)) {
                         SpUtil.putString(Constant.CACHE_ACCOUNT_DANGER_ALERT_DATE, TimeUtil.getCurrentDay2());
                         SpUtil.putBoolean(Constant.CACHE_ACCOUNT_DANGER_HAS_ALERT, true);
-                        showToast("风险率高于80%");
+                        new AlertFragmentDialog.Builder(mActivity)
+                                .setLeftBtnText("我知道了").setContent("风险率超过"+bean.getCapitalProportion()+","+"风险较高,请及时补充资金避免强行平仓造成损失").setTitle("资金风险高")
+                                .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                     }
                 }
             }
