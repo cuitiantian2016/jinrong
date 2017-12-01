@@ -186,9 +186,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             informationId = item.informationId;
             mPresenter.getMessageData(informationId);
             if (item.isPraise>0){
-                mSupportIv.setImageResource(R.mipmap.icon_support_normal);
-            }else {
                 mSupportIv.setImageResource(R.mipmap.icon_support_click);
+            }else {
+                mSupportIv.setImageResource(R.mipmap.icon_support_normal);
             }
         }
         mSupportIv.setOnClickListener(new View.OnClickListener() {
@@ -379,7 +379,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     public void praiseSuccess(List<String> praiseUserList) {
         ToastUtil.show("点赞成功");
         ++praiseCounts;
-        mSupportIv.setImageResource(R.mipmap.icon_support_normal);
+        mSupportIv.setImageResource(R.mipmap.icon_support_click);
         ClickPraiseEvent clickPraiseEvent = new ClickPraiseEvent();
         clickPraiseEvent.position = mPosition;
         EventBus.getDefault().post(clickPraiseEvent);
