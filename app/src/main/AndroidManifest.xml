@@ -431,11 +431,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote"></service>
-
         <!--< mpush相关 start>-->
         <receiver
             android:name="com.honglu.future.mpush.MPushReceiver"
@@ -474,9 +469,6 @@
             android:name="com.honglu.future.widget.photo.FullScreenDisplayActivity"
             android:screenOrientation="portrait"/>
         <!--< mpush相关 end>-->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="ljeTCCsVh1rap0tutGgG29Up" />
         <!-- 极光推送相关-->
         <receiver
             android:name=".util.receiver.JPushReceiver"
