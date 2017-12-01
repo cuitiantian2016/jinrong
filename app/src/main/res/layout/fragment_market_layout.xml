@@ -16,7 +16,7 @@
         app:tl_indicator_corner_radius="2dp"
         app:tl_indicator_color="@color/color_008EFF"
         app:tl_indicator_gravity="BOTTOM"
-        app:tl_indicator_height="@dimen/dimen_4dp"
+        app:tl_indicator_height="@dimen/dimen_3dp"
         app:tl_indicator_style="NORMAL"
         app:tl_leftMargin="@dimen/dimen_20dp"
         app:tl_rightMargin="@dimen/dimen_20dp"
