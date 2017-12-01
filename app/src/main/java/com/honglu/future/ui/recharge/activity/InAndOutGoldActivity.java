@@ -112,9 +112,9 @@ public class InAndOutGoldActivity extends BaseActivity {
      * 初始化布局
      */
     private void initView() {
-        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
-        int indicatorWidth = (int) (screenWidthDip * 0.2f);
-        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
+//        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
+//        int indicatorWidth = (int) (screenWidthDip * 0.2f);
+//        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity(mContext.getString(R.string.pay_gold)));
         mTabList.add(new TabEntity(mContext.getString(R.string.out_gold)));

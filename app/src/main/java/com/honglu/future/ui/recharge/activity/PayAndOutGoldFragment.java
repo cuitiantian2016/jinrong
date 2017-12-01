@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import com.honglu.future.ui.recharge.presenter.PayAndOutGoldPresent;
 import com.honglu.future.ui.usercenter.activity.BindCardActivity;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.util.AESUtils;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
@@ -213,6 +215,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.et_check_bank_asses) {
+            if (mBean ==null){
+                bindBankErr("您没有绑定银行卡");
+                return;
+            }
             int type = AlertFragmentDialog.Builder.TYPE_INPUT_TWO;
             if (mIsPay){
                if (mBean !=null &&mBean.rechargeFlag == 1){
@@ -245,6 +251,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 }
             }).create(type);
         } else if (id == R.id.btn_pay) {
+            if (mBean ==null){
+                bindBankErr("您没有绑定银行卡");
+                return;
+            }
             final String amount = mEtPayAsses.getText().toString();
             final String password = mEt_asses_password.getText().toString();
             final String bankPassword = mEt_bank_password.getText().toString();
@@ -303,7 +313,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         }
         this.mList = list;
         if (list!=null&&list.size()>0){
-            SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
+          //  SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
             mrlCard.removeAllViews();
             mBean = list.get(0);
             if (mBean.rechargeFlag == 1 ||mBean.cashoutFlag==1){
@@ -332,7 +342,9 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                         BindCardActivity.startBindCardActivity(getActivity(),mList);
                     }
                 });
-                mrlCard.addView(cardItem);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(AndroidUtil.dip2px(getContext(),15),0,AndroidUtil.dip2px(getContext(),15),0);
+                mrlCard.addView(cardItem,params);
             }
         }else {
             SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,"");

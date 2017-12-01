@@ -179,8 +179,8 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                 mTiem.setText(bean.tradeTime);
                 mBaodanNum.setText(bean.orderSysId);
                 mDealNum.setText(bean.tradeId);
-                if (bean.closeType>= 3) {
-                    mType.setText(closeType[bean.closeType - 3]);
+                if (bean.closeType== 1) {
+                    mType.setText(closeType[bean.closeType - 1]);
                 }
             }
         }

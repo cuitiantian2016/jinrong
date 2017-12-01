@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:paddingTop="@dimen/dimen_20dp"
 android:paddingBottom="@dimen/dimen_20dp"
+android:layout_marginLeft="15dp"
+android:layout_marginRight="15dp"
 android:paddingLeft="@dimen/dimen_20dp"
 android:layout_marginBottom="@dimen/dimen_10dp"
 android:paddingRight="15dp"
-android:background="@drawable/press_style"
+android:background="@drawable/bank_list_with_bg"
 android:gravity="center_vertical"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content">

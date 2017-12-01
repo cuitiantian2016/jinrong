@@ -26,7 +26,7 @@ public class CountDownTextView extends android.support.v7.widget.AppCompatTextVi
     private int count = COUNT;
     private Handler mHandler;
     private int mWidth;
-    private String mFormat = "%sS后重新获取";
+    private String mFormat = "%sS";
     private String mPhoneText = null;
     private boolean hasStart = false;
     private boolean enable = true;
@@ -111,7 +111,7 @@ public class CountDownTextView extends android.support.v7.widget.AppCompatTextVi
             @Override
             public void handleMessage(Message msg) {
                 if(count <= 0)return;
-                setText(String.format("%sS后重新获取" , --count));
+                setText(String.format("%sS" , --count));
                 if(count <= 0 && !isEnabled()){
                     hasStart = false;
                     setEnabled((mPhoneText == null || CheckUtils.checkPhoneNum(mPhoneText)) && enable);

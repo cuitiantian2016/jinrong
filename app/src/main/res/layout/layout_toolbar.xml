@@ -11,10 +11,9 @@
 
     <ImageView
         android:id="@+id/tv_back"
-        style="?attr/toolbarNavigationButtonStyle"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_width="10dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="15dp"
         android:minWidth="@dimen/title_height"
         android:src="@mipmap/ic_left_arrow"
         android:visibility="gone" />
@@ -55,7 +54,6 @@
 
     <com.honglu.future.widget.DrawableCenterTextView
         android:id="@+id/tv_right"
-        style="?attr/toolbarNavigationButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
