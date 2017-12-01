@@ -101,7 +101,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_entrust_tip);
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_account_login_tip);
                 tipDialog.show();
                 break;
             case R.id.btn_login_account:
