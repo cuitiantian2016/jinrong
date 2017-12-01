@@ -485,8 +485,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
-        mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
+        mRightsInterests.setText(StringUtil.forNumber(new BigDecimal(bean.getRightsInterests()).doubleValue()));
+        mMoney.setText(StringUtil.forNumber(new BigDecimal(bean.getAvailable()).doubleValue()));
 
         if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() > 0) {
             mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_FB4F4F));

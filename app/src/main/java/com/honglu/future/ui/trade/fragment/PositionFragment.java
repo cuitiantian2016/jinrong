@@ -38,6 +38,7 @@ import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -48,6 +49,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -340,8 +342,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void getAccountInfoSuccess(AccountInfoBean bean) {
         mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(NumberUtils.formatFloatNumber(bean.getRightsInterests()));
-        mMoney.setText(NumberUtils.formatFloatNumber(bean.getAvailable()));
+        mRightsInterests.setText(StringUtil.forNumber(new BigDecimal(bean.getRightsInterests()).doubleValue()));
+        mMoney.setText(StringUtil.forNumber(new BigDecimal(bean.getAvailable()).doubleValue()));
 
         if (Integer.parseInt(bean.getPositionProfit()) > 0) {
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
