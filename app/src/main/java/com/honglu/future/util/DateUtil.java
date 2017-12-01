@@ -41,15 +41,6 @@ public class DateUtil {
         return result;
     }
 
-    //比较日期大小
-    public static boolean compareDate(String start, String end) {
-        String[] s = start.split("-");
-        String[] e = end.split("-");
-        String s_buffer = s[0] + s[1] + s[2];
-        String e_buffer = e[0] + e[1] + e[2];
-        return Integer.valueOf(s_buffer) > Integer.valueOf(e_buffer);
-    }
-
     //得到下一天
     public static String getNextDay(String dayFormated) {
         Calendar c = Calendar.getInstance();
@@ -116,4 +107,17 @@ public class DateUtil {
         }
         return "";
     };
+
+    public static boolean compareDate(String strarTime ,String endTime){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            long mStrarTime = simpleDateFormat.parse(strarTime).getTime();
+            long mEndTime = simpleDateFormat.parse(endTime).getTime();
+
+            return mStrarTime <= mEndTime ? false : true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

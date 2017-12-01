@@ -25,7 +25,6 @@ import java.util.Calendar;
 
 public class SingleDateDialog extends Dialog{
     private Context mContext;
-
     private TextView mCancel;
     private TextView mDetermine;
     private WheelView mYear;
@@ -53,6 +52,8 @@ public class SingleDateDialog extends Dialog{
     //字体未选中大小
     private int mMinTextSize;
 
+    private String mType;
+
     private CalendarTextAdapter mYearAdapter;
     private CalendarTextAdapter mMonthAdapter;
     private CalendarTextAdapter mDayAdapter;
@@ -60,6 +61,11 @@ public class SingleDateDialog extends Dialog{
     public SingleDateDialog(@NonNull Context context) {
         super(context, R.style.DateDialog);
         this.mContext = context;
+    }
+
+    public void showDateDialog(String mType){
+        this.mType = mType;
+        show();
     }
 
     @Override
@@ -167,7 +173,7 @@ public class SingleDateDialog extends Dialog{
             @Override
             public void onClick(View v) {
                 if (onBirthdayListener !=null){
-                    onBirthdayListener.OnBirthday(mSelectYear+"-"+mSelectMonth+"-"+mSelectDay);
+                    onBirthdayListener.OnBirthday(mType,mSelectYear+"-"+mSelectMonth+"-"+mSelectDay);
                 }
             }
         });
@@ -179,7 +185,7 @@ public class SingleDateDialog extends Dialog{
     }
     private OnBirthdayListener onBirthdayListener;
     public interface OnBirthdayListener{
-        void OnBirthday(String time);
+        void OnBirthday(String type,String time);
     }
 
     public void setDate(int year, int month, int day) {

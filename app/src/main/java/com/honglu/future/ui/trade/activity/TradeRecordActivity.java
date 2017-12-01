@@ -1,6 +1,7 @@
 package com.honglu.future.ui.trade.activity;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.DateDialog;
+import com.honglu.future.dialog.SingleDateDialog;
 import com.honglu.future.ui.trade.adapter.TradeRecordAdapter;
 import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
@@ -28,6 +30,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,46 +45,49 @@ import butterknife.BindView;
  */
 
 public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> implements View.OnClickListener,TradeRecordContract.View{
-
+    private static final String START_TIME_TYPE = "start_time_type";
+    private static final String END_TIME_TYPE = "end_time_type";
 
     @BindView(R.id.lv_listView)
-    ListView lvListView;
+    ListView mListView;
     @BindView(R.id.refreshView)
-    SmartRefreshLayout refreshView;
+    SmartRefreshLayout mRefreshView;
     @BindView(R.id.tv_back)
     ImageView mIvBack;
-    TextView tvOne;
-    TextView tvTwo;
-    TextView tvThr;
-    TextView tvFour;
-    LinearLayout mLinearTitle;
 
-    private TextView tvStartTime;
-    private TextView tvEndTime;
-    private TextView tvRisk;
-    private TextView tvJiancang;
-    private TextView tvPingcang;
-    private TextView tvRevoke;
-    private View tabJcLayout;
-    private TextView tabJcText;
-    private View tabJcLine;
-    private View tabCcLayout;
-    private TextView tabCcText;
-    private View tabCcLine;
-    private View tabRLayout;
-    private TextView tabRText;
-    private View tabRLine;
+    private TextView mTextOne;
+    private TextView mTextTwo;
+    private TextView mTextThr;
+    private TextView mTextFour;
+    private LinearLayout mLinearTitle;
+    private TextView mStartTime;
+    private TextView mEndTime;
+    private TextView mTextRisk;
+    private TextView mJiancang;
+    private TextView mPingcang;
+    private TextView mRevoke;
+    private View mTabJcLayout;
+    private TextView mTabJcText;
+    private View mTabJcLine;
+    private View mTabCcLayout;
+    private TextView mTabCcText;
+    private View mTabCcLine;
+    private View mTabRLayout;
+    private TextView mTabRText;
+    private View mTabRLine;
+
+    private SingleDateDialog mSingleDateDialog;
     private TradeRecordAdapter mAdapter;
-    private DateDialog mDateDialog;
     private String startTime, endTime,today;
     private int clickId = R.id.tab_jcLayout;
-    int pageBuider = 1;
-    int pageClose = 1;
-    int pageMiss = 1;
-    int pageSize = 5;
+    private int pageBuider = 1;
+    private int pageClose = 1;
+    private int pageMiss = 1;
+    private int pageSize = 5;
     private int tabIndex = 0;
 
     private Handler mHandler = new Handler();
+
 
 
     @Override
@@ -97,78 +103,84 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     @Override
     public void loadData() {
         tabIndex = getIntent().getIntExtra("tabIndex",0);
-
+        mSingleDateDialog = new SingleDateDialog(TradeRecordActivity.this);
         mIvBack.setVisibility(View.VISIBLE);
-        mTitle.setTitle(false, R.color.white, "交易记录");
-        mDateDialog = new DateDialog(TradeRecordActivity.this);
+        mTitle.setTitle(false, R.mipmap.ic_back_black, R.color.white, "交易记录");
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
-        tvStartTime = (TextView) view.findViewById(R.id.tv_startTime);
-        tvEndTime = (TextView) view.findViewById(R.id.tv_endTime);
-        tvOne = (TextView) view.findViewById(R.id.tv_one);
-        tvTwo = (TextView) view.findViewById(R.id.tv_two);
-        tvThr = (TextView) view.findViewById(R.id.tv_thr);
-        tvFour = (TextView) view.findViewById(R.id.tv_four);
+        mStartTime = (TextView) view.findViewById(R.id.tv_startTime);
+        mEndTime = (TextView) view.findViewById(R.id.tv_endTime);
+        mTextOne = (TextView) view.findViewById(R.id.tv_one);
+        mTextTwo = (TextView) view.findViewById(R.id.tv_two);
+        mTextThr = (TextView) view.findViewById(R.id.tv_thr);
+        mTextFour = (TextView) view.findViewById(R.id.tv_four);
         mLinearTitle = (LinearLayout) view.findViewById(R.id.ll_tab_title);
         //风险率
-        tvRisk = (TextView) view.findViewById(R.id.tv_risk);
+        mTextRisk = (TextView) view.findViewById(R.id.tv_risk);
         //建仓手数
-        tvJiancang = (TextView) view.findViewById(R.id.tv_jiancang);
+        mJiancang = (TextView) view.findViewById(R.id.tv_jiancang);
         //平仓手数
-        tvPingcang = (TextView) view.findViewById(R.id.tv_pingcang);
+        mPingcang = (TextView) view.findViewById(R.id.tv_pingcang);
         //已撤单手数
-        tvRevoke = (TextView) view.findViewById(R.id.tv_revoke);
+        mRevoke = (TextView) view.findViewById(R.id.tv_revoke);
         //建仓
-        tabJcLayout = view.findViewById(R.id.tab_jcLayout);
-        tabJcText = (TextView) view.findViewById(R.id.tab_jcText);
-        tabJcLine = view.findViewById(R.id.tab_jcLine);
+        mTabJcLayout = view.findViewById(R.id.tab_jcLayout);
+        mTabJcText = (TextView) view.findViewById(R.id.tab_jcText);
+        mTabJcLine = view.findViewById(R.id.tab_jcLine);
         //持仓
-        tabCcLayout = view.findViewById(R.id.tab_ccLayout);
-        tabCcText = (TextView) view.findViewById(R.id.tab_ccText);
-        tabCcLine = view.findViewById(R.id.tab_ccLine);
+        mTabCcLayout = view.findViewById(R.id.tab_ccLayout);
+        mTabCcText = (TextView) view.findViewById(R.id.tab_ccText);
+        mTabCcLine = view.findViewById(R.id.tab_ccLine);
         //已撤单
-        tabRLayout = view.findViewById(R.id.tab_rLayout);
-        tabRText = (TextView) view.findViewById(R.id.tab_rText);
-        tabRLine = view.findViewById(R.id.tab_rLine);
+        mTabRLayout = view.findViewById(R.id.tab_rLayout);
+        mTabRText = (TextView) view.findViewById(R.id.tab_rText);
+        mTabRLine = view.findViewById(R.id.tab_rLine);
 
-        tvStartTime.setOnClickListener(this);
-        tvEndTime.setOnClickListener(this);
-        tabJcLayout.setOnClickListener(this);
-        tabCcLayout.setOnClickListener(this);
-        tabRLayout.setOnClickListener(this);
+        mTabJcText.getPaint().setFakeBoldText(true);
+        mTabCcText.getPaint().setFakeBoldText(false);
+        mTabRText.getPaint().setFakeBoldText(false);
+
+        mStartTime.setOnClickListener(this);
+        mEndTime.setOnClickListener(this);
+        mTabJcLayout.setOnClickListener(this);
+        mTabCcLayout.setOnClickListener(this);
+        mTabRLayout.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
 
-        lvListView.addHeaderView(view);
-        List<String>  list = new ArrayList<>();
-        for (int i = 0 ; i < 30;i++){
-            list.add(new String("111"));
-        }
+        mListView.addHeaderView(view);
         mAdapter = new TradeRecordAdapter(TradeRecordActivity.this);
-        lvListView.setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
 
-        mDateDialog.setBirthdayListener(new DateDialog.OnBirthListener() {
+        mSingleDateDialog.setOnBirthdayListener(new SingleDateDialog.OnBirthdayListener() {
             @Override
-            public void onClick(String start, String end) {
+            public void OnBirthday(String type, String time) {
+
+                String[] split = time.split("-");
+                String mTime = split[0] +"-"+ Integer.parseInt(split[1]) +"-" + Integer.parseInt(split[2]);
+                String start = START_TIME_TYPE.equals(type) ? mTime : startTime;
+                String end = END_TIME_TYPE.equals(type) ? mTime : endTime;
                 if (DateUtil.compareDate(start, end)) {
-                    ToastUtil.show("结束日期不能早于开始日期");
+                    ToastUtil.show("开始日期不能早于结束日期");
                     return;
                 }
                 if (DateUtil.compareDate(end, today)) {
-                    ToastUtil.show("结束日期不能晚于今天");
+                    ToastUtil.show("结束日期不能早于今天");
                     return;
                 }
                 startTime = start;
                 endTime = end;
-                tvStartTime.setText(start);
-                tvEndTime.setText(end);
+                mStartTime.setText(start);
+                mEndTime.setText(end);
                 getHistoryData(clickId);
-                mDateDialog.dismiss();
+                mSingleDateDialog.dismiss();
             }
         });
-        endTime = mDateDialog.getYear() + "-" + mDateDialog.getMonth() + "-" + mDateDialog.getDay();
+
+        endTime = mSingleDateDialog.getYear() +"-"+ mSingleDateDialog.getMonth() +"-"+ mSingleDateDialog.getDay();
         today = endTime;
         startTime = getStartTime();
-        tvStartTime.setText(startTime);
-        tvEndTime.setText(endTime);
+        mStartTime.setText(startTime);
+        mEndTime.setText(endTime);
+
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -177,6 +189,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                         TimeUtil.getStringByOffset(endTime,TimeUtil.dateFormatYMD,Calendar.DATE,1));
             }
         },500);
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -184,46 +197,47 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
             }
         },1000);
 
-        refreshView.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getHistoryData(clickId);
             }
         });
-        refreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
+        mRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 loadMore();
             }
         });
-        tvTwo.setVisibility(View.INVISIBLE);
-        tvThr.setVisibility(View.INVISIBLE);
-        tvFour.setText("建仓价");
+        mTextTwo.setVisibility(View.INVISIBLE);
+        mTextThr.setVisibility(View.INVISIBLE);
+        mTextFour.setText("建仓价");
         if(tabIndex == 1){
             clickId = R.id.tab_ccLayout;
-            tabCcLayout.performClick();
+            mTabCcLayout.performClick();
         }
     }
+
 
     private void loadMore() {
         switch (clickId){
             case R.id.tab_jcLayout:
                 if (!isHistoryBuilderMore){
-                    refreshView.finishLoadmore();
+                    mRefreshView.finishLoadmore();
                     return;
                 }
                 mPresenter.getHistoryBuilderBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),TimeUtil.getStringByOffset(endTime,TimeUtil.dateFormatYMD,Calendar.DATE,1),pageBuider,pageSize);
                 break;
             case R.id.tab_ccLayout:
                 if (!isHistoryCloseMore){
-                    refreshView.finishLoadmore();
+                    mRefreshView.finishLoadmore();
                     return;
                 }
                 mPresenter.getHistoryCloseBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),TimeUtil.getStringByOffset(endTime,TimeUtil.dateFormatYMD,Calendar.DATE,1),pageClose,pageSize);
                 break;
             case R.id.tab_rLayout:
                 if (!isHistoryMissMore){
-                    refreshView.finishLoadmore();
+                    mRefreshView.finishLoadmore();
                     return;
                 }
                 mPresenter.getHistoryMissBean(startTime, SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),TimeUtil.getStringByOffset(endTime,TimeUtil.dateFormatYMD,Calendar.DATE,1),pageMiss,pageSize);
@@ -245,55 +259,64 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_startTime:
-                mDateDialog.show();
+                mSingleDateDialog.showDateDialog(START_TIME_TYPE);
                 break;
             case R.id.tv_endTime:
-                mDateDialog.show();
+                mSingleDateDialog.showDateDialog(END_TIME_TYPE);
                 break;
             case R.id.tab_jcLayout:
                 clickId = v.getId();
                 getHistoryData(clickId);
-                tabJcText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                tabJcLine.setBackgroundResource(R.color.color_008EFF);
-                tabJcLine.setVisibility(View.VISIBLE);
-                tabCcText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabCcLine.setVisibility(View.INVISIBLE);
-                tabRText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabRLine.setVisibility(View.INVISIBLE);
-                tvTwo.setVisibility(View.INVISIBLE);
-                tvThr.setVisibility(View.INVISIBLE);
-                tvFour.setText("建仓价");
+                mTabJcText.setTextColor(getResources().getColor(R.color.color_008EFF));
+                mTabJcLine.setBackgroundResource(R.color.color_008EFF);
+                mTabJcLine.setVisibility(View.VISIBLE);
+                mTabCcText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabCcLine.setVisibility(View.INVISIBLE);
+                mTabRText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabRLine.setVisibility(View.INVISIBLE);
+                mTextTwo.setVisibility(View.INVISIBLE);
+                mTextThr.setVisibility(View.INVISIBLE);
+                mTextFour.setText("建仓价");
+                mTabJcText.getPaint().setFakeBoldText(true);
+                mTabCcText.getPaint().setFakeBoldText(false);
+                mTabRText.getPaint().setFakeBoldText(false);
                 break;
             case R.id.tab_ccLayout:
                 clickId = v.getId();
                 getHistoryData(clickId);
-                tabJcText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabJcLine.setVisibility(View.INVISIBLE);
-                tabCcText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                tabCcLine.setBackgroundResource(R.color.color_008EFF);
-                tabCcLine.setVisibility(View.VISIBLE);
-                tabRText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabRLine.setVisibility(View.INVISIBLE);
-                tvTwo.setVisibility(View.VISIBLE);
-                tvTwo.setText("建仓价");
-                tvThr.setVisibility(View.VISIBLE);
-                tvThr.setText("平仓价");
-                tvFour.setText("平仓盈亏");
+                mTabJcText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabJcLine.setVisibility(View.INVISIBLE);
+                mTabCcText.setTextColor(getResources().getColor(R.color.color_008EFF));
+                mTabCcLine.setBackgroundResource(R.color.color_008EFF);
+                mTabCcLine.setVisibility(View.VISIBLE);
+                mTabRText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabRLine.setVisibility(View.INVISIBLE);
+                mTextTwo.setVisibility(View.VISIBLE);
+                mTextTwo.setText("建仓价");
+                mTextThr.setVisibility(View.VISIBLE);
+                mTextThr.setText("平仓价");
+                mTextFour.setText("平仓盈亏");
+                mTabJcText.getPaint().setFakeBoldText(false);
+                mTabCcText.getPaint().setFakeBoldText(true);
+                mTabRText.getPaint().setFakeBoldText(false);
                 break;
             case R.id.tab_rLayout:
                 clickId = v.getId();
                 getHistoryData(clickId);
-                tabCcText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabCcLine.setVisibility(View.INVISIBLE);
-                tabJcText.setTextColor(getResources().getColor(R.color.color_333333));
-                tabJcLine.setVisibility(View.INVISIBLE);
-                tabRText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                tabRLine.setBackgroundResource(R.color.color_008EFF);
-                tabRLine.setVisibility(View.VISIBLE);
-                tvTwo.setVisibility(View.INVISIBLE);
-                tvThr.setVisibility(View.VISIBLE);
-                tvThr.setText("委托类型");
-                tvFour.setText("委托价");
+                mTabCcText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabCcLine.setVisibility(View.INVISIBLE);
+                mTabJcText.setTextColor(getResources().getColor(R.color.color_333333));
+                mTabJcLine.setVisibility(View.INVISIBLE);
+                mTabRText.setTextColor(getResources().getColor(R.color.color_008EFF));
+                mTabRLine.setBackgroundResource(R.color.color_008EFF);
+                mTabRLine.setVisibility(View.VISIBLE);
+                mTextTwo.setVisibility(View.INVISIBLE);
+                mTextThr.setVisibility(View.VISIBLE);
+                mTextThr.setText("委托类型");
+                mTextFour.setText("委托价");
+                mTabJcText.getPaint().setFakeBoldText(false);
+                mTabCcText.getPaint().setFakeBoldText(false);
+                mTabRText.getPaint().setFakeBoldText(true);
                 break;
             case R.id.tv_back:
                 finish();
@@ -322,28 +345,28 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     public void bindHistoryTradeBean(HistoryTradeBean bean) {
         //持仓盈亏
         if (Double.parseDouble(bean.profitLoss) > 0) {
-            tvRisk.setText(bean.profitLoss);
-            tvRisk.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            mTextRisk.setText(bean.profitLoss);
+            mTextRisk.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
         } else if (Double.parseDouble(bean.profitLoss) < 0) {
-            tvRisk.setText(bean.profitLoss);
-            tvRisk.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mTextRisk.setText(bean.profitLoss);
+            mTextRisk.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
-            tvRisk.setText(bean.profitLoss);
-            tvRisk.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mTextRisk.setText(bean.profitLoss);
+            mTextRisk.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
-        tvJiancang.setText(bean.open);
-        tvPingcang.setText(bean.close);
-        tvRevoke.setText(bean.cancel);
+        mJiancang.setText(bean.open);
+        mPingcang.setText(bean.close);
+        mRevoke.setText(bean.cancel);
     }
     boolean isHistoryMissMore = false;
     @Override
     public void bindHistoryMissBean(List<HistoryMissPositionBean> list) {
         if (pageMiss>1){
             mAdapter.setMList(list,true);
-            refreshView.finishLoadmore();
+            mRefreshView.finishLoadmore();
         }else {
             mAdapter.setMList(list,false);
-            refreshView.finishRefresh();
+            mRefreshView.finishRefresh();
             if (list.size()==0){
                 mLinearTitle.setVisibility(View.GONE);
                 return;
@@ -362,10 +385,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     public void bindHistoryCloseBean(List<HistoryClosePositionBean> list) {
         if (pageClose>1){
             mAdapter.setCList(list,true);
-            refreshView.finishLoadmore();
+            mRefreshView.finishLoadmore();
         }else {
             mAdapter.setCList(list,false);
-            refreshView.finishRefresh();
+            mRefreshView.finishRefresh();
             if (list.size()==0){
                 mLinearTitle.setVisibility(View.GONE);
                 return;
@@ -385,10 +408,10 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     public void bindHistoryBuilderBean(List<HistoryBuiderPositionBean> list) {
         if (pageBuider>1){
             mAdapter.setBList(list,true);
-            refreshView.finishLoadmore();
+            mRefreshView.finishLoadmore();
         }else {
             mAdapter.setBList(list,false);
-            refreshView.finishRefresh();
+            mRefreshView.finishRefresh();
             if (list.size()==0){
                 mLinearTitle.setVisibility(View.GONE);
                 return;
@@ -422,7 +445,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 getHistoryData(clickId);
             }
         }
-        refreshView.finishRefresh();
-        refreshView.finishLoadmore();
+        mRefreshView.finishRefresh();
+        mRefreshView.finishLoadmore();
     }
 }

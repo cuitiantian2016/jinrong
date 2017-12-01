@@ -150,8 +150,6 @@ public class TradeRecordAdapter extends BaseAdapter {
         TextView tvNewMoney;
         @BindView(R.id.tv_profitLossMoney)
         TextView tvProfitLossMoney;
-        @BindView(R.id.v_line)
-        View vLine;
         View view;
 
         ViewHolder(View view) {

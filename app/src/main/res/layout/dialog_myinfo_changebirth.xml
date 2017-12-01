@@ -90,7 +90,7 @@
                 android:layout_marginRight="15dip"
                 android:gravity="center"
                 android:text="确定"
-                android:textColor="@color/color_00A3CC"
+                android:textColor="@color/color_008EFF"
                 android:textSize="16sp" />
 
 

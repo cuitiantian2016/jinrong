@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="@color/color_white"
         android:orientation="horizontal"
         app:layout_scrollFlags="scroll">
 
@@ -18,17 +20,19 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/dimen_11dp"
             android:drawableRight="@mipmap/ic_glk_small_arrow_down"
-            android:paddingBottom="@dimen/dimen_16dp"
-            android:paddingTop="@dimen/dimen_16dp"
-            android:text="2107-10-17"
+            android:background="@drawable/bg_input_edit"
+            android:padding="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
+            tools:text="2107-10-17"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_28dp"
-            android:layout_marginRight="@dimen/dimen_28dp"
+            android:layout_marginLeft="@dimen/dimen_14dp"
+            android:layout_marginRight="@dimen/dimen_14dp"
             android:text="至"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_12sp" />
@@ -39,9 +43,11 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/dimen_11dp"
             android:drawableRight="@mipmap/ic_glk_small_arrow_down"
-            android:paddingBottom="@dimen/dimen_16dp"
-            android:paddingTop="@dimen/dimen_16dp"
-            android:text="2107-10-17"
+            android:background="@drawable/bg_input_edit"
+            android:padding="@dimen/dimen_8dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
+            tools:text="2107-10-17"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/dimen_12sp" />
     </LinearLayout>
@@ -49,23 +55,25 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_E3E3E3" />
+        android:background="@color/color_EDEDED" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="39dp"
-        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_white_2dp_bg"
+        android:layout_margin="@dimen/dimen_15dp"
+        android:paddingTop="@dimen/dimen_15dp"
+        android:paddingBottom="@dimen/dimen_15dp"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_risk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,13 +91,13 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_jiancang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,13 +114,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_pingcang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,13 +138,13 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.honglu.future.widget.DinTextView
                 android:id="@+id/tv_revoke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,7 +164,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/dimen_15dp"
         android:orientation="horizontal">
 
 
@@ -164,6 +173,7 @@
             android:id="@+id/tab_jcLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_15dp"
             android:orientation="vertical">
 
             <TextView
@@ -238,21 +248,21 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_E3E3E3"
-        android:layout_marginBottom="@dimen/dimen_16dp"/>
+        android:background="@color/color_EDEDED" />
 
     <LinearLayout
         android:id="@+id/ll_tab_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginRight="@dimen/dimen_20dp"
-        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/dimen_16dp"
+        android:paddingBottom="@dimen/dimen_16dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_one"
-            android:layout_width="@dimen/dimen_80dp"
+            android:layout_width="@dimen/dimen_90dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
             android:layout_height="wrap_content"
             android:text="合约"
             android:textColor="@color/color_333333"
@@ -283,6 +293,7 @@
             android:id="@+id/tv_four"
             android:layout_width="@dimen/dimen_60dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:gravity="right"
             android:text="持仓盈亏"
             android:textColor="@color/color_333333"
