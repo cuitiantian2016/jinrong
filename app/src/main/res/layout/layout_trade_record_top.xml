@@ -6,56 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/color_white"
-        android:orientation="horizontal"
-        app:layout_scrollFlags="scroll">
-
-        <TextView
-            android:id="@+id/tv_startTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/dimen_11dp"
-            android:drawableRight="@mipmap/ic_glk_small_arrow_down"
-            android:background="@drawable/bg_input_edit"
-            android:padding="@dimen/dimen_8dp"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            tools:text="2107-10-17"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_14dp"
-            android:layout_marginRight="@dimen/dimen_14dp"
-            android:text="至"
-            android:textColor="@color/color_A4A5A6"
-            android:textSize="@dimen/dimen_12sp" />
-
-        <TextView
-            android:id="@+id/tv_endTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/dimen_11dp"
-            android:drawableRight="@mipmap/ic_glk_small_arrow_down"
-            android:background="@drawable/bg_input_edit"
-            android:padding="@dimen/dimen_8dp"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            tools:text="2107-10-17"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_12sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_EDEDED" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -186,9 +136,10 @@
 
             <View
                 android:id="@+id/tab_jcLine"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dimen_20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="@dimen/dimen_3dp"
-                android:background="@color/color_008EFF"
+                android:background="@drawable/tab_line_bg"
                 android:layout_marginTop="@dimen/dimen_10dp"/>
         </LinearLayout>
 
@@ -210,9 +161,10 @@
 
             <View
                 android:id="@+id/tab_ccLine"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dimen_20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="@dimen/dimen_3dp"
-                android:background="@color/color_008EFF"
+                android:background="@drawable/tab_line_bg"
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:visibility="invisible"/>
         </LinearLayout>
@@ -235,9 +187,10 @@
 
             <View
                 android:id="@+id/tab_rLine"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dimen_20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="@dimen/dimen_3dp"
-                android:background="@color/color_008EFF"
+                android:background="@drawable/tab_line_bg"
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:visibility="invisible"/>
         </LinearLayout>

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
-import com.honglu.future.dialog.DateDialog;
 import com.honglu.future.dialog.SingleDateDialog;
 import com.honglu.future.ui.trade.adapter.TradeRecordAdapter;
 import com.honglu.future.ui.trade.bean.HistoryBuiderPositionBean;
@@ -30,9 +29,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,14 +51,17 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
     SmartRefreshLayout mRefreshView;
     @BindView(R.id.tv_back)
     ImageView mIvBack;
+    @BindView(R.id.tv_startTime)
+    TextView mStartTime;
+    @BindView(R.id.tv_endTime)
+    TextView mEndTime;
 
     private TextView mTextOne;
     private TextView mTextTwo;
     private TextView mTextThr;
     private TextView mTextFour;
     private LinearLayout mLinearTitle;
-    private TextView mStartTime;
-    private TextView mEndTime;
+
     private TextView mTextRisk;
     private TextView mJiancang;
     private TextView mPingcang;
@@ -107,8 +107,6 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "交易记录");
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
-        mStartTime = (TextView) view.findViewById(R.id.tv_startTime);
-        mEndTime = (TextView) view.findViewById(R.id.tv_endTime);
         mTextOne = (TextView) view.findViewById(R.id.tv_one);
         mTextTwo = (TextView) view.findViewById(R.id.tv_two);
         mTextThr = (TextView) view.findViewById(R.id.tv_thr);
@@ -268,7 +266,6 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 clickId = v.getId();
                 getHistoryData(clickId);
                 mTabJcText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                mTabJcLine.setBackgroundResource(R.color.color_008EFF);
                 mTabJcLine.setVisibility(View.VISIBLE);
                 mTabCcText.setTextColor(getResources().getColor(R.color.color_333333));
                 mTabCcLine.setVisibility(View.INVISIBLE);
@@ -287,7 +284,6 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 mTabJcText.setTextColor(getResources().getColor(R.color.color_333333));
                 mTabJcLine.setVisibility(View.INVISIBLE);
                 mTabCcText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                mTabCcLine.setBackgroundResource(R.color.color_008EFF);
                 mTabCcLine.setVisibility(View.VISIBLE);
                 mTabRText.setTextColor(getResources().getColor(R.color.color_333333));
                 mTabRLine.setVisibility(View.INVISIBLE);
@@ -308,7 +304,6 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
                 mTabJcText.setTextColor(getResources().getColor(R.color.color_333333));
                 mTabJcLine.setVisibility(View.INVISIBLE);
                 mTabRText.setTextColor(getResources().getColor(R.color.color_008EFF));
-                mTabRLine.setBackgroundResource(R.color.color_008EFF);
                 mTabRLine.setVisibility(View.VISIBLE);
                 mTextTwo.setVisibility(View.INVISIBLE);
                 mTextThr.setVisibility(View.VISIBLE);
