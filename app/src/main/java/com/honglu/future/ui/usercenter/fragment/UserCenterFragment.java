@@ -298,8 +298,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     private void showCallPhoneDialog() {
-        new AlertFragmentDialog.Builder(mActivity).setContent(getString(R.string.conform_call_phone, Constant.CUSTOMER_PHONE))
-                .setRightBtnText("确定")
+        new AlertFragmentDialog.Builder(mActivity).setContent( Constant.CUSTOMER_PHONE_TEXT,R.color.color_333333,R.dimen.dimen_20sp)
+                .setRightBtnText("拨打")
                 .setLeftBtnText("取消")
                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override

@@ -26,6 +26,7 @@ public class Constant {
     public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号
 
     public static final String CUSTOMER_PHONE = "4009610211";//客服电话
+    public static final String CUSTOMER_PHONE_TEXT = "400-961-0211";//客服电话
     public static final String COMPANY_CODE = "GUOFU";//公司代码
     public static final String KEY_OPEN_WEB_TITLE = "webTitle";//打开web页面的titel
 
