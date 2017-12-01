@@ -12,9 +12,11 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.login.contract.ResetPwdContract;
 import com.honglu.future.ui.login.presenter.ResetPwdPresenter;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CheckUtils;
@@ -82,12 +84,16 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
         mClose.setVisibility(View.GONE);
         mBack.setVisibility(View.VISIBLE);
         mTvLogin.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))) {
+            mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+            mMobile.setSelection(mMobile.getText().toString().length());
+        }
         controlKeyboardLayout(findViewById(R.id.rootView));
     }
 
     /**
      * @param root 最外层布局，需要调整的布局
-     * 输入框，滚动root,使输入框在root可视区域的底部
+     *             输入框，滚动root,使输入框在root可视区域的底部
      */
     private void controlKeyboardLayout(final View root) {
         if (root == null)
@@ -139,7 +145,7 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.btn_sendCode:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 if (CheckUtils.checkPhoneNum(mMobile.getText().toString())) {
@@ -149,7 +155,7 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
                 }
                 break;
             case R.id.btn_reset_pwd:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 if (mMobile.length() < 11) {
@@ -165,7 +171,7 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
                     showToast("密码必须为6~16字符");
                     return;
                 }
-                mPresenter.resetPwd(mMobile.getText().toString(), mPwd.getText().toString(),mSmsCode.getText().toString());
+                mPresenter.resetPwd(mMobile.getText().toString(), mPwd.getText().toString(), mSmsCode.getText().toString());
                 break;
             case R.id.iv_back:
                 finish();

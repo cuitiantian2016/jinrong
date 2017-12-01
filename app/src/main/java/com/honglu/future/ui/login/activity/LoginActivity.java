@@ -89,6 +89,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
         if(!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))){
             mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+            mMobile.setSelection(mMobile.getText().toString().length());
         }
         controlKeyboardLayout(findViewById(R.id.rootView));
     }

@@ -369,6 +369,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
                 @Override
                 public void dialogRightBtnClick(String string) {
                     Intent intent = new Intent(mActivity, WebViewActivity.class);
+                    intent.putExtra("title", "如何添加银行卡");
                     intent.putExtra("url", ConfigUtil.BIND_CARD_TEACH);
                     startActivity(intent);
                 }

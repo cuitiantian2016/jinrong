@@ -10,6 +10,7 @@ import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -57,6 +58,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -115,14 +117,23 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     public void initView() {
         mHashMap = new HashMap<>();
         if (getIntent() != null) {
-            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
-                title = getIntent().getStringExtra("title");
-                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
-            }
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
             } else {
                 mUrl = getIntent().getStringExtra("url");
+            }
+
+            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
+                title = getIntent().getStringExtra("title");
+                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
+            } else {
+                Map<String, String> param = toMapParams(mUrl);
+                if (param != null) {
+                    if (param.containsKey(Constant.KEY_OPEN_WEB_TITLE)) {
+                        String title = (String) param.get(Constant.KEY_OPEN_WEB_TITLE);
+                        mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
+                    }
+                }
             }
 
             if (App.getConfig().isDebug() && !TextUtils.isEmpty(mUrl)) {
@@ -436,5 +447,29 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             super.onReceivedTitle(view, title);
         }
 
+    }
+
+    /**
+     * 解析url的参数部分
+     *
+     * @param url 参数URl
+     * @return 返回 map
+     */
+    private static Map<String, String> toMapParams(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        }
+        Uri uri = Uri.parse(url);
+        String query = uri.getQuery();
+        Map<String, String> map = null;
+        if (query != null) {
+            map = new HashMap<String, String>();
+            String[] arrTemp = query.split("&");
+            for (String str : arrTemp) {
+                String[] qs = str.split("=");
+                map.put(qs[0], qs[1]);
+            }
+        }
+        return map;
     }
 }
