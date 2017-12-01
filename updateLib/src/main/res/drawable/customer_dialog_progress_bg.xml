@@ -4,10 +4,5 @@
 
     <!-- 填充的颜色 -->
     <solid android:color="#f0f0f0" />
-    <corners
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
 
 </shape>
