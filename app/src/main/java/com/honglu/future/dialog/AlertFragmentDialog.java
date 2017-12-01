@@ -322,7 +322,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         }
 
         public Builder setTitle(String title) {
-            return setTitle(title, R.color.color_333333, R.dimen.dimen_16sp);
+            return setTitle(title, R.color.color_333333, R.dimen.dimen_18sp);
         }
 
         public Builder setTitle(String title, @ColorRes int titleColor, @DimenRes int titleSize) {
@@ -338,7 +338,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         }
 
         public Builder setContent(String content) {
-            return setContent(content, R.color.color_333333, R.dimen.dimen_12sp);
+            return setContent(content, R.color.color_333333, R.dimen.dimen_16sp);
         }
 
         public Builder setContent(String content, @ColorRes int contentColor, @DimenRes int contentSize) {

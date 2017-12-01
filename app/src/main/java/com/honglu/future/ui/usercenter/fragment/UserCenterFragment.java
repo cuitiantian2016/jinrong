@@ -23,6 +23,7 @@ import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
+import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
@@ -239,7 +240,18 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_signout:
-                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
+                new AlertFragmentDialog.Builder(mActivity).setContent("确定退出期货账户吗？")
+                        .setRightBtnText("确定")
+                        .setLeftBtnText("取消")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String string) {
+                                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
+                            }
+                        }).build();
                 break;
             case R.id.tv_my_account:
             case R.id.ll_account:
