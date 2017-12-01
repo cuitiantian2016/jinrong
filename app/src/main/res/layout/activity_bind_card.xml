@@ -17,6 +17,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/bindcard_recycler"
             android:layout_width="match_parent"
@@ -27,12 +31,12 @@
     <TextView
         android:id="@+id/tv_add_card"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dimen_18dp"
+        android:layout_marginBottom="@dimen/dimen_17dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dimen_5dp"
         android:textColor="#979899"
         android:textSize="@dimen/dimen_14sp"
-        android:text="如何添加银行卡"/>
+        android:text="如何添加银行卡?"/>
 </RelativeLayout>
