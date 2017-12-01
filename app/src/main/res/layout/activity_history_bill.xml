@@ -40,7 +40,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/dimen_5dp"
-                android:src="@mipmap/icon_glk_arrow_down" />
+                android:src="@mipmap/ic_arrow_down" />
         </LinearLayout>
     </LinearLayout>
 
@@ -88,7 +88,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_marginTop="@dimen/dimen_17dp">
 
                     <TextView
@@ -99,7 +99,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_prev_sttl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_cur_day_jc"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_marginTop="@dimen/dimen_18dp">
 
                     <TextView
@@ -143,7 +143,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_khqy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_cur_day_crj"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_marginTop="@dimen/dimen_18dp">
 
                     <TextView
@@ -187,7 +187,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_kyzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_cur_day_pcyk"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_marginTop="@dimen/dimen_18dp">
 
                     <TextView
@@ -231,7 +231,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_djzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
                         android:textColor="@color/color_A4A5A6"
                         android:textSize="@dimen/dimen_14sp" />
 
-                    <TextView
+                    <com.honglu.future.widget.DinTextView
                         android:id="@+id/tv_cur_day_sxf"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"

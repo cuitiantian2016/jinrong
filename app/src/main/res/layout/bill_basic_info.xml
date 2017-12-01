@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/dimen_20dp"
-    android:layout_marginRight="@dimen/dimen_20dp"
+    android:layout_marginLeft="@dimen/dimen_15dp"
+    android:layout_marginRight="@dimen/dimen_15dp"
     android:layout_marginTop="@dimen/dimen_15dp"
     android:background="@drawable/shape_white_2dp_bg"
     android:orientation="vertical"
     android:paddingBottom="@dimen/dimen_17dp"
-    android:paddingLeft="@dimen/dimen_20dp"
+    android:paddingLeft="@dimen/dimen_15dp"
     android:paddingTop="@dimen/dimen_15dp">
 
     <TextView
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="期货公司名称："
+            android:text="期货公司名称"
             android:textColor="@color/color_A4A5A6"
             android:textSize="@dimen/dimen_14sp" />
 

@@ -80,6 +80,9 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
     TextView mDjzj;
     @BindView(R.id.tv_cur_day_sxf)
     TextView mDrsxf;
+    @BindView(R.id.tv_empty)
+    TextView mEmpty;
+
     private ArrayList<CustomTabEntity> mTabList;
     private HistoryRecordsAdapter mHistoryRecordsAdapter;
     private List<HistoryRecordsBean> mList;
@@ -118,12 +121,23 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         initView();
     }
 
+    public void setEmpty(boolean isEmpty,int position){
+        if (isEmpty){
+            String empty = position == 0 ? "暂无数据" : position == 1 ? "暂无数据" : "暂无数据";
+            mEmpty.setVisibility(View.VISIBLE);
+            mEmpty.setText(empty);
+        }else {
+            mEmpty.setText("");
+            mEmpty.setVisibility(View.GONE);
+        }
+    }
+
     private void initView() {
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "历史账单记录");
-        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
-        int indicatorWidth = (int) (screenWidthDip * 0.12f);
-        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
+//        int screenWidthDip = DeviceUtils.px2dip(mContext, DeviceUtils.getScreenWidth(mContext));
+//        int indicatorWidth = (int) (screenWidthDip * 0.12f);
+//        mCommonTabLayout.setIndicatorWidth(indicatorWidth);
         //添加tab实体
         addTabEntities();
         mRecordsListView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -142,6 +156,11 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 if (mHistoryRecordsAdapter.getData() != null) {
                     mHistoryRecordsAdapter.clearData();
                 }
+                if (mList !=null && mList.size() > 0){
+                    setEmpty(false,0);
+                }else {
+                    setEmpty(true,0);
+                }
                 if (settlementInfoBean != null) {
                     settlementInfoBean = null;
                 }
@@ -154,6 +173,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         int day = mDateDialog.getDay();
         mTvDate.setText(year + "-" + month + "-" + day);
         mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", year + "-" + month + "-" + day);
+
+        if (mList !=null && mList.size() > 0){
+            setEmpty(false,0);
+        }else {
+            setEmpty(true,0);
+        }
     }
 
     private void initData() {
@@ -179,6 +204,11 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         setTabData();
         mHistoryRecordsAdapter.clearData();
         mHistoryRecordsAdapter.addData(mList);
+        if (mList !=null && mList.size() > 0){
+            setEmpty(false,0);
+        }else {
+            setEmpty(true,0);
+        }
     }
 
     private void setEmpty() {
@@ -216,6 +246,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 }
                 mList.clear();
                 if (settlementInfoBean == null) {
+                        setEmpty(true,position);
                     return;
                 }
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
@@ -246,6 +277,11 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                     }
                 }
                 mHistoryRecordsAdapter.clearData();
+                if (mList !=null && mList.size() > 0){
+                    setEmpty(false,0);
+                }else {
+                    setEmpty(true,0);
+                }
                 mHistoryRecordsAdapter.addData(mList);
             }
         });
