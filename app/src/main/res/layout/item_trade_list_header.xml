@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_25dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
+                    android:visibility="gone"
                     android:layout_toRightOf="@+id/ll_left"
                     android:src="@mipmap/ic_trade_danger" />
 
