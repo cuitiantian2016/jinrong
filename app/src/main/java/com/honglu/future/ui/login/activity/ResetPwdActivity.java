@@ -87,6 +87,7 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
         if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))) {
             mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
             mMobile.setSelection(mMobile.getText().toString().length());
+            mSendCodeView.setEnabled(true);
         }
         controlKeyboardLayout(findViewById(R.id.rootView));
     }
