@@ -485,6 +485,15 @@ public class TimeUtil {
     public static String getLastDayOfWeek(String format) {
         return getDayOfWeek(format, Calendar.SUNDAY);
     }
+    /**
+     * 描述：获取本周五.
+     *
+     * @param format the format
+     * @return String String类型日期时间
+     */
+    public static String getFridayOfWeek(String format) {
+        return getDayOfWeek(format, Calendar.FRIDAY);
+    }
 
     /**
      * 描述：获取本周的某一天.

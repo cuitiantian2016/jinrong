@@ -1,7 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,6 +29,7 @@ import com.honglu.future.ui.trade.contract.ClosePositionContract;
 import com.honglu.future.ui.trade.presenter.ClosePositionPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.loading.LoadingLayout;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
@@ -104,10 +104,16 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        mEndDate = sdf.format(c.getTime());
+        String today = TimeUtil.getCurrentDate(TimeUtil.dateFormatYMD);
+        String end;
+        if (TimeUtil.getFridayOfWeek(TimeUtil.dateFormatYMD).equals(today)) {
+            end = TimeUtil.getStringByOffset(today, TimeUtil.dateFormatYMD, Calendar.DATE, 3);
+        } else {
+            end = TimeUtil.getStringByOffset(today, TimeUtil.dateFormatYMD, Calendar.DATE, 1);
+        }
+        mEndDate = end;
+
+
         initView();
     }
 
@@ -126,7 +132,7 @@ public class ClosePositionFragment extends BaseFragment<ClosePositionPresenter> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, TradeRecordActivity.class);
-                intent.putExtra("tabIndex",1);//交易记录第二个tab
+                intent.putExtra("tabIndex", 1);//交易记录第二个tab
                 startActivity(intent);
             }
         });
