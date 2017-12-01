@@ -105,7 +105,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
         tabIndex = getIntent().getIntExtra("tabIndex",0);
         mSingleDateDialog = new SingleDateDialog(TradeRecordActivity.this);
         mIvBack.setVisibility(View.VISIBLE);
-        mTitle.setTitle(false, R.mipmap.ic_back_black, R.color.white, "交易记录");
+        mTitle.setTitle(false, R.color.white, "交易记录");
         View view = LayoutInflater.from(TradeRecordActivity.this).inflate(R.layout.layout_trade_record_top,null);
         mStartTime = (TextView) view.findViewById(R.id.tv_startTime);
         mEndTime = (TextView) view.findViewById(R.id.tv_endTime);

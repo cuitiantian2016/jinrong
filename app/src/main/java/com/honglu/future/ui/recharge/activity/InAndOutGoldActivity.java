@@ -37,7 +37,7 @@ public class InAndOutGoldActivity extends BaseActivity {
     @BindView(R.id.tv_back)
     ImageView mLeftIcon;
     @BindView(R.id.tv_title)
-    TextView mTitle;
+    TextView mTitleText;
     @BindView(R.id.tv_right)
     TextView mTvRight;
     @BindView(R.id.trade_common_tab_layout)
@@ -62,7 +62,7 @@ public class InAndOutGoldActivity extends BaseActivity {
     }
     @Override
     public void loadData() {
-        mTitle.setText(mContext.getString(R.string.out_in_gold));
+        mTitleText.setText(mContext.getString(R.string.out_in_gold));
         mTvRight.setText(mContext.getString(R.string.rule_out_in_gold));
         mTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,7 @@ public class InAndOutGoldActivity extends BaseActivity {
             }
         });
         mLeftIcon.setVisibility(View.VISIBLE);
+        mTitle.getFlBack().setVisibility(View.VISIBLE);
         mLeftIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -22,6 +22,7 @@ public class TitleUtil {
     private TextView mTitle;
     private DrawableCenterTextView mRight;
     private AppCompatActivity mActivity;
+    private View mFlBack;
     //activity构造
     public TitleUtil(AppCompatActivity activity,View view) {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -32,6 +33,7 @@ public class TitleUtil {
         mClose = (DrawableCenterTextView) view.findViewById(R.id.tv_close);
         mTitle = (TextView) view.findViewById(R.id.tv_title);
         mRight = (DrawableCenterTextView) view.findViewById(R.id.tv_right);
+        mFlBack = view.findViewById(R.id.fl_back);
         this.mActivity = activity;
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -61,6 +63,7 @@ public class TitleUtil {
                 });
             }
         }else{
+            mFlBack.setVisibility(View.VISIBLE);
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -92,6 +95,7 @@ public class TitleUtil {
                 });
             }
         }else{
+            mFlBack.setVisibility(View.VISIBLE);
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -121,6 +125,7 @@ public class TitleUtil {
                 });
             }
         }else{
+            mFlBack.setVisibility(View.VISIBLE);
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -149,6 +154,7 @@ public class TitleUtil {
                 });
             }
         }else{
+            mFlBack.setVisibility(View.VISIBLE);
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -259,5 +265,9 @@ public class TitleUtil {
         }else{
             mRight.setClickable(false);
         }
+    }
+
+    public View getFlBack(){
+        return mFlBack;
     }
 }

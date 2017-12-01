@@ -13,8 +13,8 @@
         android:layout_marginTop="@dimen/dimen_10dp"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_20dp">
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp">
 
         <RelativeLayout
             android:id="@+id/rl_modify_avatar"
@@ -44,7 +44,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:background="@color/color_E3E3E3" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:id="@+id/rl_modify_name"
@@ -78,7 +78,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:background="@color/color_E3E3E3" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:background="@color/color_E3E3E3" />
+            android:background="@color/color_EDEDED" />
 
         <RelativeLayout
             android:id="@+id/rl_reset_pwd"
@@ -141,7 +141,7 @@
     <TextView
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50dp"
+        android:layout_height="@dimen/dimen_60dp"
         android:layout_marginTop="@dimen/dimen_10dp"
         android:background="@android:color/white"
         android:gravity="center"
