@@ -4,25 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
-
-import com.google.gson.Gson;
-import com.honglu.future.config.Constant;
-import com.honglu.future.events.EventBusConstant;
-import com.honglu.future.ui.home.bean.JpushBean;
-import com.honglu.future.ui.main.activity.MainActivity;
-import com.honglu.future.ui.main.activity.WebViewActivity;
-import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.db.TableManager;
-
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 

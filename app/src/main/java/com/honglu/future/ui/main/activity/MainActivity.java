@@ -143,21 +143,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     protected void onResume() {
         super.onResume();
         oldCheckId = 0;
-        switch (oldCheckId) {
-            case R.id.rb_home:
-                //setPaddingAndFillStatusBar(HomeFragment.getInstance());
-                break;
-            case R.id.rb_market:
-                //setPaddingAndFillStatusBar(MarketFragment.getInstance());
-            case R.id.rb_trade:
-                //setPaddingAndFillStatusBar(TradeFragment.getInstance());
-                break;
-            case R.id.rb_account:
-                //StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
-                break;
-            default:
-                break;
-        }
         mGroup.setOnCheckedChangeListener(changeListener);
     }
 
