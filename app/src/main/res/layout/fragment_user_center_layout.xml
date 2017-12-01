@@ -128,7 +128,7 @@
 
             <TextView
                 android:id="@+id/tv_open_account"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
@@ -148,7 +148,7 @@
 
             <TextView
                 android:id="@+id/tv_novice"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
@@ -169,7 +169,7 @@
 
             <TextView
                 android:id="@+id/tv_kefu"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
@@ -197,7 +197,7 @@
 
              <TextView
                  android:id="@+id/tv_phone"
-                 android:layout_width="wrap_content"
+                 android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="@dimen/dimen_17dp"
                  android:layout_marginBottom="@dimen/dimen_17dp"
@@ -218,7 +218,7 @@
 
              <TextView
                  android:id="@+id/tv_aboutus"
-                 android:layout_width="wrap_content"
+                 android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="@dimen/dimen_17dp"
                  android:layout_marginBottom="@dimen/dimen_17dp"
@@ -238,7 +238,7 @@
 
              <TextView
                  android:id="@+id/tv_update"
-                 android:layout_width="wrap_content"
+                 android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="@dimen/dimen_17dp"
                  android:layout_marginBottom="@dimen/dimen_17dp"
