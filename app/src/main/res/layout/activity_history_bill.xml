@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/color_F8F8F9"
     android:orientation="vertical">
 
@@ -12,35 +13,30 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="center"
-        android:paddingBottom="@dimen/dimen_10dp"
-        android:paddingTop="@dimen/dimen_10dp">
+        android:paddingBottom="@dimen/dimen_8dp"
+        android:paddingTop="@dimen/dimen_8dp">
 
         <LinearLayout
             android:id="@+id/ll_date_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/amount_radius_bg"
+            android:background="@drawable/bg_input_edit"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_13dp"
-            android:paddingRight="@dimen/dimen_13dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_date_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/dimen_5dp"
-                android:paddingTop="@dimen/dimen_5dp"
-                android:text="2107-10-17"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:paddingBottom="@dimen/dimen_8dp"
+                android:paddingRight="@dimen/dimen_12dp"
+                android:paddingLeft="@dimen/dimen_12dp"
+                android:drawablePadding="@dimen/dimen_11dp"
+                android:drawableRight="@mipmap/ic_arrow_down"
                 android:textColor="@color/color_333333"
+                tools:text="2107-10-17"
                 android:textSize="@dimen/dimen_12sp" />
-
-            <ImageView
-                android:layout_width="@dimen/dimen_10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dimen_5dp"
-                android:src="@mipmap/ic_arrow_down" />
         </LinearLayout>
     </LinearLayout>
 

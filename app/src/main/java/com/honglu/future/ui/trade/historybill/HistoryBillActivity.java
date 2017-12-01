@@ -172,13 +172,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         int month = mDateDialog.getMonth();
         int day = mDateDialog.getDay();
         mTvDate.setText(year + "-" + month + "-" + day);
-        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", year + "-" + month + "-" + day);
-
         if (mList !=null && mList.size() > 0){
             setEmpty(false,0);
         }else {
             setEmpty(true,0);
         }
+        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", year + "-" + month + "-" + day);
     }
 
     private void initData() {
@@ -203,12 +202,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         mList = new ArrayList<>();
         setTabData();
         mHistoryRecordsAdapter.clearData();
-        mHistoryRecordsAdapter.addData(mList);
         if (mList !=null && mList.size() > 0){
             setEmpty(false,0);
         }else {
             setEmpty(true,0);
         }
+        mHistoryRecordsAdapter.addData(mList);
     }
 
     private void setEmpty() {
