@@ -79,7 +79,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
 
-    private String title;
+//    private String title;
     private String mUrl;
     private HashMap<String, String> mHashMap;
     private OnClickListener onClickListener;
@@ -123,18 +123,15 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 mUrl = getIntent().getStringExtra("url");
             }
 
-            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
-                title = getIntent().getStringExtra("title");
-                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
-            } else {
-                Map<String, String> param = toMapParams(mUrl);
-                if (param != null) {
-                    if (param.containsKey(Constant.KEY_OPEN_WEB_TITLE)) {
-                        String title = (String) param.get(Constant.KEY_OPEN_WEB_TITLE);
-                        mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
-                    }
-                }
-            }
+//else {
+//                Map<String, String> param = toMapParams(mUrl);
+//                if (param != null) {
+//                    if (param.containsKey(Constant.KEY_OPEN_WEB_TITLE)) {
+//                        String title = (String) param.get(Constant.KEY_OPEN_WEB_TITLE);
+//                        mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
+//                    }
+//                }
+//            }
 
             if (App.getConfig().isDebug() && !TextUtils.isEmpty(mUrl)) {
                 LogUtils.loge("当前页面链接:" + mUrl);
@@ -445,8 +442,14 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-        }
 
+            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
+                String intentTitle = getIntent().getStringExtra("title");
+                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, intentTitle);
+            } else{
+                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
+            }
+        }
     }
 
     /**
