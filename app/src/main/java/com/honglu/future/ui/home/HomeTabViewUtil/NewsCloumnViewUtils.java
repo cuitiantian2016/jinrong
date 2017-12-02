@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +16,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -150,6 +150,7 @@ public class NewsCloumnViewUtils {
      * 第一种类型
      */
     private static class TypeOneViewHolder extends BaseViewHolder {
+        private Context mContext;
         ImageView newest_content_iv;
         RelativeLayout rel_left;
         LinearLayout content_ll;
@@ -163,6 +164,7 @@ public class NewsCloumnViewUtils {
         ImageView mIvAvatar;
 
         TypeOneViewHolder(View convertView) {
+            mContext = convertView.getContext();
             Type = 0;
             rel_left = (RelativeLayout) convertView.findViewById(R.id.rel_left);
             newest_content_iv = (ImageView) convertView.findViewById(R.id.newest_content_iv);
@@ -181,7 +183,7 @@ public class NewsCloumnViewUtils {
         public void bindView(final HomeMessageItem item, final int position) {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
-            ImageUtil.display(ConfigUtil.baseImageUserUrl+item.userAvatar, mIvAvatar, R.mipmap.img_head);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.userAvatar, mIvAvatar, R.mipmap.img_head);
             if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
                 tv_time.setText(computingTime(item.showTime));
             }
@@ -207,7 +209,14 @@ public class NewsCloumnViewUtils {
                                               @Override
                                               public void onClick(View v) {
                                                   item.position = position;
-                                                  ConsultDetailsActivity.startConsultDetailsActivity(item,v.getContext());
+                                                  if (position < 10) {
+                                                      if (position == 9) {
+                                                          MobclickAgent.onEvent(mContext, "sy_zxzx_zixun" + String.valueOf(position + 1) + "st", "首页_第" + String.valueOf(position + 1) + "篇文章");
+                                                      } else {
+                                                          MobclickAgent.onEvent(mContext, "sy_zxzx_zixun0" + String.valueOf(position + 1) + "st", "首页_第" + String.valueOf(position + 1) + "篇文章");
+                                                      }
+                                                  }
+                                                  ConsultDetailsActivity.startConsultDetailsActivity(item, v.getContext());
                                               }
                                           }
 

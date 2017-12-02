@@ -7,7 +7,7 @@ package com.honglu.future.config;
 
 public class KeyConfig {
     //友盟key
-    public static String UM_KEY = "59ae4cf404e205537c000f94";
+    public static String UM_KEY = "5a17c14df43e4876840000f4";
     //bugly key
     public static String BUGLY_KEY = "";
     //bugly test Key
