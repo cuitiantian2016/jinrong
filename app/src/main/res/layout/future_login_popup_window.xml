@@ -78,8 +78,8 @@
                     android:inputType="number"
                     android:maxLength="8"
                     android:maxLines="1"
-                    android:textColorHint="@color/color_B1B1B3"
                     android:textColor="@color/color_333333"
+                    android:textColorHint="@color/color_B1B1B3"
                     android:textSize="@dimen/dimen_16sp" />
 
                 <View
@@ -141,8 +141,9 @@
             android:layout_height="@dimen/dimen_50dp"
             android:layout_marginRight="@dimen/dimen_20dp"
             android:layout_marginTop="@dimen/dimen_20dp"
-            android:background="@drawable/shape_btn_common_bg"
+            android:background="@drawable/selector_btton_2dp"
             android:gravity="center"
+            android:enabled="false"
             android:text="登录"
             android:textColor="@android:color/white"
             android:textSize="@dimen/dimen_18sp" />

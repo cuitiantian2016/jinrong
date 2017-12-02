@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,17 +18,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabEvent;
-import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,6 +38,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
     private static AccountLoginDialog dialog = null;
     private AccountPresenter mPresenter;
     private EditText mAccount, mPwd;
+    private TextView mLoginAccount;
 
     public static AccountLoginDialog getInstance(Context context, AccountPresenter presenter) {
         if (dialog == null) {
@@ -84,10 +84,51 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
             mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
         }
         mPwd = (EditText) findViewById(R.id.et_password);
-        TextView mLoginAccount = (TextView) findViewById(R.id.btn_login_account);
+        mLoginAccount = (TextView) findViewById(R.id.btn_login_account);
         mLoginAccount.setOnClickListener(this);
         TextView mGoOpen = (TextView) findViewById(R.id.btn_open_account);
         mGoOpen.setOnClickListener(this);
+        mAccount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
+                    mLoginAccount.setEnabled(true);
+                } else {
+                    mLoginAccount.setEnabled(false);
+                }
+            }
+        });
+
+        mPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
+                    mLoginAccount.setEnabled(true);
+                } else {
+                    mLoginAccount.setEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
