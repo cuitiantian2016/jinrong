@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/color_F7F8F9">
+    android:background="@color/color_F7F8F9"
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -16,59 +16,93 @@
             android:id="@+id/fl_config"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@mipmap/bg_user">
+            android:background="@mipmap/bg_user"
+            android:orientation="vertical">
 
             <!--<ImageView-->
-                <!--android:id="@+id/iv_setup"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:padding="@dimen/dimen_5dp"-->
-                <!--android:layout_marginTop="@dimen/dimen_10dp"-->
-                <!--android:layout_marginRight="@dimen/dimen_10dp"-->
-                <!--android:src="@mipmap/ic_setup"/>-->
+            <!--android:id="@+id/iv_setup"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:padding="@dimen/dimen_5dp"-->
+            <!--android:layout_marginTop="@dimen/dimen_10dp"-->
+            <!--android:layout_marginRight="@dimen/dimen_10dp"-->
+            <!--android:src="@mipmap/ic_setup"/>-->
 
             <TextView
                 android:id="@+id/tv_loginRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dimen_15sp"
-                android:paddingTop="@dimen/dimen_7dp"
+                android:layout_gravity="center"
+                android:background="@drawable/radius_white_2dp_bg"
                 android:paddingBottom="@dimen/dimen_7dp"
                 android:paddingLeft="@dimen/dimen_12dp"
                 android:paddingRight="@dimen/dimen_12dp"
-                android:layout_gravity="center"
-                android:background="@drawable/radius_white_2dp_bg"
-                android:textColor="@color/white"
+                android:paddingTop="@dimen/dimen_7dp"
                 android:text="@string/text_login_register"
-                android:visibility="visible"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_15sp"
+                android:visibility="visible" />
 
-             <LinearLayout
-                 android:id="@+id/ll_signin_suc_layout"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="horizontal"
-                 android:layout_gravity="center_vertical"
-                 android:layout_marginLeft="@dimen/dimen_20dp"
-                 android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/ll_signin_suc_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-                 <com.honglu.future.widget.CircleImageView
-                     android:id="@+id/iv_head"
-                     android:layout_width="@dimen/dimen_60dp"
-                     android:layout_height="@dimen/dimen_60dp"
-                     android:src="@mipmap/img_head"/>
+                <com.honglu.future.widget.CircleImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="@dimen/dimen_60dp"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:src="@mipmap/img_head" />
 
-                    <TextView
-                        android:id="@+id/tv_mobphone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/dimen_20sp"
-                        android:textColor="@color/color_white"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dimen_15dp"
-                        android:text="-----------"/>
-             </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_mobphone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
+                    android:text="-----------"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/dimen_20sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_viper"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_40dp"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/shape_viper_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingLeft="@dimen/dimen_20dp"
+                android:paddingRight="@dimen/dimen_20dp"
+                >
+
+                <ImageView
+                    android:id="@+id/img_vip"
+                    android:layout_width="@dimen/dimen_20dp"
+                    android:layout_height="@dimen/dimen_20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/ic_viper" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/img_vip"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:text="查看特权"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/dimen_16sp" />
+
+            </RelativeLayout>
         </FrameLayout>
 
         <com.honglu.future.widget.ExpandableLayout
@@ -76,183 +110,183 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/ll_signin_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/dimen_15dp"
-            android:paddingRight="@dimen/dimen_15dp"
-            android:background="@color/color_white"
-            android:paddingTop="@dimen/dimen_32dp"
-            android:paddingBottom="@dimen/dimen_32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_signin_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dimen_18sp"
-                android:textColor="@color/color_333333"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold"
-                android:text="@string/text_login_qihuo_account"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/tv_signin"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_32dp"
-                android:paddingRight="@dimen/dimen_15dp"
+                android:background="@color/color_white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimen_32dp"
                 android:paddingLeft="@dimen/dimen_15dp"
-                android:gravity="center"
-                android:textSize="@dimen/dimen_15sp"
-                android:textColor="@color/color_white"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_user_recharge_bg"
-                android:text="@string/text_q_login"/>
-        </LinearLayout>
-       </com.honglu.future.widget.ExpandableLayout>
+                android:paddingRight="@dimen/dimen_15dp"
+                android:paddingTop="@dimen/dimen_32dp">
 
-        <include  layout="@layout/layout_user_center_account"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/text_login_qihuo_account"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_signin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_32dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/btn_user_recharge_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_15dp"
+                    android:paddingRight="@dimen/dimen_15dp"
+                    android:text="@string/text_q_login"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/dimen_15sp" />
+            </LinearLayout>
+        </com.honglu.future.widget.ExpandableLayout>
+
+        <include layout="@layout/layout_user_center_account" />
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_10dp"/>
+            android:layout_height="@dimen/dimen_10dp" />
 
         <LinearLayout
             android:id="@+id/ll_bottomLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/color_white">
+            android:background="@color/color_white"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_open_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/dimen_16dp"
                 android:drawableTop="@mipmap/ic_user_open_account"
                 android:gravity="center_horizontal"
                 android:text="@string/text_user_open_account"
-                android:layout_weight="1"
                 android:textColor="@color/color_333333"
-                android:drawablePadding="@dimen/dimen_16dp"
                 android:textSize="@dimen/dimen_12sp" />
 
-                <View
-                    android:layout_width="@dimen/dimen_line"
-                    android:layout_height="match_parent"
-                    android:background="@color/color_EDEDED"
-                    android:layout_weight="0"/>
+            <View
+                android:layout_width="@dimen/dimen_line"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@color/color_EDEDED" />
 
             <TextView
                 android:id="@+id/tv_novice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/dimen_16dp"
                 android:drawableTop="@mipmap/ic_user_novice"
                 android:gravity="center_horizontal"
                 android:text="@string/text_user_novice"
                 android:textColor="@color/color_333333"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
                 android:textSize="@dimen/dimen_12sp" />
 
 
             <View
                 android:layout_width="@dimen/dimen_line"
                 android:layout_height="match_parent"
-                android:background="@color/color_EDEDED"
-                android:layout_weight="0"/>
+                android:layout_weight="0"
+                android:background="@color/color_EDEDED" />
 
             <TextView
                 android:id="@+id/tv_kefu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_marginBottom="@dimen/dimen_17dp"
-                android:textSize="@dimen/dimen_12sp"
-                android:textColor="@color/color_333333"
-                android:drawableTop="@mipmap/ic_user_kefu"
+                android:layout_marginTop="@dimen/dimen_17dp"
                 android:layout_weight="1"
                 android:drawablePadding="@dimen/dimen_16dp"
+                android:drawableTop="@mipmap/ic_user_kefu"
                 android:gravity="center_horizontal"
-                android:text="@string/text_user_kefu"/>
+                android:text="@string/text_user_kefu"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_12sp" />
         </LinearLayout>
-
-          <View
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/dimen_line"
-              android:background="@color/color_EDEDED"/>
-
-         <LinearLayout
-             android:id="@+id/ll_bottomLayout2"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal"
-             android:background="@color/color_white">
-
-
-             <TextView
-                 android:id="@+id/tv_phone"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/dimen_17dp"
-                 android:layout_marginBottom="@dimen/dimen_17dp"
-                 android:drawableTop="@mipmap/ic_user_phone"
-                 android:drawablePadding="@dimen/dimen_16dp"
-                 android:gravity="center_horizontal"
-                 android:text="@string/text_user_phone"
-                 android:textColor="@color/color_333333"
-                 android:textSize="@dimen/dimen_12sp"
-                 android:layout_weight="1"/>
-
-
-             <View
-                 android:layout_width="@dimen/dimen_line"
-                 android:layout_height="match_parent"
-                 android:layout_weight="0"
-                 android:background="@color/color_EDEDED"/>
-
-             <TextView
-                 android:id="@+id/tv_aboutus"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/dimen_17dp"
-                 android:layout_marginBottom="@dimen/dimen_17dp"
-                 android:textSize="@dimen/dimen_12sp"
-                 android:textColor="@color/color_333333"
-                 android:drawableTop="@mipmap/ic_user_aboutus"
-                 android:drawablePadding="@dimen/dimen_16dp"
-                 android:gravity="center_horizontal"
-                 android:text="@string/text_user_aboutus"
-                 android:layout_weight="1"/>
-
-             <View
-                 android:layout_width="@dimen/dimen_line"
-                 android:layout_height="match_parent"
-                 android:layout_weight="0"
-                 android:background="@color/color_EDEDED"/>
-
-             <TextView
-                 android:id="@+id/tv_update"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/dimen_17dp"
-                 android:layout_marginBottom="@dimen/dimen_17dp"
-                 android:textSize="@dimen/dimen_12sp"
-                 android:textColor="@color/color_333333"
-                 android:drawableTop="@mipmap/ic_setup"
-                 android:drawablePadding="@dimen/dimen_16dp"
-                 android:gravity="center_horizontal"
-                 android:text="设置"
-                 android:layout_weight="1"/>
-         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_10dp"/>
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED" />
+
+        <LinearLayout
+            android:id="@+id/ll_bottomLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_17dp"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/dimen_16dp"
+                android:drawableTop="@mipmap/ic_user_phone"
+                android:gravity="center_horizontal"
+                android:text="@string/text_user_phone"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_12sp" />
+
+
+            <View
+                android:layout_width="@dimen/dimen_line"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@color/color_EDEDED" />
+
+            <TextView
+                android:id="@+id/tv_aboutus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_17dp"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/dimen_16dp"
+                android:drawableTop="@mipmap/ic_user_aboutus"
+                android:gravity="center_horizontal"
+                android:text="@string/text_user_aboutus"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_12sp" />
+
+            <View
+                android:layout_width="@dimen/dimen_line"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@color/color_EDEDED" />
+
+            <TextView
+                android:id="@+id/tv_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_17dp"
+                android:layout_marginTop="@dimen/dimen_17dp"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/dimen_16dp"
+                android:drawableTop="@mipmap/ic_setup"
+                android:gravity="center_horizontal"
+                android:text="设置"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_10dp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

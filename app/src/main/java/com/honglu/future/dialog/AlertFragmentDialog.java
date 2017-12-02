@@ -1,8 +1,6 @@
 package com.honglu.future.dialog;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
@@ -13,10 +11,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ScrollingView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,18 +24,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.honglu.future.R;
-import com.honglu.future.util.ToastUtil;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Map;
 
 /**
  * 通用提示fragment
@@ -55,6 +44,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     EditText mEtInput;
     EditText mEtInputTwo;
     ImageView mImage;
+    private ImageView mTitleImage;
 
     private LeftClickCallBack mLeftCallBack;
     private RightClickCallBack mRightCallBack;
@@ -72,7 +62,6 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     public void setRightClickInputCallBack(RightClickInputCallBack rightCallBack) {
         this.rightClickInputCallBack = rightCallBack;
     }
-
 
 
     private static AlertFragmentDialog builder(Builder builder) {
@@ -105,11 +94,15 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             if (builder.type == Builder.TYPE_NORMAL) {
                 view = inflater.inflate(R.layout.dialog_alert, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
-            } else if (builder.type == Builder.TYPE_INPUT_TWO||builder.type == Builder.TYPE_INPUT_ONE) {
+            } else if (builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
+                view = inflater.inflate(R.layout.dialog_alert_title_image, container, false);
+                mTvContent = (TextView) view.findViewById(R.id.tv_content);
+                mTitleImage = (ImageView) view.findViewById(R.id.img_title);
+            } else if (builder.type == Builder.TYPE_INPUT_TWO || builder.type == Builder.TYPE_INPUT_ONE) {
                 view = inflater.inflate(R.layout.dialog_alert_input, container, false);
                 mEtInput = (EditText) view.findViewById(R.id.et_input_bank_word);
                 mEtInputTwo = (EditText) view.findViewById(R.id.et_input_amount_word);
-                if (builder.type == Builder.TYPE_INPUT_ONE){
+                if (builder.type == Builder.TYPE_INPUT_ONE) {
                     mEtInputTwo.setVisibility(View.GONE);
                 }
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
@@ -144,7 +137,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     }
 
     private void setData() {
-        if (builder.type == Builder.TYPE_NORMAL || builder.type == Builder.TYPE_INPUT_ONE||builder.type == Builder.TYPE_INPUT_TWO) {
+        if (builder.type == Builder.TYPE_NORMAL || builder.type == Builder.TYPE_INPUT_ONE || builder.type == Builder.TYPE_INPUT_TWO || builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
             mTvTitle.setText(builder.title);
             mTvContent.setText(builder.content);
             if (builder.type == Builder.TYPE_INPUT_ONE) {
@@ -153,6 +146,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                     hint = builder.etHintText;
                 }
                 mEtInput.setHint(hint);
+            } else if (builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
+                mTitleImage.setImageResource(builder.titleImg);
             } else {
                 if (builder.titleColor > 0) {
                     mTvTitle.setTextColor(getResources().getColor(builder.titleColor));
@@ -212,12 +207,12 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                     }
                     mRightCallBack.dialogRightBtnClick(inputStr);
                 }
-                if (rightClickInputCallBack!=null){
+                if (rightClickInputCallBack != null) {
                     inputStr = mEtInput.getText().toString();
                     if (builder.type == Builder.TYPE_INPUT_TWO) {
                         inputStrTwo = mEtInputTwo.getText().toString();
                     }
-                    rightClickInputCallBack.dialogRightBtnClick(inputStr,inputStrTwo);
+                    rightClickInputCallBack.dialogRightBtnClick(inputStr, inputStrTwo);
                 }
                 dismiss();
                 break;
@@ -251,7 +246,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
      * 右边按钮点击回调
      */
     public interface RightClickInputCallBack {
-        void dialogRightBtnClick(String inputOne,String inputTwo);
+        void dialogRightBtnClick(String inputOne, String inputTwo);
     }
 
     public static class Builder implements Serializable {
@@ -263,6 +258,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         public static final int TYPE_IMAGE = 1002;//弹出窗image 。title
         public static final int TYPE_NORMAL = 1003;//正常弹出窗title, content
         public static final int TYPE_DIY = 1004;//自定义弹框内容
+        public static final int TYPE_TITLE_WITH_RIGHT_IMAGE = 1006;//标题右侧带图标
 
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({
@@ -270,7 +266,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                 TYPE_INPUT_TWO,
                 TYPE_IMAGE,
                 TYPE_NORMAL,
-                TYPE_DIY
+                TYPE_DIY,
+                TYPE_TITLE_WITH_RIGHT_IMAGE
         })
         public @interface BuilderType {
         }
@@ -292,6 +289,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         private RightClickInputCallBack rightClickInputCallBack;
         private boolean isCancel = true;
         private int imageRes;
+        private int titleImg;
         private int type = TYPE_NORMAL;
         private View view;
         private int layRes;
@@ -323,6 +321,11 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
 
         public Builder setTitle(String title) {
             return setTitle(title, R.color.color_333333, R.dimen.dimen_18sp);
+        }
+
+        public Builder setTitleRightImage(@DrawableRes int resId) {
+            this.titleImg = resId;
+            return this;
         }
 
         public Builder setTitle(String title, @ColorRes int titleColor, @DimenRes int titleSize) {
@@ -367,6 +370,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             this.rightCallBack = rightCallBack;
             return this;
         }
+
         public Builder setRightClickInputCallBack(RightClickInputCallBack rightCallBack) {
             this.rightClickInputCallBack = rightCallBack;
             return this;

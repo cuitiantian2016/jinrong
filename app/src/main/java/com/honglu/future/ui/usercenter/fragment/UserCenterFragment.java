@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cfmmc.app.sjkh.MainActivity;
@@ -72,11 +73,11 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
-        UserCenterContract.View, AccountContract.View,BillConfirmDialog.OnConfirmClickListener {
+        UserCenterContract.View, AccountContract.View, BillConfirmDialog.OnConfirmClickListener {
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
-//    @BindView(R.id.iv_setup)
+    //    @BindView(R.id.iv_setup)
 //    ImageView mSetup;
     @BindView(R.id.ll_signin_suc_layout)
     LinearLayout mSigninSucLayout;
@@ -138,6 +139,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     LinearLayout mBottomLayout2;
     @BindView(R.id.fl_config)
     FrameLayout mFlConfig;
+    @BindView(R.id.ll_viper)
+    RelativeLayout mViper;
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
     private BillConfirmDialog billConfirmDialog;
@@ -187,8 +190,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
         int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLeftAccountView.getLayoutParams();
-        params.width  =  (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;;
+        params.width = (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;
         mLeftAccountView.setLayoutParams(params);
+
+        if(App.getConfig().getLoginStatus()){
+            setViperVisible();
+        }
 
         if (!App.getConfig().getAccountLoginStatus()) {
             signinExpandCollapse(false);
@@ -207,7 +214,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
             R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
-            R.id.tv_bond_query,R.id.tv_update})
+            R.id.tv_bond_query, R.id.tv_update,R.id.ll_viper})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -240,7 +247,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_signout:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 new AlertFragmentDialog.Builder(mActivity).setContent("确定退出期货账户吗？")
@@ -305,12 +312,25 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     toLogin();
                 }
                 break;
+            case R.id.ll_viper:
+                new AlertFragmentDialog.Builder(mActivity)
+                        .setLeftBtnText("取消").setContent("享有官方活动优先参与权\n" +
+                        "享受积分商城的兑换打折优惠\n" +
+                        "更多尽请期待").setTitle("智投先锋特权")
+                        .setTitleRightImage(R.mipmap.ic_pop_vip)
+                        .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                    @Override
+                    public void dialogRightBtnClick(String inputString) {
+
+                    }
+                }).create(AlertFragmentDialog.Builder.TYPE_TITLE_WITH_RIGHT_IMAGE);
+                break;
 
         }
     }
 
     private void showCallPhoneDialog() {
-        new AlertFragmentDialog.Builder(mActivity).setContent( Constant.CUSTOMER_PHONE_TEXT,R.color.color_333333,R.dimen.dimen_20sp)
+        new AlertFragmentDialog.Builder(mActivity).setContent(Constant.CUSTOMER_PHONE_TEXT, R.color.color_333333, R.dimen.dimen_20sp)
                 .setRightBtnText("拨打")
                 .setLeftBtnText("取消")
                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
@@ -385,6 +405,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mSigninSucLayout.setVisibility(View.VISIBLE);
                     mLoginRegister.setVisibility(View.GONE);
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                    setViperVisible();
                     setAvatar();
                 }
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
@@ -404,7 +425,16 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             stopRun();
             mSigninSucLayout.setVisibility(View.GONE);
             mLoginRegister.setVisibility(View.VISIBLE);
+            mViper.setVisibility(View.GONE);
             signinExpandCollapse(false);
+        }
+    }
+
+    private void setViperVisible() {
+        if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 1000) {
+            mViper.setVisibility(View.VISIBLE);
+        } else {
+            mViper.setVisibility(View.GONE);
         }
     }
 
@@ -435,7 +465,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loginSuccess(AccountBean bean) {
         showToast("登录成功");
-        if(billConfirmDialog!=null&& billConfirmDialog.isShowing()){
+        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }
         mAccountLoginDialog.dismiss();
@@ -445,7 +475,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext,bean);
+        billConfirmDialog = new BillConfirmDialog(mContext, bean);
         billConfirmDialog.setOnConfirmClickListenerr(this);
         billConfirmDialog.show();
     }
