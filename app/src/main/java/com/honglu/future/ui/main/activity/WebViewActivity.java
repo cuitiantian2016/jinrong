@@ -52,6 +52,7 @@ import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -226,6 +227,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
          */
         @JavascriptInterface
         public void openAccount() {
+            MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", "0101");
             intent.putExtra("channel", "@200$088-2");
