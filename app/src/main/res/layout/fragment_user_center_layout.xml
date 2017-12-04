@@ -76,12 +76,14 @@
             <RelativeLayout
                 android:id="@+id/ll_viper"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_30dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
                 android:background="@drawable/shape_viper_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone"
+                android:paddingTop="@dimen/dimen_5dp"
+                android:paddingBottom="@dimen/dimen_5dp"
+                android:visibility="visible"
                 android:paddingLeft="@dimen/dimen_10dp"
                 android:paddingRight="@dimen/dimen_20dp"
                 >
