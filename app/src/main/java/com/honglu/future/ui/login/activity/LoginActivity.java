@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -48,6 +51,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText mPwd;
     @BindView(R.id.login_content)
     LinearLayout loginView;
+    @BindView(R.id.btn_login)
+    TextView mLogin;
     @Autowired
     public String redirect;
 
@@ -91,6 +96,49 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
             mMobile.setSelection(mMobile.getText().toString().length());
         }
+
+        mMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mPwd.getText().toString().length() >= 6) {
+                    mLogin.setEnabled(true);
+                } else {
+                    mLogin.setEnabled(false);
+                }
+            }
+        });
+
+        mPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mPwd.getText().toString().length() >= 6) {
+                    mLogin.setEnabled(true);
+                } else {
+                    mLogin.setEnabled(false);
+                }
+            }
+        });
+
         controlKeyboardLayout(findViewById(R.id.rootView));
     }
 
