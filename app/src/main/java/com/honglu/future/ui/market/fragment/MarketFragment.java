@@ -110,15 +110,15 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     @Override
     public void onPause() {
         super.onPause();
-        //MPushUtil.pauseRequest();
+        MPushUtil.pauseRequest();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isHidden()){
+        if (!isHidden()) {
             requestMarket(mPushCode);
-            if (mHttpState == 0 && mPresenter !=null){
+            if (mHttpState == 0 && mPresenter != null) {
                 mHttpState = 1;
                 mPresenter.getMarketData();
             }
@@ -132,7 +132,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             MPushUtil.pauseRequest();
         } else {
             requestMarket(mPushCode);
-            if (mHttpState == 0 && mPresenter !=null){
+            if (mHttpState == 0 && mPresenter != null) {
                 mHttpState = 1;
                 mPresenter.getMarketData();
             }
@@ -141,6 +141,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -148,7 +149,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (!TextUtils.isEmpty(mPushCode) && mPushCode.equals(MPushUtil.requestCodes) && !(isHidden())) {
             if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
                 MarketItemFragment fragment = (MarketItemFragment) mFragments.get(mPosition);
-                fragment.mPushRefresh(event.marketMessage.getInstrumentID(), event.marketMessage.getLastPrice(), event.marketMessage.getChg(), event.marketMessage.getOpenInterest(),event.marketMessage.getChange());
+                fragment.mPushRefresh(event.marketMessage.getInstrumentID(), event.marketMessage.getLastPrice(), event.marketMessage.getChg(), event.marketMessage.getOpenInterest(), event.marketMessage.getChange());
             }
         }
     }
@@ -189,14 +190,14 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onAddAptional() {
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
-                if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+                if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
                     List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
                     Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
                     intent.putExtra("allmarketlist", (Serializable) mAllMarketList);
                     intent.putExtra("zxmarketlist", (Serializable) zxList);
                     startActivity(intent);
-                }else {
-                   startActivity(new Intent(getActivity(), LoginActivity.class));
+                } else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
             }
         }
@@ -238,7 +239,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                 }
             }
         });
-        if (mHttpState == 0 && mPresenter !=null){
+        if (mHttpState == 0 && mPresenter != null) {
             mHttpState = 1;
             mPresenter.getMarketData();
         }
@@ -251,7 +252,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
      */
     @Override
     public void getMarketData(MarketnalysisBean alysisBean) {
-        if (mTabList  !=null && mTabList.size() > 0){
+        if (mTabList != null && mTabList.size() > 0) {
             return;
         }
         List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();

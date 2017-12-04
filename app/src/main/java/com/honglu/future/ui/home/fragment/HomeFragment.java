@@ -114,7 +114,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-       // MPushUtil.pauseRequest();
+        MPushUtil.pauseRequest();
     }
 
     /*******

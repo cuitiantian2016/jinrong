@@ -170,7 +170,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         super.onPause();
         mOpenTransactionFragment.stopRun();
         mPositionFragment.stopRun();
-        //MPushUtil.pauseRequest();
+      MPushUtil.pauseRequest();
     }
 
     @Override
