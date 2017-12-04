@@ -323,7 +323,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                     if (builder.length() > 0) {
                         builder.append(",");
                     }
-                    builder.append(bean.getExcode() + "|" + bean.getInstrumentID());
+                    builder.append(bean.getExcode());
+                    builder.append("|");
+                    builder.append(bean.getInstrumentID());
                 }
             }
         }
