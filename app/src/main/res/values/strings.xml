@@ -112,7 +112,7 @@
     <string name="text_haved_positions">持仓量</string>
     <string name="text_add_qptional">添加自选</string>
     <string name="news_flash">24h快讯</string>
-    <string name="news_column">最新资讯</string>
+    <string name="news_column">最新消息</string>
     <string name="verify_get">获取验证码</string>
     <string name="please_open_permission">请在应用管理中打开“%s”访问权限！</string>
     <string name="camera">相机</string>
