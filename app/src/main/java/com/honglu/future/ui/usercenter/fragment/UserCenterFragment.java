@@ -193,7 +193,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         params.width = (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;
         mLeftAccountView.setLayoutParams(params);
 
-        if(App.getConfig().getLoginStatus()){
+        if (App.getConfig().getLoginStatus()) {
             setViperVisible();
         }
 
@@ -214,7 +214,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
             R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
-            R.id.tv_bond_query, R.id.tv_update,R.id.ll_viper})
+            R.id.tv_bond_query, R.id.tv_update, R.id.ll_viper})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -431,7 +431,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     private void setViperVisible() {
-        if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 1000) {
+        if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 10000) {
             mViper.setVisibility(View.VISIBLE);
         } else {
             mViper.setVisibility(View.GONE);
