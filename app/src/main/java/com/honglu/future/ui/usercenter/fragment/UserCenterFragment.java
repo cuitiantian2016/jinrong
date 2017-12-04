@@ -316,7 +316,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 new AlertFragmentDialog.Builder(mActivity)
                         .setLeftBtnText("取消").setContent("享有官方活动优先参与权\n" +
                         "享受积分商城的兑换打折优惠\n" +
-                        "更多尽请期待").setTitle("智投先锋特权")
+                        "更多敬请期待").setTitle("智投先锋特权")
                         .setTitleRightImage(R.mipmap.ic_pop_vip)
                         .setRightBtnText("确定").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override

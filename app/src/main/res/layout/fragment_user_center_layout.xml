@@ -65,6 +65,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/dimen_15dp"
+                    android:maxEms="6"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="-----------"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/dimen_20sp" />
