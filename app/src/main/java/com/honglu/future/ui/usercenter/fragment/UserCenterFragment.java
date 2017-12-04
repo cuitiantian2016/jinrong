@@ -424,6 +424,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     mMobphone.setMaxEms(6);
                     mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 }
+                mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
             } else if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//token失效或者被挤掉
                 signinExpandCollapse(false);
                 stopRun();
