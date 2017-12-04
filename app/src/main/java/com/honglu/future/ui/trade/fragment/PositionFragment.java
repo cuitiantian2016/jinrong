@@ -226,7 +226,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         tvTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_tip);
                 tipDialog.show();
             }
         });
@@ -234,7 +234,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         ivTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_heyue_tip);
+                TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_trade_tip_pop_window);
                 tipDialog.show();
             }
         });
