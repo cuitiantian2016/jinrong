@@ -152,7 +152,8 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ReceiverMarketMessageEvent event) {
-        if (MPushUtil.CODES_TRADE_HOME == null || !MPushUtil.CODES_TRADE_HOME.equals(MPushUtil.requestCodes) || isHidden()) {
+        if (MPushUtil.CODES_TRADE_HOME == null || !MPushUtil.CODES_TRADE_HOME.equals(MPushUtil.requestCodes) || isHidden()
+                || mProductList == null) {
             return;
         }
         List<ProductListBean> data = mProductList;
