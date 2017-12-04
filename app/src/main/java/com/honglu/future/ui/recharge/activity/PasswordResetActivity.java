@@ -40,7 +40,7 @@ public class PasswordResetActivity extends BaseActivity {
     @BindView(R.id.tv_back)
     ImageView mLeftIcon;
     @BindView(R.id.tv_title)
-    TextView mTitle;
+    TextView mTitleText;
     @BindView(R.id.btn_pay)
     TextView mBtn;
     @BindView(R.id.et_old_password)
@@ -178,11 +178,12 @@ public class PasswordResetActivity extends BaseActivity {
             mIsResetMarketPassword = intent.getBooleanExtra(KEY_TYPE, true);
         }
         if (mIsResetMarketPassword) {
-            mTitle.setText("修改交易密码");
+            mTitleText.setText("修改交易密码");
         } else {
-            mTitle.setText("修改资金密码");
+            mTitleText.setText("修改资金密码");
         }
         mLeftIcon.setVisibility(View.VISIBLE);
+        mTitle.getFlBack().setVisibility(View.VISIBLE);
         mLeftIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
