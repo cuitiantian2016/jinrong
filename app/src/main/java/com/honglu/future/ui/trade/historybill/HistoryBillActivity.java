@@ -21,6 +21,7 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
@@ -121,12 +122,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         initView();
     }
 
-    public void setEmpty(boolean isEmpty,int position){
-        if (isEmpty){
+    public void setEmpty(boolean isEmpty, int position) {
+        if (isEmpty) {
             String empty = position == 0 ? "暂无数据" : position == 1 ? "暂无数据" : "暂无数据";
             mEmpty.setVisibility(View.VISIBLE);
             mEmpty.setText(empty);
-        }else {
+        } else {
             mEmpty.setText("");
             mEmpty.setVisibility(View.GONE);
         }
@@ -147,7 +148,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         mDateDialog = new SingleDateDialog(this);
         mDateDialog.setOnBirthdayListener(new SingleDateDialog.OnBirthdayListener() {
             @Override
-            public void OnBirthday(String type,String time) {
+            public void OnBirthday(String type, String time) {
                 mTvDate.setText(time);
                 setEmpty();
                 if (mList != null) {
@@ -156,10 +157,10 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 if (mHistoryRecordsAdapter.getData() != null) {
                     mHistoryRecordsAdapter.clearData();
                 }
-                if (mList !=null && mList.size() > 0){
-                    setEmpty(false,0);
-                }else {
-                    setEmpty(true,0);
+                if (mList != null && mList.size() > 0) {
+                    setEmpty(false, 0);
+                } else {
+                    setEmpty(true, 0);
                 }
                 if (settlementInfoBean != null) {
                     settlementInfoBean = null;
@@ -172,12 +173,12 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         int month = mDateDialog.getMonth();
         int day = mDateDialog.getDay();
         mTvDate.setText(year + "-" + month + "-" + day);
-        if (mList !=null && mList.size() > 0){
-            setEmpty(false,0);
-        }else {
-            setEmpty(true,0);
+        if (mList != null && mList.size() > 0) {
+            setEmpty(false, 0);
+        } else {
+            setEmpty(true, 0);
         }
-        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", year + "-" + month + "-" + day);
+        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", TimeUtil.getCurrentDate(TimeUtil.dateFormatYMD));
     }
 
     private void initData() {
@@ -201,13 +202,15 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
 
         mList = new ArrayList<>();
         setTabData();
-        mHistoryRecordsAdapter.clearData();
-        if (mList !=null && mList.size() > 0){
-            setEmpty(false,0);
-        }else {
-            setEmpty(true,0);
+        if (mList != null && mList.size() > 0) {
+            mHistoryRecordsAdapter.clearData();
+            if (mList != null && mList.size() > 0) {
+                setEmpty(false, 0);
+            } else {
+                setEmpty(true, 0);
+            }
+            mHistoryRecordsAdapter.addData(mList);
         }
-        mHistoryRecordsAdapter.addData(mList);
     }
 
     private void setEmpty() {
@@ -245,7 +248,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 }
                 mList.clear();
                 if (settlementInfoBean == null) {
-                        setEmpty(true,position);
+                    setEmpty(true, position);
                     return;
                 }
                 if (position == 0 && settlementInfoBean.getTransactionList() != null) {
@@ -276,10 +279,10 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                     }
                 }
                 mHistoryRecordsAdapter.clearData();
-                if (mList !=null && mList.size() > 0){
-                    setEmpty(false,0);
-                }else {
-                    setEmpty(true,0);
+                if (mList != null && mList.size() > 0) {
+                    setEmpty(false, 0);
+                } else {
+                    setEmpty(true, 0);
                 }
                 mHistoryRecordsAdapter.addData(mList);
             }

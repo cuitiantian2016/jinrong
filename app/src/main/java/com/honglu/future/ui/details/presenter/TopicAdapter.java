@@ -92,7 +92,7 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
         }
 
         public void bindView(final InformationCommentBean item, final View convertView, int position) {
-            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.getUserAvatar(), userIv, R.mipmap.iv_no_image);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.getUserAvatar(), userIv, R.mipmap.img_head);
             ViewHelper.safelySetText(userNameTv, item.getNickname());
             ViewHelper.safelySetText(announceTimeTv, AndroidUtil.splitDateNew(item.getModifyTime()));
             if (!TextUtils.isEmpty(item.getReplyNickname())) {
