@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lineSpacingMultiplier="1.2"
+                android:minLines="2"
                 android:maxLines="2"
                 android:textStyle="bold"
                 android:textColor="@color/color_333333"
