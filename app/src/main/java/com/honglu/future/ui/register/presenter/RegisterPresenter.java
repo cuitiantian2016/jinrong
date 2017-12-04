@@ -13,7 +13,7 @@ import com.honglu.future.util.AESUtils;
 public class RegisterPresenter extends BasePresenter<RegisterContract.View> implements RegisterContract.Presenter {
     @Override
     public void register(String code, String sourceId, String mobileNum, String password, String nickName) {
-        toSubscribe(HttpManager.getApi().register(code, sourceId, mobileNum, AESUtils.encrypt(password), nickName), new HttpSubscriber<UserInfoBean>() {
+        toSubscribe(HttpManager.getApi().register(code, sourceId, mobileNum, AESUtils.encrypt(password), "小牛" + nickName.substring(nickName.length() - 4)), new HttpSubscriber<UserInfoBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("注册中...");

@@ -374,6 +374,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (App.getConfig().getLoginStatus()) {
             mSigninSucLayout.setVisibility(View.VISIBLE);
             mLoginRegister.setVisibility(View.GONE);
+
+            if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
+                mMobphone.setMaxEms(6);
+                mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+            }
             mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
         }
     }
@@ -404,6 +409,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 if (App.getConfig().getLoginStatus()) {
                     mSigninSucLayout.setVisibility(View.VISIBLE);
                     mLoginRegister.setVisibility(View.GONE);
+                    if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
+                        mMobphone.setMaxEms(6);
+                        mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                    }
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                     setViperVisible();
                     setAvatar();
@@ -411,7 +420,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();
             } else if (code == UIBaseEvent.EVENT_UPDATE_NICK_NAME) {//修改昵称
-                mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
+                    mMobphone.setMaxEms(6);
+                    mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                }
             } else if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//token失效或者被挤掉
                 signinExpandCollapse(false);
                 stopRun();
