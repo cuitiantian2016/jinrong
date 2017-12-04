@@ -88,7 +88,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mAdapter.notifyDataSetChanged();
         mPushCode = mosaicMPushCode(mAdapter.getData());
         if (mPushCodeRefreshListener != null) {
-            mPushCodeRefreshListener.OnMPushCodeRefresh(mPushCode);
+            mPushCodeRefreshListener.onMPushCodeRefresh(mPushCode);
         }
     }
 
@@ -99,7 +99,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             mAdapter.notifyDataSetChanged();
             mPushCode = mosaicMPushCode(mAdapter.getData());
             if (mPushCodeRefreshListener != null) {
-                mPushCodeRefreshListener.OnMPushCodeRefresh(mPushCode);
+                mPushCodeRefreshListener.onMPushCodeRefresh(mPushCode);
             }
         }
     }
@@ -197,7 +197,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
     public interface OnMPushCodeRefreshListener {
-        void OnMPushCodeRefresh(String mpushCode);
+        void onMPushCodeRefresh(String mpushCode);
     }
 
     public OnAddAptionalListener listener;
@@ -218,7 +218,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
     public interface OnZXMarketListListener {
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> OnZXMarketList();
+        List<MarketnalysisBean.ListBean.QuotationDataListBean> onZXMarketList();
     }
 
     public void refresh(String isAdd, MarketnalysisBean.ListBean.QuotationDataListBean bean) {
@@ -463,7 +463,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             }
             mAdapter.notifyDataSetChanged();
         }else {
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.OnZXMarketList();
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
             List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
             if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
                 List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);

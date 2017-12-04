@@ -166,8 +166,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
     //MPush
     public void requestMarket(String productList) {
-        if (!TextUtils.isEmpty(productList))
+        if (!TextUtils.isEmpty(productList)) {
             MPushUtil.requestMarket(productList);
+        }
     }
 
     @Override
@@ -204,7 +205,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     }
 
     @Override
-    public void OnMPushCodeRefresh(String mpushCode) {
+    public void onMPushCodeRefresh(String mpushCode) {
         if (mFragments != null && mFragments.size() > 0 && mFragments.size() > mPosition) {
             MarketItemFragment fragment = (MarketItemFragment) mFragments.get(mPosition);
             fragment.setOnAddAptionalListener(MarketFragment.this);
@@ -218,7 +219,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
 
     @Override
-    public List<MarketnalysisBean.ListBean.QuotationDataListBean> OnZXMarketList() {
+    public List<MarketnalysisBean.ListBean.QuotationDataListBean> onZXMarketList() {
         return mZxFragment != null ? mZxFragment.getList() : null;
     }
 
