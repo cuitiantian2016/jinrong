@@ -173,7 +173,7 @@ public class SingleDateDialog extends Dialog{
             @Override
             public void onClick(View v) {
                 if (onBirthdayListener !=null){
-                    onBirthdayListener.OnBirthday(mType,mSelectYear+"-"+mSelectMonth+"-"+mSelectDay);
+                    onBirthdayListener.onBirthday(mType,mSelectYear+"-"+mSelectMonth+"-"+mSelectDay);
                 }
             }
         });
@@ -185,7 +185,7 @@ public class SingleDateDialog extends Dialog{
     }
     private OnBirthdayListener onBirthdayListener;
     public interface OnBirthdayListener{
-        void OnBirthday(String type,String time);
+        void onBirthday(String type,String time);
     }
 
     public void setDate(int year, int month, int day) {

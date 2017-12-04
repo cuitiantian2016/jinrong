@@ -148,7 +148,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         mDateDialog = new SingleDateDialog(this);
         mDateDialog.setOnBirthdayListener(new SingleDateDialog.OnBirthdayListener() {
             @Override
-            public void OnBirthday(String type, String time) {
+            public void onBirthday(String type, String time) {
                 mTvDate.setText(time);
                 setEmpty();
                 if (mList != null) {

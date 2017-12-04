@@ -150,7 +150,7 @@ public class TradeRecordActivity extends BaseActivity<TradeRecordPresenter> impl
 
         mSingleDateDialog.setOnBirthdayListener(new SingleDateDialog.OnBirthdayListener() {
             @Override
-            public void OnBirthday(String type, String time) {
+            public void onBirthday(String type, String time) {
 
                 String[] split = time.split("-");
                 String mTime = split[0] + "-" + Integer.parseInt(split[1]) + "-" + Integer.parseInt(split[2]);
