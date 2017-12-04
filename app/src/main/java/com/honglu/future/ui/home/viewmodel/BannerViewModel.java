@@ -3,6 +3,7 @@ package com.honglu.future.ui.home.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ import java.util.List;
  * banner的组件
  */
 
-public class BannerViewModel extends IBaseView<List<BannerData>>{
+public class BannerViewModel extends IBaseView<List<BannerData>> {
     private static final String TAG = "BannerViewModel";
 
     public View mView;
@@ -37,14 +38,15 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
     private AutoFlingBannerAdapter mAutoFlingBannerAdapter;
     private final Banner mBanner;
 
-    public BannerViewModel(Context context){
+    public BannerViewModel(Context context) {
         mContext = context;
-        mView = View.inflate(context, R.layout.view_modle_banner,null);
+        mView = View.inflate(context, R.layout.view_modle_banner, null);
         mBanner = (Banner) mView.findViewById(R.id.banner);
         setAdapter();
         refreshData();
 
     }
+
     /**
      * 刷新数据
      */
@@ -77,17 +79,21 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
         mAutoFlingBannerAdapter.setOnClickBannerListener(new AutoFlingBannerAdapter.OnClickBannerListener() {
             @Override
             public void itemClick(String url, String circleColumnName) {
-                Log.d(TAG,"url-->"+url+"circleColumnName-->"+circleColumnName);
+                Log.d(TAG, "url-->" + url + "circleColumnName-->" + circleColumnName);
                 Intent intentAbout = new Intent(mContext, WebViewActivity.class);
                 intentAbout.putExtra("url", url);
+                if (!TextUtils.isEmpty(circleColumnName)) {
+                    intentAbout.putExtra("title", circleColumnName);
+                }
                 mContext.startActivity(intentAbout);
             }
         });
         mBanner.setAdapter(mAutoFlingBannerAdapter);
     }
+
     @Override
     public void bindData(List<BannerData> bannerData) {
-        if (bannerData ==null||bannerData.size()<=0){
+        if (bannerData == null || bannerData.size() <= 0) {
             return;
         }
         mBanner.setBackground(null);
@@ -96,10 +102,11 @@ public class BannerViewModel extends IBaseView<List<BannerData>>{
         mBanner.changeIndicatorStyle(bannerData.size(), 35, Color.TRANSPARENT);
         mBanner.start();
     }
+
     /**
      * 销毁
      */
-    public void onDestory(){
+    public void onDestory() {
         mBannerPresenter.onDestroy();
     }
 }

@@ -70,7 +70,7 @@ public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData> {
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnClickBannerListener.itemClick(newsSlide.url, newsSlide.informationColumnId);
+                mOnClickBannerListener.itemClick(newsSlide.url, newsSlide.title);
             }
         });
     }
