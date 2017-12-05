@@ -355,9 +355,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mLinearPraise.removeAllViews();
         if (praiseUserList != null) {
             if (praiseUserList.size()==0){
-                mLlPics.setVisibility(View.GONE);
+                mLinearPraise.setVisibility(View.GONE);
             }else {
-                mLlPics.setVisibility(View.VISIBLE);
+                mLinearPraise.setVisibility(View.VISIBLE);
             }
             for (String praiseUser : praiseUserList) {
                 CircleImageView headIV = new CircleImageView(this);
