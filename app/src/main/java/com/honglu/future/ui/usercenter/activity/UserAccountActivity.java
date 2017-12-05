@@ -3,6 +3,7 @@ package com.honglu.future.ui.usercenter.activity;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -19,6 +20,7 @@ import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,6 +62,9 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     TextView mWithdrawals;
     @BindView(R.id.tv_recharge)
     TextView mRecharge;
+    @BindView(R.id.ll_leftAccount)
+    LinearLayout mLeftAccountView;
+
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
@@ -78,6 +83,14 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     public void loadData() {
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.user_account));
         mTitle.setRightTitle(R.mipmap.ic_trade_tip, this);
+
+        int screenWidth = ViewUtil.getScreenWidth(UserAccountActivity.this);
+        int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
+        int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLeftAccountView.getLayoutParams();
+        params.width = (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;
+        mLeftAccountView.setLayoutParams(params);
+
         startRun();
     }
 
