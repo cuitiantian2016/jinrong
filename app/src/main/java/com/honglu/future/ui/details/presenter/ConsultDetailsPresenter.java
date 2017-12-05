@@ -17,6 +17,7 @@ import java.util.List;
 
 public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContract.View>
         implements ConsultDetailsContract.Presenter{
+    public static final String ISComment ="ISComment";
     @Override
     public void getMessageData(String messageId) {
         toSubscribe(HttpManager.getApi().getMessageData(messageId), new HttpSubscriber<ConsultDetailsBean>() {
@@ -55,7 +56,7 @@ public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContrac
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message,ISComment);
             }
         });
 
