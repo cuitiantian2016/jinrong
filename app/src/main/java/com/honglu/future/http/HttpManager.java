@@ -9,6 +9,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.honglu.future.config.LogInterceptor;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
 import com.orhanobut.logger.Logger;
@@ -149,6 +150,7 @@ public class HttpManager {
                         .addQueryParameter("appName", App.getContext().getResources().getString(R.string.app_short))
                         .addQueryParameter("appMarket", App.getConfig().getChannelName()).build();
                 Request.Builder builder = request.newBuilder().url(url);
+                builder.addHeader("User-Agent", AndroidUtil.getUA(App.getContext()));
                 Response response = chain.proceed(builder.build());
                 return response;
             }

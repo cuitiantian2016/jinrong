@@ -24,6 +24,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.honglu.future.config.Constant;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,6 +43,9 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.UUID;
+
+import cn.jpush.android.api.JPushInterface;
+
 import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
@@ -166,6 +171,11 @@ public class AndroidUtil {
         return android.os.Build.VERSION.SDK_INT;
     }
 
+    public static String getUA(Context context) {
+
+        String ua = "feilu://" + AppUtils.getVersionName() + " (Android;android" + AndroidUtil.getAndroidSDKVersion() + ";zh_CN;ID:2-" + SpUtil.getString(Constant.CACHE_TAG_UID) + "-" + AppUtils.getMarketId(context) + "-" + JPushInterface.getRegistrationID(context) + ")";
+        return ua;
+    }
 
 
     /**
