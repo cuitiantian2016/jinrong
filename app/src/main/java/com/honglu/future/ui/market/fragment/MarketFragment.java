@@ -174,16 +174,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mZxFragment != null) {
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
-            if (zxList != null && zxList.size() > 0) {
-                Gson gson = new Gson();
-                String toJson = gson.toJson(zxList);
-                SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
-            } else {
-                SpUtil.putString(Constant.ZX_MARKET_KEY, "");
-            }
-        }
         EventBus.getDefault().unregister(this);
     }
 

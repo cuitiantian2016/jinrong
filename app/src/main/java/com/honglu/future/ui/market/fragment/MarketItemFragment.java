@@ -130,6 +130,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 if (isSaveZXBean(event.bean)) {
                     addAdapterBean(event.bean);
                     mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+                    saveData();
                 }
             } else {
                 refreshState("1", event.bean.getExcode(), event.bean.getInstrumentID());
@@ -140,6 +141,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
                 delAdapterBean(event.bean.getExcode(), event.bean.getInstrumentID());
                 mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+                saveData();
             } else {
                 refreshState("0", event.bean.getExcode(), event.bean.getInstrumentID());
             }
@@ -151,6 +153,19 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         }
     }
 
+
+    private void saveData(){
+        if (mAdapter != null) {
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mAdapter.getData();
+            if (zxList != null && zxList.size() > 0) {
+                Gson gson = new Gson();
+                String toJson = gson.toJson(zxList);
+                SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+            } else {
+                SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+            }
+        }
+    }
 
     @Override
     public void loadData() {
