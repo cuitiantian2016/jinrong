@@ -54,6 +54,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.honglu.future.ui.details.presenter.ConsultDetailsPresenter.ISComment;
 import static com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils.computingTime;
 
 /**
@@ -89,6 +90,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private int mPosition;
     private TopicAdapter mTopicAdapter;
     private boolean isRefrsh;
+    private boolean isComm;
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
         intent.putExtra(KEY_MESSAGE_ITEM,item);
@@ -102,6 +104,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @Override
     public void showErrorMsg(String msg, String type) {
         mRefreshView.finishRefresh();
+        if (TextUtils.isEmpty(type)&&type.equals(ISComment)){
+            isComm = false;
+        }
     }
     @Override
     public int getLayoutId() {
@@ -267,6 +272,10 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 }
                 if (!TextUtils.isEmpty(mInputEdit.getText().toString().trim())) {
                     String content = mInputEdit.getText().toString();
+                    if (isComm){
+                        return;
+                    }
+                    isComm=true;
                   mPresenter.commentMessage(SpUtil.getString(Constant.CACHE_TAG_UID),informationId,mStrReplyPostmanId,content);
                 } else {
                     ToastUtil.show("请填写评论内容");
@@ -389,6 +398,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     @Override
     public void commentSuccess() {
+        isComm =false;
+        mInputEdit.setText("");
         ++commentNum;
         mTvComment.setText(commentNum+ "条评论");
         pinglun_num.setText(commentNum+ "");
