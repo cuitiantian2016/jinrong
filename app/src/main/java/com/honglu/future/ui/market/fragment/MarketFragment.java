@@ -260,8 +260,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         this.mAllMarketList = addItemDataExcode(alysisBean.getList(), zxMarketList);
         //主力合约
         List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(mAllMarketList);
-
-        mPosition = 0;
         mTabList.clear();
         mFragments.clear();
         mTabList.add(new TabEntity("自选", ZXHQ_TYPE));
@@ -285,8 +283,10 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
         mCommonTab.setTabData(mTabList, (FragmentActivity) mContext, R.id.market_fragment_container, mFragments);
         if (zxMarketList !=null && zxMarketList.size() > 0){
+            mPosition = 0;
             mPushCode = mosaicMPushCode(zxMarketList);
         }else {
+            mPosition = 1;
             mPushCode = mosaicMPushCode(zlhyMarketList);
             mCommonTab.setCurrentTab(1);
         }
