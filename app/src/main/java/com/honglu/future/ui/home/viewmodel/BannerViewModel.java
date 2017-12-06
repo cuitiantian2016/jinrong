@@ -19,6 +19,7 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
 import com.honglu.future.widget.banner.Banner;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -78,8 +79,9 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         //Banner条目点击监听
         mAutoFlingBannerAdapter.setOnClickBannerListener(new AutoFlingBannerAdapter.OnClickBannerListener() {
             @Override
-            public void itemClick(String url, String circleColumnName) {
+            public void itemClick(String url, String circleColumnName,int position) {
                 Log.d(TAG, "url-->" + url + "circleColumnName-->" + circleColumnName);
+                MobclickAgent.onEvent(mContext, "sy_" + String.valueOf(position + 1) + "st_banner", "首页_第" + String.valueOf(position + 1)+ "帧banner");
                 Intent intentAbout = new Intent(mContext, WebViewActivity.class);
                 intentAbout.putExtra("url", url);
                 if (!TextUtils.isEmpty(circleColumnName)) {

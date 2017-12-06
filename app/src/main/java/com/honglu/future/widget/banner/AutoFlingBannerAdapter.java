@@ -21,7 +21,7 @@ public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData> {
 
     public interface OnClickBannerListener {
 
-        void itemClick(String url, String circleColumnName);
+        void itemClick(String url, String circleColumnName,int position);
     }
 
     public interface OnShowPicBannerListener {
@@ -59,7 +59,7 @@ public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData> {
     }
 
     @Override
-    public void bindView(final BannerData newsSlide, View view, int position) {
+    public void bindView(final BannerData newsSlide, View view, final int position) {
         ImageView imageView = (ImageView) view;
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.
                 MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -70,7 +70,7 @@ public class AutoFlingBannerAdapter extends AutoFlingPagerAdapter<BannerData> {
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnClickBannerListener.itemClick(newsSlide.url, newsSlide.title);
+                mOnClickBannerListener.itemClick(newsSlide.url, newsSlide.title,position);
             }
         });
     }
