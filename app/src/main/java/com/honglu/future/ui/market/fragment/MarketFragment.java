@@ -32,6 +32,7 @@ import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.HorizontalTabLayout;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,8 +50,8 @@ import butterknife.BindView;
  */
 
 public class MarketFragment extends BaseFragment<MarketPresenter> implements MarketContract.View, MarketItemFragment.OnAddAptionalListener, MarketItemFragment.OnMPushCodeRefreshListener, MarketItemFragment.OnZXMarketListListener {
-    public static final String ZXHQ_TYPE = "zxhq_type";//自选行情
-    public static final String ZLHY_TYPE = "zlhy_type";//主力合约
+    public static final String ZXHQ_TYPE = "ZiXuan";//自选行情
+    public static final String ZLHY_TYPE = "Zhuli";//主力合约
     @BindView(R.id.market_common_tab_layout)
     HorizontalTabLayout mCommonTab;
 
@@ -221,6 +222,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             @Override
             public void onTabSelect(int position) {
                 mPosition = position;
+                clickTab(position);
                 if (mFragments != null && mFragments.size() > 0) {
                     MarketItemFragment fragment = (MarketItemFragment) mFragments.get(position);
                     fragment.setOnAddAptionalListener(MarketFragment.this);
@@ -234,6 +236,13 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             mHttpState = 1;
             mPresenter.getMarketData();
         }
+    }
+
+    private void clickTab(int position){
+        CustomTabEntity customTabEntity = mTabList.get(position);
+        String one ="hangqing_"+customTabEntity.getTabType()+"_click";
+        String two ="行情_"+customTabEntity.getTabTitle();
+        MobclickAgent.onEvent(mContext,one, two);
     }
 
     /**
