@@ -18,6 +18,7 @@ import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.market.fragment.MarketItemFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.honglu.future.widget.DinTextView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.w3c.dom.Text;
 
@@ -35,16 +36,18 @@ public class MarketListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<MarketnalysisBean.ListBean.QuotationDataListBean> mList;
     private String mTabSelectType;
+    private String mTitle;
     private AnimationDrawable redAnimation;
     private AnimationDrawable greenAnimation;
     private boolean mIsChange = false;
 
-    public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<MarketnalysisBean.ListBean.QuotationDataListBean> list) {
+    public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<MarketnalysisBean.ListBean.QuotationDataListBean> list, String title) {
         this.mContext = fragment.getActivity();
         this.mInflater =LayoutInflater.from(fragment.getActivity());
         this.mList = list;
         this.mFragment = fragment;
         this.mTabSelectType = tabSelectType;
+        this.mTitle = title;
     }
 
     private OnChangeSelectListener mListener;
@@ -171,6 +174,9 @@ public class MarketListAdapter extends BaseAdapter {
                 intent.putExtra("excode", mBean.getExchangeID());
                 intent.putExtra("code", mBean.getInstrumentID());
                 intent.putExtra("isClosed", "1");
+                String one ="行情_"+mTitle+"_"+mBean.getName();
+                String two ="hangqing"+"_"+mTabSelectType+"_"+mBean.getInstrumentID()+"_click";
+                MobclickAgent.onEvent(mContext,one, two);
                 mContext.startActivity(intent);
             }
         });

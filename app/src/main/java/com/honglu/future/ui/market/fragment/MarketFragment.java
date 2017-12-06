@@ -180,6 +180,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
     @Override
     public void onAddAptional() {
+        String one ="行情_添加自选";
+        String two ="hangqing_add_zixuan_click";
+        MobclickAgent.onEvent(mContext,one, two);
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
                 if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
@@ -265,9 +268,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         mTabList.add(new TabEntity("自选", ZXHQ_TYPE));
         mTabList.add(new TabEntity("主力合约", ZLHY_TYPE));
         mZxFragment = new MarketItemFragment();
-        mZxFragment.setArguments(mZxFragment.setArgumentData(ZXHQ_TYPE, zxMarketList));
+        mZxFragment.setArguments(mZxFragment.setArgumentData(ZXHQ_TYPE, zxMarketList,"自选"));
         MarketItemFragment zlhyFragment = new MarketItemFragment();
-        zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, zlhyMarketList));
+        zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, zlhyMarketList,"主力合约"));
         zlhyFragment.setOnZXMarketListListener(this);
         mZxFragment.setOnAddAptionalListener(this);
         mZxFragment.setOnMPushCodeRefreshListener(this);
@@ -276,7 +279,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         for (MarketnalysisBean.ListBean bean : mAllMarketList) {
             mTabList.add(new TabEntity(bean.getExchangeName(), bean.getExcode()));
             MarketItemFragment fragment = new MarketItemFragment();
-            fragment.setArguments(fragment.setArgumentData(bean.getExcode(), bean.getQuotationDataList()));
+            fragment.setArguments(fragment.setArgumentData(bean.getExcode(), bean.getQuotationDataList(),bean.getExchangeName()));
             fragment.setOnZXMarketListListener(this);
             mFragments.add(fragment);
         }

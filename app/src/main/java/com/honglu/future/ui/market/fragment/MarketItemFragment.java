@@ -30,6 +30,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,13 +60,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
     private MarketListAdapter mAdapter;
     private String mTabSelectType;
+    private String title;
     private String mPushCode;
 
 
 
-    public Bundle setArgumentData(String mTabSelectType, List<MarketnalysisBean.ListBean.QuotationDataListBean> mList) {
+    public Bundle setArgumentData(String mTabSelectType, List<MarketnalysisBean.ListBean.QuotationDataListBean> mList,String title) {
         Bundle bundle = new Bundle();
         bundle.putString("tab_select", mTabSelectType);
+        bundle.putString("title", title);
         bundle.putSerializable("mList", (Serializable) mList);
         return bundle;
     }
@@ -173,6 +176,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     public void loadData() {
         EventBus.getDefault().register(this);
         mTabSelectType = getArguments().getString("tab_select");
+        title = getArguments().getString("title");
         List<MarketnalysisBean.ListBean.QuotationDataListBean> mList = (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getArguments().getSerializable("mList");
         if (mList == null){mList = new ArrayList<>(); }
         mPushCode = mosaicMPushCode(mList);
@@ -185,7 +189,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
         mListView.addHeaderView(headView);
         mListView.addFooterView(footerView);
-        mAdapter = new MarketListAdapter(MarketItemFragment.this,mTabSelectType,mList);
+        mAdapter = new MarketListAdapter(MarketItemFragment.this,mTabSelectType,mList,title);
         mListView.setAdapter(mAdapter);
 //        //添加自选
         mAddAptional.setOnClickListener(new View.OnClickListener() {
