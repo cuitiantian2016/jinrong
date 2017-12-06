@@ -55,10 +55,12 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     @BindView(R.id.market_smart_view)
     SmartRefreshLayout mRefreshView;
     private View mTitleLine;
+    private TextView mQuoteChange;
 
     private MarketListAdapter mAdapter;
     private String mTabSelectType;
     private String mPushCode;
+
 
 
     public Bundle setArgumentData(String mTabSelectType, List<MarketnalysisBean.ListBean.QuotationDataListBean> mList) {
@@ -177,6 +179,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         LinearLayout footerView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_quotes_optional_add, null);
         TextView mAddAptional = (TextView) footerView.findViewById(R.id.text_add_qptional);
         LinearLayout headView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_market_item_title, null);
+        mQuoteChange = (TextView) headView.findViewById(R.id.text_quote_change);
         mTitleLine = headView.findViewById(R.id.v_titleLine);
         mTitleLine.setVisibility(mList.size() > 0 ? View.VISIBLE : View.INVISIBLE);
 
@@ -199,6 +202,19 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             public void onRefresh(RefreshLayout refreshlayout) {
                 getHttpRefreshData();
                 mRefreshView.finishRefresh();
+            }
+        });
+
+        //涨跌幅、值切换
+        mAdapter.setOnChangeSelectListener(new MarketListAdapter.OnChangeSelectListener() {
+            @Override
+            public void onChangeSelect(boolean isChange) {
+                if (isChange){
+                    mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
+                }else {
+                    mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
+                }
+                mAdapter.setChangeSelect(isChange);
             }
         });
     }

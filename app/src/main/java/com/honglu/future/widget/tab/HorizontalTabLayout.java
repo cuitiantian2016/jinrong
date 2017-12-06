@@ -292,6 +292,10 @@ public class HorizontalTabLayout extends HorizontalScrollView implements ValueAn
         setTabData(tabEntitys);
     }
 
+    public void setCurrentTabInit(final int currentTab) {
+        this.mCurrentTab = currentTab;
+    }
+
     /**
      * 更新数据
      */

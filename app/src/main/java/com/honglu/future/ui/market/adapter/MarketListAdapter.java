@@ -37,6 +37,7 @@ public class MarketListAdapter extends BaseAdapter {
     private String mTabSelectType;
     private AnimationDrawable redAnimation;
     private AnimationDrawable greenAnimation;
+    private boolean mIsChange = false;
 
     public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<MarketnalysisBean.ListBean.QuotationDataListBean> list) {
         this.mContext = fragment.getActivity();
@@ -44,6 +45,21 @@ public class MarketListAdapter extends BaseAdapter {
         this.mList = list;
         this.mFragment = fragment;
         this.mTabSelectType = tabSelectType;
+    }
+
+    private OnChangeSelectListener mListener;
+    public interface OnChangeSelectListener{
+        void onChangeSelect(boolean isChange);
+    }
+
+    public void setOnChangeSelectListener(OnChangeSelectListener listener){
+        this.mListener = listener;
+    }
+
+    //涨跌幅/涨跌值切换
+    public void setChangeSelect(boolean mIsChange){
+        this.mIsChange = mIsChange;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -64,7 +80,6 @@ public class MarketListAdapter extends BaseAdapter {
     public List<MarketnalysisBean.ListBean.QuotationDataListBean> getData(){
         return mList;
     }
-
 
     public void notifyDataChanged(boolean isClear,List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
        if (isClear && mList.size() > 0){
@@ -93,19 +108,38 @@ public class MarketListAdapter extends BaseAdapter {
         holder.mTvLatestPrice.setText(listBean.getLastPrice());
         holder.mTvHavedPositions.setText(listBean.getOpenInterest());
          double mChange = Double.parseDouble(listBean.getChange());
-        if (mChange > 0){
-            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
-            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
-            holder.mTvQuoteChange.setText("+"+listBean.getChg());
-        }else if (mChange < 0){
-            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            holder.mTvQuoteChange.setText(listBean.getChg());
+
+        if (mIsChange){
+            if (mChange > 0) {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                holder.mTvQuoteChange.setText("+" + listBean.getChange());
+            } else if (mChange < 0) {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTvQuoteChange.setText(listBean.getChange());
+            } else {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTvQuoteChange.setText(listBean.getChange());
+            }
         }else {
-            holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            holder.mTvQuoteChange.setText(listBean.getChg());
+            if (mChange > 0) {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                holder.mTvQuoteChange.setText("+" + listBean.getChg());
+            } else if (mChange < 0) {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTvQuoteChange.setText(listBean.getChg());
+            } else {
+                holder.mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTvQuoteChange.setText(listBean.getChg());
+            }
+
         }
+
 
         if (mTabSelectType.equals(MarketFragment.ZXHQ_TYPE)) {
             holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);
@@ -140,6 +174,15 @@ public class MarketListAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
+
+        holder.mTvQuoteChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener !=null){
+                    mListener.onChangeSelect(!mIsChange);
+                }
+            }
+        });
         return convertView;
     }
 
@@ -168,18 +211,34 @@ public class MarketListAdapter extends BaseAdapter {
         mTvHavedPositions.setText(openInterest);
 
         double mChange = Double.parseDouble(change);
-        if (mChange > 0){
-            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
-            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
-            mTvQuoteChange.setText("+"+mChg);
-        }else if (mChange < 0){
-            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            mTvQuoteChange.setText(mChg);
+        if (mIsChange){
+            if (mChange > 0) {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                mTvQuoteChange.setText("+" + change);
+            } else if (mChange < 0) {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mTvQuoteChange.setText(change);
+            } else {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                mTvQuoteChange.setText(change);
+            }
         }else {
-            mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            mTvQuoteChange.setText(mChg);
+            if (mChange > 0) {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_FA455B));
+                mTvQuoteChange.setText("+" + mChg);
+            } else if (mChange < 0) {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                mTvQuoteChange.setText(mChg);
+            } else {
+                mTvLatestPrice.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                mTvQuoteChange.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                mTvQuoteChange.setText(mChg);
+            }
         }
 
         double lastPriceValue = lastPrice - oldLastPrice;

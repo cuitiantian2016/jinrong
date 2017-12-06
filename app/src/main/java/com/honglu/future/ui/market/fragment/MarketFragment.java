@@ -255,9 +255,12 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (mTabList != null && mTabList.size() > 0) {
             return;
         }
+        //自选行情
         List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
         this.mAllMarketList = addItemDataExcode(alysisBean.getList(), zxMarketList);
-        mPushCode = mosaicMPushCode(zxMarketList);
+        //主力合约
+        List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(mAllMarketList);
+
         mPosition = 0;
         mTabList.clear();
         mFragments.clear();
@@ -266,7 +269,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         mZxFragment = new MarketItemFragment();
         mZxFragment.setArguments(mZxFragment.setArgumentData(ZXHQ_TYPE, zxMarketList));
         MarketItemFragment zlhyFragment = new MarketItemFragment();
-        zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, getZlhyMarketList(mAllMarketList)));
+        zlhyFragment.setArguments(zlhyFragment.setArgumentData(ZLHY_TYPE, zlhyMarketList));
         zlhyFragment.setOnZXMarketListListener(this);
         mZxFragment.setOnAddAptionalListener(this);
         mZxFragment.setOnMPushCodeRefreshListener(this);
@@ -279,7 +282,14 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             fragment.setOnZXMarketListListener(this);
             mFragments.add(fragment);
         }
+
         mCommonTab.setTabData(mTabList, (FragmentActivity) mContext, R.id.market_fragment_container, mFragments);
+        if (zxMarketList !=null && zxMarketList.size() > 0){
+            mPushCode = mosaicMPushCode(zxMarketList);
+        }else {
+            mPushCode = mosaicMPushCode(zlhyMarketList);
+            mCommonTab.setCurrentTab(1);
+        }
         requestMarket(mPushCode);
     }
 
