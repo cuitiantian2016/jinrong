@@ -26,6 +26,7 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -114,13 +115,16 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                     if (homeIcons.title.equals("立即开户")){
                         goOpenAccount();
                     }else if (homeIcons.title.equals("新手教学")){
+                        MobclickAgent.onEvent(mContext,"shouye_xinshoujiaoxue_click","首页_新手教学");
                         Intent intentTeach = new Intent(mContext, WebViewActivity.class);
                         intentTeach.putExtra("title", "新手学堂");
                         intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                         mContext.startActivity(intentTeach);
                     }else if (homeIcons.title.equals("主力合约")){
+                        MobclickAgent.onEvent(mContext,"shouye_zhuliheyue_click","首页_主力合约");
                         EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Market));
                     }else if (homeIcons.title.equals("咨询客服")){
+                        MobclickAgent.onEvent(mContext,"shouye_zixunkefu_click","首页_咨询客服");
                         mContext.startActivity(new Intent(mContext,KeFuActivity.class));
                     }
                 }

@@ -26,6 +26,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -208,6 +209,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
                     Intent intent = new Intent(mContext, KLineMarketActivity.class);
                     intent.putExtra("excode", optional.exchangeID);
                     intent.putExtra("code", optional.instrumentID);
+                    MobclickAgent.onEvent(mContext,"shouye_"+optional.instrumentID+"_click","首页_"+optional.name);
                     intent.putExtra("isClosed", "1");
                     mContext.startActivity(intent);
                 }

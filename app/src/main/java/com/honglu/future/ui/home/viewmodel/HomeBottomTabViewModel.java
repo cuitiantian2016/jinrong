@@ -14,6 +14,7 @@ import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,7 @@ public class HomeBottomTabViewModel {
                 if (currentPosition == 0){
                     mSmartRefreshLayout.setEnableLoadmore(false);
                 }else {
+                    MobclickAgent.onEvent(mContext,"shouye_24hkuaixun_click","首页_24h快讯");
                     mSmartRefreshLayout.setEnableLoadmore(true);
                 }
                 refreshData();
