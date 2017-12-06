@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.honglu.future.R;
@@ -12,17 +11,13 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabEvent;
-import com.honglu.future.events.ChangeTabMainEvent;
-import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
-import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.Tool;
-import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -104,10 +99,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build),mContext.getString(R.string.trade_build_type)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold),mContext.getString(R.string.trade_hold_type)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed),mContext.getString(R.string.trade_closed_type)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent),mContext.getString(R.string.trade_agent_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build), mContext.getString(R.string.trade_build_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold), mContext.getString(R.string.trade_hold_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed), mContext.getString(R.string.trade_closed_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent), mContext.getString(R.string.trade_agent_type)));
     }
 
     private void addFragments() {
@@ -134,10 +129,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         });
     }
 
-    private void click(int currentPosition){
-        String one ="交易_"+mTabList.get(currentPosition).getTabTitle();
-        String two ="jiaoyi_"+mTabList.get(currentPosition).getTabType()+"_click";
-        MobclickAgent.onEvent(mContext,two, one);
+    private void click(int currentPosition) {
+        String one = "交易_" + mTabList.get(currentPosition).getTabTitle();
+        String two = "jiaoyi_" + mTabList.get(currentPosition).getTabType() + "_click";
+        MobclickAgent.onEvent(mContext, two, one);
     }
 
     @OnClick({R.id.iv_rule})
@@ -149,7 +144,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 intent.putExtra("title", "交易规则");
                 intent.putExtra("url", ConfigUtil.TRADE_RULE);
                 startActivity(intent);
-                MobclickAgent.onEvent(mContext,"yiaoyi_jiaoyiguize_click", "交易_交易规则");
+                MobclickAgent.onEvent(mContext, "yiaoyi_jiaoyiguize_click", "交易_交易规则");
                 break;
         }
     }
@@ -179,7 +174,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         super.onPause();
         mOpenTransactionFragment.stopRun();
         mPositionFragment.stopRun();
-      MPushUtil.pauseRequest();
+        MPushUtil.pauseRequest();
     }
 
     @Override
