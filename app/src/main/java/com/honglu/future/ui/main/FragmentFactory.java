@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.honglu.future.ui.circle.circlemain.CircleMainFragment;
 import com.honglu.future.ui.home.fragment.HomeFragment;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.trade.fragment.TradeFragment;
@@ -27,6 +28,7 @@ public class FragmentFactory {
         Home,
         Market,
         Trade,
+        Circle,
         Account
     }
 
@@ -60,6 +62,9 @@ public class FragmentFactory {
                 break;
             case Trade:
                 selectFragment = TradeFragment.getInstance();
+                break;
+            case Circle:
+                selectFragment = CircleMainFragment.getInstance();
                 break;
             case Account:
                 selectFragment = UserCenterFragment.getInstance();

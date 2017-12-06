@@ -129,6 +129,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
         } else if (this.select == 3) {
+//            MobclickAgent.onEvent(mContext, "", "牛圈");
+            check(FragmentFactory.FragmentStatus.Circle);
+        }else if (this.select == 4) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
         }
@@ -170,6 +173,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     toTabIndex = FragmentFactory.FragmentStatus.Trade;
                     oldCheckId = R.id.rb_trade;
                     changeTab(FragmentFactory.FragmentStatus.Trade);
+                    break;
+                case R.id.rb_circle:
+                    toTabIndex = FragmentFactory.FragmentStatus.Circle;
+                    oldCheckId = R.id.rb_circle;
+                    changeTab(FragmentFactory.FragmentStatus.Circle);
                     break;
                 case R.id.rb_account:
 //                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
@@ -243,6 +251,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 break;
             case Trade:
                 id = R.id.rb_trade;
+                break;
+            case Circle:
+                id = R.id.rb_circle;
                 break;
             case Account:
                 id = R.id.rb_account;
