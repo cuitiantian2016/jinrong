@@ -33,6 +33,7 @@ import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.math.BigDecimal;
 
@@ -446,7 +447,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 } else {
                     buyTypeStr = "买涨";
                 }
-
+                MobclickAgent.onEvent(mContext,"jy_"+mProductListBean.getInstrumentId()+"_jiancang_click", "交易_"+mProductListBean.getInstrumentName()+"_建仓");
                 if (TextUtils.isEmpty(mPrice.getText().toString())) {
                     mPrice.setText(lowerLimitPrice);
                     showToast("委托价低于跌停价，已经帮您调整至跌停价");
@@ -482,6 +483,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         }).build();
                 break;
             case R.id.btn_go_recharge:
+                MobclickAgent.onEvent(mContext,"jy_"+mProductListBean.getInstrumentId()+"_click", "交易_"+mProductListBean.getInstrumentName()+"_去充值");
                 InAndOutGoldActivity.startInAndOutGoldActivity(mContext, 0);
                 break;
             case R.id.btn_deal_reduce:
