@@ -45,6 +45,7 @@ import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -119,12 +120,16 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             select = intent.getIntExtra("select",0);
         }
         if (this.select == 0) {
+            MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
             check(FragmentFactory.FragmentStatus.Home);
         } else if (this.select == 1) {
+            MobclickAgent.onEvent(mContext, "shouye_hangqing_click", "行情");
             check(FragmentFactory.FragmentStatus.Market);
         } else if (this.select == 2) {
+            MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
         } else if (this.select == 3) {
+            MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
         }
     }
