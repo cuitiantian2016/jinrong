@@ -27,6 +27,7 @@ import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
 import com.honglu.future.widget.tab.TabEntity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,10 +104,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build),mContext.getString(R.string.trade_build_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold),mContext.getString(R.string.trade_hold_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed),mContext.getString(R.string.trade_closed_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent),mContext.getString(R.string.trade_agent_type)));
     }
 
     private void addFragments() {
@@ -128,8 +129,15 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
                 currentPosition = position;
+                click(position);
             }
         });
+    }
+
+    private void click(int currentPosition){
+        String one ="交易_"+mTabList.get(currentPosition).getTabTitle();
+        String two ="jiaoyi_"+mTabList.get(currentPosition).getTabType()+"_click";
+        MobclickAgent.onEvent(mContext,two, one);
     }
 
     @OnClick({R.id.iv_rule})
@@ -141,6 +149,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 intent.putExtra("title", "交易规则");
                 intent.putExtra("url", ConfigUtil.TRADE_RULE);
                 startActivity(intent);
+                MobclickAgent.onEvent(mContext,"yiaoyi_jiaoyiguize_click", "交易_交易规则");
                 break;
         }
     }

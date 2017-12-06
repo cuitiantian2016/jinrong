@@ -124,6 +124,10 @@
     <string name="trade_hold">持仓</string>
     <string name="trade_closed">已平仓</string>
     <string name="trade_agent">委托中</string>
+    <string name="trade_build_type">jiancang</string>
+    <string name="trade_hold_type">chicang</string>
+    <string name="trade_closed_type">yipingcang</string>
+    <string name="trade_agent_type">weituozhong</string>
     <string name="position_details">持仓详情</string>
     <string name="position_profit_loss">持仓盈亏</string>
     <string name="actual_profit_loss">实际盈亏</string>

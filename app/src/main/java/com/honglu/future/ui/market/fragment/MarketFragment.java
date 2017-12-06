@@ -182,7 +182,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     public void onAddAptional() {
         String one ="行情_添加自选";
         String two ="hangqing_add_zixuan_click";
-        MobclickAgent.onEvent(mContext,one, two);
+        MobclickAgent.onEvent(mContext,two, one);
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
                 if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {

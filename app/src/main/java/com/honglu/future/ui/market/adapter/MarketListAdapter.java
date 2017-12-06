@@ -176,7 +176,7 @@ public class MarketListAdapter extends BaseAdapter {
                 intent.putExtra("isClosed", "1");
                 String one ="行情_"+mTitle+"_"+mBean.getName();
                 String two ="hangqing"+"_"+mTabSelectType+"_"+mBean.getInstrumentID()+"_click";
-                MobclickAgent.onEvent(mContext,one, two);
+                MobclickAgent.onEvent(mContext,two, one);
                 mContext.startActivity(intent);
             }
         });
