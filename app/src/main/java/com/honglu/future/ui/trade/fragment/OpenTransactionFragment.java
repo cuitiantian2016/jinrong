@@ -48,6 +48,7 @@ import com.honglu.future.util.ViewUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.analytics.MobclickAgent;
 import com.xulu.mpush.message.RequestMarketMessage;
 
 import org.greenrobot.eventbus.EventBus;
@@ -471,6 +472,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if(DeviceUtils.isFastDoubleClick()){
             return;
         }
+        MobclickAgent.onEvent(mContext,"jy_"+bean.getInstrumentId()+"_maizhang_click", "交易_"+bean.getInstrumentName()+"_买涨");
         if (!App.getConfig().getLoginStatus()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
@@ -495,6 +497,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         if(DeviceUtils.isFastDoubleClick()){
             return;
         }
+        MobclickAgent.onEvent(mContext,"jy_"+bean.getInstrumentId()+"_maidie_click", "交易_"+bean.getInstrumentName()+"_买跌");
         if (!App.getConfig().getLoginStatus()) {
             Intent intent = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(intent);
@@ -520,6 +523,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
         intent.putExtra("excode", bean.getExcode());
         intent.putExtra("code", bean.getInstrumentId());
         intent.putExtra("isClosed", bean.getIsClosed());
+        MobclickAgent.onEvent(mContext,"jy_"+bean.getInstrumentId()+"_click", "交易_"+bean.getInstrumentName());
         startActivity(intent);
     }
 

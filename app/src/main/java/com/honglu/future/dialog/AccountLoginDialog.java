@@ -26,6 +26,7 @@ import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -149,6 +150,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
+                MobclickAgent.onEvent(mContext,"qihuodenglu_click", "国富期货登录");
                 mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU", mPwd, mContext);
                 break;
             case R.id.btn_open_account:
