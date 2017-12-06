@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/amount_white_top_radius_bg">
+        android:background="@drawable/top_left_right_radius_white">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
         android:layout_marginTop="@dimen/dimen_16dp">
 
         <TextView
@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_20sp"
+            android:textStyle="bold"
             android:textColor="@color/color_333333"
             android:drawableRight="@mipmap/ic_trade_tip"
             android:drawablePadding="@dimen/dimen_10dp"
@@ -38,7 +39,7 @@
       <View
           android:layout_width="match_parent"
           android:layout_height="@dimen/dimen_line"
-          android:background="@color/color_E6E6E6"
+          android:background="@color/color_EDEDED"
           android:layout_marginTop="@dimen/dimen_16dp"/>
 
     <ListView
@@ -51,7 +52,8 @@
         android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         android:verticalSpacing="1dp"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginBottom="@dimen/dimen_20dp"/>
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp"
+        android:layout_marginBottom="@dimen/dimen_15dp"/>
     </LinearLayout>
 </LinearLayout>

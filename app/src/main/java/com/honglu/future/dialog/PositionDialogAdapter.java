@@ -58,6 +58,12 @@ public class PositionDialogAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (position == getCount()-1){
+            holder.mLine.setVisibility(View.VISIBLE);
+        }else {
+            holder.mLine.setVisibility(View.GONE);
+        }
+
         HoldDetailBean holdDetailBean = mList.get(position);
         if (holdDetailBean.getType() == 1) {
             holder.tvBuyHands.setText("买跌" + holdDetailBean.getCount() + "手");
@@ -81,6 +87,7 @@ public class PositionDialogAdapter extends BaseAdapter {
         TextView tvPrice;
         TextView tvBond;
         TextView tvServiceCharge;
+        View mLine;
 
         ViewHolder(View view) {
             tvBuyHands = (TextView) view.findViewById(R.id.tv_buy_hands);
@@ -88,6 +95,7 @@ public class PositionDialogAdapter extends BaseAdapter {
             tvPrice = (TextView) view.findViewById(R.id.tv_price);
             tvBond = (TextView) view.findViewById(R.id.tv_bond);
             tvServiceCharge = (TextView) view.findViewById(R.id.tv_service_charge);
+            mLine = view.findViewById(R.id.v_line);
         }
     }
 }
