@@ -10,7 +10,8 @@
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_F7F8F9">
+        android:background="@color/color_F7F8F9"
+        android:layout_weight="1">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -27,5 +28,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
 
+         <EditText
+             android:id="@+id/et_input"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:maxHeight="@dimen/dimen_100dp"
+             android:layout_weight="1"/>
+
+         <TextView
+             android:id="@+id/tv_send"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="发表"/>
+     </LinearLayout>
 </LinearLayout>

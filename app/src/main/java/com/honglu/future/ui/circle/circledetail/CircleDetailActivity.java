@@ -1,6 +1,7 @@
 package com.honglu.future.ui.circle.circledetail;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,6 +30,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     SmartRefreshLayout mRefreshView;
     @BindView(R.id.lv_listView)
     ListView mListView;
+    @BindView(R.id.et_input)
+    EditText mInput;
+    @BindView(R.id.tv_send)
+    TextView mSend;
 
     private CircleImageView mCivHead;
     private TextView mName;
