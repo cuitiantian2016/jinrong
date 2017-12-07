@@ -402,4 +402,16 @@
         <attr name="isBlodWhileSelected" format="boolean" />
 
     </declare-styleable>
+
+
+    <declare-styleable name="NineGridImageView">
+        <attr name="ngiv_singleImgSize" format="dimension" />
+        <attr name="ngiv_imgGap" format="dimension" />
+        <attr name="ngiv_maxSize" format="integer" />
+        <attr name="ngiv_singleImgRatio" format="float" />
+        <attr name="ngiv_showStyle" format="enum">
+            <enum name="grid" value="0" />
+            <enum name="fill" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>
