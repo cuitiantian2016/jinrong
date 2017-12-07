@@ -1,12 +1,7 @@
 package com.honglu.future.ui.market.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,8 +24,6 @@ import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -214,15 +207,16 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         });
 
         //涨跌幅、值切换
-        mAdapter.setOnChangeSelectListener(new MarketListAdapter.OnChangeSelectListener() {
+        mQuoteChange.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChangeSelect(boolean isChange) {
+            public void onClick(View v) {
+                boolean isChange = !mAdapter.getIsChange();
                 if (isChange){
-                    mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
-                }else {
-                    mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
-                }
-                mAdapter.setChangeSelect(isChange);
+                   mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
+               }else {
+                   mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
+               }
+               mAdapter.setChangeSelect(isChange);
             }
         });
     }

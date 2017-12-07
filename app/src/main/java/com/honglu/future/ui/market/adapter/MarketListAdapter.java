@@ -2,9 +2,7 @@ package com.honglu.future.ui.market.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,7 @@ import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.market.fragment.MarketItemFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
-import com.honglu.future.widget.DinTextView;
 import com.umeng.analytics.MobclickAgent;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,19 +43,14 @@ public class MarketListAdapter extends BaseAdapter {
         this.mTitle = title;
     }
 
-    private OnChangeSelectListener mListener;
-    public interface OnChangeSelectListener{
-        void onChangeSelect(boolean isChange);
-    }
-
-    public void setOnChangeSelectListener(OnChangeSelectListener listener){
-        this.mListener = listener;
-    }
-
     //涨跌幅/涨跌值切换
     public void setChangeSelect(boolean mIsChange){
         this.mIsChange = mIsChange;
         notifyDataSetChanged();
+    }
+
+    public boolean getIsChange(){
+        return mIsChange;
     }
 
     @Override
@@ -181,14 +169,6 @@ public class MarketListAdapter extends BaseAdapter {
             }
         });
 
-        holder.mTvQuoteChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener !=null){
-                    mListener.onChangeSelect(!mIsChange);
-                }
-            }
-        });
         return convertView;
     }
 
