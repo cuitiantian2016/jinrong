@@ -34,6 +34,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.popupwind.BottomPopupWindow;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,6 +104,7 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
         switch (v.getId()) {
             case R.id.rl_modify_avatar:
                 //takeCamera();
+                clickTab("wode_account_touxiang","账户管理_头像");
                 showTipWindow(v);
                 break;
             case R.id.tv_back:
@@ -112,9 +114,11 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
                 startActivity(ModifyNicknameActivity.class);
                 break;
             case R.id.rl_reset_pwd:
+                clickTab("wode_account_chongzhimima","账户管理_重置密码");
                 startActivity(ResetPwdActivity.class);
                 break;
             case R.id.btn_logout:
+                clickTab("wode_account_tuichu","账户管理_退出登录");
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
@@ -341,5 +345,14 @@ public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implem
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 埋点
+     * @param value1
+     * @param value2
+     */
+    private void clickTab(String value1 , String value2){
+        MobclickAgent.onEvent(mContext,value1, value2);
     }
 }

@@ -32,6 +32,7 @@ import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -215,6 +216,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
+                clickTab("zcdl_denglu_land","我的_登录");
                 if (mMobile.length() < 11) {
                     showToast("请输入正确的手机号码");
                     return;
@@ -262,5 +264,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             return true;
         }
         return false;
+    }
+
+    /**
+     * 埋点
+     * @param value1
+     * @param value2
+     */
+    private void clickTab(String value1 , String value2){
+        MobclickAgent.onEvent(mContext,value1, value2);
     }
 }

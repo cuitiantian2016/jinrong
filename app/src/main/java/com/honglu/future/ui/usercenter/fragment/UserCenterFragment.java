@@ -55,6 +55,8 @@ import com.honglu.future.util.Tool;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
+import com.honglu.future.widget.tab.CustomTabEntity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -219,25 +221,31 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_novice:
+                clickTab("wode_xinshourumen_click","我的_新手入门");
                 Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
                 intentTeach.putExtra("title", "新手学堂");
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                 startActivity(intentTeach);
                 break;
             case R.id.tv_trade_details:
+                clickTab("wode_account_jiaoyimingxi","我的_我的交易明细");
                 stopRun();
                 startActivity(new Intent(mActivity, TradeRecordActivity.class));
                 break;
             case R.id.tv_account_manage:
+                clickTab("wode_account_qihuoaccountguanli","我的_期货账户管理");
                 startActivity(new Intent(mActivity, FutureAccountActivity.class));
                 break;
             case R.id.tv_bill_details:
+                clickTab("wode_account_churujinmingxi","我的_出入金明细");
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 2);
                 break;
             case R.id.tv_position:
+                clickTab("wode_account_chicang","我的_我的持仓");
                 EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
                 break;
             case R.id.ll_signin_layout:
+                clickTab("wode_qudenglu_click","去登录");
                 if (!App.getConfig().getLoginStatus()) {
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
@@ -262,25 +270,32 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_my_account:
             case R.id.ll_account:
+                clickTab("wode_myaccount_click","我的_我的账户");
                 startActivity(UserAccountActivity.class);
                 break;
             case R.id.tv_history_bill:
+                clickTab("wode_account_lishizhangdan","我的_历史账单查询");
                 startActivity(HistoryBillActivity.class);
                 break;
             case R.id.tv_open_account:
+                clickTab("wode_lijikaihu_click","我的_立即开户");
                 goOpenAccount();
                 break;
             case R.id.tv_kefu:
+                clickTab("wode_zaixiankefu_click","我的_在线客服");
                 startActivity(KeFuActivity.class);
                 break;
             case R.id.tv_withdrawals:
+                clickTab("wode_myaccount_tixian","我的_我的账户_提现");
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 1);
                 break;
             case R.id.tv_recharge:
+                clickTab("wode_myaccount_chongzhi","我的_我的账户_充值");
                 InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
                 break;
             case R.id.fl_config:
                 if (App.getConfig().getLoginStatus()) {
+                    clickTab("wode_zhanghuguanli_click","我的_账户管理");
                     Intent intent = new Intent(mActivity, ModifyUserActivity.class);
                     startActivity(intent);
                 } else {
@@ -290,22 +305,26 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_phone:
                 //联系客服
                 if (!DeviceUtils.isFastDoubleClick()) {
+                    clickTab("wode_kefudianhua_click","我的_客服电话");
                     showCallPhoneDialog();
                 }
                 break;
             case R.id.tv_aboutus:
+                clickTab("wode_guanyuwomen_click","我的_关于我们");
                 Intent intentAbout = new Intent(mActivity, WebViewActivity.class);
                 intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
                 intentAbout.putExtra("title", "关于我们");
                 startActivity(intentAbout);
                 break;
             case R.id.tv_bond_query:
+                clickTab("wode_account_jiancezhongxin","我的_保证金检测中心查询");
                 Intent intentQuery = new Intent(mActivity, WebViewActivity.class);
                 intentQuery.putExtra("url", ConfigUtil.QUERY_FUTURE);
                 intentQuery.putExtra("title", "保证金监控中心查询");
                 startActivity(intentQuery);
                 break;
             case R.id.tv_update:
+                clickTab("wode_shezhi_click","我的_设置");
                 if (App.getConfig().getLoginStatus()) {
                     startActivity(ModifyUserActivity.class);
                 } else {
@@ -570,5 +589,14 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onConfirmClick() {
         mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
+
+    /**
+     * 埋点
+     * @param value1
+     * @param value2
+     */
+    private void clickTab(String value1 , String value2){
+        MobclickAgent.onEvent(mContext,value1, value2);
     }
 }

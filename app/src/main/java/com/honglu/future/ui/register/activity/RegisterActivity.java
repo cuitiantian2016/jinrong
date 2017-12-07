@@ -25,6 +25,7 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.CheckUtils;
 import com.honglu.future.widget.CountDownTextView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -152,6 +153,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 finish();
                 break;
             case R.id.btn_register:
+                clickTab("zcdl_huoquyanzhengma_zhuce","获取验证码_ 注册");
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
@@ -175,6 +177,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
+                clickTab("zcdl_huoquyanzhengma","注册_获取验证码");
                 if (CheckUtils.checkPhoneNum(mMobile.getText().toString())) {
                     mSendCodeView.start();
                     mSmsCode.requestFocus();
@@ -209,5 +212,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             mSendCodeView.setOnCountDownStopListeners(null);
             mSendCodeView.removeMessages();
         }
+    }
+
+
+    /**
+     * 埋点
+     * @param value1
+     * @param value2
+     */
+    private void clickTab(String value1 , String value2){
+        MobclickAgent.onEvent(mContext,value1, value2);
     }
 }
