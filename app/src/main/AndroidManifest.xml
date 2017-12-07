@@ -226,7 +226,13 @@
 
         <activity
             android:name=".ui.circle.circledetail.CircleDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
+        <activity
+            android:name=".ui.circle.circlemsg.CircleMsgActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- **********************************************模块区分 放在对于的模块中******************************** -->
 
         <meta-data
