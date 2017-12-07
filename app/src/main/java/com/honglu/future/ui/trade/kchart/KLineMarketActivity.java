@@ -50,6 +50,7 @@ import com.honglu.future.widget.kchart.fragment.KLineFragment;
 import com.honglu.future.widget.kchart.fragment.KMinuteFragment;
 import com.honglu.future.widget.kchart.util.BakSourceInterface;
 import com.honglu.future.widget.popupwind.KLinePopupWin;
+import com.umeng.analytics.MobclickAgent;
 import com.xulu.mpush.message.RequestMarketMessage;
 
 import org.greenrobot.eventbus.EventBus;
@@ -483,12 +484,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             myViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(DeviceUtils.isFastDoubleClick()){
+                    if (DeviceUtils.isFastDoubleClick()) {
                         return;
                     }
                     String code = goodsList.get(position).getCode();
                     String name = goodsList.get(position).getName();
-
+                    if (mBean != null) {
+                        MobclickAgent.onEvent(mContext, mCode + "_click_" + code, mBean.getName() + "_" + name);
+                    }
                     if (code.equalsIgnoreCase(BakSourceInterface.PARAM_KLINE_TIME) || code.equalsIgnoreCase(BakSourceInterface.PARAM_KLINE_TIME_WEIPAN)) {
                         //分时
                         replaceFragment(getCurrentMinuteFragment());

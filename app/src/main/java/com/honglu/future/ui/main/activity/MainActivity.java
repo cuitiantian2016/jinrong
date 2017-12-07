@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
         } else if (this.select == 3) {
-//            MobclickAgent.onEvent(mContext, "", "牛圈");
+            MobclickAgent.onEvent(mContext, "shouye_quanzi_click", "牛圈");
             check(FragmentFactory.FragmentStatus.Circle);
         }else if (this.select == 4) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");

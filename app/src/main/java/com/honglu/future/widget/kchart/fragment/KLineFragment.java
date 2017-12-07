@@ -32,6 +32,7 @@ import com.honglu.future.widget.kchart.util.KNumberUtil;
 import com.honglu.future.widget.kchart.util.KParamConfig;
 import com.honglu.future.widget.kchart.util.KParseUtils;
 import com.honglu.future.widget.tab.CustomTabEntity;
+import com.umeng.analytics.MobclickAgent;
 import com.xulu.mpush.message.KCandleObj;
 import com.xulu.mpush.message.RequestMarketMessage;
 
@@ -337,16 +338,19 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 KParamConfig.getMacdTParam2(getActivity()),
                 KParamConfig.getMacdKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_MACD);
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_MACD", code + "_" + cycle + "_MACD");
     }
 
     void event4KDJ() {
         kLineView.setSubLineData(KParseUtils.getKDJLinesDatas(list,
                 KParamConfig.getKdjKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_KDJ);
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_KDJ", code + "_" + cycle + "_KDJ");
     }
 
     void event4VOL() {
         kLineView.setSubNormal(KLineNormal.NORMAL_VOL);
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_VOL", code + "_" + cycle + "_VOL");
     }
 
     void event4RSI() {
@@ -355,7 +359,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 KParamConfig.getRsiParam2(getActivity()),
                 KParamConfig.getRsiParam3(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_RSI);
-
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_RSI", code + "_" + cycle + "_RSI");
     }
 
 
@@ -370,6 +374,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
             kLineView.setMainLineData(KParseUtils.getSMAData(list,
                     KParamConfig.getSMAcfg(getActivity(), true)));
         }
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_SMA", code + "_" + cycle + "_SMA");
     }
 
     void event4BOLL() {
@@ -377,12 +382,14 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         kLineView.setMainLineData(KParseUtils.getBollData(list,
                 KParamConfig.getBoolTParam(getActivity()),
                 KParamConfig.getBoolKParam(getActivity())));
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_BOLL", code + "_" + cycle + "_BOLL");
     }
 
     void event4EMA() {
         kLineView.setMainNormal(KLineNormal.NORMAL_EMA);
         kLineView.setMainLineData(KParseUtils.getEMAData(list,
                 KParamConfig.getEmaParam(getActivity())));
+        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_EMA", code + "_" + cycle + "_EMA");
     }
 
     View.OnClickListener normalLinstener = new View.OnClickListener() {

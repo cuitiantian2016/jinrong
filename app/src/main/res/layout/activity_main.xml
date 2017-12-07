@@ -46,7 +46,7 @@
         <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_circle"
             style="@style/menu_tab"
-            android:text="牛泉"
+            android:text="牛圈"
             app:rbDrawableTop="@drawable/selector_menu_4" />
 
         <com.honglu.future.widget.MyRadioButton
