@@ -362,6 +362,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                                 zxBean.setChg(mBean.getChg());
                                 zxBean.setLastPrice(mBean.getLastPrice());
                                 zxBean.setOpenInterest(mBean.getOpenInterest());
+                                zxBean.setChange(mBean.getChange());
                             } else {
                                 //不存在自选 img 显示添加
                                 if (!"1".equals(mBean.getIcAdd())) {

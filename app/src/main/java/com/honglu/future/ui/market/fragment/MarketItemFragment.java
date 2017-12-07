@@ -493,6 +493,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                                 zxBean.setLastPrice(allBean.getLastPrice());
                                 zxBean.setChg(allBean.getChg());
                                 zxBean.setOpenInterest(allBean.getOpenInterest());
+                                zxBean.setChange(allBean.getChange());
                             }
                         }
                     }
