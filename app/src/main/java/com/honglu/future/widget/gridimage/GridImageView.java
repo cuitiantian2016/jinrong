@@ -60,7 +60,7 @@ public class GridImageView extends ImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (moreNum > 0) {
-            canvas.drawColor(getResources().getColor(R.color.color_black_trans_20));
+            canvas.drawColor(getResources().getColor(R.color.transparent_33));
             float baseY = getHeight() / 2 - (textPaint.ascent() + textPaint.descent()) / 2;
             canvas.drawText(msg, getWidth() / 2, baseY, textPaint);
         }
