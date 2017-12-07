@@ -210,13 +210,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mQuoteChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isChange = !mAdapter.getIsChange();
-                if (isChange){
-                   mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
-               }else {
-                   mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
-               }
-               mAdapter.setChangeSelect(isChange);
+                if (mAdapter.getCount() > 0) {
+                    boolean isChange = !mAdapter.getIsChange();
+                    if (isChange) {
+                        mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
+                    } else {
+                        mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
+                    }
+                    mAdapter.setChangeSelect(isChange);
+                }
             }
         });
     }
