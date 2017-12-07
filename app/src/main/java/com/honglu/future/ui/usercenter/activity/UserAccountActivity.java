@@ -21,6 +21,7 @@ import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -98,9 +99,11 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_withdrawals:
+                clickTab("wode_myaccount_tixian","我的_我的账户_提现");
                 InAndOutGoldActivity.startInAndOutGoldActivity(this, 1);
                 break;
             case R.id.tv_recharge:
+                clickTab("wode_myaccount_chongzhi","我的_我的账户_充值");
                 InAndOutGoldActivity.startInAndOutGoldActivity(this, 0);
                 break;
             case R.id.tv_right:
@@ -181,4 +184,14 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         stopRun();
     }
 
+
+
+    /**
+     * 埋点
+     * @param value1
+     * @param value2
+     */
+    private void clickTab(String value1 , String value2){
+        MobclickAgent.onEvent(mContext,value1, value2);
+    }
 }
