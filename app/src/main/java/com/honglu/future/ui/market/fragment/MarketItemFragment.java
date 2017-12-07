@@ -186,7 +186,11 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mQuoteChange = (TextView) headView.findViewById(R.id.text_quote_change);
         mTitleLine = headView.findViewById(R.id.v_titleLine);
         mTitleLine.setVisibility(mList.size() > 0 ? View.VISIBLE : View.INVISIBLE);
-
+        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
+            footerView.setVisibility(View.VISIBLE);
+        }else {
+            footerView.setVisibility(View.GONE);
+        }
         mListView.addHeaderView(headView);
         mListView.addFooterView(footerView);
         mAdapter = new MarketListAdapter(MarketItemFragment.this,mTabSelectType,mList,title);
