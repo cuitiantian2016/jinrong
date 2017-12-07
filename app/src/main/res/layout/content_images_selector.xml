@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/selector_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:background="@android:color/black">
+
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/image_recycerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                tools:listitem="@layout/recyclerview_image_item" />
+
+            <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
+                android:id="@+id/recyclerview_fast_scroller"
+                android:layout_width="16dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="30dp" />
+
+            <RelativeLayout
+                android:id="@+id/selector_footer"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="#3E4344"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/selector_image_folder_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/folder_select_indicator"
+                    android:ellipsize="middle"
+                    android:gravity="center_vertical"
+                    android:maxWidth="200dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:text="@string/selector_folder_all"
+                    android:textColor="@color/folder_text_color"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/selector_image_preview_button"
+                    android:background="#282828" />
+
+                <Button
+                    android:id="@+id/selector_image_preview_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:text="@string/selector_preview"
+                    android:textColor="@color/folder_text_color" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+
+</LinearLayout>

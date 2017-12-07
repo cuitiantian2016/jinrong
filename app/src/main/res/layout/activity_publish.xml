@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honglu.future.widget.FixInsetsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <include
+        layout="@layout/layout_toolbar"
+        android:paddingRight="@dimen/dimen_15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"
+        android:background="@color/color_line"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="说点什么吧~ "
+            android:inputType="textMultiLine"
+            android:lines="7"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="#999999"
+            android:textSize="@dimen/dimen_14sp" />
+
+
+        <com.honglu.future.widget.DashView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:dv_orientation="horizontal"
+            app:dv_dashWidth="@dimen/dimen_1dp"
+            app:dv_lineColor="@color/color_d8d7d7"
+            app:dv_lineHeight="@dimen/dimen_1dp"
+            app:dv_lineWidth="@dimen/dimen_1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="上传照片（至多6张）"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <com.honglu.future.widget.NoScrollGridView
+            android:id="@+id/publish_gridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="5dp"
+            tools:listitem="@layout/item_photo" />
+
+    </LinearLayout>
+</ScrollView>
+</com.honglu.future.widget.FixInsetsLinearLayout>

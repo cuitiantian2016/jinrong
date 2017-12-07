@@ -23,6 +23,7 @@ public class TitleUtil {
     private DrawableCenterTextView mRight;
     private AppCompatActivity mActivity;
     private View mFlBack;
+    private View tv_back;
     //activity构造
     public TitleUtil(AppCompatActivity activity,View view) {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -34,6 +35,7 @@ public class TitleUtil {
         mTitle = (TextView) view.findViewById(R.id.tv_title);
         mRight = (DrawableCenterTextView) view.findViewById(R.id.tv_right);
         mFlBack = view.findViewById(R.id.fl_back);
+        tv_back = view.findViewById(R.id.tv_back);
         this.mActivity = activity;
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -64,6 +66,13 @@ public class TitleUtil {
             }
         }else{
             mFlBack.setVisibility(View.VISIBLE);
+            tv_back.setVisibility(View.VISIBLE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivity.finish();
+                }
+            });
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -96,6 +105,13 @@ public class TitleUtil {
             }
         }else{
             mFlBack.setVisibility(View.VISIBLE);
+            tv_back.setVisibility(View.VISIBLE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivity.finish();
+                }
+            });
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -126,6 +142,13 @@ public class TitleUtil {
             }
         }else{
             mFlBack.setVisibility(View.VISIBLE);
+            tv_back.setVisibility(View.VISIBLE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivity.finish();
+                }
+            });
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }
@@ -155,6 +178,13 @@ public class TitleUtil {
             }
         }else{
             mFlBack.setVisibility(View.VISIBLE);
+            tv_back.setVisibility(View.VISIBLE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivity.finish();
+                }
+            });
             mLeft.setCompoundDrawables(null,null,null,null);
             mLeft.setClickable(false);
         }

@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -43,6 +45,8 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -67,7 +71,23 @@ public class AndroidUtil {
         return mScreenWidth;
 
     }
+    public static void setEmojiFilter(EditText et) {
+        InputFilter emojiFilter = new InputFilter() {
+            Pattern pattern = Pattern.compile("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|" +
+                    "[\u2600-\u27ff]", Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
 
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                Matcher matcher = pattern.matcher(source);
+                if (matcher.find()) {
+                    ToastUtil.show("暂不支持表情输入!");
+                    return "";
+                }
+                return null;
+            }
+        };
+        et.setFilters(new InputFilter[]{emojiFilter});
+    }
     public static int getScreenWidth(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

@@ -13,6 +13,10 @@
     <color name="white">#ffffff</color>
     <color name="color_grey">#eeeeee</color>
     <color name="title_blue">#00A3CC</color>
+    <drawable name="cancle_selected">#505a64</drawable>
+    <drawable name="cancle_nomal">#919ba4</drawable>
+    <drawable name="sure_selected">#919ba4</drawable>
+    <drawable name="sure_nomal">#FFFFFF</drawable>
 
     <!-- title textColor-->
     <color name="title_text">#333333</color>
@@ -248,5 +252,23 @@
 
     <color name="color_opt_gt_shan">#20f54a40</color>
     <color name="color_opt_lt_shan">#201fb73c</color>
+
+    <color name="tv_title">#ffffff</color>
+    <color name="titlebar">#ffffff</color>
+    <color name="statebar">#000000</color>
+
+    <color name="back_grey">#f3f3f3</color>
+    <color name="line_grey">#f0f0f0</color>
+    <color name="global">#ffffff</color>
+    <color name="red">#f55151</color>
+    <color name="green">#12cf74</color>
+    <color name="blue">#6460ad</color>
+    <color name="light_blue">#131643</color>
+    <color name="yellow">#ffc000</color>
+    <color name="purple">#9d9dff</color>
+    <color name="drak_purple">#6460ad</color>
+    <color name="share">#f4f4f4</color>
+
+    <drawable name="global">#101238</drawable>
 
 </resources>
