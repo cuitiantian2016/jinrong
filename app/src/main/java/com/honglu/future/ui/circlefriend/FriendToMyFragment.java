@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.circle.bean.UserList;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -41,6 +45,7 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
     @Override
     public void loadData() {
         initViews();
+        initData();
     }
 
     @Override
@@ -74,6 +79,23 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
                 }
             }
         });
+    }
+
+    private void initData(){
+        List<UserList> list = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            UserList bean = new UserList();
+            bean.headimgurl = "";
+            bean.fans_num = "31";
+            bean.follow = "0";
+            bean.topic_num = "200";
+            bean.uid="111";
+            bean.user_name = "王可可";
+            bean.user_level = "2";
+            list.add(bean);
+        }
+        empty_view.setVisibility(View.GONE);
+        mAdapter.setDatas(list);
     }
 
     //滑动加载更多

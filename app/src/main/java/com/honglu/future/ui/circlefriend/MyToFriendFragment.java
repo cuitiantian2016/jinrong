@@ -1,13 +1,18 @@
 package com.honglu.future.ui.circlefriend;
 
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.ui.circle.bean.UserList;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -37,6 +42,7 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
     @Override
     public void loadData() {
         initViews();
+        initData();
     }
 
     @Override
@@ -80,6 +86,23 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
         });
     }
 
+    private void initData(){
+        List<UserList> list = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            UserList bean = new UserList();
+            bean.headimgurl = "";
+            bean.fans_num = "31";
+            bean.follow = "100";
+            bean.topic_num = "200";
+            bean.uid="111";
+            bean.user_name = "张大侠";
+            bean.user_level = "1";
+            list.add(bean);
+        }
+        empty_view.setVisibility(View.GONE);
+        mAdapter.setDatas(list);
+    }
+
 
     //滑动加载更多
     MyFriendsAdapter.ScrollToLastCallBack scrollToLastCallBack = new MyFriendsAdapter.ScrollToLastCallBack() {
@@ -92,6 +115,7 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
     };
 
     private void getFriends(final String pull_style) {
+
         if (isLoadingNow || isLoadingFinished) {
             return;
         }
