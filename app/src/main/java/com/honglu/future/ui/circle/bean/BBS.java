@@ -1,82 +1,90 @@
 package com.honglu.future.ui.circle.bean;
 
+import android.text.TextUtils;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *"avatarPic": "发帖人头像",
+ "circleId": "帖子id",
+ "commentCount": "评论数",
+ "content": "帖子内容",
+ "createTime": "发帖时间",
+ "isFocus": "是否关注 0 否 1 是",
+ "isPraise": "是否点赞 0 否 1 是",
+ "nickName": "发帖昵称",
+ "postUserId": "发帖人id",
+ "praiseCount": "点赞数",
+ "replyContent": "评论内容",
+ "replyNickName": "回复人昵称",
+ "userRole": "发帖人角色"
+
+ {"avatarPic":"user/20171204/1512371804648-17.jpg","circleId":null,
+ "commentCount":0,"content":"88888888888888888888888888888",
+ "createTime":"2017-12-08 08:46:42.0","isFocus":0,
+ "isPraise":0,"nickName":"开发",
+ "postUserId":null,
+ "praiseCount":1
+ "replyContent":"",
+ "replyNickName":"",
+ "userRole":"超级管理员"}
+ */
 public class BBS implements Serializable {
+    @SerializedName("circleId")
     public String topic_id;
+    @SerializedName("nickName")
     public String user_name;
+    @SerializedName("avatarPic")
     public String header_img;
+    @SerializedName("createTime")
     public String announce_time;
-    public String share_detail_title;//分享标题
-    public String share_detail_content;//分享内容
-    public String share_detail_url;//分享地址
-    public String share_content;
+    @SerializedName("content")
     public String content;
-    public String images;
-    public String title;
-    public String user_flag;  //2-认证
+    public ArrayList<String> images;
+    private String replyContent;
+    private String replyNickName;
+    @SerializedName("praiseCount")
     public String support_num;  //赞
-    public String oppose_num;   //踩
+    @SerializedName("commentCount")
     public String reply_num;    //回复数
+    @SerializedName("isPraise")
     public String attutude;   //1点赞  2鄙视
+    @SerializedName("userRole")
     public String user_level;   //是否显示后缀
+    @SerializedName("isFocus")
     public String follow;
     public String type;
-    public String start_date;
     public String hot_topic_title; //话题
     public String is_essence; //是否是精华 0 不是 1 是
     public String date;
     public String integralUserNum;  //帖子打赏人数
-    public String hasTopicReward;  //帖子打赏状态
-
     public List<Reply> replyList;  //回复列表
-    public List<AttutudeUser> attutude_user; //点赞人列表
-
     //话题相关
-    public String reply_id;
-    public String reply_user_name;
+    @SerializedName("postUserId")
     public String uid;
-    public String reply_uid;
-
-    public String order_num;
-
-    public int itemType;
-    public boolean isLastGroupItem;
-    public String subfiledTime;
-
-    //消息新增
-    public String id;
-    public String status;
-    public String rname;
-    public String rimg;
-    public String tcontent;
-    public String tstatus;
-    public String rcontent;
-    public String icontent;
-    public String rtime;
-    public String video_url;  //列表图片跳转网址
-
     /**
      * 1白银  2石油 3开啡 4问答  5活动 6策略 7晒单 8公告 9资讯 10专访
      */
     public String topic_type;              // 发帖类型
-
     public String topic_link;
 
     public boolean isEssence() {
         return "1".equals(is_essence);
     }
-
-    public BBS() {
+    public List<Reply> getReplyList(){
+        Reply reply = new Reply();
+        reply.content = replyContent;
+        reply.user_name = replyNickName;
+        ArrayList<Reply> replies = new ArrayList<>();
+        if (!TextUtils.isEmpty(replyContent)){
+            replies.add(reply);
+        }
+        return replies;
     }
 
-    public BBS(int itemType) {
-        this.itemType = itemType;
-    }
 
-    public BBS(int itemType, String subfiledTime) {
-        this.itemType = itemType;
-        this.subfiledTime = subfiledTime;
-    }
 }

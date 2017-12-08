@@ -1,17 +1,21 @@
 package com.honglu.future.ui.circle.circlemain;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
@@ -19,21 +23,17 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewHelper;
 import com.honglu.future.widget.CircleImageView;
-import com.honglu.future.widget.ExpandableLayout;
 import com.honglu.future.widget.SlidingTabImageLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by zq on 2017/12/6.
  */
-
 public class CircleMainFragment extends BaseFragment {
     public static CircleMainFragment circleMainFragment;
     private String currTopicType;
@@ -42,7 +42,9 @@ public class CircleMainFragment extends BaseFragment {
     private ViewPagerEx mViewPager;
     private View mNQTipLy;
     private TextView mNQTipContentTV;
-    private ExpandableLayout mExpandableLy;
+    List<TopicFilter> topicFilters = null;
+    private SlidingTabImageLayout mTabsIndicatorLy;
+
     public static CircleMainFragment getInstance() {
         if (circleMainFragment == null) {
             circleMainFragment = new CircleMainFragment();
@@ -70,23 +72,43 @@ public class CircleMainFragment extends BaseFragment {
         int screenWidthDip = DeviceUtils.px2dip(getContext(), DeviceUtils.getScreenWidth(getContext()));
         int tabWidth = (int) (screenWidthDip / 4.5f);
         int indicatorWidth = (int) (tabWidth / 1.4f);
-        SlidingTabImageLayout mTabsIndicatorLy = (SlidingTabImageLayout) mView.findViewById(R.id.tablayout);
+        mTabsIndicatorLy = (SlidingTabImageLayout) mView.findViewById(R.id.tablayout);
         mTabsIndicatorLy.setTabWidth(tabWidth);
         mTabsIndicatorLy.setIndicatorWidth(indicatorWidth);
-        List<TopicFilter> topicFilters;
         if (Constant.topic_filter != null){
             topicFilters= Constant.topic_filter;
+            initCircle();
         }else {
-            topicFilters= Constant.topic_filter;
+            getTopicList();
         }
+        mNQTipLy = mView.findViewById(R.id.ly_nq_tip_container);
+        mNQTipContentTV = (TextView) mView.findViewById(R.id.tv_nq_bottom_tip_content);
+    }
+
+    private void getTopicList(){
+        new BasePresenter<CircleMainFragment>(CircleMainFragment.this){
+            @Override
+            public void getData() {
+                super.getData();
+                toSubscribe(HttpManager.getApi().getTopicFilter(), new HttpSubscriber<List<TopicFilter>>() {
+                    @Override
+                    protected void _onError(String message, int code) {
+                    }
+                    @Override
+                    protected void _onNext(List<TopicFilter> bean) {
+                        Constant.topic_filter = bean;
+                        topicFilters= Constant.topic_filter;
+                        initCircle();
+                    }
+                });
+            }
+        };
+    }
+    private void initCircle(){
         if (topicFilters != null && topicFilters.size() > 0) {
             currTopicType = topicFilters.get(0).type;
-           List<String> fragmentsTopicType = new ArrayList<>();
+            List<String> fragmentsTopicType = new ArrayList<>();
             for (TopicFilter topicFilter : topicFilters) {
-                BBSClassifyFragment fragment = new BBSClassifyFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(BBSClassifyFragment.EXTRA_CLASSIFY_TYPE, topicFilter.type);
-                fragment.setArguments(bundle);
                 fragmentsTopicType.add(topicFilter.type);
                 mTabsIndicatorLy.addNewTab(topicFilter.title, topicFilter.selected_icon, topicFilter.icon);
             }
@@ -100,11 +122,13 @@ public class CircleMainFragment extends BaseFragment {
                 }
             });
             mTabsIndicatorLy.setViewPager(mViewPager);
+            mTabsIndicatorLy.setOnTabClickListener(new SlidingTabImageLayout.OnTabClickListener() {
+                @Override
+                public boolean onClickProcess(View view, int position) {
+                    return false;
+                }
+            });
         }
-        mNQTipLy = mView.findViewById(R.id.ly_nq_tip_container);
-        mNQTipContentTV = (TextView) mView.findViewById(R.id.tv_nq_bottom_tip_content);
-        mExpandableLy = (ExpandableLayout) mView.findViewById(R.id.exly_container);
-
     }
     @Override
     public void onResume() {

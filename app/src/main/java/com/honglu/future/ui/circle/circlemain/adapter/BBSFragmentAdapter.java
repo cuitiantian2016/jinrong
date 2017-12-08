@@ -26,7 +26,6 @@ public class BBSFragmentAdapter extends FragmentStatePagerAdapter {
         fragment.setArguments(bundle);
         return fragment;
     }
-
     @Override
     public int getCount() {
         return fragmentsTopicType.size();

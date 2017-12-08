@@ -3,6 +3,8 @@ package com.honglu.future.http;
 import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
+import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.home.bean.BannerData;
@@ -517,5 +519,26 @@ public interface HttpApi {
             @Field("bankAccount") String bankAccount,
             @Field("bankPassword") String bankPassword,
             @Field("token") String token);
+
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15678695
+     * 分圈接口
+     * @return
+     */
+    @GET("http://192.168.90.139:8080/futures-community-api/app/circle/circleType")
+    Observable<BaseResponse<List<TopicFilter>>> getTopicFilter();
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15678695
+     * 分圈
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/list")
+    Observable<BaseResponse<List<BBS>>> getCircleType(
+            @Field("userId") String userId,
+            @Field("circleTypeId") String type,
+            @Field("rows") int rows
+    );
 
 }

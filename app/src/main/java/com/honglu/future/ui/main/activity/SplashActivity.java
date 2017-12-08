@@ -48,6 +48,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
     public void loadData() {
         //渠道是否过审
         mPresenter.getAudited();
+        mPresenter.getTopicFilter();
 
         //新的应用重复启动解决方法
         if (!isTaskRoot()) {

@@ -6,11 +6,15 @@ import android.util.Log;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.main.contract.SplashContract;
 import com.honglu.future.util.ViewUtil;
+
+import java.util.List;
 
 /**
  * Created by zhuaibing on 2017/11/4
@@ -43,6 +47,19 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
                         App.mApp.setAudited(true);
                     }
                 }
+            }
+        });
+    }
+
+    @Override
+    public void getTopicFilter() {
+        toSubscribe(HttpManager.getApi().getTopicFilter(), new HttpSubscriber<List<TopicFilter>>() {
+            @Override
+            protected void _onError(String message, int code) {
+            }
+            @Override
+            protected void _onNext(List<TopicFilter> bean) {
+                Constant.topic_filter = bean;
             }
         });
     }

@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import udesk.com.nostra13.universalimageloader.utils.L;
+
 public class BBSAdapter extends BaseAdapter {
 
     private Context mContext;
@@ -264,7 +266,7 @@ public class BBSAdapter extends BaseAdapter {
 
             status.setVisibility(TextUtils.isEmpty(item.user_level) ? View.GONE : View.VISIBLE);
             status.setText(item.user_level);
-            if (item.uid.equals(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+            if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.uid)) {
                 follow.setVisibility(View.INVISIBLE);
             } else {
                 follow.setVisibility(View.VISIBLE);
@@ -326,22 +328,12 @@ public class BBSAdapter extends BaseAdapter {
                     }
                 }
             });
-            mMultiImgLy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (DeviceUtils.isFastDoubleClick())
-                        return;
-                    if (!TextUtils.isEmpty(item.video_url)) {
-
-                    }
-                }
-            });
             ViewHelper.setVisibility(best, item.isEssence());
             ViewHelper.safelySetText(hot_title, item.hot_topic_title);
             ViewHelper.safelySetText(announce_time, item.announce_time);// 热门不展示
-            if (item.replyList != null && item.replyList.size() != 0) {
+            if (item.getReplyList() != null && item.getReplyList().size() != 0) {
                 ReplyListAdapter replyListAdapter = new ReplyListAdapter();
-                replyListAdapter.addView(mContext,replay_ll_BB, item.replyList,topicType,item);
+                replyListAdapter.addView(mContext,replay_ll_BB, item.getReplyList(),topicType,item);
                 ViewHelper.setVisibility(replay_ll_BB, true);
                 ViewHelper.setVisibility(mSeparatorCommLy, true);
             } else {
@@ -351,14 +343,8 @@ public class BBSAdapter extends BaseAdapter {
 
             content.setLineSpacing(0, 1.2f);
             content.setText(getNewsContentByType(item.topic_type, item.content + ""));
-            if (!TextUtils.isEmpty(item.images)) {
-                String[] imgs;
-                if (item.images.contains(";")) {
-                    imgs = item.images.split(";");
-                } else {
-                    imgs = new String[]{item.images};
-                }
-                final List<String> imgList = Arrays.asList(imgs);
+            if (item.images!=null) {
+                final List imgList = item.images;
                 mMultiImgLy.setAdapter(new NineGridImageViewAdapter<String>() {
                     @Override
                     protected void onDisplayImage(Context context, ImageView imageView, String url) {

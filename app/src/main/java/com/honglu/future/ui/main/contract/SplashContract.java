@@ -13,5 +13,6 @@ public interface SplashContract {
     }
     interface Presenter {
         void getAudited();
+        void getTopicFilter();
     }
 }

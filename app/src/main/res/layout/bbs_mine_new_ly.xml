@@ -8,8 +8,7 @@
     android:animateLayoutChanges="true"
     android:background="@color/color_f0f0f0"
     android:padding="@dimen/dimen_6dp"
-    android:visibility="gone"
-    tools:visibility="visible">
+    android:visibility="gone">
 
     <RelativeLayout
         android:layout_width="180dp"
