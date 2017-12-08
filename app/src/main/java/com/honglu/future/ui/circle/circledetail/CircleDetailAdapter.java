@@ -70,7 +70,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (position == getCount()){
+        if (position == getCount()-1){
             holder.mLine.setVisibility(View.INVISIBLE);
         }else {
             holder.mLine.setVisibility(View.VISIBLE);
