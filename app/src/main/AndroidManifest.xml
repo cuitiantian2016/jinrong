@@ -419,6 +419,11 @@
             android:name="com.cfmmc.app.sjkh.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
+        <activity
+            android:name="com.honglu.future.ui.circle.praisesandreward.RewardDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name="com.cfmmc.app.sjkh.ui.VideoActivity"
             android:exported="false"
