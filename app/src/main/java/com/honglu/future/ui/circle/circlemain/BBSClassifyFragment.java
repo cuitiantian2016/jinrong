@@ -16,6 +16,7 @@ import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.events.BBSPraiseEvent;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSAdapter;
+import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.ExpandableLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -49,10 +50,7 @@ public class BBSClassifyFragment extends PagerFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-    @Override
-    protected int doGetContentLayout() {
-        return R.layout.fragment_bbs_newest;
-    }
+
     /**
      * 评论
      */
@@ -102,31 +100,7 @@ public class BBSClassifyFragment extends PagerFragment {
 
         }
     }
-    @Override
-    protected void doInit(View root) {
-        topicType = getArguments().getString(EXTRA_CLASSIFY_TYPE);
-        srl_refreshView = (SmartRefreshLayout) root.findViewById(R.id.srl_refreshView);
-        mNewNumTv = (TextView) root.findViewById(R.id.tv_bbs_new);
-        mListView = (ListView) root.findViewById(R.id.lv_listView);
-        empty_view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bbs_empty, null);
-        TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
-        empty_text.setText("还没有最新的消息哦~");
-        mAdapter = new BBSAdapter(mListView, getContext(), getLoadMoreListener());
-        mAdapter.setTopicType(topicType);
-        mAdapter.setToRefreshListViewListener(new BBSAdapter.ToRefreshListViewListener() {
-            @Override
-            public void refresh() {
-                //isLoadingFinished = false;
-              //  topicIndexThread("pull_down", topicType, false);
-            }
-        });
-        mListView.setAdapter(mAdapter);
-        mNewMsgLy = root.findViewById(R.id.message_new_ly);
-        mNewMsgLy.setOnClickListener(getReaderMessageListener());
-        mNewMessageTV = (TextView) root.findViewById(R.id.tv_new_message);
-        mNewMsgFromPortraitIV = (ImageView) root.findViewById(R.id.iv_from_portrait);
-        mExpandableLy = (ExpandableLayout) root.findViewById(R.id.exly_container);
-    }
+
 
     @Override
     protected void doLazyLoadData() {
@@ -278,9 +252,10 @@ public class BBSClassifyFragment extends PagerFragment {
         topicIndexThread("pull_down", topicType, true);
     }
 
+
     @Override
     public int getLayoutId() {
-        return 0;
+        return R.layout.fragment_bbs_newest;
     }
 
     @Override
@@ -290,6 +265,28 @@ public class BBSClassifyFragment extends PagerFragment {
 
     @Override
     public void loadData() {
-
+       View root = mView;
+        topicType = getArguments().getString(EXTRA_CLASSIFY_TYPE);
+        srl_refreshView = (SmartRefreshLayout) root.findViewById(R.id.srl_refreshView);
+        mNewNumTv = (TextView) root.findViewById(R.id.tv_bbs_new);
+        mListView = (ListView) root.findViewById(R.id.lv_listView);
+        empty_view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bbs_empty, null);
+        TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
+        empty_text.setText("还没有最新的消息哦~");
+        mAdapter = new BBSAdapter(mListView, getContext(), getLoadMoreListener());
+        mAdapter.setTopicType(topicType);
+        mAdapter.setToRefreshListViewListener(new BBSAdapter.ToRefreshListViewListener() {
+            @Override
+            public void refresh() {
+                //isLoadingFinished = false;
+                //  topicIndexThread("pull_down", topicType, false);
+            }
+        });
+        mListView.setAdapter(mAdapter);
+        mNewMsgLy = root.findViewById(R.id.message_new_ly);
+        mNewMsgLy.setOnClickListener(getReaderMessageListener());
+        mNewMessageTV = (TextView) root.findViewById(R.id.tv_new_message);
+        mNewMsgFromPortraitIV = (ImageView) root.findViewById(R.id.iv_from_portrait);
+        mExpandableLy = (ExpandableLayout) root.findViewById(R.id.exly_container);
     }
 }
