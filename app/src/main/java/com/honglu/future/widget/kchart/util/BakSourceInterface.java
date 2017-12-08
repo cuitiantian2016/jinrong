@@ -54,16 +54,16 @@ public class BakSourceInterface {
     =6   一天
     =7  周线
     =8   月线*/
-    public static final String PARAM_KLINE_TIME_WEIPAN = "fenshi";//分时
-    public static final String PARAM_KLINE_1M_WEIPAN = "1fz";//一分钟
-    public static final String PARAM_KLINE_5M_WEIPAN = "5fz";
-    public static final String PARAM_KLINE_15M_WEIPAN = "15fz";
-    public static final String PARAM_KLINE_30M_WEIPAN = "30fz";
-    public static final String PARAM_KLINE_60M_WEIPAN = "1xs";
+    public static final String PARAM_KLINE_TIME_WEIPAN = "1";//分时
+    public static final String PARAM_KLINE_1M_WEIPAN = "10";//一分钟
+    public static final String PARAM_KLINE_5M_WEIPAN = "2";
+    public static final String PARAM_KLINE_15M_WEIPAN = "3";
+    public static final String PARAM_KLINE_30M_WEIPAN = "4";
+    public static final String PARAM_KLINE_60M_WEIPAN = "5";
     //    public static final String PARAM_KLINE_2H_WEIPAN = "";
-    public static final String PARAM_KLINE_4H_WEIPAN = "4xs";
-    public static final String PARAM_KLINE_WEEK_WEIPAN = "zhouK";
-    public static final String PARAM_KLINE_1D_WEIPAN = "riK";
+    public static final String PARAM_KLINE_4H_WEIPAN = "9";
+    public static final String PARAM_KLINE_WEEK_WEIPAN = "7";
+    public static final String PARAM_KLINE_1D_WEIPAN = "6";
 //    public static final String PARAM_KLINE_MONTH_WEIPAN = "8";
 
     public static List<KlineCycle> klineCycleList = new ArrayList<KlineCycle>();

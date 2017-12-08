@@ -338,19 +338,19 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 KParamConfig.getMacdTParam2(getActivity()),
                 KParamConfig.getMacdKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_MACD);
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_MACD", code + "_" + cycle + "_MACD");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_MACD", code + "_" + cycle + "_MACD");
     }
 
     void event4KDJ() {
         kLineView.setSubLineData(KParseUtils.getKDJLinesDatas(list,
                 KParamConfig.getKdjKParam(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_KDJ);
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_KDJ", code + "_" + cycle + "_KDJ");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_KDJ", code + "_" + cycle + "_KDJ");
     }
 
     void event4VOL() {
         kLineView.setSubNormal(KLineNormal.NORMAL_VOL);
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_VOL", code + "_" + cycle + "_VOL");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_VOL", code + "_" + cycle + "_VOL");
     }
 
     void event4RSI() {
@@ -359,7 +359,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
                 KParamConfig.getRsiParam2(getActivity()),
                 KParamConfig.getRsiParam3(getActivity())));
         kLineView.setSubNormal(KLineNormal.NORMAL_RSI);
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_RSI", code + "_" + cycle + "_RSI");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_RSI", code + "_" + cycle + "_RSI");
     }
 
 
@@ -374,7 +374,7 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
             kLineView.setMainLineData(KParseUtils.getSMAData(list,
                     KParamConfig.getSMAcfg(getActivity(), true)));
         }
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_SMA", code + "_" + cycle + "_SMA");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_SMA", code + "_" + cycle + "_SMA");
     }
 
     void event4BOLL() {
@@ -382,14 +382,49 @@ public class KLineFragment extends BaseFragment<KLinePresenter> implements KLine
         kLineView.setMainLineData(KParseUtils.getBollData(list,
                 KParamConfig.getBoolTParam(getActivity()),
                 KParamConfig.getBoolKParam(getActivity())));
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_BOLL", code + "_" + cycle + "_BOLL");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_BOLL", code + "_" + cycle + "_BOLL");
     }
 
     void event4EMA() {
         kLineView.setMainNormal(KLineNormal.NORMAL_EMA);
         kLineView.setMainLineData(KParseUtils.getEMAData(list,
                 KParamConfig.getEmaParam(getActivity())));
-        MobclickAgent.onEvent(mContext, code + "_click_" + cycle + "_EMA", code + "_" + cycle + "_EMA");
+        MobclickAgent.onEvent(mContext, code + "_click_" + codeTransfer(cycle) + "_EMA", code + "_" + cycle + "_EMA");
+    }
+
+    private String codeTransfer(String cycle) {
+        int type = Integer.parseInt(cycle);
+        String codeTransfer = "1";
+        switch (type) {
+            case 1:
+                codeTransfer = "fenshi";
+                break;
+            case 10:
+                codeTransfer = "1fz";
+                break;
+            case 2:
+                codeTransfer = "5fz";
+                break;
+            case 3:
+                codeTransfer = "15fz";
+                break;
+            case 4:
+                codeTransfer = "30fz";
+                break;
+            case 5:
+                codeTransfer = "1xs";
+                break;
+            case 9:
+                codeTransfer = "4xs";
+                break;
+            case 7:
+                codeTransfer = "zhouK";
+                break;
+            case 6:
+                codeTransfer = "riK";
+                break;
+        }
+        return codeTransfer;
     }
 
     View.OnClickListener normalLinstener = new View.OnClickListener() {
