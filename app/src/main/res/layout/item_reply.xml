@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/reply_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:focusable="false"
+        android:textColor="@color/color_323232"
+        android:textSize="12sp"
+        tools:text="小牛9115: 早盘现货白银开美元/盎司开盘后银价早盘现货白银开美元早盘现货白银开美元早盘现货白银开美元。" />
+
+</LinearLayout>

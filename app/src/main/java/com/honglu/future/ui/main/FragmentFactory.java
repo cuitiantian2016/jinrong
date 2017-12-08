@@ -72,7 +72,6 @@ public class FragmentFactory {
             default:
                 break;
         }
-
         //change
         if (list.contains(selectFragment)) {
             transaction.hide(lastFragment).show(selectFragment).commitAllowingStateLoss();

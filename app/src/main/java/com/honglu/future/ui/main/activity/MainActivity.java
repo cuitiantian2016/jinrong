@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -34,6 +35,7 @@ import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
@@ -273,6 +275,10 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public void changeTab(FragmentFactory.FragmentStatus status) {
         if (status == odlState)
             return;
+        if (status == FragmentFactory.FragmentStatus.Circle&&TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+            startActivity(LoginActivity.class);
+            return;
+        }
         FragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
         odlState = status;
     }

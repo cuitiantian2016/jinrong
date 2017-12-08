@@ -270,5 +270,9 @@
     <color name="share">#f4f4f4</color>
 
     <drawable name="global">#101238</drawable>
+    <color name="orange">#ff8d11</color>
+    <color name="color_ff9300">#FF9300</color>
+    <drawable name="bbs_tab_icon_nomal">#FFFFFF</drawable>
+    <color name="color_black_trans_50">#77000000</color><!-- 黑色 50% 透明-->
 
 </resources>

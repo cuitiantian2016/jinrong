@@ -20,6 +20,7 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;

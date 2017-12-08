@@ -1,14 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="牛圈"
-        android:textSize="@dimen/dimen_20sp"
-        android:textColor="@color/color_333333"
-        android:gravity="center"
-        />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1dp_half"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_d8d7d7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <com.honglu.future.widget.CircleImageView
+                    android:id="@+id/iv_head_portrait"
+                    android:layout_width="@dimen/dimen_36dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="8dp"
+                    android:src="@mipmap/img_head" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="牛圈"
+                    android:textColor="@color/color_323232"
+                    android:textSize="@dimen/dimen_18sp" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_message_hint"
+                    android:layout_width="@dimen/dimen_36dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_4dp"
+                    android:clipChildren="false"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/iv_msg_icon"
+                        android:layout_width="@dimen/dimen_24dp"
+                        android:layout_height="@dimen/dimen_24dp"
+                        android:src="@drawable/ic_bbs_msg_label" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <com.honglu.future.widget.SlidingTabImageLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            app:tl_indicator_color="@color/color_ff9300"
+            app:tl_indicator_height="@dimen/dimen_2dp"
+            app:tl_indicator_width="60dp"
+            app:tl_tab_width="84dp"
+            app:tl_textSelectColor="@color/color_323232"
+            app:tl_textUnselectColor="@color/color_323232"
+            app:tl_textsize="@dimen/dimen_12sp"
+            app:tl_underline_color="@color/color_d8d7d7"
+            app:tl_underline_height="@dimen/dimen_1dp_half" />
+
+        <com.honglu.future.widget.kchart.ViewPagerEx
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/ly_nq_tip_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/dimen_2dp"
+        app:cardElevation="@dimen/dimen_1dp_half"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false">
+
+        <TextView
+            android:id="@+id/tv_nq_bottom_tip_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_black_trans_50"
+            android:paddingBottom="@dimen/dimen_2dp"
+            android:paddingLeft="@dimen/dimen_8dp"
+            android:paddingRight="@dimen/dimen_8dp"
+            android:paddingTop="@dimen/dimen_2dp"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_14sp"
+            tools:text="严禁传递手机\微信\QQ等信息, 违者会被禁言" />
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

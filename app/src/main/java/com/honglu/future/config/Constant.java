@@ -1,11 +1,17 @@
 package com.honglu.future.config;
 
+import com.honglu.future.ui.circle.bean.TopicFilter;
+
+import java.util.List;
+
 public class Constant {
 
     //提额H5
     public static String LIMIT_URL = "http://app.souyijie.com/web/web/gotoRegisterNew/555";
 
     public static final String DEBUG_TAG = "logger";// LogCat的标记
+
+    public static List<TopicFilter> topic_filter;
 
     //sharedpren里面的常量
     public static final String CACHE_TAG_USERNAME = "username"; //用户名
