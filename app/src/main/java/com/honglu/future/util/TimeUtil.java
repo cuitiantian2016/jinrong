@@ -70,6 +70,7 @@ public class TimeUtil {
      */
     public static String dateFormatYMDHM = "yyyy-MM-dd HH:mm";
 
+    public static String dateFormatHHmm_MMdd = "HH:mm MM-dd";
     /**
      * 时间日期格式化到月日.
      */

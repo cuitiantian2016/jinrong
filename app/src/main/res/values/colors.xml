@@ -275,5 +275,6 @@
     <drawable name="bbs_tab_icon_nomal">#FFFFFF</drawable>
     <color name="color_black_trans_50">#77000000</color><!-- 黑色 50% 透明-->
     <color name="color_separator_gap">@color/color_f0f0f0</color>
+    <color name="color_FCFCFC">#FCFCFC</color>
 
 </resources>

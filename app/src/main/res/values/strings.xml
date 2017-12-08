@@ -211,4 +211,5 @@
     <string name="selector_permission_error">权限错误，无法正常工作！</string>
     <string name="camera_temp_file_error">图片错误</string>
     <string name="msg_no_camera">无法启动相机!</string>
+    <string name="circle_input_hint">楼主说的怎么样，点评一下吧！</string>
 </resources>
