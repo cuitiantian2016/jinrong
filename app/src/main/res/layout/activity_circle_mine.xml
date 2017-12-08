@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_white"
     android:orientation="vertical">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <fragment
+            android:id="@+id/ly_bbs_mine"
+            android:name="com.honglu.future.ui.circle.circlemine.MineFragment"
+            class="com.honglu.future.ui.circle.circlemine.MineFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/ll_header" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            tools:layout="@layout/fragment_bbs_empty_me" />
 
-    <include layout="@layout/layout_toolbar" />
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/ly_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_alpha_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:alpha="0"
+                android:padding="3dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/shape_goback_circle" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:padding="3dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/iv_white_back_nomal" />
+
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

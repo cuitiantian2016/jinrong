@@ -14,6 +14,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewHelper;
@@ -115,8 +116,7 @@ public class CircleMainFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 跳转我的牛圈
-
+                startActivity(CircleMineActivity.class);
             }
         };
     }
