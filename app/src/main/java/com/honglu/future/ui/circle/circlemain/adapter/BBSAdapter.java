@@ -50,6 +50,7 @@ public class BBSAdapter extends BaseAdapter {
     private List<BBS> mList = new ArrayList<>();
     private String topicType;
     private AttentionCallBack mAttentionCallBack;
+    private PraiseCallBack mPraiseCallBack;
     public List<BBS> getList() {
         return mList;
     }
@@ -86,14 +87,35 @@ public class BBSAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void refreshDatas(BBS item) {
+    /**
+     * 关注刷新
+     * @param follow
+     * @param uid
+     */
+    public void follow(String follow,String uid) {
         for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).uid.equals(item.uid)) {
-                mList.get(i).follow = item.follow;
+            if (mList.get(i).uid.equals(uid)) {
+                mList.get(i).follow = follow;
             }
         }
         if (mAttentionCallBack != null) {
-            mAttentionCallBack.attention(item.uid, item.follow);
+            mAttentionCallBack.attention(uid,follow);
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 点赞刷新
+     * @param
+     */
+    public void praise(String topic_id,String num) {
+        for (int i = 0; i < mList.size(); i++) {
+            if (mList.get(i).topic_id.equals(topic_id)) {
+                mList.get(i).support_num = num;
+            }
+        }
+        if (mPraiseCallBack != null) {
+            mPraiseCallBack.praise(topic_id, num);
         }
         notifyDataSetChanged();
     }
@@ -262,7 +284,7 @@ public class BBSAdapter extends BaseAdapter {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
-                        //关注
+
                         String type = item.follow.equals("1") ? "2" : "1";
 //                        ServerAPI.follow(mContext, type, item.uid, new ServerCallBack<JSONObject>() {
 //                            @Override
@@ -359,27 +381,19 @@ public class BBSAdapter extends BaseAdapter {
                         Intent intent = new Intent(view.getContext(), FullScreenDisplayActivity.class);
                         Bundle b = new Bundle();
                         ArrayList<String> images = new ArrayList<>();
-                        if (imgList != null && imgList.size() > 0) {
+                        if (imgList.size() > 0) {
+                            images.addAll(imgList);
+                            b.putStringArrayList("image_urls", images);
+                            b.putInt("position", index);
+                            intent.putExtras(b);
 
-                            if (!TextUtils.isEmpty(item.video_url)) {
-                                // WmbbUtil.openWmbbScheme(mListView.getContext(), item.video_url);
-                            } else {
-                                images.addAll(imgList);
-                                b.putStringArrayList("image_urls", images);
-                                b.putInt("position", index);
-                                intent.putExtras(b);
-
-                                int[] location = new int[2];
-                                view.getLocationOnScreen(location);
-                                intent.putExtra("locationX", location[0]);
-                                intent.putExtra("locationY", location[1]);
-                                intent.putExtra("width", view.getWidth());
-                                intent.putExtra("height", view.getHeight());
-
-                                view.getContext().startActivity(intent);
-                            }
-
-
+                            int[] location = new int[2];
+                            view.getLocationOnScreen(location);
+                            intent.putExtra("locationX", location[0]);
+                            intent.putExtra("locationY", location[1]);
+                            intent.putExtra("width", view.getWidth());
+                            intent.putExtra("height", view.getHeight());
+                            view.getContext().startActivity(intent);
                         }
                     }
                 });
@@ -553,5 +567,14 @@ public class BBSAdapter extends BaseAdapter {
 
     public void setAttentionCallBack(AttentionCallBack callBack) {
         this.mAttentionCallBack = callBack;
+    }
+
+    //关注回调，需要时可以添加
+    public interface PraiseCallBack {
+        void praise(String topic, String num);
+    }
+
+    public void setPraiseCallBack(PraiseCallBack callBack) {
+        this.mPraiseCallBack = callBack;
     }
 }
