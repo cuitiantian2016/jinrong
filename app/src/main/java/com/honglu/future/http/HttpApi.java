@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.bean.CircleMsgBean;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
@@ -521,6 +522,20 @@ public interface HttpApi {
             @Field("bankPassword") String bankPassword,
             @Field("token") String token);
 
+    /** ********************************* 牛圈 ******************************************/
+
+    /**
+     * https://www.showdoc.cc/1673161?page_id=15679072
+     * 加载个人首页接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circleFriend/loadHomepage")
+    Observable<BaseResponse<CircleMineBean>> loadCircleHome(
+            @Field("userId") String userId,
+            @Field("rows") String rows,
+            @Field("rowsSize") String rowsSize);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15678695
