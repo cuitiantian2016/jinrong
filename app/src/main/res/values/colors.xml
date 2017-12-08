@@ -276,5 +276,6 @@
     <color name="color_black_trans_50">#77000000</color><!-- 黑色 50% 透明-->
     <color name="color_separator_gap">@color/color_f0f0f0</color>
     <color name="color_FCFCFC">#FCFCFC</color>
+    <color name="color_666666">#666666</color>
 
 </resources>

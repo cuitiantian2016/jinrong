@@ -2,6 +2,7 @@ package com.honglu.future.ui.circle.circlemsg;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
@@ -20,13 +21,13 @@ import butterknife.BindView;
  * Created by zhuaibing on 2017/12/7
  */
 
-public class CircleMsgActivity extends BaseActivity{
+public class CircleMsgActivity extends BaseActivity implements View.OnClickListener{
     @BindView(R.id.circle_msg_tab)
     CommonTabLayout mCircleMsgTab;
 
     private CircleMsgHFragment mHfFragment;
     private CircleMsgPLFragment mPlFragment;
-
+    private int mPosition = 0;
 
     @Override
     public void initPresenter() {
@@ -39,10 +40,12 @@ public class CircleMsgActivity extends BaseActivity{
 
     @Override
     public void loadData() {
+        mTitle.setTitle(false, R.color.color_white,"消息");
+        mTitle.setRightTitle("清空",this);
 
         ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
-        mTabList.add(new TabEntity("回复我的"));
-        mTabList.add(new TabEntity("帖子评论"));
+        mTabList.add(new TabEntity("收到的评论"));
+        mTabList.add(new TabEntity("发出的评论"));
 
         ArrayList<Fragment> mFragments = new ArrayList<>();
         mHfFragment = new CircleMsgHFragment();
@@ -55,8 +58,21 @@ public class CircleMsgActivity extends BaseActivity{
             @Override
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
+                mPosition = position;
             }
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_right: //清空
+                if (mPosition == 0){
+                    mHfFragment.getClearReply();
+                }else {
+                    mPlFragment.getClearComments();
+                }
+                break;
+        }
+    }
 }

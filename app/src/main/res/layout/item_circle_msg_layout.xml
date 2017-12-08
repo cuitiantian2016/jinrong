@@ -16,15 +16,18 @@
 
         <com.honglu.future.widget.CircleImageView
             android:id="@+id/civ_head"
-            android:layout_width="@dimen/dimen_40dp"
-            android:layout_height="@dimen/dimen_40dp"
-            android:src="@mipmap/img_head" />
+            android:layout_width="@dimen/dimen_25dp"
+            android:layout_height="@dimen/dimen_25dp"
+            tools:src="@mipmap/img_head" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/color_979899"
+            android:textSize="@dimen/dimen_13sp"
+            android:layout_marginLeft="@dimen/dimen_10dp"
             android:layout_weight="1"
             tools:text="小牛5906"/>
 
@@ -34,56 +37,72 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            tools:text="20:39"/>
+            android:textColor="@color/color_CACBCC"
+            android:textSize="@dimen/dimen_11sp"
+            tools:text="13:45 09-27"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_huifu_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:textColor="@color/color_333333"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textSize="@dimen/dimen_15sp"
+        android:layout_marginTop="@dimen/dimen_5dp"
+        tools:text="这是回复内容"/>
 
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="@dimen/dimen_15dp"
+           android:layout_marginLeft="@dimen/dimen_50dp"
            android:layout_marginRight="@dimen/dimen_15dp"
            android:layout_marginTop="@dimen/dimen_15dp"
-           android:weightSum="3"
-           android:orientation="horizontal">
-
-           <TextView
-               android:id="@+id/tv_huifu_content"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_weight="2"
-               tools:text="这是回复内容"/>
-
+           android:background="@drawable/shape_f7f8f9_2dp"
+           android:orientation="vertical">
 
            <TextView
                android:id="@+id/tv_content"
-               android:layout_width="0dp"
+               android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_weight="2"
-               tools:text="这是内容文字"/>
+               android:textSize="@dimen/dimen_13sp"
+               android:textColor="@color/color_666666"
+               android:maxLines="3"
+               android:ellipsize="end"
+               android:layout_margin="@dimen/dimen_10dp"
+               tools:text="这是内容文"/>
+
+
+           <TextView
+               android:id="@+id/tv_huifu_detail"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/color_008EFF"
+               android:textSize="@dimen/dimen_13sp"
+               android:layout_marginRight="@dimen/dimen_15dp"
+               android:layout_marginTop="@dimen/dimen_6dp"
+               android:layout_marginBottom="@dimen/dimen_6dp"
+               android:layout_gravity="right"
+               android:text="回复详情>>"/>
        </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_huifu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_follow_008eff_btn_bg"
+        android:textColor="@color/color_008EFF"
+        android:textSize="@dimen/dimen_13sp"
+        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:layout_marginBottom="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingTop="@dimen/dimen_2dp"
+        android:paddingBottom="@dimen/dimen_2dp"
+        android:text="回复"/>
 
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/dimen_15dp"
-          android:layout_marginRight="@dimen/dimen_15dp"
-          android:layout_marginTop="@dimen/dimen_15dp"
-          android:layout_marginBottom="@dimen/dimen_15dp"
-          android:orientation="horizontal">
-
-
-          <TextView
-              android:id="@+id/tv_huifu"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="回复"/>
-
-          <TextView
-              android:id="@+id/tv_huifu_detail"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentRight="true"
-              android:text="回复详情>>"/>
-      </RelativeLayout>
 </LinearLayout>

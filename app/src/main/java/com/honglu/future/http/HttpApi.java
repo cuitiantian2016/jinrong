@@ -5,6 +5,7 @@ import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.TopicFilter;
+import com.honglu.future.ui.circle.bean.CircleMsgBean;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.home.bean.BannerData;
@@ -541,4 +542,49 @@ public interface HttpApi {
             @Field("rows") int rows
     );
 
+
+    /**
+     * 收到的评论
+     * @param replyUserId
+     * @param rows
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/BBSMessage/getCircleRevert.do")
+    Observable<BaseResponse<List<CircleMsgBean>>> getCircleRevert(
+            @Field("beReplyUserId") String replyUserId,
+            @Field("rows") int rows);
+
+    /**
+     * 清空收到的评论
+     * @param replyUserId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/BBSMessage/getClearReply.do")
+    Observable<BaseResponse<JsonNull>> getClearReply(
+            @Field("beReplyUserId") String replyUserId);
+
+    /**
+     * 发出的评论
+     * @param replyUserId
+     * @param rows
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/BBSMessage/getCircleCommentaries.do")
+    Observable<BaseResponse<List<CircleMsgBean>>> getCircleCommentaries(
+            @Field("beReplyUserId") String replyUserId,
+            @Field("rows") int rows);
+
+
+    /**
+     * 清空 发出的评论
+     * @param replyUserId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/BBSMessage/getClearComments.do")
+    Observable<BaseResponse<JsonNull>> getClearComments(
+            @Field("beReplyUserId") String replyUserId);
 }

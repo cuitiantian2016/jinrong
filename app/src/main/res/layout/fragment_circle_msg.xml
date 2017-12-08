@@ -27,24 +27,46 @@
             android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-          android:background="@color/color_white"
-          android:orientation="horizontal">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_EDEDED"/>
 
-          <EditText
-              android:id="@+id/et_input"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:maxHeight="@dimen/dimen_100dp"
-              android:layout_weight="1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/color_FCFCFC">
 
-           <TextView
-               android:id="@+id/tv_send"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="发表"/>
-      </LinearLayout>
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="@dimen/dimen_100dp"
+            android:layout_marginTop="@dimen/dimen_14dp"
+            android:layout_marginBottom="@dimen/dimen_14dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:textSize="@dimen/dimen_15sp"
+            android:textColorHint="@color/color_CACBCC"
+            android:textColor="@color/color_333333"
+            android:hint="@string/circle_input_hint"
+            android:background="@null"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_blue_2dp_bg"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_15sp"
+            android:paddingRight="@dimen/dimen_15dp"
+            android:paddingLeft="@dimen/dimen_15dp"
+            android:paddingTop="@dimen/dimen_5dp"
+            android:paddingBottom="@dimen/dimen_5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:text="发表"/>
+    </LinearLayout>
 </LinearLayout>
