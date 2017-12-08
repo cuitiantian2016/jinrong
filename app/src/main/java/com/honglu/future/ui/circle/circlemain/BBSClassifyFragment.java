@@ -10,12 +10,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.events.BBSCommentEvent;
+import com.honglu.future.events.BBSFlownEvent;
+import com.honglu.future.events.BBSIndicatorEvent;
+import com.honglu.future.events.BBSPraiseEvent;
+import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSAdapter;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.ExpandableLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BBSClassifyFragment extends PagerFragment {
 
@@ -28,16 +36,9 @@ public class BBSClassifyFragment extends PagerFragment {
     private SmartRefreshLayout srl_refreshView;
     private TextView mNewNumTv;
     private ExpandableLayout mExpandableLy;
-
     private BBSAdapter mAdapter;
-
     private boolean isLoadingNow = false;
-    //private boolean isLoadingFinished = false;
-
-    private String topicType = "1", topic_id = "0";
-    private String topic_id_temp = "0", fid = "0";
-    private int messageTabPosition;
-
+    private String topicType = "1";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,85 +50,59 @@ public class BBSClassifyFragment extends PagerFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        //监听关注
-//        MessageController.getInstance().setDetailFriendChange(new MessageController.DetailFriendChange() {
-//            @Override
-//            public void change(String uid, String flower) {
-//                List<BBS> list = mAdapter.getList();
-//                if (list != null) {
-//                    for (BBS bbs : list) {
-//                        if (TextUtils.equals(bbs.uid,uid)) {
-//                            bbs.follow = flower;
-//                        }
-//                    }
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        });
-        //监听点赞
-//        MessageController.getInstance().setZanChange(new MessageController.ZanChange() {
-//            @Override
-//            public void zanchange(BBS bbs) {
-//                List<BBS> list = mAdapter.getList();
-//                if (list != null) {
-//                    for (BBS b : list) {
-//                        if (b.topic_id.equals(bbs.topic_id)) {
-//                            b.attutude = "1";
-//                            AttutudeUser a = new AttutudeUser();
-//                            a.headimgurl = SPUtil.getString(getContext(), "headimg", "");
-//                            a.uid = SPUtil.getString(getContext(), "user_id", "");
-//                            a.user_name = SPUtil.getString(getContext(), "user_name", "");
-//                            b.attutude_user.add(a);
-//                            b.support_num = bbs.support_num;
-//                            mAdapter.notifyDataSetChanged();
-//                        }
-//                    }
-//                }
-//            }
-//        });
-    }
-
     @Override
     protected int doGetContentLayout() {
         return R.layout.fragment_bbs_newest;
     }
-
-//    public void onEventMainThread(TopicInfoEntity entity) {
-//        if(mAdapter!=null){
-//            List<BBS> list = mAdapter.getList();
-//            if (list != null) {
-//                for (BBS bbs : list) {
-//                    if (TextUtils.equals(bbs.topic_id,entity.topicId)) {
-//                        bbs.reply_num = entity.replyCount;
-//                    }
-//                }
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        }
-//    }
-
     /**
      * 评论
      */
-    public void onEventMainThread() {
-//        if(mAdapter!=null){
-//            List<BBS> list = mAdapter.getList();
-//            if (list != null) {
-//                for (BBS bbs : list) {
-//                    if (TextUtils.equals(bbs.topic_id,entity.topicId)) {
-//                        bbs.reply_num = entity.replyCount;
-//                    }
-//                }
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        }
+    public void onEventMainThread(BBSCommentEvent event) {
+        if(mAdapter!=null){
+            List<BBS> list = mAdapter.getList();
+            if (list != null) {
+                for (BBS bbs : list) {
+                    if (TextUtils.equals(bbs.topic_id,event.topic_id)) {
+                        bbs.reply_num = event.commentNum;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
+    /**
+     * 点赞的事件
+     */
+    public void onEventMainThread(BBSPraiseEvent event) {
+        if(mAdapter!=null){
+            List<BBS> list = mAdapter.getList();
+            if (list != null) {
+                for (BBS bbs : list) {
+                    if (TextUtils.equals(bbs.topic_id,event.topic_id)) {
+                        bbs.support_num = event.praiseNum;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+    /**
+     * 监听关注
+     */
+    public void onEventMainThread(BBSFlownEvent event) {
+        if(mAdapter!=null){
+            List<BBS> list = mAdapter.getList();
+            if (list != null) {
+                for (BBS bbs : list) {
+                    if (TextUtils.equals(bbs.uid,event.uid)) {
+                        bbs.follow = event.follow;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
 
-
+        }
+    }
     @Override
     protected void doInit(View root) {
         topicType = getArguments().getString(EXTRA_CLASSIFY_TYPE);
@@ -136,9 +111,6 @@ public class BBSClassifyFragment extends PagerFragment {
         mListView = (ListView) root.findViewById(R.id.lv_listView);
         empty_view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bbs_empty, null);
         TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
-//        if (!BBSFragmentNew.TOPIC_TYPE_ATTENTION.equals(topicType)) {
-//            empty_text.setText("还没有最新的消息哦~");
-//        }
         empty_text.setText("还没有最新的消息哦~");
         mAdapter = new BBSAdapter(mListView, getContext(), getLoadMoreListener());
         mAdapter.setTopicType(topicType);
@@ -166,27 +138,25 @@ public class BBSClassifyFragment extends PagerFragment {
 
     private void refreshData() {
         if (!isLoadingNow) {
-            //isLoadingFinished = false;
-            topic_id_temp = "0";
             topicIndexThread("pull_down", topicType, true);
         }
     }
 
-//    public void onEventMainThread(BBSIndicatorEvent event) {
-//        if (event.getTopicType().equals(topicType)) {
-//            if (event.isBackTop()) {
-//                mListView.setSelection(0);
-//            }
-//            refreshData();
-//        }
-//    }
+    public void onEventMainThread(BBSIndicatorEvent event) {
+        if (event.getTopicType().equals(topicType)) {
+            if (event.isBackTop()) {
+                mListView.setSelection(0);
+            }
+            refreshData();
+        }
+    }
 
     // 滑动加载更多
     public BBSAdapter.ScrollToLastCallBack getLoadMoreListener() {
         return new BBSAdapter.ScrollToLastCallBack() {
             @Override
             public void onScrollToLast(Integer pos) {
-                if (!isLoadingNow) {
+                if (!isLoadingNow) {//上拉加载更多
                     topicIndexThread("pull_up", topicType, false);
                 }
             }
@@ -201,7 +171,6 @@ public class BBSClassifyFragment extends PagerFragment {
 //                Intent intent = new Intent(getActivity(), BBSMessageActivity.class);
 //                intent.putExtra(BBSMessageActivity.EXTRA_MESSAGE_POSITION, messageTabPosition);
 //                startActivity(intent);
-                messageTabPosition = 0;
             }
         };
     }
@@ -214,7 +183,6 @@ public class BBSClassifyFragment extends PagerFragment {
             showLoadingPage(R.id.ly_loading_container);
         }
         isLoadingNow = true;
-
         //判断是下拉刷新还是加载更多
         final boolean isRefresh = TextUtils.equals("pull_down", pull_style);
         //根据情况设置当前的topic_id请求参数
@@ -308,8 +276,6 @@ public class BBSClassifyFragment extends PagerFragment {
     @Override
     protected void onReload(Context context) {
         super.onReload(context);
-        //isLoadingFinished = false;
-        topic_id_temp = "0";
         topicIndexThread("pull_down", topicType, true);
     }
 

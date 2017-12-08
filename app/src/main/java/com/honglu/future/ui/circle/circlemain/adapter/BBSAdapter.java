@@ -262,6 +262,7 @@ public class BBSAdapter extends BaseAdapter {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
+                        //关注
                         String type = item.follow.equals("1") ? "2" : "1";
 //                        ServerAPI.follow(mContext, type, item.uid, new ServerCallBack<JSONObject>() {
 //                            @Override
@@ -495,6 +496,14 @@ public class BBSAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * 点赞
+     * @param self
+     * @param type
+     * @param item
+     * @param tv
+     * @param iv
+     */
     private void declareForTopicThread(final LinearLayout self, final String type, final BBS item, final TextView tv, final ImageView iv) {
         final String type2 = type;
         self.setEnabled(false);

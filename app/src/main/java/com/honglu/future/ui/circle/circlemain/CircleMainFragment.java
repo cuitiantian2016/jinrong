@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.util.DeviceUtils;
@@ -94,7 +95,7 @@ public class CircleMainFragment extends BaseFragment {
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
                     currTopicType =Constant.topic_filter.get(position).type;
-                    //EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
+                    EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
                 }
             });
             mTabsIndicatorLy.setViewPager(mViewPager);
