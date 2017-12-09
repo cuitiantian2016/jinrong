@@ -14,11 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.ui.circle.bean.AttutudeUser;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
-import com.honglu.future.ui.circle.circlemain.adapter.BBSAdapter;
+import com.honglu.future.ui.circle.circlemine.adapter.BBSMineAdapter;
 import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.circlefriend.MyFriendActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -38,7 +39,7 @@ public class MineFragment extends CommonFragment {
     SmartRefreshLayout mSmartRefresh;
     @BindView(R.id.listView)
     ListView mListView;
-    private BBSAdapter mAdapter;
+    private BBSMineAdapter mAdapter;
     private boolean isLoadingNow = false, isLoadingFinished = false;
     private String fid = "0";
     private TextView publish;
@@ -51,6 +52,7 @@ public class MineFragment extends CommonFragment {
 
     private LinearLayout mAttutudeUserLy;
     private OnTopicAlaph mOnTopicAlaph;
+    private BasePresenter<MineFragment> mBasePresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,7 +124,7 @@ public class MineFragment extends CommonFragment {
                 mContext.startActivity(new Intent(mContext, PublishActivity.class));
             }
         });
-        mAdapter = new BBSAdapter(mListView, mContext, scrollToLastCallBack);
+        mAdapter = new BBSMineAdapter(mListView, mContext, scrollToLastCallBack);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -187,7 +189,7 @@ public class MineFragment extends CommonFragment {
     };
 
     //滑动加载更多
-    BBSAdapter.ScrollToLastCallBack scrollToLastCallBack = new BBSAdapter.ScrollToLastCallBack() {
+    BBSMineAdapter.ScrollToLastCallBack scrollToLastCallBack = new BBSMineAdapter.ScrollToLastCallBack() {
         @Override
         public void onScrollToLast(Integer pos) {
             if (!isLoadingNow) {
@@ -207,62 +209,56 @@ public class MineFragment extends CommonFragment {
         //判断是下拉刷新还是加载更多
         final boolean isRefresh = TextUtils.equals("pull_down", pull_style);
         //根据情况设置当前的topic_id请求参数
-        String topic_id = isRefresh ? "0" : mAdapter.getItem(mAdapter.getCount() - 1).topic_id;
-
-//        ServerAPI.topicIndex(mContext, type, topic_id, fid, null, new ServerCallBack<TopicList>() {
-//                    @Override
-//                    public void onSucceed(Context context, TopicList result) {
-//                        if (result.friends != null && result.friends.size() != 0) {
-//                            updateAttutudeUser(result.friends);
-//                        }
-//                        if (result.user_info != null) {
-//                            ImageUtil.display(result.user_info.headimgurl, header_img, R.drawable.iv_no_image);
-//                            user_name.setText(result.user_info.user_name);
-//                            if (result.user_info.user_flag.equals("1")) {
-//                                flag.setVisibility(View.VISIBLE);
+        String topic_id = isRefresh ? "0" : mAdapter.getItem(mAdapter.getCount() - 1).getCircleTypeId();
+//        if (mBasePresenter == null) {
+//            mBasePresenter = new BasePresenter<MineFragment>(this) {
+//                @Override
+//                public void getData() {
+//                    super.getData();
+//                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<CircleMineBean>() {
+//                        @Override
+//                        protected void _onNext(CircleMineBean o) {
+//                            super._onNext(o);
+//                            ImageUtil.display(SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
+//                            user_name.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+//                            // TODO: 2017/12/9 接口缺少用户角色
+////                            if (result.user_info.user_flag.equals("1")) {
+////                                flag.setVisibility(View.VISIBLE);
+////                            } else {
+////                                flag.setVisibility(View.INVISIBLE);
+////                            }
+//                            attention_num.setText("关注" + o.getFocusNum());
+//                            endorse_num.setText("粉丝" + o.getBeFocusNum());
+//                            topic_num.setText("发帖" + o.getFocusNum());
+//
+//                            if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
+//                                if (mListView.getFooterViewsCount() != 0)
+//                                    mListView.removeFooterView(empty_view);
+//                                if (isRefresh) {
+//                                    mAdapter.clearDatas();
+//                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+//                                } else {
+//                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+//                                }
 //                            } else {
-//                                flag.setVisibility(View.INVISIBLE);
+//                                //空布局
+//                                if (mListView.getFooterViewsCount() == 0 && mAdapter.getCount() == 0) {
+//                                    mListView.addFooterView(empty_view, null, false);
+//                                }
 //                            }
-//                            attention_num.setText("关注" + result.user_info.follow_num);
-//                            endorse_num.setText("粉丝" + result.user_info.fans_num);
-//                            topic_num.setText("发帖" + result.user_info.topic_num);
-//                            reward_num.setText("获赏" + (TextUtils.isEmpty(result.user_info.integral)?"":result.user_info.integral));
+//                            closeLoadingPage();
 //                        }
 //
-//                        if (result.topicList != null && result.topicList.size() > 0) {
-//                            if (mListView.getFooterViewsCount() != 0)
-//                                mListView.removeFooterView(empty_view);
 //
-//                            if (isRefresh) {
-//                                mAdapter.clearDatas();
-//                                mAdapter.setDatas(result.topicList);
-//                            } else {
-//                                mAdapter.setDatas(result.topicList);
-//                            }
-//
-//                        } else {
-//                            //空布局
-//                            if (mListView.getFooterViewsCount() == 0 && mAdapter.getCount() == 0) {
-//                                mListView.addFooterView(empty_view, null, false);
-//                            }
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            super.onError(e);
 //                        }
-//
-//                        closeLoadingPage();
-//                    }
-//
-//                    @Override
-//                    public void onError(Context context, String errorMsg) {
-//                        Toaster.toast(errorMsg);
-//                    }
-//
-//                    @Override
-//                    public void onFinished(Context context) {
-//                        isLoadingNow = false;
-//                        mPullToRefreshListView.onRefreshComplete();
-//                    }
+//                    });
 //                }
-//
-//        );
+//            };
+//        }
+//        mBasePresenter.getData();
     }
 
     @Override
@@ -270,6 +266,12 @@ public class MineFragment extends CommonFragment {
         super.onReload(context);
         isLoadingFinished = false;
         topicIndexThread("pull_down");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //mBasePresenter.onDestroy();
     }
 
     private void updateAttutudeUser(List<AttutudeUser> attutudeUserList) {

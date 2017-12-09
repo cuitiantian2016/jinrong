@@ -10,7 +10,7 @@
         android:layout_height="64dp"
         android:layout_marginTop="@dimen/dimen_20dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_logo"/>
+        android:src="@mipmap/img_head"/>
     <TextView
         android:layout_marginTop="@dimen/dimen_6dp"
         android:id="@+id/tv_title"

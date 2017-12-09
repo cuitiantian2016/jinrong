@@ -27,6 +27,7 @@ import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
@@ -304,10 +305,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_phone:
                 //联系客服
-                if (!DeviceUtils.isFastDoubleClick()) {
-                    clickTab("wode_kefudianhua_click","我的_客服电话");
-                    showCallPhoneDialog();
-                }
+//                if (!DeviceUtils.isFastDoubleClick()) {
+//                    clickTab("wode_kefudianhua_click","我的_客服电话");
+//                    showCallPhoneDialog();
+//                }
+                startActivity(CircleDetailActivity.class);
                 break;
             case R.id.tv_aboutus:
                 clickTab("wode_guanyuwomen_click","我的_关于我们");

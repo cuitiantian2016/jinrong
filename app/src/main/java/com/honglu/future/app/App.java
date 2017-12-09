@@ -36,6 +36,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.xulu.mpush.client.ClientConfig;
 
 import org.greenrobot.eventbus.EventBus;
@@ -159,6 +160,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         PlatformConfig.setWeixin(KeyConfig.WX_APP_KEY, KeyConfig.WX_APP_SECRET);
         //QQ
         PlatformConfig.setQQZone(KeyConfig.QQ_APP_ID, KeyConfig.QQ_APP_KEY);
+        UMShareAPI.get(this);
     }
 
     public void initARouter(){

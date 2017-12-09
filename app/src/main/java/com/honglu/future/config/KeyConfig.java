@@ -14,8 +14,8 @@ public class KeyConfig {
     //    public static String BUGLY_KEY = "f102986345";
 
     //分享相关的key
-    public static String WX_APP_KEY = "wxb998637f8f204e34";//微信KEY
-    public static String WX_APP_SECRET = "21351720a62ffd636d9124843261442a";//微信SECRET
+    public static String WX_APP_KEY = "wxcdaa193f975231ea";//微信KEY
+    public static String WX_APP_SECRET = "7abb1c80bae22a4be5d40fb76a3acf15";//微信SECRET
 
     public static String QQ_APP_KEY = "FrENlLVEWO8eWM6E";//QQ appkey
     public static String QQ_APP_ID = "1106343271";//QQ appid

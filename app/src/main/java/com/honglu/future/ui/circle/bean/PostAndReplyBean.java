@@ -5,7 +5,7 @@ package com.honglu.future.ui.circle.bean;
  */
 
 public class PostAndReplyBean {
-        private int circleId;
+        private String circleId;
         private String circleTypeId;
         private int commentSum;
         private String content;
@@ -20,13 +20,13 @@ public class PostAndReplyBean {
         private String remark;
         private int replySum;
         private int replyType;
-        private int thumbUpSum;
+        private String thumbUpSum;
         private String title;
         private String userRole;
-        public void setCircleId(int circleId) {
+        public void setCircleId(String circleId) {
             this.circleId = circleId;
         }
-        public int getCircleId() {
+        public String getCircleId() {
             return circleId;
         }
 
@@ -128,10 +128,10 @@ public class PostAndReplyBean {
             return replyType;
         }
 
-        public void setThumbUpSum(int thumbUpSum) {
+        public void setThumbUpSum(String thumbUpSum) {
             this.thumbUpSum = thumbUpSum;
         }
-        public int getThumbUpSum() {
+        public String getThumbUpSum() {
             return thumbUpSum;
         }
 

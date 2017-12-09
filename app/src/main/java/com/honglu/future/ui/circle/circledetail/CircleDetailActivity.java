@@ -19,6 +19,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -36,7 +37,7 @@ import butterknife.BindView;
  * Created by zhuaibing on 2017/12/7
  */
 
-public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> implements CircleDetailContract.View,View.OnClickListener{
+public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> implements CircleDetailContract.View, View.OnClickListener {
 
     @BindView(R.id.refresh_view)
     SmartRefreshLayout mRefreshView;
@@ -77,9 +78,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     @Override
     public void loadData() {
-        mTitle.setTitle(false, R.color.color_white,"详情");
-        mTitle.setRightTitle(R.mipmap.ic_share,this);
-        View headView = View.inflate(CircleDetailActivity.this,R.layout.layout_circle_detail_head,null);
+        mTitle.setTitle(false, R.color.color_white, "详情");
+        mTitle.setRightTitle(R.mipmap.ic_share, this);
+        View headView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_head, null);
         mCivHead = (CircleImageView) headView.findViewById(R.id.civ_head);
         mName = (TextView) headView.findViewById(R.id.tv_name);
         mUserLabel = (TextView) headView.findViewById(R.id.tv_user_label);
@@ -115,6 +116,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             public void onLoadmore(RefreshLayout refreshlayout) {
                 mRefreshView.finishLoadmore();
             }
+
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 mRefreshView.finishRefresh();
@@ -124,20 +126,21 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                 if (position == 0){return;} //addHead
+                if (position == 0) {
+                    return;
+                } //addHead
 
-                 String str = (String) parent.getItemAtPosition(position);
-                 ToastUtil.show("==="+str);
+                String str = (String) parent.getItemAtPosition(position);
+                ToastUtil.show("===" + str);
             }
         });
 
 
-
         List<String> mList = new ArrayList<>();
-        for (int i = 0 ; i < 20 ; i ++){
-            mList.add("test"+i);
+        for (int i = 0; i < 20; i++) {
+            mList.add("test" + i);
         }
-        mAdapter.notifyDataChanged(false,mList);
+        mAdapter.notifyDataChanged(false, mList);
 
         String imgUrl = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2086662279,3458359640&fm=27&gp=0.jpg";
 
@@ -147,7 +150,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mContnet.setText("铁矿石期货1801合约9月大幅回落后，于10月12日创下本轮回调新低");
         mTextSupport.setText("11人点赞");
 
-        mTime.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,System.currentTimeMillis()));
+        mTime.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd, System.currentTimeMillis()));
         List<String> picList = new ArrayList<>();
         picList.add(imgUrl);
         picList.add(imgUrl);
@@ -161,9 +164,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_right://title 分享按钮
-
+                ShareUtils.getIntance().share(this, "", "http://www.baidu.com", "帖子分享", "帖子分享内容");
                 break;
             case R.id.civ_head: //头像
 
@@ -202,17 +205,21 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private void updateUserHead(List<String> headList) {
         mSupportLinear.setVisibility(View.VISIBLE);
         mSupportLinear.removeAllViews();
-        if (headList == null || headList.size() <= 0){ return;}
+        if (headList == null || headList.size() <= 0) {
+            return;
+        }
 
         int size = getResources().getDimensionPixelSize(R.dimen.dimen_30dp);
-        for (int i =0;i< headList.size() ;i++ ){
-            if (i == 4){ break;}
+        for (int i = 0; i < headList.size(); i++) {
+            if (i == 4) {
+                break;
+            }
             String headUrl = headList.get(i);
             CircleImageView imgHead = new CircleImageView(this);
             ImageUtil.display(headUrl, imgHead, R.mipmap.img_head);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
             params.rightMargin = size / 2;
-            mSupportLinear.addView(imgHead,params);
+            mSupportLinear.addView(imgHead, params);
         }
 
         CircleImageView imgHead = new CircleImageView(this);
@@ -223,13 +230,13 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 ToastUtil.show("-----更多");
             }
         });
-        mSupportLinear.addView(imgHead,new LinearLayout.LayoutParams(size, size));
+        mSupportLinear.addView(imgHead, new LinearLayout.LayoutParams(size, size));
     }
-
 
 
     /**
      * 内容中的图片加载
+     *
      * @param picList 图片 链接集合
      */
     private void initContentImage(List<String> picList) {
