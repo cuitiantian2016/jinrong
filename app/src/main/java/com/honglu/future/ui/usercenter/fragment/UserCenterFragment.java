@@ -305,11 +305,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_phone:
                 //联系客服
-//                if (!DeviceUtils.isFastDoubleClick()) {
-//                    clickTab("wode_kefudianhua_click","我的_客服电话");
-//                    showCallPhoneDialog();
-//                }
-                startActivity(CircleDetailActivity.class);
+                if (!DeviceUtils.isFastDoubleClick()) {
+                    clickTab("wode_kefudianhua_click","我的_客服电话");
+                    showCallPhoneDialog();
+                }
                 break;
             case R.id.tv_aboutus:
                 clickTab("wode_guanyuwomen_click","我的_关于我们");
