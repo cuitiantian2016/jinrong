@@ -233,7 +233,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                  mPresenter.getCirlePraise(mPostUserId,SpUtil.getString(Constant.CACHE_TAG_UID),true,mCircleId);
                 break;
             case R.id.tv_comment: //全部评论
-                if (COMMENT_ALL.equals(COMMENT_ALL)){
+                if (COMMENT_ALL.equals(mCommentType)){
                    return;
                 }
                 mInput.setHint(getString(R.string.circle_input_hint));
@@ -251,7 +251,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 }
                 break;
             case R.id.tv_see_owner: //只看楼主
-                if (COMMENT_ALL.equals(COMMENT_AUTH)){
+                if (COMMENT_AUTH.equals(mCommentType)){
                     return;
                 }
                 mInput.setHint(getString(R.string.circle_input_hint));
