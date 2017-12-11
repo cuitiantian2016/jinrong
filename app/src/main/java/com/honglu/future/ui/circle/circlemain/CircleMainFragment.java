@@ -1,9 +1,5 @@
 package com.honglu.future.ui.circle.circlemain;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -69,12 +65,7 @@ public class CircleMainFragment extends BaseFragment {
         mMessageHintLy.setOnClickListener(getMessageLabelClickListener());
         mViewPager = (ViewPagerEx) mView.findViewById(R.id.viewPager);
         mViewPager.isEnable(false);
-        int screenWidthDip = DeviceUtils.px2dip(getContext(), DeviceUtils.getScreenWidth(getContext()));
-        int tabWidth = (int) (screenWidthDip / 4.5f);
-        int indicatorWidth = (int) (tabWidth / 1.4f);
         mTabsIndicatorLy = (SlidingTabImageLayout) mView.findViewById(R.id.tablayout);
-        mTabsIndicatorLy.setTabWidth(tabWidth);
-        mTabsIndicatorLy.setIndicatorWidth(indicatorWidth);
         if (Constant.topic_filter != null){
             topicFilters= Constant.topic_filter;
             initCircle();
@@ -106,6 +97,19 @@ public class CircleMainFragment extends BaseFragment {
     }
     private void initCircle(){
         if (topicFilters != null && topicFilters.size() > 0) {
+            int tabWidth = 0;
+            int tabIndicatorWidth = 0;
+            if (topicFilters.size() <= 4){
+                int screenWidthDip = DeviceUtils.px2dip(getActivity(), DeviceUtils.getScreenWidth(getActivity())) / topicFilters.size();
+                tabWidth = screenWidthDip;
+                tabIndicatorWidth = screenWidthDip / 2;
+            }else {
+                int screenWidthDip = DeviceUtils.px2dip(getActivity(), DeviceUtils.getScreenWidth(getActivity())) / 4;
+                tabWidth = screenWidthDip - (screenWidthDip / 2  / 4);
+                tabIndicatorWidth = (int) (tabWidth / 1.5);
+            }
+            mTabsIndicatorLy.setTabWidth(tabWidth);
+            mTabsIndicatorLy.setIndicatorWidth(tabIndicatorWidth);
             currTopicType = topicFilters.get(0).type;
             List<String> fragmentsTopicType = new ArrayList<>();
             for (TopicFilter topicFilter : topicFilters) {
@@ -128,6 +132,9 @@ public class CircleMainFragment extends BaseFragment {
                     return false;
                 }
             });
+            if (topicFilters.size()==1){
+                mTabsIndicatorLy.setVisibility(View.GONE);
+            }
         }
     }
     @Override

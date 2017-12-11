@@ -45,8 +45,8 @@ public class BBS implements Serializable {
     @SerializedName("content")
     public String content;
     public ArrayList<String> images;
-    private String replyContent;
-    private String replyNickName;
+    public String replyContent;
+    public String replyNickName;
     @SerializedName("praiseCount")
     public String support_num;  //赞
     @SerializedName("commentCount")

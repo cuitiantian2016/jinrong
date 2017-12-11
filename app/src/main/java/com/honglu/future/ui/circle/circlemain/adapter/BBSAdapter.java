@@ -429,10 +429,6 @@ public class BBSAdapter extends BaseAdapter {
             } else {
                 btn_lookDetail.setVisibility(View.GONE);
             }
-
-            int end = mListView.getLastVisiblePosition();
-            if (getCount() - 2 <= end && end <= getCount())
-                mScrollToLastCallBack.onScrollToLast(position);
         }
 
         private CharSequence getNewsContentByType(String type, String message) {
