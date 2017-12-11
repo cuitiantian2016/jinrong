@@ -129,6 +129,7 @@ public class BBSClassifyFragment extends BaseFragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSIndicatorEvent event) {
+//        srl_refreshView.setEnableRefresh(false);
         if (event.getTopicType().equals(topicType)) {
             if (event.isBackTop()) {
                 mListView.setSelection(0);
@@ -158,9 +159,11 @@ public class BBSClassifyFragment extends BaseFragment {
             }
         };
     }
+    private boolean mIsRefresh;
     BasePresenter<BBSClassifyFragment> basePresenter;
-    private void topicIndexThread(final boolean isRefresh) {
+    private void topicIndexThread( boolean isRefresh) {
         isLoadingNow = true;
+        mIsRefresh = isRefresh;
         if (basePresenter ==null){
             basePresenter = new BasePresenter<BBSClassifyFragment>(BBSClassifyFragment.this) {
                 @Override
@@ -170,7 +173,7 @@ public class BBSClassifyFragment extends BaseFragment {
                         @Override
                         protected void _onNext(List<BBS> o) {
                             super._onNext(o);
-                            if (isRefresh) {
+                            if (mIsRefresh) {
                                 mAdapter.clearDatas();
                                 mAdapter.setDatas(o);
                                 srl_refreshView.finishRefresh();
@@ -184,6 +187,7 @@ public class BBSClassifyFragment extends BaseFragment {
                             } else {
                                 isMore = false;
                             }
+                            //srl_refreshView.setEnableRefresh(true);
                             srl_refreshView.setEnableLoadmore(isMore);
                             isLoadingNow = false;
                         }
@@ -193,6 +197,7 @@ public class BBSClassifyFragment extends BaseFragment {
                             super._onError(message);
                             ToastUtil.show(message);
                             isLoadingNow = false;
+                            //srl_refreshView.setEnableRefresh(true);
                             srl_refreshView.finishRefresh();
                             srl_refreshView.finishLoadmore();
                         }
