@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/pay_tip"
             android:paddingTop="@dimen/dimen_8dp"
             android:paddingBottom="@dimen/dimen_8dp"
             android:textSize="12sp"

@@ -22,6 +22,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.register.activity.RegisterActivity;
@@ -429,10 +432,6 @@ public class BBSAdapter extends BaseAdapter {
             } else {
                 btn_lookDetail.setVisibility(View.GONE);
             }
-
-            int end = mListView.getLastVisiblePosition();
-            if (getCount() - 2 <= end && end <= getCount())
-                mScrollToLastCallBack.onScrollToLast(position);
         }
 
         private CharSequence getNewsContentByType(String type, String message) {

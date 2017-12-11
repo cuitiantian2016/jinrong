@@ -1,6 +1,5 @@
 package com.honglu.future.ui.circle.circlemain;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSIndicatorEvent;
@@ -20,12 +20,12 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSAdapter;
-import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,6 +101,25 @@ public class BBSClassifyFragment extends BaseFragment {
 
         }
     }
+    /**
+     * 评论消息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSCommentContentEvent event) {
+        if(mAdapter!=null){
+            List<BBS> list = mAdapter.getList();
+            if (list != null) {
+                for (BBS bbs : list) {
+                    if (TextUtils.equals(bbs.topic_id,event.top_id)) {
+                        bbs.replyContent = event.replyContent;
+                        bbs.replyNickName = event.replyNickName;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+        }
+    }
 
     private void refreshData() {
         if (!isLoadingNow) {
@@ -123,9 +142,7 @@ public class BBSClassifyFragment extends BaseFragment {
         return new BBSAdapter.ScrollToLastCallBack() {
             @Override
             public void onScrollToLast(Integer pos) {
-                if (!isLoadingNow&&isMore) {//上拉加载更多
-                    topicIndexThread(false);
-                }
+
             }
         };
     }
@@ -159,6 +176,7 @@ public class BBSClassifyFragment extends BaseFragment {
                                 srl_refreshView.finishRefresh();
                             } else {
                                 mAdapter.setDatas(o);
+                                srl_refreshView.finishLoadmore();
                             }
                             if (o.size() >= 10) {
                                 ++rows;
@@ -166,6 +184,7 @@ public class BBSClassifyFragment extends BaseFragment {
                             } else {
                                 isMore = false;
                             }
+                            srl_refreshView.setEnableLoadmore(isMore);
                             isLoadingNow = false;
                         }
 
@@ -175,6 +194,7 @@ public class BBSClassifyFragment extends BaseFragment {
                             ToastUtil.show(message);
                             isLoadingNow = false;
                             srl_refreshView.finishRefresh();
+                            srl_refreshView.finishLoadmore();
                         }
                     });
                 }
@@ -238,6 +258,16 @@ public class BBSClassifyFragment extends BaseFragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshData();
+            }
+        });
+        srl_refreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (!isLoadingNow&&isMore) {//上拉加载更多
+                    topicIndexThread(false);
+                }else {
+                    srl_refreshView.finishLoadmore();
+                }
             }
         });
         refreshData();

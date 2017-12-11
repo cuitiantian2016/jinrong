@@ -6,10 +6,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.honglu.future.R;
+import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 
@@ -18,7 +20,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
  * author:ayb
  * time:2017/6/15
  */
-public class ThumbsListFragment extends PagerFragment {
+public class ThumbsListFragment extends BaseFragment {
     public static final String EXTRA_TID = "tid";
     public static final String EXTRA_TIDE_ID = "attutude_id";
     private boolean isRequesting;//是否正在请求中
@@ -28,19 +30,13 @@ public class ThumbsListFragment extends PagerFragment {
     private String mTideId;
     private GetFriendsAdapter mAdapter;
     private ImageView mFollowIv;
+    private boolean isMore;
 
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        getFriendList(true);
-    }
 
     private void getFriendList(final boolean isRefresh) {
         if (isRequesting)return;
         isRequesting = true;
-        if (mAdapter.getCount() == 0){
-            showLoadingPage(R.id.thumbs_loading);
-        }
+
 //        String fid = (!isRefresh && mAdapter.getCount() != 0) ? mAdapter.getItem(mAdapter.getCount() - 1).fid : "";
 //        ServerAPI.getFriendList(getContext(), "3", fid, mTopicId, new ServerCallBack<GetFriends>() {
 //            @Override
@@ -94,17 +90,24 @@ public class ThumbsListFragment extends PagerFragment {
     @Override
     public void loadData() {
         if (getArguments() != null){
-            try {
-                mTopicId = getArguments().getString(EXTRA_TID);
-                mTideId = getArguments().getString(EXTRA_TIDE_ID);
-            }catch (Exception e){
-            }
+            mTopicId = getArguments().getString(EXTRA_TID);
+            mTideId = getArguments().getString(EXTRA_TIDE_ID);
         }
         mPullToRefreshView= (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                getFriendList(true);
+            }
+        });
+        mPullToRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (isMore){
+                    getFriendList(false);
+                }else {
+                    mPullToRefreshView.finishLoadmore();
+                }
             }
         });
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
@@ -112,12 +115,6 @@ public class ThumbsListFragment extends PagerFragment {
         mFollowIv.setImageResource(TextUtils.equals("0", mTideId) ? R.drawable.big_follow : R.drawable.big_followed);
         mAdapter=new GetFriendsAdapter();
         listView.setAdapter(mAdapter);
-        mAdapter.setListView(listView, new GetFriendsAdapter.ScrollToLastCallBack() {
-            @Override
-            public void onScrollToLast(Integer pos) {
-                getFriendList(false);
-            }
-        });
         if (!TextUtils.isEmpty(mTideId) && TextUtils.equals("0", mTideId)) {
             mFollowIv.setOnClickListener(mOnClickThrottleListener);
         }
