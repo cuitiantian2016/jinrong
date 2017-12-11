@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
@@ -289,35 +290,19 @@ public class BBSAdapter extends BaseAdapter {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
-
-                        String type = item.follow.equals("1") ? "2" : "1";
-//                        ServerAPI.follow(mContext, type, item.uid, new ServerCallBack<JSONObject>() {
-//                            @Override
-//                            public void onSucceed(Context context, JSONObject result) {
-//                                try {
-//                                    String msg = result.getString("msg");
-//                                    if (msg.equals("取消关注成功")) {
-//                                        follow.setImageResource(R.drawable.add_recommend);
-//                                        item.follow = "0";
-//                                    } else if (msg.equals("关注成功")) {
-//                                        follow.setImageResource(R.drawable.already_recommend);
-//                                        item.follow = "1";
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                refreshDatas(item);
-//                            }
-//
-//                            @Override
-//                            public void onError(Context context, String errorMsg) {
-//                                Toaster.toast(errorMsg);
-//                            }
-//
-//                            @Override
-//                            public void onFinished(Context context) {
-//                            }
-//                        });
+                        if (item.follow.equals("1")){
+                            ToastUtil.show("您已经关注该用户");
+                            return;
+                        }
+                        HttpManager.getApi().focus(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),1).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                            @Override
+                            protected void _onNext(JsonNull jsonNull) {
+                                super._onNext(jsonNull);
+                                follow.setImageResource(R.mipmap.already_recommend);
+                                item.follow = "1";
+                                follow(item.follow,item.uid);
+                            }
+                        });
                     }
                 });
             }
@@ -413,9 +398,11 @@ public class BBSAdapter extends BaseAdapter {
                         mContext.startActivity(new Intent(mContext, RegisterActivity.class));
                         return;
                     }
-                    if (item.attutude.equals("1") || item.attutude.equals("2"))
+                    if (item.attutude.equals("1")){
+                        ToastUtil.show("您已点赞");
                         return;
-                    declareForTopicThread(support_iv, "1", item, support, iv_heart);
+                    }
+                    declareForTopicThread(support_iv, item);
                 }
             });
 
@@ -498,48 +485,27 @@ public class BBSAdapter extends BaseAdapter {
     /**
      * 点赞
      * @param self
-     * @param type
      * @param item
-     * @param tv
-     * @param iv
      */
-    private void declareForTopicThread(final LinearLayout self, final String type, final BBS item, final TextView tv, final ImageView iv) {
-        final String type2 = type;
+    private void declareForTopicThread(final LinearLayout self,final BBS item) {
         self.setEnabled(false);
-//        ServerAPI.declareForTopic(mContext, type, item.topic_id, new ServerCallBack<String>() {
-//            @Override
-//            public void onSucceed(Context context, String result) {
-//                self.setEnabled(true);
-//                if (type2.equals("1")) {
-//                    item.attutude = "1";
-//                    item.support_num = Integer.valueOf(item.support_num) + 1 + "";
-//                    iv.setImageResource(R.drawable.ic_support);
-//                    tv.setText(item.support_num);
-//                } else if (type2.equals("2")) {
-//                    item.attutude = "2";
-//                    item.oppose_num = Integer.valueOf(item.oppose_num) + 1 + "";
-//                    iv.setImageResource(R.drawable.ic_support);
-//                    tv.setText(item.oppose_num);
-//                }
-//                AnimUtils.startZanScaleAnim(iv);
-//                AttutudeUser a = new AttutudeUser();
-//                a.headimgurl = SPUtil.getString(mContext, "headimg", "");
-//                a.uid = SPUtil.getString(mContext, "user_id", "");
-//                a.user_name = SPUtil.getString(mContext, "user_name", "");
-//                item.attutude_user.add(a);
-//                notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onError(Context context, String errorMsg) {
-//                self.setEnabled(true);
-//                Toaster.toast("操作失败，原因：" + errorMsg);
-//            }
-//
-//            @Override
-//            public void onFinished(Context context) {
-//            }
-//        });
+        HttpManager.getApi().praise(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),true,item.topic_id).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+                item.attutude = "1";
+                item.support_num = Integer.valueOf(item.support_num) + 1 + "";
+                self.setEnabled(true);
+                praise(item.topic_id,item.support_num);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                ToastUtil.show(message);
+                self.setEnabled(true);
+            }
+        });
     }
     public interface ToRefreshListViewListener {
         void refresh();

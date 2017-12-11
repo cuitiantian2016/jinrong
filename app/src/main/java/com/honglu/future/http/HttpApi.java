@@ -602,4 +602,27 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/BBSMessage/getClearComments.do")
     Observable<BaseResponse<JsonNull>> getClearComments(
             @Field("beReplyUserId") String replyUserId);
+    /**
+     * 关注
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/focus")
+    Observable<BaseResponse<JsonNull>> focus(
+            @Field("postUserId") String postUserId,
+            @Field("userId") String userId,
+            @Field("attentionState") int type);
+    /**
+     * 点赞
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/praise")
+    Observable<BaseResponse<JsonNull>> praise(
+            @Field("postUserId") String postUserId,
+            @Field("userId") String userId,
+            @Field("praiseFlag") boolean praiseFlag,
+            @Field("circleId") String circleId);
 }
