@@ -69,6 +69,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     LinearLayout mrlCard;//银行卡显示列表
     @BindView(R.id.ll_bank_password)
     LinearLayout ll_bank_password;//银行卡密码
+    @BindView(R.id.pay_tip)
+    TextView mPayTip;
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
     private List<BindCardBean> mList;
@@ -100,6 +102,11 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         Bundle arguments = getArguments();
         if (arguments != null) {
             mIsPay = arguments.getBoolean(KEY);
+            if(!mIsPay){
+                mPayTip.setText("提现时间:\n工作日 9:30-15:30");
+            } else {
+                mPayTip.setText("充值时间:\n工作日 8:30-15:30（工商银行8:45开始）20:30-次日 2:30");
+            }
         }
         tv_phone_num.setOnClickListener(new View.OnClickListener() {
             @Override
