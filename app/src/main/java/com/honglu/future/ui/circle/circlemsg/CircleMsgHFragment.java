@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
+ * 收到的评论
  * Created by zhuaibing on 2017/12/7
  */
 
@@ -142,6 +143,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
 
     @Override
     public void circleMsgData(List<CircleMsgBean> list) {
+        if (list == null){return;}
         if (list.size() >=10){
             if (!mRefreshView.isEnableLoadmore()){
                 mRefreshView.setEnableLoadmore(true);

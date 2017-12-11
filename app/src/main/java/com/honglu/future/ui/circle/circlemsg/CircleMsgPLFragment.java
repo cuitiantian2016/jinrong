@@ -23,6 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
+ * 发出的评论
  * Created by zhuaibing on 2017/12/7
  */
 

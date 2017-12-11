@@ -111,9 +111,12 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mImgSupport.setOnClickListener(this);
         mComment.setOnClickListener(this);
         mSeeOwner.setOnClickListener(this);
+
+        mRefreshView.setEnableLoadmore(false);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                Log.d("wahcc","====onLoadmore====");
                 mRefreshView.finishLoadmore();
             }
 
@@ -159,6 +162,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         picList.add(imgUrl);
         initContentImage(picList);
         updateUserHead(picList);
+        mRefreshView.setEnableLoadmore(true);
     }
 
 

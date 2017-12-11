@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 105
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -31,7 +31,7 @@
                     "endOffset": 1089
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -52,7 +52,7 @@
                     "endOffset": 1199
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
@@ -73,7 +73,7 @@
                     "endOffset": 1299
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
@@ -94,7 +94,7 @@
                     "endOffset": 1403
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
@@ -115,7 +115,7 @@
                     "endOffset": 1515
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
@@ -136,7 +136,7 @@
                     "endOffset": 1627
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
@@ -157,7 +157,7 @@
                     "endOffset": 1737
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
@@ -178,7 +178,7 @@
                     "endOffset": 1993
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 4,
@@ -199,7 +199,7 @@
                     "endOffset": 2109
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
@@ -220,7 +220,7 @@
                     "endOffset": 2215
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
@@ -241,7 +241,7 @@
                     "endOffset": 2325
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 4,
@@ -262,7 +262,7 @@
                     "endOffset": 2443
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 4,
@@ -283,7 +283,7 @@
                     "endOffset": 2561
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 59,
                         "startColumn": 4,
@@ -304,7 +304,7 @@
                     "endOffset": 2677
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 62,
                         "startColumn": 4,
@@ -325,7 +325,7 @@
                     "endOffset": 2781
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 65,
                         "startColumn": 4,
@@ -346,7 +346,7 @@
                     "endOffset": 2894
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 68,
                         "startColumn": 4,
@@ -367,7 +367,7 @@
                     "endOffset": 3005
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 71,
                         "startColumn": 4,
@@ -388,7 +388,7 @@
                     "endOffset": 3119
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 74,
                         "startColumn": 4,
@@ -409,7 +409,7 @@
                     "endOffset": 3223
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 77,
                         "startColumn": 4,
@@ -430,7 +430,7 @@
                     "endOffset": 3321
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 4,
@@ -451,7 +451,7 @@
                     "endOffset": 3435
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 83,
                         "startColumn": 4,
@@ -472,7 +472,7 @@
                     "endOffset": 3691
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 86,
                         "startColumn": 4,
@@ -493,7 +493,7 @@
                     "endOffset": 3807
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 92,
                         "startColumn": 4,
@@ -514,7 +514,7 @@
                     "endOffset": 3913
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 95,
                         "startColumn": 4,
@@ -535,7 +535,7 @@
                     "endOffset": 4023
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 98,
                         "startColumn": 4,
@@ -556,7 +556,7 @@
                     "endOffset": 4141
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 101,
                         "startColumn": 4,
@@ -577,7 +577,7 @@
                     "endOffset": 4259
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 104,
                         "startColumn": 4,
@@ -598,7 +598,7 @@
                     "endOffset": 4375
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 107,
                         "startColumn": 4,
@@ -619,7 +619,7 @@
                     "endOffset": 4479
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 110,
                         "startColumn": 4,
@@ -640,7 +640,7 @@
                     "endOffset": 4592
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 113,
                         "startColumn": 4,
@@ -661,7 +661,7 @@
                     "endOffset": 4703
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 116,
                         "startColumn": 4,
@@ -682,7 +682,7 @@
                     "endOffset": 4817
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 119,
                         "startColumn": 4,
@@ -703,7 +703,7 @@
                     "endOffset": 4921
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 122,
                         "startColumn": 4,
@@ -724,7 +724,7 @@
                     "endOffset": 5031
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 125,
                         "startColumn": 4,
@@ -745,7 +745,7 @@
                     "endOffset": 5147
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 128,
                         "startColumn": 4,
@@ -766,7 +766,7 @@
                     "endOffset": 5243
                 },
                 "from": {
-                    "file": "D:\\Project\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\AndroidWork\\android_newfuture\\future-for-android\\SpinkitLoadingLib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 131,
                         "startColumn": 4,

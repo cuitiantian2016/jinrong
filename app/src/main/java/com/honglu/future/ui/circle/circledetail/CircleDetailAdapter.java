@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         holder.mName.setText("wahcc");
         holder.mUserLabel.setText("超级管理员");
         holder.mLZhu.setVisibility(View.VISIBLE);
+        Log.d("wahcc","=====time==="+System.currentTimeMillis());
         holder.mTime.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,System.currentTimeMillis()));
         holder.mContent.setText(":周末搞啥子.............");
 
