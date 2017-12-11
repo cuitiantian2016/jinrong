@@ -100,6 +100,46 @@ public class RxHelper {
         };
     }
 
+    /**
+     * @param <T> 简单的接口调用
+     * @return
+     */
+    public static <T> Observable.Transformer<BaseResponse<T>, T>   handleSimplyResult() {
+        return new Observable.Transformer<BaseResponse<T>, T>() {
+            @Override
+            public Observable<T> call(Observable<BaseResponse<T>> tObservable) {
+                return tObservable.flatMap(new Func1<BaseResponse<T>, Observable<T>>() {
+                    @Override
+                    public Observable<T> call(BaseResponse<T> result) {
+                        if (result.success()) {
+                            return createData(result.getData());
+                        }
+
+                        else {
+                            if (TextUtils.isEmpty(result.getCode())){
+                                return Observable.error(new ApiException(result.getMessage()));
+                            }else{
+                                if(result.getCode().equals("00013")){
+                                    //过期
+                                    SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
+                                } else if(result.getCode().equals("00007")){
+                                    //被挤掉
+                                    SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+                                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
+                                }
+                                return Observable.error(new ApiException(result.getMessage(),Integer.parseInt(result.getCode()),result.getTime()));
+                            }
+                        }
+                    }
+                }).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
 
     /**
      * 创建成功的数据

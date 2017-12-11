@@ -1,6 +1,5 @@
 package com.honglu.future.ui.circle.circlemain;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSAdapter;
-import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -186,6 +184,7 @@ public class BBSClassifyFragment extends BaseFragment {
                             } else {
                                 isMore = false;
                             }
+                            srl_refreshView.setEnableLoadmore(isMore);
                             isLoadingNow = false;
                         }
 
@@ -266,6 +265,8 @@ public class BBSClassifyFragment extends BaseFragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 if (!isLoadingNow&&isMore) {//上拉加载更多
                     topicIndexThread(false);
+                }else {
+                    srl_refreshView.finishLoadmore();
                 }
             }
         });
