@@ -1,6 +1,12 @@
 package com.honglu.future.ui.circle.circledetail;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.base.BaseView;
+import com.honglu.future.ui.circle.bean.CircleDetailBean;
+import com.honglu.future.ui.circle.bean.CommentAllBean;
+import com.honglu.future.ui.circle.bean.CommentBean;
+
+import java.util.List;
 
 /**
  * Created by zhuaibing on 2017/12/7
@@ -8,10 +14,18 @@ import com.honglu.future.base.BaseView;
 
 public interface CircleDetailContract {
     interface View extends BaseView {
-
+        void  getDetailBean(CircleDetailBean bean);
+        void  getCirleComment(CommentAllBean bean);//全部
+        void  getCirleCommentAuth(List<CommentBean> list); //楼主
+        void  getCirleFocus(JsonNull jsonNull);//关注
+        void  getCirlePraise(JsonNull jsonNull); //点赞
     }
 
     interface Presenter {
-
+        void  getDetailBean(String userId,String circleId);
+        void  getCirleComment(String userId,String circleId,String postUserId,int rows);//全部
+        void  getCirleCommentAuth(String userId,String circleId,String postUserId,int rows); //楼主
+        void  getCirleFocus(String postUserId,String userId,int attentionState);//关注
+        void getCirlePraise(String postUserId,String userId,boolean praiseFlag,String circleId);//点赞
     }
 }

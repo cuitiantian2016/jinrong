@@ -4,7 +4,10 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
+import com.honglu.future.ui.circle.bean.CommentAllBean;
+import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.bean.CircleMsgBean;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
@@ -625,4 +628,48 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("praiseFlag") boolean praiseFlag,
             @Field("circleId") String circleId);
+
+
+    /**
+     * 帖子详情-head 数据
+     * @param userId
+     * @param circleId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/detail")
+    Observable<BaseResponse<CircleDetailBean>> getClearDetailHead(
+            @Field("userId") String userId,
+            @Field("circleId") String circleId);
+
+
+    /**
+     * 查看全部评论
+     * @param userId
+     * @param circleId
+     * @param postUserId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/cirleCommentList")
+    Observable<BaseResponse<CommentAllBean>> getCirleCommentList(
+            @Field("userId") String userId,
+            @Field("circleId") String circleId,
+            @Field("postUserId") String postUserId,
+            @Field("rows") int rows);
+
+    /**
+     * 只看楼主评论
+     * @param userId
+     * @param circleId
+     * @param postUserId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/cirleCommentAuth")
+    Observable<BaseResponse<List<CommentBean>>> getCirleCommentAuth(
+            @Field("userId") String userId,
+            @Field("circleId") String circleId,
+            @Field("postUserId") String postUserId,
+            @Field("rows") int rows);
 }

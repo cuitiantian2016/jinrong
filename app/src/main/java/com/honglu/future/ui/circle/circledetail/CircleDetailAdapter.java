@@ -3,6 +3,7 @@ package com.honglu.future.ui.circle.circledetail;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
 
@@ -24,21 +27,27 @@ import java.util.List;
 
 public class CircleDetailAdapter extends BaseAdapter{
     private CircleDetailActivity mActivity;
-    private List<String> mList;
+    private List<CommentBean> mCommentList;
+    private String mPostUserId;
+    private String mCommentType;
 
-    public CircleDetailAdapter(CircleDetailActivity activity){
-        this.mList = new ArrayList<>();
+
+    public CircleDetailAdapter(CircleDetailActivity activity ,String mPostUserId){
+        this.mCommentList = new ArrayList<>();
+        this.mPostUserId = mPostUserId;
         this.mActivity = activity;
+        this.mCommentType = mActivity.getCommentType();
     }
+
 
     @Override
     public int getCount() {
-        return mList !=null ? mList.size() : 0;
+        return mCommentList !=null ? mCommentList.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return mCommentList.get(position);
     }
 
     @Override
@@ -46,17 +55,24 @@ public class CircleDetailAdapter extends BaseAdapter{
         return position;
     }
 
-    public void notifyDataChanged(boolean isLoadmore,List<String> list){
+    public void notifyDataChanged(String mCommentType){
+        this.mCommentType = mCommentType;
+        mCommentList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void notifyDataChanged(boolean isLoadmore,String mCommentType,List<CommentBean> list){
+        this.mCommentType = mCommentType;
         if (isLoadmore){
             if (list !=null && list.size() > 0){
-                mList.addAll(list);
+                mCommentList.addAll(list);
                 notifyDataSetChanged();
             }
         }else {
-             mList.clear();
-             if (list !=null && list.size() > 0){
-                 mList.addAll(list);
-             }
+            mCommentList.clear();
+            if (list !=null && list.size() > 0){
+                mCommentList.addAll(list);
+            }
              notifyDataSetChanged();
         }
     }
@@ -77,38 +93,44 @@ public class CircleDetailAdapter extends BaseAdapter{
             holder.mLine.setVisibility(View.VISIBLE);
         }
 
-        //测试数据
-        holder.mCivHead.setImageResource(R.mipmap.img_head);
-        holder.mName.setText("wahcc");
-        holder.mUserLabel.setText("超级管理员");
-        holder.mLZhu.setVisibility(View.VISIBLE);
-        Log.d("wahcc","=====time==="+System.currentTimeMillis());
-        holder.mTime.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,System.currentTimeMillis()));
-        holder.mContent.setText(":周末搞啥子.............");
+        CommentBean bean =  mCommentList.get(position);
 
-        String huiFuStr = "回复 ";
-        String huiFuName = "小牛1232";
-        String content = "：有道理，学习了。，社会我哥，人狠，话不多...666666";
+        //楼主标记
+        if (mActivity.COMMENT_AUTH.equals(mCommentType)){
+            holder.mLZhu.setVisibility(View.VISIBLE);
+        }else {
+            if (!TextUtils.isEmpty(bean.replyUserId) && bean.replyUserId.equals(mPostUserId)){
+                holder.mLZhu.setVisibility(View.VISIBLE);
+            }else {
+                holder.mLZhu.setVisibility(View.INVISIBLE);
+            }
+        }
 
-        int huiFuStart = 0;
-        int huiFuEnd = huiFuStr.length();
+        //时间
+        setText(holder.mTime,bean.createTime);
 
-        int huiFuNameStart = huiFuEnd;
-        int huiFuNameEnd = huiFuEnd + huiFuName.length();
+        //管理员
+        setText(holder.mUserLabel,bean.userRole);
 
-        int contentStart = huiFuNameEnd;
-        int contentEnd = huiFuNameEnd + content.length();
+        if ("2".equals(bean.replyType)){ //1:贴子评论 2:回复贴子评论
+            //头像
+            ImageUtil.display(bean.beReplyAvatarPic, holder.mCivHead, R.mipmap.img_head);
+            //名字
+            setText(holder.mName,bean.beReplyNickName);
 
-        Spannable spannable = new SpannableString(huiFuStr+huiFuName+content);
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_86A2B0)), huiFuStart, huiFuEnd,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            String huiFuStr = "回复 ";
+            String huiFuName = bean.beReplyNickName;
+            String content = bean.replyContent;
+            holder.mContent.setText(getSpannableContent(huiFuStr,huiFuName,content));
+        }else {
+            //头像
+            ImageUtil.display(bean.avatarPic, holder.mCivHead, R.mipmap.img_head);
+            //名字
+            setText(holder.mName,bean.nickName);
+            //内容
+            setText(holder.mContent,bean.replyContent);
+        }
 
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_979899)),huiFuNameStart, huiFuNameEnd,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_333333)), contentStart,contentEnd ,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.mContent.setText(spannable);
         return convertView;
     }
 
@@ -130,5 +152,40 @@ public class CircleDetailAdapter extends BaseAdapter{
             mContent = (TextView) v.findViewById(R.id.tv_content);
             mLine = v.findViewById(R.id.v_line);
         }
+    }
+
+
+    private Spannable getSpannableContent(String huiFuStr ,String huiFuName ,String content){
+        int huiFuStart = 0;
+        int huiFuEnd = getLength(huiFuStr);
+
+        int huiFuNameStart = huiFuEnd;
+        int huiFuNameEnd = huiFuEnd + getLength(huiFuName);
+
+        int contentStart = huiFuNameEnd;
+        int contentEnd = huiFuNameEnd + getLength(content);
+
+        Spannable spannable = new SpannableString(huiFuStr+huiFuName+content);
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_86A2B0)), huiFuStart, huiFuEnd,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_979899)),huiFuNameStart, huiFuNameEnd,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_333333)), contentStart,contentEnd ,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
+
+    private void setText(TextView view , String text){
+        if (!TextUtils.isEmpty(text)){
+            view.setText(text);
+        }else {
+            view.setText("");
+        }
+    }
+
+    private int getLength(String text){
+        return TextUtils.isEmpty(text) ? 0 : text.length();
     }
 }

@@ -27,6 +27,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -212,13 +213,10 @@ public class BBSAdapter extends BaseAdapter {
                         return;
                     if (item != null) {
                        // reportBBSItemClickEvent();
-//                        Intent intent = new Intent(v.getContext(), BBSDetailActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("bbs_item", item);
-//                        intent.putExtras(b);
-//                        intent.putExtra(BBSDetailActivity.EXTRA_FROM, "apptopic");
-//                        intent.putExtra(BBSDetailActivity.EXTRA_TAB, topicType);
-//                        v.getContext().startActivity(intent);
+                        Intent intent = new Intent(v.getContext(), CircleDetailActivity.class);
+                        intent.putExtra(CircleDetailActivity.POST_USER_KEY, item.uid);
+                        intent.putExtra(CircleDetailActivity.CIRCLEID_KEY, item.topic_id);
+                        v.getContext().startActivity(intent);
                     }
                 }
             });
