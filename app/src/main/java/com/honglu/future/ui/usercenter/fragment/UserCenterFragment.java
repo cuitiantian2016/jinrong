@@ -222,8 +222,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_novice:
-
-                startActivity(new Intent(getActivity(), CircleDetailActivity.class));
+                clickTab("wode_xinshourumen_click","我的_新手入门");
+                Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
+                intentTeach.putExtra("title", "新手学堂");
+                intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
+                startActivity(intentTeach);
                 break;
             case R.id.tv_trade_details:
                 clickTab("wode_account_jiaoyimingxi","我的_我的交易明细");

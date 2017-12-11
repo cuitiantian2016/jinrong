@@ -76,11 +76,11 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
 
     //关注
     @Override
-    public void getCirleFocus(String postUserId, String userId, final int attentionState) {
+    public void getCirleFocus(String postUserId, String userId, final String attentionState) {
         toSubscribe(HttpManager.getApi().focus(postUserId,userId,attentionState), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
-               if (attentionState == 0){
+               if ("0".equals(attentionState)){
                    mView.showLoading("取消中...");
                }else {
                    mView.showLoading("关注中...");
