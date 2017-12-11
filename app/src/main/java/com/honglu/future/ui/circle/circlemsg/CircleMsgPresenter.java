@@ -61,7 +61,6 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
 
     @Override
     public void getClearReply() {
-        //22
         toSubscribe(HttpManager.getApi().getClearReply(SpUtil.getString(Constant.CACHE_TAG_UID)), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
@@ -83,8 +82,7 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
 
     @Override
     public void getClearComments() {
-        //SpUtil.getString(Constant.CACHE_TAG_UID);
-        toSubscribe(HttpManager.getApi().getClearComments("22"), new HttpSubscriber<JsonNull>() {
+        toSubscribe(HttpManager.getApi().getClearComments(SpUtil.getString(Constant.CACHE_TAG_UID)), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("清空中...");
