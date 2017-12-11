@@ -663,6 +663,24 @@ public interface HttpApi {
     Observable<BaseResponse<CircleDetailBean>> getClearDetailHead(
             @Field("userId") String userId,
             @Field("circleId") String circleId);
+    /**
+     * 发帖
+     * @param userId
+     * @param circleId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/publish")
+    Observable<BaseResponse<JsonNull>> push(
+            @Field("postUserId") String userId,
+            @Field("content") String content,
+            @Field("picOne") String picOne,
+            @Field("picTwo") String picTwo,
+            @Field("picThree") String picThree,
+            @Field("picFour") String picFour,
+            @Field("picFive") String picFive,
+            @Field("picFive") String picSix,
+            @Field("circleTypeId") String circleId);
 
 
     /**

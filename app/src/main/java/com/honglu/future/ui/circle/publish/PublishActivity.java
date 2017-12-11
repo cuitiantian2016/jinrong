@@ -2,16 +2,24 @@ package com.honglu.future.ui.circle.publish;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
+import com.honglu.future.events.PublishEvent;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.photopicker.ImagesSelectorActivity;
 import com.honglu.future.widget.photopicker.PhotoPreviewActivity;
@@ -20,10 +28,12 @@ import com.honglu.future.widget.photopicker.SelectorSettings;
 import com.honglu.future.widget.uploader.UploadProgressListener;
 import com.honglu.future.widget.uploader.Uploader;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 import butterknife.BindView;
 import top.zibin.luban.Luban;
@@ -41,6 +51,7 @@ public class PublishActivity extends BaseActivity {
     private PublishImgAdapter mAdapter;
     private ArrayList<String> mSelectedPhotos = new ArrayList<>();
     private ArrayList<String> mUrls;
+    private String trim;
 
 
     @Override
@@ -129,7 +140,8 @@ public class PublishActivity extends BaseActivity {
     }
 
     private void publish() {
-        if (mContentEdit.getText().toString().trim().length() <= 0) {
+        trim = mContentEdit.getText().toString().trim();
+        if (TextUtils.isEmpty(trim)) {
             ToastUtil.show("说点什么吧");
             return;
         }
@@ -211,7 +223,40 @@ public class PublishActivity extends BaseActivity {
      * 发表
      */
     private void publishArticles() {
+        HttpManager.getApi().push(SpUtil.getString(Constant.CACHE_TAG_UID),trim,getUrl(0),getUrl(2),getUrl(3),getUrl(4),getUrl(5),getUrl(6),Constant.topic_filter.get(0).type)
+                .compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+                ToastUtil.show("发表成功");
+                PublishEvent publishEvent = new PublishEvent();
+                publishEvent.type = Constant.topic_filter.get(0).type;
+                EventBus.getDefault().post(publishEvent);
+                finish();
+            }
 
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                ToastUtil.show(message);
+            }
+        });
+    }
+
+    private String getUrl(int index) {
+        if (index == 0) {
+            if (mUrls != null && mUrls.size() > index) {
+                return mUrls.get(index);
+            } else {
+                return "";
+            }
+        } else {
+            if (mUrls != null && mUrls.size() >= index) {
+                return mUrls.get(index - 1);
+            } else {
+                return "";
+            }
+        }
     }
 
 

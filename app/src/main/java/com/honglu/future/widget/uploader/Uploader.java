@@ -32,7 +32,7 @@ public class Uploader {
                     }
                 };
                 ProcessMultiPartEntity entity = new ProcessMultiPartEntity(listener);
-                entity.addPart("Filedata", new FileBody(file));
+                entity.addPart("file", new FileBody(file));
                 total += entity.getContentLength();
                 try {
                     response = ApacheHttpUtils.executeRequest(url, entity, HttpPost.METHOD_NAME);

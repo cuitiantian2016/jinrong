@@ -16,6 +16,7 @@ import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.events.BBSPraiseEvent;
+import com.honglu.future.events.PublishEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.BBS;
@@ -64,6 +65,18 @@ public class BBSClassifyFragment extends BaseFragment {
                 }
                 mAdapter.notifyDataSetChanged();
             }
+        }
+    }
+    /**
+     * 评论
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(PublishEvent event) {
+        if(mAdapter!=null){
+          if (event.type.equals(topicType)){
+              mListView.setSelection(0);
+              refreshData();
+          }
         }
     }
     /**
