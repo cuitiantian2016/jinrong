@@ -612,7 +612,7 @@ public interface HttpApi {
     Observable<BaseResponse<JsonNull>> focus(
             @Field("postUserId") String postUserId,
             @Field("userId") String userId,
-            @Field("attentionState") int type);
+            @Field("attentionState") String type);
     /**
      * 点赞
      * @param userId
