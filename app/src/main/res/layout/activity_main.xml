@@ -10,7 +10,6 @@
     <!--style="@style/MatchMatch.Vertical"
     app:divider="@drawable/divider_horizontal"
     app:showDividers="middle"-->
-
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -46,7 +45,7 @@
             android:id="@+id/rb_circle"
             style="@style/menu_tab"
             android:text="牛圈"
-            app:rbDrawableTop="@drawable/selector_menu_5" />
+            app:rbDrawableTop="@mipmap/icon_menu_5_normal" />
 
         <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_trade"

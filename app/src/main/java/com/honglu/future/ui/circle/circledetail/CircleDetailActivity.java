@@ -24,6 +24,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSFlownEvent;
+import com.honglu.future.events.BBSPraiseEvent;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
@@ -39,6 +41,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +54,9 @@ import butterknife.BindView;
  */
 @Route(path = "/circle/Detail")
 public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> implements CircleDetailContract.View, View.OnClickListener {
-    public final static String POST_USER_KEY = "post_user_id";
-    public final static String CIRCLEID_KEY = "circleId_key";
+    public final static String POST_USER_KEY = "postUserId";
+    public final static String CIRCLEID_KEY = "circleId";
+    public final static String CIRCLEREPLYID_KEY = "circleReplyId";
 
     public final static String COMMENT_ALL = "comment_all"; //全部
     public final static String COMMENT_AUTH = "comment_auth"; //楼主
@@ -63,8 +68,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     EditText mInput;
     @BindView(R.id.tv_send)
     TextView mSend;
-    @Autowired(name = "circleReplyId")
-    public String circleReplyId;
+
 
     private CircleImageView mCivHead;
     private TextView mName;
@@ -87,8 +91,14 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private CircleDetailBean mCircleDetailBean;
     private CircleDetailAdapter mAdapter;
     private String mCommentType = COMMENT_ALL;
-    private String mPostUserId;
-    private String mCircleId;
+
+    @Autowired(name = "postUserId")
+    public String mPostUserId;
+    @Autowired(name = "circleId")
+    public String mCircleId;
+    @Autowired(name = "circleReplyId")
+    public String circleReplyId;
+
     private int mCommentRows = 0;
     private int mCommentAuthRows = 0;
     private boolean mCommentMore = false;
@@ -134,8 +144,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         if (getIntent().hasExtra(CIRCLEID_KEY)){
             mCircleId = getIntent().getStringExtra(CIRCLEID_KEY);
         }
-        circleReplyId = getIntent().getStringExtra("circleReplyId");
-        Log.d("circleReplyId",circleReplyId);
+        if (getIntent().hasExtra(CIRCLEREPLYID_KEY)){ //目前协议跳转时需要这个值 其他时候传空
+            circleReplyId = getIntent().getStringExtra(CIRCLEREPLYID_KEY);
+        }
+
 
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
@@ -214,6 +226,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 }
             }
         });
+
         mPresenter.getDetailBean(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId);
         mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
     }
@@ -476,13 +489,19 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mFollow.setSelected(true);
             mFollow.setText("+ 关注");
         }
+        //关注 BBSClassifyFragment
+        BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+        bbsFlownEvent.uid = mPostUserId;
+        bbsFlownEvent.follow = mFollow.isSelected() ? "1" : "0";
+        EventBus.getDefault().post(bbsFlownEvent);
     }
 
     //点赞
     @Override
     public void getCirlePraise(JsonNull jsonNull) {
         mImgSupport.setImageResource(R.mipmap.icon_support_click);
-        mTextSupport.setText(String.valueOf(getTextNum(mTextSupport)+1));
+        int mPraiseNum = getTextNum(mTextSupport)+1;
+        mTextSupport.setText(String.valueOf(mPraiseNum));
         mImgSupport.setEnabled(false);
         if (mCircleDetailBean !=null && mCircleDetailBean.praiseList !=null && mCircleDetailBean.praiseList.size() > 0){
            PraiseListBean praiseListBean = new PraiseListBean();
@@ -498,6 +517,11 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             praiseList.add(praiseListBean);
             updateUserHead(praiseList);
         }
+        //点赞 BBSClassifyFragment
+        BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
+        bbsPraiseEvent.topic_id = mCircleId;
+        bbsPraiseEvent.praiseNum = String.valueOf(mPraiseNum);
+        EventBus.getDefault().post(bbsPraiseEvent);
     }
 
     private void setText(TextView view , String text){

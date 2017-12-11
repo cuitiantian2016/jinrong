@@ -47,6 +47,7 @@ import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.widget.MyRadioButton;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
@@ -67,6 +68,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     FrameLayout mContainer;
     @BindView(R.id.group)
     RadioGroup mGroup;
+    @BindView(R.id.rb_circle)
+    MyRadioButton mRbCircle;
     //哞一下布局
     @BindView(R.id.tv_mom_outline)
     RelativeLayout mMomOutLy;
@@ -283,6 +286,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOAN_SUCCESS) {
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
+
+            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_MAIN_RED){//红点显示
+                mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal_red),null,null);
+            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG){//红点隐藏
+                mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal),null,null);
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
