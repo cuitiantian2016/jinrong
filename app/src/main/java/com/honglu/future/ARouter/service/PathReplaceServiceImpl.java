@@ -32,7 +32,7 @@ public class PathReplaceServiceImpl implements PathReplaceService {
         if (Boolean.parseBoolean(isLogin)){
             String userID = SpUtil.getString(Constant.CACHE_TAG_UID);
             if (TextUtils.isEmpty(userID)){
-                String url = "xn://future/future/login?redirect"+"=" + uri.toString();
+                String url = "xiaoniuqihuo://future/future/login?redirect"+"=" + Uri.encode(uri.toString());
                 return Uri.parse(url);
             }
         }

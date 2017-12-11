@@ -179,7 +179,7 @@ public class PublishActivity extends BaseActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Uploader.upload("", file, new UploadProgressListener() {
+                Uploader.upload("http://192.168.90.139:8080/futures-community-api/app/circle/saveImage", file, new UploadProgressListener() {
                     @Override
                     public void onProgress(long progress) {
                     }
@@ -187,7 +187,7 @@ public class PublishActivity extends BaseActivity {
                     public void onSucceed(byte[] response) {
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response));
-                            String url = jsonObject.getString("result");
+                            String url = jsonObject.getString("data");
                             mUrls.add(url);
                             if (mUrls.size() == mSelectedPhotos.size()) {
                                 publishArticles();

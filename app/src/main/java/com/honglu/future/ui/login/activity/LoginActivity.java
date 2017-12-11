@@ -87,6 +87,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loadData() {
         redirect = getIntent().getStringExtra("redirect");
+        if (!TextUtils.isEmpty(redirect)){
+            redirect = Uri.decode(redirect);
+        }
         String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
         if (!TextUtils.isEmpty(uID)){//说明已经登录
             if (!goToRedirect()){

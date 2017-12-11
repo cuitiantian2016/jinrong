@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -46,7 +48,7 @@ import butterknife.BindView;
  * 帖子详情
  * Created by zhuaibing on 2017/12/7
  */
-
+@Route(path = "/circle/Detail")
 public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> implements CircleDetailContract.View, View.OnClickListener {
     public final static String POST_USER_KEY = "post_user_id";
     public final static String CIRCLEID_KEY = "circleId_key";
@@ -61,6 +63,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     EditText mInput;
     @BindView(R.id.tv_send)
     TextView mSend;
+    @Autowired(name = "circleReplyId")
+    public String circleReplyId;
 
     private CircleImageView mCivHead;
     private TextView mName;
@@ -130,6 +134,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         if (getIntent().hasExtra(CIRCLEID_KEY)){
             mCircleId = getIntent().getStringExtra(CIRCLEID_KEY);
         }
+        circleReplyId = getIntent().getStringExtra("circleReplyId");
+        Log.d("circleReplyId",circleReplyId);
+
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
         View headView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_head, null);

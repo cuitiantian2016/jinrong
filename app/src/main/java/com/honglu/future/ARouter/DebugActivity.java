@@ -64,6 +64,12 @@ public class DebugActivity extends Activity {
                 .build(Uri.parse(uri))
                 .navigation(this);
     }
+    public void goToCircleDetil(View view) {
+        String uri = "xiaoniuqihuo://future/circle/Detail?isLogin=true&circleReplyId=nihao";
+        ARouter.getInstance()
+                .build(Uri.parse(uri))
+                .navigation(this);
+    }
     public void change126(View view) {
         if (ConfigUtil.baseUrl.equals(ConfigUtil.URL_126)){
             ToastUtil.show("当前环境已经是正式环境");
