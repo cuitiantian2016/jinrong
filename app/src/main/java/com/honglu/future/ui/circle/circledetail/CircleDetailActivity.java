@@ -224,9 +224,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             case R.id.tv_follow: //关注
                  //1 关注  0 取消
                  if (mFollow.isSelected()){
-                     mPresenter.getCirleFocus(mPostUserId,SpUtil.getString(Constant.CACHE_TAG_UID),0);
+                     mPresenter.getCirleFocus(mPostUserId,SpUtil.getString(Constant.CACHE_TAG_UID),"0");
                  }else {
-                     mPresenter.getCirleFocus(mPostUserId,SpUtil.getString(Constant.CACHE_TAG_UID),1);
+                     mPresenter.getCirleFocus(mPostUserId,SpUtil.getString(Constant.CACHE_TAG_UID),"1");
                  }
                 break;
             case R.id.iv_support: //点赞
