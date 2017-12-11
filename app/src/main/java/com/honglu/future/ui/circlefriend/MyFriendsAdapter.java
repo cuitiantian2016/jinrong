@@ -123,13 +123,15 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         }
 
         public void bindView(final UserList item, final View mContext, final int position) {
-            ImageUtil.display(item.headimgurl,user_img,R.mipmap.ic_logos);
-            user_name.setText(item.user_name);
-            flag.setVisibility(TextUtils.isEmpty(item.user_level)? View.GONE: View.VISIBLE);
-            flag.setText(item.user_level);
-            tv_attention_num.setText("粉丝数: "+item.fans_num);
-            tv_topic_num.setText("发帖数: "+item.topic_num);
-            iv_attention.setImageResource(item.follow.equals("0")?R.mipmap.add_recommend: R.mipmap.already_recommend);
+            ImageUtil.display(item.avatarPic,user_img,R.mipmap.ic_logos);
+            user_name.setText(item.nickName);
+            // TODO: 2017/12/11 用户角色，需要接口添加
+//            flag.setVisibility(TextUtils.isEmpty(item.user_level)? View.GONE: View.VISIBLE);
+//            flag.setText(item.user_level);
+            tv_attention_num.setText("粉丝数: "+item.beFocusNum);
+            tv_topic_num.setText("发帖数: "+item.postNum);
+            // TODO: 2017/12/11 用户是否已经关注，需要接口添加
+//            iv_attention.setImageResource(item.follow.equals("0")?R.mipmap.add_recommend: R.mipmap.already_recommend);
             iv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -142,11 +144,11 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                         return;
                     }
                     
-                    if (user_id.equals(item.uid)) {
+                    if (user_id.equals(item.userId)) {
                         ToastUtil.show("自己不能关注自己");
                         return;
                     }
-                    String type = item.follow.equals("1") ? "2" : "1";
+//                    String type = item.follow.equals("1") ? "2" : "1";
 
 //                    ServerAPI.follow(mContext.getContext(), type, item.uid, new ServerCallBack<JSONObject>() {
 //                        @Override
@@ -196,7 +198,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                         mContext.getContext().startActivity(new Intent(mContext.getContext(), RegisterActivity.class));
                         return;
                     }
-                    if(item.uid.equals(user_id)){
+                    if(item.userId.equals(user_id)){
                         return;
                     }else{
                         // TODO: 2017/12/7 跳转圈友主页 

@@ -76,4 +76,9 @@ public class MyFriendActivity extends BaseActivity {
         });
     }
 
+//    public void setdata(GetFriends result) {
+//        my_friend.setText("我的关注(" + result.total1 + ")");
+//        friend_my.setText("我的粉丝(" + result.total2 + ")");
+//    }
+
 }

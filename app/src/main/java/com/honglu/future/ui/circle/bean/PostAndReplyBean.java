@@ -7,7 +7,7 @@ package com.honglu.future.ui.circle.bean;
 public class PostAndReplyBean {
     private String circleId;
     private String circleTypeId;
-    private int commentSum;
+    private String commentSum;
     private String content;
     private String createTime;
     private String picFive;
@@ -18,8 +18,8 @@ public class PostAndReplyBean {
     private String picTwo;
     private String postUserId;
     private String remark;
-    private int replySum;
-    private int replyType;
+    private String replySum;
+    private String replyType;
     private String thumbUpSum;
     private String title;
     private String userRole;
@@ -77,11 +77,11 @@ public class PostAndReplyBean {
         return circleTypeId;
     }
 
-    public void setCommentSum(int commentSum) {
+    public void setCommentSum(String commentSum) {
         this.commentSum = commentSum;
     }
 
-    public int getCommentSum() {
+    public String getCommentSum() {
         return commentSum;
     }
 
@@ -165,19 +165,19 @@ public class PostAndReplyBean {
         return remark;
     }
 
-    public void setReplySum(int replySum) {
+    public void setReplySum(String replySum) {
         this.replySum = replySum;
     }
 
-    public int getReplySum() {
+    public String getReplySum() {
         return replySum;
     }
 
-    public void setReplyType(int replyType) {
+    public void setReplyType(String replyType) {
         this.replyType = replyType;
     }
 
-    public int getReplyType() {
+    public String getReplyType() {
         return replyType;
     }
 

@@ -4,25 +4,13 @@ import java.io.Serializable;
 
 public class UserList implements Serializable {
 
-    public String fans_num;
+    public String avatarPic;
 
-    public String endorse_num;
+    public String beFocusNum;
 
-    public String fid;
+    public String nickName;
 
-    public String follow;
+    public String postNum;
 
-    public String headimgurl;
-    public String postmanId;
-
-    public String topic_num;
-
-    public String uid;
-    public String isAttention;
-
-    public String user_flag;
-
-    public String user_name;
-
-    public String user_level;
+    public String userId;
 }

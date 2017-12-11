@@ -7,19 +7,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.base.BaseFragment;
+import com.honglu.future.base.BasePresenter;
+import com.honglu.future.base.CommonFragment;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.UserList;
+import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
 
-public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implements MyFriendContract.View {
+public class FriendToMyFragment extends CommonFragment {
     private Context mContext;
     private MyFriendsAdapter mAdapter;
 
@@ -31,6 +35,7 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
 
     private String type = "2", follow_id = "0", follow_id_temp = "0";
     private boolean isLoadingNow = false, isLoadingFinished = false;
+    private BasePresenter<FriendToMyFragment> mBasePresenter;
 
     @Override
     public int getLayoutId() {
@@ -39,13 +44,11 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
     }
 
     @Override
     public void loadData() {
         initViews();
-        initData();
     }
 
     @Override
@@ -81,23 +84,6 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
         });
     }
 
-    private void initData(){
-        List<UserList> list = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            UserList bean = new UserList();
-            bean.headimgurl = "";
-            bean.fans_num = "31";
-            bean.follow = "0";
-            bean.topic_num = "200";
-            bean.uid="111";
-            bean.user_name = "王可可";
-            bean.user_level = "2";
-            list.add(bean);
-        }
-        empty_view.setVisibility(View.GONE);
-        mAdapter.setDatas(list);
-    }
-
     //滑动加载更多
     MyFriendsAdapter.ScrollToLastCallBack scrollToLastCallBack = new MyFriendsAdapter.ScrollToLastCallBack() {
         @Override
@@ -118,51 +104,63 @@ public class FriendToMyFragment extends BaseFragment<MyFriendPresenter> implemen
         } else if (pull_style.equals("pull_down")) {  //下拉刷新
             follow_id = "0";
         }
-//        ServerAPI.getFriendList(mContext, type, follow_id, null, new ServerCallBack<GetFriends>() {
-//            @Override
-//            public void onSucceed(Context context, GetFriends result) {
-//                if (result == null) {
-//                    isLoadingFinished = true;
-//                    if (mListView.getFooterViewsCount() == 0)
-//                        mListView.addFooterView(empty_view, null, false);
-//                } else {
-//                    if (pull_style.equals("pull_down"))   //下拉刷新
-//                        mAdapter.clearDatas();
-//                    if (result.userList.size() == 0) {
-//                        isLoadingFinished = true;
-//                        if (mAdapter.getCount() == 0) {
-//                            if (mListView.getFooterViewsCount() == 0)
-//                                mListView.addFooterView(empty_view, null, false);
-//                        } else {
-//                            if (mListView.getFooterViewsCount() != 0)
-//                                mListView.removeFooterView(empty_view);
-//                        }
-//                    } else if (result.userList.size() > 0 && result.userList.size() < 20) {
-//                        follow_id_temp = result.userList.get(result.userList.size() - 1).fid;
-//                        isLoadingFinished = true;
-//                        if (mListView.getFooterViewsCount() != 0)
-//                            mListView.removeFooterView(empty_view);
-//                        mAdapter.setDatas(result.userList);
-//                    } else if (result.userList.size() >= 20) {
-//                        follow_id_temp = result.userList.get(result.userList.size() - 1).fid;
-//                        isLoadingFinished = false;
-//                        if (mListView.getFooterViewsCount() != 0)
-//                            mListView.removeFooterView(empty_view);
-//                        mAdapter.setDatas(result.userList);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Context context, String errorMsg) {
-//
-//            }
-//
-//            @Override
-//            public void onFinished(Context context) {
-//                isLoadingNow = false;
-//                mPullToRefreshListView.onRefreshComplete();
-//            }
-//        });
+        if (mBasePresenter == null) {
+            mBasePresenter = new BasePresenter<FriendToMyFragment>(this) {
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().loadMyBeFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<List<UserList>>() {
+                        @Override
+                        protected void _onNext(List<UserList> o) {
+                            super._onNext(o);
+                            if (o == null) {
+                                isLoadingFinished = true;
+                                if (mListView.getFooterViewsCount() == 0)
+                                    mListView.addFooterView(empty_view, null, false);
+                            } else {
+                                if (pull_style.equals("pull_down"))   //下拉刷新
+                                    mAdapter.clearDatas();
+                                if (o.size() == 0) {
+                                    isLoadingFinished = true;
+                                    if (mAdapter.getCount() == 0) {
+                                        if (mListView.getFooterViewsCount() == 0)
+                                            mListView.addFooterView(empty_view, null, false);
+                                    } else {
+                                        if (mListView.getFooterViewsCount() != 0)
+                                            mListView.removeFooterView(empty_view);
+                                    }
+                                } else if (o.size() > 0 && o.size() < 10) {
+                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    isLoadingFinished = true;
+                                    if (mListView.getFooterViewsCount() != 0)
+                                        mListView.removeFooterView(empty_view);
+                                    mAdapter.setDatas(o);
+                                } else if (o.size() >= 10) {
+                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    isLoadingFinished = false;
+                                    if (mListView.getFooterViewsCount() != 0)
+                                        mListView.removeFooterView(empty_view);
+                                    mAdapter.setDatas(o);
+                                }
+                            }
+                            mSmartRefresh.finishRefresh();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            mSmartRefresh.finishRefresh();
+                        }
+                    });
+                }
+            };
+        }
+        mBasePresenter.getData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBasePresenter.onDestroy();
     }
 }

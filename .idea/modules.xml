@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PlatFormLibs/PlatFormLibs.iml" filepath="$PROJECT_DIR$/PlatFormLibs/PlatFormLibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpinkitLoadingLib/SpinkitLoadingLib.iml" filepath="$PROJECT_DIR$/SpinkitLoadingLib/SpinkitLoadingLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/UdeskSDKUI/UdeskSDKUI.iml" filepath="$PROJECT_DIR$/UdeskSDKUI/UdeskSDKUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

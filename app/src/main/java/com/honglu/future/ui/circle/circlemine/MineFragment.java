@@ -55,7 +55,7 @@ public class MineFragment extends CommonFragment {
 
     private View header_view;
     private ImageView header_img;
-    private TextView flag, user_name, attention_num, endorse_num, topic_num, reward_num;
+    private TextView flag, user_name, attention_num, endorse_num, topic_num;
 
     private LinearLayout mAttutudeUserLy;
     private OnTopicAlaph mOnTopicAlaph;
@@ -98,7 +98,6 @@ public class MineFragment extends CommonFragment {
         topic_num = (TextView) header_view.findViewById(R.id.topic_num);
         endorse_num = (TextView) header_view.findViewById(R.id.endorse_num);
         attention_num = (TextView) header_view.findViewById(R.id.attention_num);
-        reward_num = (TextView) header_view.findViewById(R.id.reward_num);
 
 
         mSmartRefresh.setEnableRefresh(true);
@@ -170,11 +169,11 @@ public class MineFragment extends CommonFragment {
 //                    final View topChildView = mListView.getChildAt(0);
 //                    result = topChildView.getTop() == 0;
 //                }
-                if (result) {
-                    mSmartRefresh.setEnableRefresh(true);
-                } else {
-                    mSmartRefresh.setEnableRefresh(false);
-                }
+//                if (result) {
+//                    mSmartRefresh.setEnableRefresh(true);
+//                } else {
+//                    mSmartRefresh.setEnableRefresh(false);
+//                }
             }
         });
     }
@@ -254,12 +253,14 @@ public class MineFragment extends CommonFragment {
                                 }
                             }
                             closeLoadingPage();
+                            mSmartRefresh.finishRefresh();
                         }
 
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
+                            mSmartRefresh.finishRefresh();
                         }
                     });
                 }

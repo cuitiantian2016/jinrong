@@ -5,19 +5,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.honglu.future.R;
-import com.honglu.future.base.BaseFragment;
+import com.honglu.future.base.BasePresenter;
+import com.honglu.future.base.CommonFragment;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.UserList;
+import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
 
-public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implements MyFriendContract.View {
+public class MyToFriendFragment extends CommonFragment {
     @BindView(R.id.listview)
     ListView mListView;
     @BindView(R.id.smart_refresh)
@@ -28,6 +32,7 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
     private MyFriendsAdapter mAdapter;
     private String type = "1", follow_id = null, follow_id_temp = "0";
     private boolean isLoadingNow = false, isLoadingFinished = false;
+    private BasePresenter<MyToFriendFragment> mBasePresenter;
 
     @Override
     public int getLayoutId() {
@@ -36,13 +41,12 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
+
     }
 
     @Override
     public void loadData() {
         initViews();
-        initData();
     }
 
     @Override
@@ -60,10 +64,8 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
     }
 
     private void initViews() {
-
         mSmartRefresh.setEnableRefresh(true);
         mAdapter = new MyFriendsAdapter("1", mListView, mContext, scrollToLastCallBack);
-
         mListView.setAdapter(mAdapter);
 
 //        MessageController.getInstance().setFriendCountChange(new MessageController.FriendCountChange() {
@@ -84,23 +86,6 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
                 }
             }
         });
-    }
-
-    private void initData(){
-        List<UserList> list = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            UserList bean = new UserList();
-            bean.headimgurl = "";
-            bean.fans_num = "31";
-            bean.follow = "100";
-            bean.topic_num = "200";
-            bean.uid="111";
-            bean.user_name = "张大侠";
-            bean.user_level = "1";
-            list.add(bean);
-        }
-        empty_view.setVisibility(View.GONE);
-        mAdapter.setDatas(list);
     }
 
 
@@ -125,53 +110,67 @@ public class MyToFriendFragment extends BaseFragment<MyFriendPresenter> implemen
         } else if (pull_style.equals("pull_down")) {  //下拉刷新
             follow_id = null;
         }
-//        ServerAPI.getFriendList(mContext, type, follow_id,null, new ServerCallBack<GetFriends>() {
-//            @Override
-//            public void onSucceed(Context context, GetFriends result) {
-//
-//                if (result.userList == null || result.userList.size()==0) {
-//                    isLoadingFinished = true;
-//                    empty_view.setVisibility(View.VISIBLE);
-//                    mPullToRefreshListView.setVisibility(View.GONE);
-//                } else {
-//                    if (pull_style.equals("pull_down"))   //下拉刷新
-//                        mAdapter.clearDatas();
-//                    if (result.userList.size() == 0) {
-//                        isLoadingFinished = true;
-//                        if (mAdapter.getCount() == 0) {
-//                            empty_view.setVisibility(View.VISIBLE);
-//                            mPullToRefreshListView.setVisibility(View.GONE);
-//                        } else {
-//                            empty_view.setVisibility(View.GONE);
-//                            mPullToRefreshListView.setVisibility(View.VISIBLE);
-//                        }
-//                    } else if (result.userList.size() > 0 && result.userList.size() < 20) {
-//                        follow_id_temp = result.userList.get(result.userList.size() - 1).fid;
-//                        isLoadingFinished = true;
-//                        empty_view.setVisibility(View.GONE);
-//                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-//                        mAdapter.setDatas(result.userList);
-//                    } else if (result.userList.size() >= 20) {
-//                        follow_id_temp = result.userList.get(result.userList.size() - 1).fid;
-//                        isLoadingFinished = false;
-//                        empty_view.setVisibility(View.GONE);
-//                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-//                        mAdapter.setDatas(result.userList);
-//                    }
-//                }
-//                ((MyFriendActivity) getActivity()).setdata(result);
-//            }
-//
-//            @Override
-//            public void onError(Context context, String errorMsg) {
-//
-//            }
-//
-//            @Override
-//            public void onFinished(Context context) {
-//                isLoadingNow = false;
-//                mPullToRefreshListView.onRefreshComplete();
-//            }
-//        });
+
+        if (mBasePresenter == null) {
+            mBasePresenter = new BasePresenter<MyToFriendFragment>(this) {
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().loadMyFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<List<UserList>>() {
+                        @Override
+                        protected void _onNext(List<UserList> o) {
+                            super._onNext(o);
+                            if (o == null || o.size() == 0) {
+                                isLoadingFinished = true;
+                                empty_view.setVisibility(View.VISIBLE);
+                                mSmartRefresh.setVisibility(View.GONE);
+                            } else {
+                                if (pull_style.equals("pull_down"))   //下拉刷新
+                                    mAdapter.clearDatas();
+                                if (o.size() == 0) {
+                                    isLoadingFinished = true;
+                                    if (mAdapter.getCount() == 0) {
+                                        empty_view.setVisibility(View.VISIBLE);
+                                        mSmartRefresh.setVisibility(View.GONE);
+                                    } else {
+                                        empty_view.setVisibility(View.GONE);
+                                        mSmartRefresh.setVisibility(View.VISIBLE);
+                                    }
+                                } else if (o.size() > 0 && o.size() < 10) {
+                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    isLoadingFinished = true;
+                                    empty_view.setVisibility(View.GONE);
+                                    mSmartRefresh.setVisibility(View.VISIBLE);
+                                    mAdapter.setDatas(o);
+                                } else if (o.size() >= 10) {
+                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    isLoadingFinished = false;
+                                    empty_view.setVisibility(View.GONE);
+                                    mSmartRefresh.setVisibility(View.VISIBLE);
+                                    mAdapter.setDatas(o);
+                                }
+                            }
+                            mSmartRefresh.finishRefresh();
+//                            ((MyFriendActivity) getActivity()).setdata(result);
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            mSmartRefresh.finishRefresh();
+                        }
+                    });
+                }
+            };
+        }
+        mBasePresenter.getData();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBasePresenter.onDestroy();
+    }
+
 }

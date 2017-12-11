@@ -93,21 +93,6 @@
                 android:text=""
                 android:textColor="@color/white" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:background="@color/white" />
-
-            <TextView
-                android:id="@+id/reward_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text=""
-                android:textColor="@color/white" />
-
-
         </LinearLayout>
 
 
