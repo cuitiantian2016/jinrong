@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.http.HttpManager;
@@ -16,6 +17,7 @@ import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewHelper;
 import com.honglu.future.widget.CircleImageView;
@@ -61,6 +63,7 @@ public class CircleMainFragment extends BaseFragment {
     private void initViews() {
         mHeadPortraitIV = (CircleImageView) mView.findViewById(R.id.iv_head_portrait);
         mHeadPortraitIV.setOnClickListener(getHeadPortraitClickListener());
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHeadPortraitIV, R.mipmap.img_head);
         mMessageHintLy = mView.findViewById(R.id.ly_message_hint);
         mMessageHintLy.setOnClickListener(getMessageLabelClickListener());
         mViewPager = (ViewPagerEx) mView.findViewById(R.id.viewPager);
