@@ -177,6 +177,16 @@ public class BBSClassifyFragment extends BaseFragment {
                                 mAdapter.clearDatas();
                                 mAdapter.setDatas(o);
                                 srl_refreshView.finishRefresh();
+                                if (o != null && o.size() > 0) {
+                                    if (mListView.getFooterViewsCount() != 0){
+                                        mListView.removeFooterView(empty_view);
+                                    }
+                                } else {
+                                    //空布局
+                                    if (mListView.getFooterViewsCount() == 0 && mAdapter.getCount() == 0) {
+                                        mListView.addFooterView(empty_view, null, false);
+                                    }
+                                }
                             } else {
                                 mAdapter.setDatas(o);
                                 srl_refreshView.finishLoadmore();

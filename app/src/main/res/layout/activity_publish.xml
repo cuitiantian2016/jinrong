@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="上传照片（至多6张）"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dimen_14sp" />
+            android:textColor="#333333"
+            android:textSize="@dimen/dimen_15sp" />
 
         <com.honglu.future.widget.NoScrollGridView
             android:id="@+id/publish_gridView"

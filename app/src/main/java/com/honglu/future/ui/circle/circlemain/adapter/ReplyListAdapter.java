@@ -55,7 +55,7 @@ public class ReplyListAdapter extends CommonAdapter<Reply> {
             SpannableString spannable = new SpannableString(item.user_name + ": " + item.content);
             spannable.setSpan(new ForegroundColorSpan(reply_name.getContext()
                             .getResources()
-                            .getColor(R.color.color_878787))
+                            .getColor(R.color.color_151515))
                     , String.valueOf(item.user_name + ": ").length(), spannable.length()
                     , Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
          reply_name.setText(spannable);

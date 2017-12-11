@@ -1,15 +1,11 @@
 package com.honglu.future.ui.circle.publish;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -63,8 +59,11 @@ public class PublishActivity extends BaseActivity {
     }
 
     private void initViews() {
-        mTitle.setTitle(false, R.color.white, "编辑");
+        mTitle.setTitle(false, R.color.white, "哞一下");
         mTvRight.setText("发表");
+        mTvRight.setTextColor(getResources().getColor(R.color.white));
+        mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_blue_2dp_bg));
+        mTvRight.setGravity(Gravity.CENTER_VERTICAL);
         GridView publishGirdView = (GridView) findViewById(R.id.publish_gridView);
         mContentEdit = (EditText) findViewById(R.id.editText_content);
         AndroidUtil.setEmojiFilter(mContentEdit);

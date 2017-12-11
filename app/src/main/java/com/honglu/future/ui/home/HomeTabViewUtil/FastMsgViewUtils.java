@@ -152,7 +152,7 @@ public class FastMsgViewUtils {
                     }
                 }
             });
-            ImageUtil.display(entity.img, photoIv, R.mipmap.defult_24_hour);
+            ImageUtil.display(entity.img, photoIv, R.mipmap.other_empty);
         }
         boolean isNewDay = false;
         if (i == 0) {
