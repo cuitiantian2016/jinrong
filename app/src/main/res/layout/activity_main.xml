@@ -71,14 +71,6 @@
         android:visibility="invisible"
         tools:visibility="visible">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:paddingBottom="@dimen/dimen_5dp"
-            android:src="@mipmap/ic_mom" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
