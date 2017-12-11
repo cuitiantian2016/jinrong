@@ -22,7 +22,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.circle.bean.PostAndReplyBean;
+import com.honglu.future.ui.circle.bean.Reply;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
+import com.honglu.future.ui.circle.circlemain.adapter.ReplyListAdapter;
 import com.honglu.future.ui.circle.circlemain.adapter.VerticalImageSpan;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -331,20 +333,25 @@ public class BBSMineAdapter extends BaseAdapter {
                     }
                 }
             });
-            // TODO: 2017/12/9 是否精华，需要接口增加字段
-//            ViewHelper.setVisibility(best, item.isEssence());
+            //是否精华
+            ViewHelper.setVisibility(best, item.getIsHot());
             ViewHelper.safelySetText(hot_title, item.getTitle());
             ViewHelper.safelySetText(announce_time, item.getCreateTime());// 热门不展示
-            // TODO: 2017/12/9 评论内容，需要接口提供字段
-//            if (item.getReplyList() != null && item.getReplyList().size() != 0) {
-//                ReplyListAdapter replyListAdapter = new ReplyListAdapter();
-//                replyListAdapter.addView(mContext,replay_ll_BB, item.getReplyList(),topicType,item);
-//                ViewHelper.setVisibility(replay_ll_BB, true);
-//                ViewHelper.setVisibility(mSeparatorCommLy, true);
-//            } else {
-//                ViewHelper.setVisibility(replay_ll_BB, false);
-//                ViewHelper.setVisibility(mSeparatorCommLy, false);
-//            }
+            // 评论内容
+            if (item.getReplyContent() != null) {
+                List<Reply> replyList = new ArrayList<>();
+                Reply reply = new Reply();
+                reply.user_name = item.getReplyNickName();
+                reply.content = item.getReplyContent();
+                replyList.add(reply);
+                ReplyListAdapter replyListAdapter = new ReplyListAdapter();
+                replyListAdapter.addView(mContext,replay_ll_BB, replyList,topicType,item);
+                ViewHelper.setVisibility(replay_ll_BB, true);
+                ViewHelper.setVisibility(mSeparatorCommLy, true);
+            } else {
+                ViewHelper.setVisibility(replay_ll_BB, false);
+                ViewHelper.setVisibility(mSeparatorCommLy, false);
+            }
 
             content.setLineSpacing(0, 1.2f);
             content.setText(getNewsContentByType(item.getCircleTypeId(), item.getContent() + ""));
