@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -16,14 +17,20 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
+import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.AttutudeUser;
 import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemine.adapter.BBSMineAdapter;
 import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.circlefriend.MyFriendActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -210,55 +217,55 @@ public class MineFragment extends CommonFragment {
         final boolean isRefresh = TextUtils.equals("pull_down", pull_style);
         //根据情况设置当前的topic_id请求参数
         String topic_id = isRefresh ? "0" : mAdapter.getItem(mAdapter.getCount() - 1).getCircleTypeId();
-//        if (mBasePresenter == null) {
-//            mBasePresenter = new BasePresenter<MineFragment>(this) {
-//                @Override
-//                public void getData() {
-//                    super.getData();
-//                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<CircleMineBean>() {
-//                        @Override
-//                        protected void _onNext(CircleMineBean o) {
-//                            super._onNext(o);
-//                            ImageUtil.display(SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
-//                            user_name.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-//                            // TODO: 2017/12/9 接口缺少用户角色
-////                            if (result.user_info.user_flag.equals("1")) {
-////                                flag.setVisibility(View.VISIBLE);
-////                            } else {
-////                                flag.setVisibility(View.INVISIBLE);
-////                            }
-//                            attention_num.setText("关注" + o.getFocusNum());
-//                            endorse_num.setText("粉丝" + o.getBeFocusNum());
-//                            topic_num.setText("发帖" + o.getFocusNum());
-//
-//                            if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
-//                                if (mListView.getFooterViewsCount() != 0)
-//                                    mListView.removeFooterView(empty_view);
-//                                if (isRefresh) {
-//                                    mAdapter.clearDatas();
-//                                    mAdapter.setDatas(o.getPostAndReplyBoList());
-//                                } else {
-//                                    mAdapter.setDatas(o.getPostAndReplyBoList());
-//                                }
+        if (mBasePresenter == null) {
+            mBasePresenter = new BasePresenter<MineFragment>(this) {
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<CircleMineBean>() {
+                        @Override
+                        protected void _onNext(CircleMineBean o) {
+                            super._onNext(o);
+                            ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
+                            user_name.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                            // TODO: 2017/12/9 接口缺少用户角色
+//                            if (result.user_info.user_flag.equals("1")) {
+//                                flag.setVisibility(View.VISIBLE);
 //                            } else {
-//                                //空布局
-//                                if (mListView.getFooterViewsCount() == 0 && mAdapter.getCount() == 0) {
-//                                    mListView.addFooterView(empty_view, null, false);
-//                                }
+//                                flag.setVisibility(View.INVISIBLE);
 //                            }
-//                            closeLoadingPage();
-//                        }
-//
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            super.onError(e);
-//                        }
-//                    });
-//                }
-//            };
-//        }
-//        mBasePresenter.getData();
+                            attention_num.setText("关注" + o.getFocusNum());
+                            endorse_num.setText("粉丝" + o.getBeFocusNum());
+                            topic_num.setText("发帖" + o.getPostNum());
+
+                            if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
+                                if (mListView.getFooterViewsCount() != 0)
+                                    mListView.removeFooterView(empty_view);
+                                if (isRefresh) {
+                                    mAdapter.clearDatas();
+                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+                                } else {
+                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+                                }
+                            } else {
+                                //空布局
+                                if (mListView.getFooterViewsCount() == 0 && mAdapter.getCount() == 0) {
+                                    mListView.addFooterView(empty_view, null, false);
+                                }
+                            }
+                            closeLoadingPage();
+                        }
+
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
+                    });
+                }
+            };
+        }
+        mBasePresenter.getData();
     }
 
     @Override
@@ -271,7 +278,7 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //mBasePresenter.onDestroy();
+        mBasePresenter.onDestroy();
     }
 
     private void updateAttutudeUser(List<AttutudeUser> attutudeUserList) {

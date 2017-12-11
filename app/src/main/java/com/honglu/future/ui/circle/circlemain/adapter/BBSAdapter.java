@@ -290,17 +290,19 @@ public class BBSAdapter extends BaseAdapter {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
-                        if (item.follow.equals("1")){
-                            ToastUtil.show("您已经关注该用户");
-                            return;
-                        }
-                        HttpManager.getApi().focus(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),1).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                        final String foll =  item.follow.equals("1")?"0":"1";
+                        HttpManager.getApi().focus(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
                             @Override
                             protected void _onNext(JsonNull jsonNull) {
                                 super._onNext(jsonNull);
                                 follow.setImageResource(R.mipmap.already_recommend);
-                                item.follow = "1";
+                                item.follow = foll;
                                 follow(item.follow,item.uid);
+                            }
+                            @Override
+                            protected void _onError(String message) {
+                                super._onError(message);
+                                ToastUtil.show(message);
                             }
                         });
                     }

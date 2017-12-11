@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.circle.bean.BBS;
+import com.honglu.future.ui.circle.bean.PostAndReplyBean;
 import com.honglu.future.ui.circle.bean.Reply;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.util.ToastUtil;
@@ -26,6 +27,7 @@ public class ReplyListAdapter extends CommonAdapter<Reply> {
     private ClipboardManager cmb;
     private String topicType;
     private BBS mBBS;
+    private PostAndReplyBean mPostAndReplyBean;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -55,7 +57,7 @@ public class ReplyListAdapter extends CommonAdapter<Reply> {
             SpannableString spannable = new SpannableString(item.user_name + ": " + item.content);
             spannable.setSpan(new ForegroundColorSpan(reply_name.getContext()
                             .getResources()
-                            .getColor(R.color.color_878787))
+                            .getColor(R.color.color_151515))
                     , String.valueOf(item.user_name + ": ").length(), spannable.length()
                     , Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
          reply_name.setText(spannable);
@@ -71,6 +73,21 @@ public class ReplyListAdapter extends CommonAdapter<Reply> {
             for (Reply item : replyList) {
                 View itemView = LayoutInflater.from(linearLayout.getContext()).inflate(R.layout.item_reply, null);
               TextView reply_name = (TextView) itemView.findViewById(R.id.reply_name);
+                bindView(item, reply_name);
+                linearLayout.addView(itemView);
+            }
+        }
+    }
+
+    public void addView(Context context, LinearLayout linearLayout, List<Reply> replyList, String topicType, PostAndReplyBean postAndReplyBean) {
+        linearLayout.removeAllViews();
+        if (replyList != null && replyList.size() > 0) {
+            this.topicType = topicType;
+            this.mPostAndReplyBean = postAndReplyBean;
+            cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            for (Reply item : replyList) {
+                View itemView = LayoutInflater.from(linearLayout.getContext()).inflate(R.layout.item_reply, null);
+                TextView reply_name = (TextView) itemView.findViewById(R.id.reply_name);
                 bindView(item, reply_name);
                 linearLayout.addView(itemView);
             }

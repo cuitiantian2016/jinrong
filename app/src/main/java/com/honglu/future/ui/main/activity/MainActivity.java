@@ -3,29 +3,31 @@ package com.honglu.future.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RelativeLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.AppManager;
-import com.honglu.future.app.JPushManager;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.config.Constant;
@@ -35,17 +37,15 @@ import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
 import com.honglu.future.ui.main.presenter.ActivityPresenter;
-import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.DeviceUtils;
-import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
@@ -67,8 +67,17 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     FrameLayout mContainer;
     @BindView(R.id.group)
     RadioGroup mGroup;
-    @Autowired(name="select")
+    //哞一下布局
+    @BindView(R.id.tv_mom_outline)
+    RelativeLayout mMomOutLy;
+    @Autowired(name = "select")
     public int select;
+    //平均宽度
+    private int mAverageWidth;
+    //哞一下宽度
+    private int mMomWidth;
+    //哞一下位置
+    private int mMomPosition = 2;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -112,14 +121,66 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         mGroup.setOnCheckedChangeListener(changeListener);
         // check(FragmentFactory.FragmentStatus.Home);
         select(getIntent());
+        mMomOutLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DeviceUtils.isFastDoubleClick()) return;
+                startActivity(PublishActivity.class);
+            }
+        });
+        mAverageWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mMomOutLy.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mMomWidth = mMomOutLy.getMeasuredWidth();
+                    if (mMomWidth > 0) {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                        params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
+                        mMomOutLy.setLayoutParams(params);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        mMomOutLy.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                }
+            });
+        } else {
+            mMomWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
+            mMomOutLy.setLayoutParams(params);
+        }
         //mPresenter.loadActivity(); //第一期不需要弹出活动
         mPresenter.getUpdateVersion();
     }
 
+    //tab切换动画
+    private void startChangedImageAnim(FragmentFactory.FragmentStatus status) {
+        if (status == FragmentFactory.FragmentStatus.Circle) {
+            //牛圈哞一下
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_in);
+            mMomOutLy.startAnimation(animation);
+            mMomOutLy.setVisibility(View.VISIBLE);
+        } else {
+            if (mMomOutLy.isShown()) {
+                Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_out);
+                mMomOutLy.startAnimation(animation);
+            }
+            mMomOutLy.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
     private void select(Intent intent) {
         Log.d("Tag", "select-->" + select);
-        if (intent!=null){
-            select = intent.getIntExtra("select",0);
+        if (intent != null) {
+            select = intent.getIntExtra("select", 0);
         }
         if (this.select == 0) {
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
@@ -128,12 +189,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             MobclickAgent.onEvent(mContext, "shouye_hangqing_click", "行情");
             check(FragmentFactory.FragmentStatus.Market);
         } else if (this.select == 2) {
-            MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
-            check(FragmentFactory.FragmentStatus.Trade);
-        } else if (this.select == 3) {
             MobclickAgent.onEvent(mContext, "shouye_quanzi_click", "牛圈");
             check(FragmentFactory.FragmentStatus.Circle);
-        }else if (this.select == 4) {
+        } else if (this.select == 3) {
+            MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
+            check(FragmentFactory.FragmentStatus.Trade);
+        } else if (this.select == 4) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
         }
@@ -275,12 +336,13 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public void changeTab(FragmentFactory.FragmentStatus status) {
         if (status == odlState)
             return;
-        if (status == FragmentFactory.FragmentStatus.Circle&&TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))){
+        if (status == FragmentFactory.FragmentStatus.Circle && TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
             startActivity(LoginActivity.class);
             return;
         }
         FragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
         odlState = status;
+        startChangedImageAnim(status);
     }
 
 

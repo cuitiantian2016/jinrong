@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:focusable="false"
-        android:textColor="@color/color_323232"
+        android:textColor="#B1B1B3"
         android:textSize="12sp"
         tools:text="小牛9115: 早盘现货白银开美元/盎司开盘后银价早盘现货白银开美元早盘现货白银开美元早盘现货白银开美元。" />
 

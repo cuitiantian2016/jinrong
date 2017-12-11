@@ -464,7 +464,7 @@
             <intent-filter>
                 <data
                     android:host="future"
-                    android:scheme="xn" />
+                    android:scheme="xiaoniuqihuo" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

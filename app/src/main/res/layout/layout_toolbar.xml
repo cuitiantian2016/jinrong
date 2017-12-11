@@ -67,9 +67,12 @@
     <com.honglu.future.widget.DrawableCenterTextView
         android:id="@+id/tv_right"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:layout_marginRight="@dimen/dimen_10dp"
         android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="@dimen/dimen_5dp"
         android:minWidth="@dimen/title_height"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

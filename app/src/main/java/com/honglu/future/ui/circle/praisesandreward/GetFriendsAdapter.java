@@ -9,8 +9,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSFlownEvent;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -18,6 +23,8 @@ import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class GetFriendsAdapter extends CommonAdapter<UserList> {
@@ -85,7 +92,26 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
-                        String type = item.follow.equals("1") ? "2" : "1";
+                        final String type = item.follow.equals("1") ? "0" : "1";
+                        HttpManager.getApi().focus(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),type).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                            @Override
+                            protected void _onNext(JsonNull jsonNull) {
+                                super._onNext(jsonNull);
+                                iv_attention.setImageResource(R.mipmap.already_recommend);
+                                item.follow = type;
+                                BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+                                bbsFlownEvent.follow = type;
+                                bbsFlownEvent.uid = item.uid;
+                                EventBus.getDefault().post(bbsFlownEvent);
+                                notifyDataSetChanged();
+                            }
+
+                            @Override
+                            protected void _onError(String message) {
+                                super._onError(message);
+                                ToastUtil.show(message);
+                            }
+                        });
 //                        ServerAPI.follow(mContext.getContext(), type, item.uid, new ServerCallBack<JSONObject>() {
 //                            @Override
 //                            public void onSucceed(Context context, JSONObject result) {

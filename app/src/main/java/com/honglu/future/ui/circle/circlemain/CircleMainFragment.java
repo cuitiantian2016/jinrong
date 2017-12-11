@@ -11,6 +11,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
+import com.honglu.future.events.LoginEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.TopicFilter;
@@ -25,6 +26,8 @@ import com.honglu.future.widget.SlidingTabImageLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +61,16 @@ public class CircleMainFragment extends BaseFragment {
     }
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         initViews();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void initViews() {
         mHeadPortraitIV = (CircleImageView) mView.findViewById(R.id.iv_head_portrait);
         mHeadPortraitIV.setOnClickListener(getHeadPortraitClickListener());
@@ -98,6 +109,18 @@ public class CircleMainFragment extends BaseFragment {
             }
         };
     }
+    /*******
+     * 将事件交给事件派发controller处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(LoginEvent event) {
+       if (topicFilters!=null&&topicFilters.size()>0){
+           mTabsIndicatorLy.setCurrentTab(0);
+       }
+    }
+
     private void initCircle(){
         if (topicFilters != null && topicFilters.size() > 0) {
             int tabWidth = 0;

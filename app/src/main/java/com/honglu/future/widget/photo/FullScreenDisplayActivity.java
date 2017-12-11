@@ -104,7 +104,7 @@ public class FullScreenDisplayActivity extends FragmentActivity {
             });
             String imageUri = mImageUrls.get(position);
             Glide.with(FullScreenDisplayActivity.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontAnimate().dontTransform().error(R.mipmap.defult_24_hour).into(photoView);
+                    .dontAnimate().dontTransform().error(R.mipmap.other_empty).into(photoView);
             if (mWidth != 0 && mHeight != 0) {
                 photoView.setOriginalInfo(mWidth, mHeight, mLocationX, mLocationY);
                 photoView.transformIn();

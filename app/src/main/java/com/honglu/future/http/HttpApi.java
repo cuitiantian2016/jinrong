@@ -531,7 +531,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("futures-communtiy-api/app/circleFriend/loadHomepage")
+    @POST("http://192.168.90.130:8080/futures-communtiy-api/app/circleFriend/loadHomepage.do")
     Observable<BaseResponse<CircleMineBean>> loadCircleHome(
             @Field("userId") String userId,
             @Field("rows") String rows,
@@ -612,7 +612,7 @@ public interface HttpApi {
     Observable<BaseResponse<JsonNull>> focus(
             @Field("postUserId") String postUserId,
             @Field("userId") String userId,
-            @Field("attentionState") int type);
+            @Field("attentionState") String type);
     /**
      * 点赞
      * @param userId
