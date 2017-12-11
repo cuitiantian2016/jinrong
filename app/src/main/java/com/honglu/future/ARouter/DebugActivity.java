@@ -65,7 +65,7 @@ public class DebugActivity extends Activity {
                 .navigation(this);
     }
     public void goToCircleDetil(View view) {
-        String uri = "xiaoniuqihuo://future/circle/Detail?isLogin=true&circleReplyId=nihao";
+        String uri = "xiaoniuqihuo://future/circle/Detail?isLogin=true&circleReplyId=nihao&postUserId=GFg&circleId=kkk";
         ARouter.getInstance()
                 .build(Uri.parse(uri))
                 .navigation(this);
