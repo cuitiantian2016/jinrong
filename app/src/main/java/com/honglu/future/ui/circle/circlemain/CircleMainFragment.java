@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circlemain;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,11 +13,14 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
 import com.honglu.future.events.LoginEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
+import com.honglu.future.ui.circle.circlemsg.CircleMsgActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -43,6 +47,7 @@ public class CircleMainFragment extends BaseFragment {
     private ViewPagerEx mViewPager;
     private View mNQTipLy;
     private TextView mNQTipContentTV;
+    private View mRendView;
     List<TopicFilter> topicFilters = null;
     private SlidingTabImageLayout mTabsIndicatorLy;
 
@@ -65,6 +70,18 @@ public class CircleMainFragment extends BaseFragment {
         initViews();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventCircleThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_CIRCLE_RED){
+               //红点显示
+                mRendView.setVisibility(View.VISIBLE);
+                String headUrl = event.getMessage();
+            }
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -72,6 +89,8 @@ public class CircleMainFragment extends BaseFragment {
     }
 
     private void initViews() {
+        mRendView = mView.findViewById(R.id.v_red);
+        mRendView.setVisibility(View.INVISIBLE);
         mHeadPortraitIV = (CircleImageView) mView.findViewById(R.id.iv_head_portrait);
         mHeadPortraitIV.setOnClickListener(getHeadPortraitClickListener());
         ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHeadPortraitIV, R.mipmap.img_head);
@@ -181,7 +200,11 @@ public class CircleMainFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 跳转我的消息
+                mRendView.setVisibility(View.INVISIBLE);
+                //隐藏main 红点
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG));
+                //跳转消息
+                startActivity(new Intent(getActivity(), CircleMsgActivity.class));
             }
         };
     }
