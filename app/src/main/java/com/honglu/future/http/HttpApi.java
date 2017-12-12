@@ -730,4 +730,16 @@ public interface HttpApi {
             @Field("content") String content,
             @Field("beReplyUserId") String beReplyUserId,
             @Field("replyType") int replyType);
+    /**
+     * 点赞列表
+     * @param userId
+     * @param circleId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/imageList")
+    Observable<BaseResponse<List<com.honglu.future.ui.circle.praisesandreward.UserList>>> getPraiseImageList(
+            @Field("userId") String userId,
+            @Field("circleId") String circleId,
+            @Field("rows") int rows);
 }

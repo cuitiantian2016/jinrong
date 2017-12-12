@@ -5,14 +5,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSPraiseEvent;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 
 /**
@@ -31,40 +43,42 @@ public class ThumbsListFragment extends BaseFragment {
     private GetFriendsAdapter mAdapter;
     private ImageView mFollowIv;
     private boolean isMore;
+    private int rows = 0;
 
 
     private void getFriendList(final boolean isRefresh) {
         if (isRequesting)return;
         isRequesting = true;
+        if (isRefresh){
+            rows = 0;
+        }
+        HttpManager.getApi().getPraiseImageList(SpUtil.getString(Constant.CACHE_TAG_UID),mTopicId,rows).compose(RxHelper.<List<UserList>>handleSimplyResult())
+                .subscribe(new HttpSubscriber<List<UserList>>() {
+                    @Override
+                    protected void _onNext(List<UserList> userLists) {
+                        super._onNext(userLists);
+                        if (isRefresh){
+                            mPullToRefreshView.finishRefresh();
+                            mAdapter.refreshDatas(userLists);
+                        }else {
+                            mPullToRefreshView.finishLoadmore();
+                            mAdapter.loadMoreDatas(userLists);
+                        }
+                        isMore = userLists.size() >= 10;
+                        if (isMore){
+                            ++rows;
+                        }
+                        mPullToRefreshView.setEnableLoadmore(isMore);
+                    }
 
-//        String fid = (!isRefresh && mAdapter.getCount() != 0) ? mAdapter.getItem(mAdapter.getCount() - 1).fid : "";
-//        ServerAPI.getFriendList(getContext(), "3", fid, mTopicId, new ServerCallBack<GetFriends>() {
-//            @Override
-//            public void onSucceed(Context context, GetFriends result) {
-//                if(result!=null && result.userList != null && result.userList.size() > 0){
-//                    if (isRefresh){
-//                        mAdapter.refreshDatas(result.userList);
-//                    }else {
-//                        mAdapter.loadMoreDatas(result.userList);
-//                    }
-//                    isRequesting = false;
-//                    closeLoadingPage();
-//                }else {
-//                    onError(context, ResultCode.NO_DATA.msg);
-//                }
-//            }
-//            @Override
-//            public void onError(Context context, String errorMsg) {
-//                if (mAdapter.getCount() == 0){
-//                    setLoadFailedMessage(errorMsg,R.drawable.empty_error_icon,false);
-//                }
-//                isRequesting = false;
-//            }
-//            @Override
-//            public void onFinished(Context context) {
-//                mPullToRefreshView.onRefreshComplete();
-//            }
-//        });
+                    @Override
+                    protected void _onError(String message) {
+                        super._onError(message);
+                        ToastUtil.show(message);
+                        mPullToRefreshView.finishLoadmore();
+                        mPullToRefreshView.finishRefresh();
+                    }
+                });
     }
 
     /**
@@ -72,8 +86,24 @@ public class ThumbsListFragment extends BaseFragment {
      */
     protected OnClickThrottleListener mOnClickThrottleListener = new OnClickThrottleListener(){
         @Override
-        protected void onThrottleClick(View v) {
+        protected void onThrottleClick(final View v) {
+            String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
+            HttpManager.getApi().praise(uid,uid,true,mTopicId).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                @Override
+                protected void _onNext(JsonNull jsonNull) {
+                    super._onNext(jsonNull);
+                    mFollowIv.setImageResource(R.drawable.big_followed);
+                    BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
+                    bbsPraiseEvent.topic_id = mTopicId;
+                    EventBus.getDefault().post(bbsPraiseEvent);
+                }
 
+                @Override
+                protected void _onError(String message) {
+                    super._onError(message);
+                    ToastUtil.show(message);
+                }
+            });
         }
     };
 
@@ -118,5 +148,6 @@ public class ThumbsListFragment extends BaseFragment {
         if (!TextUtils.isEmpty(mTideId) && TextUtils.equals("0", mTideId)) {
             mFollowIv.setOnClickListener(mOnClickThrottleListener);
         }
+        getFriendList(true);
     }
 }

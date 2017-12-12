@@ -89,7 +89,13 @@ public class BBSClassifyFragment extends BaseFragment {
             if (list != null) {
                 for (BBS bbs : list) {
                     if (TextUtils.equals(bbs.topic_id,event.topic_id)) {
-                        bbs.support_num = event.praiseNum;
+                        bbs.attutude = "1";
+                        if (!TextUtils.isEmpty(event.praiseNum)){
+                            bbs.support_num = event.praiseNum;
+                        }else {
+                            bbs.support_num=Integer.parseInt(bbs.support_num)+1+"";
+                        }
+
                     }
                 }
                 mAdapter.notifyDataSetChanged();

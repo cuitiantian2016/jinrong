@@ -327,7 +327,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         imgHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(RewardDetailActivity.class);
+                if (mCircleDetailBean!=null&&mCircleDetailBean.circleIndexBo!=null)
+                RewardDetailActivity.startRewardDetailActivity(CircleDetailActivity.this,mCircleId,mCircleDetailBean.circleIndexBo.isPraise);
             }
         });
         mSupportLinear.addView(imgHead, new LinearLayout.LayoutParams(size, size));

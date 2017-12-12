@@ -209,8 +209,6 @@ public class BBSAdapter extends BaseAdapter {
             itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (DeviceUtils.isFastDoubleClick())
-                        return;
                     if (item != null) {
                        // reportBBSItemClickEvent();
                         Intent intent = new Intent(v.getContext(), CircleDetailActivity.class);
@@ -218,17 +216,6 @@ public class BBSAdapter extends BaseAdapter {
                         intent.putExtra(CircleDetailActivity.CIRCLEID_KEY, item.topic_id);
                         v.getContext().startActivity(intent);
                     }
-                }
-            });
-            itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-//                    if (AndroidUtil.isAdmin()) {
-//                        if (item != null) {
-//                            showAdminDialog(v.getContext(), item);
-//                        }
-//                    }
-                    return false;
                 }
             });
             //内容复制

@@ -163,11 +163,6 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                     }
                 }
             });
-            if (mListView != null && mScrollToLastCallBack != null){
-                int end = mListView.getLastVisiblePosition();
-                if (getCount() - 2 <= end && end <= getCount())
-                    mScrollToLastCallBack.onScrollToLast(position);
-            }
         }
     }
 
