@@ -188,7 +188,7 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
         mInput.setText("");
         if (circleBean !=null){
             Intent intent = new Intent(getActivity(), CircleDetailActivity.class);
-            intent.putExtra(CircleDetailActivity.POST_USER_KEY,"");
+            intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleBean.postUserId);
             intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,circleBean.circleId);
             startActivity(intent);
         }
