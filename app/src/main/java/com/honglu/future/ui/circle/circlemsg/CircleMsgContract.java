@@ -28,6 +28,6 @@ public interface CircleMsgContract {
 
         void getClearComments();//清空发出的评论
 
-        void  getCommentContent(String userId, String circleId, String content,String beReplyUserId, int replyType,String replyNickName);//评论回复
+        void  getCommentContent(String userId, String circleId, String content,String beReplyUserId, int replyType,String replyNickName,String postUserId);//评论回复
     }
 }

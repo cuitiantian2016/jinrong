@@ -733,7 +733,8 @@ public interface HttpApi {
             @Field("content") String content,
             @Field("beReplyUserId") String beReplyUserId,
             @Field("replyType") int replyType,
-            @Field("replyNickName")String replyNickName);
+            @Field("replyNickName")String replyNickName,
+            @Field("postUserId") String postUserId);
     /**
      * 点赞列表
      * @param userId

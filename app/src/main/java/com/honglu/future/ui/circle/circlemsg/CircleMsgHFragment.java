@@ -142,7 +142,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
                 }
                 CircleMsgBean circleMsgBean = mAdapter.getCircleBean(mPosition);
                 if (circleMsgBean !=null){
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),String.valueOf(circleMsgBean.circleId),contnet,String.valueOf(circleMsgBean.replyUserId),2,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),String.valueOf(circleMsgBean.circleId),contnet,String.valueOf(circleMsgBean.replyUserId),2,SpUtil.getString(Constant.CACHE_TAG_USERNAME),circleMsgBean.postUserId);
                 }
             }
         });
@@ -197,7 +197,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
         if (circleBean !=null){
             Intent intent = new Intent(getActivity(), CircleDetailActivity.class);
             intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleBean.postUserId);
-            intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,circleBean.circleId);
+            intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(circleBean.circleId));
             startActivity(intent);
         }
     }

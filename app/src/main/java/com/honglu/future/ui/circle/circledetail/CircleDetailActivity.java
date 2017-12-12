@@ -113,6 +113,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private boolean mCommentAuthMore = false;
     //点回复对应bean
     private CommentBean mCommentBean;
+    private int mCommentCountAll = 0;
+    private int mCommentCountAuth = 0;
 
     @Override
     public void initPresenter() {
@@ -158,7 +160,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             circleReplyId = getIntent().getStringExtra(CIRCLEREPLYID_KEY);
         }
 
-
+        Log.d("wahcc","===mPostUserId===:"+mPostUserId+"===mCircleId===："+mCircleId);
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
         View headView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_head, null);
@@ -206,7 +208,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
                 }else {
                     mCommentAuthRows ++;
-                    mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+                    mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentAuthRows);
                 }
                 mRefreshView.finishLoadmore();
             }
@@ -219,7 +221,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
                 }else {
                     mCommentAuthRows = 0;
-                    mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+                    mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentAuthRows);
                 }
                 mRefreshView.finishRefresh();
             }
@@ -249,9 +251,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     return;
                 }
                 if (mCommentBean !=null){
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mCommentBean.replyUserId,2,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mCommentBean.replyUserId,2,SpUtil.getString(Constant.CACHE_TAG_USERNAME),mPostUserId);
                 }else {
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mPostUserId,1,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mPostUserId,1,SpUtil.getString(Constant.CACHE_TAG_USERNAME),mPostUserId);
                 }
                 break;
             case R.id.tv_right://title 分享按钮
@@ -467,11 +469,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     @Override
     public void getCirleComment(CommentAllBean bean) {
          if (bean == null || bean.commentBosAll == null){return;}
-         if (mComment.getTag() == null){
-             mComment.setText("全部评论 "+bean.commentCountAll);
-             mSeeOwner.setText("只看楼主 "+bean.commentCountAuth);
-             mComment.setTag("1");
-         }
+        mCommentCountAll = bean.commentCountAll;
+        mCommentCountAuth = bean.commentCountAuth;
+        mComment.setText("全部评论 "+mCommentCountAll);
+        mSeeOwner.setText("只看楼主 "+mCommentCountAuth);
         if (bean.commentBosAll.size() >=10){
             if (!mRefreshView.isEnableLoadmore()){
                 mCommentMore = true;
@@ -582,6 +583,15 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mInput.setText("");
         mInput.setHint(getString(R.string.circle_input_hint));
         if (mAdapter !=null){
+            if (COMMENT_ALL.equals(getCommentType())){
+                mCommentList.add(0,commentBean);
+                mCommentCountAll++;
+                mComment.setText("全部评论 "+mCommentCountAll);
+            }else {
+                mCommentAuthList.add(0,commentBean);
+                mCommentCountAuth++;
+                mSeeOwner.setText("只看楼主 "+mCommentCountAuth);
+            }
             mAdapter.addCommentBean(commentBean);
         }
         //评论 BBSClassifyFragment

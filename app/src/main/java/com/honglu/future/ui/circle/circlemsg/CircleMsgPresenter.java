@@ -104,8 +104,8 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
 
     //回复评论
     @Override
-    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId,final int replyType ,String replyNickName) {
-        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName), new HttpSubscriber<JsonNull>() {
+    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId,final int replyType ,String replyNickName,String postUserId) {
+        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName,postUserId), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("发表中...");
