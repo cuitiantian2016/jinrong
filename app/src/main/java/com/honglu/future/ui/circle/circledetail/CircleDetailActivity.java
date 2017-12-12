@@ -24,6 +24,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSPraiseEvent;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
@@ -104,6 +105,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private int mCommentAuthRows = 0;
     private boolean mCommentMore = false;
     private boolean mCommentAuthMore = false;
+    //点回复对应bean
+    private CommentBean mCommentBean;
 
     @Override
     public void initPresenter() {
@@ -186,6 +189,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mImgSupport.setOnClickListener(this);
         mComment.setOnClickListener(this);
         mSeeOwner.setOnClickListener(this);
+        mSend.setOnClickListener(this);
 
         mRefreshView.setEnableLoadmore(false);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
@@ -219,12 +223,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {return;} //addHead
-                CommentBean commentBean = (CommentBean) parent.getItemAtPosition(position);
-                if ("2".equals(commentBean.replyType)){ //1:贴子评论 2:回复贴子评论
-                   mInput.setHint("回复："+commentBean.beReplyNickName);
-                }else {
-                    mInput.setHint("回复："+commentBean.nickName);
-                }
+                mCommentBean = (CommentBean) parent.getItemAtPosition(position);
+                mInput.setHint("回复："+mCommentBean.nickName);
             }
         });
 
@@ -236,6 +236,18 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_send: //发表
+                String content = mInput.getText().toString();
+                if (TextUtils.isEmpty(content)){
+                    ToastUtil.show("内容不能为空...");
+                    return;
+                }
+                if (mCommentBean !=null){
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mCommentBean.replyUserId,2);
+                }else {
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mPostUserId,1);
+                }
+                break;
             case R.id.tv_right://title 分享按钮
                 ShareUtils.getIntance().share(this, "", "http://www.baidu.com", "帖子分享", "帖子分享内容");
                 break;
@@ -257,6 +269,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 if (COMMENT_ALL.equals(mCommentType)){
                    return;
                 }
+                mCommentBean = null;
                 mInput.setHint(getString(R.string.circle_input_hint));
                 mCommentType = COMMENT_ALL;
                 mComment.setSelected(true);
@@ -275,6 +288,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 if (COMMENT_AUTH.equals(mCommentType)){
                     return;
                 }
+                mCommentBean = null;
                 mInput.setHint(getString(R.string.circle_input_hint));
                 mCommentType = COMMENT_AUTH;
                 mComment.setSelected(false);
@@ -524,6 +538,47 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         bbsPraiseEvent.topic_id = mCircleId;
         bbsPraiseEvent.praiseNum = String.valueOf(mPraiseNum);
         EventBus.getDefault().post(bbsPraiseEvent);
+    }
+
+    //评论回复
+    @Override
+    public void getCommentContent(JsonNull jsonNull,int replyType) {
+        String content = mInput.getText().toString();
+        CommentBean commentBean = new CommentBean();
+        if (mCommentBean  !=null){
+            commentBean.replyUserId = SpUtil.getString(Constant.CACHE_TAG_UID);//回复人id
+            commentBean.nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);//回复人名字
+            commentBean.avatarPic =  ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR); //回复人头像
+            commentBean.beReplyNickName = mCommentBean.nickName; //被回复人名字
+            commentBean.beReplyAvatarPic = mCommentBean.avatarPic;//被回复人头像
+            commentBean.replyType = String.valueOf(replyType);
+            commentBean.createTime = TimeUtil.getCurrentDate(String.valueOf(System.currentTimeMillis()));
+            commentBean.replyContent = content;
+        }else {
+            commentBean.replyUserId = SpUtil.getString(Constant.CACHE_TAG_UID);//回复人id
+            commentBean.nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);//回复人名字
+            commentBean.avatarPic =  ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR); //回复人头像
+            commentBean.replyType = String.valueOf(replyType);
+            commentBean.createTime = TimeUtil.getCurrentDate(String.valueOf(System.currentTimeMillis()));
+            commentBean.replyContent = content;
+            commentBean.createTime = TimeUtil.getCurrentDate(String.valueOf(System.currentTimeMillis()));
+            if (mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null){
+                commentBean.beReplyNickName = mCircleDetailBean.circleIndexBo.nickName; //被回复人名字
+                commentBean.beReplyAvatarPic = mCircleDetailBean.circleIndexBo.avatarPic;//被回复人头像
+            }
+        }
+        mCommentBean = null;
+        mInput.setText("");
+        mInput.setHint(getString(R.string.circle_input_hint));
+        if (mAdapter !=null){
+            mAdapter.addCommentBean(commentBean);
+        }
+        //评论 BBSClassifyFragment
+        BBSCommentContentEvent bbsCommentContentEvent = new BBSCommentContentEvent();
+        bbsCommentContentEvent.top_id = mCircleId;
+        bbsCommentContentEvent.replyContent = content;
+        bbsCommentContentEvent.replyNickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
+        EventBus.getDefault().post(bbsCommentContentEvent);
     }
 
     private void setText(TextView view , String text){

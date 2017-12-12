@@ -19,6 +19,7 @@ public interface CircleDetailContract {
         void  getCirleCommentAuth(List<CommentBean> list); //楼主
         void  getCirleFocus(JsonNull jsonNull);//关注
         void  getCirlePraise(JsonNull jsonNull); //点赞
+        void  getCommentContent(JsonNull jsonNull,int replyType);//评论回复
     }
 
     interface Presenter {
@@ -26,6 +27,7 @@ public interface CircleDetailContract {
         void  getCirleComment(String userId,String circleId,String postUserId,int rows);//全部
         void  getCirleCommentAuth(String userId,String circleId,String postUserId,int rows); //楼主
         void  getCirleFocus(String postUserId,String userId,String attentionState);//关注
-        void getCirlePraise(String postUserId,String userId,boolean praiseFlag,String circleId);//点赞
+        void  getCirlePraise(String postUserId,String userId,boolean praiseFlag,String circleId);//点赞
+        void  getCommentContent(String userId, String circleId, String content,String beReplyUserId, int replyType);//评论回复
     }
 }

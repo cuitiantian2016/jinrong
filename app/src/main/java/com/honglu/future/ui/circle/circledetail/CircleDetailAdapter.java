@@ -61,6 +61,11 @@ public class CircleDetailAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    public void addCommentBean(CommentBean bean){
+        mCommentList.add(0,bean);
+        notifyDataSetChanged();
+    }
+
     public void notifyDataChanged(boolean isLoadmore,String mCommentType,List<CommentBean> list){
         this.mCommentType = mCommentType;
         if (isLoadmore){
@@ -114,9 +119,9 @@ public class CircleDetailAdapter extends BaseAdapter{
 
         if ("2".equals(bean.replyType)){ //1:贴子评论 2:回复贴子评论
             //头像
-            ImageUtil.display(bean.beReplyAvatarPic, holder.mCivHead, R.mipmap.img_head);
+            ImageUtil.display(bean.avatarPic, holder.mCivHead, R.mipmap.img_head);
             //名字
-            setText(holder.mName,bean.beReplyNickName);
+            setText(holder.mName,bean.nickName);
 
             String huiFuStr = "回复 ";
             String huiFuName = bean.beReplyNickName;
