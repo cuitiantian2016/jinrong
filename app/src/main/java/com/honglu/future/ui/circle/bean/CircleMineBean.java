@@ -12,6 +12,7 @@ public class CircleMineBean {
     private int postNum;
     private int beFocusNum;
     private int focusNum;
+    private boolean isFocued;
 
     public void setPostAndReplyBoList(List<PostAndReplyBean> postAndReplyBoList) {
         this.postAndReplyBoList = postAndReplyBoList;
@@ -27,6 +28,14 @@ public class CircleMineBean {
 
     public void setContactUserList(List<ContactUser> contactUserList) {
         this.contactUserList = contactUserList;
+    }
+
+    public boolean isFocued() {
+        return isFocued;
+    }
+
+    public void setFocued(boolean focued) {
+        isFocued = focued;
     }
 
     public void setPostNum(int postNum) {

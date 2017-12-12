@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honglu.future.R;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.circle.bean.PostAndReplyBean;
 import com.honglu.future.ui.circle.bean.Reply;
@@ -56,6 +57,9 @@ public class BBSMineAdapter extends BaseAdapter {
     private String topicType;
     private AttentionCallBack mAttentionCallBack;
     private PraiseCallBack mPraiseCallBack;
+    private String imgHead, nickName,userId;
+    private boolean isFocued;
+
 
     public List<PostAndReplyBean> getList() {
         return mList;
@@ -63,9 +67,12 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSMineAdapter(ListView listview, Context context) {
+    public BBSMineAdapter(ListView listview, Context context, String imgHead, String nickName,String userId) {
         mListView = listview;
         mContext = context;
+        this.imgHead = imgHead;
+        this.nickName = nickName;
+        this.userId = userId;
 
         cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
@@ -82,7 +89,8 @@ public class BBSMineAdapter extends BaseAdapter {
         void onScrollToLast(Integer pos);
     }
 
-    public void setDatas(List<PostAndReplyBean> list) {
+    public void setDatas(List<PostAndReplyBean> list,boolean isFocued) {
+        this.isFocued = isFocued;
         for (int i = 0; i < list.size(); i++) {
             mList.add(list.get(i));
         }
@@ -262,16 +270,16 @@ public class BBSMineAdapter extends BaseAdapter {
             } else {
                 follow.setVisibility(View.VISIBLE);
             }
-            ImageUtil.display(SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
-            ViewHelper.safelySetText(user_name, SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
+            ViewHelper.safelySetText(user_name, nickName);
 
             status.setVisibility(TextUtils.isEmpty(item.getUserRole()) ? View.GONE : View.VISIBLE);
             status.setText(item.getUserRole());
             if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.getPostUserId())) {
                 follow.setVisibility(View.INVISIBLE);
             } else {
-//                follow.setVisibility(View.VISIBLE);
-//                follow.setImageResource(("1".equals(item.follow)) ? R.mipmap.already_recommend : R.drawable.add_recommend);
+                follow.setVisibility(View.VISIBLE);
+                follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.drawable.add_recommend);
 //                follow.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -341,7 +349,7 @@ public class BBSMineAdapter extends BaseAdapter {
                 reply.content = item.getReplyContent();
                 replyList.add(reply);
                 ReplyListAdapter replyListAdapter = new ReplyListAdapter();
-                replyListAdapter.addView(mContext,replay_ll_BB, replyList,topicType,item);
+                replyListAdapter.addView(mContext, replay_ll_BB, replyList, topicType, item);
                 ViewHelper.setVisibility(replay_ll_BB, true);
                 ViewHelper.setVisibility(mSeparatorCommLy, true);
             } else {

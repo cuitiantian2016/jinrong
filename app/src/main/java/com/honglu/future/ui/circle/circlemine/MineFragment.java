@@ -65,6 +65,7 @@ public class MineFragment extends CommonFragment {
     private String imgHead;
     private String nickName;
     private boolean mIsMyself;
+    private boolean isFocued;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,7 @@ public class MineFragment extends CommonFragment {
             publish.setVisibility(View.GONE);
             tv_empty.setText("TA还没有发表过话题哦");
         }
-        mAdapter = new BBSMineAdapter(mListView, mContext);
+        mAdapter = new BBSMineAdapter(mListView, mContext,imgHead,nickName,mUserId);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -251,9 +252,13 @@ public class MineFragment extends CommonFragment {
                                 if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
                                     updateAttutudeUser(o.getContactUserList());
                                 }
+                            } else{
+                                isFocued = o.isFocued();
+                                iv_follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.drawable.add_recommend);
                             }
                             ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
                             user_name.setText(nickName);
+
                             // TODO: 2017/12/9 接口缺少用户角色
 //                            if (result.user_info.user_flag.equals("1")) {
 //                                flag.setVisibility(View.VISIBLE);
@@ -269,9 +274,9 @@ public class MineFragment extends CommonFragment {
                                     mListView.removeFooterView(empty_view);
                                 if (mIsRefresh) {
                                     mAdapter.clearDatas();
-                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(),isFocued);
                                 } else {
-                                    mAdapter.setDatas(o.getPostAndReplyBoList());
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(),isFocued);
                                 }
                             } else {
                                 //空布局
