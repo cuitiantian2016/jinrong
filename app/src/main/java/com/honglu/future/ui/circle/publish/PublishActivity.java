@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.PublishEvent;
 import com.honglu.future.http.HttpManager;
@@ -190,7 +191,7 @@ public class PublishActivity extends BaseActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Uploader.upload("http://192.168.90.139:8080/futures-community-api/app/circle/saveImage", file, new UploadProgressListener() {
+                Uploader.upload(ConfigUtil.baseUrl+"futures-communtiy-api/app/circle/saveImage", file, new UploadProgressListener() {
                     @Override
                     public void onProgress(long progress) {
                     }
@@ -222,7 +223,7 @@ public class PublishActivity extends BaseActivity {
      * 发表
      */
     private void publishArticles() {
-        HttpManager.getApi().push(SpUtil.getString(Constant.CACHE_TAG_UID),trim,getUrl(0),getUrl(2),getUrl(3),getUrl(4),getUrl(5),getUrl(6),Constant.topic_filter.get(0).type)
+        HttpManager.getApi().push(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_TAG_USERNAME),trim,getUrl(0),getUrl(2),getUrl(3),getUrl(4),getUrl(5),getUrl(6),Constant.topic_filter.get(0).type)
                 .compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onNext(JsonNull jsonNull) {

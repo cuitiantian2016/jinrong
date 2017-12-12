@@ -674,6 +674,7 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circle/publish")
     Observable<BaseResponse<JsonNull>> push(
             @Field("postUserId") String userId,
+            @Field("nickName") String nickName,
             @Field("content") String content,
             @Field("picOne") String picOne,
             @Field("picTwo") String picTwo,

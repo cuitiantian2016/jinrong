@@ -273,7 +273,6 @@ public class BBSAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     if (DeviceUtils.isFastDoubleClick())
                         return;
-
                     Intent intent = new Intent(mContext,CircleMineActivity.class);
                     intent.putExtra("userId",item.uid);
                     intent.putExtra("imgHead",item.header_img);

@@ -99,6 +99,7 @@ public class ThumbsListFragment extends BaseFragment {
                     BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
                     bbsPraiseEvent.topic_id = mTopicId;
                     EventBus.getDefault().post(bbsPraiseEvent);
+                    getFriendList(true);
                 }
 
                 @Override
