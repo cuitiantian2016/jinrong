@@ -116,6 +116,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private int mCommentCountAll = 0;
     private int mCommentCountAuth = 0;
 
+    private boolean mIsBBSPraise = false;//标记当前页点赞
+    private boolean mIsBBSFlown = false; //标记当前页
+
     @Override
     public void initPresenter() {
         mPresenter.init(CircleDetailActivity.this);
@@ -532,6 +535,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mFollow.setText("+ 关注");
         }
         //关注 BBSClassifyFragment
+        mIsBBSFlown = true;
         BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
         bbsFlownEvent.uid = mPostUserId;
         bbsFlownEvent.follow = mFollow.isSelected() ? "1" : "0";
@@ -547,6 +551,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mImgSupport.setEnabled(false);
         updatePraiseList();
         //点赞 BBSClassifyFragment
+
+        mIsBBSPraise = true;//标记当前点赞
         BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
         bbsPraiseEvent.topic_id = mCircleId;
         bbsPraiseEvent.praiseNum = String.valueOf(mPraiseNum);
@@ -620,6 +626,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSPraiseEvent event) {
+        if (mIsBBSPraise){
+            mIsBBSPraise = false; //true 表示当前页点赞
+            return;
+        }
         if (mCircleDetailBean!=null&&event.topic_id.equals(mCircleId)){
             mCircleDetailBean.circleIndexBo.isPraise = "1";
             //是否点赞
@@ -664,6 +674,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSFlownEvent event) {
+        if (mIsBBSFlown){
+            mIsBBSFlown = false; // true 表示当前关注
+            return;
+        }
         if (mCircleDetailBean!=null&&event.uid.equals(mCircleDetailBean.circleIndexBo.postUserId)){
             mCircleDetailBean.circleIndexBo.isFocus =event.follow;
             //是否关注
