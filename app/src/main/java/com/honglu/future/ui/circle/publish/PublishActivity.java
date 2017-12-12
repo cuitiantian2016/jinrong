@@ -256,6 +256,9 @@ public class PublishActivity extends BaseActivity {
         if (isFinishing()||isDestroyed()){
             return;
         }
+        if (Constant.topic_filter ==null || Constant.topic_filter.size() <=0){
+            return;
+        }
         HttpManager.getApi().push(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_TAG_USERNAME),trim,getUrl(0),getUrl(2),getUrl(3),getUrl(4),getUrl(5),getUrl(6),Constant.topic_filter.get(0).type)
                 .compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
             @Override
