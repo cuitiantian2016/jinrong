@@ -98,12 +98,11 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                             protected void _onNext(JsonNull jsonNull) {
                                 super._onNext(jsonNull);
                                 iv_attention.setImageResource(R.mipmap.already_recommend);
-                                item.follow = type;
+                                follow(type,item.uid);
                                 BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                                 bbsFlownEvent.follow = type;
                                 bbsFlownEvent.uid = item.uid;
                                 EventBus.getDefault().post(bbsFlownEvent);
-                                notifyDataSetChanged();
                             }
 
                             @Override
@@ -136,6 +135,20 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                 }
             });
         }
+    }
+
+    /**
+     * 关注刷新
+     * @param follow
+     * @param uid
+     */
+    public void follow(String follow,String uid) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).uid.equals(uid)) {
+                mData.get(i).follow = follow;
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public interface ScrollToLastCallBack {
