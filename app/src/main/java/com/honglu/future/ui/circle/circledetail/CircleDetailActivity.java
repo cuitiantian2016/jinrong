@@ -1,6 +1,8 @@
 package com.honglu.future.ui.circle.circledetail;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +41,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
+import com.honglu.future.widget.photo.FullScreenDisplayActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
@@ -353,12 +356,30 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
      *
      * @param picList 图片 链接集合
      */
-    private void initContentImage(List<String> picList) {
+    private void initContentImage(final ArrayList<String> picList) {
         mImgsLinear.setVisibility(View.VISIBLE);
         mImgsLinear.removeAllViews();
+
         if (picList != null && picList.size() != 0) {
-            for (String imageStr : picList) {
+            for (final String imageStr : picList) {
                 final ImageView imageView = new ImageView(this);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), FullScreenDisplayActivity.class);
+                        Bundle b = new Bundle();
+                        b.putStringArrayList("image_urls", picList);
+                        b.putInt("position", picList.indexOf(imageStr));
+                        intent.putExtras(b);
+                        int[] location = new int[2];
+                        view.getLocationOnScreen(location);
+                        intent.putExtra("locationX", location[0]);
+                        intent.putExtra("locationY", location[1]);
+                        intent.putExtra("width", view.getWidth());
+                        intent.putExtra("height", view.getHeight());
+                        view.getContext().startActivity(intent);
+                    }
+                });
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 imageView.setImageResource(R.mipmap.other_empty);

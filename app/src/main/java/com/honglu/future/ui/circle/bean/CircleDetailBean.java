@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class CircleDetailBean {
         public int commentCount;//评论数
         public String content;//内容
         public String createTime; //时间
-        public List<String> images;
+        public ArrayList<String> images;
         public String isFocus; //是否关注  0 否 1 是
         public String isPraise; //是否点赞 0 否 1 是
         public String nickName; //发帖人昵称
