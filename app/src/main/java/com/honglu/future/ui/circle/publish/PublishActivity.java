@@ -2,7 +2,9 @@ package com.honglu.future.ui.circle.publish;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
@@ -18,6 +21,7 @@ import com.honglu.future.events.PublishEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
@@ -64,6 +68,7 @@ public class PublishActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void loadData() {
         initViews();
@@ -73,7 +78,7 @@ public class PublishActivity extends BaseActivity {
         mTitle.setTitle(false, R.color.white, "哞一下");
         mTvRight.setText("发表");
         mTvRight.setTextColor(getResources().getColor(R.color.white));
-        mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_blue_2dp_bg));
+        mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_btton_2dp));
         mTvRight.setGravity(Gravity.CENTER_VERTICAL);
         GridView publishGirdView = (GridView) findViewById(R.id.publish_gridView);
         mContentEdit = (EditText) findViewById(R.id.editText_content);
@@ -83,7 +88,19 @@ public class PublishActivity extends BaseActivity {
         mAdapter.setOnPublishClickCallBack(createOnPublishClickCallBack());
         mAdapter.refreshPhotos(mSelectedPhotos);
         publishGirdView.setAdapter(mAdapter);
-
+        mTvRight.setEnabled(false);
+        mContentEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mTvRight.setEnabled(charSequence.toString().length()>0);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
         mTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +162,8 @@ public class PublishActivity extends BaseActivity {
             ToastUtil.show("说点什么吧");
             return;
         }
+        mTvRight.setEnabled(false);
+        App.loadingContent(this, "发表中");
         mUrls.clear();
         if (mSelectedPhotos.size() == 0){
             publishArticles();
@@ -154,9 +173,15 @@ public class PublishActivity extends BaseActivity {
     }
     private Handler mHandler = new Handler();
     private void upload() {
+        if (isFinishing()||isDestroyed()){
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if (mSelectedPhotos.size()<=mUrls.size()){
+                    return;
+                }
                 File file = new File(mSelectedPhotos.get(mUrls.size()));
                 float size = (float) file.length() / (float) 1024;
                 if (size < 200f) {
@@ -188,6 +213,9 @@ public class PublishActivity extends BaseActivity {
      * 上传图片到服务器
      */
     private void uploadToServer(final File file) {
+        if (isFinishing()||isDestroyed()){
+            return;
+        }
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -213,6 +241,8 @@ public class PublishActivity extends BaseActivity {
                     @Override
                     public void onError() {
                         ToastUtil.show("上传图片大小过大！");
+                        App.hideLoading();
+                        mTvRight.setEnabled(true);
                     }
                 });
             }
@@ -223,21 +253,28 @@ public class PublishActivity extends BaseActivity {
      * 发表
      */
     private void publishArticles() {
+        if (isFinishing()||isDestroyed()){
+            return;
+        }
         HttpManager.getApi().push(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_TAG_USERNAME),trim,getUrl(0),getUrl(2),getUrl(3),getUrl(4),getUrl(5),getUrl(6),Constant.topic_filter.get(0).type)
                 .compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onNext(JsonNull jsonNull) {
                 super._onNext(jsonNull);
+                mTvRight.setEnabled(true);
                 ToastUtil.show("发表成功");
                 PublishEvent publishEvent = new PublishEvent();
                 publishEvent.type = Constant.topic_filter.get(0).type;
                 EventBus.getDefault().post(publishEvent);
+                App.hideLoading();
                 finish();
             }
 
             @Override
             protected void _onError(String message) {
                 super._onError(message);
+                App.hideLoading();
+                mTvRight.setEnabled(true);
                 ToastUtil.show(message);
             }
         });
