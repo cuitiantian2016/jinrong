@@ -559,6 +559,7 @@ public interface HttpApi {
     Observable<BaseResponse<List<BBS>>> getCircleType(
             @Field("userId") String userId,
             @Field("circleTypeId") String type,
+            @Field("circleTypeName") String circleTypeName,
             @Field("rows") int rows
     );
 

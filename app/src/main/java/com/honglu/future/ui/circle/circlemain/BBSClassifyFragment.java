@@ -38,6 +38,7 @@ import java.util.List;
 public class BBSClassifyFragment extends BaseFragment {
 
     public static final String EXTRA_CLASSIFY_TYPE = "filter_type";
+    public static final String EXTRA_CLASSIFY_NAME = "filter_type_name";
     private View empty_view;
     private View mNewMsgLy;
     private TextView mNewMessageTV;
@@ -47,6 +48,7 @@ public class BBSClassifyFragment extends BaseFragment {
     private BBSAdapter mAdapter;
     private boolean isLoadingNow = false;
     private String topicType = "1";
+    private String topicName;
     int rows;
     private boolean isMore;
 
@@ -189,7 +191,7 @@ public class BBSClassifyFragment extends BaseFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().getCircleType(SpUtil.getString(Constant.CACHE_TAG_UID), topicType, rows), new HttpSubscriber<List<BBS>>() {
+                    toSubscribe(HttpManager.getApi().getCircleType(SpUtil.getString(Constant.CACHE_TAG_UID), topicType,topicName ,rows), new HttpSubscriber<List<BBS>>() {
                         @Override
                         protected void _onNext(List<BBS> o) {
                             super._onNext(o);
@@ -281,6 +283,7 @@ public class BBSClassifyFragment extends BaseFragment {
     public void loadData() {
         EventBus.getDefault().register(this);
         topicType = getArguments().getString(EXTRA_CLASSIFY_TYPE);
+        topicName = getArguments().getString(EXTRA_CLASSIFY_NAME);
         srl_refreshView = (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
 
         mListView = (ListView) mView.findViewById(R.id.lv_listView);

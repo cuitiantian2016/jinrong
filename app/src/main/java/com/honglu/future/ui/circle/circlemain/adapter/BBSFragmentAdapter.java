@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.honglu.future.config.Constant;
+import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.BBSClassifyFragment;
 
 import java.util.List;
@@ -19,9 +21,10 @@ public class BBSFragmentAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        String topicType = fragmentsTopicType.get(position);
+        TopicFilter topicType = Constant.topic_filter.get(position);
         Bundle bundle = new Bundle();
-        bundle.putString(BBSClassifyFragment.EXTRA_CLASSIFY_TYPE, topicType);
+        bundle.putString(BBSClassifyFragment.EXTRA_CLASSIFY_TYPE, topicType.type);
+        bundle.putString(BBSClassifyFragment.EXTRA_CLASSIFY_NAME, topicType.title);
         BBSClassifyFragment fragment = new BBSClassifyFragment();
         fragment.setArguments(bundle);
         return fragment;
