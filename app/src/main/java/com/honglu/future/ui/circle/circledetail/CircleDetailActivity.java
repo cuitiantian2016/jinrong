@@ -29,6 +29,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSPraiseEvent;
+import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
@@ -47,6 +48,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,9 +145,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             ToastUtil.show(msg);
         }
     }
-
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         if (getIntent().hasExtra(POST_USER_KEY)){
             mPostUserId = getIntent().getStringExtra(POST_USER_KEY);
         }
@@ -311,6 +314,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         if (Util.isOnMainThread() && !this.isFinishing()) {
             Glide.with(this).pauseRequests();
@@ -431,7 +435,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                //是否关注
                if (bean.circleIndexBo.isFocus()){
                    mFollow.setSelected(true);
-                   mFollow.setText("已经关注");
+                   mFollow.setText("已关注");
                    mFollow.setEnabled(true);
                }else {
                    mFollow.setSelected(false);
@@ -539,20 +543,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         int mPraiseNum = getTextNum(mTextSupport)+1;
         mTextSupport.setText(String.valueOf(mPraiseNum));
         mImgSupport.setEnabled(false);
-        if (mCircleDetailBean !=null && mCircleDetailBean.praiseList !=null && mCircleDetailBean.praiseList.size() > 0){
-           PraiseListBean praiseListBean = new PraiseListBean();
-           praiseListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
-           praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
-           mCircleDetailBean.praiseList.add(0,praiseListBean);
-           updateUserHead(mCircleDetailBean.praiseList);
-        }else {
-            List<PraiseListBean> praiseList = new ArrayList<>();
-            PraiseListBean praiseListBean = new PraiseListBean();
-            praiseListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
-            praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
-            praiseList.add(praiseListBean);
-            updateUserHead(praiseList);
-        }
+        updatePraiseList();
         //点赞 BBSClassifyFragment
         BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
         bbsPraiseEvent.topic_id = mCircleId;
@@ -610,5 +601,70 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     }
     private int getTextNum(TextView view){
         return view.getText() !=null && !TextUtils.isEmpty(view.getText().toString()) ? Integer.parseInt(view.getText().toString()) : 0;
+    }
+
+
+    /**
+     * 点赞的事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSPraiseEvent event) {
+        if (mCircleDetailBean!=null&&event.topic_id.equals(mCircleId)){
+            mCircleDetailBean.circleIndexBo.isPraise = "1";
+            //是否点赞
+            if (mCircleDetailBean.circleIndexBo.isPraise()){
+                mImgSupport.setImageResource(R.mipmap.icon_support_click);
+                mImgSupport.setEnabled(false);
+            }else {
+                mImgSupport.setImageResource(R.mipmap.icon_support_normal);
+                mImgSupport.setEnabled(true);
+            }
+            if (TextUtils.isEmpty(event.praiseNum)){
+                mCircleDetailBean.circleIndexBo.praiseCount = Integer.parseInt(mCircleDetailBean.circleIndexBo.praiseCount)+1+"";
+            }else {
+                mCircleDetailBean.circleIndexBo.praiseCount = event.praiseNum;
+            }
+            //点赞数量
+            setText(mTextSupport,mCircleDetailBean.circleIndexBo.praiseCount);
+            updatePraiseList();
+        }
+    }
+    /**
+     * 更新点赞头像
+     */
+    private void updatePraiseList(){
+        if (mCircleDetailBean !=null && mCircleDetailBean.praiseList !=null && mCircleDetailBean.praiseList.size() > 0){
+            PraiseListBean praiseListBean = new PraiseListBean();
+            praiseListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
+            praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+            mCircleDetailBean.praiseList.add(0,praiseListBean);
+            updateUserHead(mCircleDetailBean.praiseList);
+        }else {
+            List<PraiseListBean> praiseList = new ArrayList<>();
+            PraiseListBean praiseListBean = new PraiseListBean();
+            praiseListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
+            praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+            praiseList.add(praiseListBean);
+            updateUserHead(praiseList);
+        }
+    }
+    /**
+     * 监听关注
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSFlownEvent event) {
+        if (mCircleDetailBean!=null&&event.uid.equals(mCircleDetailBean.circleIndexBo.postUserId)){
+            mCircleDetailBean.circleIndexBo.isFocus =event.follow;
+            //是否关注
+            if (mCircleDetailBean.circleIndexBo.isFocus()){
+                mFollow.setSelected(true);
+                mFollow.setText("已关注");
+                mFollow.setEnabled(true);
+            }else {
+                mFollow.setSelected(false);
+                mFollow.setText("+ 关注");
+                mFollow.setEnabled(true);
+            }
+        }
     }
 }
