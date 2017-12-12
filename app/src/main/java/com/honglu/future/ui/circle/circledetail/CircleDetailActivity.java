@@ -319,21 +319,20 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private void updateUserHead(List<PraiseListBean> headList) {
         mSupportLinear.setVisibility(View.VISIBLE);
         mSupportLinear.removeAllViews();
-        if (headList == null || headList.size() <= 0) {
-            return;
-        }
 
         int size = getResources().getDimensionPixelSize(R.dimen.dimen_30dp);
-        for (int i = 0; i < headList.size(); i++) {
-            if (i == 4) {
-                break;
+        if (headList !=null && headList.size() > 0) {
+            for (int i = 0; i < headList.size(); i++) {
+                if (i == 4) {
+                    break;
+                }
+                PraiseListBean praiseBean = headList.get(i);
+                CircleImageView imgHead = new CircleImageView(this);
+                ImageUtil.display(praiseBean.avatarPic, imgHead, R.mipmap.img_head);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+                params.rightMargin = size / 2;
+                mSupportLinear.addView(imgHead, params);
             }
-            PraiseListBean praiseBean = headList.get(i);
-            CircleImageView imgHead = new CircleImageView(this);
-            ImageUtil.display( praiseBean.avatarPic, imgHead, R.mipmap.img_head);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            params.rightMargin = size / 2;
-            mSupportLinear.addView(imgHead, params);
         }
 
         CircleImageView imgHead = new CircleImageView(this);
