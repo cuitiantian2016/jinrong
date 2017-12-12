@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -16,6 +17,7 @@
         android:src="@mipmap/ic_nodata_mine" />
 
     <TextView
+        android:id="@+id/tv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="你还没有发表过话题哦~"
@@ -29,6 +31,8 @@
         android:background="@drawable/bg_edtixt"
         android:padding="8dp"
         android:text="马上发表"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:textColor="@color/color_008EFF" />
 
 </LinearLayout>

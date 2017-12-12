@@ -52,8 +52,8 @@ public class MineFragment extends CommonFragment {
     private View empty_view;
 
     private View header_view;
-    private ImageView header_img;
-    private TextView flag, user_name, attention_num, endorse_num, topic_num;
+    private ImageView header_img, iv_follow;
+    private TextView flag, user_name, attention_num, endorse_num, topic_num, tv_empty;
 
     private LinearLayout mAttutudeUserLy;
     private OnTopicAlaph mOnTopicAlaph;
@@ -61,6 +61,10 @@ public class MineFragment extends CommonFragment {
     int rows;
     private boolean isMore;
     private boolean mIsRefresh;
+    private String mUserId;
+    private String imgHead;
+    private String nickName;
+    private boolean mIsMyself;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,11 @@ public class MineFragment extends CommonFragment {
 
     @Override
     public void loadData() {
+        mUserId = mActivity.getIntent().getExtras().getString("userId", "");
+        imgHead = mActivity.getIntent().getExtras().getString("imgHead", "");
+        nickName = mActivity.getIntent().getExtras().getString("nickName", "");
+
+        mIsMyself = mUserId.equals(SpUtil.getString(Constant.CACHE_TAG_UID));
         initViews();
         rows = 0;
         topicIndexThread(true);
@@ -128,8 +137,16 @@ public class MineFragment extends CommonFragment {
                 mContext.startActivity(new Intent(mContext, MyFriendActivity.class));
             }
         });
+
         mAttutudeUserLy = (LinearLayout) header_view.findViewById(R.id.ly_likes_user);
-        //
+        iv_follow = (ImageView) header_view.findViewById(R.id.iv_follow);
+        iv_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         empty_view = LayoutInflater.from(mContext).inflate(R.layout.fragment_bbs_empty_me, null);
         publish = (TextView) empty_view.findViewById(R.id.publish);
         publish.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +158,18 @@ public class MineFragment extends CommonFragment {
                 mContext.startActivity(new Intent(mContext, PublishActivity.class));
             }
         });
+        tv_empty = (TextView) empty_view.findViewById(R.id.tv_empty);
+        if (mIsMyself) {
+            layout_friends.setVisibility(View.VISIBLE);
+            iv_follow.setVisibility(View.GONE);
+            publish.setVisibility(View.VISIBLE);
+            tv_empty.setText("你还没有发表过话题哦");
+        } else {
+            layout_friends.setVisibility(View.GONE);
+            iv_follow.setVisibility(View.VISIBLE);
+            publish.setVisibility(View.GONE);
+            tv_empty.setText("TA还没有发表过话题哦");
+        }
         mAdapter = new BBSMineAdapter(mListView, mContext);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
@@ -214,15 +243,17 @@ public class MineFragment extends CommonFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<CircleMineBean>() {
+                    toSubscribe(HttpManager.getApi().loadCircleHome(mUserId, SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<CircleMineBean>() {
                         @Override
                         protected void _onNext(CircleMineBean o) {
                             super._onNext(o);
-                            if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
-                                updateAttutudeUser(o.getContactUserList());
+                            if(mIsMyself) {
+                                if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
+                                    updateAttutudeUser(o.getContactUserList());
+                                }
                             }
-                            ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
-                            user_name.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                            ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
+                            user_name.setText(nickName);
                             // TODO: 2017/12/9 接口缺少用户角色
 //                            if (result.user_info.user_flag.equals("1")) {
 //                                flag.setVisibility(View.VISIBLE);

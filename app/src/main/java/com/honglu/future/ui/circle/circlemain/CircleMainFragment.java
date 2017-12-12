@@ -192,7 +192,11 @@ public class CircleMainFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CircleMineActivity.class);
+                Intent intent = new Intent(mContext,CircleMineActivity.class);
+                intent.putExtra("userId",SpUtil.getString(Constant.CACHE_TAG_UID));
+                intent.putExtra("imgHead",SpUtil.getString(Constant.CACHE_USER_AVATAR));
+                intent.putExtra("nickName",SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                startActivity(intent);
             }
         };
     }

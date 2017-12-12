@@ -29,6 +29,7 @@ import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -272,9 +273,12 @@ public class BBSAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     if (DeviceUtils.isFastDoubleClick())
                         return;
-                    if (!SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.uid)) {
-                    } else {
-                    }
+
+                    Intent intent = new Intent(mContext,CircleMineActivity.class);
+                    intent.putExtra("userId",item.uid);
+                    intent.putExtra("imgHead",item.header_img);
+                    intent.putExtra("nickName",item.user_name);
+                    mContext.startActivity(intent);
                 }
             });
             ViewHelper.setVisibility(best, item.isEssence());
