@@ -112,34 +112,6 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                                 ToastUtil.show(message);
                             }
                         });
-//                        ServerAPI.follow(mContext.getContext(), type, item.uid, new ServerCallBack<JSONObject>() {
-//                            @Override
-//                            public void onSucceed(Context context, JSONObject result) {
-//                                try {
-//                                    if (MessageController.getInstance().getFriendCountChange() != null) {
-//                                        MessageController.getInstance().getFriendCountChange().change();
-//                                    }
-//                                    String msg = result.getString("msg");
-//                                    if (msg.equals("取消关注成功")) {
-//                                        iv_attention.setImageResource(R.drawable.add_recommend);
-//                                        item.follow = "0";
-//                                    } else if (msg.equals("关注成功")) {
-//                                        iv_attention.setImageResource(R.drawable.already_recommend);
-//                                        item.follow = "1";
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Context context, String errorMsg) {
-//                                Toaster.toast(errorMsg);
-//                            }
-//                            @Override
-//                            public void onFinished(Context context) {
-//                            }
-//                        });
                     }
                 });
             }

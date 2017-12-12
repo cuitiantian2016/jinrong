@@ -33,9 +33,16 @@
                 android:horizontalSpacing="1dp"
                 android:verticalSpacing="1dp"
                 android:divider="@drawable/shape_separator_gap_dimen_half_1dp"/>
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"
+        android:background="@color/color_line"/>
 
     <ImageView
         android:id="@+id/iv_follow"

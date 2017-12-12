@@ -45,11 +45,12 @@ public class ThumbsListFragment extends BaseFragment {
     private boolean isMore;
     private int rows = 0;
 
-
+    boolean mIsRefresh;
     private void getFriendList(final boolean isRefresh) {
         if (isRequesting)return;
         isRequesting = true;
-        if (isRefresh){
+        mIsRefresh = isRefresh;
+        if (mIsRefresh){
             rows = 0;
         }
         HttpManager.getApi().getPraiseImageList(SpUtil.getString(Constant.CACHE_TAG_UID),mTopicId,rows).compose(RxHelper.<List<UserList>>handleSimplyResult())
@@ -57,7 +58,8 @@ public class ThumbsListFragment extends BaseFragment {
                     @Override
                     protected void _onNext(List<UserList> userLists) {
                         super._onNext(userLists);
-                        if (isRefresh){
+                        isRequesting = false;
+                        if (mIsRefresh){
                             mPullToRefreshView.finishRefresh();
                             mAdapter.refreshDatas(userLists);
                         }else {
@@ -75,6 +77,7 @@ public class ThumbsListFragment extends BaseFragment {
                     protected void _onError(String message) {
                         super._onError(message);
                         ToastUtil.show(message);
+                        isRequesting = false;
                         mPullToRefreshView.finishLoadmore();
                         mPullToRefreshView.finishRefresh();
                     }

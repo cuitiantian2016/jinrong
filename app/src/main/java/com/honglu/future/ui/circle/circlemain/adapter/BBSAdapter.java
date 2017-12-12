@@ -218,32 +218,6 @@ public class BBSAdapter extends BaseAdapter {
                     }
                 }
             });
-            //内容复制
-            content.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    cmb.setText(item.content);
-                    ToastUtil.show("内容复制成功！");
-                    return true;
-                }
-            });
-            //由于内容复制长按事件将点击焦点吸收故做此操作
-            content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (DeviceUtils.isFastDoubleClick())
-                        return;
-                    if (item != null) {
-//                        Intent intent = new Intent(v.getContext(), BBSDetailActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("bbs_item", item);
-//                        intent.putExtras(b);
-//                        intent.putExtra(BBSDetailActivity.EXTRA_FROM, "apptopic");
-//                        intent.putExtra(BBSDetailActivity.EXTRA_TAB, topicType);
-//                        v.getContext().startActivity(intent);
-                    }
-                }
-            });
             if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID), item.uid)) {
                 follow.setVisibility(View.GONE);
             } else {
