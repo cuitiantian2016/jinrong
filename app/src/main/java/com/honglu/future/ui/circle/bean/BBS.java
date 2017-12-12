@@ -59,6 +59,7 @@ public class BBS implements Serializable {
     public String follow;
     public String type;
     public String hot_topic_title; //话题
+    @SerializedName("isHot")
     public String is_essence; //是否是精华 0 不是 1 是
     public String date;
     public String integralUserNum;  //帖子打赏人数
