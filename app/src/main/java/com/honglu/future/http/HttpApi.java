@@ -699,7 +699,8 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("circleId") String circleId,
             @Field("postUserId") String postUserId,
-            @Field("rows") int rows);
+            @Field("rows") int rows,
+            @Field("circleReplyId") String circleReplyId);
 
     /**
      * 只看楼主评论

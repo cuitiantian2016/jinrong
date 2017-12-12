@@ -24,7 +24,7 @@ public interface CircleDetailContract {
 
     interface Presenter {
         void  getDetailBean(String userId,String circleId);
-        void  getCirleComment(String userId,String circleId,String postUserId,int rows);//全部
+        void  getCirleComment(String userId,String circleId,String postUserId,int rows,String circleReplyId);//全部
         void  getCirleCommentAuth(String userId,String circleId,String postUserId,int rows); //楼主
         void  getCirleFocus(String postUserId,String userId,String attentionState);//关注
         void  getCirlePraise(String postUserId,String userId,boolean praiseFlag,String circleId);//点赞

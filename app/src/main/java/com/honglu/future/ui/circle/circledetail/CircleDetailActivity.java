@@ -160,7 +160,6 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             circleReplyId = getIntent().getStringExtra(CIRCLEREPLYID_KEY);
         }
 
-        Log.d("wahcc","===mPostUserId===:"+mPostUserId+"===mCircleId===："+mCircleId);
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
         View headView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_head, null);
@@ -205,7 +204,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             public void onLoadmore(RefreshLayout refreshlayout) {
                 if (COMMENT_ALL.equals(mCommentType)){
                     mCommentRows ++;
-                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows,"");
                 }else {
                     mCommentAuthRows ++;
                     mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentAuthRows);
@@ -218,7 +217,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mPresenter.getDetailBean(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId);
                 if (COMMENT_ALL.equals(mCommentType)){
                     mCommentRows = 0;
-                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows,"");
                 }else {
                     mCommentAuthRows = 0;
                     mPresenter.getCirleCommentAuth(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentAuthRows);
@@ -237,7 +236,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         });
 
         mPresenter.getDetailBean(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId);
-        mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+        mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows,circleReplyId);
     }
 
 
@@ -289,7 +288,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 if (mCommentList != null && mCommentList.size() > 0){
                     mAdapter.notifyDataChanged(false,getCommentType(),mCommentList);
                 }else {
-                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows);
+                    mPresenter.getCirleComment(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,mPostUserId,mCommentRows,"");
                 }
                 break;
             case R.id.tv_see_owner: //只看楼主
@@ -393,7 +392,6 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mImgsLinear.addView(imageView);
                 final int imageWidth = DeviceUtils.getScreenWidth(this) - DeviceUtils.dip2px(this, 30);
                 String picurls = imageStr;
-                Log.d("picurls=======", "" + picurls);
                 Glide.with(this).load(picurls).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -473,6 +471,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mCommentCountAuth = bean.commentCountAuth;
         mComment.setText("全部评论 "+mCommentCountAll);
         mSeeOwner.setText("只看楼主 "+mCommentCountAuth);
+        if (mCommentRows == 0 && bean.rows > 0){
+            mCommentRows = bean.rows;
+        }
         if (bean.commentBosAll.size() >=10){
             if (!mRefreshView.isEnableLoadmore()){
                 mCommentMore = true;

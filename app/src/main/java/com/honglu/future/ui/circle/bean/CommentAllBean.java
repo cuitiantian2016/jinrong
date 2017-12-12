@@ -16,6 +16,7 @@ public class CommentAllBean {
 
     public int commentCountAuth;
     public int commentCountAll;
+    public int rows;
     public List<CommentBean> commentBosAll;
 
 }

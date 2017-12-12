@@ -38,8 +38,8 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
 
     //全部
     @Override
-    public void getCirleComment(String userId, String circleId, String postUserId, int rows) {
-        toSubscribe(HttpManager.getApi().getCirleCommentList(userId, circleId,postUserId,rows), new HttpSubscriber<CommentAllBean>() {
+    public void getCirleComment(String userId, String circleId, String postUserId, int rows,String circleReplyId) {
+        toSubscribe(HttpManager.getApi().getCirleCommentList(userId, circleId,postUserId,rows,circleReplyId), new HttpSubscriber<CommentAllBean>() {
             @Override
             protected void _onStart() {
 
