@@ -474,9 +474,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mCommentCountAuth = bean.commentCountAuth;
         mComment.setText("全部评论 "+mCommentCountAll);
         mSeeOwner.setText("只看楼主 "+mCommentCountAuth);
-        if (mCommentRows == 0 && bean.rows > 0){
-            mCommentRows = bean.rows;
-        }
+        mCommentRows = bean.rows;
         if (bean.commentBosAll.size() >=10){
             if (!mRefreshView.isEnableLoadmore()){
                 mCommentMore = true;
