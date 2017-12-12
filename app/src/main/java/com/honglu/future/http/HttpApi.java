@@ -682,7 +682,7 @@ public interface HttpApi {
             @Field("picThree") String picThree,
             @Field("picFour") String picFour,
             @Field("picFive") String picFive,
-            @Field("picFive") String picSix,
+            @Field("picSix") String picSix,
             @Field("circleTypeId") String circleId);
 
 
