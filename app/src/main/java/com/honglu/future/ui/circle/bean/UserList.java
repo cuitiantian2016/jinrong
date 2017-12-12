@@ -10,4 +10,6 @@ public class UserList implements Serializable {
     public String postNum;
 
     public String userId;
+
+    public boolean focued;
 }

@@ -143,12 +143,18 @@ public class FriendToMyFragment extends CommonFragment {
                                     mAdapter.setDatas(o);
                                 }
                             }
-                            mSmartRefresh.finishRefresh();
+
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            isLoadingNow = false;
                             mSmartRefresh.finishRefresh();
                         }
                     });

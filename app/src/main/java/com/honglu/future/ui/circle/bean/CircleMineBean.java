@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CircleMineBean {
     private List<PostAndReplyBean> postAndReplyBoList;
+    private List<ContactUser> contactUserList;
     private int postNum;
     private int beFocusNum;
     private int focusNum;
@@ -18,6 +19,14 @@ public class CircleMineBean {
 
     public List<PostAndReplyBean> getPostAndReplyBoList() {
         return postAndReplyBoList;
+    }
+
+    public List<ContactUser> getContactUserList() {
+        return contactUserList;
+    }
+
+    public void setContactUserList(List<ContactUser> contactUserList) {
+        this.contactUserList = contactUserList;
     }
 
     public void setPostNum(int postNum) {
@@ -42,5 +51,14 @@ public class CircleMineBean {
 
     public int getFocusNum() {
         return focusNum;
+    }
+
+    public class ContactUser {
+        public String avatarPic;
+        public String beFocusNum;
+        public boolean focued;
+        public String nickName;
+        public String postNum;
+        public String userId;
     }
 }

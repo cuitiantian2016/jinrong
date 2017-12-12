@@ -3,8 +3,6 @@ package com.honglu.future.ui.circle.circlemine;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -21,7 +19,6 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.ui.circle.bean.AttutudeUser;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
@@ -34,6 +31,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
@@ -47,7 +45,7 @@ public class MineFragment extends CommonFragment {
     @BindView(R.id.listView)
     ListView mListView;
     private BBSMineAdapter mAdapter;
-    private boolean isLoadingNow = false, isLoadingFinished = false;
+    private boolean isLoadingNow = false;
     private String fid = "0";
     private TextView publish;
     private LinearLayout layout_friends;
@@ -60,6 +58,9 @@ public class MineFragment extends CommonFragment {
     private LinearLayout mAttutudeUserLy;
     private OnTopicAlaph mOnTopicAlaph;
     private BasePresenter<MineFragment> mBasePresenter;
+    int rows;
+    private boolean isMore;
+    private boolean mIsRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,8 @@ public class MineFragment extends CommonFragment {
     @Override
     public void loadData() {
         initViews();
-        isLoadingFinished = false;
-        topicIndexThread("pull_down");
+        rows = 0;
+        topicIndexThread(true);
     }
 
     private void initViews() {
@@ -105,8 +106,18 @@ public class MineFragment extends CommonFragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 if (!isLoadingNow) {
-                    isLoadingFinished = false;
-                    topicIndexThread("pull_down");
+                    rows = 0;
+                    topicIndexThread(true);
+                }
+            }
+        });
+        mSmartRefresh.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (!isLoadingNow && isMore) {//上拉加载更多
+                    topicIndexThread(false);
+                } else {
+                    mSmartRefresh.finishLoadmore();
                 }
             }
         });
@@ -130,7 +141,7 @@ public class MineFragment extends CommonFragment {
                 mContext.startActivity(new Intent(mContext, PublishActivity.class));
             }
         });
-        mAdapter = new BBSMineAdapter(mListView, mContext, scrollToLastCallBack);
+        mAdapter = new BBSMineAdapter(mListView, mContext);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -194,37 +205,22 @@ public class MineFragment extends CommonFragment {
         }
     };
 
-    //滑动加载更多
-    BBSMineAdapter.ScrollToLastCallBack scrollToLastCallBack = new BBSMineAdapter.ScrollToLastCallBack() {
-        @Override
-        public void onScrollToLast(Integer pos) {
-            if (!isLoadingNow) {
-                topicIndexThread("pull_up");
-            }
-        }
-    };
-
-    private void topicIndexThread(final String pull_style) {
-        if (isLoadingNow || isLoadingFinished) {
-            return;
-        }
-
+    private void topicIndexThread(boolean isRefresh) {
         isLoadingNow = true;
-
-
-        //判断是下拉刷新还是加载更多
-        final boolean isRefresh = TextUtils.equals("pull_down", pull_style);
+        mIsRefresh = isRefresh;
         //根据情况设置当前的topic_id请求参数
-        String topic_id = isRefresh ? "0" : mAdapter.getItem(mAdapter.getCount() - 1).getCircleTypeId();
         if (mBasePresenter == null) {
             mBasePresenter = new BasePresenter<MineFragment>(this) {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<CircleMineBean>() {
+                    toSubscribe(HttpManager.getApi().loadCircleHome(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<CircleMineBean>() {
                         @Override
                         protected void _onNext(CircleMineBean o) {
                             super._onNext(o);
+                            if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
+                                updateAttutudeUser(o.getContactUserList());
+                            }
                             ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), header_img, R.mipmap.img_head);
                             user_name.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                             // TODO: 2017/12/9 接口缺少用户角色
@@ -240,7 +236,7 @@ public class MineFragment extends CommonFragment {
                             if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
                                 if (mListView.getFooterViewsCount() != 0)
                                     mListView.removeFooterView(empty_view);
-                                if (isRefresh) {
+                                if (mIsRefresh) {
                                     mAdapter.clearDatas();
                                     mAdapter.setDatas(o.getPostAndReplyBoList());
                                 } else {
@@ -253,14 +249,28 @@ public class MineFragment extends CommonFragment {
                                 }
                             }
                             closeLoadingPage();
-                            mSmartRefresh.finishRefresh();
+                            if (o.getPostAndReplyBoList().size() >= 10) {
+                                ++rows;
+                                isMore = true;
+                            } else {
+                                isMore = false;
+                            }
+                            //srl_refreshView.setEnableRefresh(true);
+                            mSmartRefresh.setEnableLoadmore(isMore);
                         }
 
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            isLoadingNow = false;
                             mSmartRefresh.finishRefresh();
+                            mSmartRefresh.finishLoadmore();
                         }
                     });
                 }
@@ -272,8 +282,7 @@ public class MineFragment extends CommonFragment {
     @Override
     protected void onReload(Context context) {
         super.onReload(context);
-        isLoadingFinished = false;
-        topicIndexThread("pull_down");
+        topicIndexThread(true);
     }
 
     @Override
@@ -282,14 +291,14 @@ public class MineFragment extends CommonFragment {
         mBasePresenter.onDestroy();
     }
 
-    private void updateAttutudeUser(List<AttutudeUser> attutudeUserList) {
+    private void updateAttutudeUser(List<CircleMineBean.ContactUser> attutudeUserList) {
         mAttutudeUserLy.removeAllViews();
         if (attutudeUserList != null) {
-            for (AttutudeUser attutudeUser : attutudeUserList) {
+            for (CircleMineBean.ContactUser attutudeUser : attutudeUserList) {
                 CircleImageView headIV = new CircleImageView(getActivity());
                 int size = getResources().getDimensionPixelSize(R.dimen.dimen_36dp);
                 mAttutudeUserLy.addView(headIV, new LinearLayout.LayoutParams(size, size));
-                ImageUtil.display(attutudeUser.headimgurl, headIV, R.mipmap.ic_logos);
+                ImageUtil.display(ConfigUtil.baseImageUserUrl + attutudeUser.avatarPic, headIV, R.mipmap.img_head);
                 if (mAttutudeUserLy.getChildCount() >= 4)
                     break;
             }

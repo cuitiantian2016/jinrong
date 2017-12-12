@@ -538,6 +538,7 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circleFriend/loadHomepage.do")
     Observable<BaseResponse<CircleMineBean>> loadCircleHome(
             @Field("userId") String userId,
+            @Field("loginUserId") String loginUserId,
             @Field("rows") String rows,
             @Field("rowsSize") String rowsSize);
 

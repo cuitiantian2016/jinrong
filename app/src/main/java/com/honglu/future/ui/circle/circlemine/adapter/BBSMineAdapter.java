@@ -23,6 +23,7 @@ import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.circle.bean.PostAndReplyBean;
 import com.honglu.future.ui.circle.bean.Reply;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.circle.circlemain.adapter.ReplyListAdapter;
 import com.honglu.future.ui.circle.circlemain.adapter.VerticalImageSpan;
@@ -50,7 +51,6 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private Context mContext;
     private ListView mListView;
-    private ScrollToLastCallBack mScrollToLastCallBack = null;
     private ToRefreshListViewListener mToRefefreshListViewListener;
     private List<PostAndReplyBean> mList = new ArrayList<>();
     private String topicType;
@@ -63,10 +63,10 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSMineAdapter(ListView listview, Context context, ScrollToLastCallBack callback) {
+    public BBSMineAdapter(ListView listview, Context context) {
         mListView = listview;
         mContext = context;
-        mScrollToLastCallBack = callback;
+
         cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
@@ -213,14 +213,10 @@ public class BBSMineAdapter extends BaseAdapter {
                     if (DeviceUtils.isFastDoubleClick())
                         return;
                     if (item != null) {
-                        // reportBBSItemClickEvent();
-//                        Intent intent = new Intent(v.getContext(), BBSDetailActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("bbs_item", item);
-//                        intent.putExtras(b);
-//                        intent.putExtra(BBSDetailActivity.EXTRA_FROM, "apptopic");
-//                        intent.putExtra(BBSDetailActivity.EXTRA_TAB, topicType);
-//                        v.getContext().startActivity(intent);
+                        Intent intent = new Intent(v.getContext(), CircleDetailActivity.class);
+                        intent.putExtra(CircleDetailActivity.POST_USER_KEY, item.getPostUserId());
+                        intent.putExtra(CircleDetailActivity.CIRCLEID_KEY, item.getCircleId());
+                        v.getContext().startActivity(intent);
                     }
                 }
             });
@@ -463,10 +459,6 @@ public class BBSMineAdapter extends BaseAdapter {
 //            } else {
 //                btn_lookDetail.setVisibility(View.GONE);
 //            }
-
-            int end = mListView.getLastVisiblePosition();
-            if (getCount() - 2 <= end && end <= getCount())
-                mScrollToLastCallBack.onScrollToLast(position);
         }
 
         private CharSequence getNewsContentByType(String type, String message) {

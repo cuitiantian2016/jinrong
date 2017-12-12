@@ -130,8 +130,8 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
 //            flag.setText(item.user_level);
             tv_attention_num.setText("粉丝数: "+item.beFocusNum);
             tv_topic_num.setText("发帖数: "+item.postNum);
-            // TODO: 2017/12/11 用户是否已经关注，需要接口添加
-//            iv_attention.setImageResource(item.follow.equals("0")?R.mipmap.add_recommend: R.mipmap.already_recommend);
+            //用户是否已经关注
+            iv_attention.setImageResource(item.focued?R.mipmap.already_recommend:R.mipmap.add_recommend);
             iv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

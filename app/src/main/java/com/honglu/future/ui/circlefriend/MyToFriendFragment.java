@@ -64,7 +64,6 @@ public class MyToFriendFragment extends CommonFragment {
     }
 
     private void initViews() {
-        mSmartRefresh.setEnableRefresh(true);
         mAdapter = new MyFriendsAdapter("1", mListView, mContext, scrollToLastCallBack);
         mListView.setAdapter(mAdapter);
 
@@ -150,14 +149,19 @@ public class MyToFriendFragment extends CommonFragment {
                                     mAdapter.setDatas(o);
                                 }
                             }
-                            mSmartRefresh.finishRefresh();
-//                            ((MyFriendActivity) getActivity()).setdata(result);
 
+//                            ((MyFriendActivity) getActivity()).setdata(result);
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            isLoadingNow = false;
                             mSmartRefresh.finishRefresh();
                         }
                     });
