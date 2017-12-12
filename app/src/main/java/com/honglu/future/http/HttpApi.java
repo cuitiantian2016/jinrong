@@ -535,7 +535,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.130:8080/futures-communtiy-api/app/circleFriend/loadHomepage.do")
+    @POST("futures-communtiy-api/app/circleFriend/loadHomepage.do")
     Observable<BaseResponse<CircleMineBean>> loadCircleHome(
             @Field("userId") String userId,
             @Field("rows") String rows,
@@ -546,7 +546,7 @@ public interface HttpApi {
      * 分圈接口
      * @return
      */
-    @GET("http://192.168.90.139:8080/futures-community-api/app/circle/circleType")
+    @GET("futures-communtiy-api/app/circle/circleType")
     Observable<BaseResponse<List<TopicFilter>>> getTopicFilter();
     /**
      * https://www.showdoc.cc/1673161?page_id=15678695
@@ -554,7 +554,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/list")
+    @POST("futures-communtiy-api/app/circle/list")
     Observable<BaseResponse<List<BBS>>> getCircleType(
             @Field("userId") String userId,
             @Field("circleTypeId") String type,
@@ -612,7 +612,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/focus")
+    @POST("futures-communtiy-api/app/circle/focus")
     Observable<BaseResponse<JsonNull>> focus(
             @Field("postUserId") String postUserId,
             @Field("userId") String userId,
@@ -635,7 +635,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.130:8080/futures-communtiy-api/app/circleFriend/loadMyFocusList.do")
+    @POST("futures-communtiy-api/app/circleFriend/loadMyFocusList.do")
     Observable<BaseResponse<List<UserList>>> loadMyFocusList(
             @Field("userId") String userId,
             @Field("rows") String rows,
@@ -646,7 +646,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.130:8080/futures-communtiy-api/app/circleFriend/loadMyBeFocusList.do")
+    @POST("futures-communtiy-api/app/circleFriend/loadMyBeFocusList.do")
     Observable<BaseResponse<List<UserList>>> loadMyBeFocusList(
             @Field("userId") String userId,
             @Field("rows") String rows,
@@ -659,7 +659,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/detail")
+    @POST("futures-communtiy-api/app/circle/detail")
     Observable<BaseResponse<CircleDetailBean>> getClearDetailHead(
             @Field("userId") String userId,
             @Field("circleId") String circleId);
@@ -670,7 +670,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/publish")
+    @POST("futures-communtiy-api/app/circle/publish")
     Observable<BaseResponse<JsonNull>> push(
             @Field("postUserId") String userId,
             @Field("content") String content,
@@ -691,7 +691,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/cirleCommentList")
+    @POST("futures-communtiy-api/app/circle/cirleCommentList")
     Observable<BaseResponse<CommentAllBean>> getCirleCommentList(
             @Field("userId") String userId,
             @Field("circleId") String circleId,
@@ -706,7 +706,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-community-api/app/circle/cirleCommentAuth")
+    @POST("futures-communtiy-api/app/circle/cirleCommentAuth")
     Observable<BaseResponse<List<CommentBean>>> getCirleCommentAuth(
             @Field("userId") String userId,
             @Field("circleId") String circleId,

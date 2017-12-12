@@ -30,6 +30,7 @@ import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.bean.PraiseListBean;
+import com.honglu.future.ui.circle.praisesandreward.RewardDetailActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ShareUtils;
@@ -326,7 +327,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         imgHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("-----更多");
+                startActivity(RewardDetailActivity.class);
             }
         });
         mSupportLinear.addView(imgHead, new LinearLayout.LayoutParams(size, size));
