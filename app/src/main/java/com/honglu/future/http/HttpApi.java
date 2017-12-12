@@ -724,7 +724,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST("futures-communtiy-api/app/circle/comment")
-    Observable<BaseResponse<JsonNull>> getCirlecomment(
+    Observable<BaseResponse<JsonNull>> getCommentContent(
             @Field("userId") String userId,
             @Field("circleId") String circleId,
             @Field("content") String content,
