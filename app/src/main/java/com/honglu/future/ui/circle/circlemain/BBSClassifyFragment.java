@@ -74,6 +74,7 @@ public class BBSClassifyFragment extends BaseFragment {
     public void onEventMainThread(PublishEvent event) {
         if(mAdapter!=null){
           if (event.type.equals(topicType)){
+              srl_refreshView.setEnableRefresh(false);
               mListView.setSelection(0);
               refreshData();
           }
@@ -148,7 +149,7 @@ public class BBSClassifyFragment extends BaseFragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSIndicatorEvent event) {
-//        srl_refreshView.setEnableRefresh(false);
+        srl_refreshView.setEnableRefresh(false);
         if (event.getTopicType().equals(topicType)) {
             if (event.isBackTop()) {
                 mListView.setSelection(0);
@@ -219,12 +220,24 @@ public class BBSClassifyFragment extends BaseFragment {
                             //srl_refreshView.setEnableRefresh(true);
                             srl_refreshView.setEnableLoadmore(isMore);
                             isLoadingNow = false;
+                            srl_refreshView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    srl_refreshView.setEnableRefresh(true);//还原设置
+                                }
+                            },500);
                         }
 
                         @Override
                         protected void _onError(String message) {
                             super._onError(message);
                             ToastUtil.show(message);
+                            srl_refreshView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    srl_refreshView.setEnableRefresh(true);//还原设置
+                                }
+                            },500);
                             isLoadingNow = false;
                             //srl_refreshView.setEnableRefresh(true);
                             srl_refreshView.finishRefresh();
