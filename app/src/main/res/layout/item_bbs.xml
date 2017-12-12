@@ -63,7 +63,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/dimen_12dp"
-                android:src="@drawable/add_recommend"
+                android:src="@mipmap/add_recommend"
                 android:visibility="invisible"
                 tools:visibility="visible" />
 

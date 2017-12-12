@@ -25,6 +25,16 @@ public class PostAndReplyBean {
     private String userRole;
     private int isHot;
 
+    public String getFollow() {
+        return follow;
+    }
+
+    public void setFollow(String follow) {
+        this.follow = follow;
+    }
+
+    private String follow;
+
     public int getIsHot() {
         return isHot;
     }

@@ -7,6 +7,8 @@ public interface CustomTabEntity {
 
     String getTabType();
 
+    String setTabTitle(String title);
+
     @DrawableRes
     int getTabSelectedIcon();
 

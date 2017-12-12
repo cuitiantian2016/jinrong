@@ -19,9 +19,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.PostAndReplyBean;
 import com.honglu.future.ui.circle.bean.Reply;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
@@ -57,7 +61,7 @@ public class BBSMineAdapter extends BaseAdapter {
     private String topicType;
     private AttentionCallBack mAttentionCallBack;
     private PraiseCallBack mPraiseCallBack;
-    private String imgHead, nickName,userId;
+    private String imgHead, nickName, userId;
     private boolean isFocued;
 
 
@@ -67,7 +71,7 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSMineAdapter(ListView listview, Context context, String imgHead, String nickName,String userId) {
+    public BBSMineAdapter(ListView listview, Context context, String imgHead, String nickName, String userId) {
         mListView = listview;
         mContext = context;
         this.imgHead = imgHead;
@@ -89,7 +93,7 @@ public class BBSMineAdapter extends BaseAdapter {
         void onScrollToLast(Integer pos);
     }
 
-    public void setDatas(List<PostAndReplyBean> list,boolean isFocued) {
+    public void setDatas(List<PostAndReplyBean> list, boolean isFocued) {
         this.isFocued = isFocued;
         for (int i = 0; i < list.size(); i++) {
             mList.add(list.get(i));
@@ -109,11 +113,11 @@ public class BBSMineAdapter extends BaseAdapter {
      * @param uid
      */
     public void follow(String follow, String uid) {
-//        for (int i = 0; i < mList.size(); i++) {
-//            if (mList.get(i).getPostUserId().equals(uid)) {
-//                mList.get(i).follow = follow;
-//            }
-//        }
+        for (int i = 0; i < mList.size(); i++) {
+            if (mList.get(i).getPostUserId().equals(uid)) {
+                mList.get(i).setFollow(follow);
+            }
+        }
         if (mAttentionCallBack != null) {
             mAttentionCallBack.attention(uid, follow);
         }
@@ -255,13 +259,10 @@ public class BBSMineAdapter extends BaseAdapter {
                     if (DeviceUtils.isFastDoubleClick())
                         return;
                     if (item != null) {
-//                        Intent intent = new Intent(v.getContext(), BBSDetailActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("bbs_item", item);
-//                        intent.putExtras(b);
-//                        intent.putExtra(BBSDetailActivity.EXTRA_FROM, "apptopic");
-//                        intent.putExtra(BBSDetailActivity.EXTRA_TAB, topicType);
-//                        v.getContext().startActivity(intent);
+                        Intent intent = new Intent(v.getContext(), CircleDetailActivity.class);
+                        intent.putExtra(CircleDetailActivity.POST_USER_KEY, item.getPostUserId());
+                        intent.putExtra(CircleDetailActivity.CIRCLEID_KEY, item.getCircleId());
+                        v.getContext().startActivity(intent);
                     }
                 }
             });
@@ -279,53 +280,40 @@ public class BBSMineAdapter extends BaseAdapter {
                 follow.setVisibility(View.INVISIBLE);
             } else {
                 follow.setVisibility(View.VISIBLE);
-                follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.drawable.add_recommend);
-//                follow.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (DeviceUtils.isFastDoubleClick()) {
-//                            return;
-//                        }
-//                        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
-//                            mContext.startActivity(new Intent(mContext, RegisterActivity.class));
-//                            return;
-//                        }
-//                        String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
-//                        if (user_id.equals(item.uid)) {
-//                            ToastUtil.show("自己不能关注自己");
-//                            return;
-//                        }
+                follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.mipmap.add_recommend);
+                follow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (DeviceUtils.isFastDoubleClick()) {
+                            return;
+                        }
+                        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+                            mContext.startActivity(new Intent(mContext, RegisterActivity.class));
+                            return;
+                        }
+                        String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
+                        if (user_id.equals(item.getPostUserId())) {
+                            ToastUtil.show("自己不能关注自己");
+                            return;
+                        }
+                        final String foll = isFocued ? "0" : "1";
+                        HttpManager.getApi().focus(item.getPostUserId(), SpUtil.getString(Constant.CACHE_TAG_UID), foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                            @Override
+                            protected void _onNext(JsonNull jsonNull) {
+                                super._onNext(jsonNull);
+                                follow.setImageResource(R.mipmap.already_recommend);
+                                item.setFollow(foll);
+                                follow(item.getFollow(), item.getPostUserId());
+                            }
 
-//                        String type = item.follow.equals("1") ? "2" : "1";
-//                        ServerAPI.follow(mContext, type, item.uid, new ServerCallBack<JSONObject>() {
-//                            @Override
-//                            public void onSucceed(Context context, JSONObject result) {
-//                                try {
-//                                    String msg = result.getString("msg");
-//                                    if (msg.equals("取消关注成功")) {
-//                                        follow.setImageResource(R.drawable.add_recommend);
-//                                        item.follow = "0";
-//                                    } else if (msg.equals("关注成功")) {
-//                                        follow.setImageResource(R.drawable.already_recommend);
-//                                        item.follow = "1";
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                refreshDatas(item);
-//                            }
-//
-//                            @Override
-//                            public void onError(Context context, String errorMsg) {
-//                                Toaster.toast(errorMsg);
-//                            }
-//
-//                            @Override
-//                            public void onFinished(Context context) {
-//                            }
-//                        });
-//                    }
-//                });
+                            @Override
+                            protected void _onError(String message) {
+                                super._onError(message);
+                                ToastUtil.show(message);
+                            }
+                        });
+                    }
+                });
             }
             header_img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -440,6 +428,7 @@ public class BBSMineAdapter extends BaseAdapter {
             support_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: 2017/12/12 需要增加自己是否点赞字段
                     if (DeviceUtils.isFastDoubleClick()) {
                         return;
                     }

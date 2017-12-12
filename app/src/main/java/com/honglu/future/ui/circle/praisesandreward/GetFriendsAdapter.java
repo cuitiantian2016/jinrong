@@ -76,7 +76,7 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                 iv_attention.setVisibility(View.INVISIBLE);
             } else {
                 iv_attention.setVisibility(View.VISIBLE);
-                iv_attention.setImageResource(item.follow.equals("0") ? R.drawable.add_recommend : R.mipmap.already_recommend);
+                iv_attention.setImageResource(item.follow.equals("0") ? R.mipmap.add_recommend : R.mipmap.already_recommend);
                 iv_attention.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

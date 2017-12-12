@@ -26,6 +26,8 @@ public class MyFriendActivity extends BaseActivity {
     private ArrayList<Fragment> mFragments;
     private MyToFriendFragment mMyToFriendFragment;
     private FriendToMyFragment mFriendToMyFragment;
+    private String mFocusNum, mBeFocusNum;
+    private TabEntity mFocusTab, mBeFocusTab;
 
     @Override
     public int getLayoutId() {
@@ -45,6 +47,10 @@ public class MyFriendActivity extends BaseActivity {
     private void initView() {
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "圈友");
+        mFocusNum = "我的关注(0)";
+        mBeFocusNum = "我的粉丝(0)";
+        mFocusTab = new TabEntity(mFocusNum);
+        mBeFocusTab = new TabEntity(mBeFocusNum);
         //添加tab实体
         addTabEntities();
         //添加fragment
@@ -53,8 +59,8 @@ public class MyFriendActivity extends BaseActivity {
 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
-        mTabList.add(new TabEntity("我的关注(0)"));
-        mTabList.add(new TabEntity("我的粉丝(0)"));
+        mTabList.add(mFocusTab);
+        mTabList.add(mBeFocusTab);
     }
 
     private void addFragments() {
@@ -76,9 +82,16 @@ public class MyFriendActivity extends BaseActivity {
         });
     }
 
-//    public void setdata(GetFriends result) {
-//        my_friend.setText("我的关注(" + result.total1 + ")");
-//        friend_my.setText("我的粉丝(" + result.total2 + ")");
-//    }
+    public void setData(int num) {
+        mFocusNum = "我的关注(" + num + ")";
+        mTabList.get(0).setTabTitle(mFocusNum);
+        mCommonTabLayout.setTabData(mTabList);
+    }
+
+    public void setBeFocusData(int num) {
+        mBeFocusNum = "我的粉丝(" + num + ")";
+        mTabList.get(1).setTabTitle(mBeFocusNum);
+        mCommonTabLayout.setTabData(mTabList);
+    }
 
 }

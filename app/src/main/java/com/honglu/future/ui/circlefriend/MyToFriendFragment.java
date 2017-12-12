@@ -8,12 +8,14 @@ import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
@@ -31,8 +33,11 @@ public class MyToFriendFragment extends CommonFragment {
 
     private MyFriendsAdapter mAdapter;
     private String type = "1", follow_id = null, follow_id_temp = "0";
-    private boolean isLoadingNow = false, isLoadingFinished = false;
+    private boolean isLoadingNow = false;
     private BasePresenter<MyToFriendFragment> mBasePresenter;
+    int rows;
+    private boolean isMore;
+    private boolean mIsRefresh;
 
     @Override
     public int getLayoutId() {
@@ -53,81 +58,73 @@ public class MyToFriendFragment extends CommonFragment {
     public void onResume() {
         super.onResume();
         follow_id_temp = null;
-        isLoadingFinished = false;
-        getFriends("pull_down");
+        getFriends(true);
     }
 
     public void refresh() {
         follow_id_temp = null;
-        isLoadingFinished = false;
-        getFriends("pull_down");
+        getFriends(true);
     }
 
     private void initViews() {
-        mAdapter = new MyFriendsAdapter("1", mListView, mContext, scrollToLastCallBack);
+        rows = 0;
+        mAdapter = new MyFriendsAdapter("1", mListView, mContext);
         mListView.setAdapter(mAdapter);
 
-//        MessageController.getInstance().setFriendCountChange(new MessageController.FriendCountChange() {
-//            @Override
-//            public void change() {
-//                follow_id_temp = null;
-//                isLoadingFinished = false;
-//                getFriends("pull_down");
-//            }
-//        });
         mSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 if (!isLoadingNow) {
                     follow_id_temp = "0";
-                    isLoadingFinished = false;
-                    getFriends("pull_down");
+                    rows = 0;
+                    getFriends(true);
+                }
+            }
+        });
+        mSmartRefresh.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (!isLoadingNow && isMore) {//上拉加载更多
+                    getFriends(false);
+                } else {
+                    mSmartRefresh.finishLoadmore();
+                }
+            }
+        });
+
+        MessageController.getInstance().setFriendCountChange(new MessageController.FriendCountChange() {
+            @Override
+            public void change() {
+                if (!isLoadingNow) {
+                    follow_id_temp = "0";
+                    rows = 0;
+                    getFriends(true);
                 }
             }
         });
     }
 
-
-    //滑动加载更多
-    MyFriendsAdapter.ScrollToLastCallBack scrollToLastCallBack = new MyFriendsAdapter.ScrollToLastCallBack() {
-        @Override
-        public void onScrollToLast(Integer pos) {
-            if (!isLoadingNow) {
-                getFriends("pull_up");
-            }
-        }
-    };
-
-    private void getFriends(final String pull_style) {
-
-        if (isLoadingNow || isLoadingFinished) {
-            return;
-        }
+    private void getFriends(boolean isRefresh) {
         isLoadingNow = true;
-        if (pull_style.equals("pull_up")) {  //加载更多
-            follow_id = follow_id_temp;
-        } else if (pull_style.equals("pull_down")) {  //下拉刷新
-            follow_id = null;
-        }
+        mIsRefresh = isRefresh;
 
         if (mBasePresenter == null) {
             mBasePresenter = new BasePresenter<MyToFriendFragment>(this) {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().loadMyFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<List<UserList>>() {
+                    toSubscribe(HttpManager.getApi().loadMyFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<List<UserList>>() {
                         @Override
                         protected void _onNext(List<UserList> o) {
                             super._onNext(o);
                             if (o == null || o.size() == 0) {
-                                isLoadingFinished = true;
                                 empty_view.setVisibility(View.VISIBLE);
                                 mSmartRefresh.setVisibility(View.GONE);
+                                ((MyFriendActivity) getActivity()).setData(o.size());
                             } else {
-                                if (pull_style.equals("pull_down"))   //下拉刷新
+                                if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();
                                 if (o.size() == 0) {
-                                    isLoadingFinished = true;
                                     if (mAdapter.getCount() == 0) {
                                         empty_view.setVisibility(View.VISIBLE);
                                         mSmartRefresh.setVisibility(View.GONE);
@@ -137,20 +134,27 @@ public class MyToFriendFragment extends CommonFragment {
                                     }
                                 } else if (o.size() > 0 && o.size() < 10) {
                                     follow_id_temp = o.get(o.size() - 1).userId;
-                                    isLoadingFinished = true;
                                     empty_view.setVisibility(View.GONE);
                                     mSmartRefresh.setVisibility(View.VISIBLE);
                                     mAdapter.setDatas(o);
                                 } else if (o.size() >= 10) {
                                     follow_id_temp = o.get(o.size() - 1).userId;
-                                    isLoadingFinished = false;
                                     empty_view.setVisibility(View.GONE);
                                     mSmartRefresh.setVisibility(View.VISIBLE);
                                     mAdapter.setDatas(o);
                                 }
+                                if (o.size() >= 10) {
+                                    ++rows;
+                                    isMore = true;
+                                } else {
+                                    isMore = false;
+                                }
+                                ((MyFriendActivity) getActivity()).setData(o.size());
                             }
 
-//                            ((MyFriendActivity) getActivity()).setdata(result);
+                            mSmartRefresh.setEnableLoadmore(isMore);
+
+
                         }
 
                         @Override
@@ -163,6 +167,7 @@ public class MyToFriendFragment extends CommonFragment {
                             super.onCompleted();
                             isLoadingNow = false;
                             mSmartRefresh.finishRefresh();
+                            mSmartRefresh.finishLoadmore();
                         }
                     });
                 }

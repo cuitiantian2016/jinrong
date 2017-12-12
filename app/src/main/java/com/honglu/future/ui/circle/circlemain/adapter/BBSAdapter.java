@@ -234,7 +234,7 @@ public class BBSAdapter extends BaseAdapter {
                 follow.setVisibility(View.INVISIBLE);
             } else {
                 follow.setVisibility(View.VISIBLE);
-                follow.setImageResource(("1".equals(item.follow)) ? R.mipmap.already_recommend : R.drawable.add_recommend);
+                follow.setImageResource(("1".equals(item.follow)) ? R.mipmap.already_recommend : R.mipmap.add_recommend);
                 follow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

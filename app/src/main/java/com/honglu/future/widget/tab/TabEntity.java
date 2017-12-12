@@ -3,6 +3,14 @@ package com.honglu.future.widget.tab;
 
 public class TabEntity implements CustomTabEntity {
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     private String title;
     private String type;
     private int selectIconRes;
@@ -31,6 +39,12 @@ public class TabEntity implements CustomTabEntity {
     @Override
     public String getTabType() {
         return type;
+    }
+
+    @Override
+    public String setTabTitle(String title) {
+        this.title = title;
+        return title;
     }
 
     @Override

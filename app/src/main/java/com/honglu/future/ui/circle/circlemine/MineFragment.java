@@ -3,6 +3,7 @@ package com.honglu.future.ui.circle.circlemine;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
@@ -19,15 +21,18 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemine.adapter.BBSMineAdapter;
 import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.circlefriend.MyFriendActivity;
+import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -75,7 +80,7 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        topicIndexThread(true);
     }
 
 
@@ -141,12 +146,6 @@ public class MineFragment extends CommonFragment {
 
         mAttutudeUserLy = (LinearLayout) header_view.findViewById(R.id.ly_likes_user);
         iv_follow = (ImageView) header_view.findViewById(R.id.iv_follow);
-        iv_follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         empty_view = LayoutInflater.from(mContext).inflate(R.layout.fragment_bbs_empty_me, null);
         publish = (TextView) empty_view.findViewById(R.id.publish);
@@ -171,7 +170,7 @@ public class MineFragment extends CommonFragment {
             publish.setVisibility(View.GONE);
             tv_empty.setText("TA还没有发表过话题哦");
         }
-        mAdapter = new BBSMineAdapter(mListView, mContext,imgHead,nickName,mUserId);
+        mAdapter = new BBSMineAdapter(mListView, mContext, imgHead, nickName, mUserId);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -248,13 +247,19 @@ public class MineFragment extends CommonFragment {
                         @Override
                         protected void _onNext(CircleMineBean o) {
                             super._onNext(o);
-                            if(mIsMyself) {
+                            if (mIsMyself) {
                                 if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
                                     updateAttutudeUser(o.getContactUserList());
                                 }
-                            } else{
+                            } else {
                                 isFocued = o.isFocued();
-                                iv_follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.drawable.add_recommend);
+                                iv_follow.setImageResource(isFocued ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
+                                iv_follow.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        follow();
+                                    }
+                                });
                             }
                             ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
                             user_name.setText(nickName);
@@ -274,9 +279,9 @@ public class MineFragment extends CommonFragment {
                                     mListView.removeFooterView(empty_view);
                                 if (mIsRefresh) {
                                     mAdapter.clearDatas();
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(),isFocued);
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued);
                                 } else {
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(),isFocued);
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued);
                                 }
                             } else {
                                 //空布局
@@ -313,6 +318,38 @@ public class MineFragment extends CommonFragment {
             };
         }
         mBasePresenter.getData();
+    }
+
+    private void follow() {
+        if (DeviceUtils.isFastDoubleClick()) {
+            return;
+        }
+        if (TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+            startActivity(new Intent(mContext, RegisterActivity.class));
+            return;
+        }
+        String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
+        if (user_id.equals(mUserId)) {
+            ToastUtil.show("自己不能关注自己");
+            return;
+        }
+        final String foll = isFocued ? "0" : "1";
+        HttpManager.getApi().focus(mUserId, SpUtil.getString(Constant.CACHE_TAG_UID), foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+                if (!isLoadingNow) {
+                    rows = 0;
+                    topicIndexThread(true);
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                ToastUtil.show(message);
+            }
+        });
     }
 
     @Override
