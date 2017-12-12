@@ -712,4 +712,22 @@ public interface HttpApi {
             @Field("circleId") String circleId,
             @Field("postUserId") String postUserId,
             @Field("rows") int rows);
+
+    /**
+     * 评论/回复
+     * @param userId
+     * @param circleId
+     * @param content
+     * @param beReplyUserId  被回复人id|
+     * @param replyType  |int|类型 1 帖子回复 2 评论回复|
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/comment")
+    Observable<BaseResponse<JsonNull>> getCirlecomment(
+            @Field("userId") String userId,
+            @Field("circleId") String circleId,
+            @Field("content") String content,
+            @Field("beReplyUserId") String beReplyUserId,
+            @Field("replyType") int replyType);
 }
