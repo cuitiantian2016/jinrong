@@ -1,7 +1,10 @@
 package com.honglu.future.ui.circle.circlemsg;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,7 +28,7 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
 
 
     public interface OnHuifuClickListener{
-        void onHuifuClick(String name,int replyUserId ,int circleId);
+        void onHuifuClick(int position);
     }
     public OnHuifuClickListener mListener;
     public void setOnHuifuClickListener(OnHuifuClickListener listener){
@@ -33,8 +36,8 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
     }
 
     //获取第一个的数据
-    public CircleMsgBean getCircleBean(){
-        return getData() !=null && getData().size() > 0 ? getData().get(0) : null;
+    public CircleMsgBean getCircleBean(int position){
+        return getData() !=null && getData().size() > position ? getData().get(position) : null;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
     }
 
     @Override
-    public void mOnBindViewHolder(ViewHolder holder, int position) {
+    public void mOnBindViewHolder(ViewHolder holder, final int position) {
         ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
         //回复人昵称
@@ -57,7 +60,7 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
             holder.mTiem.setText("");
         }
 
-        //回复内存
+        //回复内容
         setText(holder.mHuifuContent,item.replyContent);
 
         //内容
@@ -68,7 +71,7 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
             @Override
             public void onClick(View v) {
                 if (mListener !=null){
-                    mListener.onHuifuClick(item.nickName,item.replyUserId ,item.circleId);
+                    mListener.onHuifuClick(position);
                 }
             }
         });
@@ -110,5 +113,37 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
         }else {
             view.setText("");
         }
+    }
+
+    private Spannable getSpannableContent(String text1, String text2, String text3 , String text4){
+        int text1Start = 0;
+        int text1End = getLength(text1);
+
+        int text2Start = text1End;
+        int text2End = text2Start + getLength(text2);
+
+        int text3Start = text2End;
+        int text3End = text3Start + getLength(text3);
+
+        int text4Start = text3End;
+        int text4End = text4Start + getLength(text4);
+
+        Spannable spannable = new SpannableString(text1+text2+text3+text4);
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)), text1Start, text1End,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_333333)),text2Start, text2End,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)), text3Start,text3End ,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_333333)), text4Start,text4End ,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
+
+    private int getLength(String text){
+        return TextUtils.isEmpty(text) ? 0 : text.length();
     }
 }

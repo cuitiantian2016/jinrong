@@ -1,16 +1,25 @@
 package com.honglu.future.ui.circle.circlemsg;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
+import com.honglu.future.util.AndroidUtil;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -36,11 +45,15 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
     EditText mInput;
     @BindView(R.id.tv_send)
     TextView mSend;
+    @BindView(R.id.v_line)
+    View mLine;
+    @BindView(R.id.ll_input)
+    LinearLayout mLLInput;
 
+    private InputMethodManager mInputMethodManager;
     private CircleMsgPLAdapter mAdapter;
     private int mRows = 0; //页码
-    private int mReplyUserId = -1;
-    private int mCircleId = -1;
+    private int mPosition;
 
     @Override
     public void initPresenter() {
@@ -73,11 +86,14 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
 
     @Override
     public void loadData() {
+        mInputMethodManager = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
         mAdapter = new CircleMsgPLAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mRefreshView.setEnableLoadmore(false);
+        mLLInput.setVisibility(View.GONE);
+        mLine.setVisibility(View.GONE);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -95,10 +111,18 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
 
         mAdapter.setOnHuifuClickListener(new CircleMsgPLAdapter.OnHuifuClickListener() {
             @Override
-            public void onHuifuClick(String name, int replyUserId, int circleId) {
-                mReplyUserId = replyUserId;
-                mCircleId = circleId;
-                mInput.setHint("回复:"+name);
+            public void onHuifuClick(int position) {
+                mLLInput.setVisibility(View.VISIBLE);
+                mLine.setVisibility(View.VISIBLE);
+                mPosition = position;
+                CircleMsgBean circleMsgBean = mAdapter.getCircleBean(mPosition);
+                if (circleMsgBean !=null){
+                    mInput.setHint("回复:"+circleMsgBean.nickName);
+                }
+                mInput.setFocusable(true);
+                mInput.setFocusableInTouchMode(true);
+                mInput.requestFocus();
+                mInputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 
@@ -111,13 +135,9 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
                     ToastUtil.show("输入内容不能为空");
                     return;
                 }
-                if (mCircleId == -1 || mReplyUserId == -1){
-                    CircleMsgBean circleBean = mAdapter.getCircleBean();
-                    if (circleBean  !=null){
-
-                    }
-                }else {
-
+                CircleMsgBean circleMsgBean = mAdapter.getCircleBean(mPosition);
+                if (circleMsgBean !=null){
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),String.valueOf(circleMsgBean.circleId),contnet,String.valueOf(circleMsgBean.replyUserId),2,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
             }
         });
@@ -138,6 +158,8 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
         if (mAdapter !=null) {
             mAdapter.clearData();
         }
+        mLLInput.setVisibility(View.GONE);
+        mLine.setVisibility(View.GONE);
     }
 
     @Override
@@ -159,5 +181,16 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
             mAdapter.addData(list);
         }
     }
-
+    @Override
+    public void getCommentContent(JsonNull jsonNull, int replyType) {
+        CircleMsgBean circleBean = mAdapter.getCircleBean(mPosition);
+        mInput.setHint(R.string.circle_input_hint);
+        mInput.setText("");
+        if (circleBean !=null){
+            Intent intent = new Intent(getActivity(), CircleDetailActivity.class);
+            intent.putExtra(CircleDetailActivity.POST_USER_KEY,"");
+            intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,circleBean.circleId);
+            startActivity(intent);
+        }
+    }
 }

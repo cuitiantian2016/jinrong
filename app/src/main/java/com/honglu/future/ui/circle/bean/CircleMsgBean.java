@@ -39,5 +39,6 @@ public class CircleMsgBean {
     public int replyType;
     public int replyUserId;
     public String userRole;
+    public String hfType; // 0 没回复 1 回复 自己定义
 
 }

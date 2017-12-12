@@ -1,11 +1,13 @@
 package com.honglu.future.ui.circle.circlemsg;
 
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -59,6 +61,7 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
                 mPosition = position;
+                AndroidUtil.hideInputKeyboard(CircleMsgActivity.this);
             }
         });
     }

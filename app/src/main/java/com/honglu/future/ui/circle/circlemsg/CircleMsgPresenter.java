@@ -100,4 +100,26 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
             }
         });
     }
+
+
+    //回复评论
+    @Override
+    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId,final int replyType ,String replyNickName) {
+        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName), new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onStart() {
+                mView.showLoading("发表中...");
+            }
+            @Override
+            protected void _onError(String message, int code) {
+                mView.showErrorMsg(message,null);
+                mView.stopLoading();
+            }
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                mView.stopLoading();
+                mView.getCommentContent(jsonNull,replyType);
+            }
+        });
+    }
 }

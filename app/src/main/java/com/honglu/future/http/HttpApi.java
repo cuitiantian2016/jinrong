@@ -732,7 +732,8 @@ public interface HttpApi {
             @Field("circleId") String circleId,
             @Field("content") String content,
             @Field("beReplyUserId") String beReplyUserId,
-            @Field("replyType") int replyType);
+            @Field("replyType") int replyType,
+            @Field("replyNickName")String replyNickName);
     /**
      * 点赞列表
      * @param userId

@@ -124,8 +124,8 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
 
     //评论回复
     @Override
-    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId, final int replyType) {
-        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType), new HttpSubscriber<JsonNull>() {
+    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId, final int replyType ,String replyNickName) {
+        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("发表中...");

@@ -246,9 +246,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     return;
                 }
                 if (mCommentBean !=null){
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mCommentBean.replyUserId,2);
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mCommentBean.replyUserId,2,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }else {
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mPostUserId,1);
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),mCircleId,content,mPostUserId,1,SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 }
                 break;
             case R.id.tv_right://title 分享按钮
