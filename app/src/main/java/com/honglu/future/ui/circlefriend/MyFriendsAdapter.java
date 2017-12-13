@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -25,6 +26,8 @@ import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +162,10 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                             if (MessageController.getInstance().getBeFocusedCountChange() != null) {
                                 MessageController.getInstance().getBeFocusedCountChange().change();
                             }
+                            BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+                            bbsFlownEvent.uid = item.userId;
+                            bbsFlownEvent.follow = foll;
+                            EventBus.getDefault().post(bbsFlownEvent);
                         }
 
                         @Override

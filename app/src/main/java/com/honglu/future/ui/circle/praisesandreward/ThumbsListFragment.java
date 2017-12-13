@@ -9,10 +9,12 @@ import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSPraiseEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
+import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
 import com.honglu.future.util.SpUtil;
@@ -23,6 +25,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -123,6 +127,7 @@ public class ThumbsListFragment extends BaseFragment {
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         if (getArguments() != null){
             mTopicId = getArguments().getString(EXTRA_TID);
             mTideId = getArguments().getString(EXTRA_TIDE_ID);
@@ -153,5 +158,21 @@ public class ThumbsListFragment extends BaseFragment {
             mFollowIv.setOnClickListener(mOnClickThrottleListener);
         }
         getFriendList(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 监听关注
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSFlownEvent event) {
+        if(mAdapter!=null){
+            mAdapter.follow(event.follow,event.uid);
+        }
     }
 }

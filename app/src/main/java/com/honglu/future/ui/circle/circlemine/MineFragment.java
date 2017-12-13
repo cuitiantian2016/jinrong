@@ -19,6 +19,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -39,6 +40,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -224,6 +227,10 @@ public class MineFragment extends CommonFragment {
                 if(!mIsMyself){
                     iv_follow.setImageResource(TextUtils.equals("1",isFollow) ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
                 }
+                BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+                bbsFlownEvent.follow = isFollow;
+                bbsFlownEvent.uid = uid;
+                EventBus.getDefault().post(bbsFlownEvent);
                 if (MessageController.getInstance().getDetailFriendChange() != null) {
                     MessageController.getInstance().getDetailFriendChange().change(uid,isFollow);
                 }
@@ -351,6 +358,10 @@ public class MineFragment extends CommonFragment {
             @Override
             protected void _onNext(JsonNull jsonNull) {
                 super._onNext(jsonNull);
+                BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+                bbsFlownEvent.follow = foll;
+                bbsFlownEvent.uid = mUserId;
+                EventBus.getDefault().post(bbsFlownEvent);
                 if (!isLoadingNow) {
                     rows = 0;
                     topicIndexThread(true);

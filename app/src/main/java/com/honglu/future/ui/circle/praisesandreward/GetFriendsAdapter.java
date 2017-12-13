@@ -17,6 +17,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -124,14 +125,11 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                         mContext.getContext().startActivity(new Intent(mContext.getContext(), LoginActivity.class));
                         return;
                     }
-                    if (item.uid.equals(SpUtil.getString(Constant.CACHE_TAG_UID))) {
-                        return;
-                    } else {//个人主页
-//                        Intent i1 = new Intent(mContext.getContext(), OtherDetailActivity.class);
-//                        i1.putExtra("fid", item.uid);
-//                        i1.putExtra("user_name", item.user_name);
-//                        mContext.getContext().startActivity(i1);
-                    }
+                    Intent intent = new Intent(mContext.getContext(),CircleMineActivity.class);
+                    intent.putExtra("userId",item.uid);
+                    intent.putExtra("imgHead",item.headimgurl);
+                    intent.putExtra("nickName",item.user_name);
+                    mContext.getContext().startActivity(intent);
                 }
             });
         }
