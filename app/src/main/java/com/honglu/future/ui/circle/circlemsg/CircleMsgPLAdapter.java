@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circlemsg;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -80,7 +82,10 @@ public class CircleMsgPLAdapter extends BaseRecyclerAdapter<CircleMsgPLAdapter.V
         holder.mHuifuDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, CircleDetailActivity.class);
+                intent.putExtra(CircleDetailActivity.POST_USER_KEY,item.postUserId);
+                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(item.circleId));
+                mContext.startActivity(intent);
             }
         });
     }
