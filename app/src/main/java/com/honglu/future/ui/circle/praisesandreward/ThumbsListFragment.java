@@ -95,12 +95,17 @@ public class ThumbsListFragment extends BaseFragment {
     protected OnClickThrottleListener mOnClickThrottleListener = new OnClickThrottleListener(){
         @Override
         protected void onThrottleClick(final View v) {
+            if (TextUtils.equals("1", mTideId)) {
+                ToastUtil.show("不能重复点赞");
+                return;
+            }
             String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
             HttpManager.getApi().praise(uid,uid,true,mTopicId).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
                 @Override
                 protected void _onNext(JsonNull jsonNull) {
                     super._onNext(jsonNull);
                     mFollowIv.setText("您已点赞");
+                    mTideId="1";
                     BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
                     bbsPraiseEvent.topic_id = mTopicId;
                     EventBus.getDefault().post(bbsPraiseEvent);
@@ -155,9 +160,7 @@ public class ThumbsListFragment extends BaseFragment {
         mFollowIv.setText(TextUtils.equals("0", mTideId) ? "我也要点赞" : "您已点赞");
         mAdapter=new GetFriendsAdapter();
         listView.setAdapter(mAdapter);
-        if (!TextUtils.isEmpty(mTideId) && TextUtils.equals("0", mTideId)) {
-            mFollowIv.setOnClickListener(mOnClickThrottleListener);
-        }
+        mFollowIv.setOnClickListener(mOnClickThrottleListener);
         getFriendList(true);
     }
 
