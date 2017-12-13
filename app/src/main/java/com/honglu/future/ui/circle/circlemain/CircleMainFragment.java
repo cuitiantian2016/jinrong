@@ -74,10 +74,16 @@ public class CircleMainFragment extends BaseFragment {
     public void onEventCircleThread(UIBaseEvent event) {
         if (event instanceof RefreshUIEvent) {
             int code = ((RefreshUIEvent) event).getType();
-            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_CIRCLE_RED){
+            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){
                //红点显示
-                mRendView.setVisibility(View.VISIBLE);
-                String headUrl = event.getMessage();
+                if (mRendView.getVisibility() != View.VISIBLE){
+                    mRendView.setVisibility(View.VISIBLE);
+                }
+            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){
+                //红点隐藏
+                if (mRendView.getVisibility() != View.INVISIBLE){
+                    mRendView.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }
@@ -204,9 +210,8 @@ public class CircleMainFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRendView.setVisibility(View.INVISIBLE);
                 //隐藏main 红点
-                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG));
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
                 //跳转消息
                 startActivity(new Intent(getActivity(), CircleMsgActivity.class));
             }

@@ -10,11 +10,16 @@ import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.home.bean.JpushBean;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.SpUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -24,6 +29,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
+    public static final String CIRCLE_DETAIL_URL = "xiaoniuqihuo://future/circle/Detail";
     private static String url = "";
     private static String jump = "";
 
@@ -54,6 +60,11 @@ public class JPushReceiver extends BroadcastReceiver {
                 JpushBean jpushBean = gson.fromJson(json, JpushBean.class);
                 url = jpushBean.getUrl();
                 jump = jpushBean.getJump();
+                if (!App.mApp.isMainDestroy()
+                        && !TextUtils.isEmpty(jump)
+                        && jump.startsWith(CIRCLE_DETAIL_URL)){
+                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY));
+                }
                 Log.d(TAG, "=====onReceive: jump--->" + jump + "url--->" + url);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 
@@ -63,6 +74,9 @@ public class JPushReceiver extends BroadcastReceiver {
                     ARouter.getInstance()
                             .build(Uri.parse(jump))
                             .navigation(context);
+                    if (!App.mApp.isMainDestroy() && jump.startsWith(CIRCLE_DETAIL_URL)){
+                        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
+                    }
                 }else {
                     String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
                     if (TextUtils.isEmpty(uid) || TextUtils.isEmpty(url) || !url.startsWith("http")){

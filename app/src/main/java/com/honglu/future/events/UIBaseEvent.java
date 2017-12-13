@@ -17,9 +17,8 @@ public class UIBaseEvent {
     public final static int EVENT_ACCOUNT_LOGOUT = 23;//退出期货账户成功
     public final static int EVENT_HOME_TO_MARKET_ZHULI = 24;//首页图标跳转行情主力合约
     public final static int EVENT_CLOSETRAD_REFRESH = 25; //平仓刷新持仓数据
-    public final static int EVENT_CIRCLE_MSG_MAIN_RED = 26; //main 红点显示
-    public final static int EVENT_CIRCLE_MSG_CIRCLE_RED = 27; //圈子红点显示
-    public final static int EVENT_CIRCLE_MSG = 28; //圈子消息提醒 红点隐藏
+    public final static int EVENT_CIRCLE_MSG_RED_VISIBILITY = 26; //红点显示
+    public final static int EVENT_CIRCLE_MSG_RED_GONE = 27; //红点隐藏
 
     private String code;
     private String message;

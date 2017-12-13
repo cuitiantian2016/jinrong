@@ -27,6 +27,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.bean.UpdateBean;
@@ -119,6 +120,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 
     @Override
     public void loadData() {
+        App.mApp.setIsMainDestroy(false);
         showPopupWindow();
         EventBus.getDefault().register(this);
         mGroup.setOnCheckedChangeListener(changeListener);
@@ -287,10 +289,18 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             } else if (code == UIBaseEvent.EVENT_LOAN_SUCCESS) {
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
 
-            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_MAIN_RED){//红点显示
-                mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal_red),null,null);
-            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG){//红点隐藏
-                mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal),null,null);
+            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){//红点显示
+                int tag = mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
+                if (tag != 1) {// 1显示红点
+                    mRbCircle.setTag(1);
+                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal_red), null, null);
+                }
+            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){//红点隐藏
+                int tag = mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
+                if (tag != 2){
+                    mRbCircle.setTag(2);
+                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal),null,null);
+                }
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
@@ -369,6 +379,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        App.mApp.setIsMainDestroy(true);
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().AppExit(this);
     }

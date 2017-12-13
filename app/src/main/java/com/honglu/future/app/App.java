@@ -58,6 +58,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     public static App mApp;
     public Activity mActivity;
+    public boolean mIsMainDestroy = true; //标记页面是否销毁
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -337,6 +338,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     }
 
+    public void setIsMainDestroy(boolean isMainDestroy){
+        this.mIsMainDestroy = isMainDestroy;
+    }
+
+    public boolean isMainDestroy(){
+        return mIsMainDestroy;
+    }
 
     //当前渠道下的当前版本是否通过审核
     public boolean mIsAudited = true;
