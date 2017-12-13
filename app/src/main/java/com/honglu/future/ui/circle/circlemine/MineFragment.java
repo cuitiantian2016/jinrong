@@ -19,6 +19,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
@@ -214,6 +215,18 @@ public class MineFragment extends CommonFragment {
 //                } else {
 //                    mSmartRefresh.setEnableRefresh(false);
 //                }
+            }
+        });
+
+        mAdapter.setAttentionCallBack(new BBSMineAdapter.AttentionCallBack() {
+            @Override
+            public void attention(String uid, String isFollow) {
+                if(!mIsMyself){
+                    iv_follow.setImageResource(TextUtils.equals("1",isFollow) ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
+                }
+                if (MessageController.getInstance().getDetailFriendChange() != null) {
+                    MessageController.getInstance().getDetailFriendChange().change(uid,isFollow);
+                }
             }
         });
     }

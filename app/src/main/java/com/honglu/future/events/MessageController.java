@@ -34,4 +34,18 @@ public class MessageController {
     public void setBeFocusedCountChange(BeFocusedCountChange beFocusedCountChange) {
         this.beFocusedCountChange = beFocusedCountChange;
     }
+
+    private DetailFriendChange detailFriendChange;
+
+    public void setDetailFriendChange(DetailFriendChange detailFriendChange) {
+        this.detailFriendChange = detailFriendChange;
+    }
+
+    public DetailFriendChange getDetailFriendChange() {
+        return detailFriendChange;
+    }
+
+    public interface DetailFriendChange{
+        void change(String uid,String flower);
+    }
 }

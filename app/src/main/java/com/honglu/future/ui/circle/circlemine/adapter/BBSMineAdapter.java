@@ -303,6 +303,7 @@ public class BBSMineAdapter extends BaseAdapter {
                                 super._onNext(jsonNull);
                                 follow.setImageResource(R.mipmap.already_recommend);
                                 item.setFollow(foll);
+                                isFocued = !isFocued;
                                 follow(item.getFollow(), item.getPostUserId());
                             }
 
@@ -330,7 +331,7 @@ public class BBSMineAdapter extends BaseAdapter {
             ViewHelper.safelySetText(hot_title, item.getTitle());
             ViewHelper.safelySetText(announce_time, item.getCreateTime());// 热门不展示
             // 评论内容
-            if (item.getReplyContent() != null) {
+            if (!StringUtil.isEmpty(item.getReplyContent())) {
                 List<Reply> replyList = new ArrayList<>();
                 Reply reply = new Reply();
                 reply.user_name = item.getReplyNickName();

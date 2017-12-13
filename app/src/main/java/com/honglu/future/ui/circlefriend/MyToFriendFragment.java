@@ -120,7 +120,9 @@ public class MyToFriendFragment extends CommonFragment {
                             if (o == null || o.size() == 0) {
                                 empty_view.setVisibility(View.VISIBLE);
                                 mSmartRefresh.setVisibility(View.GONE);
-                                ((MyFriendActivity) getActivity()).setData(o.size());
+                                if (o != null) {
+                                    ((MyFriendActivity) getActivity()).setData(o.size());
+                                }
                             } else {
                                 if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();

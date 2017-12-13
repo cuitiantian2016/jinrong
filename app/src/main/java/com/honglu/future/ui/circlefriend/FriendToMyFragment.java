@@ -126,7 +126,6 @@ public class FriendToMyFragment extends CommonFragment {
                             if (o == null) {
                                 if (mListView.getFooterViewsCount() == 0)
                                     mListView.addFooterView(empty_view, null, false);
-                                ((MyFriendActivity) getActivity()).setData(o.size());
                             } else {
                                 if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();
@@ -138,6 +137,7 @@ public class FriendToMyFragment extends CommonFragment {
                                         if (mListView.getFooterViewsCount() != 0)
                                             mListView.removeFooterView(empty_view);
                                     }
+                                    ((MyFriendActivity) getActivity()).setData(o.size());
                                 } else if (o.size() > 0 && o.size() < 10) {
                                     follow_id_temp = o.get(o.size() - 1).userId;
                                     if (mListView.getFooterViewsCount() != 0)
