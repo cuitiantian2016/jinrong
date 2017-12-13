@@ -95,6 +95,20 @@ public class CircleMainFragment extends BaseFragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            if (topicFilters == null){
+                getTopicList();
+            }else {
+                mTabsIndicatorLy.setCurrentTab(0);
+                currTopicType =Constant.topic_filter.get(0).type;
+                EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
+            }
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
@@ -153,6 +167,8 @@ public class CircleMainFragment extends BaseFragment {
     public void onEventMainThread(LoginEvent event) {
        if (topicFilters!=null&&topicFilters.size()>0){
            mTabsIndicatorLy.setCurrentTab(0);
+           currTopicType =Constant.topic_filter.get(0).type;
+           EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
        }
     }
 
