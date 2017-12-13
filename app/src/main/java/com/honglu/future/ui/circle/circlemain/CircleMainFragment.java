@@ -21,6 +21,7 @@ import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.circle.circlemsg.CircleMsgActivity;
+import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -68,6 +69,11 @@ public class CircleMainFragment extends BaseFragment {
     public void loadData() {
         EventBus.getDefault().register(this);
         initViews();
+
+        int readTag = ((MainActivity) getActivity()).getReadTag();
+        if (readTag == 1){
+            mRendView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

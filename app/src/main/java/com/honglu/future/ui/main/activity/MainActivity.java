@@ -481,4 +481,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             }
         });
     }
+
+    public int getReadTag(){
+        return mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
+    }
 }
