@@ -464,7 +464,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     private void setViperVisible() {
-        if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 10000) {
+        if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 30000) {
             mViper.setVisibility(View.VISIBLE);
         } else {
             mViper.setVisibility(View.GONE);
