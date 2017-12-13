@@ -84,6 +84,7 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
+        rows = 0;
         topicIndexThread(true);
     }
 
@@ -106,8 +107,6 @@ public class MineFragment extends CommonFragment {
 
         mIsMyself = mUserId.equals(SpUtil.getString(Constant.CACHE_TAG_UID));
         initViews();
-        rows = 0;
-        topicIndexThread(true);
     }
 
     private void initViews() {
@@ -168,6 +167,7 @@ public class MineFragment extends CommonFragment {
             iv_follow.setVisibility(View.GONE);
             publish.setVisibility(View.VISIBLE);
             tv_empty.setText("你还没有发表过话题哦");
+            imgHead = ConfigUtil.baseImageUserUrl + imgHead;
         } else {
             layout_friends.setVisibility(View.GONE);
             iv_follow.setVisibility(View.VISIBLE);
@@ -224,15 +224,15 @@ public class MineFragment extends CommonFragment {
         mAdapter.setAttentionCallBack(new BBSMineAdapter.AttentionCallBack() {
             @Override
             public void attention(String uid, String isFollow) {
-                if(!mIsMyself){
-                    iv_follow.setImageResource(TextUtils.equals("1",isFollow) ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
+                if (!mIsMyself) {
+                    iv_follow.setImageResource(TextUtils.equals("1", isFollow) ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
                 }
                 BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                 bbsFlownEvent.follow = isFollow;
                 bbsFlownEvent.uid = uid;
                 EventBus.getDefault().post(bbsFlownEvent);
                 if (MessageController.getInstance().getDetailFriendChange() != null) {
-                    MessageController.getInstance().getDetailFriendChange().change(uid,isFollow);
+                    MessageController.getInstance().getDetailFriendChange().change(uid, isFollow);
                 }
             }
         });
@@ -280,8 +280,9 @@ public class MineFragment extends CommonFragment {
                                         follow();
                                     }
                                 });
+
                             }
-                            ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
+                            ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
                             user_name.setText(nickName);
 
                             // TODO: 2017/12/9 接口缺少用户角色
@@ -293,7 +294,6 @@ public class MineFragment extends CommonFragment {
                             attention_num.setText("关注" + o.getFocusNum());
                             endorse_num.setText("粉丝" + o.getBeFocusNum());
                             topic_num.setText("发帖" + o.getPostNum());
-
                             if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
                                 if (mListView.getFooterViewsCount() != 0)
                                     mListView.removeFooterView(empty_view);
@@ -379,6 +379,7 @@ public class MineFragment extends CommonFragment {
     @Override
     protected void onReload(Context context) {
         super.onReload(context);
+        rows = 0;
         topicIndexThread(true);
     }
 

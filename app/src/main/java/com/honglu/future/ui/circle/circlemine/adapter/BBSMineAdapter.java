@@ -271,7 +271,7 @@ public class BBSMineAdapter extends BaseAdapter {
             } else {
                 follow.setVisibility(View.VISIBLE);
             }
-            ImageUtil.display(ConfigUtil.baseImageUserUrl + imgHead, header_img, R.mipmap.img_head);
+            ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
             ViewHelper.safelySetText(user_name, nickName);
 
             status.setVisibility(TextUtils.isEmpty(item.getUserRole()) ? View.GONE : View.VISIBLE);
@@ -424,7 +424,7 @@ public class BBSMineAdapter extends BaseAdapter {
             }
 
             support.setText(item.getThumbUpSum());
-            reply.setText(item.getReplySum());
+            reply.setText(item.getCommentSum());
 
             support_iv.setOnClickListener(new View.OnClickListener() {
                 @Override

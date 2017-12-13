@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.MessageController;
@@ -125,7 +126,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         }
 
         public void bindView(final UserList item, final View mContext, final int position) {
-            ImageUtil.display(item.avatarPic, user_img, R.mipmap.ic_logos);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.avatarPic, user_img, R.mipmap.ic_logos);
             user_name.setText(item.nickName);
             // TODO: 2017/12/11 用户角色，需要接口添加
 //            flag.setVisibility(TextUtils.isEmpty(item.user_level)? View.GONE: View.VISIBLE);
