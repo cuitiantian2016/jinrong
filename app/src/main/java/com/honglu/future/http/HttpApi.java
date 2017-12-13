@@ -264,7 +264,7 @@ public interface HttpApi {
                                                           @Field("versionNumber") String versionNumber);
 
     //app活动弹窗
-    @GET("http://192.168.90.130:8080/futures-mobile-api/appBanner/loadAppPopupWin.do")
+    @GET("futures-mobile-api/appBanner/loadAppPopupWin.do")
     Observable<BaseResponse<ActivityPopupBean>> loadAppPopupWin(@Query("clientType") String clientType,
                                                                 @Query("currentVersion") String currentVersion,
                                                                 @Query("phone") String phone);
