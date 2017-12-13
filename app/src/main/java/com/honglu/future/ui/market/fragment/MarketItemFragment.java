@@ -89,8 +89,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     //添加自选
     private void addAdapterBean(MarketnalysisBean.ListBean.QuotationDataListBean bean) {
         mAdapter.getData().add(bean);
-        compareData(mAdapter.getData(),mRealTimeList);
+        boolean compareData = compareData(mAdapter.getData(), mRealTimeList);
+        if (compareData){mIsPushRefresh = false;}
         mAdapter.notifyDataSetChanged();
+        if (compareData){ mIsPushRefresh = true;}
         mPushCode = mosaicMPushCode(mAdapter.getData());
         if (mPushCodeRefreshListener != null) {
             mPushCodeRefreshListener.onMPushCodeRefresh(mPushCode);
@@ -101,8 +103,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     private void delAdapterBean(String excode, String instrumentID) {
         boolean refreshZX = refreshZX(excode, instrumentID);
         if (refreshZX) {
-            compareData(mAdapter.getData(),mRealTimeList);
+            boolean compareData = compareData(mAdapter.getData(), mRealTimeList);
+            if (compareData){mIsPushRefresh = false;}
             mAdapter.notifyDataSetChanged();
+            if (compareData){mIsPushRefresh = true;}
             mPushCode = mosaicMPushCode(mAdapter.getData());
             if (mPushCodeRefreshListener != null) {
                 mPushCodeRefreshListener.onMPushCodeRefresh(mPushCode);
@@ -519,21 +523,27 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     }
                 }
             }
-            compareData(zxDataList, mRealTimeList);
+            boolean compareData = compareData(zxDataList, mRealTimeList);
+            if (compareData){mIsPushRefresh = false;}
             mAdapter.notifyDataSetChanged();
+            if (compareData){mIsPushRefresh = true;}
         }else {
             List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
             List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
             if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
                 List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
-                compareData(zlhyMarketList, mRealTimeList);
+                boolean compareData = compareData(zlhyMarketList, mRealTimeList);
+                if (compareData){mIsPushRefresh = false;}
                 mAdapter.notifyDataChanged(true,zlhyMarketList);
+                if (compareData){mIsPushRefresh = true;}
             } else {
                 for (MarketnalysisBean.ListBean listBean : allList) {
                     if (mTabSelectType.equals(listBean.getExcode())) {
                         List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
-                        compareData(dataList, mRealTimeList);
+                        boolean compareData = compareData(dataList, mRealTimeList);
+                        if (compareData){mIsPushRefresh = false;}
                         mAdapter.notifyDataChanged(true,dataList);
+                        if (compareData){mIsPushRefresh = true;}
                         break;
                     }
                 }
