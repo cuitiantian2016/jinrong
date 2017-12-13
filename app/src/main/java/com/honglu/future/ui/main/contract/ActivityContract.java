@@ -2,6 +2,7 @@ package com.honglu.future.ui.main.contract;
 
 
 import com.honglu.future.base.BaseView;
+import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.main.bean.ActivityBean;
 
@@ -11,7 +12,7 @@ import com.honglu.future.ui.main.bean.ActivityBean;
 
 public interface ActivityContract {
     interface View extends BaseView {
-        void loadActivitySuccess(ActivityBean result);
+        void loadActivitySuccess(ActivityPopupBean result);
 
         void getUpdateVersionSuccess(UpdateBean bean);
     }

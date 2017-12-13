@@ -30,6 +30,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.ActivityFragmentDialog;
@@ -41,7 +42,6 @@ import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
-import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
 import com.honglu.future.ui.main.presenter.ActivityPresenter;
 import com.honglu.future.util.AppUtils;
@@ -289,17 +289,17 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             } else if (code == UIBaseEvent.EVENT_LOAN_SUCCESS) {
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
 
-            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){//红点显示
-                int tag = mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
+            } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {//红点显示
+                int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
                 if (tag != 1) {// 1显示红点
                     mRbCircle.setTag(1);
                     mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal_red), null, null);
                 }
-            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){//红点隐藏
-                int tag = mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
-                if (tag != 2){
+            } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {//红点隐藏
+                int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
+                if (tag != 2) {
                     mRbCircle.setTag(2);
-                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.mipmap.icon_menu_5_normal),null,null);
+                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal), null, null);
                 }
             }
         } else if (event instanceof ChangeTabMainEvent) {
@@ -406,18 +406,18 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     }
 
     @Override
-    public void loadActivitySuccess(ActivityBean result) {
-        if ("0".equals(result.getTcStatus())) {//0为显示，其他为不显示
-            //缓存图片url与点击url。每个活动只弹出一次
-            String imgUrl = SpUtil.getString(Constant.CACHE_TAG_ACTIVITY_IMGURL);
-            String url = SpUtil.getString(Constant.CACHE_TAG_ACTIVITY_URL);
-            if (!result.getTcImage().equals(imgUrl) || !result.getTcUrl().contains(url)) {
-                SpUtil.putString(Constant.CACHE_TAG_ACTIVITY_IMGURL, result.getTcImage());
-                SpUtil.putString(Constant.CACHE_TAG_ACTIVITY_URL, result.getTcUrl());
-                ActivityFragmentDialog.newInstance(result.getTcImage(), result.getTcUrl())
-                        .show(getSupportFragmentManager(), ActivityFragmentDialog.TAG);
-            }
-        }
+    public void loadActivitySuccess(ActivityPopupBean result) {
+//        if ("0".equals(result.getTcStatus())) {//0为显示，其他为不显示
+//            //缓存图片url与点击url。每个活动只弹出一次
+//            String imgUrl = SpUtil.getString(Constant.CACHE_TAG_ACTIVITY_IMGURL);
+//            String url = SpUtil.getString(Constant.CACHE_TAG_ACTIVITY_URL);
+//            if (!result.getTcImage().equals(imgUrl) || !result.getTcUrl().contains(url)) {
+//                SpUtil.putString(Constant.CACHE_TAG_ACTIVITY_IMGURL, result.getTcImage());
+//                SpUtil.putString(Constant.CACHE_TAG_ACTIVITY_URL, result.getTcUrl());
+        ActivityFragmentDialog.newInstance(result.image, result.url)
+                .show(getSupportFragmentManager(), ActivityFragmentDialog.TAG);
+//            }
+//        }
     }
 
     @Override
@@ -482,7 +482,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         });
     }
 
-    public int getReadTag(){
-        return mRbCircle.getTag() !=null ? (Integer) mRbCircle.getTag() : 0;
+    public int getReadTag() {
+        return mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
     }
 }

@@ -1,6 +1,7 @@
 package com.honglu.future.http;
 
 import com.google.gson.JsonNull;
+import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.BBS;
@@ -261,6 +262,12 @@ public interface HttpApi {
     @POST("futures-mobile-api/appVer/queryAppVersion")
     Observable<BaseResponse<UpdateBean>> getUpdateVersion(@Field("appType") String appType,
                                                           @Field("versionNumber") String versionNumber);
+
+    //app活动弹窗
+    @GET("http://192.168.90.130:8080/futures-mobile-api/appBanner/loadAppPopupWin.do")
+    Observable<BaseResponse<ActivityPopupBean>> loadAppPopupWin(@Query("clientType") String clientType,
+                                                                @Query("currentVersion") String currentVersion,
+                                                                @Query("phone") String phone);
 
 
     /*******************************    上传图片   *****************************************/

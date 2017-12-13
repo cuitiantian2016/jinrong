@@ -2,13 +2,16 @@ package com.honglu.future.ui.main.presenter;
 
 
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.UpdateBean;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.bean.ActivityBean;
 import com.honglu.future.ui.main.contract.ActivityContract;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.AppUtils;
+import com.honglu.future.util.SpUtil;
 
 /**
  * Created by xiejingwen on 2017/3/31 0031.
@@ -17,7 +20,28 @@ import com.honglu.future.util.AppUtils;
 public class ActivityPresenter extends BasePresenter<ActivityContract.View> implements ActivityContract.Presenter {
     @Override
     public void loadActivity() {
+        toSubscribe(HttpManager.getApi().loadAppPopupWin("0", AppUtils.getVersionName(), SpUtil.getString(Constant.CACHE_TAG_MOBILE)), new HttpSubscriber<ActivityPopupBean>() {
+            @Override
+            public void _onStart() {
+            }
 
+            @Override
+            protected void _onNext(ActivityPopupBean bean) {
+                if (bean == null) {
+                    return;
+                }
+                mView.loadActivitySuccess(bean);
+            }
+
+            @Override
+            protected void _onError (String message){
+            }
+
+            @Override
+            protected void _onCompleted () {
+
+            }
+        });
     }
 
     @Override

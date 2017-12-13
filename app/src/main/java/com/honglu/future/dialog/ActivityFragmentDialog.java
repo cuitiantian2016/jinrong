@@ -1,6 +1,7 @@
 package com.honglu.future.dialog;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.Tool;
 import com.umeng.analytics.MobclickAgent;
 
@@ -23,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.honglu.future.R;
+
+import java.io.File;
 
 
 /**
@@ -33,6 +41,8 @@ public class ActivityFragmentDialog extends DialogFragment {
     public static final String TAG = "ActivityFragmentDialog";
     @BindView(R.id.iv_activity)
     ImageView mIvActivity;
+    @BindView(R.id.imgCloseDialog)
+    ImageView mIvClose;
 
     private String  imgUrl;
     private String  url;
@@ -70,11 +80,19 @@ public class ActivityFragmentDialog extends DialogFragment {
         imgUrl = getArguments().getString("imgUrl");
         url = getArguments().getString("url");
         int width = getDialog().getWindow().getAttributes().width;
-        Glide.with(this)
-                .load(imgUrl)
-                .centerCrop()
-                .override(width, (int) (width * 1.25))//宽高比例
-                .into(mIvActivity);
+        //加载图片监听
+        Glide.with(this).load(imgUrl).downloadOnly(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+                Glide.with(ActivityFragmentDialog.this).load(resource).into(mIvActivity);
+                //设置对话框属性
+                Window window = getDialog().getWindow();
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.width = AndroidUtil.dip2px(getContext(), 260);
+                lp.height = AndroidUtil.dip2px(getContext(), (int) ((1 * 260) + 85));
+                window.setAttributes(lp);
+            }
+        });
     }
 
     @Override
@@ -104,15 +122,23 @@ public class ActivityFragmentDialog extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.iv_activity)
-    public void onClick() {
-        if (Tool.isFastDoubleClick())
-            return;
-//        Intent intent = new Intent(getActivity(), WebViewActivity.class);
-//        intent.putExtra("url", url);
-//        startActivity(intent);
-//        isOpen = true;
-//        dismiss();
+    @OnClick({R.id.iv_activity,R.id.imgCloseDialog})
+    public void onClick(View v) {
+       switch (v.getId()){
+           case R.id.iv_activity:
+               if (Tool.isFastDoubleClick())
+                   return;
+               Intent intent = new Intent(getActivity(), WebViewActivity.class);
+               intent.putExtra("url", url);
+               startActivity(intent);
+               isOpen = true;
+               dismiss();
+               break;
+           case R.id.imgCloseDialog:
+               dismiss();
+               break;
+       }
+
     }
 
     @Override
