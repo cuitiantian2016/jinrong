@@ -120,25 +120,29 @@ public class CircleMainFragment extends BaseFragment {
         mNQTipLy = mView.findViewById(R.id.ly_nq_tip_container);
         mNQTipContentTV = (TextView) mView.findViewById(R.id.tv_nq_bottom_tip_content);
     }
-
+   private BasePresenter<CircleMainFragment> basePresenter;
     private void getTopicList(){
-        new BasePresenter<CircleMainFragment>(CircleMainFragment.this){
-            @Override
-            public void getData() {
-                super.getData();
-                toSubscribe(HttpManager.getApi().getTopicFilter(), new HttpSubscriber<List<TopicFilter>>() {
-                    @Override
-                    protected void _onError(String message, int code) {
-                    }
-                    @Override
-                    protected void _onNext(List<TopicFilter> bean) {
-                        Constant.topic_filter = bean;
-                        topicFilters= Constant.topic_filter;
-                        initCircle();
-                    }
-                });
-            }
-        };
+        if (basePresenter ==null){
+            basePresenter = new BasePresenter<CircleMainFragment>(CircleMainFragment.this) {
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().getTopicFilter(), new HttpSubscriber<List<TopicFilter>>() {
+                        @Override
+                        protected void _onError(String message, int code) {
+                        }
+
+                        @Override
+                        protected void _onNext(List<TopicFilter> bean) {
+                            Constant.topic_filter = bean;
+                            topicFilters = Constant.topic_filter;
+                            initCircle();
+                        }
+                    });
+                }
+            };
+        }
+        basePresenter.getData();
     }
     /*******
      * 将事件交给事件派发controller处理
