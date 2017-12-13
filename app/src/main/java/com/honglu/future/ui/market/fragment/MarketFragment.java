@@ -232,6 +232,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                     mPushCode = fragment.getPushCode();
                     mTabSelectType = fragment.getTabSelectType();
                     requestMarket(mPushCode);
+                    fragment.getRealTimeData();
                 }
             }
         });
@@ -331,11 +332,11 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (list != null && list.size() > 0) {
 
             for (MarketnalysisBean.ListBean.QuotationDataListBean bean : list) {
-                if (!TextUtils.isEmpty(bean.getExcode()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
+                if (!TextUtils.isEmpty(bean.getExchangeID()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
                     if (builder.length() > 0) {
                         builder.append(",");
                     }
-                    builder.append(bean.getExcode());
+                    builder.append(bean.getExchangeID());
                     builder.append("|");
                     builder.append(bean.getInstrumentID());
                 }
@@ -354,7 +355,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                         && listBean.getQuotationDataList().size() > 0) {
 
                     for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
-                        mBean.setExcode(listBean.getExcode());
                         for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : mZxMarketList) {
                             if (!TextUtils.isEmpty(mBean.getInstrumentID()) && mBean.getInstrumentID().equals(zxBean.getInstrumentID())) {
                                 //已经存在自选 img 显示删除
@@ -376,14 +376,12 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             }
         } else {
             for (MarketnalysisBean.ListBean listBean : list) {
-
                 if (!TextUtils.isEmpty(listBean.getExcode())
                         && listBean.getQuotationDataList() != null
                         && listBean.getQuotationDataList().size() > 0) {
 
                     for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
                         mBean.setIcAdd("0");
-                        mBean.setExcode(listBean.getExcode());
                     }
                 }
             }

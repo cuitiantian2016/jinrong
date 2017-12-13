@@ -2,6 +2,7 @@ package com.honglu.future.ui.market.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.honglu.future.ui.market.adapter.MarketListAdapter;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.market.contract.MarketItemContract;
 import com.honglu.future.ui.market.presenter.MarketItemPresenter;
+import com.honglu.future.ui.trade.bean.RealTimeBean;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,6 +33,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -52,9 +56,11 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     private TextView mQuoteChange;
 
     private MarketListAdapter mAdapter;
+    private List<RealTimeBean.Data> mRealTimeList;
     private String mTabSelectType;
     private String title;
     private String mPushCode;
+    private boolean mIsPushRefresh = true;
 
 
 
@@ -83,6 +89,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     //添加自选
     private void addAdapterBean(MarketnalysisBean.ListBean.QuotationDataListBean bean) {
         mAdapter.getData().add(bean);
+        compareData(mAdapter.getData(),mRealTimeList);
         mAdapter.notifyDataSetChanged();
         mPushCode = mosaicMPushCode(mAdapter.getData());
         if (mPushCodeRefreshListener != null) {
@@ -94,6 +101,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     private void delAdapterBean(String excode, String instrumentID) {
         boolean refreshZX = refreshZX(excode, instrumentID);
         if (refreshZX) {
+            compareData(mAdapter.getData(),mRealTimeList);
             mAdapter.notifyDataSetChanged();
             mPushCode = mosaicMPushCode(mAdapter.getData());
             if (mPushCodeRefreshListener != null) {
@@ -131,17 +139,17 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     saveData();
                 }
             } else {
-                refreshState("1", event.bean.getExcode(), event.bean.getInstrumentID());
+                refreshState("1", event.bean.getExchangeID(), event.bean.getInstrumentID());
             }
         } else if (event.type.equals(EventBusConstant.OPTIONALQUOTES_DEL_MARKET)
                 || event.type.equals(EventBusConstant.ITEMFRAGMENT_DEL_MARKET)) {
             //OptionalQuotesActivity 自选行情删除
             if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
-                delAdapterBean(event.bean.getExcode(), event.bean.getInstrumentID());
+                delAdapterBean(event.bean.getExchangeID(), event.bean.getInstrumentID());
                 mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
                 saveData();
             } else {
-                refreshState("0", event.bean.getExcode(), event.bean.getInstrumentID());
+                refreshState("0", event.bean.getExchangeID(), event.bean.getInstrumentID());
             }
         } else if (event.type.equals(EventBusConstant.OPTIONALQUOTES_SORT_MARKET)) {
             //排序
@@ -221,8 +229,20 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 }
             }
         });
+
+        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)
+                && mList !=null
+                && mList.size() > 0){
+          mPresenter.getRealTimeData(mPushCode);
+        }
     }
 
+    //tab 切换时调用接口
+    public void getRealTimeData(){
+        if (mPresenter !=null && !TextUtils.isEmpty(mPushCode)){
+            mPresenter.getRealTimeData(mPushCode);
+        }
+    }
 
     public OnMPushCodeRefreshListener mPushCodeRefreshListener;
 
@@ -272,7 +292,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 && mAdapter.getData().size() > 0) {
             //取反向值
             for (MarketnalysisBean.ListBean.QuotationDataListBean bean : mAdapter.getData()) {
-                if (excode.equals(bean.getExcode()) && instrumentID.equals(bean.getInstrumentID())) {
+                if (excode.equals(bean.getExchangeID()) && instrumentID.equals(bean.getInstrumentID())) {
                     bean.setIcAdd(isAdd);
                     mAdapter.notifyDataSetChanged();
                     break;
@@ -291,7 +311,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             ListIterator<MarketnalysisBean.ListBean.QuotationDataListBean> iterator = mAdapter.getData().listIterator();
             while (iterator.hasNext()) {
                 MarketnalysisBean.ListBean.QuotationDataListBean bean = iterator.next();
-                if (excode.equals(bean.getExcode()) && instrumentID.equals(bean.getInstrumentID())) {
+                if (excode.equals(bean.getExchangeID()) && instrumentID.equals(bean.getInstrumentID())) {
                     iterator.remove();
                     isRemove = true;
                     break;
@@ -307,10 +327,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         boolean isSave = true;
         if (mAdapter !=null && mAdapter.getData().size() > 0
                 && bean != null
-                && !TextUtils.isEmpty(bean.getExcode())
+                && !TextUtils.isEmpty(bean.getExchangeID())
                 && !TextUtils.isEmpty(bean.getInstrumentID())) {
             for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : mAdapter.getData()) {
-                if (bean.getExcode().equals(listBean.getExcode()) && bean.getInstrumentID().equals(listBean.getInstrumentID())) {
+                if (bean.getExchangeID().equals(listBean.getExchangeID()) && bean.getInstrumentID().equals(listBean.getInstrumentID())) {
                     isSave = false;
                     break;
                 }
@@ -325,11 +345,11 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         if (list != null && list.size() > 0) {
 
             for (MarketnalysisBean.ListBean.QuotationDataListBean bean : list) {
-                if (!TextUtils.isEmpty(bean.getExcode()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
+                if (!TextUtils.isEmpty(bean.getExchangeID()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
                     if (builder.length() > 0) {
                         builder.append(",");
                     }
-                    builder.append(bean.getExcode());
+                    builder.append(bean.getExchangeID());
                     builder.append("|");
                     builder.append(bean.getInstrumentID());
                 }
@@ -375,7 +395,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         listBean.setLastPrice(lastPrice);
                         listBean.setOpenInterest(openInterest);
                         listBean.setChange(change);
-                        mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldChg,mOldLastPrice,mOldopenInterest,chg,lastPrice,openInterest,change);
+                        if (mIsPushRefresh){
+                            mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldChg,mOldLastPrice,mOldopenInterest,chg,lastPrice,openInterest,change);
+                        }
                 }
             }
         });
@@ -419,7 +441,6 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         && listBean.getQuotationDataList().size() > 0) {
 
                     for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
-                        mBean.setExcode(listBean.getExcode());
                         for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : mZxMarketList) {
                             if (!TextUtils.isEmpty(mBean.getInstrumentID()) && mBean.getInstrumentID().equals(zxBean.getInstrumentID())) {
                                 //已经存在自选 img 显示删除
@@ -444,7 +465,6 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
                     for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
                         mBean.setIcAdd("0");
-                        mBean.setExcode(listBean.getExcode());
                     }
                 }
             }
@@ -486,7 +506,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
                 for (MarketnalysisBean.ListBean listBean : alysiBean.getList()){
 
-                    if (zxBean.getExcode().equals(listBean.getExcode())){
+                    if (zxBean.getExchangeID().equals(listBean.getExcode())){
                         for (MarketnalysisBean.ListBean.QuotationDataListBean allBean : listBean.getQuotationDataList()){
 
                             if (zxBean.getInstrumentID().equals(allBean.getInstrumentID())){
@@ -499,22 +519,71 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     }
                 }
             }
+            compareData(zxDataList, mRealTimeList);
             mAdapter.notifyDataSetChanged();
         }else {
             List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
             List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
             if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
                 List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
+                compareData(zlhyMarketList, mRealTimeList);
                 mAdapter.notifyDataChanged(true,zlhyMarketList);
             } else {
                 for (MarketnalysisBean.ListBean listBean : allList) {
                     if (mTabSelectType.equals(listBean.getExcode())) {
                         List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
+                        compareData(dataList, mRealTimeList);
                         mAdapter.notifyDataChanged(true,dataList);
                         break;
                     }
                 }
             }
         }
+    }
+
+
+    //是否休市
+    @Override
+    public void getRealTimeData(RealTimeBean realTimeBean) {
+         if (realTimeBean == null
+                 || realTimeBean.getList() == null
+                 || realTimeBean.getList().size() == 0){
+             return;
+         }
+        mRealTimeList = realTimeBean.getList();
+        boolean compareData = compareData(mAdapter.getData(), mRealTimeList);
+        if (compareData){
+            mIsPushRefresh = false;
+            mAdapter.notifyDataSetChanged();
+            mIsPushRefresh = true;
+        }
+    }
+
+    //排序
+    private boolean compareData(List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList,List<RealTimeBean.Data> realTimeList){
+         if (realTimeList == null
+                 || realTimeList.size()== 0
+                 || dataList == null
+                 || dataList.size() == 0){
+             return false;
+         }
+         //循环添加休市标记
+         for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : dataList){
+
+             for (RealTimeBean.Data realTimeBean : realTimeList){
+                  if (realTimeBean.getExchangeID().equals(listBean.getExchangeID())){
+                      listBean.setIsClosed(realTimeBean.getIsClosed());
+                  }
+             }
+         }
+
+        Collections.sort(dataList, new Comparator<MarketnalysisBean.ListBean.QuotationDataListBean>() {
+            @Override
+            public int compare(MarketnalysisBean.ListBean.QuotationDataListBean o1, MarketnalysisBean.ListBean.QuotationDataListBean o2) {
+                //1 开市 2 休市  o1 - o2 升序（从小到大） o2 - 01 降序（从大到小）
+                return o1.getIsClosed() - o2.getIsClosed();
+            }
+        });
+        return true;
     }
 }

@@ -68,6 +68,7 @@ public class RealTimeBean {
         private String change;
         private String chg;
         private String name;
+        private int isClosed; //1 开市 2 休市
 
         public void setTradingDay(String tradingDay) {
             this.tradingDay = tradingDay;
@@ -469,5 +470,12 @@ public class RealTimeBean {
             return name;
         }
 
+        public int getIsClosed() {
+            return isClosed;
+        }
+
+        public void setIsClosed(int isClosed) {
+            this.isClosed = isClosed;
+        }
     }
 }

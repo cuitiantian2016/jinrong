@@ -156,12 +156,12 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 //移除自选
                 zxAdapter.getData().remove(position);
                 //重新设置底部数据
-                if (!TextUtils.isEmpty(bean.getExcode()) && bean.getExcode().equals(mTabSelectType)) {
+                if (!TextUtils.isEmpty(bean.getExchangeID()) && bean.getExchangeID().equals(mTabSelectType)) {
                     setMarketData(mTabSelectType);
                 }
                 zxAdapter.notifyDataSetChanged();
 
-                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_DEL_MARKET, bean.getExcode(), bean));
+                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_DEL_MARKET, bean.getExchangeID(), bean));
             }
         });
 
@@ -173,13 +173,13 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 //添加到自选
                 zxAdapter.getData().add(bean);
                 //移除 对应的数据
-                removeAllListData(bean.getExcode(), bean.getInstrumentID());
+                removeAllListData(bean.getExchangeID(), bean.getInstrumentID());
                 //移除 add 里面的数据
                 addAdapter.removeItemData(position);
 
                 zxAdapter.notifyDataSetChanged();
 
-                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_ADD_MARKET, bean.getExcode(), bean));
+                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.OPTIONALQUOTES_ADD_MARKET, bean.getExchangeID(), bean));
             }
         });
 
@@ -315,6 +315,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     private void filterMarketData(List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList) {
 
         //把对应excode添加到每条数据
+        /*
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             for (MarketnalysisBean.ListBean allBena : mAllMarketList) {
                 String excode = allBena.getExcode();
@@ -325,12 +326,12 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                 }
             }
         }
-
+        */
 
         if (zxMarketList != null && zxMarketList.size() > 0 || mAllMarketList == null && mAllMarketList.size() > 0) {
 
             for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : zxMarketList) {
-                String excode = zxBean.getExcode();
+                String excode = zxBean.getExchangeID();
                 String instrumentID = zxBean.getInstrumentID();
 
                 if (TextUtils.isEmpty(excode) || TextUtils.isEmpty(instrumentID)) {
@@ -343,7 +344,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
                         ListIterator<MarketnalysisBean.ListBean.QuotationDataListBean> iterator = allBean.getQuotationDataList().listIterator();
                         while (iterator.hasNext()) {
                             MarketnalysisBean.ListBean.QuotationDataListBean bean = iterator.next();
-                            if (excode.equals(bean.getExcode()) && instrumentID.equals(bean.getInstrumentID())) {
+                            if (excode.equals(bean.getExchangeID()) && instrumentID.equals(bean.getInstrumentID())) {
                                 iterator.remove();
                             }
                         }
@@ -385,12 +386,12 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
 
 
     private void addAllListData(MarketnalysisBean.ListBean.QuotationDataListBean addBean) {
-        if (!TextUtils.isEmpty(addBean.getExcode())
+        if (!TextUtils.isEmpty(addBean.getExchangeID())
                 && !TextUtils.isEmpty(addBean.getInstrumentID())
                 && mAllMarketList != null
                 && mAllMarketList.size() > 0) {
             for (MarketnalysisBean.ListBean mBean : mAllMarketList) {
-                if (addBean.getExcode().equals(mBean.getExcode())) {
+                if (addBean.getExchangeID().equals(mBean.getExcode())) {
                     mBean.getQuotationDataList().add(addBean);
                     break;
                 }

@@ -113,7 +113,7 @@ public class MarketnalysisBean implements Serializable {
              */
 
             private String isIcAdd;
-            private String excode;
+            private String excode;    //1.0.0取  1.0.0 后 取exchangeID
             private String tradingDay;
             private String instrumentID;
             private String exchangeID;
@@ -164,6 +164,15 @@ public class MarketnalysisBean implements Serializable {
             private String change;
             private String chg;
             private String name;
+            private int isClosed; //1 开市 2 休市
+
+            public int getIsClosed() {
+                return isClosed;
+            }
+
+            public void setIsClosed(int isClosed) {
+                this.isClosed = isClosed;
+            }
 
             public String getIcAdd() {
                 return isIcAdd;
