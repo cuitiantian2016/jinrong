@@ -43,13 +43,17 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp"
         android:background="@color/color_line"/>
-
-    <ImageView
+    <TextView
         android:id="@+id/iv_follow"
+        android:text="我也要点赞"
+        android:gravity="center"
+        android:drawablePadding="@dimen/dimen_5dp"
+        android:drawableLeft="@mipmap/praise_me"
+        android:textColor="#008EFF"
+        android:textSize="@dimen/dimen_15sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:padding="8dp"
-        android:src="@drawable/big_follow" />
+        android:layout_height="50dp" />
+
 
 </LinearLayout>

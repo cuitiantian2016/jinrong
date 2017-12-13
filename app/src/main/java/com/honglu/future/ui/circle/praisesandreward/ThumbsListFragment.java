@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
@@ -45,7 +46,7 @@ public class ThumbsListFragment extends BaseFragment {
     private String mTopicId;
     private String mTideId;
     private GetFriendsAdapter mAdapter;
-    private ImageView mFollowIv;
+    private TextView mFollowIv;
     private boolean isMore;
     private int rows = 0;
 
@@ -99,7 +100,7 @@ public class ThumbsListFragment extends BaseFragment {
                 @Override
                 protected void _onNext(JsonNull jsonNull) {
                     super._onNext(jsonNull);
-                    mFollowIv.setImageResource(R.drawable.big_followed);
+                    mFollowIv.setText("您已点赞");
                     BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
                     bbsPraiseEvent.topic_id = mTopicId;
                     EventBus.getDefault().post(bbsPraiseEvent);
@@ -150,8 +151,8 @@ public class ThumbsListFragment extends BaseFragment {
             }
         });
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
-        mFollowIv= (ImageView) mView.findViewById(R.id.iv_follow);
-        mFollowIv.setImageResource(TextUtils.equals("0", mTideId) ? R.drawable.big_follow : R.drawable.big_followed);
+        mFollowIv= (TextView) mView.findViewById(R.id.iv_follow);
+        mFollowIv.setText(TextUtils.equals("0", mTideId) ? "我也要点赞" : "您已点赞");
         mAdapter=new GetFriendsAdapter();
         listView.setAdapter(mAdapter);
         if (!TextUtils.isEmpty(mTideId) && TextUtils.equals("0", mTideId)) {
