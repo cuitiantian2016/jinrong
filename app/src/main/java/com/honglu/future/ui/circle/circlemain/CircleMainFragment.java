@@ -169,6 +169,8 @@ public class CircleMainFragment extends BaseFragment {
            mTabsIndicatorLy.setCurrentTab(0);
            currTopicType =Constant.topic_filter.get(0).type;
            EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
+       }else {
+           getTopicList();
        }
     }
 
