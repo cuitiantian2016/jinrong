@@ -135,6 +135,7 @@ public class BBSClassifyFragment extends BaseFragment {
                     if (TextUtils.equals(bbs.topic_id,event.top_id)) {
                         bbs.replyContent = event.replyContent;
                         bbs.replyNickName = event.replyNickName;
+                        bbs.reply_num =Integer.parseInt(bbs.reply_num)+1+"";
                     }
                 }
                 mAdapter.notifyDataSetChanged();
