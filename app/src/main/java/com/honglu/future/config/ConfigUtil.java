@@ -29,7 +29,7 @@ public class ConfigUtil {
 
     public static String baseImageUserUrl = "http://qihuo-product.oss-cn-shanghai.aliyuncs.com/";
 
-    public static String baseH5Url = "https://qihuo.xnsudai.com/";
+    public static String baseH5Url =URL_126;
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/
 
 

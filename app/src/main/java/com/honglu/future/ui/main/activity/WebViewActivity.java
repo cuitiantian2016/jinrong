@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.StringDef;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -221,6 +222,25 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     }
 
     public class JavaMethod {
+
+        /**
+         * 跳转开户页面
+         */
+        @JavascriptInterface
+        public void openAccount(String brokerId,String channel) {
+            MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
+            Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
+            intent.putExtra("brokerId", brokerId);
+            if (!TextUtils.isEmpty(channel)){
+                intent.putExtra("channel", channel);
+            }
+            intent.putExtra("packName", "com.honglu.future");
+            String userMobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
+            if (!TextUtils.isEmpty(userMobile)) {
+                intent.putExtra("mobile", userMobile);
+            }
+            startActivity(intent);
+        }
 
         /**
          * 跳转开户页面
