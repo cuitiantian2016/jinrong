@@ -34,7 +34,7 @@ public class ShareUtils {
         if (!TextUtils.isEmpty(picurl)) {
             web.setThumb(new UMImage(activity, picurl));  //缩略图
         } else {
-            web.setThumb(new UMImage(activity, R.mipmap.ic_logos));  //缩略图
+            web.setThumb(new UMImage(activity, R.mipmap.ic_share_icon));  //缩略图
         }
         web.setDescription(content);//描述
         new ShareAction(activity).withMedia(web)
