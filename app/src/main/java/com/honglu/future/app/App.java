@@ -57,6 +57,7 @@ import static com.tencent.bugly.beta.tinker.TinkerManager.getApplication;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     public static App mApp;
     public Activity mActivity;
+
     public boolean mIsMainDestroy = true; //标记页面是否销毁
 
     @Override
