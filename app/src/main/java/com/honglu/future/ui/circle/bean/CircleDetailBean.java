@@ -23,7 +23,7 @@ public class CircleDetailBean {
         public String isPraise; //是否点赞 0 否 1 是
         public String nickName; //发帖人昵称
         public String postUserId;
-        public String praiseCount; //点赞数
+        public int praiseCount; //点赞数
         public String replyContent;
         public String replyNickName;
         public String userRole; //管理员

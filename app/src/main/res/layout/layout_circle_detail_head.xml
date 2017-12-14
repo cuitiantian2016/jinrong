@@ -64,6 +64,7 @@
                 tools:text="13:45 12-08" />
         </LinearLayout>
 
+        <!--android:textColor="@color/selector_follow_color"-->
         <TextView
             android:id="@+id/tv_follow"
             android:layout_width="wrap_content"
@@ -73,9 +74,7 @@
             android:paddingLeft="@dimen/dimen_5dp"
             android:paddingTop="@dimen/dimen_2dp"
             android:paddingBottom="@dimen/dimen_2dp"
-            android:textColor="@color/selector_follow_color"
-            android:background="@drawable/selector_follow_btn"
-            android:text="+ 关注" />
+            android:background="@drawable/selector_follow_btn" />
 
     </LinearLayout>
 

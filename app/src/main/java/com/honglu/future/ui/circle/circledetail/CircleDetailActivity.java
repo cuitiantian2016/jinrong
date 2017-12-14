@@ -1,14 +1,8 @@
 package com.honglu.future.ui.circle.circledetail;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,8 +13,6 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.util.Util;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
@@ -32,20 +24,16 @@ import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.BBSPraiseEvent;
-import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.bean.PraiseListBean;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
-import com.honglu.future.ui.circle.praisesandreward.RewardDetailActivity;
-import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
-import com.honglu.future.widget.photo.FullScreenDisplayActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -203,7 +191,6 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mUserLabel = (TextView) headView.findViewById(R.id.tv_user_label);
         mTime = (TextView) headView.findViewById(R.id.tv_time);
         mFollow = (TextView) headView.findViewById(R.id.tv_follow);
-        mFollow.setEnabled(false);
         mContnet = (TextView) headView.findViewById(R.id.tv_contnet);
         mSeeZhuanTi = (TextView) headView.findViewById(R.id.tv_seezhuanti);
         mSeeZhuanTi.setVisibility(View.GONE);
@@ -403,15 +390,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mFollow.setVisibility(View.INVISIBLE);
         } else {
             mFollow.setVisibility(View.VISIBLE);
-            //是否关注
             if (bean.circleIndexBo.isFocus()) {
                 mFollow.setSelected(true);
-                mFollow.setText("已关注");
-                mFollow.setEnabled(true);
             } else {
                 mFollow.setSelected(false);
-                mFollow.setText("+ 关注");
-                mFollow.setEnabled(true);
             }
         }
 
@@ -428,7 +410,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mImgSupport.setEnabled(true);
         }
         //点赞数量
-        mHelper.setText(mTextSupport, bean.circleIndexBo.praiseCount);
+        mHelper.setText(mTextSupport,String.format(getString(R.string.support_num),bean.circleIndexBo.praiseCount));
         //点赞头像
         mHelper.updateUserHead(mSupportLinear,bean.circleIndexBo.isPraise,mCircleId,bean.praiseList);
     }
@@ -499,10 +481,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     public void getCirleFocus(JsonNull jsonNull) {
         if (mFollow.isSelected()) {
             mFollow.setSelected(false);
-            mFollow.setText("已关注");
         } else {
             mFollow.setSelected(true);
-            mFollow.setText("+ 关注");
         }
         //关注 BBSClassifyFragment
         mIsBBSFlown = true;
@@ -516,8 +496,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     @Override
     public void getCirlePraise(JsonNull jsonNull) {
         mImgSupport.setImageResource(R.mipmap.icon_support_click);
-        int mPraiseNum = mHelper.getTextNum(mTextSupport) + 1;
-        mTextSupport.setText(String.valueOf(mPraiseNum));
+        int mPraiseNum = mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null ? mCircleDetailBean.circleIndexBo.praiseCount + 1 : 1;
+        mTextSupport.setText(String.format(getString(R.string.support_num),mPraiseNum));
         mImgSupport.setEnabled(false);
         updatePraiseList();
         //点赞 BBSClassifyFragment
@@ -585,8 +565,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mIsBBSPraise = false; //true 表示当前页点赞
             return;
         }
-        if (mCircleDetailBean != null && event.topic_id.equals(mCircleId)) {
-            mCircleDetailBean.circleIndexBo.isPraise = "1";
+        if (mCircleDetailBean == null || mCircleDetailBean.circleIndexBo == null){return;}
+
+        if (event.topic_id.equals(mCircleId)){
+             mCircleDetailBean.circleIndexBo.isPraise = "1";
             //是否点赞
             if (mCircleDetailBean.circleIndexBo.isPraise()) {
                 mImgSupport.setImageResource(R.mipmap.icon_support_click);
@@ -596,12 +578,12 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mImgSupport.setEnabled(true);
             }
             if (TextUtils.isEmpty(event.praiseNum)) {
-                mCircleDetailBean.circleIndexBo.praiseCount = Integer.parseInt(mCircleDetailBean.circleIndexBo.praiseCount) + 1 + "";
+                mCircleDetailBean.circleIndexBo.praiseCount = mCircleDetailBean.circleIndexBo.praiseCount + 1;
             } else {
-                mCircleDetailBean.circleIndexBo.praiseCount = event.praiseNum;
+                mCircleDetailBean.circleIndexBo.praiseCount = Integer.parseInt(event.praiseNum);
             }
             //点赞数量
-            mHelper.setText(mTextSupport, mCircleDetailBean.circleIndexBo.praiseCount);
+            mHelper.setText(mTextSupport,String.format(getString(R.string.support_num),mCircleDetailBean.circleIndexBo.praiseCount));
             updatePraiseList();
         }
     }
@@ -623,8 +605,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             praiseListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
             praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
             praiseList.add(praiseListBean);
-            String attention = mCircleDetailBean.circleIndexBo !=null ? mCircleDetailBean.circleIndexBo.isPraise : "";
-            mHelper.updateUserHead(mSupportLinear,attention,mCircleId,mCircleDetailBean.praiseList);
+            String attention = mCircleDetailBean!=null && mCircleDetailBean.circleIndexBo !=null ? mCircleDetailBean.circleIndexBo.isPraise : "";
+            mHelper.updateUserHead(mSupportLinear,attention,mCircleId, mCircleDetailBean !=null ? mCircleDetailBean.praiseList : null);
         }
     }
 
@@ -642,12 +624,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             //是否关注
             if (mCircleDetailBean.circleIndexBo.isFocus()) {
                 mFollow.setSelected(true);
-                mFollow.setText("已关注");
-                mFollow.setEnabled(true);
             } else {
                 mFollow.setSelected(false);
-                mFollow.setText("+ 关注");
-                mFollow.setEnabled(true);
             }
         }
     }
