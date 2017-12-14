@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     };
 
     private int mChangeTabType = 0;
+    private int oldTabId;
 
     @Override
     public int getLayoutId() {
@@ -161,6 +162,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
             mMomOutLy.setLayoutParams(params);
         }
+        oldTabId = R.id.rb_home;
         //mPresenter.loadActivity(); //第一期不需要弹出活动
         mPresenter.getUpdateVersion();
     }
@@ -230,27 +232,32 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     toTabIndex = FragmentFactory.FragmentStatus.Home;
                     changeTab(FragmentFactory.FragmentStatus.Home);
                     /*Logs.e("首页111");*/
-                    oldCheckId = R.id.rb_home;
+                    oldTabId = oldCheckId = R.id.rb_home;
                     break;
                 case R.id.rb_market:
                     toTabIndex = FragmentFactory.FragmentStatus.Market;
-                    oldCheckId = R.id.rb_market;
+                    oldTabId = oldCheckId = R.id.rb_market;
                     changeTab(FragmentFactory.FragmentStatus.Market);
                     break;
                 case R.id.rb_trade:
                     toTabIndex = FragmentFactory.FragmentStatus.Trade;
-                    oldCheckId = R.id.rb_trade;
+                    oldTabId = oldCheckId = R.id.rb_trade;
                     changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_circle:
-                    toTabIndex = FragmentFactory.FragmentStatus.Circle;
-                    oldCheckId = R.id.rb_circle;
-                    changeTab(FragmentFactory.FragmentStatus.Circle);
+                    if(App.getConfig().getLoginStatus()) {
+                        toTabIndex = FragmentFactory.FragmentStatus.Circle;
+                        oldTabId = oldCheckId = R.id.rb_circle;
+                        changeTab(FragmentFactory.FragmentStatus.Circle);
+                    } else{
+                        startActivity(LoginActivity.class);
+                        ((RadioButton) findViewById(oldTabId)).setChecked(true);
+                    }
                     break;
                 case R.id.rb_account:
 //                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
                     toTabIndex = FragmentFactory.FragmentStatus.Account;
-                    oldCheckId = R.id.rb_account;
+                    oldTabId = oldCheckId = R.id.rb_account;
                     changeTab(FragmentFactory.FragmentStatus.Account);
                     break;
 
@@ -354,10 +361,10 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public void changeTab(FragmentFactory.FragmentStatus status) {
         if (status == odlState)
             return;
-        if (status == FragmentFactory.FragmentStatus.Circle && TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
-            startActivity(LoginActivity.class);
-            return;
-        }
+//        if (status == FragmentFactory.FragmentStatus.Circle && TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+//            startActivity(LoginActivity.class);
+//            return;
+//        }
         FragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
         odlState = status;
         startChangedImageAnim(status);
