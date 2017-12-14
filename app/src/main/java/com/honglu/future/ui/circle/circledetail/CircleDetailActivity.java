@@ -29,6 +29,7 @@ import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.bean.PraiseListBean;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
@@ -208,6 +209,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mCommentLine.setVisibility(View.VISIBLE);
         mSeeOwner.setSelected(false);
         mSeeOwnerLine.setVisibility(View.INVISIBLE);
+        AndroidUtil.setEmojiFilter(mInput);
 
         mListView.addHeaderView(headView);
         mAdapter = new CircleDetailAdapter(CircleDetailActivity.this, mPostUserId);
