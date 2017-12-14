@@ -12,3 +12,8 @@
 /zhitou-for-android.iml
 local.properties
 /library/library.iml
+/app/app.iml
+*.iml
+.idea
+
+local.properties
