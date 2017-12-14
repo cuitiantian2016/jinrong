@@ -6,6 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -51,24 +52,25 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
 
     @Override
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
+        final CircleMsgBean circleMsgBean = data.get(position);
 
-        ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.avatarPic, holder.mCivHead, R.mipmap.img_head);
+        ImageUtil.display(ConfigUtil.baseImageUserUrl+ circleMsgBean.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
         //回复人昵称
-        setText(holder.mName,item.nickName);
+        setText(holder.mName,circleMsgBean.nickName);
 
         //时间
-        if (!TextUtils.isEmpty(item.createTime)){
-            holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,Long.parseLong(item.createTime)/1000));
+        if (!TextUtils.isEmpty(circleMsgBean.createTime)){
+            holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,Long.parseLong(circleMsgBean.createTime)/1000));
         }else {
             holder.mTiem.setText("");
         }
 
         //回复内容
-        setText(holder.mHuifuContent,item.replyContent);
+        setText(holder.mHuifuContent,circleMsgBean.replyContent);
 
         //内容
-        setText(holder.mContent,item.content);
+        setText(holder.mContent,circleMsgBean.content);
 
         //回复按钮
         holder.mHuifu.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +87,8 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CircleDetailActivity.class);
-                intent.putExtra(CircleDetailActivity.POST_USER_KEY,item.postUserId);
-                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(item.circleId));
+                intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleMsgBean.postUserId);
+                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(circleMsgBean.circleId));
                 mContext.startActivity(intent);
             }
         });
