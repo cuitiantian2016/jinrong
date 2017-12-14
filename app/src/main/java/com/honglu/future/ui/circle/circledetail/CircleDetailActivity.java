@@ -606,7 +606,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             praiseListBean.userId = SpUtil.getString(Constant.CACHE_TAG_UID);
             praiseList.add(praiseListBean);
             String attention = mCircleDetailBean!=null && mCircleDetailBean.circleIndexBo !=null ? mCircleDetailBean.circleIndexBo.isPraise : "";
-            mHelper.updateUserHead(mSupportLinear,attention,mCircleId, mCircleDetailBean !=null ? mCircleDetailBean.praiseList : null);
+            mHelper.updateUserHead(mSupportLinear,attention,mCircleId,praiseList);
         }
     }
 
