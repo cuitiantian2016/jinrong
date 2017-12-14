@@ -41,7 +41,7 @@ public class CircleDetailHelper {
         this.mInputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
-    public void updateUserHead(LinearLayout mSupportLinear , String attention , String circleId, List<PraiseListBean> headList){
+    public void updateUserHead(LinearLayout mSupportLinear , final String attention , final String circleId, List<PraiseListBean> headList){
         mSupportLinear.setVisibility(View.VISIBLE);
         mSupportLinear.removeAllViews();
 
@@ -59,16 +59,13 @@ public class CircleDetailHelper {
                 mSupportLinear.addView(imgHead, params);
             }
         }
-
-        final String mAttention = attention;
-        final String mCircleId = circleId;
         CircleImageView imgHead = new CircleImageView(mContext);
         imgHead.setImageResource(R.mipmap.ic_more);
         imgHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(mAttention)){
-                    RewardDetailActivity.startRewardDetailActivity(mContext, mCircleId, mAttention);
+                if (!TextUtils.isEmpty(attention)){
+                    RewardDetailActivity.startRewardDetailActivity(mContext, circleId, attention);
                 }
             }
         });
