@@ -219,7 +219,7 @@
         <!-- 模糊 -->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowAnimationStyle">@style/ScaleAnimTools</item>
+        <!--<item name="android:windowAnimationStyle">@style/ScaleAnimTools</item>-->
     </style>
 
     <style name="ScaleAnimTools" parent="@android:style/Animation">

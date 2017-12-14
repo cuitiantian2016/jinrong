@@ -8,9 +8,12 @@ import android.view.View;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.KlineGuideDialog;
 import com.honglu.future.ui.trade.bean.KLineBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.trade.fragment.PagerFragment;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.kchart.chart.cross.KCrossLineView;
@@ -56,6 +59,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
     //产品code
     String excode, code;
     private KLinePresenter mKLinePresenter;
+    private boolean mIsOneGuide; //是否开启双击全屏引导
 
     @Override
     public int getLayoutId() {
@@ -127,6 +131,7 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
         //closed = Double.parseDouble(ConvertUtil.NVL(getArguments().getString("closed"), "0"));
 //        code = getArguments().getString("code");
 //        type = getArguments().getString("type");
+        mIsOneGuide = SpUtil.getBoolean(Constant.GUIDE_KLINE_FULLSCREEN, false);
         if (!TextUtils.isEmpty(code)) {
             // int numberScale = ProFormatConfig.getProFormatMap(type + "|" + code.split("(\\d+)")[0]);
             //minuteView.setNumberScal(numberScale != -1 ? numberScale : 2);
@@ -389,6 +394,10 @@ public class KMinuteFragment extends PagerFragment implements KLineContract.View
         }
         minuteView.setkCandleObjList(result);
         minuteView.postInvalidate();
+        if (!mIsOneGuide) {
+            mIsOneGuide = true;
+            new KlineGuideDialog(mContext).show();
+        }
 //            minuteView.perShowCross();//默认显示十字线
 
 //            //需要layout布局完成之后

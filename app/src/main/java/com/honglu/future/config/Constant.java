@@ -22,14 +22,14 @@ public class Constant {
     public static final String CACHE_USERLIST_KEY = "userList";
 
     public static final String CACHE_USER_INFO = "userinfo";//用户信息
-    public static final String CACHE_USER_AVATAR= "useravatar";//用户信息
-    public static final String CACHE_USER_ASSES= "userasses";//用户资产
+    public static final String CACHE_USER_AVATAR = "useravatar";//用户信息
+    public static final String CACHE_USER_ASSES = "userasses";//用户资产
     public static final String CACHE_USER_AVAILABLE_MONEY = "user_available_money";//用户资产
-    public static final String CACHE_ACCOUNT_DANGER_ALERT_DATE= "CACHE_ACCOUNT_DANGER_ALERT_DATE"; //风险率高于80%弹窗日期
-    public static final String CACHE_ACCOUNT_DANGER_HAS_ALERT= "CACHE_ACCOUNT_DANGER_HAS_ALERT"; //风险率高于80%当天是否弹窗
+    public static final String CACHE_ACCOUNT_DANGER_ALERT_DATE = "CACHE_ACCOUNT_DANGER_ALERT_DATE"; //风险率高于80%弹窗日期
+    public static final String CACHE_ACCOUNT_DANGER_HAS_ALERT = "CACHE_ACCOUNT_DANGER_HAS_ALERT"; //风险率高于80%当天是否弹窗
 
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
-    public static final String CACHE_ACCOUNT_USER_NAME= "CACHE_ACCOUNT_USER_NAME"; //期货账号
+    public static final String CACHE_ACCOUNT_USER_NAME = "CACHE_ACCOUNT_USER_NAME"; //期货账号
 
     public static final String CUSTOMER_PHONE = "4009610211";//客服电话
     public static final String CUSTOMER_PHONE_TEXT = "400-961-0211";//客服电话
@@ -54,6 +54,7 @@ public class Constant {
     //判断是不是第一次进app 是的话暂时引导页
     public static final String CACHE_IS_FIRST_LOGIN = "FirstLogin";//key
     public static final String GUIDE_OPEN_TRANSACTION = "guide_open_transaction"; //是否交易建仓引导 key
+    public static final String GUIDE_KLINE_FULLSCREEN = "GUIDE_KLINE_FULLSCREEN"; //是否k线双击全屏引导
     public static final int HAS_ALREADY_LOGIN = 1;//首次
     public static final int NOT_FIRST_LOGIN = -1;
 
