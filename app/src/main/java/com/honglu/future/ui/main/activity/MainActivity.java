@@ -289,6 +289,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOGOUT) {
                 JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
+                hideRedMsg();
                 //默认到首页
                 changeTab(FragmentFactory.FragmentStatus.Home);
                 ((RadioButton) findViewById(getCheckIdByStatus(FragmentFactory.FragmentStatus.Home))).setChecked(true);
@@ -303,11 +304,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal_red), null, null);
                 }
             } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {//红点隐藏
-                int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
-                if (tag != 2) {
-                    mRbCircle.setTag(2);
-                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal), null, null);
-                }
+                hideRedMsg();
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
@@ -319,6 +316,14 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             }
             changeTab(((ChangeTabMainEvent) event).getTab());
             ((RadioButton) findViewById(getCheckIdByStatus(((ChangeTabMainEvent) event).getTab()))).setChecked(true);
+        }
+    }
+
+    private void hideRedMsg(){
+        int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
+        if (tag != 2) {
+            mRbCircle.setTag(2);
+            mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal), null, null);
         }
     }
 
