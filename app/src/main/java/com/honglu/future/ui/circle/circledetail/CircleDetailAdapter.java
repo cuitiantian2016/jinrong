@@ -125,7 +125,7 @@ public class CircleDetailAdapter extends BaseAdapter{
 
             String huiFuStr = "回复 ";
             String huiFuName = bean.beReplyNickName;
-            String content = bean.replyContent;
+            String content = String.format(mActivity.getString(R.string.text_maohao),bean.replyContent);
             holder.mContent.setText(getSpannableContent(huiFuStr,huiFuName,content));
         }else {
             //头像
