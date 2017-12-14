@@ -239,6 +239,17 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 && mList.size() > 0){
           mPresenter.getRealTimeData(mPushCode);
         }
+
+        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
+            if (mList !=null && mList.size() > 0){
+                mPresenter.getRealTimeData(mPushCode);
+            }
+        }else if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)){
+            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
+            if (zxMarketList == null || zxMarketList.size() <=0){
+                mPresenter.getRealTimeData(mPushCode);
+            }
+        }
     }
 
     //tab 切换时调用接口

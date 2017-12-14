@@ -131,6 +131,11 @@ public class MarketListAdapter extends BaseAdapter {
 
         }
 
+        if (listBean.getIsClosed() == 2){
+            holder.mTextXiu.setVisibility(View.VISIBLE);
+        }else {
+            holder.mTextXiu.setVisibility(View.INVISIBLE);
+        }
 
         if (mTabSelectType.equals(MarketFragment.ZXHQ_TYPE)) {
             holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);
@@ -250,6 +255,7 @@ public class MarketListAdapter extends BaseAdapter {
         ImageView mAddDelIc;
         TextView mTvQuoteChange;//涨幅量
         TextView mTvHavedPositions;//持仓量
+        TextView mTextXiu;
 
         ViewHolder(View view) {
             mRootView = view.findViewById(R.id.rootView);
@@ -259,6 +265,7 @@ public class MarketListAdapter extends BaseAdapter {
             mAddDelIc = (ImageView) view.findViewById(R.id.iv_adddel);
             mTvQuoteChange = (TextView) view.findViewById(R.id.text_quote_change);
             mTvHavedPositions = (TextView) view.findViewById(R.id.text_haved_positions);
+            mTextXiu = (TextView) view.findViewById(R.id.text_xiu);
         }
     }
 

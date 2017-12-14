@@ -218,4 +218,5 @@
     <string name="comment_auth">只看楼主 %d</string>
     <string name="support_num">%d人点赞</string>
     <string name="support_num_content">人点赞</string>
+    <string name="text_xiu">休</string>
 </resources>
