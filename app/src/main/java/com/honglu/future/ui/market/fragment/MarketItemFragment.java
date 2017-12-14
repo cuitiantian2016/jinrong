@@ -592,7 +592,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
          for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : dataList){
 
              for (RealTimeBean.Data realTimeBean : realTimeList){
-                  if (realTimeBean.getExchangeID().equals(listBean.getExchangeID())){
+                  if (realTimeBean.getExchangeID().equals(listBean.getExchangeID()) && listBean.getInstrumentID().equals(realTimeBean.getInstrumentID())){
                       listBean.setIsClosed(realTimeBean.getIsClosed());
                   }
              }
