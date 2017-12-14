@@ -15,5 +15,5 @@ local.properties
 /app/app.iml
 *.iml
 .idea
-
 local.properties
+/SpinkitLoadingLib/build/
