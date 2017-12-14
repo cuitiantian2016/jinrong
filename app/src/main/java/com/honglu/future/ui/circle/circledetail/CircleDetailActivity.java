@@ -503,6 +503,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     @Override
     public void getCirlePraise(JsonNull jsonNull) {
         mImgSupport.setImageResource(R.mipmap.icon_support_click);
+        if ( mCircleDetailBean !=null &&  mCircleDetailBean.circleIndexBo !=null){
+            mCircleDetailBean.circleIndexBo.isPraise = "1";
+        }
         int mPraiseNum = mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null ? mCircleDetailBean.circleIndexBo.praiseCount + 1 : 1;
         mTextSupport.setText(String.format(getString(R.string.support_num),mPraiseNum));
         mImgSupport.setEnabled(false);
