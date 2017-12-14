@@ -12,6 +12,7 @@ import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.UserList;
+import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -38,6 +39,14 @@ public class MyToFriendFragment extends CommonFragment {
     int rows;
     private boolean isMore;
     private boolean mIsRefresh;
+    public static MyToFriendFragment myToFriendFragment;
+
+    public static MyToFriendFragment getInstance() {
+        if (myToFriendFragment == null) {
+            myToFriendFragment = new MyToFriendFragment();
+        }
+        return myToFriendFragment;
+    }
 
     @Override
     public int getLayoutId() {
@@ -58,11 +67,13 @@ public class MyToFriendFragment extends CommonFragment {
     public void onResume() {
         super.onResume();
         follow_id_temp = null;
+        rows = 0;
         getFriends(true);
     }
 
     public void refresh() {
         follow_id_temp = null;
+        rows = 0;
         getFriends(true);
     }
 

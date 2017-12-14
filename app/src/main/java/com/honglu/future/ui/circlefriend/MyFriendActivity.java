@@ -81,7 +81,11 @@ public class MyFriendActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
-
+                if (position == 0) {
+                    mMyToFriendFragment.refresh();
+                } else if (position == 1) {
+                    mFriendToMyFragment.refresh();
+                }
             }
         });
     }

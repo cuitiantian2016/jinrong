@@ -41,6 +41,14 @@ public class FriendToMyFragment extends CommonFragment {
     int rows;
     private boolean isMore;
     private boolean mIsRefresh;
+    public static FriendToMyFragment friendToMyFragment;
+
+    public static FriendToMyFragment getInstance() {
+        if (friendToMyFragment == null) {
+            friendToMyFragment = new FriendToMyFragment();
+        }
+        return friendToMyFragment;
+    }
 
     @Override
     public int getLayoutId() {
@@ -60,11 +68,13 @@ public class FriendToMyFragment extends CommonFragment {
     public void onResume() {
         super.onResume();
         follow_id_temp = "0";
+        rows = 0;
         getFriends(true);
     }
 
     public void refresh() {
         follow_id_temp = "0";
+        rows = 0;
         getFriends(true);
     }
 
