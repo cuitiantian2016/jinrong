@@ -21,6 +21,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.UserList;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.presenter.CommonAdapter;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -167,7 +168,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                             BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                             bbsFlownEvent.uid = item.userId;
                             bbsFlownEvent.follow = foll;
-                            ((MyFriendActivity)mContexts).setData(foll,mDirection);
+                            ((MyFriendActivity) mContexts).setData(foll, mDirection);
                             EventBus.getDefault().post(bbsFlownEvent);
                         }
 
@@ -194,11 +195,11 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                     if (item.userId.equals(user_id)) {
                         return;
                     } else {
-                        // TODO: 2017/12/7 跳转圈友主页 
-//                        Intent i1 = new Intent(mContext.getContext(), OtherDetailActivity.class);
-//                        i1.putExtra("fid", item.uid);
-//                        i1.putExtra("user_name", item.user_name);
-//                        mContext.getContext().startActivity(i1);
+                        Intent intent = new Intent(mContext.getContext(), CircleMineActivity.class);
+                        intent.putExtra("userId", item.userId);
+                        intent.putExtra("imgHead", ConfigUtil.baseImageUserUrl + item.avatarPic);
+                        intent.putExtra("nickName", item.nickName);
+                        mContext.getContext().startActivity(intent);
                     }
                 }
             });
