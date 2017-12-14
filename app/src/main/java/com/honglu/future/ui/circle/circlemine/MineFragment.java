@@ -75,6 +75,8 @@ public class MineFragment extends CommonFragment {
     private String nickName;
     private boolean mIsMyself;
     private boolean isFocued;
+    private int mFocusNum;
+    private int mFansNum;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,7 +145,10 @@ public class MineFragment extends CommonFragment {
         layout_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, MyFriendActivity.class));
+                Intent intent = new Intent(mContext, MyFriendActivity.class);
+                intent.putExtra("focusNum",mFocusNum);
+                intent.putExtra("fansNum",mFansNum);
+                mContext.startActivity(intent);
             }
         });
 
@@ -291,6 +296,8 @@ public class MineFragment extends CommonFragment {
 //                            } else {
 //                                flag.setVisibility(View.INVISIBLE);
 //                            }
+                            mFocusNum = o.getFocusNum();
+                            mFansNum = o.getBeFocusNum();
                             attention_num.setText("关注" + o.getFocusNum());
                             endorse_num.setText("粉丝" + o.getBeFocusNum());
                             topic_num.setText("发帖" + o.getPostNum());

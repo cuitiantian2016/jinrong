@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circlefriend;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -36,18 +37,18 @@ import java.util.List;
 
 public class MyFriendsAdapter extends CommonAdapter<UserList> {
 
-    private Context mContext;
+    private Context mContexts;
     private ListView mListView;
     private List<UserList> mList = new ArrayList<UserList>();
-    private String mDirection;
+    private int mDirection;//1 关注 2 粉丝
 
     public interface ScrollToLastCallBack {
         void onScrollToLast(Integer pos);
     }
 
-    public MyFriendsAdapter(String direction, ListView listview, Context context) {
+    public MyFriendsAdapter(int direction, ListView listview, Context context) {
         mListView = listview;
-        mContext = context;
+        mContexts = context;
         mDirection = direction;
     }
 
@@ -166,6 +167,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                             BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                             bbsFlownEvent.uid = item.userId;
                             bbsFlownEvent.follow = foll;
+                            ((MyFriendActivity)mContexts).setData(foll,mDirection);
                             EventBus.getDefault().post(bbsFlownEvent);
                         }
 

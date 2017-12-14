@@ -74,7 +74,7 @@ public class FriendToMyFragment extends CommonFragment {
         empty_view = LayoutInflater.from(mActivity).inflate(R.layout.fragment_bbs_empty, null);
         TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
         empty_text.setText("你还没有粉丝哦~");
-        mAdapter = new MyFriendsAdapter("2", mListView, mContext);
+        mAdapter = new MyFriendsAdapter(2, mListView, mActivity);
         mListView.setAdapter(mAdapter);
         mSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -137,7 +137,7 @@ public class FriendToMyFragment extends CommonFragment {
                                         if (mListView.getFooterViewsCount() != 0)
                                             mListView.removeFooterView(empty_view);
                                     }
-                                    ((MyFriendActivity) getActivity()).setData(o.size());
+//                                    ((MyFriendActivity) getActivity()).setData(o.size());
                                 } else if (o.size() > 0 && o.size() < 10) {
                                     follow_id_temp = o.get(o.size() - 1).userId;
                                     if (mListView.getFooterViewsCount() != 0)
@@ -155,7 +155,6 @@ public class FriendToMyFragment extends CommonFragment {
                                 } else {
                                     isMore = false;
                                 }
-                                ((MyFriendActivity) getActivity()).setBeFocusData(o.size());
                             }
                             mSmartRefresh.setEnableLoadmore(isMore);
                         }
