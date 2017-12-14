@@ -298,9 +298,9 @@ public class MineFragment extends CommonFragment {
 //                            }
                             mFocusNum = o.getFocusNum();
                             mFansNum = o.getBeFocusNum();
-                            attention_num.setText("关注" + o.getFocusNum());
-                            endorse_num.setText("粉丝" + o.getBeFocusNum());
-                            topic_num.setText("发帖" + o.getPostNum());
+                            attention_num.setText("关注 " + o.getFocusNum());
+                            endorse_num.setText("粉丝 " + o.getBeFocusNum());
+                            topic_num.setText("发帖 " + o.getPostNum());
                             if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
                                 if (mListView.getFooterViewsCount() != 0)
                                     mListView.removeFooterView(empty_view);
@@ -401,7 +401,7 @@ public class MineFragment extends CommonFragment {
         if (attutudeUserList != null) {
             for (CircleMineBean.ContactUser attutudeUser : attutudeUserList) {
                 CircleImageView headIV = new CircleImageView(getActivity());
-                int size = getResources().getDimensionPixelSize(R.dimen.dimen_36dp);
+                int size = getResources().getDimensionPixelSize(R.dimen.dimen_30dp);
                 mAttutudeUserLy.addView(headIV, new LinearLayout.LayoutParams(size, size));
                 ImageUtil.display(ConfigUtil.baseImageUserUrl + attutudeUser.avatarPic, headIV, R.mipmap.img_head);
                 if (mAttutudeUserLy.getChildCount() >= 4)

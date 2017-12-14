@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/dimen_2dp"
+                    android:paddingLeft="@dimen/dimen_4dp"
                     android:textColor="@color/color_878787"
                     android:textSize="@dimen/dimen_12sp"
                     tools:text="0" />
@@ -201,7 +201,7 @@
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 android:layout_alignParentRight="true"
                 android:drawableLeft="@mipmap/ic_bbs_more_comment"
-                android:drawablePadding="@dimen/dimen_2dp"
+                android:drawablePadding="@dimen/dimen_4dp"
                 android:gravity="center|right"
                 android:text="0"
                 android:textColor="@color/color_878787"
