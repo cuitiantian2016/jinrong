@@ -327,7 +327,8 @@ public class BBSMineAdapter extends BaseAdapter {
                 }
             });
             //是否精华
-            ViewHelper.setVisibility(best, item.getIsHot());
+            boolean isHot = item.getIsHot() != 0;
+            ViewHelper.setVisibility(best, isHot);
             ViewHelper.safelySetText(hot_title, item.getTitle());
             ViewHelper.safelySetText(announce_time, item.getCreateTime());// 热门不展示
             // 评论内容
