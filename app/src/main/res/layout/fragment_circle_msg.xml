@@ -67,6 +67,7 @@
             android:paddingLeft="@dimen/dimen_15dp"
             android:paddingTop="@dimen/dimen_5dp"
             android:paddingBottom="@dimen/dimen_5dp"
+            android:maxLength="500"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginLeft="@dimen/dimen_15dp"
