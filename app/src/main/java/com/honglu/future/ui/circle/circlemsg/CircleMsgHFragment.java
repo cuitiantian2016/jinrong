@@ -122,7 +122,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
                 mPosition = position;
                 CircleMsgBean circleMsgBean = mAdapter.getCircleBean(mPosition);
                 if (circleMsgBean !=null){
-                    mInput.setHint("回复:"+circleMsgBean.beNickName);
+                    mInput.setHint("回复:"+circleMsgBean.nickName);
                 }
                 mInput.setFocusable(true);
                 mInput.setFocusableInTouchMode(true);

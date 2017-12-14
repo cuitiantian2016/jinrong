@@ -46,8 +46,8 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
         mTitle.setRightTitle("清空",this);
 
         ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
+        mTabList.add(new TabEntity("收到的回复"));
         mTabList.add(new TabEntity("收到的评论"));
-        mTabList.add(new TabEntity("发出的评论"));
 
         ArrayList<Fragment> mFragments = new ArrayList<>();
         mHfFragment = new CircleMsgHFragment();

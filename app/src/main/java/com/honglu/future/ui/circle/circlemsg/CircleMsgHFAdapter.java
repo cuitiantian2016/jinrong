@@ -52,10 +52,10 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
     @Override
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
 
-        ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.beAvatarPic, holder.mCivHead, R.mipmap.img_head);
+        ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
         //回复人昵称
-        setText(holder.mName,item.beNickName);
+        setText(holder.mName,item.nickName);
 
         //时间
         if (!TextUtils.isEmpty(item.createTime)){
