@@ -51,8 +51,8 @@ public class MyFriendActivity extends BaseActivity {
         mTitle.setTitle(false, R.color.white, "圈友");
         focusNum = getIntent().getExtras().getInt("focusNum", 0);
         fansNum = getIntent().getExtras().getInt("fansNum", 0);
-        mFocusNum = "我的关注(" + focusNum + ")";
-        mBeFocusNum = "我的粉丝(" + fansNum + ")";
+        mFocusNum = "我的关注 " + focusNum;
+        mBeFocusNum = "我的粉丝 " + fansNum;
         mFocusTab = new TabEntity(mFocusNum);
         mBeFocusTab = new TabEntity(mBeFocusNum);
         //添加tab实体
@@ -102,7 +102,7 @@ public class MyFriendActivity extends BaseActivity {
                 focusNum++;
             }
         }
-        mFocusNum = "我的关注(" + focusNum + ")";
+        mFocusNum = "我的关注 " + focusNum;
         mTabList.get(0).setTabTitle(mFocusNum);
         mCommonTabLayout.setTabData(mTabList);
     }
