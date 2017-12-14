@@ -59,7 +59,7 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
 
         //时间
         if (!TextUtils.isEmpty(item.createTime)){
-            holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,Long.parseLong(item.createTime)));
+            holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,Long.parseLong(item.createTime)/1000));
         }else {
             holder.mTiem.setText("");
         }
