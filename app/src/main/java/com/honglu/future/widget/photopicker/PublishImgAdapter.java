@@ -29,7 +29,7 @@ public class PublishImgAdapter extends BaseAdapter {
 		if (list != null){
 			mList.clear();
 			mList.addAll(list);
-			if (list.size() == 0 || list.size() != 9){
+			if (list.size() == 0 || list.size() < 6){
 				mList.add(EMPTY);
 			}
 			notifyDataSetChanged();
