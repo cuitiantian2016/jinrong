@@ -50,6 +50,7 @@
             android:layout_marginBottom="@dimen/dimen_14dp"
             android:layout_marginLeft="@dimen/dimen_15dp"
             android:textSize="@dimen/dimen_15sp"
+            android:maxLength="500"
             android:textColorHint="@color/color_CACBCC"
             android:textColor="@color/color_333333"
             android:hint="@string/circle_input_hint"
