@@ -151,6 +151,9 @@ public class CircleDetailHelper {
         return mInput.getText() != null && !TextUtils.isEmpty(mInput.getText().toString()) ? mInput.getText().toString().trim() : "";
     }
 
+    public String getText(TextView view){
+        return view.getText() !=null && !TextUtils.isEmpty(view.getText().toString()) ? view.getText().toString() : "";
+    }
     public void setText(TextView view, String text) {
         if (!TextUtils.isEmpty(text)) {
             view.setText(text);

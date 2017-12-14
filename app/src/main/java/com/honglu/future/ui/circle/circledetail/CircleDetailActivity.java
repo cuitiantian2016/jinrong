@@ -300,14 +300,11 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 }
                 break;
             case R.id.tv_right://title 分享按钮
-                String contentStr = mContnet.getText().toString();
-                String title;
-                if(contentStr.length()>=23){
-                    title = contentStr.substring(0,22)+"...";
-                } else{
-                    title = contentStr;
+                String contentStr = mHelper.getText(mContnet);
+                if (!TextUtils.isEmpty(contentStr)){
+                    String title = contentStr.length() >=23 ? contentStr.substring(0,22)+"..." : contentStr;
+                    ShareUtils.getIntance().share(this, "", ConfigUtil.baseH5Url+"activity/oxstallShare?userId="+SpUtil.getString(Constant.CACHE_TAG_UID)+"&circleId="+mCircleId+"&postUserId="+mPostUserId, title, "投资达人喜欢的社区");
                 }
-                ShareUtils.getIntance().share(this, "", ConfigUtil.baseH5Url+"activity/oxstallShare?userId="+SpUtil.getString(Constant.CACHE_TAG_UID)+"&circleId="+mCircleId+"&postUserId="+mPostUserId, title, "投资达人喜欢的社区");
                 break;
             case R.id.civ_head: //头像
                 if (mCircleDetailBean != null && mCircleDetailBean.circleIndexBo != null) {
