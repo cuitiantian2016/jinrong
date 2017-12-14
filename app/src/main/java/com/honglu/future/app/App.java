@@ -119,6 +119,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     }
 
     public void initBugly() {
+
         // 获取当前包名
         String packageName = getContext().getPackageName();
         // 获取当前进程名
