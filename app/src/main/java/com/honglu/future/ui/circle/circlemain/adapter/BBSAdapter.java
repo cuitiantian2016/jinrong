@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -302,12 +303,12 @@ public class BBSAdapter extends BaseAdapter {
                         if (TextUtils.isEmpty(url)) {
                             Glide.with(context).load(R.mipmap.other_empty).centerCrop().
                                     placeholder(R.mipmap.other_empty).error(R.mipmap.other_empty).
-                                    diskCacheStrategy(DiskCacheStrategy.ALL).
+                                    diskCacheStrategy(DiskCacheStrategy.NONE).
                                     dontAnimate().into(imageView);
                         } else {
                             Glide.with(context).load(url).centerCrop().
                                     placeholder(R.mipmap.other_empty).error(R.mipmap.other_empty).
-                                    diskCacheStrategy(DiskCacheStrategy.ALL).
+                                    diskCacheStrategy(DiskCacheStrategy.NONE).
                                     dontAnimate().into(imageView);
                         }
                     }
