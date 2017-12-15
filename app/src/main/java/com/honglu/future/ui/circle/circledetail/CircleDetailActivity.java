@@ -89,6 +89,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private View mCommentLine;
     private TextView mSeeOwner;
     private View mSeeOwnerLine;
+    private View mFooterView;
 
     private List<CommentBean> mCommentList = new ArrayList<>();
     private List<CommentBean> mCommentAuthList = new ArrayList<>();
@@ -117,6 +118,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private boolean mIsBBSFlown = false; //标记当前页
     private boolean mIsCommentAll = false; //false 标记下次tab切换时要请求接口
     private boolean mIsCommentAuth = false; //false 标记下次tab切换时要请求接口
+
 
     @Override
     public void initPresenter() {
@@ -187,6 +189,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
         View headView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_head, null);
+        mFooterView = View.inflate(CircleDetailActivity.this, R.layout.layout_circle_detail_footer, null);
         mCivHead = (CircleImageView) headView.findViewById(R.id.civ_head);
         mName = (TextView) headView.findViewById(R.id.tv_name);
         mUserLabel = (TextView) headView.findViewById(R.id.tv_user_label);
@@ -266,8 +269,13 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
+                    //addHead
                     return;
-                } //addHead
+                }
+                if (mListView.getFooterViewsCount() > 0 && mAdapter.getCount() == 0){
+                    //addFooter
+                    return;
+                }
                 if (COMMENT_AUTH.equals(getCommentType())) {
                     mCommentBean = null;
                     mInput.setHint(getString(R.string.circle_input_hint));
@@ -345,6 +353,9 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mSeeOwnerLine.setVisibility(View.INVISIBLE);
                 mRefreshView.setEnableLoadmore(mCommentMore);
                 mAdapter.notifyDataChanged(false, getCommentType(), mCommentList);
+
+                boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
                 if (!mIsCommentAll) {
                     mCommentRows = 0;
                     getCirleComment(mCommentRows, "");
@@ -362,8 +373,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mSeeOwner.setSelected(true);
                 mSeeOwnerLine.setVisibility(View.VISIBLE);
                 mRefreshView.setEnableLoadmore(mCommentAuthMore);
-
                 mAdapter.notifyDataChanged(false, getCommentType(), mCommentAuthList);
+
+                boolean mIsEmptyAuth = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmptyAuth,mFooterView,mListView);
                 if (!mIsCommentAuth) {
                     mCommentAuthRows = 0;
                     getCirleCommentAuth(mCommentAuthRows);
@@ -448,10 +461,16 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         if (mCommentRows > 0) {
             mCommentList.addAll(bean.commentBosAll);
             mAdapter.notifyDataChanged(true, getCommentType(), bean.commentBosAll);
+
+            boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
+            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
         } else {
             mCommentList.clear();
             mCommentList.addAll(bean.commentBosAll);
             mAdapter.notifyDataChanged(false, getCommentType(), bean.commentBosAll);
+
+            boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
+            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
         }
     }
 
@@ -475,10 +494,16 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         if (mCommentAuthRows > 0) {
             mCommentAuthList.addAll(list);
             mAdapter.notifyDataChanged(true, getCommentType(), list);
+
+            boolean mIsEmpty = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
+            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
         } else {
             mCommentAuthList.clear();
             mCommentAuthList.addAll(list);
             mAdapter.notifyDataChanged(false, getCommentType(), list);
+
+            boolean mIsEmpty = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
+            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
         }
     }
 

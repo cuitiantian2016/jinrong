@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -146,6 +147,23 @@ public class CircleDetailHelper {
             }
         }
     }
+
+
+    //设置空白页面
+    public void setEmptyView(boolean isEmpty,View mFooterEmptyView ,ListView mListView) {
+        if (isEmpty) {
+             mFooterEmptyView.setVisibility(View.VISIBLE);
+            if (mListView.getFooterViewsCount() <= 0 && mFooterEmptyView != null) {
+                mListView.addFooterView(mFooterEmptyView);
+            }
+        } else {
+            mFooterEmptyView.setVisibility(View.GONE);
+            if (mListView.getFooterViewsCount() > 0 && mFooterEmptyView != null) {
+                mListView.removeFooterView(mFooterEmptyView);
+            }
+        }
+    }
+
 
     public String geInputText(EditText mInput) {
         return mInput.getText() != null && !TextUtils.isEmpty(mInput.getText().toString()) ? mInput.getText().toString().trim() : "";
