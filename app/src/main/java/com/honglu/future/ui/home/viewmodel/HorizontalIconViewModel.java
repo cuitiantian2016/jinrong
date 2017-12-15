@@ -20,11 +20,10 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
-import com.honglu.future.ui.usercenter.activity.KeFuActivity;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -126,7 +125,7 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                         EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Market));
                     }else if (homeIcons.title.equals("咨询客服")){
                         MobclickAgent.onEvent(mContext,"shouye_zixunkefu_click","首页_咨询客服");
-                        mContext.startActivity(new Intent(mContext,KeFuActivity.class));
+                        AndroidUtil.startKF(mContext);
                     }
                 }
             });

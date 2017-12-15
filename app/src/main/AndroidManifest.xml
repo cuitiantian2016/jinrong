@@ -201,10 +201,6 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.usercenter.activity.KeFuActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".ui.trade.kchart.KLineMarketActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true"

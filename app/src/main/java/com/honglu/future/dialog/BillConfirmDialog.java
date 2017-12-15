@@ -2,7 +2,6 @@ package com.honglu.future.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,16 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
-import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.ui.usercenter.adapter.HistoryRecordsAdapter;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
-import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.DrawableCenterTextView;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.honglu.future.widget.tab.CommonTabLayout;
@@ -243,7 +239,7 @@ public class BillConfirmDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.tv_right:
-                mContext.startActivity(new Intent(mContext, KeFuActivity.class));
+                AndroidUtil.startKF(getContext());
                 break;
             case R.id.tv_confirm:
                 mListener.onConfirmClick();

@@ -26,7 +26,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
+import com.sobot.chat.SobotApi;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -761,5 +763,23 @@ public class AndroidUtil {
         } catch (Exception e) {
         }
         return "";
+    }
+
+    public static void startKF(Context context){
+        if( App.info==null){
+            App.initKFInfo();
+        }
+        /**
+
+         * @param context 上下文对象
+
+         * @param information 初始化参数
+
+         */
+        SobotApi.startSobotChat(context, App.info);
+    }
+
+    public static void exitKF(Context context){
+        SobotApi.exitSobotChat(context);
     }
 }

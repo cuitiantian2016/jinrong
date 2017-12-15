@@ -7,12 +7,10 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cfmmc.app.sjkh.MainActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
@@ -24,10 +22,8 @@ import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
-import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
-import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
@@ -39,24 +35,22 @@ import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.historybill.HistoryBillActivity;
 import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
-import com.honglu.future.ui.usercenter.activity.KeFuActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
-import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.ExpandableLayout;
-import com.honglu.future.widget.tab.CustomTabEntity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -284,7 +278,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.tv_kefu:
                 clickTab("wode_zaixiankefu_click","我的_在线客服");
-                startActivity(KeFuActivity.class);
+                AndroidUtil.startKF(getActivity());
                 break;
             case R.id.tv_withdrawals:
                 clickTab("wode_myaccount_tixian","我的_我的账户_提现");

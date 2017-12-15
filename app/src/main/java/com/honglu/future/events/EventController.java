@@ -19,6 +19,7 @@ import com.honglu.future.ui.login.presenter.LoginOutPresenter;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
+import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -90,7 +91,7 @@ public class EventController {
      * @param event
      */
     private void logOut(LogoutEvent event) {
-
+        AndroidUtil.exitKF(App.getContext());
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_LOGOUT));
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
         Intent intent = new Intent(event.getApplicationContext(), MainActivity.class);

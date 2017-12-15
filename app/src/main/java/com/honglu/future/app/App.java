@@ -30,6 +30,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
+import com.sobot.chat.api.model.Information;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -87,6 +88,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         //bugly相关功能初始化(版本更新、bug检测)
         initBugly();
         initLoadingView(getContext());
+        initKFInfo();
        /* XGPushConfig.setAccessId(getContext(), KeyConfig.XG_ACCESS_ID);
         XGPushConfig.setAccessKey(getContext(), KeyConfig.XG_ACCESS_KEY);*/
     }
@@ -196,6 +198,59 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public static String getAPPName() {
         return getContext().getResources().getString(R.string.app_name);
     }
+    public static Information info;//客服系统的初始化信息
+    public static Information initKFInfo(){
+        if (info==null){
+            info = new Information();
+            info.setAppkey("7eefdf483c6e4650af93b7dae5717eb1");
+            //用户编号
+            //注意：uid为用户唯一标识，不能传入一样的值
+            info.setUid(SpUtil.getString(Constant.CACHE_TAG_UID));
+            //用户昵称，选填
+            info.setUname(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            //用户姓名，选填
+            info.setRealname("");
+            //用户电话，选填
+            info.setTel(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
+            //用户邮箱，选填
+            info.setEmail("");
+            //自定义头像，选填
+            info.setFace(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR));
+            //用户QQ，选填
+            info.setQq("");
+            //用户备注，选填
+            info.setRemark("");
+            //对话页标题，选填
+            //info.setVisitTitle("");
+            //对话页路径，选填
+            //info.setVisitUrl("");
+
+            //默认false：显示转人工按钮。true：智能转人工
+
+           // info.setArtificialIntelligence(false);
+
+            //当未知问题或者向导问题显示超过(X)次时，显示转人工按钮。
+
+            //注意：只有ArtificialIntelligence参数为true时起作用
+
+          //  info.setArtificialIntelligenceNum(X);
+
+            //是否使用语音功能 true使用 false不使用   默认为true
+
+         //   info.setUseVoice(true);
+
+            //是否使用机器人语音功能 true使用 false不使用 默认为false
+
+            info.setUseRobotVoice(true);
+
+            //客服模式控制 -1不控制 按照服务器后台设置的模式运行
+
+            //1仅机器人 2仅人工 3机器人优先 4人工优先
+
+//            info.setInitModeType(-1);
+        }
+        return info;
+    }
 
     /*******
      * 将事件交给事件派发controller处理
@@ -206,9 +261,11 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public void onEventMainThread(BaseEvent event) {
         event.setApplicationContext(getContext());
         if (event instanceof LoginEvent) {//登录
+            info=null;
             MPush.I.bindAccount(SpUtil.getString(Constant.CACHE_TAG_UID), "user");
         }
         if (event instanceof LogoutEvent) {//登出
+            info=null;
             MPush.I.unbindAccount();
         }
         EventController.getInstance().handleMessage(event,this);
