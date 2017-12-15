@@ -78,7 +78,7 @@ public class PublishActivity extends BaseActivity {
         mTitle.setTitle(false, R.color.white, "哞一下");
         mTvRight.setText("发表");
         mTvRight.setTextColor(getResources().getColor(R.color.white));
-        mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_btton_2dp));
+        mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_blue_2dp_bg));
         mTvRight.setGravity(Gravity.CENTER_VERTICAL);
         GridView publishGirdView = (GridView) findViewById(R.id.publish_gridView);
         mContentEdit = (EditText) findViewById(R.id.editText_content);
@@ -88,19 +88,6 @@ public class PublishActivity extends BaseActivity {
         mAdapter.setOnPublishClickCallBack(createOnPublishClickCallBack());
         mAdapter.refreshPhotos(mSelectedPhotos);
         publishGirdView.setAdapter(mAdapter);
-        mTvRight.setEnabled(false);
-        mContentEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mTvRight.setEnabled(charSequence.toString().length()>0);
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
         mTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
