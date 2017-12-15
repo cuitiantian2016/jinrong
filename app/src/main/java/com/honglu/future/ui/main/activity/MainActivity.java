@@ -162,7 +162,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             mMomOutLy.setLayoutParams(params);
         }
         oldTabId = R.id.rb_home;
-        //mPresenter.loadActivity(); //第一期不需要弹出活动
+        mPresenter.loadActivity();
         mPresenter.getUpdateVersion();
     }
 
