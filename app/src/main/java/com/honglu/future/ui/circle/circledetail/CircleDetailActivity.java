@@ -496,6 +496,11 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
         bbsFlownEvent.uid = mPostUserId;
         bbsFlownEvent.follow = mFollow.isSelected() ? "1" : "0";
+        if(bbsFlownEvent.follow.equals("0")){
+            ToastUtil.show("取消关注成功");
+        } else{
+            ToastUtil.show("关注成功");
+        }
         EventBus.getDefault().post(bbsFlownEvent);
     }
 

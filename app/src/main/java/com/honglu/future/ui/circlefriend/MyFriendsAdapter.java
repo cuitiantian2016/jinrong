@@ -159,6 +159,11 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
                         @Override
                         protected void _onNext(JsonNull jsonNull) {
                             super._onNext(jsonNull);
+                            if(foll.equals("0")){
+                                ToastUtil.show("取消关注成功");
+                            } else{
+                                ToastUtil.show("关注成功");
+                            }
                             if (MessageController.getInstance().getFriendCountChange() != null) {
                                 MessageController.getInstance().getFriendCountChange().change();
                             }

@@ -86,8 +86,8 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-        rows = 0;
-        topicIndexThread(true);
+//        rows = 0;
+//        topicIndexThread(true);
     }
 
 
@@ -109,6 +109,8 @@ public class MineFragment extends CommonFragment {
 
         mIsMyself = mUserId.equals(SpUtil.getString(Constant.CACHE_TAG_UID));
         initViews();
+        rows = 0;
+        topicIndexThread(true);
     }
 
     private void initViews() {
@@ -146,8 +148,8 @@ public class MineFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MyFriendActivity.class);
-                intent.putExtra("focusNum",mFocusNum);
-                intent.putExtra("fansNum",mFansNum);
+                intent.putExtra("focusNum", mFocusNum);
+                intent.putExtra("fansNum", mFansNum);
                 mContext.startActivity(intent);
             }
         });
@@ -365,6 +367,11 @@ public class MineFragment extends CommonFragment {
             @Override
             protected void _onNext(JsonNull jsonNull) {
                 super._onNext(jsonNull);
+                if (foll.equals("0")) {
+                    ToastUtil.show("取消关注成功");
+                } else {
+                    ToastUtil.show("关注成功");
+                }
                 BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                 bbsFlownEvent.follow = foll;
                 bbsFlownEvent.uid = mUserId;

@@ -256,6 +256,11 @@ public class BBSAdapter extends BaseAdapter {
                             @Override
                             protected void _onNext(JsonNull jsonNull) {
                                 super._onNext(jsonNull);
+                                if(foll.equals("0")){
+                                    ToastUtil.show("取消关注成功");
+                                } else{
+                                    ToastUtil.show("关注成功");
+                                }
                                 follow.setImageResource(R.mipmap.already_recommend);
                                 item.follow = foll;
                                 follow(item.follow,item.uid);
