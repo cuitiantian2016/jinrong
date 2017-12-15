@@ -36,12 +36,14 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.ui.main.bean.MoreContentBean;
 import com.honglu.future.ui.main.contract.MyContract;
 import com.honglu.future.ui.main.presenter.MyPresenter;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
@@ -56,6 +58,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+
+import static com.honglu.future.util.ToastUtil.showToast;
 
 
 /**
@@ -74,13 +78,14 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
 
-//    private String title;
+    //    private String title;
     private String mUrl;
     private HashMap<String, String> mHashMap;
     private OnClickListener onClickListener;
     private Button button;
     private WindowManager mWindowManager;
     private boolean isShow;
+    private String mPhone = "";
 
     @Override
     public int getLayoutId() {
@@ -220,11 +225,11 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
          * 跳转开户页面
          */
         @JavascriptInterface
-        public void openAccount(String brokerId,String channel) {
+        public void openAccount(String brokerId, String channel) {
             MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", brokerId);
-            if (!TextUtils.isEmpty(channel)){
+            if (!TextUtils.isEmpty(channel)) {
                 intent.putExtra("channel", channel);
             }
             intent.putExtra("packName", "com.honglu.future");
@@ -250,6 +255,25 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 intent.putExtra("mobile", userMobile);
             }
             startActivity(intent);
+        }
+
+        /**
+         * 拨打电话
+         */
+        @JavascriptInterface
+        public void phoneCall(String mobile) {
+            mPhone = mobile;
+            if (!DeviceUtils.isFastDoubleClick()) {
+                new AlertFragmentDialog.Builder(mActivity).setContent(mPhone, R.color.color_333333, R.dimen.dimen_20sp)
+                        .setRightBtnText("拨打")
+                        .setLeftBtnText("取消")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String string) {
+                                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, requestPermissions);
+                            }
+                        }).build();
+            }
         }
 
         /**
@@ -461,7 +485,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
                 String intentTitle = getIntent().getStringExtra("title");
                 mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, intentTitle);
-            } else{
+            } else {
                 mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
             }
         }
@@ -490,4 +514,26 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         }
         return map;
     }
+
+    private PermissionsListener requestPermissions = new PermissionsListener() {
+        @Override
+        public void onGranted() {
+            //拨打电话
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                    + mPhone));
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            startActivity(intent);
+        }
+
+        @Override
+        public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
+            for (String denied : deniedPermissions) {
+                if (denied.equals(Manifest.permission.CALL_PHONE)) {
+                    showToast(getString(R.string.please_open_permission, getString(R.string.call_phone)));
+                }
+            }
+        }
+    };
 }

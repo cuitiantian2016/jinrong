@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -34,12 +35,17 @@ import org.greenrobot.eventbus.EventBus;
  * Created by zq on 2017/11/10.
  */
 
-public class AccountLoginDialog extends Dialog implements View.OnClickListener {
+public class AccountLoginDialog extends Dialog implements View.OnClickListener,SelectCompDialog.OnSelectCompListener {
     private Context mContext;
     private static AccountLoginDialog dialog = null;
     private AccountPresenter mPresenter;
     private EditText mAccount, mPwd;
     private TextView mLoginAccount;
+    private SelectCompDialog selectCompDialog;
+    private ImageView mIvComp;
+    private TextView mTvComp;
+    private TextView mForgetPwd;
+    private String mCompType;
 
     public static AccountLoginDialog getInstance(Context context, AccountPresenter presenter) {
         if (dialog == null) {
@@ -71,7 +77,9 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.BOTTOM;
         mWindow.setAttributes(params);
-        setCanceledOnTouchOutside(false);
+        selectCompDialog = new SelectCompDialog(mContext);
+        selectCompDialog.setOnSelectCompListener(this);
+        mCompType = SelectCompDialog.COMP_TYPE_GUOFU;
         initTipData();
     }
 
@@ -84,11 +92,17 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
         if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))) {
             mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
         }
+        mIvComp = (ImageView) findViewById(R.id.iv_comp);
+        mTvComp = (TextView)findViewById(R.id.tv_comp);
         mPwd = (EditText) findViewById(R.id.et_password);
         mLoginAccount = (TextView) findViewById(R.id.btn_login_account);
         mLoginAccount.setOnClickListener(this);
         TextView mGoOpen = (TextView) findViewById(R.id.btn_open_account);
         mGoOpen.setOnClickListener(this);
+        TextView selectComp = (TextView) findViewById(R.id.tv_select_comp);
+        selectComp.setOnClickListener(this);
+        mForgetPwd = (TextView) findViewById(R.id.tv_forget_pwd);
+        mForgetPwd.setOnClickListener(this);
         mAccount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -150,11 +164,20 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
                 if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
-                MobclickAgent.onEvent(mContext,"qihuodenglu_click", "国富期货登录");
+                MobclickAgent.onEvent(mContext, "qihuodenglu_click", "国富期货登录");
                 mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU", mPwd, mContext);
                 break;
             case R.id.btn_open_account:
                 goOpenAccount();
+                break;
+            case R.id.tv_select_comp:
+                selectCompDialog.show();
+                break;
+            case R.id.tv_forget_pwd:
+                new AlertFragmentDialog.Builder((FragmentActivity)mContext)
+                        .setRightBtnText("知道了").setContent("请在工作日8:30-17:00拨打小牛智投\n" +
+                        "客服电话： 021 8207 0818").setTitle("忘记密码")
+                        .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
         }
     }
@@ -170,5 +193,17 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
         return (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0);
+    }
+
+    @Override
+    public void onSelect(String comp) {
+        mCompType = comp;
+        if(comp.equals(SelectCompDialog.COMP_TYPE_GUOFU)){
+            mIvComp.setImageResource(R.mipmap.ic_guofu);
+            mTvComp.setText("国富期货");
+        }else if(comp.equals(SelectCompDialog.COMP_TYPE_MEY)){
+            mIvComp.setImageResource(R.mipmap.ic_mey);
+            mTvComp.setText("美尔雅期货");
+        }
     }
 }
