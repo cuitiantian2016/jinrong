@@ -98,6 +98,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
         mRefreshView.setEnableLoadmore(false);
         mLLInput.setVisibility(View.GONE);
         mLine.setVisibility(View.GONE);
+        AndroidUtil.setEmojiFilter(mInput);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
