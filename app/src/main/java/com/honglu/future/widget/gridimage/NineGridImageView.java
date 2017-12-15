@@ -162,6 +162,12 @@ public class NineGridImageView<T> extends ViewGroup {
                 GridImageView imageView = (GridImageView) child;
                 imageView.setMoreNum(realCount - mMaxSize);
             }
+        }else if (realCount ==mMaxSize){
+            View child = getChildAt(mMaxSize - 1);
+            if (child instanceof GridImageView) {
+                GridImageView imageView = (GridImageView) child;
+                imageView.setMoreNum(0);
+            }
         }
 
         mImgDataList = lists;
