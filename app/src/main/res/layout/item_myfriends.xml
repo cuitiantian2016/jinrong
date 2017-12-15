@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="10dp"
     android:background="@color/white"
+    android:orientation="vertical"
     android:paddingBottom="5dp"
+    android:paddingRight="10dp"
     android:paddingTop="5dp">
 
     <LinearLayout
@@ -12,68 +13,76 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
         <com.honglu.future.widget.CircleImageView
             android:id="@+id/user_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="5dp"
+            android:layout_weight="1"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_16sp"
                     android:text=""
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_16sp" />
+
                 <TextView
                     android:id="@+id/flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:layout_marginLeft="5dp"
-                    android:textSize="8sp"
-                    android:visibility="gone"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
+                    android:background="@mipmap/ic_user_role"
+                    android:paddingLeft="@dimen/dimen_2dp"
+                    android:paddingRight="@dimen/dimen_2dp"
+                    android:text=""
                     android:gravity="center"
-                    android:text="分析师"
-                    android:background="@mipmap/ic_user_role_bg"/>
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen_10sp"
+                    android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
+
                 <TextView
                     android:id="@+id/tv_topic_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text=""
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/dimen_12sp"
-                    android:text=""/>
+                    android:textSize="@dimen/dimen_12sp" />
+
                 <TextView
                     android:id="@+id/tv_attention_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/dimen_12sp"
+                    android:layout_marginLeft="15dp"
                     android:text=""
-                    android:layout_marginLeft="15dp"/>
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/dimen_12sp" />
             </LinearLayout>
         </LinearLayout>
+
         <ImageView
             android:id="@+id/iv_attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/add_recommend"
-            />
+            android:src="@mipmap/add_recommend" />
     </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,7 @@ public class UserList implements Serializable {
     public String beFocusNum;
     public String nickName;
     public String postNum;
+    public String userRole;
 
     public String userId;
 

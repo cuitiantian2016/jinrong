@@ -86,8 +86,8 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        rows = 0;
-//        topicIndexThread(true);
+            rows = 0;
+            topicIndexThread(true);
     }
 
 
@@ -109,8 +109,6 @@ public class MineFragment extends CommonFragment {
 
         mIsMyself = mUserId.equals(SpUtil.getString(Constant.CACHE_TAG_UID));
         initViews();
-        rows = 0;
-        topicIndexThread(true);
     }
 
     private void initViews() {
@@ -174,7 +172,7 @@ public class MineFragment extends CommonFragment {
             iv_follow.setVisibility(View.GONE);
             publish.setVisibility(View.VISIBLE);
             tv_empty.setText("你还没有发表过话题哦");
-            imgHead = ConfigUtil.baseImageUserUrl + imgHead;
+            imgHead = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
         } else {
             layout_friends.setVisibility(View.GONE);
             iv_follow.setVisibility(View.VISIBLE);
@@ -292,9 +290,9 @@ public class MineFragment extends CommonFragment {
                             ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
                             user_name.setText(nickName);
 
-                            // TODO: 2017/12/9 接口缺少用户角色
-//                            if (result.user_info.user_flag.equals("1")) {
+//                            if (!TextUtils.isEmpty(o.getUserRole())) {
 //                                flag.setVisibility(View.VISIBLE);
+//                                flag.setText(o.getUserRole());
 //                            } else {
 //                                flag.setVisibility(View.INVISIBLE);
 //                            }

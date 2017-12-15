@@ -130,9 +130,8 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         public void bindView(final UserList item, final View mContext, final int position) {
             ImageUtil.display(ConfigUtil.baseImageUserUrl + item.avatarPic, user_img, R.mipmap.ic_logos);
             user_name.setText(item.nickName);
-            // TODO: 2017/12/11 用户角色，需要接口添加
-//            flag.setVisibility(TextUtils.isEmpty(item.user_level)? View.GONE: View.VISIBLE);
-//            flag.setText(item.user_level);
+            flag.setVisibility(TextUtils.isEmpty(item.userRole)? View.GONE: View.VISIBLE);
+            flag.setText(item.userRole);
             tv_attention_num.setText("粉丝数: " + item.beFocusNum);
             tv_topic_num.setText("发帖数: " + item.postNum);
             //用户是否已经关注

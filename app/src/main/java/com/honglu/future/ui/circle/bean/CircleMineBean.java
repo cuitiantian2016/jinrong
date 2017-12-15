@@ -14,6 +14,16 @@ public class CircleMineBean {
     private int focusNum;
     private boolean isFocued;
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    private String userRole;
+
     public void setPostAndReplyBoList(List<PostAndReplyBean> postAndReplyBoList) {
         this.postAndReplyBoList = postAndReplyBoList;
     }
