@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
-import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -267,7 +266,7 @@ public class BBSMineAdapter extends BaseAdapter {
                 }
             });
 //            if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID), item.getPostUserId())) {
-                follow.setVisibility(View.GONE);
+            follow.setVisibility(View.GONE);
 //            } else {
 //                follow.setVisibility(View.VISIBLE);
 //            }
@@ -416,11 +415,11 @@ public class BBSMineAdapter extends BaseAdapter {
             }
 
 
-            if (item.getThumbUpSum().equals("0")) {
+            if (item.getIsPraised() == 0) {
                 iv_heart.setImageResource(R.mipmap.ic_support_done);
-            } else if (item.getThumbUpSum().equals("1")) {
+            } else if (item.getIsPraised() == 1) {
                 iv_heart.setImageResource(R.mipmap.ic_support);
-            } else if (item.getThumbUpSum().equals("2")) {
+            } else {
                 iv_heart.setImageResource(R.mipmap.ic_support_done);
             }
 
