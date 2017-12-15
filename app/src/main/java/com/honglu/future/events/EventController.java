@@ -92,6 +92,7 @@ public class EventController {
     private void logOut(LogoutEvent event) {
 
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_LOGOUT));
+        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
         Intent intent = new Intent(event.getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         event.getContext().startActivity(intent);

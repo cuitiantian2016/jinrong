@@ -297,7 +297,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOGOUT) {
                 JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
-                hideRedMsg();
                 //默认到首页
                 changeTab(FragmentFactory.FragmentStatus.Home);
                 ((RadioButton) findViewById(getCheckIdByStatus(FragmentFactory.FragmentStatus.Home))).setChecked(true);
