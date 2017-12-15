@@ -14,8 +14,7 @@
         android:id="@+id/circleImageView"
         android:layout_width="@dimen/dimen_74dp"
         android:layout_height="@dimen/dimen_74dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/iv_no_image" />
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/tv_text"

@@ -296,7 +296,6 @@ public class BBSAdapter extends BaseAdapter {
             content.setLineSpacing(0, 1.2f);
             content.setText(getNewsContentByType(item.topic_type, item.content + ""));
             if (item.images!=null) {
-                final List imgList = item.images;
                 mMultiImgLy.setAdapter(new NineGridImageViewAdapter<String>() {
                     @Override
                     protected void onDisplayImage(Context context, ImageView imageView, String url) {
@@ -319,12 +318,11 @@ public class BBSAdapter extends BaseAdapter {
                         Intent intent = new Intent(view.getContext(), FullScreenDisplayActivity.class);
                         Bundle b = new Bundle();
                         ArrayList<String> images = new ArrayList<>();
-                        if (imgList.size() > 0) {
-                            images.addAll(imgList);
+                        if (item.images.size() > 0) {
+                            images.addAll(item.images);
                             b.putStringArrayList("image_urls", images);
                             b.putInt("position", index);
                             intent.putExtras(b);
-
                             int[] location = new int[2];
                             view.getLocationOnScreen(location);
                             intent.putExtra("locationX", location[0]);
@@ -335,7 +333,7 @@ public class BBSAdapter extends BaseAdapter {
                         }
                     }
                 });
-                mMultiImgLy.setImagesData(imgList);
+                mMultiImgLy.setImagesData(item.images);
             } else {
                 mMultiImgLy.setImagesData(null);// 控件复用, 无数据时传空处理
             }

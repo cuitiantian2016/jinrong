@@ -31,8 +31,7 @@
                     android:layout_width="@dimen/dimen_25dp"
                     android:layout_height="@dimen/dimen_25dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="@dimen/dimen_8dp"
-                    android:src="@mipmap/iv_no_image" />
+                    android:layout_marginRight="@dimen/dimen_8dp"/>
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
