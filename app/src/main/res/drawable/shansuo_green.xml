@@ -3,55 +3,55 @@
     android:oneshot="true">
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@color/color_opt_lt_shan" />
         </shape>
     </item>
     <item android:duration="50">
         <shape>
-            <corners android:radius="5dip" />
+            <corners android:radius="2dip" />
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>
