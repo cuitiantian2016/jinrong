@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -60,9 +61,11 @@ public class BBSAdapter extends BaseAdapter {
     private String topicType;
     private AttentionCallBack mAttentionCallBack;
     private PraiseCallBack mPraiseCallBack;
+
     public List<BBS> getList() {
         return mList;
     }
+
     private ClipboardManager cmb;
 
     public BBSAdapter(ListView listview, Context context, ScrollToLastCallBack callback) {
@@ -98,26 +101,28 @@ public class BBSAdapter extends BaseAdapter {
 
     /**
      * 关注刷新
+     *
      * @param follow
      * @param uid
      */
-    public void follow(String follow,String uid) {
+    public void follow(String follow, String uid) {
         for (int i = 0; i < mList.size(); i++) {
             if (mList.get(i).uid.equals(uid)) {
                 mList.get(i).follow = follow;
             }
         }
         if (mAttentionCallBack != null) {
-            mAttentionCallBack.attention(uid,follow);
+            mAttentionCallBack.attention(uid, follow);
         }
         notifyDataSetChanged();
     }
 
     /**
      * 点赞刷新
+     *
      * @param
      */
-    public void praise(String topic_id,String num) {
+    public void praise(String topic_id, String num) {
         for (int i = 0; i < mList.size(); i++) {
             if (mList.get(i).topic_id.equals(topic_id)) {
                 mList.get(i).support_num = num;
@@ -163,7 +168,7 @@ public class BBSAdapter extends BaseAdapter {
         View itemLayout;
         CircleImageView header_img;
         ImageView best, iv_heart, follow;
-        TextView announce_time,  support, reply, hot_title;
+        TextView announce_time, support, reply, hot_title;
 
         TextView content;
         LinearLayout support_iv;
@@ -201,6 +206,7 @@ public class BBSAdapter extends BaseAdapter {
             ic_reward_state = (ImageView) convertView.findViewById(R.id.ic_reward_state);
             ll_reward = (LinearLayout) convertView.findViewById(R.id.ll_reward);
         }
+
         public void bindView(final BBS item, int position) {
             ll_reward.setOnClickListener(new OnClickThrottleListener() {
                 @Override
@@ -212,7 +218,7 @@ public class BBSAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     if (item != null) {
-                       // reportBBSItemClickEvent();
+                        // reportBBSItemClickEvent();
                         Intent intent = new Intent(v.getContext(), CircleDetailActivity.class);
                         intent.putExtra(CircleDetailActivity.POST_USER_KEY, item.uid);
                         intent.putExtra(CircleDetailActivity.CIRCLEID_KEY, item.topic_id);
@@ -251,20 +257,21 @@ public class BBSAdapter extends BaseAdapter {
                             ToastUtil.show("自己不能关注自己");
                             return;
                         }
-                        final String foll =  item.follow.equals("1")?"0":"1";
-                        HttpManager.getApi().focus(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                        final String foll = item.follow.equals("1") ? "0" : "1";
+                        HttpManager.getApi().focus(item.uid, SpUtil.getString(Constant.CACHE_TAG_UID), foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
                             @Override
                             protected void _onNext(JsonNull jsonNull) {
                                 super._onNext(jsonNull);
-                                if(foll.equals("0")){
+                                if (foll.equals("0")) {
                                     ToastUtil.show("取消关注成功");
-                                } else{
+                                } else {
                                     ToastUtil.show("关注成功");
                                 }
                                 follow.setImageResource(R.mipmap.already_recommend);
                                 item.follow = foll;
-                                follow(item.follow,item.uid);
+                                follow(item.follow, item.uid);
                             }
+
                             @Override
                             protected void _onError(String message) {
                                 super._onError(message);
@@ -279,10 +286,14 @@ public class BBSAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     if (DeviceUtils.isFastDoubleClick())
                         return;
-                    Intent intent = new Intent(mContext,CircleMineActivity.class);
-                    intent.putExtra("userId",item.uid);
-                    intent.putExtra("imgHead",item.header_img);
-                    intent.putExtra("nickName",item.user_name);
+                    Intent intent = new Intent(mContext, CircleMineActivity.class);
+                    intent.putExtra("userId", item.uid);
+                    if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.uid)) {
+                        intent.putExtra("imgHead", SpUtil.getString(Constant.CACHE_USER_AVATAR));
+                    } else {
+                        intent.putExtra("imgHead", item.header_img);
+                    }
+                    intent.putExtra("nickName", item.user_name);
                     mContext.startActivity(intent);
                 }
             });
@@ -291,7 +302,7 @@ public class BBSAdapter extends BaseAdapter {
             ViewHelper.safelySetText(announce_time, item.announce_time);// 热门不展示
             if (item.getReplyList() != null && item.getReplyList().size() != 0) {
                 ReplyListAdapter replyListAdapter = new ReplyListAdapter();
-                replyListAdapter.addView(mContext,replay_ll_BB, item.getReplyList(),topicType,item);
+                replyListAdapter.addView(mContext, replay_ll_BB, item.getReplyList(), topicType, item);
                 ViewHelper.setVisibility(replay_ll_BB, true);
                 ViewHelper.setVisibility(mSeparatorCommLy, true);
             } else {
@@ -301,7 +312,7 @@ public class BBSAdapter extends BaseAdapter {
 
             content.setLineSpacing(0, 1.2f);
             content.setText(getNewsContentByType(item.topic_type, item.content + ""));
-            if (item.images!=null) {
+            if (item.images != null) {
                 mMultiImgLy.setAdapter(new NineGridImageViewAdapter<String>() {
                     @Override
                     protected void onDisplayImage(Context context, ImageView imageView, String url) {
@@ -366,7 +377,7 @@ public class BBSAdapter extends BaseAdapter {
                         mContext.startActivity(new Intent(mContext, RegisterActivity.class));
                         return;
                     }
-                    if (item.attutude.equals("1")){
+                    if (item.attutude.equals("1")) {
                         ToastUtil.show("您已点赞");
                         return;
                     }
@@ -380,7 +391,7 @@ public class BBSAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         if (!TextUtils.isEmpty(item.topic_link)) {
-                           // WmbbUtil.openWmbbScheme(mContext, item.topic_link);
+                            // WmbbUtil.openWmbbScheme(mContext, item.topic_link);
                         }
                     }
                 });
@@ -452,19 +463,20 @@ public class BBSAdapter extends BaseAdapter {
 
     /**
      * 点赞
+     *
      * @param self
      * @param item
      */
-    private void declareForTopicThread(final LinearLayout self,final BBS item) {
+    private void declareForTopicThread(final LinearLayout self, final BBS item) {
         self.setEnabled(false);
-        HttpManager.getApi().praise(item.uid,SpUtil.getString(Constant.CACHE_TAG_UID),true,item.topic_id).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+        HttpManager.getApi().praise(item.uid, SpUtil.getString(Constant.CACHE_TAG_UID), true, item.topic_id).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onNext(JsonNull jsonNull) {
                 super._onNext(jsonNull);
                 item.attutude = "1";
                 item.support_num = Integer.valueOf(item.support_num) + 1 + "";
                 self.setEnabled(true);
-                praise(item.topic_id,item.support_num);
+                praise(item.topic_id, item.support_num);
             }
 
             @Override
@@ -475,6 +487,7 @@ public class BBSAdapter extends BaseAdapter {
             }
         });
     }
+
     public interface ToRefreshListViewListener {
         void refresh();
     }
