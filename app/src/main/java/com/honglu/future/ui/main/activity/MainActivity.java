@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -252,6 +251,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     } else{
                         startActivity(LoginActivity.class);
                         ((RadioButton) findViewById(oldTabId)).setChecked(true);
+                        toTabIndex = FragmentFactory.FragmentStatus.Circle;
                     }
                     break;
                 case R.id.rb_account:
@@ -281,11 +281,19 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             if (code == UIBaseEvent.EVENT_LOGIN)//登录
             {
                 JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
-                if (toTabIndex != odlState)//切换
-                {
+                if(toTabIndex== FragmentFactory.FragmentStatus.Circle){
+
+                    oldTabId = oldCheckId = R.id.rb_circle;
                     changeTab(toTabIndex);
                     ((RadioButton) findViewById(getCheckIdByStatus(toTabIndex))).setChecked(true);
+                }else {
+                    if (toTabIndex != odlState)//切换
+                    {
+                        changeTab(toTabIndex);
+                        ((RadioButton) findViewById(getCheckIdByStatus(toTabIndex))).setChecked(true);
+                    }
                 }
+
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
             } else if (code == UIBaseEvent.EVENT_LOGOUT) {
                 JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
