@@ -234,11 +234,6 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
             }
         });
 
-        if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)
-                && mList !=null
-                && mList.size() > 0){
-          mPresenter.getRealTimeData(mPushCode);
-        }
 
         if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
             if (mList !=null && mList.size() > 0){
