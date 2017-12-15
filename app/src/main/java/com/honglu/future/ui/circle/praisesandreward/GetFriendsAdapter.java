@@ -100,6 +100,11 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
                             @Override
                             protected void _onNext(JsonNull jsonNull) {
                                 super._onNext(jsonNull);
+                                if(type.equals("0")){
+                                    ToastUtil.show("取消关注成功");
+                                } else{
+                                    ToastUtil.show("关注成功");
+                                }
                                 iv_attention.setImageResource(R.mipmap.already_recommend);
                                 follow(type,item.uid);
                                 BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();

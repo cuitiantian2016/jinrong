@@ -128,7 +128,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         }
 
         public void bindView(final UserList item, final View mContext, final int position) {
-            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.avatarPic, user_img, R.mipmap.ic_logos);
+            ImageUtil.display(ConfigUtil.baseImageUserUrl + item.avatarPic, user_img, R.mipmap.img_head);
             user_name.setText(item.nickName);
             flag.setVisibility(TextUtils.isEmpty(item.userRole)? View.GONE: View.VISIBLE);
             flag.setText(item.userRole);

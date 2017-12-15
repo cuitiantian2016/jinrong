@@ -13,15 +13,15 @@
         android:id="@+id/empty_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:src="@mipmap/ic_nodata_attention" />
+        android:src="@mipmap/ic_empty_friend" />
 
     <TextView
         android:id="@+id/empty_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="你还没有关注圈友哦~"
-        android:textColor="@color/grey"
-        android:layout_marginTop="@dimen/dimen_6dp"/>
+        android:text="暂无圈友，去撩一个吧"
+        android:textColor="#979899"
+        android:textSize="@dimen/dimen_16sp"
+        android:layout_marginTop="@dimen/dimen_16dp"/>
 
 </LinearLayout>
