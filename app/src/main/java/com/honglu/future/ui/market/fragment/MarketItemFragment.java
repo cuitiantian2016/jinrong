@@ -529,27 +529,27 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     }
                 }
             }
-            boolean compareData = compareData(zxDataList, mRealTimeList);
-            if (compareData){mIsPushRefresh = false;}
             mAdapter.notifyDataSetChanged();
-            if (compareData){mIsPushRefresh = true;}
+            if (mAdapter.getData() !=null && mAdapter.getData().size() > 0){
+                getRealTimeData();
+            }
         }else {
             List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
             List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
             if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
                 List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
-                boolean compareData = compareData(zlhyMarketList, mRealTimeList);
-                if (compareData){mIsPushRefresh = false;}
                 mAdapter.notifyDataChanged(true,zlhyMarketList);
-                if (compareData){mIsPushRefresh = true;}
+                if (mAdapter.getData() !=null && mAdapter.getData().size() > 0){
+                    getRealTimeData();
+                }
             } else {
                 for (MarketnalysisBean.ListBean listBean : allList) {
                     if (mTabSelectType.equals(listBean.getExcode())) {
                         List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
-                        boolean compareData = compareData(dataList, mRealTimeList);
-                        if (compareData){mIsPushRefresh = false;}
                         mAdapter.notifyDataChanged(true,dataList);
-                        if (compareData){mIsPushRefresh = true;}
+                        if (mAdapter.getData() !=null && mAdapter.getData().size() > 0){
+                            getRealTimeData();
+                        }
                         break;
                     }
                 }
