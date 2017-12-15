@@ -46,6 +46,7 @@ public class ThumbsListFragment extends BaseFragment {
     private String mTopicId;
     private String mTideId;
     private GetFriendsAdapter mAdapter;
+    private TextView tv_empty;
     private TextView mFollowIv;
     private boolean isMore;
     private int rows = 0;
@@ -63,6 +64,11 @@ public class ThumbsListFragment extends BaseFragment {
                     @Override
                     protected void _onNext(List<UserList> userLists) {
                         super._onNext(userLists);
+                        if (userLists==null||userLists.size()<=0){
+                            tv_empty.setVisibility(View.VISIBLE);
+                        }else {
+                            tv_empty.setVisibility(View.GONE);
+                        }
                         isRequesting = false;
                         if (mIsRefresh){
                             mPullToRefreshView.finishRefresh();
@@ -83,6 +89,11 @@ public class ThumbsListFragment extends BaseFragment {
                         super._onError(message);
                         ToastUtil.show(message);
                         isRequesting = false;
+                        if (mAdapter==null||mAdapter.getCount()<=0){
+                            tv_empty.setVisibility(View.VISIBLE);
+                        }else {
+                            tv_empty.setVisibility(View.GONE);
+                        }
                         mPullToRefreshView.finishLoadmore();
                         mPullToRefreshView.finishRefresh();
                     }
@@ -139,6 +150,7 @@ public class ThumbsListFragment extends BaseFragment {
             mTideId = getArguments().getString(EXTRA_TIDE_ID);
         }
         mPullToRefreshView= (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
+        tv_empty= (TextView) mView.findViewById(R.id.tv_empty);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

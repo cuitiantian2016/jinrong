@@ -37,6 +37,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <TextView
+            android:id="@+id/tv_empty"
+            android:text="暂无数据"
+            android:textSize="@dimen/dimen_15dp"
+            android:textColor="@color/color_333333"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
     <View
