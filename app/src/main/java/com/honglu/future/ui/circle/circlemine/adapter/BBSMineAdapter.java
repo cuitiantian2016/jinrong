@@ -266,20 +266,20 @@ public class BBSMineAdapter extends BaseAdapter {
                     }
                 }
             });
-            if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID), item.getPostUserId())) {
+//            if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID), item.getPostUserId())) {
                 follow.setVisibility(View.GONE);
-            } else {
-                follow.setVisibility(View.VISIBLE);
-            }
+//            } else {
+//                follow.setVisibility(View.VISIBLE);
+//            }
             ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
             ViewHelper.safelySetText(user_name, nickName);
 
             status.setVisibility(TextUtils.isEmpty(item.getUserRole()) ? View.GONE : View.VISIBLE);
             status.setText(item.getUserRole());
             if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.getPostUserId())) {
-                follow.setVisibility(View.INVISIBLE);
+                follow.setVisibility(View.GONE);
             } else {
-                follow.setVisibility(View.VISIBLE);
+                follow.setVisibility(View.GONE);
                 follow.setImageResource(isFocued ? R.mipmap.already_recommend : R.mipmap.add_recommend);
                 follow.setOnClickListener(new View.OnClickListener() {
                     @Override
