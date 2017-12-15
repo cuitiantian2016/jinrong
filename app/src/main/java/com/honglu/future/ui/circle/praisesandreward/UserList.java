@@ -18,4 +18,5 @@ public class UserList implements Serializable {
     @SerializedName("nickName")
     public String user_name;
     public String user_level;
+    public String userRole;
 }

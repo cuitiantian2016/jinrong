@@ -69,8 +69,10 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
         public void bindView(final UserList item, final View mContext, final int position) {
             ImageUtil.display(item.headimgurl, user_img, R.mipmap.img_head);
             user_name.setText(item.user_name);
-            flag.setVisibility(TextUtils.isEmpty(item.user_level) ? View.GONE : View.VISIBLE);
-            flag.setText(item.user_level);
+            //flag.setVisibility(TextUtils.isEmpty(item.user_level) ? View.GONE : View.VISIBLE);
+            //flag.setText(item.user_level);
+            flag.setVisibility(TextUtils.isEmpty(item.userRole) ? View.GONE : View.VISIBLE);
+            flag.setText(item.userRole);
             tv_attention_num.setText("粉丝数: " + item.fans_num);
             tv_topic_num.setText("发帖数: " + item.topic_num);
             if (item.uid.equals(SpUtil.getString(Constant.CACHE_TAG_UID))) {
