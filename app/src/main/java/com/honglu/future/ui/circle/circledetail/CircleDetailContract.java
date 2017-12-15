@@ -20,6 +20,7 @@ public interface CircleDetailContract {
         void  getCirleFocus(JsonNull jsonNull);//关注
         void  getCirlePraise(JsonNull jsonNull); //点赞
         void  getCommentContent(JsonNull jsonNull,int replyType);//评论回复
+        void  getCommentContentError();
     }
 
     interface Presenter {

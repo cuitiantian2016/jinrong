@@ -291,6 +291,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     ToastUtil.show(getString(R.string.content_no_null));
                     return;
                 }
+                mSend.setEnabled(false);
                 if (COMMENT_AUTH.equals(getCommentType())) {
                     mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mPostUserId, REPLYTYPE_1, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId);
                 } else {
@@ -518,9 +519,16 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         EventBus.getDefault().post(bbsPraiseEvent);
     }
 
+    //评论回复错误时进入
+    @Override
+    public void getCommentContentError() {
+        mSend.setEnabled(true);
+    }
+
     //评论回复
     @Override
     public void getCommentContent(JsonNull jsonNull, int replyType) {
+        mSend.setEnabled(true);
         mCommentCountAll++;
         String content =mHelper.geInputText(mInput);
         mInput.setText(getString(R.string.content_null));
@@ -563,6 +571,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             getCirleComment(mCommentRows, "");
         }
     }
+
 
 
     /**

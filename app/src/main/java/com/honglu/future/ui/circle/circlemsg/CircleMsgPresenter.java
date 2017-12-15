@@ -114,6 +114,7 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
             protected void _onError(String message, int code) {
                 mView.showErrorMsg(message,null);
                 mView.stopLoading();
+                mView.getCommentContentError();
             }
             @Override
             protected void _onNext(JsonNull jsonNull) {

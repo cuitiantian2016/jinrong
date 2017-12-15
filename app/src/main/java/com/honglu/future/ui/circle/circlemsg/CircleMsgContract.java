@@ -17,6 +17,7 @@ public interface CircleMsgContract {
         void clearCircle();
 
         void  getCommentContent(JsonNull jsonNull, int replyType);//评论回复
+        void  getCommentContentError();
     }
 
     interface Presenter {

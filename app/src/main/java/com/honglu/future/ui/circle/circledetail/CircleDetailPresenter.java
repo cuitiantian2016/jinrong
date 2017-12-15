@@ -134,6 +134,7 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
             protected void _onError(String message, int code) {
                 mView.showErrorMsg(message,null);
                 mView.stopLoading();
+                mView.getCommentContentError();
             }
             @Override
             protected void _onNext(JsonNull jsonNull) {
