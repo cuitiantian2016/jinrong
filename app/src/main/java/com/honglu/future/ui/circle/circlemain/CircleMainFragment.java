@@ -90,8 +90,16 @@ public class CircleMainFragment extends BaseFragment {
                 if (mRendView.getVisibility() != View.INVISIBLE){
                     mRendView.setVisibility(View.INVISIBLE);
                 }
+            }else if (code == UIBaseEvent.EVENT_LOGIN) {//登录
+                setAvatar();
+            }else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
+                setAvatar();
             }
         }
+    }
+
+    private void setAvatar() {
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHeadPortraitIV, R.mipmap.img_head);
     }
 
     @Override
