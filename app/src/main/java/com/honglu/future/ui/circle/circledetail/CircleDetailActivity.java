@@ -314,7 +314,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 String contentStr = mHelper.getText(mContnet);
                 if (!TextUtils.isEmpty(contentStr)){
                     String title = contentStr.length() >=23 ? contentStr.substring(0,22)+"..." : contentStr;
-                    ShareUtils.getIntance().share(this, "", ConfigUtil.baseH5Url+"activity/oxstallShare?userId="+SpUtil.getString(Constant.CACHE_TAG_UID)+"&circleId="+mCircleId+"&postUserId="+mPostUserId, title, "投资达人喜欢的社区");
+                    ShareUtils.getIntance().share(this, "", ConfigUtil.baseH5Url+"connector/oxstallShare?userId="+SpUtil.getString(Constant.CACHE_TAG_UID)+"&circleId="+mCircleId+"&postUserId="+mPostUserId, title, "投资达人喜欢的社区");
                 }
                 break;
             case R.id.civ_head: //头像
