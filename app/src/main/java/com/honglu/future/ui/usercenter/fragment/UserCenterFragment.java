@@ -259,7 +259,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                             @Override
                             public void dialogRightBtnClick(String string) {
-                                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), Constant.COMPANY_CODE);
+                                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
                             }
                         }).build();
                 break;
@@ -578,7 +578,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
     private void getAccountBasicInfo() {
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
     }
 
     @Override

@@ -93,7 +93,7 @@ public class PasswordResetActivity extends BaseActivity {
                             account, AESUtils.encrypt(mOldPwd),
                             account_token,
                             AESUtils.encrypt(mNewPwd),flag,
-                            userId),
+                            userId,SpUtil.getString(Constant.COMPANY_TYPE)),
                             new HttpSubscriber<JsonNull>() {
                                 @Override
                                 protected void _onNext(JsonNull o) {
@@ -116,7 +116,7 @@ public class PasswordResetActivity extends BaseActivity {
                     toSubscribe(HttpManager.getApi().resetAssesPwd(
                             account, AESUtils.encrypt(mOldPwd),
                             account_token, AESUtils.encrypt(mNewPwd),
-                            userId),
+                            userId,SpUtil.getString(Constant.COMPANY_TYPE)),
                             new HttpSubscriber<JsonNull>() {
                                 @Override
                                 protected void _onNext(JsonNull o) {

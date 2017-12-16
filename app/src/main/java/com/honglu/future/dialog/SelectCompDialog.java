@@ -23,7 +23,7 @@ public class SelectCompDialog extends Dialog implements View.OnClickListener {
     private ImageView ivGuofu;
     private ImageView ivMey;
     public static final String COMP_TYPE_GUOFU = "GUOFU";
-    public static final String COMP_TYPE_MEY = "MERERYA";
+    public static final String COMP_TYPE_MEY = "MEIERYA";
 
     public interface OnSelectCompListener {
         void onSelect(String comp);

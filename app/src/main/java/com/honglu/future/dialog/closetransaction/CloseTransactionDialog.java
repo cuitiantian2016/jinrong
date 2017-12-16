@@ -365,7 +365,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                     final String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
                     final String instrumentId = mHoldPositionBean.getInstrumentId();
                     final String holdAvgPrice = mHoldPositionBean.getHoldAvgPrice();
-                    final String company = "GUOFU";
+                    final String company = SpUtil.getString(Constant.COMPANY_TYPE);
                     if (mPcPrice <= 0 || mPcPrice < getDouble(mLowerLimitPrice) || mPcPrice > getDouble(mUpperLimitPrice)) {
                         showErrorMsg("平仓委托价必须≥" + mLowerLimitPrice + "且≤" + mUpperLimitPrice, null);
                         return;

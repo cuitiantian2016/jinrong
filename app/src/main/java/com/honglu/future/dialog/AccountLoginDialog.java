@@ -165,7 +165,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener,S
                     return;
                 }
                 MobclickAgent.onEvent(mContext, "qihuodenglu_click", "国富期货登录");
-                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), "GUOFU", mPwd, mContext);
+                mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), mCompType, mPwd, mContext);
                 break;
             case R.id.btn_open_account:
                 goOpenAccount();

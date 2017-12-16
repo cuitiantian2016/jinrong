@@ -1,12 +1,14 @@
 package com.honglu.future.ui.trade.kchart;
 
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
+import com.honglu.future.util.SpUtil;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class KLineMarketPresenter extends BasePresenter<KLineMarketContract.View
 
     @Override
     public void getProductDetail(String instrumentId) {
-        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
+        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId, SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<ProductListBean>() {
             @Override
             public void _onStart() {
                // mView.showLoading("获取产品详情中...");

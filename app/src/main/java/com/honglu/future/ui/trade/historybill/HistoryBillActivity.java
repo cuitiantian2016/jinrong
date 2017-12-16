@@ -165,7 +165,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
                 if (settlementInfoBean != null) {
                     settlementInfoBean = null;
                 }
-                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", time);
+                mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE), time);
                 mDateDialog.dismiss();
             }
         });
@@ -178,7 +178,7 @@ public class HistoryBillActivity extends BaseActivity<HistoryBillPresenter> impl
         } else {
             setEmpty(true, 0);
         }
-        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU", TimeUtil.getCurrentDate(TimeUtil.dateFormatYMD));
+        mPresenter.querySettlementInfoByDate(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE), TimeUtil.getCurrentDate(TimeUtil.dateFormatYMD));
     }
 
     private void initData() {

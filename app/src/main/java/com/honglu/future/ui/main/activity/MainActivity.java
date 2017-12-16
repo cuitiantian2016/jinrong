@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -110,6 +111,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             savedInstanceState = null;
         }
         super.onCreate(savedInstanceState);
+        if(TextUtils.isEmpty(SpUtil.getString(Constant.COMPANY_TYPE))){
+            SpUtil.putString(Constant.COMPANY_TYPE,Constant.COMPANY_TYPE_GUOFU);
+        }
         JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
     }
 

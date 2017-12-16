@@ -21,7 +21,7 @@ public class OpenTransactionPresenter extends BasePresenter<OpenTransactionContr
 
     @Override
     public void getProductList() {
-        toSubscribe(HttpManager.getApi().getProductList(), new HttpSubscriber<List<ProductListBean>>() {
+        toSubscribe(HttpManager.getApi().getProductList(SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<List<ProductListBean>>() {
             @Override
             public void _onStart() {
                 //mView.showLoading("查询产品列表中...");

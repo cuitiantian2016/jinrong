@@ -50,7 +50,7 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
 
     @Override
     public void getHoldPositionDetail(String instrumentId, String type, String todayPosition, String userId, String token) {
-        toSubscribe(HttpManager.getApi().getHoldPositionDetail(instrumentId, type, todayPosition, userId, token), new HttpSubscriber<List<HoldDetailBean>>() {
+        toSubscribe(HttpManager.getApi().getHoldPositionDetail(instrumentId, type, todayPosition, userId, token,SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<List<HoldDetailBean>>() {
             @Override
             public void _onStart() {
                 mView.showLoading("查询持仓详情...");
@@ -132,7 +132,7 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
     //产品详情
     @Override
     public void getProductDetail(String instrumentId) {
-        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
+        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId,SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<ProductListBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("获取产品详情中...");

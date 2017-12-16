@@ -1,10 +1,12 @@
 package com.honglu.future.ui.main.presenter;
 
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.SpUtil;
 
 /**
  * Created by zq on 2017/11/10.
@@ -15,7 +17,7 @@ public class BuildTransactionPresenter extends BasePresenter<BuildTransactionCon
     public void buildTransaction(boolean isFast, String orderNumber, String type, String price, String instrumentId, String userId, String token, String company) {
         rx.Observable ob;
         if (isFast) {
-            ob = HttpManager.getApi().fastTransaction(orderNumber, type, price, instrumentId, userId, token);
+            ob = HttpManager.getApi().fastTransaction(orderNumber, type, price, instrumentId, userId, token, company);
         } else {
             ob = HttpManager.getApi().buildTransaction(orderNumber, type, price, instrumentId, userId, token, company);
         }
@@ -44,7 +46,7 @@ public class BuildTransactionPresenter extends BasePresenter<BuildTransactionCon
 
     @Override
     public void getProductDetail(String instrumentId) {
-        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId), new HttpSubscriber<ProductListBean>() {
+        toSubscribe(HttpManager.getApi().getProductDetail(instrumentId,SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<ProductListBean>() {
             @Override
             public void _onStart() {
                 //mView.showLoading("获取产品详情中...");

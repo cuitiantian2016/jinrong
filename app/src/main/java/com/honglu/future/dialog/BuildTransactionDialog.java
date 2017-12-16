@@ -498,7 +498,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                                         instrumentId,
                                         SpUtil.getString(Constant.CACHE_TAG_UID),
                                         SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                                        "GUOFU"
+                                        SpUtil.getString(Constant.COMPANY_TYPE)
                                 );
                             }
                         }).build();

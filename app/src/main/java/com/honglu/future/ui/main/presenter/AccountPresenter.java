@@ -40,6 +40,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             protected void _onNext(final AccountBean bean) {
                 mBean = bean;
                 SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                SpUtil.putString(Constant.COMPANY_TYPE, company);
                 tv_pass.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -109,7 +110,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
 
     @Override
     public void settlementConfirm(String userId) {
-        toSubscribe(HttpManager.getApi().settlementConfirm(userId, mBean.getToken()), new HttpSubscriber<ConfirmBean>() {
+        toSubscribe(HttpManager.getApi().settlementConfirm(userId, mBean.getToken(), SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<ConfirmBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("结算单确认中...");

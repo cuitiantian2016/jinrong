@@ -120,7 +120,7 @@ public class OpenTransactionFragment extends BaseFragment<OpenTransactionPresent
     };
 
     private void getAccountBasicInfo() {
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), "GUOFU");
+        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
     }
 
     /**

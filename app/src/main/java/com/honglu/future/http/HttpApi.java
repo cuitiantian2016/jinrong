@@ -8,11 +8,10 @@ import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
+import com.honglu.future.ui.circle.bean.CircleMsgBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
-import com.honglu.future.ui.circle.bean.CircleMsgBean;
-import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.home.bean.BannerData;
@@ -25,7 +24,6 @@ import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.bean.RechangeDetailData;
-import com.honglu.future.ui.register.bean.RegisterBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
@@ -146,11 +144,13 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/user/settlement/info/confirm")
     Observable<BaseResponse<ConfirmBean>> settlementConfirm(@Field("userId") String userId,
-                                                            @Field("token") String token);
+                                                            @Field("token") String token,
+                                                            @Field("company") String company);
 
     //获取产品列表
+    @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/product/list")
-    Observable<BaseResponse<List<ProductListBean>>> getProductList();
+    Observable<BaseResponse<List<ProductListBean>>> getProductList(@Field("company") String company);
 
     //查询持仓列表
     @FormUrlEncoded
@@ -166,13 +166,15 @@ public interface HttpApi {
                                                                          @Field("type") String type,
                                                                          @Field("todayPosition") String todayPosition,
                                                                          @Field("userId") String userId,
-                                                                         @Field("token") String token);
+                                                                         @Field("token") String token,
+                                                                         @Field("company") String company);
 
     //查询委托中列表
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/entrust/list")
     Observable<BaseResponse<List<EntrustBean>>> getEntrustList(@Field("userId") String userId,
-                                                               @Field("token") String token);
+                                                               @Field("token") String token,
+                                                               @Field("company") String company);
 
     //委托撤单
     @FormUrlEncoded
@@ -182,7 +184,8 @@ public interface HttpApi {
                                          @Field("sessionId") String sessionId,
                                          @Field("frontId") String frontId,
                                          @Field("userId") String userId,
-                                         @Field("token") String token);
+                                         @Field("token") String token,
+                                         @Field("company") String company);
 
     //委托建仓
     @FormUrlEncoded
@@ -199,11 +202,12 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/create/order")
     Observable<BaseResponse> fastTransaction(@Field("orderNumber") String orderNumber,
-                                              @Field("type") String type,
-                                              @Field("price") String price,
-                                              @Field("instrumentId") String instrumentId,
-                                              @Field("userId") String userId,
-                                              @Field("token") String token);
+                                             @Field("type") String type,
+                                             @Field("price") String price,
+                                             @Field("instrumentId") String instrumentId,
+                                             @Field("userId") String userId,
+                                             @Field("token") String token,
+                                             @Field("company") String company);
 
     //委托平仓
     @FormUrlEncoded
@@ -216,8 +220,7 @@ public interface HttpApi {
                                         @Field("price") String price,
                                         @Field("instrumentId") String instrumentId,
                                         @Field("holdAvgPrice") String holdAvgPrice,
-                                        @Field("company") String company
-    );
+                                        @Field("company") String company);
 
     //快速平仓
     @FormUrlEncoded
@@ -236,7 +239,8 @@ public interface HttpApi {
     //获取产品详情
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/trade/product/detail")
-    Observable<BaseResponse<ProductListBean>> getProductDetail(@Field("instrumentId") String instrumentId);
+    Observable<BaseResponse<ProductListBean>> getProductDetail(@Field("instrumentId") String instrumentId,
+                                                               @Field("company") String company);
 
     //行情
     //http://192.168.85.126:8083/futures-data-mobile/quotation/realTime/main?deviceType=2
@@ -336,7 +340,8 @@ public interface HttpApi {
                                                      @Field("oldPassword") String oldPassword,
                                                      @Field("token") String token,
                                                      @Field("newPassword") String newPassword,
-                                                     @Field("userId") String userId);
+                                                     @Field("userId") String userId,
+                                                     @Field("company") String company);
 
     /**
      * 开发环境： http://192.168.90.162:8080/mobileApi/app/future/exchange/user/update/password
@@ -351,7 +356,8 @@ public interface HttpApi {
                                                       @Field("token") String token,
                                                       @Field("newPassword") String newPassword,
                                                       @Field("flag") int flag,
-                                                      @Field("userId") String userId);
+                                                      @Field("userId") String userId,
+                                                      @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15533135
@@ -439,7 +445,8 @@ public interface HttpApi {
             @Field("token") String token,
             @Field("dayEnd") String dayEnd,
             @Field("page") int page,
-            @Field("pageSize") int pageSize);
+            @Field("pageSize") int pageSize,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -455,7 +462,8 @@ public interface HttpApi {
             @Field("token") String token,
             @Field("dayEnd") String dayEnd,
             @Field("page") int page,
-            @Field("pageSize") int pageSize);
+            @Field("pageSize") int pageSize,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -473,6 +481,7 @@ public interface HttpApi {
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 入金(充值)接口
+     *
      * @return
      */
     @FormUrlEncoded
@@ -487,9 +496,11 @@ public interface HttpApi {
             @Field("bankPassword") String bankPassword,
             @Field("amount") String amount,
             @Field("token") String token);
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 出金(提现)接口
+     *
      * @return
      */
     @FormUrlEncoded
@@ -508,6 +519,7 @@ public interface HttpApi {
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 出入金明细(充值明细)接口
+     *
      * @return
      */
     @FormUrlEncoded
@@ -517,9 +529,11 @@ public interface HttpApi {
             @Field("page") int page,
             @Field("pageSize") int pageSize,
             @Field("token") String token);
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
      * 银行卡余额查询接口
+     *
      * @return
      */
     @FormUrlEncoded
@@ -553,13 +567,16 @@ public interface HttpApi {
     /**
      * https://www.showdoc.cc/1673161?page_id=15678695
      * 分圈接口
+     *
      * @return
      */
     @GET("futures-communtiy-api/app/circle/circleType")
     Observable<BaseResponse<List<TopicFilter>>> getTopicFilter();
+
     /**
      * https://www.showdoc.cc/1673161?page_id=15678695
      * 分圈
+     *
      * @return
      */
     @FormUrlEncoded
@@ -574,6 +591,7 @@ public interface HttpApi {
 
     /**
      * 收到的评论
+     *
      * @param replyUserId
      * @param rows
      * @return
@@ -586,6 +604,7 @@ public interface HttpApi {
 
     /**
      * 清空收到的评论
+     *
      * @param replyUserId
      * @return
      */
@@ -596,6 +615,7 @@ public interface HttpApi {
 
     /**
      * 发出的评论
+     *
      * @param replyUserId
      * @param rows
      * @return
@@ -609,6 +629,7 @@ public interface HttpApi {
 
     /**
      * 清空 发出的评论
+     *
      * @param replyUserId
      * @return
      */
@@ -616,8 +637,10 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/BBSMessage/getClearComments.do")
     Observable<BaseResponse<JsonNull>> getClearComments(
             @Field("beReplyUserId") String replyUserId);
+
     /**
      * 关注
+     *
      * @param userId
      * @return
      */
@@ -627,8 +650,10 @@ public interface HttpApi {
             @Field("postUserId") String postUserId,
             @Field("userId") String userId,
             @Field("attentionState") String type);
+
     /**
      * 点赞
+     *
      * @param userId
      * @return
      */
@@ -642,6 +667,7 @@ public interface HttpApi {
 
     /**
      * 加载我的关注列表
+     *
      * @return
      */
     @FormUrlEncoded
@@ -653,6 +679,7 @@ public interface HttpApi {
 
     /**
      * 加载我的粉丝列表
+     *
      * @return
      */
     @FormUrlEncoded
@@ -664,6 +691,7 @@ public interface HttpApi {
 
     /**
      * 帖子详情-head 数据
+     *
      * @param userId
      * @param circleId
      * @return
@@ -673,8 +701,10 @@ public interface HttpApi {
     Observable<BaseResponse<CircleDetailBean>> getClearDetailHead(
             @Field("userId") String userId,
             @Field("circleId") String circleId);
+
     /**
      * 发帖
+     *
      * @param userId
      * @param circleId
      * @return
@@ -696,6 +726,7 @@ public interface HttpApi {
 
     /**
      * 查看全部评论
+     *
      * @param userId
      * @param circleId
      * @param postUserId
@@ -712,6 +743,7 @@ public interface HttpApi {
 
     /**
      * 只看楼主评论
+     *
      * @param userId
      * @param circleId
      * @param postUserId
@@ -727,11 +759,12 @@ public interface HttpApi {
 
     /**
      * 评论/回复
+     *
      * @param userId
      * @param circleId
      * @param content
-     * @param beReplyUserId  被回复人id|
-     * @param replyType  |int|类型 1 帖子回复 2 评论回复|
+     * @param beReplyUserId 被回复人id|
+     * @param replyType     |int|类型 1 帖子回复 2 评论回复|
      * @return
      */
     @FormUrlEncoded
@@ -742,10 +775,12 @@ public interface HttpApi {
             @Field("content") String content,
             @Field("beReplyUserId") String beReplyUserId,
             @Field("replyType") int replyType,
-            @Field("replyNickName")String replyNickName,
+            @Field("replyNickName") String replyNickName,
             @Field("postUserId") String postUserId);
+
     /**
      * 点赞列表
+     *
      * @param userId
      * @param circleId
      * @return

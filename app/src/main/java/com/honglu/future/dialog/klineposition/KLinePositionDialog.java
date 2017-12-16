@@ -152,7 +152,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                     final String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
                     final String instrumentId = holdPositionBean.getInstrumentId();
                     final String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
-                    final String company = "GUOFU";
+                    final String company = SpUtil.getString(Constant.COMPANY_TYPE);
 
                     double lowerLimitPrice = mAdapter.getLowerLimitPrice();
                     double upperLimitPrice = mAdapter.getUpperLimitPrice();
