@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
+import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
@@ -645,7 +646,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST("futures-communtiy-api/app/circleFriend/loadMyFocusList.do")
-    Observable<BaseResponse<List<UserList>>> loadMyFocusList(
+    Observable<BaseResponse<AttentionBean>> loadMyFocusList(
             @Field("userId") String userId,
             @Field("rows") String rows,
             @Field("rowsSize") String rowsSize);
@@ -656,7 +657,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST("futures-communtiy-api/app/circleFriend/loadMyBeFocusList.do")
-    Observable<BaseResponse<List<UserList>>> loadMyBeFocusList(
+    Observable<BaseResponse<AttentionBean>> loadMyBeFocusList(
             @Field("userId") String userId,
             @Field("rows") String rows,
             @Field("rowsSize") String rowsSize);

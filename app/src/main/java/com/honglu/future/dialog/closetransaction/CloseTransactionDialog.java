@@ -529,7 +529,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         String closeRatioByVolume = mProductListBean.getCloseRatioByVolume();
         int todayPosition = mHoldPositionBean.getTodayPosition();
         try {
-            double closeTradePrice = TradeUtil.getCloseTradePrice(todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple);
+            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean,todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple);
             return String.valueOf(closeTradePrice);
         } catch (Exception e) {
             e.printStackTrace();

@@ -62,6 +62,24 @@ public class Constant {
     public static final int TYPE_BUY_DOWN = 1;
     public static final int TYPE_BUY_UP = 2;
 
+    /*公司 1.国富 2.美尔雅*/
+    public static final String COMPANY_TYPE= "COMPANY_TYPE";
+    public static final String COMPANY_TYPE_GUOFU = "GUOFU";
+    public static final String COMPANY_TYPE_MEIERYA = "MEIERYA";
+
+    /*美尔雅特殊商品固定手续费
+    * PRODUCT_SPECIAL_AU 黄金
+    * PRODUCT_SPECIAL_NI 镍
+    * PRODUCT_SPECIAL_MA 甲醇
+    * PRODUCT_SPECIAL_M 豆粕
+    * PRODUCT_SPECIAL_C 玉米
+    * */
+    public static final String PRODUCT_SPECIAL_AU= "au";
+    public static final String PRODUCT_SPECIAL_NI = "ni";
+    public static final String PRODUCT_SPECIAL_MA = "MA";
+    public static final String PRODUCT_SPECIAL_M = "m";
+    public static final String PRODUCT_SPECIAL_C = "c";
+
     public static final String CODE_SHFE = "SHFE";//上海期货交易所
 
     //支付结果

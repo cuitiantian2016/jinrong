@@ -107,5 +107,17 @@ public class MyFriendActivity extends BaseActivity {
         mCommonTabLayout.setTabData(mTabList);
     }
 
+//    public void setData(int num) {
+//        mFocusNum = "我的关注(" + num + ")";
+//        mTabList.get(0).setTabTitle(mFocusNum);
+//        mCommonTabLayout.setTabData(mTabList);
+//    }
+//
+//    public void setBeFocusData(int num) {
+//        mBeFocusNum = "我的粉丝(" + num + ")";
+//        mTabList.get(1).setTabTitle(mBeFocusNum);
+//        mCommonTabLayout.setTabData(mTabList);
+//    }
+
 
 }

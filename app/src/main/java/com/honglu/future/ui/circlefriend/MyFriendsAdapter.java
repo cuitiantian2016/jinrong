@@ -20,6 +20,7 @@ import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
+import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.presenter.CommonAdapter;
@@ -36,11 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyFriendsAdapter extends CommonAdapter<UserList> {
+public class MyFriendsAdapter extends CommonAdapter<AttentionBean.FriendBean> {
 
     private Context mContexts;
     private ListView mListView;
-    private List<UserList> mList = new ArrayList<UserList>();
+    private List<AttentionBean.FriendBean> mList = new ArrayList<>();
     private int mDirection;//1 关注 2 粉丝
 
     public interface ScrollToLastCallBack {
@@ -53,7 +54,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         mDirection = direction;
     }
 
-    public void setDatas(List<UserList> list) {
+    public void setDatas(List<AttentionBean.FriendBean> list) {
         for (int i = 0; i < list.size(); i++) {
             //if (list.get(i).status.equals("1"))
             mList.add(list.get(i));
@@ -72,7 +73,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
     }
 
     @Override
-    public UserList getItem(int position) {
+    public AttentionBean.FriendBean getItem(int position) {
         return mList.get(position);
     }
 
@@ -91,7 +92,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        UserList item = getItem(position);
+        AttentionBean.FriendBean item = getItem(position);
         holder.bindView(item, convertView, position);
         return convertView;
     }
@@ -127,7 +128,7 @@ public class MyFriendsAdapter extends CommonAdapter<UserList> {
             iv_attention = (ImageView) convertView.findViewById(R.id.iv_attention);
         }
 
-        public void bindView(final UserList item, final View mContext, final int position) {
+        public void bindView(final AttentionBean.FriendBean item, final View mContext, final int position) {
             ImageUtil.display(ConfigUtil.baseImageUserUrl + item.avatarPic, user_img, R.mipmap.img_head);
             user_name.setText(item.nickName);
             flag.setVisibility(TextUtils.isEmpty(item.userRole)? View.GONE: View.VISIBLE);

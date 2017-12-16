@@ -139,10 +139,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
         mTvRise = (TextView) findViewById(R.id.tv_rise);
-        mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),mProductListBean.getAskPrice1()));
+        mTvRise.setText(String.format(mContext.getString(R.string.buy_rise), mProductListBean.getAskPrice1()));
         mTvRise.setOnClickListener(this);
         mTvDown = (TextView) findViewById(R.id.tv_down);
-        mTvDown.setText(String.format(mContext.getString(R.string.buy_down),mProductListBean.getBidPrice1()));
+        mTvDown.setText(String.format(mContext.getString(R.string.buy_down), mProductListBean.getBidPrice1()));
         mTvDown.setOnClickListener(this);
         text_create_tips = (TextView) findViewById(R.id.text_create_tips);
 //        TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
@@ -226,7 +226,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (keyCode == KeyEvent.KEYCODE_DEL) {
                     if (!mIsStopChangePrice) {
                         mIsStopChangePrice = true;
-                        if(!"2".equals(isClosed)) {
+                        if (!"2".equals(isClosed)) {
                             mBuild.setText("委托建仓");
                         }
                     }
@@ -282,6 +282,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         //设置字体
         editText.setTypeface(tf);
     }
+
     /**
      * 显示需要的预付款
      */
@@ -323,13 +324,33 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
                 oneSlSXF = Double.parseDouble(mProductListBean.getOpenRatioByVolume());
             } else {
-                if (mIsStopChangePrice) {
-                    oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
-                } else {
-                    if (mBuyType.equals("1")) {//买跌
-                        oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
+                    //国富
+                    if (mIsStopChangePrice) {
+                        oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                     } else {
-                        oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                        if (mBuyType.equals("1")) {//买跌
+                            oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                        } else {
+                            oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                        }
+                    }
+                } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
+                    //美尔雅
+                    if (mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_AU) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_NI)
+                            || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_MA) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_M)
+                            || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_C)) {
+                        oneSlSXF = new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue();
+                    } else {
+                        if (mIsStopChangePrice) {
+                            oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                        } else {
+                            if (mBuyType.equals("1")) {//买跌
+                                oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                            } else {
+                                oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
+                            }
+                        }
                     }
                 }
             }
@@ -337,7 +358,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             sxf.setText("¥" + StringUtil.forNumber(new BigDecimal(totalSXF).doubleValue()));
 
             String totalMoney = NumberUtil.moveLast0(NumberUtil.multiply((oneSlSXF + oneSlBZj), new BigDecimal(shouShu).doubleValue()));
-            mTotal.setText("¥"+StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
+            mTotal.setText("¥" + StringUtil.forNumber(new BigDecimal(totalMoney).doubleValue()));
 
 
             if (!"2".equals(isClosed)) {
@@ -431,14 +452,14 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 setTextChange();
                 break;
             case R.id.iv_open_account_tip:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 TradeTipDialog tradeTipDialog = new TradeTipDialog(mContext, R.layout.layout_build_tip_pop_window);
                 tradeTipDialog.show();
                 break;
             case R.id.btn_fast_open:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 String buyTypeStr;
@@ -447,7 +468,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 } else {
                     buyTypeStr = "买涨";
                 }
-                MobclickAgent.onEvent(mContext,"jy_"+mProductListBean.getInstrumentId()+"_jiancang_click", "交易_"+mProductListBean.getInstrumentName()+"_建仓");
+                MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_jiancang_click", "交易_" + mProductListBean.getInstrumentName() + "_建仓");
                 if (TextUtils.isEmpty(mPrice.getText().toString())) {
                     mPrice.setText(lowerLimitPrice);
                     showToast("委托价低于跌停价，已经帮您调整至跌停价");
@@ -465,7 +486,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 }
 
                 new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
-                        ,R.color.color_A4A5A6, R.dimen.dimen_14sp)
+                        , R.color.color_A4A5A6, R.dimen.dimen_14sp)
                         .setRightBtnText("确定")
                         .setLeftBtnText("取消")
                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
@@ -483,7 +504,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         }).build();
                 break;
             case R.id.btn_go_recharge:
-                MobclickAgent.onEvent(mContext,"jy_"+mProductListBean.getInstrumentId()+"_click", "交易_"+mProductListBean.getInstrumentName()+"_去充值");
+                MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_click", "交易_" + mProductListBean.getInstrumentName() + "_去充值");
                 InAndOutGoldActivity.startInAndOutGoldActivity(mContext, 0);
                 break;
             case R.id.btn_deal_reduce:
@@ -515,7 +536,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mTvDown.setText(mPrice.getText().toString().trim());
         }
 
-        if (TextUtils.isEmpty(mPrice.getText().toString())|| mPrice.getText().toString().equals(".")) {
+        if (TextUtils.isEmpty(mPrice.getText().toString()) || mPrice.getText().toString().equals(".")) {
             mTvRise.setText(lowerLimitPrice);
             mTvDown.setText(lowerLimitPrice);
         } else {
@@ -567,7 +588,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private void lessAddPrice(boolean isAdd) {
         if (!mIsStopChangePrice) {
             mIsStopChangePrice = true;
-            if(!"2".equals(isClosed)) {
+            if (!"2".equals(isClosed)) {
                 mBuild.setText("委托建仓");
             }
         }

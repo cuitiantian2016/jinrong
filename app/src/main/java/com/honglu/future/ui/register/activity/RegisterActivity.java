@@ -3,7 +3,9 @@ package com.honglu.future.ui.register.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -53,6 +55,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     CountDownTextView mSendCodeView;
     @BindView(R.id.register_content)
     LinearLayout registerView;
+    @BindView(R.id.btn_register)
+    TextView mRegister;
 
     @Override
     public void showLoading(String content) {
@@ -85,12 +89,74 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         mContent.setText("注册");
         mTvLogin.setText("登录");
         initViews();
+        mMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mEtPassword.getText().toString().length() >= 6) {
+                    mRegister.setEnabled(true);
+                } else {
+                    mRegister.setEnabled(false);
+                }
+            }
+        });
+
+        mSmsCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mEtPassword.getText().toString().length() >= 6) {
+                    mRegister.setEnabled(true);
+                } else {
+                    mRegister.setEnabled(false);
+                }
+            }
+        });
+
+        mEtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mEtPassword.getText().toString().length() >= 6) {
+                    mRegister.setEnabled(true);
+                } else {
+                    mRegister.setEnabled(false);
+                }
+            }
+        });
         controlKeyboardLayout(findViewById(R.id.rootView));
     }
 
     /**
      * @param root 最外层布局，需要调整的布局
-     * 输入框，滚动root,使输入框在root可视区域的底部
+     *             输入框，滚动root,使输入框在root可视区域的底部
      */
     private void controlKeyboardLayout(final View root) {
         if (root == null)
@@ -140,12 +206,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private void initViews() {
     }
 
-    @OnClick({R.id.tv_login, R.id.iv_close, R.id.btn_register, R.id.btn_sendCode,R.id.tv_protocol})
+    @OnClick({R.id.tv_login, R.id.iv_close, R.id.btn_register, R.id.btn_sendCode, R.id.tv_protocol})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_login:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -153,8 +219,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 finish();
                 break;
             case R.id.btn_register:
-                clickTab("zcdl_huoquyanzhengma_zhuce","获取验证码_ 注册");
-                if(DeviceUtils.isFastDoubleClick()){
+                clickTab("zcdl_huoquyanzhengma_zhuce", "获取验证码_ 注册");
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 if (mMobile.length() < 11) {
@@ -174,10 +240,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         mMobile.getText().toString(), mEtPassword.getText().toString(), mMobile.getText().toString());
                 break;
             case R.id.btn_sendCode:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
-                clickTab("zcdl_huoquyanzhengma","注册_获取验证码");
+                clickTab("zcdl_huoquyanzhengma", "注册_获取验证码");
                 if (CheckUtils.checkPhoneNum(mMobile.getText().toString())) {
                     mSendCodeView.start();
                     mSmsCode.requestFocus();
@@ -217,10 +283,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     /**
      * 埋点
+     *
      * @param value1
      * @param value2
      */
-    private void clickTab(String value1 , String value2){
-        MobclickAgent.onEvent(mContext,value1, value2);
+    private void clickTab(String value1, String value2) {
+        MobclickAgent.onEvent(mContext, value1, value2);
     }
 }

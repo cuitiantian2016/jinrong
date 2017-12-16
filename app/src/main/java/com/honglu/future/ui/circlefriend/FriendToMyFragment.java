@@ -13,6 +13,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -129,9 +130,9 @@ public class FriendToMyFragment extends CommonFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().loadMyBeFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<List<UserList>>() {
+                    toSubscribe(HttpManager.getApi().loadMyBeFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), "0", "10"), new HttpSubscriber<AttentionBean>() {
                         @Override
-                        protected void _onNext(List<UserList> o) {
+                        protected void _onNext(AttentionBean o) {
                             super._onNext(o);
                             if (o == null) {
                                 if (mListView.getFooterViewsCount() == 0)
@@ -139,7 +140,7 @@ public class FriendToMyFragment extends CommonFragment {
                             } else {
                                 if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();
-                                if (o.size() == 0) {
+                                if (o.circleUserBoList.size() == 0) {
                                     if (mAdapter.getCount() == 0) {
                                         if (mListView.getFooterViewsCount() == 0)
                                             mListView.addFooterView(empty_view, null, false);
@@ -147,24 +148,25 @@ public class FriendToMyFragment extends CommonFragment {
                                         if (mListView.getFooterViewsCount() != 0)
                                             mListView.removeFooterView(empty_view);
                                     }
-//                                    ((MyFriendActivity) getActivity()).setData(o.size());
-                                } else if (o.size() > 0 && o.size() < 10) {
-                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                   // ((MyFriendActivity) getActivity()).setBeFocusData(o.circleUserBoList.size());
+                                } else if (o.circleUserBoList.size() > 0 && o.circleUserBoList.size() < 10) {
+                                    follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     if (mListView.getFooterViewsCount() != 0)
                                         mListView.removeFooterView(empty_view);
-                                    mAdapter.setDatas(o);
-                                } else if (o.size() >= 10) {
-                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    mAdapter.setDatas(o.circleUserBoList);
+                                } else if (o.circleUserBoList.size() >= 10) {
+                                    follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     if (mListView.getFooterViewsCount() != 0)
                                         mListView.removeFooterView(empty_view);
-                                    mAdapter.setDatas(o);
+                                    mAdapter.setDatas(o.circleUserBoList);
                                 }
-                                if (o.size() >= 10) {
+                                if (o.circleUserBoList.size() >= 10) {
                                     ++rows;
                                     isMore = true;
                                 } else {
                                     isMore = false;
                                 }
+                                //((MyFriendActivity) getActivity()).setBeFocusData(o.circleUserBoList.size());
                             }
                             mSmartRefresh.setEnableLoadmore(isMore);
                         }

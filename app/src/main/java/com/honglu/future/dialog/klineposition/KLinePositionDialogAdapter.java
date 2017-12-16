@@ -499,7 +499,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         String closeRatioByVolume = mProductListBean.getCloseRatioByVolume();
         int todayPosition = bean.getTodayPosition();
         try {
-            double closeTradePrice = TradeUtil.getCloseTradePrice(todayPosition, closeTodayRatioByMoney,
+            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean,todayPosition, closeTodayRatioByMoney,
                     closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple);
             return closeTradePrice;
         } catch (Exception e) {

@@ -164,9 +164,10 @@
                 android:layout_marginLeft="@dimen/dimen_36dp"
                 android:layout_marginRight="@dimen/dimen_36dp"
                 android:layout_marginTop="@dimen/dimen_30dp"
-                android:background="@drawable/btn_user_recharge_bg"
+                android:background="@drawable/selector_btton_2dp"
                 android:gravity="center"
                 android:text="注册"
+                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen_18sp" />
 

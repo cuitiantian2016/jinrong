@@ -1,7 +1,9 @@
 package com.honglu.future.ui.login.activity;
 
 import android.graphics.Rect;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -50,6 +52,8 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
     CountDownTextView mSendCodeView;
     @BindView(R.id.reset_content)
     LinearLayout mResetView;
+    @BindView(R.id.btn_reset_pwd)
+    TextView mReset;
 
     @Override
     public void showLoading(String content) {
@@ -89,6 +93,70 @@ public class ResetPwdActivity extends BaseActivity<ResetPwdPresenter> implements
             mMobile.setSelection(mMobile.getText().toString().length());
             mSendCodeView.setEnabled(true);
         }
+
+        mMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mPwd.getText().toString().length() >= 6) {
+                    mReset.setEnabled(true);
+                } else {
+                    mReset.setEnabled(false);
+                }
+            }
+        });
+
+        mSmsCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mPwd.getText().toString().length() >= 6) {
+                    mReset.setEnabled(true);
+                } else {
+                    mReset.setEnabled(false);
+                }
+            }
+        });
+
+        mPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mMobile.getText().toString().length() >= 11 && mSmsCode.getText().toString().length() >= 4 && mPwd.getText().toString().length() >= 6) {
+                    mReset.setEnabled(true);
+                } else {
+                    mReset.setEnabled(false);
+                }
+            }
+        });
+
         controlKeyboardLayout(findViewById(R.id.rootView));
     }
 

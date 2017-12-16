@@ -11,6 +11,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.ui.trade.fragment.TradeFragment;
 import com.honglu.future.util.SpUtil;
@@ -124,20 +125,20 @@ public class MyToFriendFragment extends CommonFragment {
                 @Override
                 public void getData() {
                     super.getData();
-                    toSubscribe(HttpManager.getApi().loadMyFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<List<UserList>>() {
+                    toSubscribe(HttpManager.getApi().loadMyFocusList(SpUtil.getString(Constant.CACHE_TAG_UID), String.valueOf(rows), "10"), new HttpSubscriber<AttentionBean>() {
                         @Override
-                        protected void _onNext(List<UserList> o) {
+                        protected void _onNext(AttentionBean o) {
                             super._onNext(o);
-                            if (o == null || o.size() == 0) {
+                            if (o == null || o.circleUserBoList.size() == 0) {
                                 empty_view.setVisibility(View.VISIBLE);
                                 mSmartRefresh.setVisibility(View.GONE);
 //                                if (o != null) {
-//                                    ((MyFriendActivity) getActivity()).setData(o.size());
+//                                    ((MyFriendActivity) getActivity()).setData(o.circleUserBoList.size());
 //                                }
                             } else {
                                 if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();
-                                if (o.size() == 0) {
+                                if (o.circleUserBoList.size() == 0) {
                                     if (mAdapter.getCount() == 0) {
                                         empty_view.setVisibility(View.VISIBLE);
                                         mSmartRefresh.setVisibility(View.GONE);
@@ -145,24 +146,24 @@ public class MyToFriendFragment extends CommonFragment {
                                         empty_view.setVisibility(View.GONE);
                                         mSmartRefresh.setVisibility(View.VISIBLE);
                                     }
-                                } else if (o.size() > 0 && o.size() < 10) {
-                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                } else if (o.circleUserBoList.size() > 0 && o.circleUserBoList.size() < 10) {
+                                    follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     empty_view.setVisibility(View.GONE);
                                     mSmartRefresh.setVisibility(View.VISIBLE);
-                                    mAdapter.setDatas(o);
-                                } else if (o.size() >= 10) {
-                                    follow_id_temp = o.get(o.size() - 1).userId;
+                                    mAdapter.setDatas(o.circleUserBoList);
+                                } else if (o.circleUserBoList.size() >= 10) {
+                                    follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     empty_view.setVisibility(View.GONE);
                                     mSmartRefresh.setVisibility(View.VISIBLE);
-                                    mAdapter.setDatas(o);
+                                    mAdapter.setDatas(o.circleUserBoList);
                                 }
-                                if (o.size() >= 10) {
+                                if (o.circleUserBoList.size() >= 10) {
                                     ++rows;
                                     isMore = true;
                                 } else {
                                     isMore = false;
                                 }
-//                                ((MyFriendActivity) getActivity()).setData(o.size());
+                                //((MyFriendActivity) getActivity()).setData(o.circleUserBoList.size());
                             }
 
                             mSmartRefresh.setEnableLoadmore(isMore);
