@@ -2,7 +2,6 @@ package com.honglu.future.ui.recharge.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,8 +35,6 @@ import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.widget.DrawableCenterTextView;
-import com.scwang.smartrefresh.layout.util.DeviceUtils;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -74,8 +71,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     LinearLayout ll_bank_password;//银行卡密码
     @BindView(R.id.pay_tip)
     TextView mPayTip;
-    @BindView(R.id.dctv_comp)
-    DrawableCenterTextView mComp;
+    @BindView(R.id.iv_comp)
+    ImageView mIvComp;
+    @BindView(R.id.tv_comp)
+    TextView mTvComp;
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
     private List<BindCardBean> mList;
@@ -120,17 +119,11 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             }
         });
         if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
-            mComp.setText("国富期货");
-            Drawable drawable = getResources().getDrawable(R.mipmap.ic_guofu);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            mComp.setCompoundDrawables(drawable, null, null, null);
-            mComp.setCompoundDrawablePadding(DeviceUtils.dip2px(mContext,3));
+            mTvComp.setText("国富期货");
+            mIvComp.setImageResource(R.mipmap.ic_guofu);
         } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
-            mComp.setText("美尔雅期货");
-            Drawable drawable = getResources().getDrawable(R.mipmap.ic_mey);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            mComp.setCompoundDrawables(drawable, null, null, null);
-            mComp.setCompoundDrawablePadding(DeviceUtils.dip2px(mContext,3));
+            mTvComp.setText("美尔雅期货");
+            mIvComp.setImageResource(R.mipmap.ic_mey);
         }
         initView();
         mBtnPay.setEnabled(false);

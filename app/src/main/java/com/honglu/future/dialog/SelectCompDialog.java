@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.honglu.future.R;
+import com.honglu.future.config.Constant;
+import com.honglu.future.util.SpUtil;
 
 /**
  * Created by zq on 2017/12/15.
@@ -71,6 +74,15 @@ public class SelectCompDialog extends Dialog implements View.OnClickListener {
         ivMeyTip.setOnClickListener(this);
         ivGuofu = (ImageView) findViewById(R.id.iv_guofu_select);
         ivMey = (ImageView) findViewById(R.id.iv_mey_select);
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.COMPANY_TYPE))) {
+            if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
+                ivGuofu.setImageResource(R.mipmap.ic_checked);
+                ivMey.setImageResource(R.drawable.unselect_circle_bg);
+            } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
+                ivMey.setImageResource(R.mipmap.ic_checked);
+                ivGuofu.setImageResource(R.drawable.unselect_circle_bg);
+            }
+        }
     }
 
     @Override

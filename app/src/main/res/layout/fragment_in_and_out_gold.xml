@@ -1,298 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:scrollbars="none"
-        android:background="@color/base_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_bg"
     android:fillViewport="true"
-        android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:scrollbars="none">
+
     <RelativeLayout
-        android:layout_marginTop="@dimen/dimen_10dp"
         android:layout_width="match_parent"
-        android:background="@color/color_white"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:background="@color/color_white">
+
         <LinearLayout
             android:id="@+id/rl_card"
-            android:orientation="vertical"
-            android:background="@color/base_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-        <LinearLayout
-            android:background="@color/base_bg"
-            android:id="@+id/tv_tip"
-            android:paddingLeft="@dimen/dimen_12dp"
-            android:layout_below="@+id/rl_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/pay_tip"
-            android:paddingTop="@dimen/dimen_8dp"
-            android:paddingBottom="@dimen/dimen_8dp"
-            android:textSize="12sp"
-            android:textColor="#A4A5A6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="充值时间:\n工作日 8:30-15:30（工商银行8:45开始）20:30-次日 2:30"/>
+            android:background="@color/base_bg"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_card"
+            android:background="@color/base_bg"
+            android:paddingLeft="@dimen/dimen_12dp">
+
+            <TextView
+                android:id="@+id/pay_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_8dp"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:text="充值时间:\n工作日 8:30-15:30（工商银行8:45开始）20:30-次日 2:30"
+                android:textColor="#A4A5A6"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
             android:id="@+id/ll_close"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/tv_tip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tip"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_12dp"
+            android:paddingRight="@dimen/dimen_12dp">
 
             <TextView
                 android:id="@+id/tv_type_asses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="充值金额"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_19dp"
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/et_pay_asses"
-                android:hint="请填写充值金额"
-                android:textSize="16sp"
-                android:inputType="numberDecimal"
-                android:textColorHint="#CACBCC"
-                android:layout_width="wrap_content"
-                android:maxLines="1"
-                android:textColor="@color/color_333333"
-                android:maxLength="9"
-                android:maxWidth="120dp"
-                android:minWidth="@dimen/dimen_120dp"
-                android:background="@null"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_19dp">
+
+                <EditText
+                    android:id="@+id/et_pay_asses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="请填写充值金额"
+                    android:inputType="numberDecimal"
+                    android:maxLength="9"
+                    android:maxLines="1"
+                    android:maxWidth="120dp"
+                    android:minWidth="@dimen/dimen_120dp"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="#CACBCC"
+                    android:textSize="16sp" />
+
                 <View
                     android:id="@+id/line_two"
                     android:layout_width="1dp"
+                    android:layout_height="16dp"
                     android:layout_marginLeft="36dp"
-                    android:background="@color/color_line"
                     android:layout_toRightOf="@+id/et_pay_asses"
-                    android:layout_height="16dp"/>
+                    android:background="@color/color_line" />
+
                 <TextView
                     android:id="@+id/et_check_bank_asses"
-                    android:text="@string/check_bank_asses"
-                    android:textSize="12sp"
-                    android:textColor="#008EFF"
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:maxLines="1"
-                    android:layout_height="wrap_content" />
+                    android:text="@string/check_bank_asses"
+                    android:textColor="#008EFF"
+                    android:textSize="12sp" />
+
                 <View
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_below="@+id/et_pay_asses"
                     android:layout_width="match_parent"
-                    android:background="@color/color_line"
-                    android:layout_height="@dimen/dimen_line"/>
+                    android:layout_height="@dimen/dimen_line"
+                    android:layout_below="@+id/et_pay_asses"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:background="@color/color_line" />
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
             android:id="@+id/ll_asses_password"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/ll_close"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_close"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_12dp"
+            android:paddingRight="@dimen/dimen_12dp">
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="资金密码"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
+
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_19dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_19dp">
+
                 <EditText
                     android:id="@+id/et_asses_password"
-                    android:hint="请填写您的6-16位资金密码"
-                    android:textSize="16sp"
-                    android:textColorHint="#CACBCC"
                     android:layout_width="match_parent"
-                    android:maxLines="1"
-                    android:inputType="textPassword"
-                    android:textColor="@color/color_333333"
-                    android:maxLength="16"
+                    android:layout_height="wrap_content"
                     android:background="@null"
-                    android:layout_height="wrap_content" />
+                    android:hint="请填写您的6-16位资金密码"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    android:maxLines="1"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="#CACBCC"
+                    android:textSize="16sp" />
+
                 <View
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_below="@+id/et_asses_password"
                     android:layout_width="match_parent"
-                    android:background="@color/color_line"
-                    android:layout_height="@dimen/dimen_line"/>
+                    android:layout_height="@dimen/dimen_line"
+                    android:layout_below="@+id/et_asses_password"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:background="@color/color_line" />
             </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
             android:id="@+id/ll_bank_password"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/ll_asses_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_asses_password"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_12dp"
+            android:paddingRight="@dimen/dimen_12dp">
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="银行密码"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
+
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_19dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_19dp">
+
                 <EditText
                     android:id="@+id/et_bank_password"
-                    android:hint="请填写银行取款密码"
-                    android:textSize="16sp"
-                    android:textColorHint="#CACBCC"
                     android:layout_width="wrap_content"
-                    android:maxLines="1"
-                    android:maxLength="6"
-                    android:textColor="@color/color_333333"
-                    android:inputType="numberPassword"
+                    android:layout_height="wrap_content"
                     android:background="@null"
-                    android:layout_height="wrap_content" />
+                    android:hint="请填写银行取款密码"
+                    android:inputType="numberPassword"
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="#CACBCC"
+                    android:textSize="16sp" />
+
                 <View
-                    android:layout_marginTop="@dimen/dimen_10dp"
-                    android:layout_below="@+id/et_bank_password"
                     android:layout_width="match_parent"
-                    android:background="@color/color_line"
-                    android:layout_height="@dimen/dimen_line"/>
+                    android:layout_height="@dimen/dimen_line"
+                    android:layout_below="@+id/et_bank_password"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:background="@color/color_line" />
             </RelativeLayout>
         </LinearLayout>
+
         <TextView
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_below="@+id/ll_bank_password"
             android:id="@+id/btn_pay"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
+            android:layout_below="@+id/ll_bank_password"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="20dp"
-            android:enabled="false"
             android:background="@drawable/selector_btton_2dp"
+            android:enabled="false"
             android:gravity="center"
             android:text="确认充值"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_18sp" />
+
         <TextView
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_14dp"
             android:id="@+id/tv_tip_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/btn_pay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#A4A5A6"
             android:layout_marginTop="@dimen/dimen_15dp"
-            android:textSize="@dimen/dimen_12sp"
-            android:text="充值提现及时到账，如遇到特殊情况，请联系小牛期货客服"/>
-        <LinearLayout
-            android:paddingRight="@dimen/dimen_12dp"
             android:paddingLeft="@dimen/dimen_14dp"
-            android:layout_marginTop="@dimen/dimen_2dp"
+            android:paddingRight="@dimen/dimen_12dp"
+            android:text="充值提现及时到账，如遇到特殊情况，请联系小牛期货客服"
+            android:textColor="#A4A5A6"
+            android:textSize="@dimen/dimen_12sp" />
+
+        <LinearLayout
             android:id="@+id/ll_tip_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_tip_one"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-       <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#A4A5A6"
-            android:textSize="@dimen/dimen_12sp"
-            android:text="客服电话："/>
-       <TextView
-           android:paddingBottom="@dimen/dimen_2dp"
-           android:paddingTop="@dimen/dimen_2dp"
-           android:id="@+id/tv_phone_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#008EFF"
-            android:textSize="@dimen/dimen_12sp"
-            android:text="4009610211"/>
-        </LinearLayout>
-        <TextView
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_14dp"
             android:layout_marginTop="@dimen/dimen_2dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_14dp"
+            android:paddingRight="@dimen/dimen_12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客服电话："
+                android:textColor="#A4A5A6"
+                android:textSize="@dimen/dimen_12sp" />
+
+            <TextView
+                android:id="@+id/tv_phone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_2dp"
+                android:paddingTop="@dimen/dimen_2dp"
+                android:text="4009610211"
+                android:textColor="#008EFF"
+                android:textSize="@dimen/dimen_12sp" />
+        </LinearLayout>
+
+        <TextView
             android:id="@+id/tv_tip_two"
-            android:layout_below="@+id/ll_tip_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#A4A5A6"
-            android:textSize="@dimen/dimen_12sp"
-            android:text="客服时间：早上8:30-下午17:00"/>
-        <LinearLayout
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ll_tip_two"
+            android:layout_marginTop="@dimen/dimen_2dp"
+            android:paddingLeft="@dimen/dimen_14dp"
             android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
-            android:layout_marginBottom="@dimen/dimen_15dp"
+            android:text="客服时间：早上8:30-下午17:00"
+            android:textColor="#A4A5A6"
+            android:textSize="@dimen/dimen_12sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dimen_15dp"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:paddingLeft="@dimen/dimen_12dp"
+            android:paddingRight="@dimen/dimen_12dp">
+
             <com.honglu.future.widget.DrawableCenterTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:minWidth="@dimen/title_height"
                 android:layout_gravity="end"
-                android:gravity="center"
-                android:text="银联"
                 android:layout_marginRight="@dimen/dimen_20dp"
-                android:drawablePadding="@dimen/dimen_3dp"
                 android:drawableLeft="@mipmap/ic_union_pay"
-                android:textColor="@color/color_333333"
-                android:textSize="12sp"/>
-            <com.honglu.future.widget.DrawableCenterTextView
-                android:id="@+id/dctv_comp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="@dimen/title_height"
-                android:layout_gravity="end"
-                android:gravity="center"
-                android:text="国富期货"
-                android:layout_marginRight="@dimen/dimen_20dp"
-                android:drawablePadding="@dimen/dimen_3dp"
-                android:drawableLeft="@mipmap/ic_guofu"
-                android:textColor="@color/color_333333"
-                android:textSize="12sp"/>
-            <com.honglu.future.widget.DrawableCenterTextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="@dimen/title_height"
-                android:layout_gravity="end"
                 android:drawablePadding="@dimen/dimen_3dp"
                 android:gravity="center"
-                android:text="智投"
+                android:minWidth="@dimen/title_height"
+                android:text="银联"
+                android:textColor="@color/color_333333"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_comp"
+                    android:layout_width="@dimen/dimen_13dp"
+                    android:layout_height="@dimen/dimen_13dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_guofu" />
+
+                <TextView
+                    android:id="@+id/tv_comp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_3dp"
+                    android:layout_marginRight="@dimen/dimen_20dp"
+                    android:text="国富期货"
+                    android:textColor="@color/color_333333"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <com.honglu.future.widget.DrawableCenterTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
                 android:layout_marginRight="@dimen/dimen_20dp"
                 android:drawableLeft="@mipmap/ic_logo_charge"
+                android:drawablePadding="@dimen/dimen_3dp"
+                android:gravity="center"
+                android:minWidth="@dimen/title_height"
+                android:text="智投"
                 android:textColor="@color/color_333333"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
+
             <com.honglu.future.widget.DrawableCenterTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:minWidth="@dimen/title_height"
                 android:layout_gravity="end"
-                android:gravity="center"
-                android:drawablePadding="@dimen/dimen_3dp"
-                android:text="中国证监会"
                 android:drawableLeft="@mipmap/ic_zjh"
+                android:drawablePadding="@dimen/dimen_3dp"
+                android:gravity="center"
+                android:minWidth="@dimen/title_height"
+                android:text="中国证监会"
                 android:textColor="@color/color_333333"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 
