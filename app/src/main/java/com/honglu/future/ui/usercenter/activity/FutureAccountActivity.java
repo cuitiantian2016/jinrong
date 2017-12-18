@@ -26,6 +26,8 @@ public class FutureAccountActivity extends BaseActivity<FutureAccountPresenter> 
     ImageView mIvBack;
     @BindView(R.id.tv_account)
     TextView mTvAccount;
+    @BindView(R.id.tv_comp_name)
+    TextView mCompName;
 
     @Override
     public void showLoading(String content) {
@@ -61,31 +63,37 @@ public class FutureAccountActivity extends BaseActivity<FutureAccountPresenter> 
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "期货账户管理");
         mTvAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
+        if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
+            mCompName.setText("国富期货公司");
+        } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
+            mCompName.setText("美尔雅期货公司");
+        }
     }
 
-    @OnClick({R.id.tv_back,R.id.rl_reset_market_pwd,R.id.rl_reset_asses_pwd})
+    @OnClick({R.id.tv_back, R.id.rl_reset_market_pwd, R.id.rl_reset_asses_pwd})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back:
                 finish();
                 break;
             case R.id.rl_reset_market_pwd:
-                clickTab("wode_accountqihuo_xiugaijiaoyikey","我的_期货账户_修改交易密码");
-                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this,true);
+                clickTab("wode_accountqihuo_xiugaijiaoyikey", "我的_期货账户_修改交易密码");
+                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this, true);
                 break;
             case R.id.rl_reset_asses_pwd:
-                clickTab("wode_accountqihuo_xiugaizijinkey","我的_期货账户_修改资金密码");
-                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this,false);
+                clickTab("wode_accountqihuo_xiugaizijinkey", "我的_期货账户_修改资金密码");
+                PasswordResetActivity.startPasswordResetActivity(FutureAccountActivity.this, false);
                 break;
         }
     }
 
     /**
      * 埋点
+     *
      * @param value1
      * @param value2
      */
-    private void clickTab(String value1 , String value2){
-        MobclickAgent.onEvent(mContext,value1, value2);
+    private void clickTab(String value1, String value2) {
+        MobclickAgent.onEvent(mContext, value1, value2);
     }
 }

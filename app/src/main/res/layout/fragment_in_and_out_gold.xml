@@ -258,6 +258,7 @@
                 android:textColor="@color/color_333333"
                 android:textSize="12sp"/>
             <com.honglu.future.widget.DrawableCenterTextView
+                android:id="@+id/dctv_comp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:minWidth="@dimen/title_height"
