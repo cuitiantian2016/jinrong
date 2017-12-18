@@ -10,14 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.util.ImageUtil;
-import com.honglu.future.util.TimeUtil;
+import com.honglu.future.util.TextViewUtil;
+import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class CircleDetailAdapter extends BaseAdapter{
     private List<CommentBean> mCommentList;
     private String mPostUserId;
     private String mCommentType;
+    private int mWidth;
 
 
     public CircleDetailAdapter(CircleDetailActivity activity ,String mPostUserId){
@@ -39,6 +43,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         this.mPostUserId = mPostUserId;
         this.mActivity = activity;
         this.mCommentType = mActivity.getCommentType();
+        this.mWidth = ViewUtil.getScreenWidth(mActivity) - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_15dp) * 2 - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_25dp);
     }
 
 
@@ -86,7 +91,7 @@ public class CircleDetailAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        final ViewHolder holder;
         if (convertView == null){
             convertView = LayoutInflater.from(mActivity).inflate(R.layout.item_circle_detail_layout,null);
             holder = new ViewHolder(convertView);
@@ -138,6 +143,22 @@ public class CircleDetailAdapter extends BaseAdapter{
             setText(holder.mContent,bean.replyContent);
         }
 
+        int lZhuWidht = getLZhuWidht(holder.mLZhu);
+        int userLabelWidth = getUserLabelWidth(bean, holder.mUserLabel);
+        int timeWidht = getTimeWidht(bean, holder.mTime);
+        int nameWidht = getNameWidht(bean, holder.mName);
+
+        int width = mWidth - lZhuWidht - userLabelWidth - timeWidht;
+        if (width > nameWidht){
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.mName.getLayoutParams();
+            params.weight = LinearLayout.LayoutParams.WRAP_CONTENT;
+            holder.mName.setLayoutParams(params);
+        }else {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.mName.getLayoutParams();
+            params.weight = width;
+            holder.mName.setLayoutParams(params);
+        }
+
         holder.mCivHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +169,7 @@ public class CircleDetailAdapter extends BaseAdapter{
                 mActivity.startActivity(intent);
             }
         });
+
         return convertView;
     }
 
@@ -204,5 +226,32 @@ public class CircleDetailAdapter extends BaseAdapter{
 
     private int getLength(String text){
         return TextUtils.isEmpty(text) ? 0 : text.length();
+    }
+
+    //楼主所占宽度
+    private int getLZhuWidht(TextView mLZhu){
+        int lZhuWidth = mLZhu.getVisibility()== View.VISIBLE ? (int) (TextViewUtil.getTextWidth(mLZhu.getTextSize(),"楼主")
+                + mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_18dp)) : 0;
+        return lZhuWidth;
+    }
+
+    //角色所占宽度
+    private int getUserLabelWidth(CommentBean bean,TextView mUserLabel){
+        int userLabelWidth = !TextUtils.isEmpty(bean.userRole) ?(int) (TextViewUtil.getTextWidth(mUserLabel.getTextSize(),bean.userRole)
+                + mActivity.getResources().getDimension(R.dimen.dimen_7dp)) : 0;
+        return userLabelWidth;
+    }
+
+    //名字所占宽度
+    private int getNameWidht(CommentBean bean,TextView mName){
+        int nameWidht = !TextUtils.isEmpty(bean.nickName) ? (int) (TextViewUtil.getTextWidth(mName.getTextSize(),bean.nickName)
+                + mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_10dp)) : 0;
+        return nameWidht;
+    }
+
+    private int getTimeWidht(CommentBean bean,TextView mTime){
+       int timeWidht = !TextUtils.isEmpty(bean.createTime) ? (int) (TextViewUtil.getTextWidth(mTime.getTextSize(),bean.createTime)
+             + mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_7dp)) : 0;
+       return timeWidht;
     }
 }

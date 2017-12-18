@@ -21,40 +21,46 @@
             android:layout_height="@dimen/dimen_25dp"
             tools:src="@mipmap/img_head" />
 
-        <TextView
-            android:id="@+id/tv_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_13sp"
-            android:textColor="@color/color_979899"
+            android:orientation="horizontal"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            tools:text="小牛5906" />
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_13sp"
+                android:textColor="@color/color_979899"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                tools:text="小牛5906" />
 
 
-        <TextView
-            android:id="@+id/tv_user_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_86A2B0"
-            android:textSize="@dimen/dimen_11sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dimen_7dp"
-            tools:text="管理员" />
+            <TextView
+                android:id="@+id/tv_user_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_86A2B0"
+                android:textSize="@dimen/dimen_11sp"
+                android:layout_marginLeft="@dimen/dimen_7dp"
+                tools:text="管理员" />
 
-        <TextView
-            android:id="@+id/tv_lzhu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_FF8843"
-            android:textSize="@dimen/dimen_11sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dimen_7dp"
-            android:background="@drawable/shape_ff8843_bg"
-            android:paddingLeft="@dimen/dimen_5dp"
-            android:paddingRight="@dimen/dimen_5dp"
-            android:text="楼主" />
-
+            <TextView
+                android:id="@+id/tv_lzhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF8843"
+                android:textSize="@dimen/dimen_11sp"
+                android:layout_marginLeft="@dimen/dimen_7dp"
+                android:background="@drawable/shape_ff8843_bg"
+                android:paddingLeft="@dimen/dimen_5dp"
+                android:paddingRight="@dimen/dimen_5dp"
+                android:text="楼主" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_time"
@@ -63,8 +69,8 @@
             android:textColor="@color/color_CACBCC"
             android:textSize="@dimen/dimen_11sp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimen_7dp"
             android:gravity="right"
-            android:layout_weight="1"
             tools:text="13:45" />
     </LinearLayout>
 
