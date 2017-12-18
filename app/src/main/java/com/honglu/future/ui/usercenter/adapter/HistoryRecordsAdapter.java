@@ -12,7 +12,6 @@ import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import udesk.com.nostra13.universalimageloader.utils.L;
 
 /**
  * Created by zq on 2017/11/2.

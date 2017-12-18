@@ -18,8 +18,6 @@ import com.honglu.future.R;
 
 import java.util.List;
 
-import cn.udesk.UdeskUtil;
-
 public class PhotoPreviewActivity extends AppCompatActivity {
 
 	private ImagePagerFragment pagerFragment;

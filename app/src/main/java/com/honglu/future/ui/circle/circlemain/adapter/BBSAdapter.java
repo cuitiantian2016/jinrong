@@ -46,10 +46,8 @@ import com.honglu.future.widget.gridimage.NineGridImageViewAdapter;
 import com.honglu.future.widget.photo.FullScreenDisplayActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import udesk.com.nostra13.universalimageloader.utils.L;
 
 public class BBSAdapter extends BaseAdapter {
 

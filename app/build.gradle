@@ -187,7 +187,6 @@ dependencies {
     //替代Sp的跨进程存储库
     //推送
     compile 'cn.jiguang:jpush:2.1.8'
-    compile project(':UdeskSDKUI')
     //刷新
     compile project(':smart-refresh')
     //图片压缩
