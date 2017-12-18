@@ -52,6 +52,8 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
     LinearLayout mLLInput;
     @BindView(R.id.ll_empty_view)
     LinearLayout mEmptyView;
+    @BindView(R.id.tv_hinttext)
+    TextView mHintText;
 
     private InputMethodManager mInputMethodManager;
     private CircleMsgPLAdapter mAdapter;
@@ -95,6 +97,7 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
         mRefreshView.setEnableLoadmore(false);
         mLLInput.setVisibility(View.GONE);
         mLine.setVisibility(View.GONE);
+        mHintText.setText("暂未收到评论哦");
         mListView.setEmptyView(mEmptyView);
         AndroidUtil.setEmojiFilter(mInput);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {

@@ -55,6 +55,8 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
     LinearLayout mLLInput;
     @BindView(R.id.ll_empty_view)
     LinearLayout mEmptyView;
+    @BindView(R.id.tv_hinttext)
+    TextView mHintText;
 
     private InputMethodManager mInputMethodManager;
     private CircleMsgHFAdapter mAdapter;
@@ -101,6 +103,7 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
         mLine.setVisibility(View.GONE);
         mListView.setEmptyView(mEmptyView);
         AndroidUtil.setEmojiFilter(mInput);
+        mHintText.setText("暂未收到回复哦");
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {

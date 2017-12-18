@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -22,7 +21,9 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/srl_refreshView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_F7F8F9">
+
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -37,32 +38,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-        <TextView
-            android:id="@+id/tv_empty"
-            android:text="暂无数据"
-            android:textSize="@dimen/dimen_15dp"
-            android:textColor="@color/color_333333"
-            android:gravity="center"
-            android:visibility="gone"
+
+        <LinearLayout
+            android:id="@+id/ll_empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_empty_friend"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_979899"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:textSize="@dimen/dimen_16sp"
+                android:text="暂无人点赞哦"/>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/color_white"
+        android:gravity="center_horizontal">
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1dp"
+        android:layout_height="@dimen/dimen_line"
         android:background="@color/color_line"/>
     <TextView
         android:id="@+id/iv_follow"
         android:text="我也要点赞"
-        android:gravity="center"
         android:drawablePadding="@dimen/dimen_5dp"
-        android:drawableLeft="@mipmap/praise_me"
-        android:textColor="#008EFF"
         android:textSize="@dimen/dimen_15sp"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:adjustViewBounds="true"
         android:layout_height="50dp" />
 
-
+    </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.praisesandreward;
 
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,10 +44,10 @@ public class ThumbsListFragment extends BaseFragment {
     private boolean isRequesting;//是否正在请求中
 
     private SmartRefreshLayout mPullToRefreshView;
+    private View mLLEmpty;
     private String mTopicId;
     private String mTideId;
     private GetFriendsAdapter mAdapter;
-    private TextView tv_empty;
     private TextView mFollowIv;
     private boolean isMore;
     private int rows = 0;
@@ -64,11 +65,6 @@ public class ThumbsListFragment extends BaseFragment {
                     @Override
                     protected void _onNext(List<UserList> userLists) {
                         super._onNext(userLists);
-                        if (userLists==null||userLists.size()<=0){
-                            tv_empty.setVisibility(View.VISIBLE);
-                        }else {
-                            tv_empty.setVisibility(View.GONE);
-                        }
                         isRequesting = false;
                         if (mIsRefresh){
                             mPullToRefreshView.finishRefresh();
@@ -89,11 +85,6 @@ public class ThumbsListFragment extends BaseFragment {
                         super._onError(message);
                         ToastUtil.show(message);
                         isRequesting = false;
-                        if (mAdapter==null||mAdapter.getCount()<=0){
-                            tv_empty.setVisibility(View.VISIBLE);
-                        }else {
-                            tv_empty.setVisibility(View.GONE);
-                        }
                         mPullToRefreshView.finishLoadmore();
                         mPullToRefreshView.finishRefresh();
                     }
@@ -117,6 +108,7 @@ public class ThumbsListFragment extends BaseFragment {
                     super._onNext(jsonNull);
                     mFollowIv.setText("您已点赞");
                     mTideId="1";
+                    setFollowStyle(mTideId);
                     BBSPraiseEvent bbsPraiseEvent = new BBSPraiseEvent();
                     bbsPraiseEvent.topic_id = mTopicId;
                     EventBus.getDefault().post(bbsPraiseEvent);
@@ -150,7 +142,7 @@ public class ThumbsListFragment extends BaseFragment {
             mTideId = getArguments().getString(EXTRA_TIDE_ID);
         }
         mPullToRefreshView= (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
-        tv_empty= (TextView) mView.findViewById(R.id.tv_empty);
+        mLLEmpty= mView.findViewById(R.id.ll_empty);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -169,11 +161,27 @@ public class ThumbsListFragment extends BaseFragment {
         });
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
         mFollowIv= (TextView) mView.findViewById(R.id.iv_follow);
+        setFollowStyle(mTideId);
         mFollowIv.setText(TextUtils.equals("0", mTideId) ? "我也要点赞" : "您已点赞");
+        listView.setEmptyView(mLLEmpty);
         mAdapter=new GetFriendsAdapter();
         listView.setAdapter(mAdapter);
         mFollowIv.setOnClickListener(mOnClickThrottleListener);
         getFriendList(true);
+    }
+
+    public void setFollowStyle(String tideId){
+       if (TextUtils.equals("0", mTideId)){
+           mFollowIv.setTextColor(getResources().getColor(R.color.color_008EFF));
+           Drawable drawable= getResources().getDrawable(R.mipmap.ic_support);
+           drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+           mFollowIv.setCompoundDrawables(drawable,null,null,null);
+       }else {
+           mFollowIv.setTextColor(getResources().getColor(R.color.color_CACBCC));
+           Drawable drawable= getResources().getDrawable(R.mipmap.ic_support_done);
+           drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+           mFollowIv.setCompoundDrawables(drawable,null,null,null);
+       }
     }
 
     @Override
