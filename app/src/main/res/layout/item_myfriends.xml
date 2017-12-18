@@ -36,7 +36,10 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxWidth="@dimen/dimen_120dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen_16sp" />
 
@@ -45,12 +48,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:background="@mipmap/ic_user_role"
                     android:paddingLeft="@dimen/dimen_2dp"
                     android:paddingRight="@dimen/dimen_2dp"
-                    android:text=""
+                    android:text="想"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_86A2B0"
                     android:textSize="@dimen/dimen_10sp"
                     android:visibility="gone" />
             </LinearLayout>
