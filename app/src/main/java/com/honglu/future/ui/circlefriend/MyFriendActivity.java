@@ -90,34 +90,34 @@ public class MyFriendActivity extends BaseActivity {
         });
     }
 
-    public void setData(String foll, int type) {
-        if (type == 1) {
-            if (foll.equals("0")) {
-                focusNum--;
-            }
-        } else {
-            if (foll.equals("0")) {
-                focusNum--;
-            } else {
-                focusNum++;
-            }
-        }
-        mFocusNum = "我的关注 " + focusNum;
+//    public void setData(String foll, int type) {
+//        if (type == 1) {
+//            if (foll.equals("0")) {
+//                focusNum--;
+//            }
+//        } else {
+//            if (foll.equals("0")) {
+//                focusNum--;
+//            } else {
+//                focusNum++;
+//            }
+//        }
+//        mFocusNum = "我的关注 " + focusNum;
+//        mTabList.get(0).setTabTitle(mFocusNum);
+//        mCommonTabLayout.setTabData(mTabList);
+//    }
+
+    public void setData(int num) {
+        mFocusNum = "我的关注(" + num + ")";
         mTabList.get(0).setTabTitle(mFocusNum);
         mCommonTabLayout.setTabData(mTabList);
     }
 
-//    public void setData(int num) {
-//        mFocusNum = "我的关注(" + num + ")";
-//        mTabList.get(0).setTabTitle(mFocusNum);
-//        mCommonTabLayout.setTabData(mTabList);
-//    }
-//
-//    public void setBeFocusData(int num) {
-//        mBeFocusNum = "我的粉丝(" + num + ")";
-//        mTabList.get(1).setTabTitle(mBeFocusNum);
-//        mCommonTabLayout.setTabData(mTabList);
-//    }
+    public void setBeFocusData(int num) {
+        mBeFocusNum = "我的粉丝(" + num + ")";
+        mTabList.get(1).setTabTitle(mBeFocusNum);
+        mCommonTabLayout.setTabData(mTabList);
+    }
 
 
 }

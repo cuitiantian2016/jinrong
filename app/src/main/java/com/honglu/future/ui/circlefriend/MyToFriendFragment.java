@@ -129,12 +129,9 @@ public class MyToFriendFragment extends CommonFragment {
                         @Override
                         protected void _onNext(AttentionBean o) {
                             super._onNext(o);
-                            if (o == null || o.circleUserBoList.size() == 0) {
+                            if (o == null) {
                                 empty_view.setVisibility(View.VISIBLE);
                                 mSmartRefresh.setVisibility(View.GONE);
-//                                if (o != null) {
-//                                    ((MyFriendActivity) getActivity()).setData(o.circleUserBoList.size());
-//                                }
                             } else {
                                 if (mIsRefresh)   //下拉刷新
                                     mAdapter.clearDatas();
@@ -146,6 +143,7 @@ public class MyToFriendFragment extends CommonFragment {
                                         empty_view.setVisibility(View.GONE);
                                         mSmartRefresh.setVisibility(View.VISIBLE);
                                     }
+                                    ((MyFriendActivity) getActivity()).setData(0);
                                 } else if (o.circleUserBoList.size() > 0 && o.circleUserBoList.size() < 10) {
                                     follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     empty_view.setVisibility(View.GONE);
@@ -163,7 +161,7 @@ public class MyToFriendFragment extends CommonFragment {
                                 } else {
                                     isMore = false;
                                 }
-                                //((MyFriendActivity) getActivity()).setData(o.circleUserBoList.size());
+                                ((MyFriendActivity) getActivity()).setData(Integer.parseInt(o.focusNum));
                             }
 
                             mSmartRefresh.setEnableLoadmore(isMore);

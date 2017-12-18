@@ -148,7 +148,7 @@ public class FriendToMyFragment extends CommonFragment {
                                         if (mListView.getFooterViewsCount() != 0)
                                             mListView.removeFooterView(empty_view);
                                     }
-                                   // ((MyFriendActivity) getActivity()).setBeFocusData(o.circleUserBoList.size());
+                                    ((MyFriendActivity) getActivity()).setBeFocusData(0);
                                 } else if (o.circleUserBoList.size() > 0 && o.circleUserBoList.size() < 10) {
                                     follow_id_temp = o.circleUserBoList.get(o.circleUserBoList.size() - 1).userId;
                                     if (mListView.getFooterViewsCount() != 0)
@@ -166,7 +166,7 @@ public class FriendToMyFragment extends CommonFragment {
                                 } else {
                                     isMore = false;
                                 }
-                                //((MyFriendActivity) getActivity()).setBeFocusData(o.circleUserBoList.size());
+                                ((MyFriendActivity) getActivity()).setBeFocusData(Integer.parseInt(o.beFocusNum));
                             }
                             mSmartRefresh.setEnableLoadmore(isMore);
                         }

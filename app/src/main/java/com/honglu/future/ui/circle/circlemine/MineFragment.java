@@ -183,48 +183,48 @@ public class MineFragment extends CommonFragment {
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem == 0) {
-                    View view = listView.getChildAt(0);
-                    if (view != null) {
-                        int top = -view.getTop();
-                        int headerHeight = view.getHeight();
-                        if (top <= headerHeight && top >= 0) {
-                            float f = (float) top / (float) headerHeight;
-                            if (mOnTopicAlaph != null) {
-                                mOnTopicAlaph.onAlaphValue(f);
-                            }
-                        }
-                    }
-                } else if (firstVisibleItem > 0) {
-                    if (mOnTopicAlaph != null) {
-                        mOnTopicAlaph.onAlaphValue(1);
-                    }
-
-                } else {
-                    if (mOnTopicAlaph != null) {
-                        mOnTopicAlaph.onAlaphValue(0);
-                    }
-                }
-                boolean result = false;
-//                if (mListView.getFirstVisiblePosition() == 0) {
-//                    final View topChildView = mListView.getChildAt(0);
-//                    result = topChildView.getTop() == 0;
-//                }
-//                if (result) {
-//                    mSmartRefresh.setEnableRefresh(true);
+//        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                if (firstVisibleItem == 0) {
+//                    View view = listView.getChildAt(0);
+//                    if (view != null) {
+//                        int top = -view.getTop();
+//                        int headerHeight = view.getHeight();
+//                        if (top <= headerHeight && top >= 0) {
+//                            float f = (float) top / (float) headerHeight;
+//                            if (mOnTopicAlaph != null) {
+//                                mOnTopicAlaph.onAlaphValue(f);
+//                            }
+//                        }
+//                    }
+//                } else if (firstVisibleItem > 0) {
+//                    if (mOnTopicAlaph != null) {
+//                        mOnTopicAlaph.onAlaphValue(1);
+//                    }
+//
 //                } else {
-//                    mSmartRefresh.setEnableRefresh(false);
+//                    if (mOnTopicAlaph != null) {
+//                        mOnTopicAlaph.onAlaphValue(0);
+//                    }
 //                }
-            }
-        });
+//                boolean result = false;
+////                if (mListView.getFirstVisiblePosition() == 0) {
+////                    final View topChildView = mListView.getChildAt(0);
+////                    result = topChildView.getTop() == 0;
+////                }
+////                if (result) {
+////                    mSmartRefresh.setEnableRefresh(true);
+////                } else {
+////                    mSmartRefresh.setEnableRefresh(false);
+////                }
+//            }
+//        });
 
         mAdapter.setAttentionCallBack(new BBSMineAdapter.AttentionCallBack() {
             @Override

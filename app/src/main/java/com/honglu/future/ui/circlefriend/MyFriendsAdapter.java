@@ -173,7 +173,7 @@ public class MyFriendsAdapter extends CommonAdapter<AttentionBean.FriendBean> {
                             BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
                             bbsFlownEvent.uid = item.userId;
                             bbsFlownEvent.follow = foll;
-                            ((MyFriendActivity) mContexts).setData(foll, mDirection);
+                            //((MyFriendActivity) mContexts).setData(foll, mDirection);
                             EventBus.getDefault().post(bbsFlownEvent);
                         }
 

@@ -23,10 +23,10 @@ public class CircleMineActivity extends BaseActivity<CircleMinePresenter> implem
 
     @Override
     public void loadData() {
-        MineFragment fragmet = (MineFragment) getSupportFragmentManager().findFragmentById(R.id.ly_bbs_mine);
+//        MineFragment fragmet = (MineFragment) getSupportFragmentManager().findFragmentById(R.id.ly_bbs_mine);
 
         final ImageView mBackWhiteIV = (ImageView) findViewById(R.id.iv_back);
-        final ImageView mBackAlphaIV = (ImageView) findViewById(R.id.iv_alpha_bg);
+//        final ImageView mBackAlphaIV = (ImageView) findViewById(R.id.iv_alpha_bg);
         mBackWhiteIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,14 +34,14 @@ public class CircleMineActivity extends BaseActivity<CircleMinePresenter> implem
             }
         });
 
-        fragmet.setOnTopicAlaph(new MineFragment.OnTopicAlaph() {
-            @Override
-            public void onAlaphValue(float value) {
-                if (value <= 05f) {
-                    mBackAlphaIV.setAlpha(value);
-                }
-            }
-        });
+//        fragmet.setOnTopicAlaph(new MineFragment.OnTopicAlaph() {
+//            @Override
+//            public void onAlaphValue(float value) {
+//                if (value <= 05f) {
+//                    mBackAlphaIV.setAlpha(value);
+//                }
+//            }
+//        });
     }
 
 }
