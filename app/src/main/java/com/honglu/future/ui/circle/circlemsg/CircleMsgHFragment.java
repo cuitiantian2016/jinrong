@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.JsonNull;
@@ -42,8 +43,8 @@ import butterknife.BindView;
 public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> implements CircleMsgContract.View{
     @BindView(R.id.refresh_view)
     SmartRefreshLayout mRefreshView;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.lv_listView)
+    ListView mListView;
     @BindView(R.id.et_input)
     EditText mInput;
     @BindView(R.id.tv_send)
@@ -52,6 +53,8 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
     View mLine;
     @BindView(R.id.ll_input)
     LinearLayout mLLInput;
+    @BindView(R.id.ll_empty_view)
+    LinearLayout mEmptyView;
 
     private InputMethodManager mInputMethodManager;
     private CircleMsgHFAdapter mAdapter;
@@ -91,13 +94,12 @@ public class CircleMsgHFragment extends BaseFragment<CircleMsgPresenter> impleme
     @Override
     public void loadData() {
         mInputMethodManager = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        mAdapter = new CircleMsgHFAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new CircleMsgHFAdapter(getActivity());
+        mListView.setAdapter(mAdapter);
         mRefreshView.setEnableLoadmore(false);
         mLLInput.setVisibility(View.GONE);
         mLine.setVisibility(View.GONE);
+        mListView.setEmptyView(mEmptyView);
         AndroidUtil.setEmojiFilter(mInput);
         mRefreshView.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override

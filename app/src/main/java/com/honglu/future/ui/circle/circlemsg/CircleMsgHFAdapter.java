@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circlemsg;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -7,8 +8,10 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -20,6 +23,9 @@ import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,8 +34,28 @@ import butterknife.ButterKnife;
  * Created by zhuaibing on 2017/12/7
  */
 
-public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.ViewHolder, CircleMsgBean> {
+public class CircleMsgHFAdapter extends BaseAdapter {
+    private Context mContext;
+    private List<CircleMsgBean> mList;
 
+    public CircleMsgHFAdapter(Context context){
+        this.mContext = context;
+        this.mList = new ArrayList<>();
+    }
+    @Override
+    public int getCount() {
+        return mList !=null ? mList.size() : 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     public interface OnHuifuClickListener{
         void onHuifuClick(int position);
@@ -39,20 +65,40 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
         this.mListener = listener;
     }
 
+    public List<CircleMsgBean> getData(){
+        return mList;
+    }
+
     //获取第一个的数据
     public CircleMsgBean getCircleBean(int position){
         return getData() !=null && getData().size() > position ? getData().get(position) : null;
     }
 
-    @Override
-    public ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_circle_msg_layout, parent, false);
-        return new CircleMsgHFAdapter.ViewHolder(view);
+    public void clearData(){
+        if (mList !=null){
+            mList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public void addData(List<CircleMsgBean> list){
+        if (list !=null){
+            mList.addAll(list);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
-    public void mOnBindViewHolder(ViewHolder holder, final int position) {
-        final CircleMsgBean circleMsgBean = data.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null){
+           convertView = LayoutInflater.from(mContext).inflate(R.layout.item_circle_msg_layout,null);
+           holder = new ViewHolder(convertView);
+           convertView.setTag(holder);
+        }else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        final CircleMsgBean circleMsgBean = mList.get(position);
 
         ImageUtil.display(ConfigUtil.baseImageUserUrl+ circleMsgBean.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
@@ -76,9 +122,9 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
         holder.mHuifu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if (mListener !=null){
-                  mListener.onHuifuClick(position);
-              }
+                if (mListener !=null){
+                    mListener.onHuifuClick(position);
+                }
             }
         });
 
@@ -92,9 +138,10 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
                 mContext.startActivity(intent);
             }
         });
+        return convertView;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder {
         @BindView(R.id.civ_head)
         CircleImageView mCivHead;
         @BindView(R.id.tv_name)
@@ -111,7 +158,6 @@ public class CircleMsgHFAdapter extends BaseRecyclerAdapter<CircleMsgHFAdapter.V
         TextView mHuifuDetail;
 
         ViewHolder(View view) {
-            super(view);
             ButterKnife.bind(this, view);
         }
     }
