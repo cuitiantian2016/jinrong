@@ -26,9 +26,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.sobot.chat.SobotApi;
+import com.sobot.chat.listener.HyperlinkListener;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -776,6 +778,7 @@ public class AndroidUtil {
          * @param information 初始化参数
 
          */
+        SobotApi.setNotificationFlag(context,true, R.mipmap.ic_logos,R.mipmap.ic_logos);
         SobotApi.startSobotChat(context, App.info);
     }
 
