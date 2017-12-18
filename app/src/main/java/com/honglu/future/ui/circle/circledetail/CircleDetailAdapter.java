@@ -1,6 +1,7 @@
 package com.honglu.future.ui.circle.circledetail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -98,7 +100,7 @@ public class CircleDetailAdapter extends BaseAdapter{
             holder.mLine.setVisibility(View.VISIBLE);
         }
 
-        CommentBean bean =  mCommentList.get(position);
+        final  CommentBean bean =  mCommentList.get(position);
 
         //楼主标记
         if (mActivity.COMMENT_AUTH.equals(mCommentType)){
@@ -136,6 +138,16 @@ public class CircleDetailAdapter extends BaseAdapter{
             setText(holder.mContent,bean.replyContent);
         }
 
+        holder.mCivHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, CircleMineActivity.class);
+                intent.putExtra("userId",bean.replyUserId);
+                intent.putExtra("imgHead",bean.avatarPic);
+                intent.putExtra("nickName",bean.nickName);
+                mActivity.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
