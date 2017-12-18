@@ -45,6 +45,7 @@
             android:id="@+id/rb_circle"
             style="@style/menu_tab"
             android:text="牛圈"
+            android:textColor="@color/color_B2B2B2"
             app:rbDrawableTop="@mipmap/icon_menu_5_normal" />
 
         <com.honglu.future.widget.MyRadioButton

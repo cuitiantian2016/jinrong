@@ -288,7 +288,11 @@ public class BBSClassifyFragment extends BaseFragment {
         srl_refreshView = (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
 
         mListView = (ListView) mView.findViewById(R.id.lv_listView);
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_main_item_head,null);
+        mListView.addHeaderView(headView);
         empty_view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bbs_empty, null);
+        ImageView empty_iv = (ImageView) empty_view.findViewById(R.id.empty_iv);
+        empty_iv.setImageResource(R.mipmap.icon_no_home_list);
         TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
         empty_text.setText("还没有最新的消息哦~");
         mAdapter = new BBSAdapter(mListView, getContext(), getLoadMoreListener());
