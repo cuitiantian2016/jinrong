@@ -2,7 +2,6 @@ package com.honglu.future.ui.circle.circlemsg;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -22,6 +21,7 @@ import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,10 +35,12 @@ public class CircleMsgPLAdapter extends BaseAdapter{
 
     private Context mContext;
     private List<CircleMsgBean> mList;
+    private String mYear;
 
     public CircleMsgPLAdapter(Context context){
         this.mContext = context;
         this.mList = new ArrayList<>();
+        this.mYear =  getYear();;
     }
     @Override
     public int getCount() {
@@ -104,7 +106,14 @@ public class CircleMsgPLAdapter extends BaseAdapter{
 
         //时间
         if (!TextUtils.isEmpty(circleMsgBean.createTime)){
-            holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatHHmm_MMdd,Long.parseLong(circleMsgBean.createTime)/1000));
+            long time = Long.parseLong(circleMsgBean.createTime)/1000;
+            String year = TimeUtil.formatData(TimeUtil.dateFormatY,time);
+            if (!TextUtils.isEmpty(year) && year.equals(mYear)){
+                holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatMMdd_HHmm,time));
+            }else {
+                holder.mTiem.setText(TimeUtil.formatData(TimeUtil.dateFormatYMDHM,Long.parseLong(circleMsgBean.createTime)/1000));
+            }
+
         }else {
             holder.mTiem.setText("");
         }
@@ -201,5 +210,10 @@ public class CircleMsgPLAdapter extends BaseAdapter{
 
     private int getLength(String text){
         return TextUtils.isEmpty(text) ? 0 : text.length();
+    }
+
+    public String getYear() {
+        Calendar c = Calendar.getInstance();
+        return String.valueOf(c.get(Calendar.YEAR));
     }
 }

@@ -607,6 +607,12 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mCommentRows = 0;
             getCirleComment(mCommentRows, "");
         }
+
+        if (replyType == REPLYTYPE_1){
+            ToastUtil.show("评论成功");
+        }else {
+            ToastUtil.show("回复成功");
+        }
     }
 
 
