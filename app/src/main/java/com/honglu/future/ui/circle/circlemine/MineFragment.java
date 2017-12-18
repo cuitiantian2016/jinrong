@@ -106,7 +106,6 @@ public class MineFragment extends CommonFragment {
         mUserId = mActivity.getIntent().getExtras().getString("userId", "");
         imgHead = mActivity.getIntent().getExtras().getString("imgHead", "");
         nickName = mActivity.getIntent().getExtras().getString("nickName", "");
-
         mIsMyself = mUserId.equals(SpUtil.getString(Constant.CACHE_TAG_UID));
         initViews();
     }
@@ -290,12 +289,12 @@ public class MineFragment extends CommonFragment {
                             ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
                             user_name.setText(nickName);
 
-//                            if (!TextUtils.isEmpty(o.getUserRole())) {
-//                                flag.setVisibility(View.VISIBLE);
-//                                flag.setText(o.getUserRole());
-//                            } else {
-//                                flag.setVisibility(View.INVISIBLE);
-//                            }
+                            if (!TextUtils.isEmpty(o.getUserRole())) {
+                                flag.setVisibility(View.VISIBLE);
+                                flag.setText(o.getUserRole());
+                            } else {
+                                flag.setVisibility(View.INVISIBLE);
+                            }
                             mFocusNum = o.getFocusNum();
                             mFansNum = o.getBeFocusNum();
                             attention_num.setText("关注 " + o.getFocusNum());
@@ -306,9 +305,9 @@ public class MineFragment extends CommonFragment {
                                     mListView.removeFooterView(empty_view);
                                 if (mIsRefresh) {
                                     mAdapter.clearDatas();
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued);
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued,o.getUserRole());
                                 } else {
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued);
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued,o.getUserRole());
                                 }
                             } else {
                                 //空布局

@@ -62,6 +62,7 @@ public class BBSMineAdapter extends BaseAdapter {
     private PraiseCallBack mPraiseCallBack;
     private String imgHead, nickName, userId;
     private boolean isFocued;
+    private String userRole;
 
 
     public List<PostAndReplyBean> getList() {
@@ -92,8 +93,9 @@ public class BBSMineAdapter extends BaseAdapter {
         void onScrollToLast(Integer pos);
     }
 
-    public void setDatas(List<PostAndReplyBean> list, boolean isFocued) {
+    public void setDatas(List<PostAndReplyBean> list, boolean isFocued,String userRole) {
         this.isFocued = isFocued;
+        this.userRole = userRole;
         for (int i = 0; i < list.size(); i++) {
             mList.add(list.get(i));
         }
@@ -273,8 +275,8 @@ public class BBSMineAdapter extends BaseAdapter {
             ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
             ViewHelper.safelySetText(user_name, nickName);
 
-            status.setVisibility(TextUtils.isEmpty(item.getUserRole()) ? View.GONE : View.VISIBLE);
-            status.setText(item.getUserRole());
+            status.setVisibility(TextUtils.isEmpty(userRole) ? View.GONE : View.VISIBLE);
+            status.setText(userRole);
             if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(item.getPostUserId())) {
                 follow.setVisibility(View.GONE);
             } else {

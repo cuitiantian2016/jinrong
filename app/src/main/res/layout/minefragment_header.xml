@@ -26,8 +26,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="-10dp"
-            android:background="@drawable/fenxishi_selector"
-            android:text="分析师"
+            android:background="@mipmap/ic_user_role_bg"
+            android:text="分析师啊"
+            android:paddingLeft="@dimen/dimen_2dp"
+            android:paddingRight="@dimen/dimen_2dp"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_10sp"
             android:visibility="gone" />
