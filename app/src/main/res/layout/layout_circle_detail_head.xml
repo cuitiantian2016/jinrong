@@ -170,7 +170,7 @@
                 android:textColor="@color/selector_tab_comment_color"
                 android:paddingBottom="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_18dp"
-                android:text="全部评论 0" />
+                android:text="全部评论 " />
 
             <View
                 android:id="@+id/v_comment_line"
@@ -200,7 +200,7 @@
                 android:paddingBottom="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_18dp"
                 android:textColor="@color/selector_tab_comment_color"
-                android:text="只看楼主 0" />
+                android:text="只看楼主 " />
 
             <View
                 android:id="@+id/v_see_owner_line"

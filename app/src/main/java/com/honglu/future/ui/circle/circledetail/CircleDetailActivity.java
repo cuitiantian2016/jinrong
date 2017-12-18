@@ -443,9 +443,16 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         this.mCommentCountAll = bean.commentCountAll;
         this.mCommentCountAuth = bean.commentCountAuth;
         this. mCommentRows = bean.rows;
-
-        mComment.setText(String.format(getString(R.string.comment_all),mCommentCountAll));
-        mSeeOwner.setText(String.format(getString(R.string.comment_auth),mCommentCountAuth));
+        if (mCommentCountAll <= 0){
+            mComment.setText(getString(R.string.comment_all_0));
+        }else {
+            mComment.setText(String.format(getString(R.string.comment_all),mCommentCountAll));
+        }
+        if (mCommentCountAuth <=0){
+            mSeeOwner.setText(getString(R.string.comment_auth_0));
+        }else {
+            mSeeOwner.setText(String.format(getString(R.string.comment_auth),mCommentCountAuth));
+        }
 
         if (bean.commentBosAll.size() >= 10) {
             if (!mRefreshView.isEnableLoadmore()) {

@@ -8,14 +8,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_circle_empty"
+        android:layout_marginTop="@dimen/dimen_50dp"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_B1B1B3"
+        android:textColor="@color/color_979899"
         android:gravity="center"
         android:layout_marginBottom="@dimen/dimen_20dp"
-        android:textSize="@dimen/dimen_15sp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:textSize="@dimen/dimen_16sp"
         android:text="暂无评论哦"/>
 </LinearLayout>
