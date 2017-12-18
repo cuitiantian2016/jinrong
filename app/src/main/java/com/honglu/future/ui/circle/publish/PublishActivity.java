@@ -2,11 +2,13 @@ package com.honglu.future.ui.circle.publish;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -80,6 +82,9 @@ public class PublishActivity extends BaseActivity {
         mTvRight.setTextColor(getResources().getColor(R.color.white));
         mTvRight.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_blue_2dp_bg));
         mTvRight.setGravity(Gravity.CENTER_VERTICAL);
+        Toolbar.LayoutParams params = (Toolbar.LayoutParams) mTvRight.getLayoutParams();
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dimen_15dp);
+        mTvRight.setLayoutParams(params);
         GridView publishGirdView = (GridView) findViewById(R.id.publish_gridView);
         mContentEdit = (EditText) findViewById(R.id.editText_content);
         AndroidUtil.setEmojiFilter(mContentEdit);
