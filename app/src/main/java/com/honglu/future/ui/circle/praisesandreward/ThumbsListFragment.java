@@ -2,6 +2,7 @@ package com.honglu.future.ui.circle.praisesandreward;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -159,7 +160,9 @@ public class ThumbsListFragment extends BaseFragment {
                 }
             }
         });
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head,null);
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
+        listView.addHeaderView(headView);
         mFollowIv= (TextView) mView.findViewById(R.id.iv_follow);
         setFollowStyle(mTideId);
         mFollowIv.setText(TextUtils.equals("0", mTideId) ? "我也要点赞" : "您已点赞");

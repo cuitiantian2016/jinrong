@@ -47,6 +47,11 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (position == getCount()-1){
+            holder.mLine.setVisibility(View.INVISIBLE);
+        }else {
+            holder.mLine.setVisibility(View.VISIBLE);
+        }
         UserList item = getItem(position);
         holder.bindView(item, convertView, position);
         return convertView;
@@ -56,6 +61,7 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
         CircleImageView user_img;
         TextView user_name, flag, tv_attention_num, tv_topic_num;
         ImageView iv_attention;
+        View mLine;
 
         public ViewHolder(View convertView) {
             user_img = (CircleImageView) convertView.findViewById(R.id.user_img);
@@ -64,6 +70,7 @@ public class GetFriendsAdapter extends CommonAdapter<UserList> {
             tv_attention_num = (TextView) convertView.findViewById(R.id.tv_attention_num);
             tv_topic_num = (TextView) convertView.findViewById(R.id.tv_topic_num);
             iv_attention = (ImageView) convertView.findViewById(R.id.iv_attention);
+            mLine = convertView.findViewById(R.id.v_line);
         }
 
         public void bindView(final UserList item, final View mContext, final int position) {
