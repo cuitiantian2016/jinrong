@@ -447,14 +447,15 @@ public class MineFragment extends CommonFragment {
     @Override
     protected void onReload(Context context) {
         super.onReload(context);
-        rows = 0;
-        topicIndexThread(true);
+//        rows = 0;
+//        topicIndexThread(true);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mBasePresenter.onDestroy();
+        mHeadPresenter.onDestroy();
     }
 
     private void updateAttutudeUser(List<CircleMineBean.ContactUser> attutudeUserList) {
