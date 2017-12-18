@@ -59,7 +59,8 @@ public class InAndOutDetailFragment extends BaseFragment{
             @Override
             public void getData() {
                 super.getData();
-                toSubscribe(HttpManager.getApi().getDetail(SpUtil.getString(Constant.CACHE_TAG_UID), page, 10, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)),
+                toSubscribe(HttpManager.getApi().getDetail(SpUtil.getString(Constant.CACHE_TAG_UID), page, 10, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                        SpUtil.getString(Constant.COMPANY_TYPE)),
                         new HttpSubscriber<List<RechangeDetailData>>() {
                     @Override
                     protected void _onNext(List<RechangeDetailData> o) {

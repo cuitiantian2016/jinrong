@@ -40,7 +40,7 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
                 mView.showErrorMsg(message, TYPE_HISTORY_TRADE);
             }
         };
-        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd), httpSubscriber);
+        toSubscribe(HttpManager.getApi().getHistoryTradeBean(dayStart, userId, token, dayEnd,SpUtil.getString(Constant.COMPANY_TYPE)), httpSubscriber);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
                 mView.showErrorMsg(message, TYPE_HISTORY_MISS);
             }
         };
-        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd, page, pageSize), httpSubscriber);
+        toSubscribe(HttpManager.getApi().getHistoryMissBean(dayStart, userId, token, dayEnd, page, pageSize,SpUtil.getString(Constant.COMPANY_TYPE)), httpSubscriber);
     }
 
     @Override

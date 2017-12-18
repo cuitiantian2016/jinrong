@@ -323,7 +323,9 @@ public interface HttpApi {
     //银行卡列表
     @FormUrlEncoded
     @POST("futures-mobile-api/app/future/exchange/transfer/bank/list")
-    Observable<BaseResponse<List<BindCardBean>>> geBindCardData(@Field("userId") String userId, @Field("token") String token);
+    Observable<BaseResponse<List<BindCardBean>>> geBindCardData(@Field("userId") String userId,
+                                                                @Field("token") String token,
+                                                                @Field("company") String company);
 
     //修改资金密码接口 测试环境：
 
@@ -413,7 +415,8 @@ public interface HttpApi {
             @Field("dayStart") String dayStart,
             @Field("userId") String userId,
             @Field("token") String token,
-            @Field("dayEnd") String dayEnd);
+            @Field("dayEnd") String dayEnd,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -429,7 +432,8 @@ public interface HttpApi {
             @Field("token") String token,
             @Field("dayEnd") String dayEnd,
             @Field("page") int page,
-            @Field("pageSize") int pageSize);
+            @Field("pageSize") int pageSize,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -476,7 +480,8 @@ public interface HttpApi {
     Observable<BaseResponse<List<CloseBuiderBean>>> getCloseBuiderBean(
             @Field("userId") String userId,
             @Field("id") String id,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -495,7 +500,8 @@ public interface HttpApi {
             @Field("bankAccount") String bankAccount,
             @Field("bankPassword") String bankPassword,
             @Field("amount") String amount,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -514,7 +520,8 @@ public interface HttpApi {
             @Field("bankAccount") String bankAccount,
             @Field("bankPassword") String bankPassword,
             @Field("amount") String amount,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -528,7 +535,8 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("page") int page,
             @Field("pageSize") int pageSize,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -546,7 +554,8 @@ public interface HttpApi {
             @Field("bankBranchId") String bankBranchId,
             @Field("bankAccount") String bankAccount,
             @Field("bankPassword") String bankPassword,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /** ********************************* 牛圈 ******************************************/
 

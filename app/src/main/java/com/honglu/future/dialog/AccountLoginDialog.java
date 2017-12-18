@@ -35,7 +35,7 @@ import org.greenrobot.eventbus.EventBus;
  * Created by zq on 2017/11/10.
  */
 
-public class AccountLoginDialog extends Dialog implements View.OnClickListener,SelectCompDialog.OnSelectCompListener {
+public class AccountLoginDialog extends Dialog implements View.OnClickListener, SelectCompDialog.OnSelectCompListener {
     private Context mContext;
     private static AccountLoginDialog dialog = null;
     private AccountPresenter mPresenter;
@@ -93,7 +93,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener,S
             mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
         }
         mIvComp = (ImageView) findViewById(R.id.iv_comp);
-        mTvComp = (TextView)findViewById(R.id.tv_comp);
+        mTvComp = (TextView) findViewById(R.id.tv_comp);
         mPwd = (EditText) findViewById(R.id.et_password);
         mLoginAccount = (TextView) findViewById(R.id.btn_login_account);
         mLoginAccount.setOnClickListener(this);
@@ -144,6 +144,12 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener,S
                 }
             }
         });
+
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.COMPANY_TYPE))) {
+            mCompType = SpUtil.getString(Constant.COMPANY_TYPE);
+            setCompView(mCompType);
+        }
+
     }
 
     @Override
@@ -174,7 +180,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener,S
                 selectCompDialog.show();
                 break;
             case R.id.tv_forget_pwd:
-                new AlertFragmentDialog.Builder((FragmentActivity)mContext)
+                new AlertFragmentDialog.Builder((FragmentActivity) mContext)
                         .setRightBtnText("知道了").setContent("请在工作日8:30-17:00拨打小牛智投\n" +
                         "客服电话： 021 8207 0818").setTitle("忘记密码")
                         .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
@@ -198,12 +204,17 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener,S
     @Override
     public void onSelect(String comp) {
         mCompType = comp;
-        if(comp.equals(SelectCompDialog.COMP_TYPE_GUOFU)){
+        setCompView(comp);
+    }
+
+    private void setCompView(String comp) {
+        if (comp.equals(SelectCompDialog.COMP_TYPE_GUOFU)) {
             mIvComp.setImageResource(R.mipmap.ic_guofu);
             mTvComp.setText("国富期货");
-        }else if(comp.equals(SelectCompDialog.COMP_TYPE_MEY)){
+        } else if (comp.equals(SelectCompDialog.COMP_TYPE_MEY)) {
             mIvComp.setImageResource(R.mipmap.ic_mey);
             mTvComp.setText("美尔雅期货");
         }
+        selectCompDialog.dismiss();
     }
 }

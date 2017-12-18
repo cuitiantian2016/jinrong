@@ -106,8 +106,8 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
             public void getData() {
                 super.getData();
                 toSubscribe(HttpManager.getApi().getCloseBuiderBean(
-                        SpUtil.getString(Constant.CACHE_TAG_UID), bean.id, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN)
-                ), new HttpSubscriber<List<CloseBuiderBean>>() {
+                        SpUtil.getString(Constant.CACHE_TAG_UID), bean.id, SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                        SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<List<CloseBuiderBean>>() {
                     @Override
                     protected void _onNext(List<CloseBuiderBean> o) {
                         super._onNext(o);
