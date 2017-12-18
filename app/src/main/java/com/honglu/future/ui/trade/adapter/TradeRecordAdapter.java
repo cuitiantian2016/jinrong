@@ -172,9 +172,9 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             if (bean.openClose == 1) {
-                tvNewMoney.setText("平仓");
-            } else {
                 tvNewMoney.setText("建仓");
+            } else {
+                tvNewMoney.setText("平仓");
             }
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
