@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,6 +66,7 @@ public class MineFragment extends CommonFragment {
     private LinearLayout mAttutudeUserLy;
     private OnTopicAlaph mOnTopicAlaph;
     private BasePresenter<MineFragment> mBasePresenter;
+    private BasePresenter<MineFragment> mHeadPresenter;
     int rows;
     private boolean isMore;
     private boolean mIsRefresh;
@@ -86,8 +86,7 @@ public class MineFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-            rows = 0;
-            topicIndexThread(true);
+        refreshHead();
     }
 
 
@@ -240,6 +239,9 @@ public class MineFragment extends CommonFragment {
                 }
             }
         });
+
+        rows = 0;
+        topicIndexThread(true);
     }
 
     //条目点击事件侦听
@@ -305,9 +307,9 @@ public class MineFragment extends CommonFragment {
                                     mListView.removeFooterView(empty_view);
                                 if (mIsRefresh) {
                                     mAdapter.clearDatas();
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued,o.getUserRole());
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued, o.getUserRole());
                                 } else {
-                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued,o.getUserRole());
+                                    mAdapter.setDatas(o.getPostAndReplyBoList(), isFocued, o.getUserRole());
                                 }
                             } else {
                                 //空布局
@@ -346,6 +348,64 @@ public class MineFragment extends CommonFragment {
         mBasePresenter.getData();
     }
 
+    private void refreshHead() {
+        if (mHeadPresenter == null) {
+            mHeadPresenter = new BasePresenter<MineFragment>(this) {
+                @Override
+                public void getData() {
+                    super.getData();
+                    toSubscribe(HttpManager.getApi().loadHomepageFirstPart(mUserId, SpUtil.getString(Constant.CACHE_TAG_UID)), new HttpSubscriber<CircleMineBean>() {
+                        @Override
+                        protected void _onNext(CircleMineBean o) {
+                            super._onNext(o);
+                            if (mIsMyself) {
+                                if (o.getContactUserList() != null && o.getContactUserList().size() != 0) {
+                                    updateAttutudeUser(o.getContactUserList());
+                                }
+                            } else {
+                                isFocued = o.isFocued();
+                                iv_follow.setImageResource(isFocued ? R.mipmap.btn_guanzhu_already : R.mipmap.btn_guanzhu);
+                                iv_follow.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        follow();
+                                    }
+                                });
+
+                            }
+                            ImageUtil.display(imgHead, header_img, R.mipmap.img_head);
+                            user_name.setText(nickName);
+
+                            if (!TextUtils.isEmpty(o.getUserRole())) {
+                                flag.setVisibility(View.VISIBLE);
+                                flag.setText(o.getUserRole());
+                            } else {
+                                flag.setVisibility(View.INVISIBLE);
+                            }
+                            mFocusNum = o.getFocusNum();
+                            mFansNum = o.getBeFocusNum();
+                            attention_num.setText("关注 " + o.getFocusNum());
+                            endorse_num.setText("粉丝 " + o.getBeFocusNum());
+                            topic_num.setText("发帖 " + o.getPostNum());
+                        }
+
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                        }
+                    });
+                }
+            };
+        }
+        mHeadPresenter.getData();
+    }
+
     private void follow() {
         if (DeviceUtils.isFastDoubleClick()) {
             return;
@@ -373,10 +433,7 @@ public class MineFragment extends CommonFragment {
                 bbsFlownEvent.follow = foll;
                 bbsFlownEvent.uid = mUserId;
                 EventBus.getDefault().post(bbsFlownEvent);
-                if (!isLoadingNow) {
-                    rows = 0;
-                    topicIndexThread(true);
-                }
+                refreshHead();
             }
 
             @Override

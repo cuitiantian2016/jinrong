@@ -574,6 +574,18 @@ public interface HttpApi {
             @Field("rowsSize") String rowsSize);
 
     /**
+     * https://www.showdoc.cc/1673161?page_id=15717824
+     * 加载个人首页上半部分接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circleFriend/loadHomepageFirstPart.do")
+    Observable<BaseResponse<CircleMineBean>> loadHomepageFirstPart(
+            @Field("userId") String userId,
+            @Field("loginUserId") String loginUserId);
+
+    /**
      * https://www.showdoc.cc/1673161?page_id=15678695
      * 分圈接口
      *
