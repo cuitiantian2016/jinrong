@@ -212,7 +212,7 @@
     <string name="camera_temp_file_error">图片错误</string>
     <string name="msg_no_camera">无法启动相机!</string>
     <string name="circle_input_hint">楼主说的怎么样，点评一下吧！</string>
-    <string name="content_no_null">内容不能为空...</string>
+    <string name="content_no_null">内容不能为空</string>
     <string name="content_null"></string>
     <string name="comment_all">全部评论 %d</string>
     <string name="comment_all_0">全部评论</string>
