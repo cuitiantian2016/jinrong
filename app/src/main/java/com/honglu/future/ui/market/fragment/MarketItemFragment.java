@@ -54,6 +54,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     SmartRefreshLayout mRefreshView;
     private View mTitleLine;
     private TextView mQuoteChange;
+    private View mEmptyView;
 
     private MarketListAdapter mAdapter;
     private List<RealTimeBean.Data> mRealTimeList;
@@ -141,6 +142,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     addAdapterBean(event.bean);
                     mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
                     saveData();
+                    setEmptyView(mAdapter.getData());
                 }
             } else {
                 refreshState("1", event.bean.getExchangeID(), event.bean.getInstrumentID());
@@ -152,6 +154,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 delAdapterBean(event.bean.getExchangeID(), event.bean.getInstrumentID());
                 mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
                 saveData();
+                setEmptyView(mAdapter.getData());
             } else {
                 refreshState("0", event.bean.getExchangeID(), event.bean.getInstrumentID());
             }
@@ -177,6 +180,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         }
     }
 
+
+    private void setEmptyView(List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
+        if (list == null || list.size() == 0){
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
@@ -187,20 +199,23 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mPushCode = mosaicMPushCode(mList);
         LinearLayout footerView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_quotes_optional_add, null);
         TextView mAddAptional = (TextView) footerView.findViewById(R.id.text_add_qptional);
+        mEmptyView = footerView.findViewById(R.id.ll_empty_view);
         LinearLayout headView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_market_item_title, null);
         mQuoteChange = (TextView) headView.findViewById(R.id.text_quote_change);
         mTitleLine = headView.findViewById(R.id.v_titleLine);
         mTitleLine.setVisibility(mList.size() > 0 ? View.VISIBLE : View.INVISIBLE);
         if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
-            footerView.setVisibility(View.VISIBLE);
+            mAddAptional.setVisibility(View.VISIBLE);
         }else {
-            footerView.setVisibility(View.GONE);
+            mAddAptional.setVisibility(View.GONE);
         }
         mListView.addHeaderView(headView);
         mListView.addFooterView(footerView);
         mAdapter = new MarketListAdapter(MarketItemFragment.this,mTabSelectType,mList,title);
         mListView.setAdapter(mAdapter);
-//        //添加自选
+        setEmptyView(mList);
+
+        //添加自选
         mAddAptional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
