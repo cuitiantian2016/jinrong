@@ -415,7 +415,8 @@ public interface HttpApi {
             @Field("dayStart") String dayStart,
             @Field("userId") String userId,
             @Field("token") String token,
-            @Field("dayEnd") String dayEnd);
+            @Field("dayEnd") String dayEnd,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -431,7 +432,8 @@ public interface HttpApi {
             @Field("token") String token,
             @Field("dayEnd") String dayEnd,
             @Field("page") int page,
-            @Field("pageSize") int pageSize);
+            @Field("pageSize") int pageSize,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
@@ -478,7 +480,8 @@ public interface HttpApi {
     Observable<BaseResponse<List<CloseBuiderBean>>> getCloseBuiderBean(
             @Field("userId") String userId,
             @Field("id") String id,
-            @Field("token") String token);
+            @Field("token") String token,
+            @Field("company") String company);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15438333
