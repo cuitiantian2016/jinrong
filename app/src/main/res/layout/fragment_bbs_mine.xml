@@ -3,7 +3,7 @@
     android:id="@+id/loading_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_grey"
+    android:background="@color/color_F8F8F9"
     android:orientation="vertical">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -19,12 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_grey"
-            android:divider="@drawable/shape_separator_gap_8dp"
+            android:divider="@drawable/shape_separator_f8f8f9_10dp"
             android:horizontalSpacing="1dp"
-            android:verticalSpacing="1dp"
-           />
+            android:verticalSpacing="1dp"/>
 
-
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

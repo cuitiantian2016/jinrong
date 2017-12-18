@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:padding="3dp"
-                android:src="@mipmap/ic_back_white" />
+                android:src="@mipmap/ic_back" />
 
         </RelativeLayout>
     </FrameLayout>
