@@ -467,17 +467,19 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         }
         if (mCommentRows > 0) {
             mCommentList.addAll(bean.commentBosAll);
-            mAdapter.notifyDataChanged(true, getCommentType(), bean.commentBosAll);
-
-            boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
-            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            if (COMMENT_ALL.equals(getCommentType())) {
+                mAdapter.notifyDataChanged(true, getCommentType(), bean.commentBosAll);
+                boolean mIsEmpty = mCommentList != null && mCommentList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmpty, mFooterView, mListView);
+            }
         } else {
             mCommentList.clear();
             mCommentList.addAll(bean.commentBosAll);
-            mAdapter.notifyDataChanged(false, getCommentType(), bean.commentBosAll);
-
-            boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
-            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            if (COMMENT_ALL.equals(getCommentType())){
+                mAdapter.notifyDataChanged(false, getCommentType(), bean.commentBosAll);
+                boolean mIsEmpty = mCommentList !=null && mCommentList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            }
         }
     }
 
@@ -500,17 +502,19 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         }
         if (mCommentAuthRows > 0) {
             mCommentAuthList.addAll(list);
-            mAdapter.notifyDataChanged(true, getCommentType(), list);
-
-            boolean mIsEmpty = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
-            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            if (COMMENT_AUTH.equals(getCommentType())){
+                mAdapter.notifyDataChanged(true, getCommentType(), list);
+                boolean mIsEmpty = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            }
         } else {
             mCommentAuthList.clear();
             mCommentAuthList.addAll(list);
-            mAdapter.notifyDataChanged(false, getCommentType(), list);
-
-            boolean mIsEmpty = mCommentAuthList !=null && mCommentAuthList.size() > 0 ? false : true;
-            mHelper.setEmptyView(mIsEmpty,mFooterView,mListView);
+            if (COMMENT_AUTH.equals(getCommentType())) {
+                mAdapter.notifyDataChanged(false, getCommentType(), list);
+                boolean mIsEmpty = mCommentAuthList != null && mCommentAuthList.size() > 0 ? false : true;
+                mHelper.setEmptyView(mIsEmpty, mFooterView, mListView);
+            }
         }
     }
 

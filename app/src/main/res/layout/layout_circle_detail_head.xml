@@ -169,6 +169,7 @@
                 android:textSize="@dimen/dimen_14sp"
                 android:textColor="@color/selector_tab_comment_color"
                 android:paddingBottom="@dimen/dimen_10dp"
+                android:textStyle="bold"
                 android:paddingTop="@dimen/dimen_18dp"
                 android:text="全部评论 " />
 
@@ -199,6 +200,7 @@
                 android:textSize="@dimen/dimen_14sp"
                 android:paddingBottom="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_18dp"
+                android:textStyle="bold"
                 android:textColor="@color/selector_tab_comment_color"
                 android:text="只看楼主 " />
 
