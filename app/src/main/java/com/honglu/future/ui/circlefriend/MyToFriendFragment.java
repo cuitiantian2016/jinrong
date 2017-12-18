@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circlefriend;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -79,7 +80,9 @@ public class MyToFriendFragment extends CommonFragment {
     }
 
     private void initViews() {
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head ,null);
         rows = 0;
+        mListView.addHeaderView(headView);
         mAdapter = new MyFriendsAdapter(1, mListView, mActivity);
         mListView.setAdapter(mAdapter);
 

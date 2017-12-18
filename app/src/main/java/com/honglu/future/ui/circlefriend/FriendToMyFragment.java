@@ -80,6 +80,8 @@ public class FriendToMyFragment extends CommonFragment {
     }
 
     private void initViews() {
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head ,null);
+        mListView.addHeaderView(headView);
         rows = 0;
         mSmartRefresh.setEnableRefresh(true);
         empty_view = LayoutInflater.from(mActivity).inflate(R.layout.fragment_bbs_empty, null);

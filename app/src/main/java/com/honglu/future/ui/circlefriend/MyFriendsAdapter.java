@@ -92,32 +92,22 @@ public class MyFriendsAdapter extends CommonAdapter<AttentionBean.FriendBean> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        if (position == mList.size() -1){
+            holder.mLine.setVisibility(View.INVISIBLE);
+        }else {
+            holder.mLine.setVisibility(View.VISIBLE);
+        }
         AttentionBean.FriendBean item = getItem(position);
         holder.bindView(item, convertView, position);
         return convertView;
     }
 
-    //    class ViewHolder {
-//
-//
-//        public ViewHolder(View convertView) {
-//
-//        }
-//
-//        public void bindView(final UserList item, final int position) {
-//
-//            int end = mListView.getLastVisiblePosition();
-//            if (getCount() - 2 <= end && end <= getCount())
-//                mScrollToLastCallBack.onScrollToLast(position);
-//
-//        }
-//
-//
-//    }
     class ViewHolder {
         CircleImageView user_img;
         TextView user_name, flag, tv_attention_num, tv_topic_num;
         ImageView iv_attention;
+        View mLine;
 
         public ViewHolder(View convertView) {
             user_img = (CircleImageView) convertView.findViewById(R.id.user_img);
@@ -126,6 +116,7 @@ public class MyFriendsAdapter extends CommonAdapter<AttentionBean.FriendBean> {
             tv_attention_num = (TextView) convertView.findViewById(R.id.tv_attention_num);
             tv_topic_num = (TextView) convertView.findViewById(R.id.tv_topic_num);
             iv_attention = (ImageView) convertView.findViewById(R.id.iv_attention);
+            mLine = convertView.findViewById(R.id.v_line);
         }
 
         public void bindView(final AttentionBean.FriendBean item, final View mContext, final int position) {
