@@ -263,6 +263,16 @@ public class TitleUtil {
         }
         mRight.setOnClickListener(rightOnClick);
     }
+
+    public void setRightTitle(int rightTextColor,String right, View.OnClickListener rightOnClick){
+        mRight.setText(right);
+        mRight.setTextColor(mActivity.getResources().getColor(rightTextColor));
+        if (rightOnClick==null){
+            mRight.setClickable(false);
+            return;
+        }
+        mRight.setOnClickListener(rightOnClick);
+    }
     /**
      * 设置右边文字
      * @param right
