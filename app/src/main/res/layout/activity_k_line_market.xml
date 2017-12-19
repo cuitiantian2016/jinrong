@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_guang_yin_k"
     android:layout_width="match_parent"
@@ -26,18 +25,18 @@
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dimen_20dp"
                 android:paddingBottom="@dimen/dimen_20dp"
                 android:paddingLeft="@dimen/dimen_15dp"
                 android:paddingRight="@dimen/dimen_15dp"
+                android:paddingTop="@dimen/dimen_20dp"
                 android:src="@mipmap/ic_back_white" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:layout_marginBottom="@dimen/dimen_2dp"
+                android:gravity="center_vertical"
                 android:text="--"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
@@ -94,8 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_marginBottom="@dimen/dimen_3dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:gravity="center"
                     android:text="--"
                     android:textColor="@android:color/white"
@@ -131,7 +130,7 @@
                             android:text="0"
                             android:textColor="@color/color_1DB98F"
                             android:textSize="@dimen/dimen_14sp"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
                         <com.honglu.future.widget.DinTextView
                             android:id="@+id/tv_rise_radio"
@@ -142,7 +141,7 @@
                             android:text="0"
                             android:textColor="@color/color_1DB98F"
                             android:textSize="@dimen/dimen_14sp"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -150,9 +149,9 @@
                     android:id="@+id/tv_rise_num_land"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
-                    android:layout_marginBottom="@dimen/dimen_3dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/dimen_3dp"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
                     android:text="-73"
                     android:textColor="@color/color_1DB98F"
                     android:textSize="@dimen/dimen_14sp"
@@ -162,9 +161,9 @@
                     android:id="@+id/tv_rise_radio_land"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_15dp"
-                    android:layout_marginBottom="@dimen/dimen_3dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/dimen_3dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:text="-1.91%"
                     android:textColor="@color/color_1DB98F"
                     android:textSize="@dimen/dimen_14sp"
@@ -183,106 +182,108 @@
                 android:visibility="gone" />
 
             <RelativeLayout
+                android:layout_toLeftOf="@+id/iv_full_screen"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/iv_full_screen"
-                android:layout_alignParentStart="true">
+                android:layout_height="wrap_content">
 
-                <com.honglu.future.widget.DinTextView
-                    android:id="@+id/tv_vol"
+                <LinearLayout
+                    android:id="@+id/ll_firstline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dimen_15dp"
                     android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:minHeight="16dp"
-                    android:minWidth="35dp"
-                    android:text="--"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/dimen_13sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <com.honglu.future.widget.DinTextView
-                    android:id="@+id/tv_hold_vol"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="买价："
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_13sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_buy_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_8dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="16dp"
+                        android:minWidth="40dp"
+                        android:text="--"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/dimen_13sp" />
+
+                    <TextView
+                        android:id="@+id/text_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="成交量："
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_13sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_vol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_15dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="16dp"
+                        android:minWidth="50dp"
+                        android:text="--"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/dimen_13sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/tv_vol"
-                    android:layout_marginRight="@dimen/dimen_15dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:gravity="left"
-                    android:minHeight="16dp"
-                    android:minWidth="35dp"
-                    android:text="--"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/dimen_13sp" />
-
-                <TextView
-                    android:id="@+id/text_open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_firstline"
                     android:layout_marginTop="5dp"
-                    android:layout_toLeftOf="@id/tv_vol"
-                    android:text="成交量："
-                    android:textColor="@color/color_B1B3B2"
-                    android:textSize="@dimen/dimen_13sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/text_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tv_hold_vol"
-                    android:layout_toLeftOf="@id/tv_vol"
-                    android:text="持仓量："
-                    android:textColor="@color/color_B1B3B2"
-                    android:textSize="@dimen/dimen_13sp" />
+                    <TextView
+                        android:id="@+id/sell_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="卖价："
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_13sp" />
 
-                <com.honglu.future.widget.DinTextView
-                    android:id="@+id/tv_buy_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dimen_8dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toLeftOf="@id/text_open"
-                    android:gravity="left"
-                    android:minHeight="16dp"
-                    android:minWidth="35dp"
-                    android:text="--"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/dimen_13sp" />
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_sell_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_8dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="16dp"
+                        android:minWidth="40dp"
+                        android:text="--"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/dimen_13sp" />
 
+                    <TextView
+                        android:id="@+id/text_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="持仓量："
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_toLeftOf="@id/tv_buy_price"
-                    android:text="买价："
-                    android:textColor="@color/color_B1B3B2"
-                    android:textSize="@dimen/dimen_13sp" />
-
-                <TextView
-                    android:id="@+id/sell_text_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/text_close"
-                    android:layout_toLeftOf="@id/tv_buy_price"
-                    android:text="卖价："
-                    android:textColor="@color/color_B1B3B2"
-                    android:textSize="@dimen/dimen_13sp" />
-
-                <com.honglu.future.widget.DinTextView
-                    android:id="@+id/tv_sell_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/sell_text_tv"
-                    android:layout_toRightOf="@id/sell_text_tv"
-                    android:gravity="left"
-                    android:minHeight="16dp"
-                    android:minWidth="35dp"
-                    android:text="--"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/dimen_13sp" />
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_hold_vol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_15dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="16dp"
+                        android:minWidth="50dp"
+                        android:text="--"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/dimen_13sp" />
+                </LinearLayout>
             </RelativeLayout>
 
         </RelativeLayout>
@@ -596,8 +597,8 @@
                 android:id="@+id/fragment_container"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/recycleView"
                 android:layout_above="@+id/bottom_layout"
+                android:layout_below="@+id/recycleView"
                 android:orientation="vertical" />
 
             <LinearLayout
