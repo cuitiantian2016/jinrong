@@ -74,6 +74,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         //注册自己的Activity的生命周期回调接口。
         registerActivityLifecycleCallbacks(this);
         mApp = this;
+
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         //log初始化,根据configUtil的isDebug参数控制是否显示log
