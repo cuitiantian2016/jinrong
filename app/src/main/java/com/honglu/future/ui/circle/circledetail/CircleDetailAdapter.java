@@ -225,6 +225,7 @@ public class CircleDetailAdapter extends BaseAdapter{
     }
     private void setTextGone(TextView view , String text){
         if (!TextUtils.isEmpty(text)){
+            view.setVisibility(View.VISIBLE);
             view.setText(text);
         }else {
             view.setVisibility(View.GONE);
