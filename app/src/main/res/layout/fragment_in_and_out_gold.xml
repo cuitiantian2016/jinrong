@@ -315,7 +315,7 @@
                 android:drawablePadding="@dimen/dimen_3dp"
                 android:gravity="center"
                 android:minWidth="@dimen/title_height"
-                android:text="智投"
+                android:text="小牛智投"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp" />
 
