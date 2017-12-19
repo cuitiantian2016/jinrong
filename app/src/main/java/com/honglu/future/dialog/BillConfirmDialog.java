@@ -22,6 +22,7 @@ import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.DrawableCenterTextView;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.honglu.future.widget.tab.CommonTabLayout;
@@ -159,10 +160,30 @@ public class BillConfirmDialog extends Dialog implements View.OnClickListener {
         mKhqy.setText(settlementInfoBean.getClientEquity());
         mDrcrj.setText(settlementInfoBean.getDepositWithdrawal());
         mKyzj.setText(settlementInfoBean.getFundAvail());
-        mDrpcyk.setText(settlementInfoBean.getRealizedPL());
+        if (new BigDecimal(settlementInfoBean.getRealizedPL()).doubleValue() > 0) {
+            mDrpcyk.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            mDrpcyk.setText("+"+ StringUtil.forNumber(new BigDecimal(settlementInfoBean.getRealizedPL()).doubleValue()));
+        } else if (new BigDecimal(settlementInfoBean.getRealizedPL()).doubleValue() < 0) {
+            mDrpcyk.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mDrpcyk.setText(StringUtil.forNumber(new BigDecimal(settlementInfoBean.getRealizedPL()).doubleValue()));
+        } else {
+            mDrpcyk.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mDrpcyk.setText(StringUtil.forNumber(new BigDecimal(settlementInfoBean.getRealizedPL()).doubleValue()));
+        }
+
         mZtzj.setText(settlementInfoBean.getPledgeAmount());
         mDrsxf.setText(settlementInfoBean.getCommission());
-        mCcyk.setText(settlementInfoBean.getMtmPL());
+
+        if (new BigDecimal(settlementInfoBean.getMtmPL()).doubleValue() > 0) {
+            mCcyk.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+            mCcyk.setText("+"+ StringUtil.forNumber(new BigDecimal(settlementInfoBean.getMtmPL()).doubleValue()));
+        } else if (new BigDecimal(settlementInfoBean.getMtmPL()).doubleValue() < 0) {
+            mCcyk.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+            mCcyk.setText(StringUtil.forNumber(new BigDecimal(settlementInfoBean.getMtmPL()).doubleValue()));
+        } else {
+            mCcyk.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            mCcyk.setText(StringUtil.forNumber(new BigDecimal(settlementInfoBean.getMtmPL()).doubleValue()));
+        }
         mYzjzj.setText(settlementInfoBean.getMarginCall());
         mZybzj.setText(settlementInfoBean.getMarginOccupied());
         mFxl.setText(settlementInfoBean.getRiskDegree());

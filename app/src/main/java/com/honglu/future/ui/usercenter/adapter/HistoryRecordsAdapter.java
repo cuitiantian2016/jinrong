@@ -8,7 +8,10 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.usercenter.bean.HistoryRecordsBean;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,14 +42,42 @@ public class HistoryRecordsAdapter extends BaseRecyclerAdapter<HistoryRecordsAda
             holder.mLlPosition.setVisibility(View.GONE);
             holder.mBuildPriceClosed.setText(item.getBuildPrice());
             holder.mClosePrice.setText(item.getClosePrice());
-            holder.mProfitLoss.setText(item.getProfitLoss());
+            if (new BigDecimal(item.getProfitLoss()).doubleValue() > 0) {
+                holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                holder.mProfitLoss.setText("+"+ StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            } else if (new BigDecimal(item.getProfitLoss()).doubleValue() < 0) {
+                holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            } else {
+                holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            }
         } else if (mType.equals(TYPE_POSITION)) {
             holder.mLlBuild.setVisibility(View.GONE);
             holder.mLlClosed.setVisibility(View.GONE);
             holder.mLlPosition.setVisibility(View.VISIBLE);
             holder.mSettlePrice.setText(item.getSettlePrice());
-            holder.mTodayPl.setText(item.getTodayPl());
-            holder.mActualPl.setText(item.getProfitLoss());
+            if (new BigDecimal(item.getTodayPl()).doubleValue() > 0) {
+                holder.mTodayPl.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                holder.mTodayPl.setText("+"+ StringUtil.forNumber(new BigDecimal(item.getTodayPl()).doubleValue()));
+            } else if (new BigDecimal(item.getTodayPl()).doubleValue() < 0) {
+                holder.mTodayPl.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mTodayPl.setText(StringUtil.forNumber(new BigDecimal(item.getTodayPl()).doubleValue()));
+            } else {
+                holder.mTodayPl.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mTodayPl.setText(StringUtil.forNumber(new BigDecimal(item.getTodayPl()).doubleValue()));
+            }
+
+            if (new BigDecimal(item.getProfitLoss()).doubleValue() > 0) {
+                holder.mActualPl.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
+                holder.mActualPl.setText("+"+ StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            } else if (new BigDecimal(item.getProfitLoss()).doubleValue() < 0) {
+                holder.mActualPl.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
+                holder.mActualPl.setText(StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            } else {
+                holder.mActualPl.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                holder.mActualPl.setText(StringUtil.forNumber(new BigDecimal(item.getProfitLoss()).doubleValue()));
+            }
         } else {
             holder.mLlBuild.setVisibility(View.VISIBLE);
             holder.mLlClosed.setVisibility(View.GONE);

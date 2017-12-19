@@ -71,6 +71,7 @@
 -keep class com.honglu.future.ui.register.bean.** { *; }
 -keep class com.honglu.future.ui.trade.bean.** { *; }
 -keep class com.honglu.future.ui.usercenter.bean.** { *; }
+-keep class com.honglu.future.ui.circle.bean.** { *; }
 
 #网络层混淆
 -keep class com.honglu.future.http.** {*;}

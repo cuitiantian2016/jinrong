@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
-import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.TradeTipDialog;
@@ -22,8 +21,6 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 
@@ -99,11 +96,11 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_withdrawals:
-                clickTab("wode_myaccount_tixian","我的_我的账户_提现");
+                clickTab("wode_myaccount_tixian", "我的_我的账户_提现");
                 InAndOutGoldActivity.startInAndOutGoldActivity(this, 1);
                 break;
             case R.id.tv_recharge:
-                clickTab("wode_myaccount_chongzhi","我的_我的账户_充值");
+                clickTab("wode_myaccount_chongzhi", "我的_我的账户_充值");
                 InAndOutGoldActivity.startInAndOutGoldActivity(this, 0);
                 break;
             case R.id.tv_right:
@@ -152,7 +149,17 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
             mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
         }
 
-        mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
+
+        if (new BigDecimal(bean.getCloseProfit()).doubleValue() > 0) {
+            mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_FB4F4F));
+            mPositionProfitLoss.setText("+"+StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
+        } else if (new BigDecimal(bean.getCloseProfit()).doubleValue() < 0) {
+            mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_2CC593));
+            mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
+        } else {
+            mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_333333));
+            mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
+        }
         mTakeBond.setText(NumberUtils.formatFloatNumber(bean.getWithdrawQuota()));
         mOccupyBond.setText(String.valueOf(bean.getCurrMargin()));
         mFrozenBond.setText(bean.getFrozenCash() + "");
@@ -185,13 +192,13 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     }
 
 
-
     /**
      * 埋点
+     *
      * @param value1
      * @param value2
      */
-    private void clickTab(String value1 , String value2){
-        MobclickAgent.onEvent(mContext,value1, value2);
+    private void clickTab(String value1, String value2) {
+        MobclickAgent.onEvent(mContext, value1, value2);
     }
 }
