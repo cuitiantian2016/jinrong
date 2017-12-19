@@ -211,7 +211,7 @@ public class PublishActivity extends BaseActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Uploader.upload(ConfigUtil.baseUrl+"futures-communtiy-api/app/circle/saveImage", file, new UploadProgressListener() {
+                Uploader.upload(ConfigUtil.URL_126_http+"futures-communtiy-api/app/circle/saveImage", file, new UploadProgressListener() {
                     @Override
                     public void onProgress(long progress) {
                     }
