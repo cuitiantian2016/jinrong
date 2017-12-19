@@ -203,7 +203,11 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
 
     @Override
     public void onSelect(String comp) {
-        mCompType = comp;
+        if (!mCompType.equals(comp)){
+            mAccount.setText("");
+            mPwd.setText("");
+            mCompType = comp;
+        }
         setCompView(comp);
     }
 
