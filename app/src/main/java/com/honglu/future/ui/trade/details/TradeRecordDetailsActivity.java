@@ -71,9 +71,9 @@ public class TradeRecordDetailsActivity extends BaseActivity {
                 }
                 tvBuyRise.setText(num);
                 if (bean.openClose == 1) {
-                    tv_entrust_type.setText("平仓");
-                } else {
                     tv_entrust_type.setText("建仓");
+                } else {
+                    tv_entrust_type.setText("平仓");
                 }
                 if (bean.cancelType == 2) {
                     tv_revoke_type.setText("手动撤单");
