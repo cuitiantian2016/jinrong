@@ -43,7 +43,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         this.mPostUserId = mPostUserId;
         this.mActivity = activity;
         this.mCommentType = mActivity.getCommentType();
-        this.mWidth = ViewUtil.getScreenWidth(mActivity) - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_15dp) * 2 - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_35dp);
+        this.mWidth = ViewUtil.getScreenWidth(mActivity) - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_15dp) * 2 - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_25dp);
     }
 
 
@@ -114,15 +114,15 @@ public class CircleDetailAdapter extends BaseAdapter{
             if (!TextUtils.isEmpty(bean.replyUserId) && bean.replyUserId.equals(mPostUserId)){
                 holder.mLZhu.setVisibility(View.VISIBLE);
             }else {
-                holder.mLZhu.setVisibility(View.INVISIBLE);
+                holder.mLZhu.setVisibility(View.GONE);
             }
         }
 
         //时间
-        setText(holder.mTime,bean.createTime);
+        setTextGone(holder.mTime,bean.createTime);
 
         //管理员
-        setText(holder.mUserLabel,bean.userRole);
+        setTextGone(holder.mUserLabel,bean.userRole);
 
         if ("2".equals(bean.replyType)){ //1:贴子评论 2:回复贴子评论
             //头像
@@ -223,7 +223,13 @@ public class CircleDetailAdapter extends BaseAdapter{
             view.setText("");
         }
     }
-
+    private void setTextGone(TextView view , String text){
+        if (!TextUtils.isEmpty(text)){
+            view.setText(text);
+        }else {
+            view.setVisibility(View.GONE);
+        }
+    }
     private int getLength(String text){
         return TextUtils.isEmpty(text) ? 0 : text.length();
     }
