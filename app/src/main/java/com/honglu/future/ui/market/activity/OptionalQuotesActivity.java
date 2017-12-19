@@ -96,8 +96,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
     public void loadData() {
         mAllMarketList = (List<MarketnalysisBean.ListBean>) getIntent().getSerializableExtra("allmarketlist");
         zxMarketList = (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getIntent().getSerializableExtra("zxmarketlist");
-
-        mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.text_add_qptional));
+        mTitle.setTitle(false, R.color.color_white,getResources().getString(R.string.text_add_qptional));
         View footerView = LayoutInflater.from(OptionalQuotesActivity.this).inflate(R.layout.layout_optional_quotes_footerview, null);
         addRecyclerView = (RecyclerView) footerView.findViewById(R.id.rv_add_recycler_view);
         mCommonTab = (HorizontalTabLayout) footerView.findViewById(R.id.op_common_tab_layout);
@@ -328,7 +327,7 @@ public class OptionalQuotesActivity extends BaseActivity<OptionalQuotesPresenter
         }
         */
 
-        if (zxMarketList != null && zxMarketList.size() > 0 || mAllMarketList == null && mAllMarketList.size() > 0) {
+        if (zxMarketList != null && zxMarketList.size() > 0) {
 
             for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : zxMarketList) {
                 String excode = zxBean.getExchangeID();
