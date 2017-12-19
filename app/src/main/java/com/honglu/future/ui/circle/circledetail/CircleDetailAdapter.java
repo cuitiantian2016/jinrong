@@ -43,7 +43,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         this.mPostUserId = mPostUserId;
         this.mActivity = activity;
         this.mCommentType = mActivity.getCommentType();
-        this.mWidth = ViewUtil.getScreenWidth(mActivity) - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_15dp) * 2 - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_25dp);
+        this.mWidth = ViewUtil.getScreenWidth(mActivity) - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_15dp) * 2 - mActivity.getResources().getDimensionPixelSize(R.dimen.dimen_35dp);
     }
 
 
