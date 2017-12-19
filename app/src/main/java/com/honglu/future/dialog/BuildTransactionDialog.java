@@ -120,8 +120,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         if (!mIsStopChangePrice) {
             mProductListBean = bean;
             if (mTvRise != null) {
-                mTvRise.setText(bean.getAskPrice1());
-                mTvDown.setText(bean.getBidPrice1());
+                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),bean.getAskPrice1()));
+                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),bean.getBidPrice1()));
                 if (mBuyType.equals("2")) {
                     mPrice.setText(bean.getAskPrice1());
                 } else {
@@ -532,20 +532,20 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             mPrice.setSelection(mPrice.getText().toString().length());
             setTotalMoney();
         } else {
-            mTvRise.setText(mPrice.getText().toString().trim());
-            mTvDown.setText(mPrice.getText().toString().trim());
+            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),mPrice.getText().toString().trim()));
+            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),mPrice.getText().toString().trim()));
         }
 
         if (TextUtils.isEmpty(mPrice.getText().toString()) || mPrice.getText().toString().equals(".")) {
-            mTvRise.setText(lowerLimitPrice);
-            mTvDown.setText(lowerLimitPrice);
+            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
+            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
         } else {
             if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
-                mTvRise.setText(lowerLimitPrice);
-                mTvDown.setText(lowerLimitPrice);
+                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
+                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
             } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
-                mTvRise.setText(upperLimitPrice);
-                mTvDown.setText(upperLimitPrice);
+                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),upperLimitPrice));
+                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),upperLimitPrice));
             }
         }
     }
