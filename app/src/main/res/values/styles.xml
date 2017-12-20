@@ -8,7 +8,7 @@
         <!-- toolBar背景颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 标题字体颜色-->
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/color_333333</item>
         <!-- toolBar高度-->
         <item name="actionBarSize">@dimen/title_height</item>
         <!-- 设置输入框不被软键盘遮挡-->
