@@ -4,10 +4,8 @@ package com.honglu.future.http;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.config.Constant;
-import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.util.SpUtil;
@@ -79,11 +77,11 @@ public class RxHelper {
                                 return Observable.error(new ApiException(result.getMessage()));
                             }else{
                                 if(result.getCode().equals("00013")){
-                                    //过期
+                                    //被挤掉
                                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
                                 } else if(result.getCode().equals("00007")){
-                                    //被挤掉
+                                    //失效
                                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
                                 }
@@ -120,11 +118,11 @@ public class RxHelper {
                                 return Observable.error(new ApiException(result.getMessage()));
                             }else{
                                 if(result.getCode().equals("00013")){
-                                    //过期
+                                    //被挤掉
                                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
                                 } else if(result.getCode().equals("00007")){
-                                    //被挤掉
+                                    //失效
                                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
                                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
                                 }

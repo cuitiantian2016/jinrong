@@ -9,7 +9,7 @@ public class ApiException extends RuntimeException {
     public static final int USER_NOT_EXIST = 100;
     public static final int WRONG_PASSWORD = 101;
     private String message;
-    private int code = -1;
+    private int errorCode = -1;
     private String time;
 
     public ApiException(String message) {
@@ -18,12 +18,12 @@ public class ApiException extends RuntimeException {
 
     public ApiException(String message, int code) {
         this.message = message;
-        this.code = code;
+        this.errorCode = code;
     }
 
     public ApiException(String message, int code, String time) {
         this.message = message;
-        this.code = code;
+        this.errorCode = code;
         this.time = time;
     }
 
@@ -33,11 +33,11 @@ public class ApiException extends RuntimeException {
     }
 
     public int getCode() {
-        return code;
+        return errorCode;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.errorCode = code;
     }
 
     public String getTime() {

@@ -185,15 +185,15 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         MobclickAgent.onEvent(mContext,two, one);
         if (mAllMarketList != null && mAllMarketList.size() > 0) {
             if (mZxFragment != null) {
-                if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+//                if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID))) {
                     List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mZxFragment.getList();
                     Intent intent = new Intent(getActivity(), OptionalQuotesActivity.class);
                     intent.putExtra("allmarketlist", (Serializable) mAllMarketList);
                     intent.putExtra("zxmarketlist", (Serializable) zxList);
                     startActivity(intent);
-                } else {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
+//                } else {
+//                    startActivity(new Intent(getActivity(), LoginActivity.class));
+//                }
             }
         }
     }

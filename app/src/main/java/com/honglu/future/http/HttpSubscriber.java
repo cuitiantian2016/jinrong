@@ -6,6 +6,7 @@ import com.honglu.future.app.AppManager;
 import com.honglu.future.dialog.RequestBusyFragmentDialog;
 import com.honglu.future.events.LogoutEvent;
 import com.honglu.future.util.NetUtil;
+import com.honglu.future.util.ToastUtil;
 import com.umeng.socialize.utils.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,6 +26,8 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
     public final int ERROR_NETWORK = -4;     //无网络
     public final int ERROR_TIME_OUT = -5;     //请求超时
     public final int ERROR_REQUEST_ERROR = 444;  //登录失效
+    public final int ERROR_ACCOUNT_TIME_OUT = 7;  //登录失效
+    public final int ERROR_ACCOUNT_OTHER_LOGIN = 13;  //期货账号在另一台设备登录
 
     public HttpSubscriber() {
     }
@@ -60,7 +63,14 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                 }
             } else if (((ApiException) e).getCode() == ERROR_REQUEST_ERROR) {
                 _onError("请求错误", ERROR_REQUEST_ERROR);
-            } else {
+            } else if (((ApiException) e).getCode() == ERROR_ACCOUNT_TIME_OUT) {
+                ToastUtil.show("您已长时间未发生交易，为保证资金安全，已退出交易账户", 3000);
+//                new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
+//                        .setRightBtnText("知道了").setContent("").setTitle("安全提示")
+//                        .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+            } else if (((ApiException) e).getCode() == ERROR_ACCOUNT_OTHER_LOGIN) {
+                ToastUtil.show("账号已在另一台设备登录，请重新登录", 3000);
+            }else {
                 _onError(e.getMessage(), ((ApiException) e).getCode());
             }
         } else if (e instanceof HttpException) {
