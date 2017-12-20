@@ -10,8 +10,6 @@ import android.widget.ImageView;
 
 import com.sobot.chat.imageloader.SobotGlideImageLoader;
 import com.sobot.chat.imageloader.SobotImageLoader;
-import com.sobot.chat.imageloader.SobotPicassoImageLoader;
-import com.sobot.chat.imageloader.SobotUILImageLoader;
 
 public class BitmapUtil {
 
@@ -21,15 +19,7 @@ public class BitmapUtil {
         if (sImageLoader == null) {
             synchronized (BitmapUtil.class) {
                 if (sImageLoader == null) {
-                    if (isClassExists("com.bumptech.glide.Glide")) {
-                        sImageLoader = new SobotGlideImageLoader();
-                    } else if (isClassExists("com.squareup.picasso.Picasso")) {
-                        sImageLoader = new SobotPicassoImageLoader();
-                    } else if (isClassExists("com.nostra13.universalimageloader.core.ImageLoader")) {
-                        sImageLoader = new SobotUILImageLoader();
-                    } else {
-                        throw new RuntimeException("必须在(Glide、Picasso、universal-image-loader)中选择一个图片加载库添加依赖,或者检查是否添加了相应的混淆配置");
-                    }
+                    sImageLoader = new SobotGlideImageLoader();
                 }
             }
         }
