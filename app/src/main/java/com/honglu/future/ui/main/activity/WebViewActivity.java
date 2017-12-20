@@ -43,6 +43,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.ui.main.bean.MoreContentBean;
 import com.honglu.future.ui.main.contract.MyContract;
 import com.honglu.future.ui.main.presenter.MyPresenter;
+import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
@@ -120,7 +121,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
             } else {
-                mUrl = getIntent().getStringExtra("url");
+                mUrl = getIntent().getStringExtra("url") + "?version=" + AppUtils.getVersionName() + "&mobile=" + SpUtil.getString(Constant.CACHE_TAG_MOBILE) + "&userId=" + SpUtil.getString(Constant.CACHE_TAG_UID);
             }
 
 //else {

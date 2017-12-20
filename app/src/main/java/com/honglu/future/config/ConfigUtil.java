@@ -41,7 +41,7 @@ public class ConfigUtil {
     public static String NEW_USER_TEACH = baseH5Url + "newSchool";
 
     //关于我们
-    public static String ABOUT_US = baseH5Url + "aboutUs?version="+ AppUtils.getVersionName();
+    public static String ABOUT_US = baseH5Url + "aboutUs";
     //出入金规则
     public static String SCHOOLDETAILS = baseH5Url + "schoolDetails/14";
 
@@ -49,7 +49,7 @@ public class ConfigUtil {
     public static String TRADE_RULE = baseH5Url + "rule";
 
     //开户入口
-    public static String OPEN_ACCOUNT_HOME = baseH5Url + "initAccount?version="+ AppUtils.getVersionName();
+    public static String OPEN_ACCOUNT_HOME = baseH5Url + "initAccount";
 
     //绑卡教程
     public static String BIND_CARD_TEACH = baseH5Url + "addCard";
