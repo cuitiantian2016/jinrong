@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.nfc.tech.NfcA;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -80,7 +82,10 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     ProgressBar mProgressBar;
 
     //    private String title;
-    private String mUrl;
+    @Autowired(name = "url")
+    public String mUrl;
+    @Autowired(name = "title")
+    public String mWebTitle;
     private HashMap<String, String> mHashMap;
     private OnClickListener onClickListener;
     private Button button;
@@ -123,6 +128,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             } else {
                 mUrl = getIntent().getStringExtra("url") + "?version=" + AppUtils.getVersionName() + "&mobile=" + SpUtil.getString(Constant.CACHE_TAG_MOBILE) + "&userId=" + SpUtil.getString(Constant.CACHE_TAG_UID);
             }
+            mWebTitle =  getIntent().getStringExtra("title");
 
 //else {
 //                Map<String, String> param = toMapParams(mUrl);
@@ -482,10 +488,8 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-
-            if (!StringUtil.isBlank(getIntent().getStringExtra("title"))) {
-                String intentTitle = getIntent().getStringExtra("title");
-                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, intentTitle);
+            if (!StringUtil.isBlank(mWebTitle)) {
+                mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, mWebTitle);
             } else {
                 mTitle.setTitle(true, R.mipmap.ic_left_arrow, onClickListener, R.color.white, title);
             }

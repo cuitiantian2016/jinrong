@@ -1,6 +1,7 @@
 package com.honglu.future.ui.usercenter.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -241,6 +242,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.ll_signin_layout:
                 clickTab("wode_qudenglu_click","去登录");
+                AndroidUtil.putAccountMineLogin(false);
                 if (!App.getConfig().getLoginStatus()) {
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
@@ -538,6 +540,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         super.onResume();
         if (!isHidden() && isVisible()) {
             startRun();
+            if (AndroidUtil.getAccountMineLogin()){
+                mSigninLayout.performClick();
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.honglu.future.ui.circlefriend;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -21,7 +20,6 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.AttentionBean;
-import com.honglu.future.ui.circle.bean.UserList;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.presenter.CommonAdapter;
 import com.honglu.future.ui.register.activity.RegisterActivity;

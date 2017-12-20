@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <include  layout="@layout/layout_toolbar"/>
+
+    <com.honglu.future.widget.kchart.SlidingTabLayout
+        android:id="@+id/ly_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_48dp"
+        app:tl_indicator_color="@color/color_ff9300"
+        app:tl_indicator_corner_radius="@dimen/dimen_1dp"
+        app:tl_indicator_height="@dimen/dimen_2dp"
+        app:tl_indicator_width="140dp"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/color_ff9300"
+        app:tl_textUnselectColor="@color/color_323232"
+        app:tl_textsize="@dimen/dimen_14sp"
+        app:tl_underline_height="@dimen/dimen_1dp_half" />
+
+    <com.honglu.future.widget.kchart.ViewPagerEx
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
@@ -53,7 +54,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
 /**
  * Created by zq on 2017/10/25.
  */
-
+@Route(path = "/future/modify")
 public class ModifyUserActivity extends BaseActivity<ModifyUserPresenter> implements
         ModifyUserContract.View {
     @BindView(R.id.tv_back)
