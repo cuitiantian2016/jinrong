@@ -57,6 +57,8 @@ public class Constant {
     public static final int HAS_ALREADY_LOGIN = 1;//首次
     public static final int NOT_FIRST_LOGIN = -1;
 
+    public static final String ACCOUNT_TIME_OUT_CHECKED = "ACCOUNT_TIME_OUT_CHECKED";
+
     /*方向 1.跌 2.涨*/
     public static final int TYPE_BUY_DOWN = 1;
     public static final int TYPE_BUY_UP = 2;

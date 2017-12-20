@@ -19,12 +19,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.config.Constant;
+import com.honglu.future.util.SpUtil;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -34,13 +38,14 @@ import java.lang.annotation.RetentionPolicy;
  * 通用提示fragment
  */
 
-public class AlertFragmentDialog extends DialogFragment implements View.OnClickListener {
+public class AlertFragmentDialog extends DialogFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     public static String TAG = "AlertFragmentDialog";
     private static final String KEY_BUILDER = "KEY_BUILDER";
     TextView mTvTitle;
     TextView mTvContent;
     TextView mTvCancel;
     TextView mTvAccomplish;
+    CheckBox mCheck;
     EditText mEtInput;
     EditText mEtInputTwo;
     ImageView mImage;
@@ -94,6 +99,9 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             if (builder.type == Builder.TYPE_NORMAL) {
                 view = inflater.inflate(R.layout.dialog_alert, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
+            } else if (builder.type == Builder.TYPE_WITH_CHECK_BOX) {
+                view = inflater.inflate(R.layout.dialog_with_checkbox, container, false);
+                mTvContent = (TextView) view.findViewById(R.id.tv_content);
             } else if (builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
                 view = inflater.inflate(R.layout.dialog_alert_title_image, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
@@ -120,8 +128,10 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             mTvTitle = (TextView) view.findViewById(R.id.tv_title);
             mTvAccomplish = (TextView) view.findViewById(R.id.tv_accomplish);
             mTvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+            mCheck = (CheckBox) view.findViewById(R.id.check_box);
             mTvCancel.setOnClickListener(this);
             mTvAccomplish.setOnClickListener(this);
+            mCheck.setOnCheckedChangeListener(this);
             setData();
         }
         return view;
@@ -137,7 +147,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     }
 
     private void setData() {
-        if (builder.type == Builder.TYPE_NORMAL || builder.type == Builder.TYPE_INPUT_ONE || builder.type == Builder.TYPE_INPUT_TWO || builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
+        if (builder.type == Builder.TYPE_NORMAL ||builder.type == Builder.TYPE_WITH_CHECK_BOX || builder.type == Builder.TYPE_INPUT_ONE || builder.type == Builder.TYPE_INPUT_TWO || builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
             mTvTitle.setText(builder.title);
             mTvContent.setText(builder.content);
             if (builder.type == Builder.TYPE_INPUT_ONE) {
@@ -219,6 +229,15 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked){
+            SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,true);
+        } else{
+            SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,false);
+        }
+    }
+
     /**
      * 左边按钮点击回调
      */
@@ -259,6 +278,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         public static final int TYPE_NORMAL = 1003;//正常弹出窗title, content
         public static final int TYPE_DIY = 1004;//自定义弹框内容
         public static final int TYPE_TITLE_WITH_RIGHT_IMAGE = 1006;//标题右侧带图标
+        public static final int TYPE_WITH_CHECK_BOX = 1007;//带checkbox
+
 
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({
@@ -267,7 +288,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
                 TYPE_IMAGE,
                 TYPE_NORMAL,
                 TYPE_DIY,
-                TYPE_TITLE_WITH_RIGHT_IMAGE
+                TYPE_TITLE_WITH_RIGHT_IMAGE,
+                TYPE_WITH_CHECK_BOX
         })
         public @interface BuilderType {
         }

@@ -239,6 +239,10 @@
     <style name="SeparatorLine">
         <item name="android:background">@color/color_line</item>
     </style>
+
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_box_bg</item>
+    </style>
 </resources>
 
 
