@@ -102,6 +102,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             } else if (builder.type == Builder.TYPE_WITH_CHECK_BOX) {
                 view = inflater.inflate(R.layout.dialog_with_checkbox, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
+                mCheck = (CheckBox) view.findViewById(R.id.check_box);
+                mCheck.setOnCheckedChangeListener(this);
             } else if (builder.type == Builder.TYPE_TITLE_WITH_RIGHT_IMAGE) {
                 view = inflater.inflate(R.layout.dialog_alert_title_image, container, false);
                 mTvContent = (TextView) view.findViewById(R.id.tv_content);
@@ -128,10 +130,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             mTvTitle = (TextView) view.findViewById(R.id.tv_title);
             mTvAccomplish = (TextView) view.findViewById(R.id.tv_accomplish);
             mTvCancel = (TextView) view.findViewById(R.id.tv_cancel);
-            mCheck = (CheckBox) view.findViewById(R.id.check_box);
             mTvCancel.setOnClickListener(this);
             mTvAccomplish.setOnClickListener(this);
-            mCheck.setOnCheckedChangeListener(this);
             setData();
         }
         return view;
