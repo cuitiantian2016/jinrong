@@ -82,9 +82,17 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         return mTabSelectType;
     }
 
+    public void notifyDataChanged(){
+        if (mAdapter !=null){
+            mAdapter.notifyDataSetChanged();
+            if (isVisible()){
+                getRealTimeData();
+            }
+        }
+    }
     //获取 adapter数据
     public List<MarketnalysisBean.ListBean.QuotationDataListBean> getList() {
-        return mAdapter != null ? mAdapter.getData() : null;
+        return mAdapter != null && mAdapter.getData().size() > 0 ? mAdapter.getData() : null;
     }
 
     //添加自选
