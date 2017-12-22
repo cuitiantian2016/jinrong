@@ -20,10 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabEvent;
-import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
@@ -35,7 +36,7 @@ import org.greenrobot.eventbus.EventBus;
  * Created by zq on 2017/11/10.
  */
 
-public class AccountLoginDialog extends Dialog implements View.OnClickListener, SelectCompDialog.OnSelectCompListener {
+public class AccountLoginDialog extends Dialog implements View.OnClickListener, SelectCompDialog.OnSelectCompListener,AccountPresenter.OnFailListener {
     private Context mContext;
     private static AccountLoginDialog dialog = null;
     private AccountPresenter mPresenter;
@@ -46,6 +47,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
     private TextView mTvComp;
     private TextView mForgetPwd;
     private String mCompType;
+    private CheckAccount mCheckAccount;
 
     public static AccountLoginDialog getInstance(Context context, AccountPresenter presenter) {
         if (dialog == null) {
@@ -62,6 +64,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         super(context, R.style.DateDialog);
         this.mContext = context;
         mPresenter = presenter;
+        mPresenter.setOnFailListener(this);
     }
 
 
@@ -77,9 +80,11 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.BOTTOM;
         mWindow.setAttributes(params);
+        setCanceledOnTouchOutside(false);
         selectCompDialog = new SelectCompDialog(mContext);
         selectCompDialog.setOnSelectCompListener(this);
         mCompType = SelectCompDialog.COMP_TYPE_GUOFU;
+        mCheckAccount = new CheckAccount(mContext);
         initTipData();
     }
 
@@ -118,8 +123,10 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
             public void afterTextChanged(Editable s) {
                 if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
+                    mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
                     mLoginAccount.setEnabled(false);
+                    mLoginAccount.setBackgroundResource(R.drawable.shape_xiushi_bg_2dp);
                 }
             }
         });
@@ -139,8 +146,10 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
             public void afterTextChanged(Editable s) {
                 if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
+                    mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
                     mLoginAccount.setEnabled(false);
+                    mLoginAccount.setBackgroundResource(R.drawable.shape_xiushi_bg_2dp);
                 }
             }
         });
@@ -170,11 +179,17 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
                 if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
+                mLoginAccount.setEnabled(false);
+                mLoginAccount.setBackgroundResource(R.drawable.shape_xiushi_bg_2dp);
                 MobclickAgent.onEvent(mContext, "qihuodenglu_click", "国富期货登录");
                 mPresenter.login(mAccount.getText().toString(), mPwd.getText().toString(), SpUtil.getString(Constant.CACHE_TAG_UID), mCompType, mPwd, mContext);
                 break;
             case R.id.btn_open_account:
-                goOpenAccount();
+                if (App.getConfig().getLoginStatus()){
+                    mCheckAccount.checkAccount();
+                } else{
+                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                }
                 break;
             case R.id.tv_select_comp:
                 selectCompDialog.show();
@@ -182,18 +197,18 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
             case R.id.tv_forget_pwd:
                 new AlertFragmentDialog.Builder((FragmentActivity) mContext)
                         .setRightBtnText("知道了").setContent("请在工作日8:30-17:00拨打小牛智投\n" +
-                        "客服电话：021 8207 0818").setTitle("忘记密码")
+                        "客服电话：400 961 0211").setTitle("忘记密码")
                         .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
         }
     }
 
-    private void goOpenAccount() {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
-        intent.putExtra("title", "开户");
-        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
-        mContext.startActivity(intent);
+    public void setBtnEnable(){
+        mLoginAccount.setEnabled(true);
+        mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
     }
+
+
 
     //拦截物理返回键
     @Override
@@ -220,5 +235,10 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
             mTvComp.setText("美尔雅期货");
         }
         selectCompDialog.dismiss();
+    }
+
+    @Override
+    public void onFail() {
+        setBtnEnable();
     }
 }

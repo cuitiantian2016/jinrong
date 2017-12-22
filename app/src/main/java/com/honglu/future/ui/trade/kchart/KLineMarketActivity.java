@@ -784,7 +784,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        showToast("登录成功");
         if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }

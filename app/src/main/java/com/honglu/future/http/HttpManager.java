@@ -10,6 +10,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.honglu.future.config.LogInterceptor;
 import com.honglu.future.util.AndroidUtil;
+import com.honglu.future.util.AppUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
 import com.orhanobut.logger.Logger;
@@ -230,7 +231,7 @@ public class HttpManager {
             } else {
                 ret_url = url + "?";
             }
-            ret_url += "clientType=android&appVersion="
+            ret_url += "version=" + AppUtils.getVersionName() + "&mobile=" + SpUtil.getString(Constant.CACHE_TAG_MOBILE) + "&userId=" + SpUtil.getString(Constant.CACHE_TAG_UID)+"&clientType=android&appVersion="
                     + ViewUtil.getAppVersion(App.getContext()) + "&deviceId="
                     + ViewUtil.getDeviceId(App.getContext()) + "&mobilePhone=" +
                     (App.getConfig().getLoginStatus() ? SpUtil.getString(Constant.CACHE_TAG_USERNAME) : "")

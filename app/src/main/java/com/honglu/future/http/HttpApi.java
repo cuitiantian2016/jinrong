@@ -3,6 +3,7 @@ package com.honglu.future.http;
 import com.google.gson.JsonNull;
 import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.BaseResponse;
+import com.honglu.future.bean.CheckAccountBean;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.ArewardListBean;
 import com.honglu.future.ui.circle.bean.AttentionBean;
@@ -119,6 +120,11 @@ public interface HttpApi {
     Observable<BaseResponse<AccountInfoBean>> getAccountInfo(@Field("userId") String userId,
                                                              @Field("token") String token,
                                                              @Field("company") String company);
+
+    //检查用户是否填过
+    @FormUrlEncoded
+    @POST("futures-system-web-api/futures/account/check")
+    Observable<BaseResponse<CheckAccountBean>> accountCheck(@Field("userId") String userId);
 
     //期货账户退出
     @FormUrlEncoded

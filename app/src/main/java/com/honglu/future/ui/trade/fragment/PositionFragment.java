@@ -267,7 +267,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        showToast("登录成功");
         if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }

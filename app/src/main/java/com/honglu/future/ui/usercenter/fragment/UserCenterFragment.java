@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.bean.CheckAccountBean;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
@@ -26,6 +28,7 @@ import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
@@ -48,6 +51,7 @@ import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -142,6 +146,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     private AccountLoginDialog mAccountLoginDialog;
     private AccountPresenter mAccountPresenter;
     private BillConfirmDialog billConfirmDialog;
+    private CheckAccount mCheckAccount;
     public static UserCenterFragment userCenterFragment;
 
     public static UserCenterFragment getInstance() {
@@ -184,6 +189,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        mCheckAccount = new CheckAccount(mContext);
         int screenWidth = ViewUtil.getScreenWidth(getActivity());
         int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
         int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
@@ -275,8 +281,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 startActivity(HistoryBillActivity.class);
                 break;
             case R.id.tv_open_account:
-                clickTab("wode_lijikaihu_click","我的_立即开户");
-                goOpenAccount();
+                if (App.getConfig().getLoginStatus()){
+                    clickTab("wode_lijikaihu_click","我的_立即开户");
+                    mCheckAccount.checkAccount();
+                } else{
+                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                }
                 break;
             case R.id.tv_kefu:
                 clickTab("wode_zaixiankefu_click","我的_在线客服");
@@ -474,14 +484,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         userCenterFragment = null;
     }
 
-
-    private void goOpenAccount() {
-        Intent intent = new Intent(mActivity, WebViewActivity.class);
-        intent.putExtra("title", "开户");
-        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
-        startActivity(intent);
-    }
-
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
@@ -493,7 +495,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void loginSuccess(AccountBean bean) {
-        showToast("登录成功");
         if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
             billConfirmDialog.dismiss();
         }

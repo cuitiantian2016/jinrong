@@ -51,6 +51,9 @@ public class ConfigUtil {
     //开户入口
     public static String OPEN_ACCOUNT_HOME = baseH5Url + "initAccount";
 
+    //问卷调查
+    public static String OPEN_ACCOUNT_RESEARCH = baseH5Url + "connector/research";
+
     //绑卡教程
     public static String BIND_CARD_TEACH = baseH5Url + "addCard";
 

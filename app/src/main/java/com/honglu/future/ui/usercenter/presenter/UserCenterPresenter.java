@@ -4,10 +4,8 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
-import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
 
 /**

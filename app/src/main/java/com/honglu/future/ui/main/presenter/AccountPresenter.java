@@ -1,23 +1,34 @@
 package com.honglu.future.ui.main.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.bean.CheckAccountBean;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
+import com.honglu.future.ui.trade.adapter.EntrustAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.ConfirmBean;
+import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
+
+import java.util.List;
 
 /**
  * Created by zq on 2017/11/3.
@@ -26,6 +37,15 @@ import com.honglu.future.util.SpUtil;
 public class AccountPresenter extends BasePresenter<AccountContract.View> implements AccountContract.Presenter {
     private Context mContext;
     private AccountBean mBean;
+    public interface OnFailListener {
+        void onFail();
+    }
+
+    private OnFailListener mListener;
+
+    public void setOnFailListener(OnFailListener listener) {
+        mListener = listener;
+    }
 
     @Override
     public void login(final String account, String password, final String userId, final String company, final TextView tv_pass, final Context context) {
@@ -55,6 +75,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onError(String message, int code) {
                 super._onError(message, code);
+                mListener.onFail();
                 if ("首次登录必须修改密码，请修改密码后重新登录".equals(message)) {//首次登录
                     tv_pass.setText("");
                     SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
@@ -90,6 +111,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             protected void _onNext(SettlementInfoBean bean) {
                 if (bean == null) {
                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, token);
+                    ToastUtil.show("登录成功");
                     mView.loginSuccess(mBean);
                     return;
                 }
@@ -119,6 +141,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onNext(ConfirmBean bean) {
                 SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, mBean.getToken());
+                ToastUtil.show("确认成功");
                 mView.loginSuccess(mBean);
             }
 
@@ -133,5 +156,4 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             }
         });
     }
-
 }

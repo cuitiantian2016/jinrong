@@ -216,7 +216,7 @@
             android:layout_marginTop="@dimen/dimen_15dp"
             android:paddingLeft="@dimen/dimen_14dp"
             android:paddingRight="@dimen/dimen_12dp"
-            android:text="充值提现及时到账，如遇到特殊情况，请联系小牛期货客服"
+            android:text="充值提现及时到账，如遇到特殊情况，请联系小牛智投客服"
             android:textColor="#A4A5A6"
             android:textSize="@dimen/dimen_12sp" />
 

@@ -51,9 +51,9 @@ public class TradeUtil {
                     || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_MA) || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_M)
                     || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_C)) {
                 if (todayPosition > 0) {
-                    return new BigDecimal(bean.getCloseTodayRatioByMoney()).doubleValue();
+                    return NumberUtil.multiply(new BigDecimal(closeTodayRatioByMoney).doubleValue(),new BigDecimal(tradeNum).doubleValue());
                 } else {
-                    return new BigDecimal(bean.getCloseRatioByMoney()).doubleValue();
+                    return NumberUtil.multiply(new BigDecimal(closeRatioByMoney).doubleValue(),new BigDecimal(tradeNum).doubleValue());
                 }
             } else {
                 if (todayPosition > 0) {

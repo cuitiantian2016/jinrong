@@ -450,8 +450,14 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
      */
     @Override
     public void cashoutErr(String msg) {
+        String msgStr;
+        if (TextUtils.isEmpty(msg)) {
+            msgStr = "提现失败";
+        } else {
+            msgStr = msg;
+        }
         new AlertFragmentDialog.Builder(mActivity)
-                .setLeftBtnText("取消").setTitle("提现失败", R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.fail_tixian)
+                .setLeftBtnText("取消").setTitle(msgStr, R.color.color_3C383F, R.dimen.dimen_16sp).setImageRes(R.mipmap.fail_tixian)
                 .setRightBtnText("重新提现").create(AlertFragmentDialog.Builder.TYPE_IMAGE);
     }
 

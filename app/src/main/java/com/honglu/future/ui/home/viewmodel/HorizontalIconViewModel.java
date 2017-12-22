@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
 import com.honglu.future.config.ConfigUtil;
@@ -22,6 +23,8 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.HomeIcon;
 import com.honglu.future.ui.live.LiveActivity;
+import com.honglu.future.ui.login.activity.LoginActivity;
+import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.AndroidUtil;
@@ -45,10 +48,12 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
     public View mView;
     private Context mContext;
     private BasePresenter mBannerPresenter;
+    private CheckAccount mCheckAccount;
     public HorizontalIconViewModel(Context context) {
         mContext = context;
         mView = View.inflate(context, R.layout.home_item1, null);
         mLine_icons = (LinearLayout)mView.findViewById(R.id.line_icons);
+        mCheckAccount = new CheckAccount(mContext);
         refreshData();
     }
     /**
@@ -114,7 +119,11 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                 @Override
                 public void onClick(View v) {
                     if (homeIcons.title.equals("立即开户")){
-                        goOpenAccount();
+                        if (App.getConfig().getLoginStatus()){
+                            mCheckAccount.checkAccount();
+                        } else{
+                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        }
                     }else if (homeIcons.title.equals("新手教学")){
                         MobclickAgent.onEvent(mContext,"shouye_xinshoujiaoxue_click","首页_新手教学");
                         Intent intentTeach = new Intent(mContext, WebViewActivity.class);
@@ -133,11 +142,5 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                 }
             });
         }
-    }
-    private void goOpenAccount() {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
-        intent.putExtra("title", "开户");
-        intent.putExtra("url", ConfigUtil.OPEN_ACCOUNT_HOME);
-        mContext.startActivity(intent);
     }
 }

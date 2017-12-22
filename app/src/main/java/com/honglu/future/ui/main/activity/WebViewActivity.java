@@ -126,7 +126,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
             } else {
-                mUrl = getIntent().getStringExtra("url") + "?version=" + AppUtils.getVersionName() + "&mobile=" + SpUtil.getString(Constant.CACHE_TAG_MOBILE) + "&userId=" + SpUtil.getString(Constant.CACHE_TAG_UID);
+                mUrl = getIntent().getStringExtra("url");
             }
             mWebTitle =  getIntent().getStringExtra("title");
 
@@ -281,6 +281,14 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                             }
                         }).build();
             }
+        }
+
+        /**
+         * 返回事件
+         */
+        @JavascriptInterface
+        public void webviewDidFinish() {
+           finish();
         }
 
         /**
