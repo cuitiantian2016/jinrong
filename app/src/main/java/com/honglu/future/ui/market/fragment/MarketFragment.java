@@ -256,7 +256,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
      */
     @Override
     public void getMarketData(MarketnalysisBean alysisBean) {
-        Log.d("wahcc","===getMarketData=====");
         if (mTabList != null && mTabList.size() > 0 && mFragments !=null && mFragments.size() > 0) {
             if (alysisBean !=null && alysisBean.getList() !=null && alysisBean.getList().size() > 0){
 
