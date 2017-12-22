@@ -216,7 +216,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
             });
         }
     }
-
+   private int mPosition;
 
     /**
      * 首页产品viewpager
@@ -258,6 +258,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
             @Override
             public void onPageSelected(int position) {
                 indicatorViewModel.showIndicator(position);
+                mPosition = position;
             }
 
             @Override
@@ -265,7 +266,8 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
 
             }
         });
-        indicatorViewModel.showIndicator(0);
+        mViewPager.setCurrentItem(mPosition,true);
+        indicatorViewModel.showIndicator(mPosition);
         productViewHold4Home = new ProductViewHold4Home(mListViews, mContext, productList);
     }
 
