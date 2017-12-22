@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment {
             MPushUtil.pauseRequest();
         } else {
             if (homeMarketPriceViewModel != null) {
-                homeMarketPriceViewModel.requestMarket();
+                homeMarketPriceViewModel.refreshData();
             }
         }
     }
@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment {
         super.onResume();
         Log.d(TAG, "onResume: ");
         if (homeMarketPriceViewModel != null && !isHidden()) {
-            homeMarketPriceViewModel.requestMarket();
+            homeMarketPriceViewModel.refreshData();
         }
     }
 

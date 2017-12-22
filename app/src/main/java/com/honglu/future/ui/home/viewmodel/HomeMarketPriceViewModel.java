@@ -93,7 +93,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
                                 @Override
                                 protected void _onError(String message) {
                                     super._onError(message);
-                                    ToastUtil.show(message);
+                                    requestMarket();
                                 }
                             });
                             //绑定list
@@ -122,7 +122,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
     @Override
     public void bindData(MarketData marketData) {
         if (marketData == null || marketData.list == null || marketData.list.size() <= 0) return;
-        MPushUtil.requestMarket(productList);
+        requestMarket();
         ArrayList<MarketData.MarketDataBean> dataList = marketData.list;
         if (arrayList != null) {
             arrayList.clear();
@@ -152,7 +152,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
         }
     }
 
-    public void requestMarket() {
+    private void requestMarket() {
         if (!TextUtils.isEmpty(productList))
             MPushUtil.requestMarket(productList);
     }
@@ -265,6 +265,7 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
 
             }
         });
+        indicatorViewModel.showIndicator(0);
         productViewHold4Home = new ProductViewHold4Home(mListViews, mContext, productList);
     }
 
