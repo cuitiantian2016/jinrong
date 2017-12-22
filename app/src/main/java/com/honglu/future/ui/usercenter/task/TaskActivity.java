@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.ui.circle.praisesandreward.ThumbsListFragment;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  * author:ayb
  * time:2017/6/14
  */
+@Route(path ="/future/task")
 public class TaskActivity extends BaseActivity {
 
     private static final String[] TAB_TITLES = new String[]{"新手任务","每日任务"};

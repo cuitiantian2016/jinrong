@@ -11,6 +11,7 @@ import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.bean.CircleMsgBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.ui.circle.bean.SignBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
@@ -812,4 +813,27 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("circleId") String circleId,
             @Field("rows") int rows);
+    /**
+     * 查询用户签到信息
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-signScore-api/signScore/getCusSignInfo")
+    Observable<BaseResponse<SignBean>> getSignData(
+            @Field("mobileNum") String mobile);
+    /**
+     * 保存签到积分接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-signScore-api/signScore/saveSingInfo")
+    Observable<BaseResponse<JsonNull>> saveSignData(
+            @Field("mobileNum") String mobile,
+            @Field("userId") String userId,
+            @Field("consDays") int consDays
+    );
+
+
 }

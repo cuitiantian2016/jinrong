@@ -222,4 +222,7 @@
     <string name="support_num_content">人点赞</string>
     <string name="text_xiu">休</string>
     <string name="text_maohao">: %s</string>
+    <string name="the_first_few_days">第%s天</string>
+    <string name="integral">枚</string>
+    <string name="integral_s">%s枚</string>
 </resources>

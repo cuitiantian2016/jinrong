@@ -21,6 +21,7 @@ import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.HomeIcon;
+import com.honglu.future.ui.live.LiveActivity;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.AndroidUtil;
@@ -126,6 +127,8 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                     }else if (homeIcons.title.equals("咨询客服")){
                         MobclickAgent.onEvent(mContext,"shouye_zixunkefu_click","首页_咨询客服");
                         AndroidUtil.startKF(mContext);
+                    }else if (homeIcons.title.contains("直播")){
+                        mContext.startActivity(new Intent(mContext, LiveActivity.class));
                     }
                 }
             });

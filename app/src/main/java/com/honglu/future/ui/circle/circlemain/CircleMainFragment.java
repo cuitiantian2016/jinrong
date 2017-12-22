@@ -3,10 +3,13 @@ package com.honglu.future.ui.circle.circlemain;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.ConfigUtil;
@@ -17,6 +20,8 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
+import com.honglu.future.ui.circle.bean.SignBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
@@ -27,6 +32,8 @@ import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewHelper;
 import com.honglu.future.widget.CircleImageView;
+import com.honglu.future.widget.CircleSignView;
+import com.honglu.future.widget.ExpandableLayout;
 import com.honglu.future.widget.SlidingTabImageLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
 
@@ -37,10 +44,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created by zq on 2017/12/6.
  */
-public class CircleMainFragment extends BaseFragment {
+public class CircleMainFragment extends BaseFragment implements CircleSignView.OnSignClickListener {
     public static CircleMainFragment circleMainFragment;
     private String currTopicType;
     private CircleImageView mHeadPortraitIV;
@@ -49,8 +58,17 @@ public class CircleMainFragment extends BaseFragment {
     private View mNQTipLy;
     private TextView mNQTipContentTV;
     private View mRendView;
+    @BindView(R.id.ebl_expandable)
+    ExpandableLayout mEblLayout;
+    @BindView(R.id.ll_sign)
+    LinearLayout mFlSign;
+    @BindView(R.id.tv_click)
+    TextView tv_click;
+    //是否查询签到 0 没请求/请求失败 1 请求中  2 请求成功
+    private int isQuerySignState = 0;
     List<TopicFilter> topicFilters = null;
     private SlidingTabImageLayout mTabsIndicatorLy;
+    private boolean isClickSign;
 
     public static CircleMainFragment getInstance() {
         if (circleMainFragment == null) {
@@ -69,11 +87,26 @@ public class CircleMainFragment extends BaseFragment {
     public void loadData() {
         EventBus.getDefault().register(this);
         initViews();
-
         int readTag = ((MainActivity) getActivity()).getReadTag();
         if (readTag == 1){
             mRendView.setVisibility(View.VISIBLE);
         }
+        tv_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEblLayout.toggle(true);
+                mEblLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mEblLayout.isExpanded()){
+                            tv_click.setText("点击收起");
+                        }else {
+                            tv_click.setText("点击下拉");
+                        }
+                    }
+                }, 400);
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -106,6 +139,7 @@ public class CircleMainFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden){
+            getSigleData();
             if (topicFilters == null){
                 getTopicList();
             }else {
@@ -229,7 +263,11 @@ public class CircleMainFragment extends BaseFragment {
         super.onResume();
         ViewHelper.setVisibility(mMessageHintLy
                 , !TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID)));
+        if (!isHidden()){
+            getSigleData();
+        }
     }
+
     private View.OnClickListener getHeadPortraitClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -252,5 +290,91 @@ public class CircleMainFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), CircleMsgActivity.class));
             }
         };
+    }
+
+    /**
+     * 获取签到数据
+     */
+    private void getSigleData(){
+        if (!App.getConfig().getLoginStatus()){
+            return;
+        }
+        if (isQuerySignState == 0 || isClickSign){
+            mEblLayout.collapse();
+        }
+        if (isQuerySignState==2){
+            if (!isClickSign){
+                if (!mEblLayout.isExpanded()){
+                    //创建 签到标签
+                    mEblLayout.expand();
+                    tv_click.setText("点击收起");
+                }
+            }else {
+                mEblLayout.collapse();
+                tv_click.setText("点击下拉");
+            }
+        }
+        //签到
+        if (isQuerySignState == 0){
+            isQuerySignState = 1;
+            String string = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
+            //访问接口
+            HttpManager.getApi().getSignData(string).compose(RxHelper.<SignBean>handleSimplyResult()).subscribe(new HttpSubscriber<SignBean>() {
+                @Override
+                protected void _onNext(SignBean signBean) {
+                    super._onNext(signBean);
+                    tv_click.setVisibility(View.VISIBLE);
+                    CircleMainFragment.this.isQuerySignState = 2;
+                    boolean isSign = signBean.isIsSign();
+                    isClickSign = isSign;
+                    List<SignBean.SignListBean> signList = signBean.getSignList();
+                    int signCount = signBean.count;
+                    for (int i = 0 ; i < signList.size() ; i++){
+                        if (i < signCount){
+                            SignBean.SignListBean bean = signList.get(i);
+                            bean.setSign(true);
+                        }else if (i == signCount&&!isSign){
+                            SignBean.SignListBean bean = signList.get(i);
+                            bean.setSignClick(true);
+                        }
+                    }
+                    if (!isClickSign){
+                        //创建 签到标签
+                        mEblLayout.expand();
+                        tv_click.setText("点击收起");
+                    }else {
+                        mEblLayout.collapse();
+                        tv_click.setText("点击下拉");
+                    }
+                    mFlSign.removeAllViews();
+                    for (int i = 0 ; i < signList.size() ; i++){
+                        CircleSignView signView = new CircleSignView(CircleMainFragment.this.getActivity(),i,signList.size(),CircleMainFragment.this);
+                        signView.setSignData(signList.get(i));
+                        mFlSign.addView(signView);
+                    }
+                }
+                @Override
+                protected void _onError(String message) {
+                    super._onError(message);
+                    tv_click.setVisibility(View.GONE);
+                    CircleMainFragment.this.isQuerySignState = 0;
+                    Log.d("getSigleData", "_onError: "+message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void OnSignClick() {
+        mEblLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mEblLayout.isExpanded()){
+                    mEblLayout.collapse(true);
+                    isClickSign = true;
+                    tv_click.setText("点击下拉");
+                }
+            }
+        }, 400);
     }
 }

@@ -66,6 +66,7 @@
 <dimen name="dimen_8dp">8dp</dimen>
 <dimen name="dimen_9dp">9dp</dimen>
 <dimen name="dimen_10dp">10dp</dimen>
+<dimen name="dimen_3_5">3.5dp</dimen>
 <dimen name="dimen_11dp">11dp</dimen>
 <dimen name="dimen_12dp">12dp</dimen>
 <dimen name="dimen_13dp">13dp</dimen>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="@mipmap/bg_sign"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="1.5dp"
+        android:text="第一天"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_10sp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_signView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/iv_signsHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:src="@mipmap/ic_signs"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_signsHint_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_sign_money"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/rl_icsign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/iv_icsign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/ic_sucsign" />
+
+            <ImageView
+                android:id="@+id/iv_slsign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/dimen_18dp"
+                android:src="@mipmap/ic_slsign" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_integral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/dimen_1dp"
+        android:text="20枚"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_10sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_signmc"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:background="@color/color_FFBC37"
+        android:visibility="invisible"/>
+</FrameLayout>

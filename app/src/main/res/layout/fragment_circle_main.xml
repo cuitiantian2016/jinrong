@@ -68,7 +68,28 @@
             </RelativeLayout>
 
         </RelativeLayout>
-
+        <com.honglu.future.widget.ExpandableLayout
+            android:id="@+id/ebl_expandable"
+            android:layout_width="match_parent"
+            app:el_expanded="true"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/color_FFBC37"
+                android:orientation="horizontal" />
+        </com.honglu.future.widget.ExpandableLayout>
+        <TextView
+            android:id="@+id/tv_click"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="@color/actionsheet_blue"
+            android:textSize="@dimen/dimen_17sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击收起" />
         <com.honglu.future.widget.SlidingTabImageLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"

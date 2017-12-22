@@ -26,6 +26,9 @@
 <div  id="guofu" style="width:100%;height: 10%;color: #2C8DFB;font-size: 40px;padding: 10px">
     <a><h1>国富开户</h1></a>
 </div>
+<div  id="jumpApp" style="width:100%;height: 10%;color: #2C8DFB;font-size: 40px;padding: 10px">
+    <a><h1>协议跳转app新手任务</h1></a>
+</div>
 </body>
 <script>
     document.getElementById("meierya").onclick=function(){
@@ -35,6 +38,10 @@
     document.getElementById("guofu").onclick=function(){
         console.log("guofu");
         window.nativeMethod.openAccount("0101",'@200$088-2');
+    };
+    document.getElementById("jumpApp").onclick=function(){
+        console.log("jumpApp");
+        window.nativeMethod.jumpApp("xiaoniuqihuo://future/future/task");
     };
 </script>
 </body>
