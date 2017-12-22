@@ -13,6 +13,8 @@ public class CircleMineBean {
     private int beFocusNum;
     private int focusNum;
     private boolean isFocued;
+    private int exceptionalCount; //打赏人数
+    private boolean exceptional; //true:已打赏 false:没有打赏
 
     public String getUserRole() {
         return userRole;
@@ -70,6 +72,22 @@ public class CircleMineBean {
 
     public int getFocusNum() {
         return focusNum;
+    }
+
+    public int getExceptionalCount() {
+        return exceptionalCount;
+    }
+
+    public void setExceptionalCount(int exceptionalCount) {
+        this.exceptionalCount = exceptionalCount;
+    }
+
+    public boolean isExceptional() {
+        return exceptional;
+    }
+
+    public void setExceptional(boolean exceptional) {
+        this.exceptional = exceptional;
     }
 
     public class ContactUser {

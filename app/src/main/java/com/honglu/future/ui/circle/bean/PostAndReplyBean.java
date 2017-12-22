@@ -24,6 +24,8 @@ public class PostAndReplyBean {
     private String title;
     private String userRole;
     private int isHot;
+    private int exceptionalCount; //打赏人数
+    private boolean exceptional; //true:已打赏 false:没有打赏
 
     public int getIsPraised() {
         return isPraised;
@@ -226,5 +228,19 @@ public class PostAndReplyBean {
         return userRole;
     }
 
+    public int getExceptionalCount() {
+        return exceptionalCount;
+    }
 
+    public void setExceptionalCount(int exceptionalCount) {
+        this.exceptionalCount = exceptionalCount;
+    }
+
+    public boolean isExceptional() {
+        return exceptional;
+    }
+
+    public void setExceptional(boolean exceptional) {
+        this.exceptional = exceptional;
+    }
 }

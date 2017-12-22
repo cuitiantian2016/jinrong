@@ -23,22 +23,22 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_13sp"
                     android:layout_marginLeft="@dimen/dimen_10dp"
                     android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_13sp"
                     tools:text="zab" />
 
 
@@ -46,9 +46,9 @@
                     android:id="@+id/tv_user_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/dimen_11sp"
-                    android:textColor="@color/color_86A2B0"
                     android:layout_marginLeft="@dimen/dimen_7dp"
+                    android:textColor="@color/color_86A2B0"
+                    android:textSize="@dimen/dimen_11sp"
                     tools:text="管理员" />
 
             </LinearLayout>
@@ -57,8 +57,8 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/dimen_10dp"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_11sp"
                 tools:text="13:45 12-08" />
@@ -70,11 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/dimen_5dp"
-            android:paddingLeft="@dimen/dimen_5dp"
-            android:paddingTop="@dimen/dimen_2dp"
+            android:background="@drawable/selector_follow_btn"
             android:paddingBottom="@dimen/dimen_2dp"
-            android:background="@drawable/selector_follow_btn" />
+            android:paddingLeft="@dimen/dimen_5dp"
+            android:paddingRight="@dimen/dimen_5dp"
+            android:paddingTop="@dimen/dimen_2dp" />
 
     </LinearLayout>
 
@@ -84,55 +84,86 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
-        android:textSize="@dimen/dimen_16sp"
-        android:textColor="@color/color_333333"
         android:layout_marginTop="@dimen/dimen_26dp"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/dimen_16sp"
         tools:text="我是内容-----------------------" />
 
-     <TextView
-         android:id="@+id/tv_seezhuanti"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textColor="@color/color_008EFF"
-         android:textSize="@dimen/dimen_13sp"
-         android:layout_marginRight="@dimen/dimen_15dp"
-         android:layout_marginTop="@dimen/dimen_15dp"
-         android:layout_gravity="right"
-         android:text="查看专题 >>"/>
+    <TextView
+        android:id="@+id/tv_seezhuanti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:text="查看专题 >>"
+        android:textColor="@color/color_008EFF"
+        android:textSize="@dimen/dimen_13sp" />
 
     <LinearLayout
         android:id="@+id/imgs_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_15dp"
-        android:layout_marginRight="@dimen/dimen_15dp"
         android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
         android:orientation="vertical" />
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dimen_40dp"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_40dp">
 
-        <ImageView
-            android:id="@+id/iv_support"
-            android:layout_width="@dimen/dimen_60dp"
-            android:layout_height="@dimen/dimen_60dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@mipmap/icon_support_normal" />
-
-        <TextView
-            android:id="@+id/tv_support"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="@dimen/dimen_14sp"
-            android:layout_marginTop="@dimen/dimen_5dp"
-            android:textColor="@color/color_B1B1B3"
-            tools:text="3人点赞" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_support"
+                android:layout_width="@dimen/dimen_60dp"
+                android:layout_height="@dimen/dimen_60dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/icon_support_normal" />
+
+            <TextView
+                android:id="@+id/tv_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textColor="@color/color_B1B1B3"
+                android:textSize="@dimen/dimen_14sp"
+                tools:text="3人点赞" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_areward"
+                android:layout_width="@dimen/dimen_60dp"
+                android:layout_height="@dimen/dimen_60dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/icon_support_normal" />
+
+            <TextView
+                android:id="@+id/tv_areward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textColor="@color/color_B1B1B3"
+                tools:text="3人打赏" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -146,8 +177,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10dp"
-        android:background="@color/color_F8F8F9"
-        android:layout_marginTop="@dimen/dimen_20dp"/>
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:background="@color/color_F8F8F9" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -159,19 +190,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dimen_14sp"
-                android:textColor="@color/selector_tab_comment_color"
                 android:paddingBottom="@dimen/dimen_10dp"
-                android:textStyle="bold"
                 android:paddingTop="@dimen/dimen_18dp"
-                android:text="全部评论 " />
+                android:text="全部评论 "
+                android:textColor="@color/selector_tab_comment_color"
+                android:textSize="@dimen/dimen_14sp"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/v_comment_line"
@@ -180,36 +211,36 @@
                 android:background="@drawable/btn_user_recharge_bg" />
         </LinearLayout>
 
-          <View
-              android:layout_width="@dimen/dimen_line"
-              android:layout_height="@dimen/dimen_16dp"
-              android:background="@color/color_EDEDED"
-              android:layout_gravity="center_vertical"/>
+        <View
+            android:layout_width="@dimen/dimen_line"
+            android:layout_height="@dimen/dimen_16dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/color_EDEDED" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_see_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dimen_14sp"
                 android:paddingBottom="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_18dp"
-                android:textStyle="bold"
+                android:text="只看楼主 "
                 android:textColor="@color/selector_tab_comment_color"
-                android:text="只看楼主 " />
+                android:textSize="@dimen/dimen_14sp"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/v_see_owner_line"
                 android:layout_width="@dimen/dimen_30dp"
                 android:layout_height="@dimen/dimen_3dp"
-                android:background="@drawable/btn_user_recharge_bg"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_user_recharge_bg" />
         </LinearLayout>
 
     </LinearLayout>
@@ -217,5 +248,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
-        android:background="@color/color_EDEDED"/>
+        android:background="@color/color_EDEDED" />
 </LinearLayout>

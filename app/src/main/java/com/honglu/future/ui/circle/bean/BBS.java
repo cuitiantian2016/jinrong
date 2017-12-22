@@ -62,7 +62,8 @@ public class BBS implements Serializable {
     @SerializedName("isHot")
     public String is_essence; //是否是精华 0 不是 1 是
     public String date;
-    public String integralUserNum;  //帖子打赏人数
+    public int exceptionalCount;  //帖子打赏人数
+    public boolean exceptional; //false：没有打赏 true:已打赏
     public List<Reply> replyList;  //回复列表
     //话题相关
     @SerializedName("postUserId")

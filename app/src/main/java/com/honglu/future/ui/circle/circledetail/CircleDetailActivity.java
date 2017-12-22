@@ -20,6 +20,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.areward.ArewardDialog;
+import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
@@ -85,6 +87,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private ImageView mImgSupport;
     private TextView mTextSupport;
     private LinearLayout mSupportLinear;
+    private ImageView mImgAreward;
+    private TextView mTextAreward;
     private TextView mComment;
     private View mCommentLine;
     private TextView mSeeOwner;
@@ -96,6 +100,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private CircleDetailBean mCircleDetailBean;
     private CircleDetailAdapter mAdapter;
     private CircleDetailHelper mHelper;
+    private ArewardDialog mArewardDialog;
     private String mCommentType = COMMENT_ALL;
 
     @Autowired(name = "postUserId")
@@ -118,6 +123,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private boolean mIsBBSFlown = false; //标记当前页
     private boolean mIsCommentAll = false; //false 标记下次tab切换时要请求接口
     private boolean mIsCommentAuth = false; //false 标记下次tab切换时要请求接口
+
 
 
     @Override
@@ -203,6 +209,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mImgSupport.setEnabled(false);
         mTextSupport = (TextView) headView.findViewById(R.id.tv_support);
         mSupportLinear = (LinearLayout) headView.findViewById(R.id.support_linear);
+        mImgAreward = (ImageView) headView.findViewById(R.id.iv_areward);
+        mTextAreward = (TextView) headView.findViewById(R.id.tv_areward);
         mComment = (TextView) headView.findViewById(R.id.tv_comment);
         mCommentLine = headView.findViewById(R.id.v_comment_line);
         mSeeOwner = (TextView) headView.findViewById(R.id.tv_see_owner);
@@ -225,6 +233,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mSeeOwner.setOnClickListener(this);
         mSend.setOnClickListener(this);
         mSupportLinear.setOnClickListener(this);
+        mImgAreward.setOnClickListener(this);
 
         mRefreshView.setEnableLoadmore(false);
         setListener();
@@ -340,6 +349,15 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mCommentBean = null;
                 mInput.setHint(getString(R.string.circle_input_hint));
                 break;
+            case R.id.iv_areward://打赏
+                if (mArewardDialog == null){
+                    mArewardDialog = new ArewardDialog(CircleDetailActivity.this);
+                }
+                if (mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null){
+                    // mArewardDialog.arewardUser(ArewardDialog.AREWARD_USER_TYPE,mPostUserId);
+                    mArewardDialog.arewardCircle(ArewardDialog.AREWARD_CIRCLE_TYPE,mPostUserId,mCircleId,mCircleDetailBean.circleIndexBo.nickName);
+                }
+                break;
             case R.id.tv_comment: //全部评论
                 if (COMMENT_ALL.equals(mCommentType)) {
                     return;
@@ -433,6 +451,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         mHelper.setText(mTextSupport,String.format(getString(R.string.support_num),bean.circleIndexBo.praiseCount));
         //点赞头像
         mHelper.updateUserHead(mSupportLinear,bean.circleIndexBo.isPraise,mCircleId,bean.praiseList);
+
+        mHelper.setText(mTextAreward,bean.circleIndexBo.exceptionalCount+"人打赏");
     }
 
     //全部
@@ -684,7 +704,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             mIsBBSFlown = false; // true 表示当前关注
             return;
         }
-        if (mCircleDetailBean != null && event.uid.equals(mCircleDetailBean.circleIndexBo.postUserId)) {
+        if (mCircleDetailBean != null && mCircleDetailBean.circleIndexBo !=null && event.uid.equals(mCircleDetailBean.circleIndexBo.postUserId)) {
             mCircleDetailBean.circleIndexBo.isFocus = event.follow;
             //是否关注
             if (mCircleDetailBean.circleIndexBo.isFocus()) {
@@ -693,5 +713,16 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mFollow.setSelected(false);
             }
         }
+    }
+
+    /**
+     * 监听打赏
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSArewardEvent event) {
+       if (mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null && TextUtils.equals(mCircleId,event.circleId)){
+
+       }
     }
 }

@@ -54,7 +54,7 @@ public class ThumbsListFragment extends BaseFragment {
     private int rows = 0;
 
     boolean mIsRefresh;
-    private void getFriendList(final boolean isRefresh) {
+    public void getFriendList(final boolean isRefresh) {
         if (isRequesting)return;
         isRequesting = true;
         mIsRefresh = isRefresh;
@@ -170,7 +170,7 @@ public class ThumbsListFragment extends BaseFragment {
         mAdapter=new GetFriendsAdapter();
         listView.setAdapter(mAdapter);
         mFollowIv.setOnClickListener(mOnClickThrottleListener);
-        getFriendList(true);
+        //getFriendList(true);
     }
 
     public void setFollowStyle(String tideId){

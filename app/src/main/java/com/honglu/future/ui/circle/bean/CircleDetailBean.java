@@ -27,6 +27,8 @@ public class CircleDetailBean {
         public String replyContent;
         public String replyNickName;
         public String userRole; //管理员
+        public int exceptionalCount; //打赏人数
+        public boolean exceptional; //true:已打赏 false:没有打赏
 
         public boolean isFocus(){
             return "1".equals(isFocus) ? true : false;

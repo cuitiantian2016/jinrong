@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_success_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/img_head"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:text="打赏成功"/>
+
+     <TextView
+         android:id="@+id/tv_success_hint"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="@dimen/dimen_10dp"
+         android:layout_gravity="center_horizontal"
+         android:text="小牛5906已收到您打赏的1牛币了"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+       <TextView
+           android:id="@+id/tv_success_again"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="在赏一笔"/>
+
+        <TextView
+            android:id="@+id/tv_success_know"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我知道了"/>
+    </LinearLayout>
+</LinearLayout>

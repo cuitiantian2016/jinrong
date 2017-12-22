@@ -11,6 +11,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
@@ -141,6 +142,27 @@ public class BBSClassifyFragment extends BaseFragment {
                 mAdapter.notifyDataSetChanged();
             }
 
+        }
+    }
+
+    /**
+     * 打赏
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSArewardEvent event) {
+        if (mAdapter !=null) {
+            List<BBS> list = mAdapter.getList();
+            if (list != null && list.size() > 0) {
+                for (BBS bbs : list){
+                    if (TextUtils.equals(bbs.topic_id,event.circleId)){
+                        bbs.exceptional = true;
+                        bbs.exceptionalCount = bbs.exceptionalCount + 1;
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
         }
     }
 

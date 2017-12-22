@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/dimen_10dp"
-        android:layout_marginRight="@dimen/dimen_10dp">
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp">
 
         <com.honglu.future.widget.CircleImageView
             android:id="@+id/user_img"

@@ -18,6 +18,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.MessageController;
 import com.honglu.future.http.HttpManager;
@@ -25,6 +26,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
+import com.honglu.future.ui.circle.bean.PostAndReplyBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.ui.circle.circlemine.adapter.BBSMineAdapter;
 import com.honglu.future.ui.circle.publish.PublishActivity;
@@ -41,6 +43,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -181,48 +185,6 @@ public class MineFragment extends CommonFragment {
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
-//        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                if (firstVisibleItem == 0) {
-//                    View view = listView.getChildAt(0);
-//                    if (view != null) {
-//                        int top = -view.getTop();
-//                        int headerHeight = view.getHeight();
-//                        if (top <= headerHeight && top >= 0) {
-//                            float f = (float) top / (float) headerHeight;
-//                            if (mOnTopicAlaph != null) {
-//                                mOnTopicAlaph.onAlaphValue(f);
-//                            }
-//                        }
-//                    }
-//                } else if (firstVisibleItem > 0) {
-//                    if (mOnTopicAlaph != null) {
-//                        mOnTopicAlaph.onAlaphValue(1);
-//                    }
-//
-//                } else {
-//                    if (mOnTopicAlaph != null) {
-//                        mOnTopicAlaph.onAlaphValue(0);
-//                    }
-//                }
-//                boolean result = false;
-////                if (mListView.getFirstVisiblePosition() == 0) {
-////                    final View topChildView = mListView.getChildAt(0);
-////                    result = topChildView.getTop() == 0;
-////                }
-////                if (result) {
-////                    mSmartRefresh.setEnableRefresh(true);
-////                } else {
-////                    mSmartRefresh.setEnableRefresh(false);
-////                }
-//            }
-//        });
 
         mAdapter.setAttentionCallBack(new BBSMineAdapter.AttentionCallBack() {
             @Override
@@ -478,5 +440,28 @@ public class MineFragment extends CommonFragment {
 
     public void setOnTopicAlaph(OnTopicAlaph onTopicAlaph) {
         this.mOnTopicAlaph = onTopicAlaph;
+    }
+
+
+
+    /**
+     * 监听打赏
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSArewardEvent event) {
+        if (mAdapter !=null){
+            List<PostAndReplyBean> list = mAdapter.getList();
+            if (list !=null && list.size() > 0){
+                for (PostAndReplyBean bean : list){
+                    if (TextUtils.equals(bean.getCircleId(),event.circleId)){
+                        bean.setExceptional(true);
+                        bean.setExceptionalCount(bean.getExceptionalCount()+1);
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

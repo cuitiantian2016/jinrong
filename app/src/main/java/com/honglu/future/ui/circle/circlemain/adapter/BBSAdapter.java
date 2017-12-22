@@ -231,7 +231,10 @@ public class BBSAdapter extends BaseAdapter {
             }
             ImageUtil.display(item.header_img, header_img, R.mipmap.img_head);
             ViewHelper.safelySetText(user_name, item.user_name);
-            ViewHelper.safelySetText(txt_reward_number, item.integralUserNum);
+            ViewHelper.safelySetText(txt_reward_number, String.valueOf(item.exceptionalCount));
+            ic_reward_state.setImageResource(item.exceptional ? R.mipmap.ic_bbs_reward_undone : R.mipmap.ic_bbs_reward_undone);
+
+
 
             status.setVisibility(TextUtils.isEmpty(item.user_level) ? View.GONE : View.VISIBLE);
             status.setText(item.user_level);

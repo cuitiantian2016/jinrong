@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.UpdateBean;
+import com.honglu.future.ui.circle.bean.ArewardListBean;
 import com.honglu.future.ui.circle.bean.AttentionBean;
 import com.honglu.future.ui.circle.bean.BBS;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
@@ -836,4 +837,47 @@ public interface HttpApi {
     );
 
 
+
+
+    /**
+     * 打赏列表
+     * @param userId  当前用户id
+     * @param postId  帖子id
+     * @param rows   行数
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/scoreDetails/getScoreDetails.do")
+    Observable<BaseResponse<List<ArewardListBean>>> getArewardList(
+            @Field("userId") String userId,
+            @Field("postId") String postId,
+            @Field("rows") int rows);
+
+
+    /**
+     * 获取打赏积分
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/scoreDetails/getUserScore.do")
+    Observable<BaseResponse<Integer>> getArewardScore(
+            @Field("userId") String userId);
+
+
+    /**
+     * 打赏
+     * @param userId  当前登陆用户id
+     * @param postId 帖子id
+     * @param beUserId 被打赏用户id
+     * @param score 牛币
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/scoreDetails/getReward.do")
+    Observable<BaseResponse<JsonNull>> getReward(
+            @Field("userId") String userId,
+            @Field("postId") String postId,
+            @Field("beUserId") String beUserId,
+            @Field("score") int score);
 }
