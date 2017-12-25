@@ -1,1 +1,1 @@
-include ':app', ':SpinkitLoadingLib', ':smart-refresh', ':mpush', ':updateLib', ':sobotsdk'
+include ':app', ':SpinkitLoadingLib', ':smart-refresh', ':mpush', ':updateLib', ':sobotsdk', ':libresource'

@@ -450,6 +450,12 @@
 -keep class com.google.zxing.client.** {*;}
 -dontwarn com.google.zxing.client.**
 
+-keep public class android.net.http.SslError
+
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
+
 
 
 

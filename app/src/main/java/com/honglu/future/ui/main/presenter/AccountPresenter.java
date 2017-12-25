@@ -109,6 +109,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
 
             @Override
             protected void _onNext(SettlementInfoBean bean) {
+                mListener.onFail();
                 if (bean == null) {
                     SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, token);
                     ToastUtil.show("登录成功");
@@ -120,6 +121,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
 
             @Override
             protected void _onError(String message) {
+                mListener.onFail();
                 mView.showErrorMsg(message, null);
             }
 

@@ -225,4 +225,19 @@
     <string name="the_first_few_days">第%s天</string>
     <string name="integral">枚</string>
     <string name="integral_s">%s枚</string>
+
+    <!-- 直播相关 -->
+    <string name="live">直播</string>
+    <string name="video_close">关闭视频</string>
+    <string name="video_open">打开视频</string>
+    <string name="audio_close">关闭音频</string>
+    <string name="audio_open">打开音频</string>
+    <string name="mic_close">停止讲话</string>
+    <string name="video_rate_low">低清</string>
+    <string name="video_rate_nor">标清</string>
+
+    <string name="speed_choice">选择播放速度</string>
+    <string name="idcSwitch">网络切换</string>
+    <string name="reword">打赏</string>
+    <string name="query_self_tip">查询中,请稍候....</string>
 </resources>

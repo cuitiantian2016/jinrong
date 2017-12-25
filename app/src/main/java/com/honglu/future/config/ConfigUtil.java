@@ -28,7 +28,7 @@ public class ConfigUtil {
     //public static String baseUrl = "http://106.15.158.85:800/";
     public static String baseUrl = TextUtils.isEmpty(SpUtil.getString(KEY_URL))?URL_126:SpUtil.getString(KEY_URL);
     public static String baseImageUserUrl =baseUrl.equals(URL_126)?"http://qihuo-product.oss-cn-shanghai.aliyuncs.com/": "http://qihuo-test.oss-cn-shanghai.aliyuncs.com/";
-    public static String baseH5Url =baseUrl.equals(URL_126)?URL_126:URL_85;
+    public static String baseH5Url =URL_126_http;
     /*public String baseUrl = "http://testqb.xnsudai8.com/";*/
 
 
