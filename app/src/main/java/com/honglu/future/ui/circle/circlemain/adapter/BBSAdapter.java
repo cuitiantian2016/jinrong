@@ -69,11 +69,12 @@ public class BBSAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSAdapter(ListView listview, Activity context, ScrollToLastCallBack callback) {
+    public BBSAdapter(ListView listview, Activity context, ScrollToLastCallBack callback,ArewardDialog arewardDialog) {
         mListView = listview;
         mContext = context;
         mScrollToLastCallBack = callback;
         cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        this.mArewardDialog = arewardDialog;
     }
 
     public void setToRefreshListViewListener(ToRefreshListViewListener toRefefreshListViewListener) {
@@ -214,9 +215,6 @@ public class BBSAdapter extends BaseAdapter {
             ll_reward.setOnClickListener(new OnClickThrottleListener() {
                 @Override
                 protected void onThrottleClick(View v) {
-                     if (mArewardDialog == null){
-                         mArewardDialog = new ArewardDialog(mContext);
-                     }
                      if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID),item.uid)){
                          ToastUtil.show("自己不能打赏自己");
                      }else {

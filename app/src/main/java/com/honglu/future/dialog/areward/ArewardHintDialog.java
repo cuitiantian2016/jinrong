@@ -27,6 +27,9 @@ import retrofit2.http.GET;
  */
 
 public class ArewardHintDialog extends Dialog{
+    public static final String AREWARD_HINT = "areward_hint";
+    public static final String AREWARD_SUCCESS = "arewardsuccess";
+
     private Context mContext;
     private ImageView mImage;
     private TextView mTitle;
@@ -34,6 +37,8 @@ public class ArewardHintDialog extends Dialog{
     private TextView mCancel;
     private TextView mAccomplish;
     private View mLine;
+
+    private String mShowType;
 
     public ArewardHintDialog(@NonNull Context context) {
         super(context, R.style.areward_dialog);
@@ -62,7 +67,10 @@ public class ArewardHintDialog extends Dialog{
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               dismiss();
+                dismiss();
+                if (mListener !=null){
+                    mListener.onCancel(mShowType);
+                }
             }
         });
         mAccomplish.setOnClickListener(new View.OnClickListener() {
@@ -70,14 +78,15 @@ public class ArewardHintDialog extends Dialog{
             public void onClick(View v) {
                 dismiss();
                 if (mListener !=null){
-                    mListener.onCcomplish();
+                    mListener.onCcomplish(mShowType);
                 }
             }
         });
     }
 
-    public void showArewardHint(int imgRes,CharSequence title,CharSequence content){
+    public void showArewardHint(String showType,int imgRes,CharSequence title,CharSequence content){
         show();
+        this.mShowType = showType;
         mContent.setTextColor(mContext.getResources().getColor(R.color.color_979899));
         mLine.setVisibility(View.GONE);
         mAccomplish.setVisibility(View.GONE);
@@ -86,8 +95,9 @@ public class ArewardHintDialog extends Dialog{
         mContent.setText(content);
     }
 
-    public void showArewardSuccess(int imgRes,CharSequence title,CharSequence content){
+    public void showArewardSuccess(String showType,int imgRes,CharSequence title,CharSequence content){
         show();
+        this.mShowType = showType;
         mLine.setVisibility(View.VISIBLE);
         mAccomplish.setVisibility(View.VISIBLE);
         mImage.setImageResource(imgRes);
@@ -101,6 +111,7 @@ public class ArewardHintDialog extends Dialog{
     }
     public OnArewardHintClickListener mListener;
     public interface OnArewardHintClickListener{
-        void onCcomplish();
+        void onCcomplish(String showType);
+        void onCancel(String showType);
     }
 }

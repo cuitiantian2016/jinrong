@@ -11,6 +11,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.areward.ArewardDialog;
 import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
@@ -52,6 +53,8 @@ public class BBSClassifyFragment extends BaseFragment {
     private String topicName;
     int rows;
     private boolean isMore;
+
+    private ArewardDialog mArewardDialog;
 
     /**
      * 评论
@@ -295,6 +298,9 @@ public class BBSClassifyFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        if (mArewardDialog !=null){
+            mArewardDialog.onDestroy();
+        }
     }
 
     @Override
@@ -308,7 +314,7 @@ public class BBSClassifyFragment extends BaseFragment {
         topicType = getArguments().getString(EXTRA_CLASSIFY_TYPE);
         topicName = getArguments().getString(EXTRA_CLASSIFY_NAME);
         srl_refreshView = (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
-
+        mArewardDialog = new ArewardDialog(getActivity());
         mListView = (ListView) mView.findViewById(R.id.lv_listView);
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_main_item_head,null);
         mListView.addHeaderView(headView);
@@ -317,7 +323,7 @@ public class BBSClassifyFragment extends BaseFragment {
         empty_iv.setImageResource(R.mipmap.icon_no_home_list);
         TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
         empty_text.setText("还没有最新的消息哦~");
-        mAdapter = new BBSAdapter(mListView, getActivity(), getLoadMoreListener());
+        mAdapter = new BBSAdapter(mListView, getActivity(), getLoadMoreListener(),mArewardDialog);
         mAdapter.setTopicType(topicType);
         mAdapter.setToRefreshListViewListener(new BBSAdapter.ToRefreshListViewListener() {
             @Override

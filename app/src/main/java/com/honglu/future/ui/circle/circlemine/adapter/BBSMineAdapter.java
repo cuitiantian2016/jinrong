@@ -74,7 +74,7 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSMineAdapter(ListView listview, Activity context, String imgHead, String nickName, String userId) {
+    public BBSMineAdapter(ListView listview, Activity context, String imgHead, String nickName, String userId ,ArewardDialog arewardDialog) {
         mListView = listview;
         mContext = context;
         this.imgHead = imgHead;
@@ -82,6 +82,7 @@ public class BBSMineAdapter extends BaseAdapter {
         this.userId = userId;
 
         cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        this.mArewardDialog = arewardDialog;
     }
 
     public void setToRefreshListViewListener(ToRefreshListViewListener toRefefreshListViewListener) {
@@ -225,9 +226,6 @@ public class BBSMineAdapter extends BaseAdapter {
             ll_reward.setOnClickListener(new OnClickThrottleListener() {
                 @Override
                 protected void onThrottleClick(View v) {
-                    if (mArewardDialog == null){
-                        mArewardDialog = new ArewardDialog(mContext);
-                    }
                     if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID),item.getPostUserId())){
                         ToastUtil.show("自己不能打赏自己");
                     }else {

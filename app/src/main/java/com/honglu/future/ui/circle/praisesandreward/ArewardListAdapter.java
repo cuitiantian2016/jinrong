@@ -1,6 +1,7 @@
 package com.honglu.future.ui.circle.praisesandreward;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.circle.bean.ArewardListBean;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
@@ -116,6 +118,17 @@ public class ArewardListAdapter extends BaseAdapter{
                 }
             });
         }
+
+        holder.mCivHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mFragment.getContext(),CircleMineActivity.class);
+                intent.putExtra("userId",bean.userId);
+                intent.putExtra("imgHead",bean.avatarPic);
+                intent.putExtra("nickName",bean.nickName);
+                mFragment.startActivity(intent);
+            }
+        });
         return convertView;
     }
 

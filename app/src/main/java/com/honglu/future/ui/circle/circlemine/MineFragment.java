@@ -84,6 +84,7 @@ public class MineFragment extends CommonFragment {
     private int mFocusNum;
     private int mFansNum;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +110,7 @@ public class MineFragment extends CommonFragment {
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        mArewardDialog = new ArewardDialog(getActivity());
         mUserId = mActivity.getIntent().getExtras().getString("userId", "");
         imgHead = mActivity.getIntent().getExtras().getString("imgHead", "");
         nickName = mActivity.getIntent().getExtras().getString("nickName", "");
@@ -186,7 +188,7 @@ public class MineFragment extends CommonFragment {
             publish.setVisibility(View.GONE);
             tv_empty.setText("TA还没有发表过话题哦");
         }
-        mAdapter = new BBSMineAdapter(mListView, getActivity(), imgHead, nickName, mUserId);
+        mAdapter = new BBSMineAdapter(mListView, getActivity(), imgHead, nickName, mUserId,mArewardDialog);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -210,9 +212,6 @@ public class MineFragment extends CommonFragment {
         mIvAreward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mArewardDialog == null){
-                    mArewardDialog = new ArewardDialog(getActivity());
-                }
                 mArewardDialog.arewardUser(ArewardDialog.AREWARD_USER_TYPE,mUserId,nickName,imgHead);
             }
         });
@@ -434,6 +433,9 @@ public class MineFragment extends CommonFragment {
         mBasePresenter.onDestroy();
         mHeadPresenter.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mArewardDialog !=null){
+            mArewardDialog.onDestroy();
+        }
     }
 
     private void updateAttutudeUser(List<CircleMineBean.ContactUser> attutudeUserList) {

@@ -171,8 +171,11 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        if (mArewardDialog !=null){
+            mArewardDialog.onDestroy();
+        }
         if (Util.isOnMainThread() && !this.isFinishing()) {
             Glide.with(this).pauseRequests();
         }

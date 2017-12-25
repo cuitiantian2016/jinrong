@@ -3,6 +3,7 @@ package com.honglu.future.dialog.areward;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -156,8 +158,14 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         mRlBigLayout.setOnClickListener(this);
         mArewardHintDialog.setOnArewardHintClickListener(new ArewardHintDialog.OnArewardHintClickListener() {
             @Override
-            public void onCcomplish() {
-                mArewardHintDialog.dismiss();
+            public void onCcomplish(String showType) {}
+            @Override
+            public void onCancel(String showType) {
+                if (TextUtils.equals(ArewardHintDialog.AREWARD_HINT,showType)){
+
+                }else {
+                    dismiss();
+                }
             }
         });
     }
@@ -170,6 +178,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         mImgSmall.setVisibility(View.INVISIBLE);
         mImgSd.setVisibility(View.VISIBLE);
         mImgBig.setVisibility(View.INVISIBLE);
+        mQieHuan.setText(R.string.custom_text);
     }
 
     @Override
@@ -203,7 +212,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                int integralNum = mDefaultLayout.getVisibility() == View.VISIBLE ? mIntegralNum : getTextNum(mInput);
                if (integralNum <= 0){ToastUtil.show("打赏牛币必须大于0");return;}
                if (mArewardScore < integralNum){
-                   mArewardHintDialog.showArewardHint(R.mipmap.icon_hint,"牛币不足","投资可以获得相应金额的牛币哦");
+                   mArewardHintDialog.showArewardHint(ArewardHintDialog.AREWARD_HINT,R.mipmap.icon_hint,"牛币不足","投资可以获得相应金额的牛币哦");
                }else {
                    if (AREWARD_USER_TYPE.equals(mArewardType)) { //对用户进行打赏
                        mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum);
@@ -285,7 +294,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         this.mArewardScore = mArewardScore - score;
         mTextIntegral.setText(String.valueOf(mArewardScore));
         Spannable spannableContent = getSpannableContent(mName + "已经收到您打赏的", String.valueOf(score), "牛币");
-        mArewardHintDialog.showArewardSuccess(R.mipmap.success_tixian,"打赏成功",spannableContent);
+        mArewardHintDialog.showArewardSuccess(ArewardHintDialog.AREWARD_SUCCESS,R.mipmap.success_tixian,"打赏成功",spannableContent);
         if (TextUtils.equals(AREWARD_CIRCLE_TYPE,mArewardType)){
             BBSArewardEvent bbsArewardEvent = new BBSArewardEvent();
             bbsArewardEvent.arewardNum = score;
