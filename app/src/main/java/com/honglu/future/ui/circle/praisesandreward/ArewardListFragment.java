@@ -126,7 +126,7 @@ public class ArewardListFragment extends BaseFragment<ArewardAndSupportPresenter
     public void getArewardList(List<ArewardListBean> list) {
         if (list == null){return;}
 
-        if (list.size() > 10){
+        if (list.size() >= 10){
             if (!mRefreshView.isEnableLoadmore()){
                 mRefreshView.setEnableLoadmore(true);
             }
