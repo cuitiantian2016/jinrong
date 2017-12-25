@@ -98,16 +98,34 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_follow"
+        <LinearLayout
+            android:id="@+id/ll_areward_follow"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_24dp"
-            android:layout_below="@id/ll_1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_centerHorizontal="true"
+            android:layout_below="@id/ll_1"
             android:layout_marginTop="@dimen/dimen_18dp"
-            android:src="@mipmap/btn_guanzhu"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_24dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:src="@mipmap/btn_guanzhu" />
+
+            <ImageView
+                android:id="@+id/iv_areward"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_24dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:src="@mipmap/btn_areward" />
+        </LinearLayout>
+
+
+
 
         <LinearLayout
             android:id="@+id/layout_friends"

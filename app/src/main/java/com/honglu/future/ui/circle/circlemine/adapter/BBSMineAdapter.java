@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circlemine.adapter;
 
+import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.areward.ArewardDialog;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
@@ -53,7 +55,7 @@ import java.util.List;
 
 public class BBSMineAdapter extends BaseAdapter {
 
-    private Context mContext;
+    private Activity mContext;
     private ListView mListView;
     private ToRefreshListViewListener mToRefefreshListViewListener;
     private List<PostAndReplyBean> mList = new ArrayList<>();
@@ -63,6 +65,7 @@ public class BBSMineAdapter extends BaseAdapter {
     private String imgHead, nickName, userId;
     private boolean isFocued;
     private String userRole;
+    private ArewardDialog mArewardDialog;
 
 
     public List<PostAndReplyBean> getList() {
@@ -71,7 +74,7 @@ public class BBSMineAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSMineAdapter(ListView listview, Context context, String imgHead, String nickName, String userId) {
+    public BBSMineAdapter(ListView listview, Activity context, String imgHead, String nickName, String userId) {
         mListView = listview;
         mContext = context;
         this.imgHead = imgHead;
@@ -189,6 +192,7 @@ public class BBSMineAdapter extends BaseAdapter {
         TextView btn_lookDetail;
         ImageView ic_reward_state;
         LinearLayout ll_reward;
+        TextView mRewardNum;
 
         public ViewHolder(View convertView) {
             itemLayout = convertView;
@@ -211,13 +215,24 @@ public class BBSMineAdapter extends BaseAdapter {
             btn_lookDetail = (TextView) convertView.findViewById(R.id.btn_lookDetail);
             ic_reward_state = (ImageView) convertView.findViewById(R.id.ic_reward_state);
             ll_reward = (LinearLayout) convertView.findViewById(R.id.ll_reward);
+            mRewardNum = (TextView) convertView.findViewById(R.id.txt_reward_number);
         }
 
         public void bindView(final PostAndReplyBean item, int position) {
+
+            mRewardNum.setText(String.valueOf(item.getExceptionalCount()));
+            ic_reward_state.setImageResource(item.isExceptional() ? R.mipmap.ic_bbs_reward : R.mipmap.ic_bbs_reward_undone);
             ll_reward.setOnClickListener(new OnClickThrottleListener() {
                 @Override
                 protected void onThrottleClick(View v) {
-
+                    if (mArewardDialog == null){
+                        mArewardDialog = new ArewardDialog(mContext);
+                    }
+                    if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID),item.getPostUserId())){
+                        ToastUtil.show("自己不能打赏自己");
+                    }else {
+                        mArewardDialog.arewardCircle(ArewardDialog.AREWARD_CIRCLE_TYPE,item.getPostUserId(),item.getCircleId(),nickName,imgHead);
+                    }
                 }
             });
             itemLayout.setOnClickListener(new View.OnClickListener() {

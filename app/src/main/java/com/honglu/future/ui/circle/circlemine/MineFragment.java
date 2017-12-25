@@ -18,6 +18,7 @@ import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.CommonFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.areward.ArewardDialog;
 import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSFlownEvent;
 import com.honglu.future.events.MessageController;
@@ -71,6 +72,7 @@ public class MineFragment extends CommonFragment {
     private OnTopicAlaph mOnTopicAlaph;
     private BasePresenter<MineFragment> mBasePresenter;
     private BasePresenter<MineFragment> mHeadPresenter;
+    private ArewardDialog mArewardDialog;
     int rows;
     private boolean isMore;
     private boolean mIsRefresh;
@@ -106,6 +108,7 @@ public class MineFragment extends CommonFragment {
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         mUserId = mActivity.getIntent().getExtras().getString("userId", "");
         imgHead = mActivity.getIntent().getExtras().getString("imgHead", "");
         nickName = mActivity.getIntent().getExtras().getString("nickName", "");
@@ -121,6 +124,8 @@ public class MineFragment extends CommonFragment {
         topic_num = (TextView) header_view.findViewById(R.id.topic_num);
         endorse_num = (TextView) header_view.findViewById(R.id.endorse_num);
         attention_num = (TextView) header_view.findViewById(R.id.attention_num);
+        View mArewardFollowView = header_view.findViewById(R.id.ll_areward_follow);
+        ImageView mIvAreward = (ImageView) header_view.findViewById(R.id.iv_areward);
 
 
         mSmartRefresh.setEnableRefresh(true);
@@ -171,17 +176,17 @@ public class MineFragment extends CommonFragment {
         tv_empty = (TextView) empty_view.findViewById(R.id.tv_empty);
         if (mIsMyself) {
             layout_friends.setVisibility(View.VISIBLE);
-            iv_follow.setVisibility(View.GONE);
+            mArewardFollowView.setVisibility(View.GONE);
             publish.setVisibility(View.VISIBLE);
             tv_empty.setText("你还没有发表过话题哦");
             imgHead = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
         } else {
             layout_friends.setVisibility(View.GONE);
-            iv_follow.setVisibility(View.VISIBLE);
+            mArewardFollowView.setVisibility(View.VISIBLE);
             publish.setVisibility(View.GONE);
             tv_empty.setText("TA还没有发表过话题哦");
         }
-        mAdapter = new BBSMineAdapter(mListView, mContext, imgHead, nickName, mUserId);
+        mAdapter = new BBSMineAdapter(mListView, getActivity(), imgHead, nickName, mUserId);
         mListView.addHeaderView(header_view);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(listener);
@@ -199,6 +204,16 @@ public class MineFragment extends CommonFragment {
                 if (MessageController.getInstance().getDetailFriendChange() != null) {
                     MessageController.getInstance().getDetailFriendChange().change(uid, isFollow);
                 }
+            }
+        });
+
+        mIvAreward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mArewardDialog == null){
+                    mArewardDialog = new ArewardDialog(getActivity());
+                }
+                mArewardDialog.arewardUser(ArewardDialog.AREWARD_USER_TYPE,mUserId,nickName,imgHead);
             }
         });
 
@@ -418,6 +433,7 @@ public class MineFragment extends CommonFragment {
         super.onDestroyView();
         mBasePresenter.onDestroy();
         mHeadPresenter.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void updateAttutudeUser(List<CircleMineBean.ContactUser> attutudeUserList) {

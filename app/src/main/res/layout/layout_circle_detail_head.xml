@@ -121,6 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dimen_20dp"
             android:orientation="vertical">
 
             <ImageView
@@ -145,6 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dimen_20dp"
             android:orientation="vertical">
 
             <ImageView
@@ -152,7 +154,7 @@
                 android:layout_width="@dimen/dimen_60dp"
                 android:layout_height="@dimen/dimen_60dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@mipmap/icon_support_normal" />
+                android:src="@mipmap/icon_areward" />
 
             <TextView
                 android:id="@+id/tv_areward"

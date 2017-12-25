@@ -191,6 +191,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         if (getIntent().hasExtra(CIRCLEREPLYID_KEY)) { //目前协议跳转时需要这个值 其他时候传空
             circleReplyId = getIntent().getStringExtra(CIRCLEREPLYID_KEY);
         }
+        mArewardDialog = new ArewardDialog(CircleDetailActivity.this);
         mHelper = new CircleDetailHelper(CircleDetailActivity.this);
         mTitle.setTitle(false, R.color.color_white, "详情");
         mTitle.setRightTitle(R.mipmap.ic_share, this);
@@ -350,12 +351,12 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mInput.setHint(getString(R.string.circle_input_hint));
                 break;
             case R.id.iv_areward://打赏
-                if (mArewardDialog == null){
-                    mArewardDialog = new ArewardDialog(CircleDetailActivity.this);
-                }
                 if (mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null){
-                    // mArewardDialog.arewardUser(ArewardDialog.AREWARD_USER_TYPE,mPostUserId);
-                    mArewardDialog.arewardCircle(ArewardDialog.AREWARD_CIRCLE_TYPE,mPostUserId,mCircleId,mCircleDetailBean.circleIndexBo.nickName);
+                    if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID),mPostUserId)){
+                        ToastUtil.show("自己不能打赏自己");
+                    }else {
+                        mArewardDialog.arewardCircle(ArewardDialog.AREWARD_CIRCLE_TYPE,mPostUserId,mCircleId,mCircleDetailBean.circleIndexBo.nickName,mCircleDetailBean.circleIndexBo.avatarPic);
+                    }
                 }
                 break;
             case R.id.tv_comment: //全部评论
@@ -452,7 +453,8 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         //点赞头像
         mHelper.updateUserHead(mSupportLinear,bean.circleIndexBo.isPraise,mCircleId,bean.praiseList);
 
-        mHelper.setText(mTextAreward,bean.circleIndexBo.exceptionalCount+"人打赏");
+        mImgAreward.setImageResource(bean.circleIndexBo.exceptional? R.mipmap.icon_areward_suc :  R.mipmap.icon_areward);
+        mHelper.setText(mTextAreward,bean.circleIndexBo.exceptionalCount+"次打赏");
     }
 
     //全部
@@ -722,7 +724,10 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSArewardEvent event) {
        if (mCircleDetailBean !=null && mCircleDetailBean.circleIndexBo !=null && TextUtils.equals(mCircleId,event.circleId)){
-
+           mCircleDetailBean.circleIndexBo.exceptional = true;
+           mCircleDetailBean.circleIndexBo.exceptionalCount = mCircleDetailBean.circleIndexBo.exceptionalCount + 1;
+           mImgAreward.setImageResource(R.mipmap.icon_areward_suc);
+           mHelper.setText(mTextAreward,mCircleDetailBean.circleIndexBo.exceptionalCount+"次打赏");
        }
     }
 }

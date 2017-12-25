@@ -94,9 +94,11 @@ public class ArewardListAdapter extends BaseAdapter{
 
         ImageUtil.display(bean.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
-        holder.mName.setText(getSpannableContent(bean.nickName,bean.score,"牛币"));
+        holder.mName.setText(bean.nickName);
 
         holder.mTime.setText(TimeUtil.formatData(TimeUtil.dateFormatYMDHM,bean.createTime/1000));
+
+        holder.mArewardNum.setText(bean.score);
 
         if (TextUtils.equals(mUserId,bean.userId)){
             holder.mAttention.setVisibility(View.INVISIBLE);
@@ -120,6 +122,7 @@ public class ArewardListAdapter extends BaseAdapter{
     public class ViewHolder{
         CircleImageView mCivHead;
         TextView mName;
+        TextView mArewardNum;
         TextView mTime;
         ImageView mAttention;
         View mLine;
@@ -127,6 +130,7 @@ public class ArewardListAdapter extends BaseAdapter{
         public ViewHolder(View v){
             mCivHead = (CircleImageView) v.findViewById(R.id.civ_head);
             mName = (TextView) v.findViewById(R.id.tv_name);
+            mArewardNum = (TextView) v.findViewById(R.id.tv_areward_num);
             mTime = (TextView) v.findViewById(R.id.tv_time);
             mAttention = (ImageView) v.findViewById(R.id.iv_attention);
             mLine = v.findViewById(R.id.v_line);

@@ -10,7 +10,7 @@ import com.honglu.future.base.BaseView;
 public interface ArewardContract {
     interface View extends BaseView {
         void getArewardScore(Integer arewardScore);
-        void getReward(JsonNull jsonNull);
+        void getReward(int score);
     }
 
     interface Presenter {

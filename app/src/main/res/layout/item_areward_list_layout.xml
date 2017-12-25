@@ -28,17 +28,49 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:maxWidth="@dimen/dimen_120dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dimen_16sp"
-                tools:text="我是名字" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="@dimen/dimen_120dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_16sp"
+                    tools:text="我是名字" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:text="赏" />
+
+                <TextView
+                    android:id="@+id/tv_areward_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/color_ff9300"
+                    android:textSize="@dimen/dimen_16sp"
+                    tools:text="666" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:text="牛币" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_time"

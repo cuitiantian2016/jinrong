@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circlemain.adapter;
 
+import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.areward.ArewardDialog;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
@@ -51,7 +53,7 @@ import java.util.List;
 
 public class BBSAdapter extends BaseAdapter {
 
-    private Context mContext;
+    private Activity mContext;
     private ListView mListView;
     private ScrollToLastCallBack mScrollToLastCallBack = null;
     private ToRefreshListViewListener mToRefefreshListViewListener;
@@ -59,6 +61,7 @@ public class BBSAdapter extends BaseAdapter {
     private String topicType;
     private AttentionCallBack mAttentionCallBack;
     private PraiseCallBack mPraiseCallBack;
+    private ArewardDialog mArewardDialog;
 
     public List<BBS> getList() {
         return mList;
@@ -66,7 +69,7 @@ public class BBSAdapter extends BaseAdapter {
 
     private ClipboardManager cmb;
 
-    public BBSAdapter(ListView listview, Context context, ScrollToLastCallBack callback) {
+    public BBSAdapter(ListView listview, Activity context, ScrollToLastCallBack callback) {
         mListView = listview;
         mContext = context;
         mScrollToLastCallBack = callback;
@@ -206,9 +209,19 @@ public class BBSAdapter extends BaseAdapter {
         }
 
         public void bindView(final BBS item, int position) {
+            //打赏
+            ic_reward_state.setImageResource( (item.exceptional ? R.mipmap.ic_bbs_reward : R.mipmap.ic_bbs_reward_undone));
             ll_reward.setOnClickListener(new OnClickThrottleListener() {
                 @Override
                 protected void onThrottleClick(View v) {
+                     if (mArewardDialog == null){
+                         mArewardDialog = new ArewardDialog(mContext);
+                     }
+                     if (TextUtils.equals(SpUtil.getString(Constant.CACHE_TAG_UID),item.uid)){
+                         ToastUtil.show("自己不能打赏自己");
+                     }else {
+                         mArewardDialog.arewardCircle(ArewardDialog.AREWARD_CIRCLE_TYPE,item.uid,item.topic_id,item.user_name,item.header_img);
+                     }
 
                 }
             });
@@ -232,7 +245,6 @@ public class BBSAdapter extends BaseAdapter {
             ImageUtil.display(item.header_img, header_img, R.mipmap.img_head);
             ViewHelper.safelySetText(user_name, item.user_name);
             ViewHelper.safelySetText(txt_reward_number, String.valueOf(item.exceptionalCount));
-            ic_reward_state.setImageResource(item.exceptional ? R.mipmap.ic_bbs_reward_undone : R.mipmap.ic_bbs_reward_undone);
 
 
 

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_default_layout"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_17dp">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_small_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_2dp_e6e6e6"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_5dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:layout_marginBottom="@dimen/dimen_15dp">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_70dp"
+                android:layout_height="@dimen/dimen_70dp"
+                android:src="@mipmap/icon_nb_small"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_11dp"
+                android:text="出生牛犊"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF8843"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:text="6牛币"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_selector_gray"
+            android:layout_marginLeft="@dimen/dimen_70dp"
+            android:layout_marginTop="@dimen/dimen_5dp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_sd_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_2dp_e6e6e6"
+        android:layout_marginRight="@dimen/dimen_10dp"
+        android:layout_marginLeft="@dimen/dimen_10dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:layout_marginBottom="@dimen/dimen_15dp">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_70dp"
+                android:layout_height="@dimen/dimen_70dp"
+                android:src="@mipmap/icon_nb_sd"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_11dp"
+                android:text="非常牛叉"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF8843"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:text="66牛币"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_sd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_selector_gray"
+            android:layout_marginLeft="@dimen/dimen_70dp"
+            android:layout_marginTop="@dimen/dimen_5dp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_big_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_2dp_e6e6e6"
+        android:layout_marginLeft="@dimen/dimen_5dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:layout_marginBottom="@dimen/dimen_15dp">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_70dp"
+                android:layout_height="@dimen/dimen_70dp"
+                android:src="@mipmap/icon_nb_big"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_11dp"
+                android:text="顶级牛耗"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF8843"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:text="666牛币"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_selector_gray"
+            android:layout_marginLeft="@dimen/dimen_70dp"
+            android:layout_marginTop="@dimen/dimen_5dp"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -42,7 +42,7 @@ public class ArewardPresenter extends BasePresenter<ArewardContract.View> implem
      * @param score
      */
     @Override
-    public void getReward(String userId, String postId, String beUserId, int score) {
+    public void getReward(String userId, String postId, String beUserId,final int score) {
         toSubscribe(HttpManager.getApi().getReward(userId,postId,beUserId,score), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
@@ -58,7 +58,7 @@ public class ArewardPresenter extends BasePresenter<ArewardContract.View> implem
             @Override
             public void onNext(JsonNull jsonNull) {
                 mView.stopLoading();
-                mView.getReward(jsonNull);
+                mView.getReward(score);
             }
         });
     }

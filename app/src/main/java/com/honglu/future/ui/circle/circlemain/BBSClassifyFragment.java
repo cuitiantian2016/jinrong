@@ -317,7 +317,7 @@ public class BBSClassifyFragment extends BaseFragment {
         empty_iv.setImageResource(R.mipmap.icon_no_home_list);
         TextView empty_text = (TextView) empty_view.findViewById(R.id.empty_tv);
         empty_text.setText("还没有最新的消息哦~");
-        mAdapter = new BBSAdapter(mListView, getContext(), getLoadMoreListener());
+        mAdapter = new BBSAdapter(mListView, getActivity(), getLoadMoreListener());
         mAdapter.setTopicType(topicType);
         mAdapter.setToRefreshListViewListener(new BBSAdapter.ToRefreshListViewListener() {
             @Override
