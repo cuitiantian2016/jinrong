@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -27,6 +28,7 @@ import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.circle.circlemsg.CircleMsgActivity;
 import com.honglu.future.ui.main.activity.MainActivity;
+import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -36,6 +38,7 @@ import com.honglu.future.widget.CircleSignView;
 import com.honglu.future.widget.ExpandableLayout;
 import com.honglu.future.widget.SlidingTabImageLayout;
 import com.honglu.future.widget.kchart.ViewPagerEx;
+import com.honglu.future.widget.popupwind.SignPopWind;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,11 +67,18 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     LinearLayout mFlSign;
     @BindView(R.id.tv_click)
     TextView tv_click;
+    @BindView(R.id.tv_sign)
+   View tv_sign;
+    @BindView(R.id.rl_title)
+   View rl_title;
+    @BindView(R.id.bg_image)
+   View bg_image;
     //是否查询签到 0 没请求/请求失败 1 请求中  2 请求成功
     private int isQuerySignState = 0;
     List<TopicFilter> topicFilters = null;
     private SlidingTabImageLayout mTabsIndicatorLy;
     private boolean isClickSign;
+    private SignPopWind signPopWind;
 
     public static CircleMainFragment getInstance() {
         if (circleMainFragment == null) {
@@ -107,6 +117,22 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 }, 400);
             }
         });
+        signPopWind = new SignPopWind(getActivity());
+        signPopWind.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                bg_image.setVisibility(View.GONE);
+            }
+        });
+        tv_sign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!signPopWind.isShowing()){
+                    bg_image.setVisibility(View.VISIBLE);
+                    signPopWind.showPopupWind(rl_title);
+                }
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -125,6 +151,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 }
             }else if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 setAvatar();
+                signPopWind.getSigleData();
             }else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();
             }
@@ -139,7 +166,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden){
-            getSigleData();
+            //getSigleData();
             if (topicFilters == null){
                 getTopicList();
             }else {
@@ -264,7 +291,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         ViewHelper.setVisibility(mMessageHintLy
                 , !TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID)));
         if (!isHidden()){
-            getSigleData();
+            //getSigleData();
         }
     }
 
@@ -377,4 +404,5 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
             }
         }, 400);
     }
+
 }

@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
             android:layout_height="48dp">
 
@@ -64,8 +65,26 @@
                          android:layout_marginLeft="@dimen/dimen_13dp"
                          android:layout_marginTop="@dimen/dimen_5dp"/>
                 </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_sign"
+                    android:layout_toLeftOf="@+id/ly_message_hint"
+                    android:drawableLeft="@drawable/sign"
+                    android:text="签到"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/dimen_11sp"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/dimen_5dp"
+                    android:paddingBottom="@dimen/dimen_5dp"
+                    android:background="@drawable/bg_btn_sign"
+                    android:drawablePadding="@dimen/dimen_3dp"
+                    android:paddingLeft="@dimen/dimen_10dp"
+                    android:paddingRight="@dimen/dimen_10dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
+
 
         </RelativeLayout>
         <com.honglu.future.widget.ExpandableLayout
@@ -90,6 +109,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="点击收起" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <com.honglu.future.widget.SlidingTabImageLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
@@ -109,7 +131,13 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
+            <View
+                android:visibility="gone"
+                android:id="@+id/bg_image"
+                android:background="#80000000"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <android.support.v7.widget.CardView

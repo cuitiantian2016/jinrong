@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+>
+    <View
+        android:layout_gravity="end"
+        android:layout_width="17dp"
+        android:layout_height="7dp"
+        android:layout_marginRight="@dimen/dimen_52dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:background="@mipmap/jianjiao"/>
+    <LinearLayout
+        android:id="@+id/ll_rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingTop="@dimen/dimen_20dp"
+        android:background="@drawable/bg_shape_sign"
+        android:paddingBottom="@dimen/dimen_20dp">
+        <GridView
+            android:id="@+id/sign_grad"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

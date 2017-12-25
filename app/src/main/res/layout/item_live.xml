@@ -7,8 +7,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:paddingTop="@dimen/dimen_2dp"
-        android:paddingBottom="@dimen/dimen_2dp"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:gravity="center_vertical"
