@@ -19,7 +19,7 @@
             android:id="@+id/iv_avatar"
             android:layout_width="@dimen/dimen_25dp"
             android:layout_height="@dimen/dimen_25dp"
-            tools:src="@mipmap/user_avatar" />
+            tools:src="@mipmap/img_head" />
 
         <TextView
             android:id="@+id/tv_name"

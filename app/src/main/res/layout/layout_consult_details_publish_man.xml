@@ -13,7 +13,7 @@
         android:id="@+id/user_icon"
         android:layout_width="@dimen/dimen_35dp"
         android:layout_height="@dimen/dimen_35dp"
-        android:src="@mipmap/ic_details_man"/>
+        android:src="@mipmap/img_head"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/dimen_10dp"
