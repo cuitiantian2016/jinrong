@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,10 @@ public class ChatFragment extends Fragment {
 
 		mView = inflater.inflate(R.layout.imchat, null);
 		mGSImplChatView = (GSImplChatView) mView.findViewById(R.id.impchatview);
+		Log.i("testVideo","22222222222222");
 	//	mGSImplChatView.setChatTarget(mUserInfo);
 		mPlayer.setGSChatView(mGSImplChatView);
+		Log.i("testVideo","333333333333333");
 		return mView;
 	}
 
@@ -63,5 +66,6 @@ public class ChatFragment extends Fragment {
 			mPlayer.setGSChatView(mGSImplChatView);
 		}
 	}
+
 
 }

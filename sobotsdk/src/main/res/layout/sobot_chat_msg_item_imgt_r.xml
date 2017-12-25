@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginLeft="@dimen/sobot_DIMEN_13PX"
-                android:background="@drawable/sobot_chatto_bg_normal"
+                android:background="@drawable/chatto_bg_normal"
                 android:orientation="vertical">
 
                 <RelativeLayout

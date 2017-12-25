@@ -1901,8 +1901,8 @@ public class SobotChatActivity extends SobotBaseActivity implements
 	private void editModelToVoice(int typeModel, String str) {
 		btn_model_edit.setVisibility(View.GONE == typeModel ? View.GONE
 				: View.VISIBLE); // 键盘编辑隐藏
-		btn_model_voice.setVisibility(View.VISIBLE != typeModel ? View.VISIBLE
-				: View.GONE);// 语音模式开启
+//		btn_model_voice.setVisibility(View.VISIBLE != typeModel ? View.VISIBLE
+//				: View.GONE);// 语音模式开启
 		btn_press_to_speak.setVisibility(View.GONE != typeModel ? View.VISIBLE
 				: View.GONE);
 		edittext_layout.setVisibility(View.VISIBLE == typeModel ? View.GONE
@@ -3232,10 +3232,10 @@ public class SobotChatActivity extends SobotBaseActivity implements
 	}
 
 	public void showVoiceBtn() {
-		if (current_client_model == ZhiChiConstant.client_model_robot && type != 2) {
-			btn_model_voice.setVisibility(info.isUseVoice() && info.isUseRobotVoice()?View.VISIBLE : View.GONE);
-		} else {
-			btn_model_voice.setVisibility(info.isUseVoice()?View.VISIBLE : View.GONE);
-		}
+//		if (current_client_model == ZhiChiConstant.client_model_robot && type != 2) {
+//			btn_model_voice.setVisibility(info.isUseVoice() && info.isUseRobotVoice()?View.VISIBLE : View.GONE);
+//		} else {
+//			btn_model_voice.setVisibility(info.isUseVoice()?View.VISIBLE : View.GONE);
+//		}
 	}
 }

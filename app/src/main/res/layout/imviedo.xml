@@ -2,68 +2,102 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <com.gensee.view.GSVideoViewEx
         android:id="@+id/imvideoview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-<!--     <com.gensee.view.GSAutoDecodeView
-        android:id="@+id/imvideoview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" /> -->
+    <!--     <com.gensee.view.GSAutoDecodeView
+            android:id="@+id/imvideoview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" /> -->
 
-    <Button
-        android:id="@+id/txtVideo"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/video_close" />
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-    <Button
-        android:id="@+id/txtAudio"
+        <Button
+            android:id="@+id/txtVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/video_close" />
+
+        <Button
+            android:id="@+id/txtAudio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:enabled="false"
+            android:text="@string/audio_close" />
+
+        <Button
+            android:id="@+id/txtMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/txtAudio"
+            android:text="@string/mic_close"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/txtHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtVideo"
+            android:enabled="false" />
+
+        <Spinner
+            android:id="@+id/spinnerRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtHand"
+            android:background="@color/white"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/txtIdc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerRate"
+            android:enabled="false"
+            android:text="@string/idcSwitch" />
+
+        <Button
+            android:id="@+id/txtReword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtIdc"
+            android:enabled="false"
+            android:text="@string/reword" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:enabled="false"
-        android:text="@string/audio_close" />
-    
-    <Button
-        android:id="@+id/txtMic"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/txtAudio"
-        android:text="@string/mic_close" />
-    
-    <Button
-        android:id="@+id/txtHand"
-        android:enabled="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtVideo" />
-    <Spinner
-        android:background="@color/white"
-        android:id="@+id/spinnerRate"
-        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:background="@drawable/video_num_bg"
+        android:padding="@dimen/dimen_5dp"
+        android:layout_marginBottom="@dimen/dimen_10dp"
         android:gravity="center"
-        android:layout_below="@id/txtHand"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/txtIdc"
-        android:enabled="false"
-        android:text="@string/idcSwitch"
+        android:text="186人在观看"
+        android:drawablePadding="@dimen/dimen_4dp"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@mipmap/ic_hot"
+        android:textSize="@dimen/dimen_12sp" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerRate" />
-    <Button
-        android:id="@+id/txtReword"
-        android:enabled="false"
-        android:text="@string/reword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtIdc" />
-    
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
+        android:src="@mipmap/ic_video_full" />
 
 </RelativeLayout>

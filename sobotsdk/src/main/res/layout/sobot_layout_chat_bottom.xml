@@ -41,6 +41,7 @@
         <ImageButton
             android:id="@+id/sobot_btn_model_voice"
             style="@style/sobot_chatting_keyboard_btn"
+            android:visibility="gone"
             android:background="@drawable/sobot_vioce_button_selector" />
         <!-- 按住说话  start -->
 

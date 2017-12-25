@@ -3,7 +3,7 @@
     android:id="@+id/sobot_layout_titlebar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/sobot_DIMEN_108PX"
-    android:background="@color/sobot_color_title_bar_bg" >
+    android:background="#008eff" >
 
     <TextView
         android:id="@+id/sobot_text_title"

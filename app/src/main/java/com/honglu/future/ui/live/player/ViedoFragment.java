@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gensee.entity.PingEntity;
+import com.gensee.media.RenderMode;
+import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.player.VideoRate;
 import com.gensee.view.GSVideoViewEx;
@@ -28,12 +30,12 @@ import java.util.List;
 //import com.gensee.entity.Reward;
 
 @SuppressLint("ValidFragment")
-public class ViedoFragment extends Fragment implements OnClickListener {
+public class ViedoFragment extends Fragment implements OnClickListener{
 
 	private Player mPlayer;
 	private View mView;
 	private GSVideoViewEx mGSViedoView;
-	private TextView txtVideo, txtAudio,txtMic,txtHand,txtIdc,txtReword;
+	private TextView txtVideo, txtAudio,txtMic,txtHand,txtIdc,txtReword,tvNum;
 	private Spinner spinnerRate;
 	private Runnable handRun = null;
 	private List<PingEntity>idcs;
@@ -51,6 +53,7 @@ public class ViedoFragment extends Fragment implements OnClickListener {
 		txtAudio = (TextView) mView.findViewById(R.id.txtAudio);
 		txtMic = (TextView) mView.findViewById(R.id.txtMic);
 		txtHand = (TextView) mView.findViewById(R.id.txtHand);
+		tvNum = (TextView) mView.findViewById(R.id.tv_num);
 		txtHand.setText("举手");
 		
 		spinnerRate = (Spinner) mView.findViewById(R.id.spinnerRate);
@@ -60,7 +63,7 @@ public class ViedoFragment extends Fragment implements OnClickListener {
 		txtReword =  (TextView) mView.findViewById(R.id.txtReword);
 		
 		mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
-//		mGSViedoView.setRenderMode(RenderMode.RM_FILL_CENTER_CROP);
+		mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
 		mGSViedoView.setOnClickListener(this);
 		txtVideo.setOnClickListener(this);
 		txtAudio.setOnClickListener(this);
@@ -81,6 +84,10 @@ public class ViedoFragment extends Fragment implements OnClickListener {
 			txtIdc.setEnabled(isJoined);
 			txtReword.setEnabled(isJoined);
 		}
+	}
+
+	public void setUserNum(String userNum){
+		tvNum.setText(userNum+"人在观看");
 	}
 	
 

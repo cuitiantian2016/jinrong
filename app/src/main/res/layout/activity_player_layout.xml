@@ -1,54 +1,93 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/color_26252D"
     android:layout_height="match_parent">
+
 
     <LinearLayout
         android:id="@+id/ly_portrait"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+  >
 
         <FrameLayout
             android:id="@+id/top_framelayout"
-            android:background="@color/color_26252D"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <LinearLayout
             android:id="@+id/ly_midtabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/bnt_public_chat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:text="实时互动" />
+            <com.honglu.future.widget.tab.CommonTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/trade_common_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_50dp"
+                app:tl_iconVisible="false"
+                app:tl_indicator_width="@dimen/dimen_30dp"
+                app:tl_indicator_anim_duration="400"
+                app:tl_indicator_anim_enable="false"
+                app:tl_indicator_corner_radius="2dp"
+                app:tl_indicator_color="@color/color_008EFF"
+                app:tl_indicator_gravity="BOTTOM"
+                app:tl_indicator_height="@dimen/dimen_3dp"
+                app:tl_indicator_style="NORMAL"
+                app:tl_special_select_color_blue="true"
+                app:tl_textSelectColor="@color/color_008EFF"
+                app:tl_textUnselectColor="@color/color_323232"
+                app:tl_textsize="@dimen/dimen_16sp"
+                app:tl_textBold="BOTH"
+                app:tl_underline_color="@color/color_F7F8F9"
+                app:tl_underline_height="@dimen/dimen_1dp_half" />
 
-            <Button
-                android:id="@+id/bnt_live_main_point"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:text="直播重点" />
+            <FrameLayout
+                android:id="@+id/trade_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-            <Button
-                android:id="@+id/bnt_live_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:text="节目信息" />
+            <!--<TextView-->
+                <!--android:id="@+id/bnt_public_chat"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:enabled="false"-->
+                <!--android:padding="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/color_line"-->
+                <!--android:text="实时互动" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/bnt_live_main_point"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:enabled="false"-->
+                <!--android:padding="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/color_line"-->
+                <!--android:text="直播重点" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/bnt_live_info"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:enabled="false"-->
+                <!--android:padding="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/color_line"-->
+                <!--android:text="节目信息" />-->
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/top3_rl"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -60,11 +99,45 @@
             <FrameLayout
                 android:id="@+id/fragement_update"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </FrameLayout>
+                android:layout_height="match_parent"></FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 
 
     <include layout="@layout/rel_tip_layout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingRight="@dimen/dimen_10dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dimen_10dp"
+            android:src="@mipmap/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_back"
+            android:text="一休老师"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dimen_10dp"
+            android:src="@mipmap/ic_details_shape" />
+
+
+    </RelativeLayout>
 </RelativeLayout>

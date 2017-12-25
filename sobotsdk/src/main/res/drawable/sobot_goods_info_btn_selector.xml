@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item><shape>
-            <solid android:color="@color/sobot_goods_info_btn_bgcolor" />
+            <solid android:color="@color/chat_btn_bg_color" />
 
-            <stroke android:width="0.1dp" android:color="@color/sobot_goods_info_btn_bgcolor" />
+            <stroke android:width="0.1dp" android:color="@color/chat_btn_bg_color" />
 
             <corners android:radius="@dimen/sobot_bbuton_rounded_corner_radius" />
         </shape></item>

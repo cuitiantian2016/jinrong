@@ -1,25 +1,34 @@
 package com.honglu.future.ui.live.player;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gensee.common.ServiceType;
 import com.gensee.entity.InitParam;
@@ -32,50 +41,57 @@ import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
-import com.gensee.view.ILocalVideoView;
 import com.honglu.future.R;
-import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.util.Tool;
+import com.honglu.future.widget.tab.CommonTabLayout;
+import com.honglu.future.widget.tab.CustomTabEntity;
+import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
+import com.honglu.future.widget.tab.TabEntity;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-
-import static com.honglu.future.util.ToastUtil.showToast;
 
 /**
  * 直播页面
  * Created by zq on 2017/12/22.
  */
+public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener {
 
-public class PlayerActivity extends BaseActivity implements OnPlayListener {
-    private static final String TAG = "PlayerActivity";
-    private ServiceType serviceType = ServiceType.WEBCAST;
-    private InitParam initParam;
-    private FragmentManager mFragmentManager;
-    private boolean bJoinSuccess = false;
-    private ViedoFragment mViedoFragment;
-    private ChatFragment mChatFragment;
+    private static final String TAG = "PlayerDemoActivity";
+    private SharedPreferences preferences;
+    private FrameLayout topFrameLayout;
+    private LinearLayout midtabsLayout;
+    private View rlBottom;
     private Player mPlayer;
-    private int videoWidth = 320,videoHeight = 180;
-    @BindView(R.id.bnt_public_chat)
-    Button mBtnPublicChat;
-    @BindView(R.id.progress)
-    ProgressBar mProgressBar;
-    @BindView(R.id.rl_tip)
-    RelativeLayout relTip;
-    @BindView(R.id.tv_tip)
-    TextView txtTip;
-    @BindView(R.id.top_framelayout)
-    FrameLayout topFrameLayout;
-    @BindView(R.id.top3_rl)
-    View rlBottom;
-    @BindView(R.id.ly_midtabs)
-    LinearLayout midtabsLayout;
+
+    private RelativeLayout relTip;
+    private TextView txtTip;
+
+    private ProgressBar mProgressBar;
+    private ChatFragment mChatFragment;
+    private MainPointFragment mMainPointFragment;
+    private ViedoFragment mViedoFragment;
+    private LiveInfoFragment mLiveInfoFragment;
+    private FragmentManager mFragmentManager;
+    private CommonTabLayout mCommonTabLayout;
+    private ImageView mIvBack, mIvShare;
+    private ArrayList<CustomTabEntity> mTabList;
+    private ArrayList<Fragment> mFragments;
+    private InitParam initParam;
+    private ServiceType serviceType = ServiceType.WEBCAST;
+
+    private int videoWidth = 320, videoHeight = 180;
+
+
+    private AudioManager manager;
+    private boolean bJoinSuccess = false;
+
+    private Intent serviceIntent;
+
+    private int inviteMediaType;
 
     interface HANDlER {
         int USERINCREASE = 1;
@@ -88,19 +104,6 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
         int RECONNECTING = 8;
     }
 
-    @Override
-    public int getLayoutId() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return R.layout.activity_player_layout;
-    }
-
-    @Override
-    public void initPresenter() {
-
-    }
-
     private Handler mHandler = new Handler() {
 
         @Override
@@ -108,13 +111,13 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
 
             switch (msg.what) {
                 case HANDlER.USERDECREASE:
+
                     break;
                 case HANDlER.USERINCREASE:
                 case HANDlER.USERUPDATE:
+
                     break;
                 case HANDlER.SUCCESSJOIN:
-                    mBtnPublicChat.setEnabled(true);
-                    mBtnPublicChat.performClick();
                     mProgressBar.setVisibility(View.GONE);
                     bJoinSuccess = true;
                     if (mViedoFragment != null) {
@@ -142,43 +145,6 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
 
     };
 
-    protected void dialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerActivity.this);
-        builder.setMessage("你已经被踢出");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-                finish();
-                // onFinshAll();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-    }
-
-    private void showTip(final boolean isShow, final String tip) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                if (isShow) {
-                    if (relTip.getVisibility() != View.VISIBLE) {
-                        relTip.setVisibility(View.VISIBLE);
-                    }
-                    txtTip.setText(tip);
-                } else {
-                    relTip.setVisibility(View.GONE);
-                }
-
-            }
-        });
-    }
-
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(Constant.PARAMS_JOINSUCCESS, bJoinSuccess);
         outState.putBoolean(
@@ -190,6 +156,8 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
 //			}
 //		}
     }
+
+    ;
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -206,20 +174,46 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
         }
     }
 
-    private void videoFullScreen() {
-        ViewGroup.LayoutParams p = topFrameLayout.getLayoutParams();
-        p.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        topFrameLayout.setLayoutParams(p);
-        rlBottom.setVisibility(View.GONE);
-        midtabsLayout.setVisibility(View.GONE);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.activity_player_layout);
+        preferences = getPreferences(MODE_PRIVATE);
+        initWidget();
     }
 
-    @Override
-    public void loadData() {
-        setInitParam();
-        initViews();
+    public void initWidget() {
+        topFrameLayout = (FrameLayout) findViewById(R.id.top_framelayout);
+        midtabsLayout = (LinearLayout) findViewById(R.id.ly_midtabs);
+        rlBottom = findViewById(R.id.top3_rl);
+
+        relTip = (RelativeLayout) findViewById(R.id.rl_tip);
+        txtTip = (TextView) findViewById(R.id.tv_tip);
+        mCommonTabLayout = (CommonTabLayout) findViewById(R.id.trade_common_tab_layout);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress);
+        mIvBack = (ImageView) findViewById(R.id.iv_back);
+        mIvBack.setOnClickListener(this);
+        mIvShare = (ImageView) findViewById(R.id.iv_share);
+        mIvShare.setOnClickListener(this);
+        videoViewNormalSize();
+
+        mPlayer = new Player();
+
+
+        mFragmentManager = getSupportFragmentManager();
+        //添加tab实体
+        addTabEntities();
+        //添加fragment
+        addFragments();
+
         initModule();
-        joinLive(initParam);
+        setInitParam();
+        GenseeLog.i(TAG, "initWidget end");
+
     }
 
     private void setInitParam() {
@@ -247,22 +241,57 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
         // training类型则设置为ServiceType.ST_TRAINING
         initParam.setServiceType(serviceType);
         //如果启用第三方认证，必填项，且要正确有效
-
+        joinLive(initParam);
     }
 
-    private void initViews() {
-//        mTitle.setTitle(false, R.color.white, "直播间");
-        videoViewNormalSize();
-        mFragmentManager = getSupportFragmentManager();
-        mPlayer = new Player();
+    private void addTabEntities() {
+        mTabList = new ArrayList<>();
+        mTabList.add(new TabEntity("实时互动"));
+        mTabList.add(new TabEntity("直播重点"));
+        mTabList.add(new TabEntity("节目信息"));
     }
 
-    private void initModule() {
-        FragmentTransaction ft = mFragmentManager.beginTransaction();
-        processChatFragment(ft);
-        processVideoFragment(ft);
-        hideFragment(ft);
-        ft.commit();
+    private void addFragments() {
+        if (mFragments == null) {
+            mFragments = new ArrayList<>();
+        }
+        mChatFragment = new ChatFragment(mPlayer);
+        mFragments.add(mChatFragment);
+        mMainPointFragment = new MainPointFragment();
+        mFragments.add(mMainPointFragment);
+        mLiveInfoFragment = new LiveInfoFragment();
+        mFragments.add(mLiveInfoFragment);
+
+        mCommonTabLayout.setTabData(mTabList, this, R.id.trade_fragment_container, mFragments);
+        mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                super.onTabSelect(position);
+//                if (position == 0) {
+//                    mMyToFriendFragment.refresh();
+//                } else if (position == 1) {
+//                    mFriendToMyFragment.refresh();
+//                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//		if (mPlayer != null && bJoinSuccess) {
+//			mPlayer.audioSet(false);
+//			mPlayer.videoSet(false);
+//		}
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//		if (mPlayer != null && bJoinSuccess) {
+//			mPlayer.audioSet(true);
+//			mPlayer.videoSet(true);
+//		}
     }
 
     public void joinLive(InitParam p) {
@@ -278,12 +307,31 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
         }
     }
 
-    private void videoViewNormalSize(){
-        ViewGroup.LayoutParams p = topFrameLayout.getLayoutParams();
-        p.height = getResources().getDisplayMetrics().widthPixels * videoHeight/ videoWidth;
-        topFrameLayout.setLayoutParams(p);
+    private void initModule() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        processVideoFragment(ft);
+        ft.commit();
     }
 
+    private void showTip(final boolean isShow, final String tip) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (isShow) {
+                    if (relTip.getVisibility() != View.VISIBLE) {
+                        relTip.setVisibility(View.VISIBLE);
+                    }
+                    txtTip.setText(tip);
+                } else {
+                    relTip.setVisibility(View.GONE);
+                }
+
+            }
+        });
+    }
+
+    /**************************************** OnPlayListener ********************************************/
     @Override
     public void onJoin(int result) {
         String msg = null;
@@ -312,7 +360,7 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
                 break;
         }
         showTip(false, "");
-        showToast(msg);
+        toastMsg(msg);
     }
 
     @Override
@@ -329,13 +377,8 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
 
     @Override
     public void onUserUpdate(UserInfo info) {
-// 用户更新
+        // 用户更新
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERUPDATE, info));
-    }
-
-    @Override
-    public void onRosterTotal(int total) {
-        GenseeLog.d(TAG, "onRosterTotal total = " + total);
     }
 
     @Override
@@ -374,18 +417,64 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
                 break;
         }
         if (null != msg) {
-            showToast(msg);
+            showErrorMsg(msg);
         }
     }
 
+    /**
+     * 缓冲变更
+     *
+     * @param isCaching true 缓冲/false 缓冲完成
+     */
     @Override
     public void onCaching(boolean isCaching) {
         GenseeLog.d(TAG, "onCaching isCaching = " + isCaching);
 //		mHandler.sendEmptyMessage(isCaching ? HANDlER.CACHING
 //				: HANDlER.CACHING_END);
-        showToast(isCaching ? "正在缓冲" : "缓冲完成");
+        toastMsg(isCaching ? "正在缓冲" : "缓冲完成");
     }
 
+    /**
+     * 文档切换
+     *
+     * @param docType 文档类型（ppt、word、txt、png）
+     * @param docName 文档名称
+     */
+    @Override
+    public void onDocSwitch(int docType, String docName) {
+    }
+
+    /**
+     * 视频开始
+     */
+    @Override
+    public void onVideoBegin() {
+        GenseeLog.d(TAG, "onVideoBegin");
+        toastMsg("视频开始");
+    }
+
+    /**
+     * 视频结束
+     */
+    @Override
+    public void onVideoEnd() {
+        GenseeLog.d(TAG, "onVideoEnd");
+        toastMsg("视频已停止");
+    }
+
+    /**
+     * 音频电频值
+     */
+    @Override
+    public void onAudioLevel(int level) {
+
+    }
+
+    /**
+     * 错误响应
+     *
+     * @param errCode 错误码 请参考文档
+     */
     @Override
     public void onErr(int errCode) {
         GenseeLog.i(TAG, "onErr code = " + errCode);
@@ -427,106 +516,72 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
         }
         showTip(false, "");
         if (msg != null) {
-            showToast(msg);
+            toastMsg(msg);
         }
     }
 
-    @Override
-    public void onDocSwitch(int i, String s) {
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+            case R.id.iv_share:
+                ShareUtils.getIntance().share(this, "", "http://www.baidu.com", "直播间", "直播间分享");
+                break;
+            default:
+                break;
+        }
     }
 
-    @Override
-    public void onVideoBegin() {
-        GenseeLog.d(TAG, "onVideoBegin");
-        showToast("视频开始");
-    }
-
-    @Override
-    public void onVideoEnd() {
-        GenseeLog.d(TAG, "onVideoEnd");
-        showToast("视频已停止");
-    }
-
-    @Override
-    public void onVideoSize(int i, int i1, boolean b) {
-
-    }
-
-    @Override
-    public void onAudioLevel(int i) {
-
-    }
-
-    @Override
-    public void onPublish(boolean isPlaying) {
-        showToast(isPlaying ? "直播（上课）中" : "直播暂停（下课）");
-    }
-
-    @Override
-    public void onSubject(String subject) {
-        GenseeLog.d(TAG, "onSubject subject = " + subject);
-    }
-
-    @Override
-    public void onPageSize(int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onVideoDataNotify() {
-
-    }
-
-    @Override
-    public void onPublicMsg(long l, String s) {
-
-    }
-
-    @Override
-    public void onLiveText(String s, String s1) {
-
-    }
-
-    @Override
-    public void onRollcall(int i) {
-
-    }
-
-    @Override
-    public void onLottery(int i, String s) {
-
-    }
-
-    @Override
-    public void onFileShare(int i, String s, String s1) {
-
-    }
-
-    @Override
-    public void onFileShareDl(int i, String s, String s1) {
-
-    }
-
-    @Override
-    public void onInvite(int i, boolean b) {
-
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            videoFullScreen();
+    private void processVideoFragment(FragmentTransaction ft) {
+        if (mViedoFragment == null) {
+            mViedoFragment = new ViedoFragment(mPlayer);
+            ft.add(R.id.top_framelayout, mViedoFragment);
         } else {
-            videoNormalScreen();
+            ft.show(mViedoFragment);
         }
+
+//		if (null != mViedoFragment) {
+//			mViedoFragment.setVideoViewVisible(true);
+//		}
     }
 
-    private void videoNormalScreen() {
-        videoViewNormalSize();
-        rlBottom.setVisibility(View.VISIBLE);
-        midtabsLayout.setVisibility(View.VISIBLE);
+    //	private void processInfoFragment(FragmentTransaction ft){
+//		if(mInfoFragment==null){
+//			mInfoFragment = new JoinInfoFragment();
+//			ft.add(R.id.fragement_update, mInfoFragment);
+//		}else{
+//			ft.show(mInfoFragment);
+//		}
+//	}
+
+    public void exit() {
+        Intent mHomeIntent = new Intent(Intent.ACTION_MAIN);
+        mHomeIntent.addCategory(Intent.CATEGORY_HOME);
+        mHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        startActivity(mHomeIntent);
+    }
+
+    protected void dialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerActivity.this);
+        builder.setMessage("你已经被踢出");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                finish();
+                // onFinshAll();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 
     public void dialogLeave() {
@@ -569,6 +624,7 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
     @Override
     protected void onDestroy() {
         releasePlayer();
+        // onFinshAll();
         super.onDestroy();
     }
 
@@ -578,48 +634,123 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
             mPlayer.release(this);
             bJoinSuccess = false;
         }
+
     }
 
-    @OnClick({R.id.bnt_public_chat})
-    public void onClick(View view) {
-        if (Tool.isFastDoubleClick()) return;
-        switch (view.getId()) {
-            case R.id.bnt_public_chat:
-                FragmentTransaction ftChat = mFragmentManager.beginTransaction();
-                hideFragment(ftChat);
-                processChatFragment(ftChat);
-                ftChat.commit();
-                break;
+    private void showErrorMsg(final String sMsg) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        PlayerActivity.this);
+                builder.setTitle("提示");
+                builder.setMessage(sMsg);
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+            }
+        });
+
+    }
+
+    public void toastMsg(final String msg) {
+        if (msg != null) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), msg,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
-    public void hideFragment(FragmentTransaction ft) {
-        if (mChatFragment != null) {
-            ft.hide(mChatFragment);
-        }
-    }
 
-    private void processChatFragment(FragmentTransaction ft) {
-        if (mChatFragment == null) {
-            mChatFragment = new ChatFragment(mPlayer);
-            ft.add(R.id.fragement_update, mChatFragment);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            videoFullScreen();
         } else {
-            ft.show(mChatFragment);
+            videoNormalScreen();
         }
     }
 
-    private void processVideoFragment(FragmentTransaction ft) {
-        if (mViedoFragment == null) {
-            mViedoFragment = new ViedoFragment(mPlayer);
-            ft.add(R.id.top_framelayout, mViedoFragment);
-        } else {
-            ft.show(mViedoFragment);
-        }
-
-//		if (null != mViedoFragment) {
-//			mViedoFragment.setVideoViewVisible(true);
-//		}
+    private void videoFullScreen() {
+        ViewGroup.LayoutParams p = topFrameLayout.getLayoutParams();
+        p.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        topFrameLayout.setLayoutParams(p);
+        rlBottom.setVisibility(View.GONE);
+        midtabsLayout.setVisibility(View.GONE);
     }
+
+    private void videoViewNormalSize() {
+        ViewGroup.LayoutParams p = topFrameLayout.getLayoutParams();
+        p.height = getResources().getDisplayMetrics().widthPixels * videoHeight / videoWidth;
+        topFrameLayout.setLayoutParams(p);
+    }
+
+    private void videoNormalScreen() {
+        videoViewNormalSize();
+        rlBottom.setVisibility(View.VISIBLE);
+        midtabsLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPublish(boolean isPlaying) {
+        toastMsg(isPlaying ? "直播（上课）中" : "直播暂停（下课）");
+    }
+
+    @Override
+    public void onPageSize(int pos, int w, int h) {
+        //文档开始显示
+        toastMsg("文档分辨率 w = " + w + " h = " + h);
+    }
+
+    /**
+     * 直播主题
+     */
+    @Override
+    public void onSubject(String subject) {
+        GenseeLog.d(TAG, "onSubject subject = " + subject);
+
+    }
+
+    /**
+     * 在线人数
+     *
+     * @param total
+     */
+    @Override
+    public void onRosterTotal(final int total) {
+        GenseeLog.d(TAG, "onRosterTotal total = " + total);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mViedoFragment.setUserNum(String.valueOf(total));
+            }
+        });
+    }
+
+    /**
+     * 系统广播消息
+     */
+    @Override
+    public void onPublicMsg(long userId, String msg) {
+        GenseeLog.d(TAG, "广播消息：" + msg);
+        toastMsg("广播消息：" + msg);
+    }
+
 
     @Override
     public void onMicNotify(int notify) {
@@ -633,16 +764,17 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
                         mViedoFragment.onMicColesed();
                     }
                 });
-
+                mPlayer.inviteAck(inviteMediaType, false, null);
                 break;
             case MicNotify.MIC_OPENED:
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        mViedoFragment.onMicOpened(0);
+                        mViedoFragment.onMicOpened(inviteMediaType);
                     }
                 });
+                mPlayer.inviteAck(inviteMediaType, true, null);
 
                 break;
             case MicNotify.MIC_OPEN_FAILED:
@@ -650,10 +782,11 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
 
                     @Override
                     public void run() {
-                        showToast("麦克风打开失败，请重试并允许程序打开麦克风");
+                        toastMsg("麦克风打开失败，请重试并允许程序打开麦克风");
                     }
                 });
                 mPlayer.openMic(this, false, null);
+                mPlayer.inviteAck(inviteMediaType, false, null);
                 break;
 
             default:
@@ -662,18 +795,68 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
     }
 
     @Override
-    public void onCameraNotify(int i) {
+    public void onLiveText(String language, String text) {
+        toastMsg("文字直播\n语言：" + language + "\n内容：" + text);
+    }
+
+    @Override
+    public void onLottery(int cmd, String info) {
+        //cmd 1:start, 2: stop, 3: abort
+        toastMsg("抽奖\n指令：" + (cmd == 1 ? "开始" : (cmd == 2 ? "结束" : "取消"))
+                + "\n结果：" + info);
+    }
+
+    @Override
+    public void onRollcall(final int timeOut) {
 
     }
 
     @Override
-    public void onScreenStatus(boolean b) {
+    public void onFileShare(int cmd, String fileName, String fileUrl) {
+        //cmd:1:add, 2: remove
+        //TODO 应用层根据需要进行界面显示后可以调用  player的
+    }
+
+    @Override
+    public void onFileShareDl(int ret, String fileUrl, String filePath) {
 
     }
 
     @Override
-    public void onModuleFocus(int i) {
+    public void onInvite(int i, boolean b) {
 
+    }
+
+    @Override
+    public void onVideoSize(int width, int height, boolean iaAs) {
+        GenseeLog.d(TAG, "onVideoSize");
+        toastMsg("onVideoSize width = " + width + " height = " + height + " isAs = " + iaAs);
+        //如果明确视频尺寸比例，或中途不会变化，初始化确定好比例，可以不用这段代码
+        if (videoHeight != height || videoWidth != width) {
+            videoHeight = height;
+            videoWidth = width;
+            mHandler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    int orientation = getRequestedOrientation();
+                    if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                            || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                        videoViewNormalSize();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onModuleFocus(int arg0) {
+
+    }
+
+    @Override
+    public void onScreenStatus(boolean isAs) {
+        toastMsg("onScreenStatus isAs = " + isAs);
     }
 
     @Override
@@ -682,35 +865,111 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener {
     }
 
     @Override
-    public void onThirdVote(String s) {
+    public void onCameraNotify(int notify) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onGotoPay(PayInfo info) {
+        //用info.getOrderInfo()作为支付参数调用支付宝进行支付流程;
+    }
+
+    @Override
+    public void onRedBagTip(RewardResult arg0) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void onRewordEnable(boolean b, boolean b1) {
+    public void onRewordEnable(boolean arg0, boolean arg1) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void onRedBagTip(RewardResult rewardResult) {
+    public void onThirdVote(String arg0) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void onGotoPay(PayInfo payInfo) {
+    public void onGetUserInfo(UserInfo[] arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    @SuppressLint("InlinedApi")
+    private void rigister() {
+        manager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED.equals(intent.getAction())) {
+                    int state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, 0);
+                    int statePre = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_PREVIOUS_STATE, 0);
+
+                    switch (state) {
+                        case AudioManager.SCO_AUDIO_STATE_CONNECTED:
+                            GenseeLog.d(TAG, "onReceive SCO_AUDIO_STATE_CONNECTED " + state + " preState = " + statePre);
+//					   if(!manager.isBluetoothScoOn()){
+//						}else{
+//						}
+                            manager.setBluetoothScoOn(true);
+                            break;
+                        case AudioManager.SCO_AUDIO_STATE_CONNECTING:
+                            GenseeLog.d(TAG, "onReceive SCO_AUDIO_STATE_CONNECTING " + state + " preState = " + statePre);
+                            break;
+                        case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
+                            GenseeLog.d(TAG, "onReceive SCO_AUDIO_STATE_DISCONNECTED " + state + " preState = " + statePre);
+                            manager.setBluetoothScoOn(false);
+                            break;
+                        case AudioManager.SCO_AUDIO_STATE_ERROR:
+                            GenseeLog.d(TAG, "onReceive SCO_AUDIO_STATE_ERROR " + state + " preState = " + statePre);
+                            break;
+                    }
+
+                }
+            }
+        };
+        IntentFilter f = new IntentFilter();
+        f.addAction(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED);
+        registerReceiver(receiver, f);
+
+
+        manager.startBluetoothSco();
+    }
+
+    private void switchBlutooth() {
+        AudioManager manager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        if (manager.isBluetoothScoOn()) {
+            manager.setBluetoothScoOn(false);
+        } else {
+            manager.setBluetoothScoOn(true);
+        }
+
+//		manager.startBluetoothSco();
 
     }
 
     @Override
-    public void onGetUserInfo(UserInfo[] userInfos) {
+    public void onVideoDataNotify() {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void onLiveInfo(LiveInfo liveInfo) {
-        Log.i("testUrl","直播议程:"+liveInfo.getScheduleInfo());
-        Log.i("testUrl","主讲信息/主讲信息:"+liveInfo.getSpeakerInfo());
-        Log.i("testUrl","直播简介:"+liveInfo.getDescription());
+    public void onLiveInfo(final LiveInfo info) {
+//        SpUtil.putString("getDescription",info.getDescription());
+//        SpUtil.putString("getSpeakerInfo",info.getSpeakerInfo());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMainPointFragment.setMainPoint(info.getDescription());
+                mLiveInfoFragment.setLiveInfo(info.getScheduleInfo());
+            }
+        });
     }
 
 }

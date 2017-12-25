@@ -63,6 +63,8 @@
     <color name="sobot_color_suggestion">#09aeb0</color>
     <color name="sobot_color_suggestion_history">#000000</color>
     <color name="sobot_goods_info_btn_bgcolor">#09aeb0</color>
+    <color name="chat_btn_bg_color">#008eff</color>
+    <color name="chat_btn_bg_color_pressed">#0072CD</color>
 
     <color name="sobot_line_1dp">#d9d9d9</color>
     <color name="sobot_postMsg_url_color">#09aeb0</color>
