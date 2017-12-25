@@ -34,6 +34,8 @@
         android:textColor="@color/color_3C383F"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_6dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
         tools:text="投资可以获得相应金额的牛币哦"/>
 
     <View
