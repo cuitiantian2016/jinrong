@@ -129,6 +129,11 @@ public class SignAdapter extends BaseAdapter {
 
 		public void bindView(SignBean.SignListBean item, int position) {
 			this.position = position;
+			if (position == 6){
+				iv_sign_image.setImageResource(R.mipmap.icon_nb_sd);
+			}else {
+				iv_sign_image.setImageResource(R.drawable.sign_img);
+			}
 			bg_view.setVisibility(View.GONE);
 			tv_day.setText(view.getContext().getString(R.string.the_first_few_days, item.getParamNameOne()));
 			tv_money.setText(view.getContext().getString(R.string.integral_s, item.getParamValueOne()));
