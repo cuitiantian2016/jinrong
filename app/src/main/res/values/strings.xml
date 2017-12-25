@@ -228,7 +228,7 @@
     <string name="integral_s">%s枚</string>
     <string name="default_text">默认</string>
     <string name="custom_text">自定义打赏</string>
-    <string name="areward_niubi">打赏给 小牛%s</string>
+    <string name="areward_niubi">打赏给 %s</string>
 
     <!-- 直播相关 -->
     <string name="live">直播</string>
