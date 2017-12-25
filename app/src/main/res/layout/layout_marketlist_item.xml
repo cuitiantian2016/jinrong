@@ -34,13 +34,11 @@
 
           <TextView
               android:id="@+id/text_xiu"
-              android:layout_width="15dp"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
+              android:layout_width="16dp"
+              android:layout_height="16dp"
+              android:gravity="center"
               android:textColor="@color/color_white"
               android:background="@drawable/shape_86a2b0_bg"
-              android:paddingLeft="@dimen/dimen_2dp"
-              android:paddingRight="@dimen/dimen_2dp"
               android:textSize="@dimen/dimen_10sp"
               android:text="@string/text_xiu"
               android:visibility="visible"/>
