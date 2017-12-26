@@ -5,7 +5,6 @@
     android:background="@color/color_white"
     android:orientation="vertical">
     <include  layout="@layout/layout_toolbar"/>
-    <include layout="@layout/layout_circle_friend_head"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl_refreshView"

@@ -124,6 +124,10 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         TextView tv_live_num;
         @BindView(R.id.tv_teach_des)
         TextView tv_teach_des;
+        @BindView(R.id.view_unable)
+        View view_unable;
+        @BindView(R.id.view_able)
+        View view_able;
        Context context;
        View convertView;
 
@@ -139,17 +143,20 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             tv_teacher_name.setText(item.liveTeacher);
             tv_teach_des.setText(item.liveTeacherDes);
             if (item.isExpend){
+                view_unable.setVisibility(View.GONE);
+                view_able.setVisibility(View.VISIBLE);
                 tv_teach_des.setVisibility(View.VISIBLE);
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_up);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
             }else {
+                view_unable.setVisibility(View.VISIBLE);
+                view_able.setVisibility(View.GONE);
                 tv_teach_des.setVisibility(View.GONE);
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_down);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
             }
-            tv_teach_des.setVisibility(View.GONE);
             tv_live_title.setText(item.liveTitle);
             tv_live_content.setText(item.liveDes);
             tv_teacher_attention.setImageResource(item.isFollow()?R.mipmap.already_recommend:R.mipmap.add_recommend);
@@ -173,22 +180,10 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 @Override
                 public void onClick(View view) {
                     int visibility = tv_teach_des.getVisibility();
-                    if (visibility !=View.VISIBLE){
-                        item.isExpend = true;
-                        tv_teach_des.setVisibility(View.VISIBLE);
-                        Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_up);
-                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                        tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
-                        Log.d("tv_teacher_name", "onClick: "+listView.getLastVisiblePosition()+"p-->"+p);
-                        if (islast){
-                            listView.setSelection(p);
-                        }
-                    }else {
-                        item.isExpend = false;
-                        tv_teach_des.setVisibility(View.GONE);
-                        Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_down);
-                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                        tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
+                    item.isExpend = visibility != View.VISIBLE;
+                  ((LiveAdapter)listView.getAdapter()).notifyDataSetChanged();
+                    if (item.isExpend&&islast){
+                        listView.setSelection(p);
                     }
                 }
             });

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
@@ -39,6 +40,7 @@ public class LiveActivity extends BaseActivity {
     ListView lv_listView;
     private LiveAdapter liveAdapter;
     private View empty_view;
+    private boolean isLoading;
 
     @Override
     public int getLayoutId() {
@@ -68,10 +70,20 @@ public class LiveActivity extends BaseActivity {
     }
 
     private void refresh(){
+        if (isLoading){
+            return;
+        }
+        App.loadingContent(this, "正在加载");
+        isLoading = true;
         HttpManager.getApi().getLiveData(SpUtil.getString(Constant.CACHE_TAG_UID)).compose(RxHelper.<List<LiveListBean>>handleSimplyResult()).subscribe(new HttpSubscriber<List<LiveListBean>>() {
             @Override
             protected void _onNext(List<LiveListBean> liveListBean) {
                 super._onNext(liveListBean);
+                isLoading = false;
+                if (srl_refreshView ==null){
+                    return;
+                }
+                App.hideLoading();
                 srl_refreshView.finishRefresh();
                 liveAdapter.setDatas(liveListBean);
                 if (liveListBean != null && liveListBean.size() > 0) {
@@ -89,6 +101,11 @@ public class LiveActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 super._onError(message);
+                isLoading = false;
+                if (srl_refreshView ==null){
+                    return;
+                }
+                App.hideLoading();
                 srl_refreshView.finishRefresh();
                 if (liveAdapter.getCount() > 0) {
                     if (lv_listView.getFooterViewsCount() != 0){

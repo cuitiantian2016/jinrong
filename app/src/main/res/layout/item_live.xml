@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_18sp"
-            android:layout_marginLeft="@dimen/dimen_6dp"
+            android:layout_marginLeft="@dimen/dimen_8dp"
             android:text="直播中"
             android:layout_marginBottom="@dimen/dimen_3dp"
             android:layout_above="@+id/tv_live_content"
@@ -104,10 +104,24 @@
             android:layout_marginRight="15dp"
             android:src="@mipmap/add_recommend"/>
     </LinearLayout>
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1dp"
-        android:background="@color/color_line"/>
+        android:layout_height="@dimen/dimen_1dp">
+        <View
+            android:id="@+id/view_unable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_line"/>
+
+        <View
+            android:id="@+id/view_able"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:background="@color/color_line"/>
+    </RelativeLayout>
     <TextView
         android:paddingBottom="@dimen/dimen_3dp"
         android:paddingTop="@dimen/dimen_3dp"
