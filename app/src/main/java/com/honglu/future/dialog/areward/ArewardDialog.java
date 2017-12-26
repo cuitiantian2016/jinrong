@@ -211,6 +211,9 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
            case R.id.tv_areward: //打赏
                int integralNum = mDefaultLayout.getVisibility() == View.VISIBLE ? mIntegralNum : getTextNum(mInput);
                if (integralNum <= 0){ToastUtil.show("打赏牛币必须大于0");return;}
+
+               if (integralNum > 1000){ToastUtil.show("打赏牛币不能大于1000");return;}
+
                if (mArewardScore < integralNum){
                    mArewardHintDialog.showArewardHint(ArewardHintDialog.AREWARD_HINT,R.mipmap.icon_hint,"牛币不足","投资可以获得相应金额的牛币哦");
                }else {
