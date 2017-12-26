@@ -163,6 +163,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_10dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/color_white">
+
         <TextView
             android:id="@+id/tv_shop_mall"
             style="@style/user_content_bottom_widget"
@@ -187,7 +193,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_10dp" />
+            android:layout_height="@dimen/dimen_10dp"
+            android:background="@color/color_F7F8F9"/>
 
 
         <TextView
@@ -252,6 +259,7 @@
             android:text="设置"
             android:visibility="gone"/>
 
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_10dp" />
