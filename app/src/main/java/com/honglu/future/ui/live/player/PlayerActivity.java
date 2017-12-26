@@ -371,7 +371,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                 break;
         }
         showTip(false, "");
-        toastMsg(msg);
+//        toastMsg(msg);
     }
 
     @Override
@@ -442,7 +442,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         GenseeLog.d(TAG, "onCaching isCaching = " + isCaching);
 //		mHandler.sendEmptyMessage(isCaching ? HANDlER.CACHING
 //				: HANDlER.CACHING_END);
-        toastMsg(isCaching ? "正在缓冲" : "缓冲完成");
+//        toastMsg(isCaching ? "正在缓冲" : "缓冲完成");
     }
 
     /**
@@ -461,7 +461,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     @Override
     public void onVideoBegin() {
         GenseeLog.d(TAG, "onVideoBegin");
-        toastMsg("视频开始");
+//        toastMsg("视频开始");
     }
 
     /**
@@ -470,7 +470,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     @Override
     public void onVideoEnd() {
         GenseeLog.d(TAG, "onVideoEnd");
-        toastMsg("视频已停止");
+//        toastMsg("视频已停止");
     }
 
     /**
@@ -527,7 +527,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
         showTip(false, "");
         if (msg != null) {
-            toastMsg(msg);
+//            toastMsg(msg);
         }
     }
 
@@ -719,13 +719,13 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onPublish(boolean isPlaying) {
-        toastMsg(isPlaying ? "直播（上课）中" : "直播暂停（下课）");
+//        toastMsg(isPlaying ? "直播（上课）中" : "直播暂停（下课）");
     }
 
     @Override
     public void onPageSize(int pos, int w, int h) {
         //文档开始显示
-        toastMsg("文档分辨率 w = " + w + " h = " + h);
+//        toastMsg("文档分辨率 w = " + w + " h = " + h);
     }
 
     /**
@@ -759,7 +759,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     @Override
     public void onPublicMsg(long userId, String msg) {
         GenseeLog.d(TAG, "广播消息：" + msg);
-        toastMsg("广播消息：" + msg);
+//        toastMsg("广播消息：" + msg);
     }
 
 
@@ -793,7 +793,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
                     @Override
                     public void run() {
-                        toastMsg("麦克风打开失败，请重试并允许程序打开麦克风");
+//                        toastMsg("麦克风打开失败，请重试并允许程序打开麦克风");
                     }
                 });
                 mPlayer.openMic(this, false, null);
@@ -807,14 +807,14 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onLiveText(String language, String text) {
-        toastMsg("文字直播\n语言：" + language + "\n内容：" + text);
+//        toastMsg("文字直播\n语言：" + language + "\n内容：" + text);
     }
 
     @Override
     public void onLottery(int cmd, String info) {
         //cmd 1:start, 2: stop, 3: abort
-        toastMsg("抽奖\n指令：" + (cmd == 1 ? "开始" : (cmd == 2 ? "结束" : "取消"))
-                + "\n结果：" + info);
+//        toastMsg("抽奖\n指令：" + (cmd == 1 ? "开始" : (cmd == 2 ? "结束" : "取消"))
+//                + "\n结果：" + info);
     }
 
     @Override
@@ -841,7 +841,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     @Override
     public void onVideoSize(int width, int height, boolean iaAs) {
         GenseeLog.d(TAG, "onVideoSize");
-        toastMsg("onVideoSize width = " + width + " height = " + height + " isAs = " + iaAs);
+//        toastMsg("onVideoSize width = " + width + " height = " + height + " isAs = " + iaAs);
         //如果明确视频尺寸比例，或中途不会变化，初始化确定好比例，可以不用这段代码
         if (videoHeight != height || videoWidth != width) {
             videoHeight = height;
@@ -867,7 +867,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onScreenStatus(boolean isAs) {
-        toastMsg("onScreenStatus isAs = " + isAs);
+//        toastMsg("onScreenStatus isAs = " + isAs);
     }
 
     @Override
