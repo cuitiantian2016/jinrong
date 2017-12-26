@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -80,12 +81,16 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     LinearLayout mDialogView;
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
+    @BindView(R.id.toolbar)
+    View mToolbar;
 
     //    private String title;
     @Autowired(name = "url")
     public String mUrl;
     @Autowired(name = "title")
     public String mWebTitle;
+    public boolean mIsToolbar;
+
     private HashMap<String, String> mHashMap;
     private OnClickListener onClickListener;
     private Button button;
@@ -129,6 +134,12 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 mUrl = getIntent().getStringExtra("url");
             }
             mWebTitle =  getIntent().getStringExtra("title");
+            mIsToolbar = getIntent().getBooleanExtra("is_tool_bar",true);
+            if (mIsToolbar){
+                mToolbar.setVisibility(View.VISIBLE);
+            }else {
+                mToolbar.setVisibility(View.GONE);
+            }
 
 //else {
 //                Map<String, String> param = toMapParams(mUrl);

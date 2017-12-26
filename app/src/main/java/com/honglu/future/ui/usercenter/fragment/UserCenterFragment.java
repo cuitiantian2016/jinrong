@@ -220,6 +220,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 Intent intentShopMall = new Intent(mActivity, WebViewActivity.class);
                 intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
                 intentShopMall.putExtra("title", "牛币商城");
+                intentShopMall.putExtra("is_tool_bar",false);
                 startActivity(intentShopMall);
                 break;
             case R.id.tv_task://任务中心

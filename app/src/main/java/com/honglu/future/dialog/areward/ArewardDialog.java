@@ -168,6 +168,21 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                 }
             }
         });
+
+        mInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                int textNum = getTextNum(mInput);
+                if (textNum > 1000){
+                    mInput.setText("1000");
+                    mInput.setSelection(4);
+                }
+            }
+        });
     }
 
     private void initState(){
