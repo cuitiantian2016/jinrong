@@ -32,12 +32,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gensee.common.ServiceType;
+import com.gensee.entity.ChatMsg;
 import com.gensee.entity.InitParam;
 import com.gensee.entity.LiveInfo;
 import com.gensee.entity.PayInfo;
 import com.gensee.entity.PingEntity;
 import com.gensee.entity.RewardResult;
 import com.gensee.net.AbsRtAction;
+import com.gensee.player.OnChatListener;
 import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.routine.UserInfo;
@@ -61,7 +63,7 @@ import java.util.List;
  * 直播页面
  * Created by zq on 2017/12/22.
  */
-public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener {
+public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener,OnChatListener {
 
     private static final String TAG = "PlayerDemoActivity";
     private SharedPreferences preferences;
@@ -350,18 +352,22 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
             case JOIN_OK:
                 msg = "加入成功";
                 mHandler.sendEmptyMessage(HANDlER.SUCCESSJOIN);
+                toastMsg(msg);
                 break;
             case JOIN_CONNECTING:
                 msg = "正在加入";
                 break;
             case JOIN_CONNECT_FAILED:
                 msg = "连接失败";
+                toastMsg(msg);
                 break;
             case JOIN_RTMP_FAILED:
                 msg = "连接服务器失败";
+                toastMsg(msg);
                 break;
             case JOIN_TOO_EARLY:
                 msg = "直播还未开始";
+                toastMsg(msg);
                 break;
             case JOIN_LICENSE:
                 msg = "人数已满";
@@ -371,7 +377,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                 break;
         }
         showTip(false, "");
-//        toastMsg(msg);
+        //toastMsg(msg);
     }
 
     @Override
@@ -527,7 +533,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
         showTip(false, "");
         if (msg != null) {
-//            toastMsg(msg);
+            toastMsg(msg);
         }
     }
 
@@ -718,8 +724,38 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     }
 
     @Override
+    public void onChatWithPerson(ChatMsg chatMsg) {
+
+    }
+
+    @Override
+    public void onChatWithPublic(ChatMsg chatMsg) {
+
+    }
+
+    @Override
+    public void onMute(boolean b) {
+
+    }
+
+    @Override
+    public void onRoomMute(boolean b) {
+
+    }
+
+    @Override
+    public void onReconnection() {
+
+    }
+
+    @Override
     public void onPublish(boolean isPlaying) {
-//        toastMsg(isPlaying ? "直播（上课）中" : "直播暂停（下课）");
+        toastMsg(isPlaying ? "直播中" : "直播暂停");
+    }
+
+    @Override
+    public void onChatcensor(String s, String s1) {
+
     }
 
     @Override
