@@ -894,7 +894,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.162:8080/futures-userlive-api/userLive/getLiveListInfo")
+    @POST("futures-userlive-api/userLive/getLiveListInfo")
     Observable<BaseResponse<List<LiveListBean>>> getLiveData(
             @Field("userId") String userId);
 }
