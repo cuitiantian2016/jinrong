@@ -45,10 +45,8 @@ public class ChatFragment extends Fragment {
 
 		mView = inflater.inflate(R.layout.imchat, null);
 		mGSImplChatView = (GSImplChatView) mView.findViewById(R.id.impchatview);
-		Log.i("testVideo","22222222222222");
 	//	mGSImplChatView.setChatTarget(mUserInfo);
 		mPlayer.setGSChatView(mGSImplChatView);
-		Log.i("testVideo","333333333333333");
 		return mView;
 	}
 

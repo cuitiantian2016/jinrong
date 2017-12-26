@@ -21,6 +21,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
+import com.honglu.future.ui.live.player.PlayerActivity;
 import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -36,9 +37,11 @@ import butterknife.Unbinder;
 
 public class LiveAdapter extends CommonAdapter<LiveListBean> {
     ListView listView;
-    public LiveAdapter(ListView listView){
+
+    public LiveAdapter(ListView listView) {
         this.listView = listView;
     }
+
     /**
      * 关注刷新
      *
@@ -65,7 +68,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             holder = (ViewHolder) convertView.getTag();
         }
         final LiveListBean item = getItem(position);
-        holder.bindView(item,position ==(getCount()-1),listView,position);
+        holder.bindView(item, position == (getCount() - 1), listView, position);
         holder.tv_teacher_attention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +95,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                         bbsFlownEvent.follow = foll;
                         bbsFlownEvent.uid = item.liveTeacherID;
                         EventBus.getDefault().post(bbsFlownEvent);
-                        follow(foll,item.liveTeacherID);
+                        follow(foll, item.liveTeacherID);
                     }
 
                     @Override
@@ -106,7 +109,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         return convertView;
     }
 
-   static class ViewHolder {
+    static class ViewHolder {
         @BindView(R.id.iv_bg)
         ImageView iv_bg;
         @BindView(R.id.iv_teach)
@@ -129,11 +132,11 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         View view_unable;
         @BindView(R.id.view_able)
         View view_able;
-       Context context;
-       View convertView;
+        Context context;
+        View convertView;
 
         public ViewHolder(View convertView) {
-            ButterKnife.bind(this,convertView);
+            ButterKnife.bind(this, convertView);
             context = convertView.getContext();
             this.convertView = convertView;
         }
@@ -143,47 +146,47 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             ImageUtil.display(item.liveTeacherICon, iv_teach, R.mipmap.img_head);
             tv_teacher_name.setText(item.liveTeacher);
             tv_teach_des.setText(item.liveTeacherDes);
-            if (item.isExpend){
+            if (item.isExpend) {
                 view_unable.setVisibility(View.GONE);
                 view_able.setVisibility(View.VISIBLE);
                 tv_teach_des.setVisibility(View.VISIBLE);
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_up);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
-            }else {
+                tv_teacher_name.setCompoundDrawables(null, null, drawable, null);
+            } else {
                 view_unable.setVisibility(View.VISIBLE);
                 view_able.setVisibility(View.GONE);
                 tv_teach_des.setVisibility(View.GONE);
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_down);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
+                tv_teacher_name.setCompoundDrawables(null, null, drawable, null);
             }
             tv_live_title.setText(item.liveTitle);
             tv_live_content.setText(item.liveDes);
-            tv_teacher_attention.setImageResource(item.isFollow()?R.mipmap.already_recommend:R.mipmap.add_recommend);
-            if (item.isLive()&&!TextUtils.isEmpty(item.liveNum)){
+            tv_teacher_attention.setImageResource(item.isFollow() ? R.mipmap.already_recommend : R.mipmap.add_recommend);
+            if (item.isLive() && !TextUtils.isEmpty(item.liveNum)) {
                 tv_live_num.setVisibility(View.VISIBLE);
-                tv_live_num.setText(context.getString(R.string.live_num,item.liveNum));
+                tv_live_num.setText(context.getString(R.string.live_num, item.liveNum));
                 tv_live_state.setText("直播中");
                 tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_live));
                 Drawable drawable = context.getResources().getDrawable(R.drawable.combinedshape);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_live_state.setCompoundDrawables(drawable,null,null,null);
-            }else {
+                tv_live_state.setCompoundDrawables(drawable, null, null, null);
+            } else {
                 tv_live_num.setVisibility(View.GONE);
                 tv_live_state.setText(item.liveTime);
                 tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_no_live));
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.oval);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_live_state.setCompoundDrawables(drawable,null,null,null);
+                tv_live_state.setCompoundDrawables(drawable, null, null, null);
             }
             tv_teacher_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int visibility = tv_teach_des.getVisibility();
                     item.isExpend = visibility != View.VISIBLE;
-                    ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
-                    if (item.isExpend&&islast){
+                    ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                    if (item.isExpend && islast) {
                         listView.setSelection(p);
                     }
                 }
@@ -191,7 +194,9 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ToastUtil.show("点击了"+p);
+                    Intent intent = new Intent(context, PlayerActivity.class);
+                    intent.putExtra("liveBean", item);
+                    context.startActivity(intent);
                 }
             });
         }

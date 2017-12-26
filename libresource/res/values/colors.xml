@@ -6,9 +6,10 @@
     <color name="chat_view_bg">#f5f5f5</color>
     <color name="chat_divide_line">#ededed</color>
     <color name="chat_edit_view">#aaaaaa</color>
-    <color name="chat_select_self">#626262</color>
+    <color name="chat_select_self">#86A2B0</color>
     <color name="chat_system_message">#ffb6322c</color>
-    
+    <color name="chat_msg_name">#979899</color>
+    <color name="chat_msg_time">#CACBCC</color>
 
     <!-- pop -->
     <color name="pop_list_do_line_bg">#f2f2f5</color>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/chat_view_bg" >
+    android:background="@android:color/white" >
 
     <TextView
         android:id="@+id/chatnametext"
@@ -11,23 +11,23 @@
         android:layout_marginLeft="@dimen/chat_listview_name_left"
         android:layout_marginTop="5dp"
         android:text="@string/sytsemmesg"
+        android:textColor="@color/chat_msg_name"
         android:textSize="@dimen/chat_listview_name"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/chattimetext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/chatnametext"
-        android:layout_alignTop="@id/chatnametext"
-        android:layout_marginLeft="19dp"
+        android:layout_marginLeft="14dp"
         android:layout_marginRight="@dimen/chat_listview_time_right"
         android:layout_toRightOf="@id/chatnametext"
         android:gravity="center"
         android:text="@string/displaytime"
-        android:textColor="@color/chat_system_message"
+        android:textColor="@color/chat_msg_time"
         android:textSize="@dimen/chat_listview_time"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.gensee.view.MyTextViewEx
         android:id="@+id/chatcontexttextview"
@@ -45,7 +45,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/chat_view_bg" >
+        android:background="@android:color/white" >
 
         <com.gensee.view.MyTextViewEx
             android:id="@+id/chat_listview_tex_context"
@@ -57,6 +57,7 @@
             android:paddingBottom="@dimen/chat_listview_content_top"
             android:paddingTop="@dimen/chat_listview_content_top"
             android:text="@string/sytsemmesg"
+            android:textColor="@color/chat_select_self"
             android:textSize="@dimen/chat_listview_context"
             android:visibility="visible" />
 

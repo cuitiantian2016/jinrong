@@ -16,13 +16,13 @@
     <dimen name="chat_select_self_width">150dp</dimen>
     <dimen name="chat_select_self">14sp</dimen>
     <dimen name="chat_listview_name_left">19dp</dimen>
-    <dimen name="chat_listview_name">14sp</dimen>
+    <dimen name="chat_listview_name">13sp</dimen>
     <dimen name="chat_listview_time_right">19dp</dimen>
-    <dimen name="chat_listview_time">14sp</dimen>
+    <dimen name="chat_listview_time">12sp</dimen>
     <dimen name="chat_listview_context_left">19dp</dimen>
     <dimen name="chat_listview_context_bottom">15dp</dimen>
-    <dimen name="chat_listview_content_top">10dp</dimen>
-    <dimen name="chat_listview_context">14sp</dimen>
+    <dimen name="chat_listview_content_top">8dp</dimen>
+    <dimen name="chat_listview_context">13sp</dimen>
 
     <!-- popwindow -->
     <dimen name="pop_list_do_text">14sp</dimen>

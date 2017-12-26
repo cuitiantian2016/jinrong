@@ -12,12 +12,22 @@
             android:id="@+id/imvideoview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" /> -->
-
+    <ImageView
+        android:id="@+id/iv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_player_more"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/dimen_10dp"
+        android:layout_marginRight="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:id="@+id/linearLayout">
 
         <Button
             android:id="@+id/txtVideo"
@@ -79,17 +89,19 @@
         android:id="@+id/tv_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/dimen_20dp"
         android:background="@drawable/video_num_bg"
         android:padding="@dimen/dimen_5dp"
-        android:layout_marginBottom="@dimen/dimen_10dp"
         android:gravity="center"
-        android:text="186人在观看"
+        android:text="0人在观看"
         android:drawablePadding="@dimen/dimen_4dp"
         android:textColor="@android:color/white"
         android:drawableLeft="@mipmap/ic_hot"
-        android:textSize="@dimen/dimen_12sp" />
+        android:textSize="@dimen/dimen_12sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_marginStart="21dp" />
 
     <ImageView
         android:layout_width="wrap_content"

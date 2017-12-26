@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -43,9 +44,11 @@ import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.ui.live.LiveListBean;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
+import com.honglu.future.widget.popupwind.PlayerChangePopWin;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -69,10 +72,11 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     private RelativeLayout relTip;
     private TextView txtTip;
+    private TextView mTvRoomName;
 
     private ProgressBar mProgressBar;
     private ChatFragment mChatFragment;
-    private MainPointFragment mMainPointFragment;
+//    private MainPointFragment mMainPointFragment;
     private ViedoFragment mViedoFragment;
     private LiveInfoFragment mLiveInfoFragment;
     private FragmentManager mFragmentManager;
@@ -83,6 +87,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private InitParam initParam;
     private ServiceType serviceType = ServiceType.WEBCAST;
 
+
     private int videoWidth = 320, videoHeight = 180;
 
 
@@ -92,6 +97,8 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private Intent serviceIntent;
 
     private int inviteMediaType;
+
+
 
     interface HANDlER {
         int USERINCREASE = 1;
@@ -199,6 +206,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         mIvBack.setOnClickListener(this);
         mIvShare = (ImageView) findViewById(R.id.iv_share);
         mIvShare.setOnClickListener(this);
+        mTvRoomName = (TextView) findViewById(R.id.tv_name);
         videoViewNormalSize();
 
         mPlayer = new Player();
@@ -218,10 +226,13 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     private void setInitParam() {
         Bundle bundle = getIntent().getExtras();
-        String domain = bundle.getString("domain", "");
-        String number = bundle.getString("number", "");
+        LiveListBean bean  = (LiveListBean) bundle.getSerializable("liveBean");
+        mTvRoomName.setText(bean.liveTitle);
+        mLiveInfoFragment.setLiveInfo(bean);
+        String domain = bean.domainUrl;
+        String number = bean.chatRoomId;
         String nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
-        String joinPwd = bundle.getString("joinPwd", "");
+        String joinPwd = bean.roomJoinPassword;
         if ("".equals(domain) || "".equals(number) || "".equals(nickName)) {
             ToastUtil.show("域名/编号/昵称 都不能为空");
             return;
@@ -247,7 +258,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity("实时互动"));
-        mTabList.add(new TabEntity("直播重点"));
+//        mTabList.add(new TabEntity("直播重点"));
         mTabList.add(new TabEntity("节目信息"));
     }
 
@@ -257,8 +268,8 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
         mChatFragment = new ChatFragment(mPlayer);
         mFragments.add(mChatFragment);
-        mMainPointFragment = new MainPointFragment();
-        mFragments.add(mMainPointFragment);
+//        mMainPointFragment = new MainPointFragment();
+//        mFragments.add(mMainPointFragment);
         mLiveInfoFragment = new LiveInfoFragment();
         mFragments.add(mLiveInfoFragment);
 
@@ -961,15 +972,6 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onLiveInfo(final LiveInfo info) {
-//        SpUtil.putString("getDescription",info.getDescription());
-//        SpUtil.putString("getSpeakerInfo",info.getSpeakerInfo());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMainPointFragment.setMainPoint(info.getDescription());
-                mLiveInfoFragment.setLiveInfo(info.getScheduleInfo());
-            }
-        });
     }
 
 }

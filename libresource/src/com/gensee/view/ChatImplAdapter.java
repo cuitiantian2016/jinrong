@@ -67,7 +67,7 @@ public class ChatImplAdapter extends AbsChatAdapter {
 
 		@Override
 		protected int getSysMsgColorId() {
-			return R.color.chat_system_message;
+			return R.color.chat_msg_name;
 		}
 
 		@Override

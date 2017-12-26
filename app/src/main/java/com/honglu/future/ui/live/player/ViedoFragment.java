@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.gensee.player.Player;
 import com.gensee.player.VideoRate;
 import com.gensee.view.GSVideoViewEx;
 import com.honglu.future.R;
+import com.honglu.future.widget.popupwind.PlayerChangePopWin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,238 +32,270 @@ import java.util.List;
 //import com.gensee.entity.Reward;
 
 @SuppressLint("ValidFragment")
-public class ViedoFragment extends Fragment implements OnClickListener{
+public class ViedoFragment extends Fragment implements OnClickListener, PlayerChangePopWin.OnPopItemClickListener {
 
-	private Player mPlayer;
-	private View mView;
-	private GSVideoViewEx mGSViedoView;
-	private TextView txtVideo, txtAudio,txtMic,txtHand,txtIdc,txtReword,tvNum;
-	private Spinner spinnerRate;
-	private Runnable handRun = null;
-	private List<PingEntity>idcs;
-	public ViedoFragment(Player player) {
-		this.mPlayer = player;
-	}
+    private Player mPlayer;
+    private View mView;
+    private GSVideoViewEx mGSViedoView;
+    private TextView txtVideo, txtAudio, txtMic, txtHand, txtIdc, txtReword, tvNum;
+    private ImageView mIvMore;
+    private Spinner spinnerRate;
+    private Runnable handRun = null;
+    private List<PingEntity> idcs;
+    private PlayerChangePopWin mPlayerChangePopWin;
+    private boolean isVideo = true;
 
-	@SuppressLint("NewApi")
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    public ViedoFragment(Player player) {
+        this.mPlayer = player;
+    }
 
-		mView = inflater.inflate(R.layout.imviedo, null);
-		txtVideo = (TextView) mView.findViewById(R.id.txtVideo);
-		txtAudio = (TextView) mView.findViewById(R.id.txtAudio);
-		txtMic = (TextView) mView.findViewById(R.id.txtMic);
-		txtHand = (TextView) mView.findViewById(R.id.txtHand);
-		tvNum = (TextView) mView.findViewById(R.id.tv_num);
-		txtHand.setText("举手");
-		
-		spinnerRate = (Spinner) mView.findViewById(R.id.spinnerRate);
-		initRateSelectView();
-		
-		txtIdc =  (TextView) mView.findViewById(R.id.txtIdc);
-		txtReword =  (TextView) mView.findViewById(R.id.txtReword);
-		
-		mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
-		mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
-		mGSViedoView.setOnClickListener(this);
-		txtVideo.setOnClickListener(this);
-		txtAudio.setOnClickListener(this);
-		txtMic.setOnClickListener(this);
-		txtHand.setOnClickListener(this);
-		txtIdc.setOnClickListener(this);
-		txtReword.setOnClickListener(this);
+    @SuppressLint("NewApi")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		mPlayer.setGSVideoView(mGSViedoView);
-		return mView;
-	}
-	
-	public void onJoin(boolean isJoined) {
-		if(txtAudio != null){
-			txtAudio.setEnabled(isJoined);
-			txtVideo.setEnabled(isJoined);
-			txtHand.setEnabled(isJoined);
-			txtIdc.setEnabled(isJoined);
-			txtReword.setEnabled(isJoined);
-		}
-	}
+        mView = inflater.inflate(R.layout.imviedo, null);
+        txtVideo = (TextView) mView.findViewById(R.id.txtVideo);
+        txtAudio = (TextView) mView.findViewById(R.id.txtAudio);
+        txtMic = (TextView) mView.findViewById(R.id.txtMic);
+        txtHand = (TextView) mView.findViewById(R.id.txtHand);
+        tvNum = (TextView) mView.findViewById(R.id.tv_num);
+        txtHand.setText("举手");
 
-	public void setUserNum(String userNum){
-		tvNum.setText(userNum+"人在观看");
-	}
-	
+        spinnerRate = (Spinner) mView.findViewById(R.id.spinnerRate);
+        initRateSelectView();
 
-	@SuppressLint("NewApi")
-	public void setVideoViewVisible(boolean bVisible) {
-		if (isAdded()) {
-			if (bVisible) {
-				mGSViedoView.setVisibility(View.VISIBLE);
-			} else {
-				mGSViedoView.setVisibility(View.GONE);
-			}
-		}
-	}
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.imvideoview:
-			int orientation = getActivity().getRequestedOrientation();
-			if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-					|| orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-				orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-			} else {
-				orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
-			}
-			getActivity().setRequestedOrientation(orientation);
+        txtIdc = (TextView) mView.findViewById(R.id.txtIdc);
+        txtReword = (TextView) mView.findViewById(R.id.txtReword);
+        mIvMore = (ImageView) mView.findViewById(R.id.iv_more);
 
-			break;
-		case R.id.txtAudio:
-			if (mPlayer != null) {
-				// isSelect 代表关闭状态，默认非关闭状态 即false
-				if (v.isSelected()) {
-					mPlayer.audioSet(false);
-					v.setSelected(false);
-					txtAudio.setText(R.string.audio_close);
+        mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
+        mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
+        mGSViedoView.setOnClickListener(this);
+        txtVideo.setOnClickListener(this);
+        txtAudio.setOnClickListener(this);
+        txtMic.setOnClickListener(this);
+        txtHand.setOnClickListener(this);
+        txtIdc.setOnClickListener(this);
+        txtReword.setOnClickListener(this);
+        mIvMore.setOnClickListener(this);
+        mPlayerChangePopWin = new PlayerChangePopWin(getActivity());
+        mPlayerChangePopWin.setOnPopItemClickListener(this);
 
-				} else {
-					mPlayer.audioSet(true);
-					v.setSelected(true);
-					txtAudio.setText(R.string.audio_open);
-				}
-			}
-			break;
-		case R.id.txtVideo:
-			if (mPlayer != null) {
-				// isSelect 代表关闭状态，默认非关闭状态 即false
-				if (v.isSelected()) {
-					mPlayer.videoSet(false);
-					v.setSelected(false);
-					txtVideo.setText(R.string.video_close);
+        mPlayer.setGSVideoView(mGSViedoView);
+        return mView;
+    }
 
-				} else {
-					mPlayer.videoSet(true);
-					v.setSelected(true);
-					txtVideo.setText(R.string.video_open);
-				}
-			}
-			break;
-		case R.id.txtMic:
-			if (mPlayer != null) {
-				mPlayer.openMic(getActivity(), false, null);
-				mPlayer.inviteAck((Integer)v.getTag(), false, null);
-			}
-			break;
-		case R.id.txtHand:
-			if (handRun != null) {
-				txtHand.removeCallbacks(handRun);
-			}
-			if (!v.isSelected()) {
-				mPlayer.handUp(true, null);
-				txtHand.setSelected(true);
-				handRun = new Runnable() {
-					private int time = 60;
+    public void onJoin(boolean isJoined) {
+        if (txtAudio != null) {
+            txtAudio.setEnabled(isJoined);
+            txtVideo.setEnabled(isJoined);
+            txtHand.setEnabled(isJoined);
+            txtIdc.setEnabled(isJoined);
+            txtReword.setEnabled(isJoined);
+        }
+    }
 
-					@Override
-					public void run() {
-						txtHand.setText("举手(" + time + ")");
-						time--;
-						if (time < 0) {
-							handDown();
-						} else {
-							txtHand.postDelayed(this, 1000);
-						}
-					}
-				};
-				txtHand.post(handRun);
-			} else {
-				handDown();
-			}
-			break;
-		case R.id.txtIdc:
-			int size = idcs == null ? 0 : idcs.size();
-			if (size > 0) {
-				CharSequence[] sequences = new CharSequence[size];
-				String curIdc = mPlayer.getCurIdc();
-				int itemindex = -1;
-				for (int i = 0; i < size; i++) {
-					sequences[i] = idcs.get(i).getName()+"("+idcs.get(i).getDescription()+")";
-					if (idcs.get(i).getIdcId().equals(curIdc)) {
-						itemindex = i;
-					}
-				}
-				
-				alert(sequences,itemindex ,new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mPlayer.setIdcId(idcs.get(which).getCode(), null);
-						dialog.dismiss();
-					}
-				});
-			}
-			break;
-		case R.id.txtReword:
+    public void setUserNum(String userNum) {
+        tvNum.setText(userNum + "人在观看");
+    }
+
+
+    @SuppressLint("NewApi")
+    public void setVideoViewVisible(boolean bVisible) {
+        if (isAdded()) {
+            if (bVisible) {
+                mGSViedoView.setVisibility(View.VISIBLE);
+            } else {
+                mGSViedoView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imvideoview:
+                int orientation = getActivity().getRequestedOrientation();
+                if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                        || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+                } else {
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+                }
+                getActivity().setRequestedOrientation(orientation);
+
+                break;
+            case R.id.txtAudio:
+                if (mPlayer != null) {
+                    // isSelect 代表关闭状态，默认非关闭状态 即false
+                    if (v.isSelected()) {
+                        mPlayer.audioSet(false);
+                        v.setSelected(false);
+                        txtAudio.setText(R.string.audio_close);
+
+                    } else {
+                        mPlayer.audioSet(true);
+                        v.setSelected(true);
+                        txtAudio.setText(R.string.audio_open);
+                    }
+                }
+                break;
+            case R.id.txtVideo:
+                if (mPlayer != null) {
+                    // isSelect 代表关闭状态，默认非关闭状态 即false
+                    if (v.isSelected()) {
+                        mPlayer.videoSet(false);
+                        v.setSelected(false);
+                        txtVideo.setText(R.string.video_close);
+
+                    } else {
+                        mPlayer.videoSet(true);
+                        v.setSelected(true);
+                        txtVideo.setText(R.string.video_open);
+                    }
+                }
+                break;
+            case R.id.txtMic:
+                if (mPlayer != null) {
+                    mPlayer.openMic(getActivity(), false, null);
+                    mPlayer.inviteAck((Integer) v.getTag(), false, null);
+                }
+                break;
+            case R.id.txtHand:
+                if (handRun != null) {
+                    txtHand.removeCallbacks(handRun);
+                }
+                if (!v.isSelected()) {
+                    mPlayer.handUp(true, null);
+                    txtHand.setSelected(true);
+                    handRun = new Runnable() {
+                        private int time = 60;
+
+                        @Override
+                        public void run() {
+                            txtHand.setText("举手(" + time + ")");
+                            time--;
+                            if (time < 0) {
+                                handDown();
+                            } else {
+                                txtHand.postDelayed(this, 1000);
+                            }
+                        }
+                    };
+                    txtHand.post(handRun);
+                } else {
+                    handDown();
+                }
+                break;
+            case R.id.txtIdc:
+                int size = idcs == null ? 0 : idcs.size();
+                if (size > 0) {
+                    CharSequence[] sequences = new CharSequence[size];
+                    String curIdc = mPlayer.getCurIdc();
+                    int itemindex = -1;
+                    for (int i = 0; i < size; i++) {
+                        sequences[i] = idcs.get(i).getName() + "(" + idcs.get(i).getDescription() + ")";
+                        if (idcs.get(i).getIdcId().equals(curIdc)) {
+                            itemindex = i;
+                        }
+                    }
+
+                    alert(sequences, itemindex, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPlayer.setIdcId(idcs.get(which).getCode(), null);
+                            dialog.dismiss();
+                        }
+                    });
+                }
+                break;
+            case R.id.txtReword:
 //			Reward r = new Reward();
 //			r.setMoney(100);//100分
 //			r.setComment("恭喜发财");
 //			r.setDesc("你也要恭喜我发财");
 //			mPlayer.reward(r);
-			
+
 //			流程mPlayer.reward -> 回调onGotoPay-调用支付宝支付-onRewardResult
-			Toast.makeText(getActivity(), "开发者自行下载支付宝的sdk进行集成支付", Toast.LENGTH_SHORT).show();
-			break;
-		}
-	}
-	
-	private void handDown(){
-		txtHand.setText("举手");
-		mPlayer.handUp(false, null);
-		txtHand.setSelected(false);
-	}
+                Toast.makeText(getActivity(), "开发者自行下载支付宝的sdk进行集成支付", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.iv_more:
+                mPlayerChangePopWin.showPopupWind(v,isVideo);
+                break;
+        }
+    }
 
-	public void onMicColesed() {
-		txtMic.setVisibility(View.GONE);
-	}
+    @Override
+    public void onVideoOnlyClick() {
+        if (mPlayer != null) {
+            if (!isVideo) {
+                mPlayer.videoSet(true);
+                isVideo = true;
+            }
+        }
+    }
 
-	public void onMicOpened(int inviteMediaType) {
-		txtMic.setTag(inviteMediaType);
-		txtMic.setVisibility(View.VISIBLE);
-	}
-	
-	private void initRateSelectView(){
-		List<String> list = new ArrayList<String>();
-		list.add(getString(R.string.video_rate_nor));
-		list.add(getString(R.string.video_rate_low));
+    @Override
+    public void onAudioOnlyClick() {
+        if (mPlayer != null) {
+            if (isVideo) {
+                mPlayer.videoSet(false);
+                isVideo = false;
+            }
+        }
+    }
 
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.spinner_layout, list);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerRate.setAdapter(adapter);
-		spinnerRate.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				if(mPlayer != null){
-					switch (arg2) {
-					case 0:
-						mPlayer.switchRate(VideoRate.RATE_NORMAL, null);
-						break;
-					case 1:
-						mPlayer.switchRate(VideoRate.RATE_LOW, null);
-						break;
-					}
-				}
-			}
+    private void handDown() {
+        txtHand.setText("举手");
+        mPlayer.handUp(false, null);
+        txtHand.setSelected(false);
+    }
 
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-	}
-	
-	private void alert(CharSequence []items,int checkedItem,DialogInterface.OnClickListener listener){
-		new AlertDialog.Builder(getActivity()).setSingleChoiceItems(items, checkedItem, listener).create().show();
-	}
+    public void onMicColesed() {
+        txtMic.setVisibility(View.GONE);
+    }
 
-	public void onIdcList(List<PingEntity> arg0) {
-		this.idcs = arg0;
-	}
+    public void onMicOpened(int inviteMediaType) {
+        txtMic.setTag(inviteMediaType);
+        txtMic.setVisibility(View.VISIBLE);
+    }
+
+    private void initRateSelectView() {
+        List<String> list = new ArrayList<String>();
+        list.add(getString(R.string.video_rate_nor));
+        list.add(getString(R.string.video_rate_low));
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.spinner_layout, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRate.setAdapter(adapter);
+        spinnerRate.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                if (mPlayer != null) {
+                    switch (arg2) {
+                        case 0:
+                            mPlayer.switchRate(VideoRate.RATE_NORMAL, null);
+                            break;
+                        case 1:
+                            mPlayer.switchRate(VideoRate.RATE_LOW, null);
+                            break;
+                    }
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+    }
+
+    private void alert(CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener) {
+        new AlertDialog.Builder(getActivity()).setSingleChoiceItems(items, checkedItem, listener).create().show();
+    }
+
+    public void onIdcList(List<PingEntity> arg0) {
+        this.idcs = arg0;
+    }
 }
