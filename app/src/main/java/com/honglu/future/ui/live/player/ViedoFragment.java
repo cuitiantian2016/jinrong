@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -231,7 +232,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     public void onVideoOnlyClick() {
         if (mPlayer != null) {
             if (!isVideo) {
-                mPlayer.videoSet(true);
+                mPlayer.videoSet(false);
                 isVideo = true;
             }
         }
@@ -241,7 +242,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     public void onAudioOnlyClick() {
         if (mPlayer != null) {
             if (isVideo) {
-                mPlayer.videoSet(false);
+                mPlayer.videoSet(true);
                 isVideo = false;
             }
         }
