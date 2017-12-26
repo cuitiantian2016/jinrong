@@ -6,33 +6,33 @@ import java.io.Serializable;
 
 /**
  * "roomId": null,
- "roomName": "早盘先锋",
- "roomDescribe": "骚老师的早盘",
- "roomStatus": 0,
- "domainUrl": "xnzt.gensee.com",
- "rtmpJoinUrl": "http://xnzt.gensee.com/webcast/site/entry/join-5e7164885bf7450e99d7bff73bdda11e",
- "roomJoinPassword": "453873",
- "chatRoomId": "59138744",
- "activityName": null,
- "liveBeginTime": "9:00",
- "liveEndTime": "10:15",
- "onlineNumber": 100,
- "authorId": 2,
- "authorVar": null,
- "authorName": "洪老师",
- "authorDescribe": null,
- "channelType": null,
- "createTime": null,
- "updateTime": null,
- "appName": null,
- "isGuanzhu": 0,
- "liveTime": "12月26日9:00-10:15直播"
+ * "roomName": "早盘先锋",
+ * "roomDescribe": "骚老师的早盘",
+ * "roomStatus": 0,
+ * "domainUrl": "xnzt.gensee.com",
+ * "rtmpJoinUrl": "http://xnzt.gensee.com/webcast/site/entry/join-5e7164885bf7450e99d7bff73bdda11e",
+ * "roomJoinPassword": "453873",
+ * "chatRoomId": "59138744",
+ * "activityName": null,
+ * "liveBeginTime": "9:00",
+ * "liveEndTime": "10:15",
+ * "onlineNumber": 100,
+ * "authorId": 2,
+ * "authorVar": null,
+ * "authorName": "洪老师",
+ * "authorDescribe": null,
+ * "channelType": null,
+ * "createTime": null,
+ * "updateTime": null,
+ * "appName": null,
+ * "isGuanzhu": 0,
+ * "liveTime": "12月26日9:00-10:15直播"
  */
 
 //任务的bean类
 public class LiveListBean implements Serializable{
 
-   public boolean isLive(){//是否正在直播
+    public boolean isLive(){//是否正在直播
        return roomStatus ==1;
    }
     public String roomId;

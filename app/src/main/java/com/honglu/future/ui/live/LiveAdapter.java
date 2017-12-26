@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -181,7 +182,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 public void onClick(View view) {
                     int visibility = tv_teach_des.getVisibility();
                     item.isExpend = visibility != View.VISIBLE;
-                  ((LiveAdapter)listView.getAdapter()).notifyDataSetChanged();
+                    ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
                     if (item.isExpend&&islast){
                         listView.setSelection(p);
                     }
