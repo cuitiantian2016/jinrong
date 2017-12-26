@@ -85,7 +85,7 @@
                  android:gravity="center"
                  android:paddingBottom="@dimen/dimen_5dp"
                  android:paddingTop="@dimen/dimen_5dp"
-                 android:text="在赏一笔"
+                 android:text="再赏一笔"
                  android:textColor="@color/color_008EFF"
                  android:textSize="18sp" />
          </LinearLayout>
