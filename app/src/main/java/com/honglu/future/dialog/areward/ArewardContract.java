@@ -15,6 +15,6 @@ public interface ArewardContract {
 
     interface Presenter {
         void getArewardScore(String userId);
-        void getReward(String userId,String postId,String beUserId,int score);
+        void getReward(String userId,String postId,String beUserId,int score, int exceptionalType);
     }
 }

@@ -233,9 +233,9 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                    mArewardHintDialog.showArewardHint(ArewardHintDialog.AREWARD_HINT,R.mipmap.icon_hint,"牛币不足","投资可以获得相应金额的牛币哦");
                }else {
                    if (AREWARD_USER_TYPE.equals(mArewardType)) { //对用户进行打赏
-                       mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum);
+                       mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum,1);
                    } else { //对帖子进行打赏
-                       mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum);
+                       mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum,2);
                    }
                }
                break;

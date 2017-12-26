@@ -887,7 +887,8 @@ public interface HttpApi {
             @Field("postId") String postId,
             @Field("beUserId") String beUserId,
             @Field("score") int score,
-            @Field("type") int type);
+            @Field("type") int type,
+            @Field("exceptionalType") int exceptionalType);
 
 
     /**
