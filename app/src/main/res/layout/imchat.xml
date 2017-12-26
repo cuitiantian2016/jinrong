@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-   
-    <com.gensee.view.GSImplChatView
-        android:id="@+id/impchatview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </com.gensee.view.GSImplChatView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_tip"
+        android:paddingLeft="@dimen/dimen_13dp"
+        android:paddingRight="@dimen/dimen_22dp">
 
-</LinearLayout>
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tv_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dimen_3dp"
+        android:padding="@dimen/dimen_13dp"
+        android:text="只看老师"
+        android:textColor="@color/color_008EFF"
+        android:textSize="@dimen/dimen_12sp" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_send"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:text="以上仅代表个人观点，请自主决策 | 投资有风险，入市需谨慎！"
+        android:textColor="#CACBCC"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FCFCFC"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/chat_to_tv"
+            android:layout_width="@dimen/chat_bottom_left_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/chat_select_person_left"
+            android:background="@drawable/selector_chat_select_switch"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:text="@string/allname"
+            android:textColor="@color/chat_edit_view"
+            android:textSize="@dimen/chat_select_name_size"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/pinglun" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.gensee.view.ChatEditText
+                    android:id="@+id/edittalking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/chat_editview_context_left"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="交流一下呗～"
+                    android:maxLines="2"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/chat_edit_view"
+                    android:textColorHint="#008eff"
+                    android:textSize="16dp" />
+
+                <ImageButton
+                    android:id="@+id/expressionbuttton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_smile" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/sendbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_send_pressed" />
+    </LinearLayout>
+
+</RelativeLayout>

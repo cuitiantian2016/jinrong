@@ -162,7 +162,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 tv_teacher_name.setCompoundDrawables(null, null, drawable, null);
             }
             tv_live_title.setText(item.liveTitle);
-            tv_live_content.setText(item.liveDes);
+            tv_live_content.setText(item.authorDescribeLimit);
             tv_teacher_attention.setImageResource(item.isFollow() ? R.mipmap.already_recommend : R.mipmap.add_recommend);
             if (item.isLive() && !TextUtils.isEmpty(item.liveNum)) {
                 tv_live_num.setVisibility(View.VISIBLE);

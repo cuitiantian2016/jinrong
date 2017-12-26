@@ -43,7 +43,6 @@ import com.gensee.player.OnChatListener;
 import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.routine.UserInfo;
-import com.gensee.taskret.OnTaskRet;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
@@ -51,7 +50,6 @@ import com.honglu.future.ui.live.LiveListBean;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.widget.popupwind.PlayerChangePopWin;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -59,7 +57,6 @@ import com.honglu.future.widget.tab.TabEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 直播页面
@@ -124,6 +121,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
                     break;
                 case HANDlER.USERINCREASE:
+
                 case HANDlER.USERUPDATE:
 
                     break;
@@ -133,6 +131,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                     if (mViedoFragment != null) {
                         mViedoFragment.onJoin(bJoinSuccess);
                     }
+                    mChatFragment.setUserInfo(mPlayer.getSelfInfo());
                     break;
                 case HANDlER.SUCCESSLEAVE:
                     dialog();
@@ -271,7 +270,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         if (mFragments == null) {
             mFragments = new ArrayList<>();
         }
-        mChatFragment = new ChatFragment(mPlayer);
+        mChatFragment = new ChatFragment(this,mPlayer);
         mFragments.add(mChatFragment);
 //        mMainPointFragment = new MainPointFragment();
 //        mFragments.add(mMainPointFragment);
@@ -385,18 +384,21 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onUserJoin(UserInfo info) {
+        Log.i("testUser",info.getName());
         // 用户加入
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERINCREASE, info));
     }
 
     @Override
     public void onUserLeave(UserInfo info) {
+        Log.i("testUser",info.getName()+"leave");
         // 用户离开
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERDECREASE, info));
     }
 
     @Override
     public void onUserUpdate(UserInfo info) {
+        Log.i("testUser",info.getName()+"update");
         // 用户更新
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERUPDATE, info));
     }
@@ -731,7 +733,14 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     }
 
     @Override
-    public void onChatWithPublic(ChatMsg chatMsg) {
+    public void onChatWithPublic(final ChatMsg chatMsg) {
+        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent()+",,,"+chatMsg.getTimeStamp());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    mChatFragment.appendMsg(chatMsg);
+            }
+        });
     }
 
     @Override

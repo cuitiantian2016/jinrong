@@ -53,6 +53,7 @@ public class LiveInfoFragment extends Fragment {
                 ImageUtil.display(liveBean.liveTeacherICon, head, R.mipmap.img_head);
                 name.setText(liveBean.liveTeacher);
                 teacherInfo.setText(liveBean.liveTeacherDes);
+                liveInfo.setText(liveBean.liveDes);
             }
         }
     }

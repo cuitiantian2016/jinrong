@@ -61,6 +61,7 @@ public class LiveListBean implements Serializable{
     @SerializedName("isGuanzhu")
     public String follow;//老师的id
     public boolean isExpend;//标记是否打开
+    public String authorDescribeLimit;//老师特色简要描述
     public boolean isFollow(){
         return Integer.parseInt(follow)==1;
     }
