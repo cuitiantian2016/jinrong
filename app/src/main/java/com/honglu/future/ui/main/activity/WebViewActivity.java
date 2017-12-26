@@ -229,6 +229,14 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     public class JavaMethod {
 
         /**
+         * 协议跳转native页面
+         */
+        @JavascriptInterface
+        public void jumpApp(String jumpUrl) {
+           ARouter.getInstance().build(Uri.parse(jumpUrl)).navigation(WebViewActivity.this);
+        }
+
+        /**
          * 跳转开户页面
          */
         @JavascriptInterface
