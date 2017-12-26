@@ -43,6 +43,7 @@ import com.gensee.player.OnChatListener;
 import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.routine.UserInfo;
+import com.gensee.taskret.OnTaskRet;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
@@ -58,12 +59,13 @@ import com.honglu.future.widget.tab.TabEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 直播页面
  * Created by zq on 2017/12/22.
  */
-public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener,OnChatListener {
+public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener, OnChatListener {
 
     private static final String TAG = "PlayerDemoActivity";
     private SharedPreferences preferences;
@@ -78,7 +80,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     private ProgressBar mProgressBar;
     private ChatFragment mChatFragment;
-//    private MainPointFragment mMainPointFragment;
+    //    private MainPointFragment mMainPointFragment;
     private ViedoFragment mViedoFragment;
     private LiveInfoFragment mLiveInfoFragment;
     private FragmentManager mFragmentManager;
@@ -99,7 +101,6 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private Intent serviceIntent;
 
     private int inviteMediaType;
-
 
 
     interface HANDlER {
@@ -212,6 +213,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         videoViewNormalSize();
 
         mPlayer = new Player();
+        mPlayer.setOnChatListener(this);
 
 
         mFragmentManager = getSupportFragmentManager();
@@ -228,7 +230,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     private void setInitParam() {
         Bundle bundle = getIntent().getExtras();
-        LiveListBean bean  = (LiveListBean) bundle.getSerializable("liveBean");
+        LiveListBean bean = (LiveListBean) bundle.getSerializable("liveBean");
         mTvRoomName.setText(bean.liveTitle);
         mLiveInfoFragment.setLiveInfo(bean);
         String domain = bean.domainUrl;
@@ -244,7 +246,8 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         // 设置域名
         initParam.setDomain(domain);
         //设置直播间编号
-        initParam.setNumber(number);
+        //initParam.setNumber(number);
+        initParam.setLiveId(number);
         // 设置显示昵称 不能为空,请传入正确的昵称，有显示和统计的作用
         // 设置显示昵称，如果设置为空，请确保
         initParam.setNickName(nickName);
@@ -725,12 +728,10 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onChatWithPerson(ChatMsg chatMsg) {
-
     }
 
     @Override
     public void onChatWithPublic(ChatMsg chatMsg) {
-
     }
 
     @Override
@@ -755,7 +756,6 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onChatcensor(String s, String s1) {
-
     }
 
     @Override
