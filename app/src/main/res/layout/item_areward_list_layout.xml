@@ -51,7 +51,7 @@
                     android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen_16sp"
-                    android:text="赏" />
+                    android:text="打赏" />
 
                 <TextView
                     android:id="@+id/tv_areward_num"
