@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,20 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
     public LiveAdapter(ListView listView){
         this.listView = listView;
     }
+    /**
+     * 关注刷新
+     *
+     * @param follow
+     * @param uid
+     */
+    public void follow(String follow, String uid) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).liveTeacherID.equals(uid)) {
+                mData.get(i).follow = follow;
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,51 +63,45 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         final LiveListBean item = getItem(position);
-
         holder.bindView(item,position ==(getCount()-1),listView,position);
-        if (item.isFollow()){
-            holder.tv_teacher_attention.setOnClickListener(null);
-        }else {
-            holder.tv_teacher_attention.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (DeviceUtils.isFastDoubleClick()) {
-                        return;
-                    }
-                    String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
-                    if (user_id.equals(item.liveTeacherID)) {
-                        ToastUtil.show("自己不能关注自己");
-                        return;
-                    }
-                    final String foll = item.follow.equals("1") ? "0" : "1";
-                    HttpManager.getApi().focus(item.liveTeacherID, SpUtil.getString(Constant.CACHE_TAG_UID), foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
-                        @Override
-                        protected void _onNext(JsonNull jsonNull) {
-                            super._onNext(jsonNull);
-                            if (foll.equals("0")) {
-                                ToastUtil.show("取消关注成功");
-                            } else {
-                                ToastUtil.show("关注成功");
-                            }
-                            item.follow = foll;
-                            BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
-                            bbsFlownEvent.follow = foll;
-                            bbsFlownEvent.uid = item.liveTeacherID;
-                            EventBus.getDefault().post(bbsFlownEvent);
-                            notifyDataSetChanged();
-                        }
-
-                        @Override
-                        protected void _onError(String message) {
-                            super._onError(message);
-                            ToastUtil.show(message);
-                        }
-                    });
+        holder.tv_teacher_attention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
                 }
-            });
-        }
+                String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
+                if (user_id.equals(item.liveTeacherID)) {
+                    ToastUtil.show("自己不能关注自己");
+                    return;
+                }
+                final String foll = item.follow.equals("1") ? "0" : "1";
+                HttpManager.getApi().focus(item.liveTeacherID, SpUtil.getString(Constant.CACHE_TAG_UID), foll).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                    @Override
+                    protected void _onNext(JsonNull jsonNull) {
+                        super._onNext(jsonNull);
+                        if (foll.equals("0")) {
+                            ToastUtil.show("取消关注成功");
+                        } else {
+                            ToastUtil.show("关注成功");
+                        }
+                        item.follow = foll;
+                        BBSFlownEvent bbsFlownEvent = new BBSFlownEvent();
+                        bbsFlownEvent.follow = foll;
+                        bbsFlownEvent.uid = item.liveTeacherID;
+                        EventBus.getDefault().post(bbsFlownEvent);
+                        follow(foll,item.liveTeacherID);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        super._onError(message);
+                        ToastUtil.show(message);
+                    }
+                });
+            }
+        });
         return convertView;
     }
 
@@ -129,6 +138,17 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             ImageUtil.display(item.liveTeacherICon, iv_teach, R.mipmap.img_head);
             tv_teacher_name.setText(item.liveTeacher);
             tv_teach_des.setText(item.liveTeacherDes);
+            if (item.isExpend){
+                tv_teach_des.setVisibility(View.VISIBLE);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_up);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
+            }else {
+                tv_teach_des.setVisibility(View.GONE);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_down);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
+            }
             tv_teach_des.setVisibility(View.GONE);
             tv_live_title.setText(item.liveTitle);
             tv_live_content.setText(item.liveDes);
@@ -154,14 +174,17 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 public void onClick(View view) {
                     int visibility = tv_teach_des.getVisibility();
                     if (visibility !=View.VISIBLE){
+                        item.isExpend = true;
                         tv_teach_des.setVisibility(View.VISIBLE);
                         Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_up);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                         tv_teacher_name.setCompoundDrawables(null,null,drawable,null);
+                        Log.d("tv_teacher_name", "onClick: "+listView.getLastVisiblePosition()+"p-->"+p);
                         if (islast){
                             listView.setSelection(p);
                         }
                     }else {
+                        item.isExpend = false;
                         tv_teach_des.setVisibility(View.GONE);
                         Drawable drawable = context.getResources().getDrawable(R.mipmap.icon_down);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());

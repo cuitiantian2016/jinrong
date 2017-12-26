@@ -23,6 +23,7 @@ import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
+import com.honglu.future.ui.live.LiveListBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.recharge.bean.AssesData;
@@ -886,4 +887,14 @@ public interface HttpApi {
             @Field("postId") String postId,
             @Field("beUserId") String beUserId,
             @Field("score") int score);
+
+
+    /**
+     * 视频直播
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.162:8080/futures-userlive-api/userLive/getLiveListInfo")
+    Observable<BaseResponse<List<LiveListBean>>> getLiveData(
+            @Field("userId") String userId);
 }
