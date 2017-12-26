@@ -60,7 +60,7 @@ public class LiveActivity extends BaseActivity {
                 refresh();
             }
         });
-        empty_view = LayoutInflater.from(this).inflate(R.layout.fragment_bbs_empty, null);
+        empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
         liveAdapter = new LiveAdapter(lv_listView);
         lv_listView.setAdapter(liveAdapter);
         lv_listView.setDividerHeight(AndroidUtil.dip2px(this,10));
@@ -90,6 +90,16 @@ public class LiveActivity extends BaseActivity {
             protected void _onError(String message) {
                 super._onError(message);
                 srl_refreshView.finishRefresh();
+                if (liveAdapter.getCount() > 0) {
+                    if (lv_listView.getFooterViewsCount() != 0){
+                        lv_listView.removeFooterView(empty_view);
+                    }
+                } else {
+                    //空布局
+                    if (lv_listView.getFooterViewsCount() == 0 && liveAdapter.getCount() == 0) {
+                        lv_listView.addFooterView(empty_view, null, false);
+                    }
+                }
             }
         });
     }

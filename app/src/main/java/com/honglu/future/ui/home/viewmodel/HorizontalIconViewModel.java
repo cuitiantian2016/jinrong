@@ -137,7 +137,11 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                         MobclickAgent.onEvent(mContext,"shouye_zixunkefu_click","首页_咨询客服");
                         AndroidUtil.startKF(mContext);
                     }else if (homeIcons.title.contains("直播")){
-                        mContext.startActivity(new Intent(mContext, LiveActivity.class));
+                        if (App.getConfig().getLoginStatus()){
+                            mContext.startActivity(new Intent(mContext, LiveActivity.class));
+                        } else{
+                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        }
                     }
                 }
             });
