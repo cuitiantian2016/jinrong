@@ -43,7 +43,8 @@ public class ArewardPresenter extends BasePresenter<ArewardContract.View> implem
      */
     @Override
     public void getReward(String userId, String postId, String beUserId,final int score) {
-        toSubscribe(HttpManager.getApi().getReward(userId,postId,beUserId,score), new HttpSubscriber<JsonNull>() {
+         //|type|否|int|打赏不传 其它传1-签到 2-打赏 3-交易 4-兑换 5-赠送 6-任务|
+        toSubscribe(HttpManager.getApi().getReward(userId,postId,beUserId,score,2), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("打赏中...");
