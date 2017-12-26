@@ -333,6 +333,17 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             //调用这个方法返回数据
             WebViewActivity.this.finish();
         }
+
+        /**
+         * 返回上一级
+         *
+         * @return
+         */
+        @JavascriptInterface
+        public void backPressed() {
+            //调用这个方法返回数据
+            WebViewActivity.this.onBackPressed();
+        }
         /***************END 支付宝和淘宝等第三方数据抓取和认证操作***************/
         /**
          * 调用改方法去发送短信
