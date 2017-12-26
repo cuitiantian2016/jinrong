@@ -19,15 +19,15 @@
             android:background="@mipmap/bg_user"
             android:orientation="vertical">
 
-            <!--<ImageView-->
-            <!--android:id="@+id/iv_setup"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:padding="@dimen/dimen_5dp"-->
-            <!--android:layout_marginTop="@dimen/dimen_10dp"-->
-            <!--android:layout_marginRight="@dimen/dimen_10dp"-->
-            <!--android:src="@mipmap/ic_setup"/>-->
+            <ImageView
+            android:id="@+id/iv_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="@dimen/dimen_5dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginRight="@dimen/dimen_10dp"
+            android:src="@mipmap/ic_setup"/>
 
             <TextView
                 android:id="@+id/tv_loginRegister"
@@ -163,137 +163,94 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_10dp" />
 
-        <LinearLayout
-            android:id="@+id/ll_bottomLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_shop_mall"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_shop_mall"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_shop_mall"/>
 
-            <TextView
-                android:id="@+id/tv_open_account"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_user_open_account"
-                android:gravity="center_horizontal"
-                android:text="@string/text_user_open_account"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
+        <View
+            style="@style/small_line_style"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:visibility="gone"/>
 
-            <View
-                android:layout_width="@dimen/dimen_line"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:background="@color/color_EDEDED" />
+        <TextView
+            android:id="@+id/tv_task"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_task"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_task"
+            android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/tv_novice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_user_novice"
-                android:gravity="center_horizontal"
-                android:text="@string/text_user_novice"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
-
-
-            <View
-                android:layout_width="@dimen/dimen_line"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:background="@color/color_EDEDED" />
-
-            <TextView
-                android:id="@+id/tv_kefu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_user_kefu"
-                android:gravity="center_horizontal"
-                android:text="@string/text_user_kefu"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_EDEDED" />
-
-        <LinearLayout
-            android:id="@+id/ll_bottomLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dimen_10dp" />
 
 
-            <TextView
-                android:id="@+id/tv_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_user_phone"
-                android:gravity="center_horizontal"
-                android:text="@string/text_user_phone"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
+        <TextView
+            android:id="@+id/tv_open_account"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_open_account"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_open_account"/>
 
 
-            <View
-                android:layout_width="@dimen/dimen_line"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:background="@color/color_EDEDED" />
+        <View
+            style="@style/small_line_style"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"/>
 
-            <TextView
-                android:id="@+id/tv_aboutus"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_user_aboutus"
-                android:gravity="center_horizontal"
-                android:text="@string/text_user_aboutus"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
 
-            <View
-                android:layout_width="@dimen/dimen_line"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:background="@color/color_EDEDED" />
+        <TextView
+            android:id="@+id/tv_novice"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_novice"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_novice"/>
 
-            <TextView
-                android:id="@+id/tv_update"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_17dp"
-                android:layout_marginTop="@dimen/dimen_17dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_16dp"
-                android:drawableTop="@mipmap/ic_setup"
-                android:gravity="center_horizontal"
-                android:text="设置"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_12sp" />
-        </LinearLayout>
+        <View
+            style="@style/small_line_style"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"/>
+
+        <TextView
+            android:id="@+id/tv_kefu"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_kefu"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_kefu"/>
+
+        <View
+            style="@style/small_line_style"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"/>
+
+        <TextView
+            android:id="@+id/tv_aboutus"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_aboutus"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_aboutus"/>
+
+
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_user_phone"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="@string/text_user_phone"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_update"
+            style="@style/user_content_bottom_widget"
+            android:drawableLeft="@mipmap/ic_setup"
+            android:drawableRight="@mipmap/ic_user_right_arrow"
+            android:text="设置"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

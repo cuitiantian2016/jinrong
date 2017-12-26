@@ -129,16 +129,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mNovice;
     @BindView(R.id.tv_kefu)
     TextView mKefu;
-    @BindView(R.id.ll_bottomLayout1)
-    LinearLayout mBottomLayout1;
     @BindView(R.id.tv_phone)
     TextView mPhone;
     @BindView(R.id.tv_aboutus)
     TextView mAboutus;
-    @BindView(R.id.tv_update)
-    TextView mUpdate;
-    @BindView(R.id.ll_bottomLayout2)
-    LinearLayout mBottomLayout2;
     @BindView(R.id.fl_config)
     FrameLayout mFlConfig;
     @BindView(R.id.ll_viper)
@@ -218,10 +212,19 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
             R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
             R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
-            R.id.tv_bond_query, R.id.tv_update, R.id.ll_viper})
+            R.id.tv_bond_query, R.id.iv_setup, R.id.ll_viper , R.id.tv_shop_mall,R.id.tv_task})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
+            case R.id.tv_shop_mall: //牛币商城
+                Intent intentShopMall = new Intent(mActivity, WebViewActivity.class);
+                intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
+                intentShopMall.putExtra("title", "牛币商城");
+                startActivity(intentShopMall);
+                break;
+            case R.id.tv_task://任务中心
+
+                break;
             case R.id.tv_novice:
                 clickTab("wode_xinshourumen_click","我的_新手入门");
                 Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
@@ -330,7 +333,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentQuery.putExtra("title", "保证金监控中心查询");
                 startActivity(intentQuery);
                 break;
-            case R.id.tv_update:
+            case R.id.iv_setup:
                 clickTab("wode_shezhi_click","我的_设置");
                 if (App.getConfig().getLoginStatus()) {
                     startActivity(ModifyUserActivity.class);

@@ -37,6 +37,8 @@ public class ConfigUtil {
             "http://testqb.xnsudai8.com/"
     };
 
+    //牛币商城
+    public static String SHOP_MALL = baseH5Url + "connector/shopMall/shopHome";
     //新手入门
     public static String NEW_USER_TEACH = baseH5Url + "newSchool";
 

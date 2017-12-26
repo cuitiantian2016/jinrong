@@ -75,10 +75,12 @@
     <string name="text_q_login">去登录</string>
     <string name="text_user_open_account">立即开户</string>
     <string name="text_user_novice">新手入门</string>
-    <string name="text_user_kefu">在线客服</string>
+    <string name="text_user_kefu">联系客服</string>
     <string name="text_user_phone">客服电话</string>
     <string name="text_user_aboutus">关于我们</string>
     <string name="text_user_update">版本检测</string>
+    <string name="text_user_shop_mall">牛币商城</string>
+    <string name="text_user_task">任务中心</string>
     <string name="text_user_qihuo_signin">登录期货账户</string>
     <string name="text_user_aqsignout">安全退出</string>
     <string name="text_user_danger_chance">风险率</string>
