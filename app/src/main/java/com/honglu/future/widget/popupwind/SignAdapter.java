@@ -59,9 +59,9 @@ public class SignAdapter extends BaseAdapter {
 		PublishImgViewHolder holder;
 		convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sign, parent, false);
 		holder = new PublishImgViewHolder(convertView);
-		setListener(holder);
 		SignBean.SignListBean item = getItem(position);
 		holder.bindView(item,position);
+		setListener(holder);
 		return convertView;
 	}
 
