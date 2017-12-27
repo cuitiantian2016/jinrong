@@ -281,7 +281,7 @@ public class MineFragment extends CommonFragment {
                             attention_num.setText("关注 " + o.getFocusNum());
                             endorse_num.setText("粉丝 " + o.getBeFocusNum());
                             topic_num.setText("发帖 " + o.getPostNum());
-                            mArewardNum.setText("打赏 "+o.getExceptionalCount());
+                            mArewardNum.setText("获赏 "+o.getExceptionalCount());
                             if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
                                 if (mListView.getFooterViewsCount() != 0)
                                     mListView.removeFooterView(empty_view);
@@ -367,7 +367,7 @@ public class MineFragment extends CommonFragment {
                             attention_num.setText("关注 " + o.getFocusNum());
                             endorse_num.setText("粉丝 " + o.getBeFocusNum());
                             topic_num.setText("发帖 " + o.getPostNum());
-                            mArewardNum.setText("打赏 "+o.getExceptionalCount());
+                            mArewardNum.setText("获赏 "+o.getExceptionalCount());
                         }
 
 
