@@ -142,7 +142,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         }
 
         public void bindView(final LiveListBean item, final boolean islast, final ListView listView, final int p) {
-            ImageUtil.display(item.liveImg, iv_bg, R.mipmap.timg);
+            ImageUtil.display(item.liveImg, iv_bg, R.mipmap.other_empty);
             ImageUtil.display(item.liveTeacherICon, iv_teach, R.mipmap.img_head);
             tv_teacher_name.setText(item.liveTeacher);
             tv_teach_des.setText(item.liveTeacherDes);
@@ -168,13 +168,23 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 tv_live_num.setVisibility(View.VISIBLE);
                 tv_live_num.setText(context.getString(R.string.live_num, item.liveNum));
                 tv_live_state.setText("直播中");
+                tv_live_state.setTextColor(context.getResources().getColor(R.color.color_white));
                 tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_live));
                 Drawable drawable = context.getResources().getDrawable(R.drawable.combinedshape);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_live_state.setCompoundDrawables(drawable, null, null, null);
-            } else {
+            } else if (item.roomStatus == 2){
                 tv_live_num.setVisibility(View.GONE);
                 tv_live_state.setText(item.liveTime);
+                tv_live_state.setTextColor(context.getResources().getColor(R.color.color_E6E6E6));
+                tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_no_live));
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.oval);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv_live_state.setCompoundDrawables(drawable, null, null, null);
+            }else if (item.roomStatus == 3){
+                tv_live_num.setVisibility(View.GONE);
+                tv_live_state.setText("已结束");
+                tv_live_state.setTextColor(context.getResources().getColor(R.color.color_E6E6E6));
                 tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_no_live));
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.oval);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -198,8 +208,10 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                         Intent intent = new Intent(context, PlayerActivity.class);
                         intent.putExtra("liveBean", item);
                         context.startActivity(intent);
-                    }else{
+                    }else if (item.roomStatus == 2){
                         ToastUtil.show("直播未开始");
+                    }else if (item.roomStatus == 3){
+                        ToastUtil.show("直播已结束");
                     }
 
                 }
