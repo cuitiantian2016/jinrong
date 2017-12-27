@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     private GSVideoViewEx mGSViedoView;
     private TextView txtVideo, txtAudio, txtMic, txtHand, txtIdc, txtReword, tvNum;
     private ImageView mIvMore;
+    private RelativeLayout mRlAudio;
     private LinearLayout mLiveTip;
     private Spinner spinnerRate;
     private Runnable handRun = null;
@@ -77,6 +79,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         txtIdc = (TextView) mView.findViewById(R.id.txtIdc);
         txtReword = (TextView) mView.findViewById(R.id.txtReword);
         mIvMore = (ImageView) mView.findViewById(R.id.iv_more);
+        mRlAudio = (RelativeLayout) mView.findViewById(R.id.rl_audio_only);
 
         mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
         mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
@@ -242,6 +245,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         if (mPlayer != null) {
             if (!isVideo) {
                 mPlayer.videoSet(false);
+                mRlAudio.setVisibility(View.GONE);
                 isVideo = true;
             }
         }
@@ -252,6 +256,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         if (mPlayer != null) {
             if (isVideo) {
                 mPlayer.videoSet(true);
+                mRlAudio.setVisibility(View.VISIBLE);
                 isVideo = false;
             }
         }

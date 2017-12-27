@@ -12,6 +12,30 @@
             android:id="@+id/imvideoview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" /> -->
+
+    <RelativeLayout
+        android:id="@+id/rl_audio_only"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/audio_only" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:text="已开启音频直播"
+            android:textColor="@color/color_008EFF"
+            android:textSize="@dimen/dimen_14sp" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/iv_more"
         android:layout_width="wrap_content"
