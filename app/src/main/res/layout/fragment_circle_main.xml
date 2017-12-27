@@ -26,9 +26,10 @@
 
                 <com.honglu.future.widget.CircleImageView
                     android:id="@+id/iv_head_portrait"
-                    android:layout_width="@dimen/dimen_36dp"
-                    android:layout_height="@dimen/dimen_36dp"
+                    android:layout_width="@dimen/dimen_30dp"
+                    android:layout_height="@dimen/dimen_30dp"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_margin="8dp"
                     android:src="@mipmap/img_head" />
 
@@ -45,7 +46,9 @@
                     android:layout_width="@dimen/dimen_36dp"
                     android:layout_height="@dimen/dimen_36dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_4dp"
+                    android:layout_marginLeft="@dimen/dimen_4dp"
                     android:clipChildren="false"
                     android:gravity="center"
                     tools:visibility="visible">
@@ -54,7 +57,6 @@
                         android:id="@+id/iv_msg_icon"
                         android:layout_width="@dimen/dimen_20dp"
                         android:layout_height="@dimen/dimen_18dp"
-                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_bbs_msg_label" />
 
                      <View
@@ -62,26 +64,39 @@
                          android:layout_width="@dimen/dimen_8dp"
                          android:layout_height="@dimen/dimen_8dp"
                          android:background="@drawable/shape_red"
-                         android:layout_marginLeft="@dimen/dimen_13dp"
-                         android:layout_marginTop="@dimen/dimen_5dp"/>
+                         android:layout_marginLeft="@dimen/dimen_13dp" />
+
                 </RelativeLayout>
-                <TextView
+
+                <LinearLayout
                     android:id="@+id/tv_sign"
-                    android:layout_toLeftOf="@+id/ly_message_hint"
-                    android:drawableLeft="@drawable/sign"
-                    android:text="签到"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/dimen_11sp"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/dimen_5dp"
-                    android:paddingBottom="@dimen/dimen_5dp"
-                    android:background="@drawable/bg_btn_sign"
-                    android:drawablePadding="@dimen/dimen_3dp"
-                    android:paddingLeft="@dimen/dimen_10dp"
-                    android:paddingRight="@dimen/dimen_10dp"
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/ly_message_hint"
+                    android:background="@drawable/bg_btn_sign"
+                    android:paddingBottom="3.5dp"
+                    android:paddingTop="3.5dp"
+                    android:paddingRight="@dimen/dimen_9dp"
+                    android:paddingLeft="@dimen/dimen_9dp">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_12dp"
+                    android:layout_height="@dimen/dimen_11dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/sign"/>
+
+                    <TextView
+                        android:text="签到"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/dimen_11sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
 
             </RelativeLayout>
 

@@ -4,48 +4,57 @@
     android:background="@color/color_white"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_sign_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:layout_centerHorizontal="true"
-        android:padding="1px"
-        android:src="@drawable/sign_img"
-        android:layout_below="@+id/v_sign_selected"
-        android:layout_marginTop="-10dp"
-        android:layout_alignParentStart="true" />
+        android:background="@drawable/shape_2dp_e6e6e6">
 
-    <ImageView
-        android:id="@+id/v_sign_selected"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/sign_check"
-        android:layout_marginLeft="-10dp"
-        android:layout_toRightOf="@+id/iv_sign_image" />
 
-    <TextView
-        android:id="@+id/tv_day"
-        android:layout_width="60dp"
-        android:layout_marginTop="6.5dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_sign_image"
-        android:gravity="center"
-        android:textSize="@dimen/dimen_14sp"
-        android:textStyle="bold"
-        android:textColor="@color/color_333333"
-        android:text="第一天"/>
+        <ImageView
+            android:id="@+id/iv_sign_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/sign_img"
+            android:layout_marginTop="7.5dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginRight="7.5dp"/>
 
-    <TextView
-        android:id="@+id/tv_money"
-        android:layout_width="60dp"
-        android:layout_marginTop="3dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_day"
-        android:gravity="center"
-        android:textSize="@dimen/dimen_14sp"
-        android:textColor="#FF8843"
-        android:text="15牛币"/>
+        <ImageView
+            android:id="@+id/v_sign_selected"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/sign_check"
+            android:layout_marginLeft="@dimen/dimen_55dp"/>
+
+        <TextView
+            android:id="@+id/tv_day"
+            android:layout_width="60dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_sign_image"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="@dimen/dimen_14sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_333333"
+            android:text="第一天"/>
+
+        <com.honglu.future.widget.DinTextView
+            android:id="@+id/tv_money"
+            android:layout_width="60dp"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_day"
+            android:layout_marginBottom="7.5dp"
+            android:gravity="center"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="#FF8843"
+            android:text="15牛币"/>
+
+    </RelativeLayout>
+
     <View
         android:id="@+id/bg_view"
         android:layout_width="match_parent"

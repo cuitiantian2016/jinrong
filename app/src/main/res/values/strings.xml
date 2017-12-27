@@ -227,7 +227,7 @@
     <string name="text_maohao">: %s</string>
     <string name="the_first_few_days">第%s天</string>
     <string name="integral">枚</string>
-    <string name="integral_s">%s枚</string>
+    <string name="integral_s">%s牛币</string>
     <string name="default_text">默认</string>
     <string name="custom_text">自定义打赏</string>
     <string name="areward_niubi">打赏给 %s</string>

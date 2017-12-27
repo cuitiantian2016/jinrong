@@ -142,7 +142,7 @@ public class SignAdapter extends BaseAdapter {
 				view.setAlpha(1f);
 			}else {
 				v_sign_selected.setVisibility(View.INVISIBLE);
-				view.setAlpha(0.2f);
+				view.setAlpha(0.5f);
 			}
 			if (item.isSignClick()){
 				v_sign_selected.setVisibility(View.INVISIBLE);

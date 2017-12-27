@@ -8,7 +8,7 @@
         android:layout_gravity="end"
         android:layout_width="17dp"
         android:layout_height="7dp"
-        android:layout_marginRight="@dimen/dimen_52dp"
+        android:layout_marginRight="@dimen/dimen_60dp"
         android:layout_marginTop="@dimen/dimen_10dp"
         android:background="@mipmap/jianjiao"/>
     <LinearLayout
@@ -16,12 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/dimen_20dp"
-        android:layout_marginRight="@dimen/dimen_20dp"
-        android:paddingLeft="@dimen/dimen_15dp"
-        android:paddingTop="@dimen/dimen_20dp"
-        android:background="@drawable/bg_shape_sign"
-        android:paddingBottom="@dimen/dimen_20dp">
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:padding="@dimen/dimen_12dp"
+        android:background="@drawable/bg_shape_sign">
         <GridView
             android:id="@+id/sign_grad"
             android:background="@color/color_white"
