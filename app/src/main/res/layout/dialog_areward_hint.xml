@@ -66,15 +66,15 @@
                  android:gravity="center"
                  android:text="我知道了"
                  android:textColor="@color/color_A4A5A6"
-                 android:textSize="18sp" />
+                 android:textSize="16sp" />
 
              <View
                  android:id="@+id/v_line"
                  android:layout_width="@dimen/dimen_line"
                  android:layout_height="match_parent"
                  android:background="@color/color_EDEDED"
-                 android:layout_marginTop="7.5dp"
-                 android:layout_marginBottom="7.5dp"/>
+                 android:layout_marginTop="12.5dp"
+                 android:layout_marginBottom="12.5dp"/>
 
              <TextView
                  android:id="@+id/tv_accomplish"
@@ -88,7 +88,7 @@
                  android:paddingTop="@dimen/dimen_5dp"
                  android:text="再赏一笔"
                  android:textColor="@color/color_008EFF"
-                 android:textSize="18sp" />
+                 android:textSize="16sp" />
          </LinearLayout>
      </LinearLayout>
 </LinearLayout>
