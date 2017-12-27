@@ -217,11 +217,16 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_shop_mall: //牛币商城
-                Intent intentShopMall = new Intent(mActivity, WebViewActivity.class);
-                intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
-                intentShopMall.putExtra("title", "牛币商城");
-                intentShopMall.putExtra("is_tool_bar",false);
-                startActivity(intentShopMall);
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent loginActivity = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(loginActivity);
+                }else {
+                    Intent intentShopMall = new Intent(mActivity, WebViewActivity.class);
+                    intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
+                    intentShopMall.putExtra("title", "牛币商城");
+                    intentShopMall.putExtra("is_tool_bar", false);
+                    startActivity(intentShopMall);
+                }
                 break;
             case R.id.tv_task://任务中心
 
