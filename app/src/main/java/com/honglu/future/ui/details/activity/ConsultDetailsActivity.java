@@ -30,6 +30,7 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.CommentEvent;
+import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
@@ -39,6 +40,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
@@ -96,6 +98,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private TopicAdapter mTopicAdapter;
     private boolean isRefrsh;
     private boolean isComm;
+    private String shareTitle;
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
         intent.putExtra(KEY_MESSAGE_ITEM,item);
@@ -132,6 +135,15 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     }
     private void initView() {
         mTitle.setTitle(true, R.color.trans, "");
+        mTitle.setRightTitle(R.mipmap.ic_share, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(shareTitle)){
+                    String title = shareTitle.length() >=23 ? shareTitle.substring(0,22)+"..." : shareTitle;
+                    ShareUtils.getIntance().share(ConsultDetailsActivity.this, "", ConfigUtil.baseH5Url+"connector/infoShare?informationId="+informationId, title, "投资达人喜欢的社区");
+                }
+            }
+        });
         LinearLayout headerView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.news_detail_header, null);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -181,6 +193,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
             ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.userAvatar, mUserIcon, R.mipmap.img_head);
             mTvTitle.setText(item.title);
+            shareTitle = item.title;
             mPosition = item.position;
             mTvName.setText(item.nickname);
             mTopicAdapter.setNickName(item.nickname);
