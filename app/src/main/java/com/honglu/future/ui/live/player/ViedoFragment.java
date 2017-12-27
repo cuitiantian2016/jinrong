@@ -5,8 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gensee.entity.PingEntity;
 import com.gensee.media.RenderMode;
-import com.gensee.player.OnPlayListener;
 import com.gensee.player.Player;
 import com.gensee.player.VideoRate;
 import com.gensee.view.GSVideoViewEx;
@@ -40,11 +40,19 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     private GSVideoViewEx mGSViedoView;
     private TextView txtVideo, txtAudio, txtMic, txtHand, txtIdc, txtReword, tvNum;
     private ImageView mIvMore;
+    private LinearLayout mLiveTip;
     private Spinner spinnerRate;
     private Runnable handRun = null;
     private List<PingEntity> idcs;
     private PlayerChangePopWin mPlayerChangePopWin;
     private boolean isVideo = true;
+    private Handler mHandler = new Handler();
+    private Runnable mRunable = new Runnable() {
+        @Override
+        public void run() {
+            mLiveTip.setVisibility(View.GONE);
+        }
+    };
 
     public ViedoFragment(Player player) {
         this.mPlayer = player;
@@ -82,7 +90,8 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         mIvMore.setOnClickListener(this);
         mPlayerChangePopWin = new PlayerChangePopWin(getActivity());
         mPlayerChangePopWin.setOnPopItemClickListener(this);
-
+        mLiveTip = (LinearLayout) mView.findViewById(R.id.ll_live_tip);
+        mHandler.postDelayed(mRunable, 5000);
         mPlayer.setGSVideoView(mGSViedoView);
         return mView;
     }
@@ -223,7 +232,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
                 Toast.makeText(getActivity(), "开发者自行下载支付宝的sdk进行集成支付", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_more:
-                mPlayerChangePopWin.showPopupWind(v,isVideo);
+                mPlayerChangePopWin.showPopupWind(v, isVideo);
                 break;
         }
     }
@@ -298,5 +307,11 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
 
     public void onIdcList(List<PingEntity> arg0) {
         this.idcs = arg0;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mRunable);
     }
 }
