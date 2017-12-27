@@ -315,12 +315,12 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mPresenter.getReplyList(informationId);
         //设置字体大小
         WebSettings webSettings = mContentWv.getSettings();
-        webSettings.setSupportZoom(true);
         webSettings.setTextZoom (110);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//把html中的内容放大webview等宽的一列中
         webSettings.setJavaScriptEnabled(true);//支持js
-        webSettings.setBuiltInZoomControls(true); // 显示放大缩小
-        webSettings.setSupportZoom(true); // 可以缩放
+        webSettings.setBuiltInZoomControls(false); // 显示放大缩小
+        webSettings.setSupportZoom(false); // 可以缩放
+        webSettings.setDisplayZoomControls(false);
         // 设置加载进来的页面自适应手机屏幕
         //settings.setUseWideViewPort(true);
         //mContentTv.getSettings().setLoadWithOverviewMode(true);
