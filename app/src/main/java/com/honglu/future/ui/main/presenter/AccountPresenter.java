@@ -78,6 +78,7 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                 mListener.onFail();
                 if ("首次登录必须修改密码，请修改密码后重新登录".equals(message)) {//首次登录
                     tv_pass.setText("");
+                    SpUtil.putString(Constant.COMPANY_TYPE, company);
                     SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
                     new AlertFragmentDialog.Builder((FragmentActivity) context)
                             .setLeftBtnText("取消").setContent("首次登录必须修改交易密码，请修改密码后重新登录", R.color.color_A4A5A6, R.dimen.dimen_15sp).setTitle("修改交易密码", R.color.color_333333, R.dimen.dimen_18sp)
