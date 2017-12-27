@@ -194,9 +194,14 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, PlayerActivity.class);
-                    intent.putExtra("liveBean", item);
-                    context.startActivity(intent);
+                    if(item.isLive()){
+                        Intent intent = new Intent(context, PlayerActivity.class);
+                        intent.putExtra("liveBean", item);
+                        context.startActivity(intent);
+                    }else{
+                        ToastUtil.show("直播未开始");
+                    }
+
                 }
             });
         }
