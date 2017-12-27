@@ -87,6 +87,8 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private ArrayList<Fragment> mFragments;
     private InitParam initParam;
     private ServiceType serviceType = ServiceType.WEBCAST;
+    private boolean mIsShowToast;
+    private boolean mIsPlaying;
 
 
     private int videoWidth = 320, videoHeight = 180;
@@ -675,10 +677,12 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                         finish();
                     }
                 });
+                if(!isFinishing()) {
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.show();
+                }
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
             }
         });
 
@@ -763,7 +767,11 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onPublish(boolean isPlaying) {
-        toastMsg(isPlaying ? "直播中" : "直播暂停");
+        if (!mIsShowToast || mIsPlaying != isPlaying) {
+            toastMsg(isPlaying ? "直播中" : "直播暂停");
+            mIsShowToast = true;
+            mIsPlaying = isPlaying;
+        }
     }
 
     @Override

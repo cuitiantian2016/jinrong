@@ -29,7 +29,7 @@ public class ChatListAdapter extends BaseRecyclerAdapter<ChatListAdapter.ViewHol
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
         holder.name.setText(item.getSender());
         holder.time.setText(TimeUtil.formatData(TimeUtil.dateFormatHM, item.getTimeStamp()/1000));
-        holder.content.setText(item.getContent());
+        holder.content.setChatContent(item.getContent(),item.getRichText());
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
