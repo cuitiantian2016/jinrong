@@ -78,13 +78,21 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:background="@color/color_EDEDED"/>
+
     <TextView
         android:id="@+id/tv_contnet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
-        android:layout_marginTop="@dimen/dimen_26dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/dimen_16sp"
         tools:text="我是内容-----------------------" />
@@ -121,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
             android:orientation="vertical">
 
             <ImageView
@@ -136,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/dimen_10dp"
                 android:textColor="@color/color_B1B1B3"
                 android:textSize="@dimen/dimen_14sp"
                 tools:text="3人点赞" />
@@ -162,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textSize="@dimen/dimen_14sp"
-                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/dimen_10dp"
                 android:textColor="@color/color_B1B1B3"
                 tools:text="3人打赏" />
         </LinearLayout>

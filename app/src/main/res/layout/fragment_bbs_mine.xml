@@ -18,7 +18,6 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_grey"
             android:divider="@drawable/shape_separator_f8f8f9_10dp"
             android:horizontalSpacing="1dp"
             android:verticalSpacing="1dp"/>
