@@ -186,7 +186,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 tv_live_state.setText("已结束");
                 tv_live_state.setTextColor(context.getResources().getColor(R.color.color_E6E6E6));
                 tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_no_live));
-                Drawable drawable = context.getResources().getDrawable(R.mipmap.oval);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.gray_oval);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_live_state.setCompoundDrawables(drawable, null, null, null);
             }
