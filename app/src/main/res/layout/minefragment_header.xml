@@ -96,6 +96,22 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen_13sp" />
 
+
+            <View
+                android:layout_width="@dimen/dimen_1dp_half"
+                android:layout_height="@dimen/dimen_14dp"
+                android:layout_gravity="center"
+                android:background="@color/color_8AC1FF" />
+
+            <TextView
+                android:id="@+id/areward_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="打赏--"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_13sp" />
         </LinearLayout>
 
         <LinearLayout
