@@ -131,8 +131,6 @@
         android:textColor="#979899"
         android:paddingLeft="15dp"
         android:paddingRight="@dimen/dimen_15dp"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:text="冯老师善于把握市场稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作稳健型操作大方向，稳健型操作。有着一套完整的曾任职某机构操有着一套完整的曾任职某机构操有着一套完整的曾任职某机构操"
+        android:text="，稳健型操作。"
         android:textSize="12sp"/>
 </LinearLayout>
