@@ -3,7 +3,9 @@ package com.honglu.future.dialog.areward;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -147,6 +149,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
 
         mQieHuan = (TextView) findViewById(R.id.tv_qiehuan);
         mAreward = (TextView) findViewById(R.id.tv_areward);
+        setTextFonts(mInput);
 
         initState();
         mTextIntegral.setOnClickListener(this);
@@ -370,5 +373,15 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)), text3Start,text3End ,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    //设置字体样式
+    private void setTextFonts(TextView textView) {
+        //得到AssetManager
+        AssetManager mgr = getContext().getAssets();
+        //根据路径得到Typeface
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/DIN-Medium.ttf");
+        //设置字体
+        textView.setTypeface(tf);
     }
 }
