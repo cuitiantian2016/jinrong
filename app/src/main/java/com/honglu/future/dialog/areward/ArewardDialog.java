@@ -3,6 +3,7 @@ package com.honglu.future.dialog.areward;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -35,6 +36,7 @@ import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -161,7 +163,13 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         mRlBigLayout.setOnClickListener(this);
         mArewardHintDialog.setOnArewardHintClickListener(new ArewardHintDialog.OnArewardHintClickListener() {
             @Override
-            public void onCcomplish(String showType) {}
+            public void onCcomplish(String showType) {
+                if (TextUtils.equals(ArewardHintDialog.AREWARD_HINT,showType)){
+
+                }else {
+                    initState();
+                }
+            }
             @Override
             public void onCancel(String showType) {
                 if (TextUtils.equals(ArewardHintDialog.AREWARD_HINT,showType)){
@@ -209,7 +217,11 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
     public void onClick(View v) {
        switch (v.getId()){
            case R.id.dtv_integral: //积分
-
+               Intent intentShopMall = new Intent(mContext, WebViewActivity.class);
+               intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
+               intentShopMall.putExtra("title", "牛币商城");
+               intentShopMall.putExtra("is_tool_bar", false);
+               mContext.startActivity(intentShopMall);
                break;
            case R.id.iv_close: //关闭
                 dismiss();
