@@ -89,6 +89,7 @@
             android:background="@color/color_EDEDED" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_reset_asses_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
