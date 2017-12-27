@@ -151,6 +151,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onTaskRet(boolean b, int value, String s) {
                         if (b) {
+                            chatMsg.setTimeStamp(System.currentTimeMillis());
                             mChatList.add(chatMsg);
                             if (mChatList.size() >= 30) {
                                 int size = mChatList.size();

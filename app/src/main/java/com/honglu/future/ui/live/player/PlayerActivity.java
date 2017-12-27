@@ -270,7 +270,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         if (mFragments == null) {
             mFragments = new ArrayList<>();
         }
-        mChatFragment = new ChatFragment(this,mPlayer);
+        mChatFragment = new ChatFragment(this, mPlayer);
         mFragments.add(mChatFragment);
 //        mMainPointFragment = new MainPointFragment();
 //        mFragments.add(mMainPointFragment);
@@ -384,21 +384,21 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onUserJoin(UserInfo info) {
-        Log.i("testUser",info.getName());
+        Log.i("testUser", info.getName());
         // 用户加入
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERINCREASE, info));
     }
 
     @Override
     public void onUserLeave(UserInfo info) {
-        Log.i("testUser",info.getName()+"leave");
+        Log.i("testUser", info.getName() + "leave");
         // 用户离开
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERDECREASE, info));
     }
 
     @Override
     public void onUserUpdate(UserInfo info) {
-        Log.i("testUser",info.getName()+"update");
+        Log.i("testUser", info.getName() + "update");
         // 用户更新
         mHandler.sendMessage(mHandler.obtainMessage(HANDlER.USERUPDATE, info));
     }
@@ -703,8 +703,10 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             videoFullScreen();
+            mViedoFragment.setFullImage(true);
         } else {
             videoNormalScreen();
+            mViedoFragment.setFullImage(false);
         }
     }
 
@@ -734,11 +736,12 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onChatWithPublic(final ChatMsg chatMsg) {
-        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent()+",,,"+chatMsg.getTimeStamp());
+        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent() + ",,," + chatMsg.getTimeStamp());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    mChatFragment.appendMsg(chatMsg);
+                chatMsg.setTimeStamp(System.currentTimeMillis());
+                mChatFragment.appendMsg(chatMsg);
             }
         });
     }

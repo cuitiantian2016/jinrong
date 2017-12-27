@@ -40,7 +40,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     private View mView;
     private GSVideoViewEx mGSViedoView;
     private TextView txtVideo, txtAudio, txtMic, txtHand, txtIdc, txtReword, tvNum;
-    private ImageView mIvMore;
+    private ImageView mIvMore,mIvFull,mIvNormal;
     private RelativeLayout mRlAudio;
     private LinearLayout mLiveTip;
     private Spinner spinnerRate;
@@ -80,6 +80,8 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         txtReword = (TextView) mView.findViewById(R.id.txtReword);
         mIvMore = (ImageView) mView.findViewById(R.id.iv_more);
         mRlAudio = (RelativeLayout) mView.findViewById(R.id.rl_audio_only);
+        mIvFull = (ImageView) mView.findViewById(R.id.iv_full);
+        mIvNormal = (ImageView) mView.findViewById(R.id.iv_normal);
 
         mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
         mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
@@ -266,6 +268,16 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         txtHand.setText("举手");
         mPlayer.handUp(false, null);
         txtHand.setSelected(false);
+    }
+
+    public void setFullImage(boolean isFull){
+        if(isFull){
+            mIvNormal.setVisibility(View.VISIBLE);
+            mIvFull.setVisibility(View.GONE);
+        } else{
+            mIvNormal.setVisibility(View.GONE);
+            mIvFull.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onMicColesed() {

@@ -10,7 +10,6 @@ import com.gensee.view.MyTextViewEx;
 import com.honglu.future.R;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
-import com.xulu.mpush.api.Message;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ public class ChatListAdapter extends BaseRecyclerAdapter<ChatListAdapter.ViewHol
     @Override
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
         holder.name.setText(item.getSender());
-        holder.time.setText(String.valueOf(item.getTimeStamp()));
+        holder.time.setText(TimeUtil.formatData(TimeUtil.dateFormatHM, item.getTimeStamp()/1000));
         holder.content.setText(item.getContent());
     }
 
@@ -47,7 +46,7 @@ public class ChatListAdapter extends BaseRecyclerAdapter<ChatListAdapter.ViewHol
         }
     }
 
-    public void addMsg(ChatMsg msg){
+    public void addMsg(ChatMsg msg) {
         data.add(msg);
         notifyDataSetChanged();
     }
