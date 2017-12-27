@@ -14,7 +14,7 @@
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
         <TextView
             android:id="@+id/tv_live_state"
             android:layout_width="wrap_content"
@@ -32,43 +32,57 @@
             android:background="@drawable/bg_live"
             android:textColor="@color/color_white"/>
 
-        <TextView
-            android:id="@+id/tv_live_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/live_bg"
             android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_12sp"
-            android:layout_marginBottom="@dimen/dimen_11dp"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:textColor="#CACBCC"
-            android:text="内容"/>
+            android:paddingTop="@dimen/dimen_5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_live_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_18sp"
+                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:text="直播中"
+                android:textColor="@color/color_white"/>
 
 
-        <TextView
-            android:id="@+id/tv_live_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_18sp"
-            android:layout_marginLeft="@dimen/dimen_8dp"
-            android:text="直播中"
-            android:layout_marginBottom="@dimen/dimen_3dp"
-            android:layout_above="@+id/tv_live_content"
-            android:textColor="@color/color_white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:layout_marginBottom="@dimen/dimen_12dp">
 
-        <TextView
-            android:id="@+id/tv_live_num"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_12sp"
-            android:drawablePadding="@dimen/dimen_5dp"
-            android:drawableLeft="@mipmap/huo"
-            android:layout_marginBottom="@dimen/dimen_11dp"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:textColor="@color/color_white"
-            android:text="48人在看"/>
+                <TextView
+                    android:id="@+id/tv_live_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_12sp"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_weight="1"
+                    android:textColor="#CACBCC"
+                    android:text="内容"/>
+
+                <TextView
+                    android:id="@+id/tv_live_num"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/dimen_15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_12sp"
+                    android:drawablePadding="@dimen/dimen_5dp"
+                    android:drawableLeft="@mipmap/huo"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:textColor="@color/color_white"
+                    android:text="48人在看"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,6 +142,7 @@
         android:id="@+id/tv_teach_des"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lineSpacingExtra="3dp"
         android:textColor="#979899"
         android:paddingLeft="15dp"
         android:paddingRight="@dimen/dimen_15dp"
