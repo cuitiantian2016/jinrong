@@ -32,6 +32,7 @@
         android:layout_above="@+id/ll_send"
         android:gravity="center"
         android:paddingBottom="10dp"
+        android:background="@android:color/white"
         android:text="以上仅代表个人观点，请自主决策 | 投资有风险，入市需谨慎！"
         android:textColor="#CACBCC"
         android:textSize="12sp" />
