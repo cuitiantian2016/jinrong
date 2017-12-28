@@ -166,7 +166,20 @@ public class ArewardListFragment extends BaseFragment<ArewardAndSupportPresenter
                }
            }
            if (mAttention){
+               boolean isEnableLoadmore = false;
+               if (mRefreshView.isEnableLoadmore()){
+                   isEnableLoadmore = true;
+                   mRefreshView.setEnableLoadmore(false);
+               }
                mAdapter.notifyDataSetChanged();
+               if (isEnableLoadmore){
+                   mRefreshView.postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           mRefreshView.setEnableLoadmore(true);
+                       }
+                   }, 300);
+               }
            }
         }
     }
