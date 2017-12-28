@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_news_column"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:minHeight="300dp"
-    android:gravity="top"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</LinearLayout>
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="top"
+    android:minHeight="300dp"
+    android:orientation="vertical" />

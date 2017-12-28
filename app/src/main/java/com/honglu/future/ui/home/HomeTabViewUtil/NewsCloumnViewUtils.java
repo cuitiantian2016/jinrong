@@ -2,8 +2,10 @@ package com.honglu.future.ui.home.HomeTabViewUtil;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,9 +41,11 @@ public class NewsCloumnViewUtils {
         if (list == null || list.size() == 0) {
             parentLy.removeAllViews();
             View inflate = View.inflate(parentLy.getContext(), R.layout.empty_view, null);
+            parentLy.setGravity(Gravity.CENTER);
             parentLy.addView(inflate);
             return;
         }
+        parentLy.setGravity(Gravity.TOP);
         try {
             int preCount = parentLy.getChildCount();
             int currentCount = list.size();
