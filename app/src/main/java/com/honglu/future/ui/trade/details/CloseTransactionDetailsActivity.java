@@ -45,22 +45,10 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
     TextView mJiancangAveragePrice;
     @BindView(R.id.iv_expandable)
     ImageView mExpandable;
-    @BindView(R.id.tv_exp_buy_rise)
-    TextView mExpBuyRise;
-    @BindView(R.id.tv_exp_jiancang_price)
-    TextView mExpJiancangPrice;
-    @BindView(R.id.tv_exp_baodan_num)
-    TextView mExpBaodanNum;
-    @BindView(R.id.tv_exp_time)
-    TextView mExpTime;
-    @BindView(R.id.build_sxf)
-    TextView mBuildSXF;
-    @BindView(R.id.trade_id)
-    TextView mTradeId;
-    @BindView(R.id.ll_expandable_view)
-    LinearLayout mExpandableView;
     @BindView(R.id.el_expandable_layout)
     ExpandableLayout mExpandableLayout;
+    @BindView(R.id.ll_expandable_content)
+    LinearLayout ll_expandable_content;
     @BindView(R.id.tv_price)
     TextView mPrice;
     @BindView(R.id.tv_tiem)
@@ -87,6 +75,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
     private String[] closeType = new String[]{"手动平仓", "止盈平仓", "止损平仓", "爆仓", "休市平仓"};
     private BasePresenter<CloseTransactionDetailsActivity> basePresenter;
     private HistoryClosePositionBean bean;
+    private TradeViewModel tradeViewModel;
 
     public static void startCloseTransactionDetailsActivity(Context context, HistoryClosePositionBean item) {
         Intent intent = new Intent(context, CloseTransactionDetailsActivity.class);
@@ -111,9 +100,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                     @Override
                     protected void _onNext(List<CloseBuiderBean> o) {
                         super._onNext(o);
-                        if (o != null && o.size() >= 1) {
-                            bindBuildCloseData(o.get(0));
-                        }
+                        tradeViewModel.bindData(o,ll_expandable_content);
                     }
 
                     @Override
@@ -133,13 +120,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
         mExpandable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mExpandableView.getVisibility() == View.VISIBLE) {
-                    mExpandableView.setVisibility(View.GONE);
-                    mExpandableLayout.collapse(true);
-                } else {
-                    mExpandableView.setVisibility(View.VISIBLE);
-                    mExpandableLayout.expand(true);
-                }
+                mExpandableLayout.toggle(true);
             }
         });
         Intent intent = getIntent();
@@ -184,23 +165,11 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                 }
             }
         }
+        tradeViewModel = new TradeViewModel(this);
         basePresenter.getData();
     }
 
     private void bindBuildCloseData(CloseBuiderBean data) {
-        String num;
-        if (data.type == 1) {
-            mExpBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
-            num = mContext.getString(R.string.buy_down_num, data.position);
-        } else {
-            mExpBuyRise.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-            num = mContext.getString(R.string.buy_up_num, data.position);
-        }
-        mExpBuyRise.setText(num);
-        mExpJiancangPrice.setText("建仓价 " + data.openPrice);
-        mExpTime.setText(data.openTime);
-        mExpBaodanNum.setText("报单编号 " + data.orderSysId);
-        mBuildSXF.setText("建仓手续费 " + data.openSxf);
-        mTradeId.setText("成交编号 " + data.tradeId);
+
     }
 }

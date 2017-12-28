@@ -78,6 +78,9 @@ public class SignPopWind extends PopupWindow {
                     }else if (i == signCount&&!isSign){
                         SignBean.SignListBean bean = signList.get(i);
                         bean.setSignClick(true);
+                    }else if (signCount == 0&&isSign){
+                        SignBean.SignListBean bean = signList.get(i);
+                        bean.setSign(true);
                     }
                 }
                 signAdapter.refreshPhotos(signList);
