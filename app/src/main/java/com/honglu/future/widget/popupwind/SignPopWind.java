@@ -94,12 +94,6 @@ public class SignPopWind extends PopupWindow {
 
 
     public void showPopupWind(View view) {
-        // if (Build.VERSION.SDK_INT >= 24) {
-        //    Rect rect = new Rect();
-        //    view.getGlobalVisibleRect(rect);
-        //    int h = view.getResources().getDisplayMetrics().heightPixels - rect.bottom;
-        //    setHeight(h);
-        //}
        showAsDropDown(view);
     }
 }
