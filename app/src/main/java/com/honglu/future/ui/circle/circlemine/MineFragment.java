@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -85,7 +86,7 @@ public class MineFragment extends CommonFragment {
     private int mFocusNum;
     private int mFansNum;
 
-
+    private int mExceptionalCount = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -282,6 +283,7 @@ public class MineFragment extends CommonFragment {
                             endorse_num.setText("粉丝 " + o.getBeFocusNum());
                             topic_num.setText("发帖 " + o.getPostNum());
                             mArewardNum.setText("获赏 "+o.getExceptionalCount());
+                            mExceptionalCount = o.getExceptionalCount();
                             if (o.getPostAndReplyBoList() != null && o.getPostAndReplyBoList().size() > 0) {
                                 if (mListView.getFooterViewsCount() != 0)
                                     mListView.removeFooterView(empty_view);
@@ -368,6 +370,7 @@ public class MineFragment extends CommonFragment {
                             endorse_num.setText("粉丝 " + o.getBeFocusNum());
                             topic_num.setText("发帖 " + o.getPostNum());
                             mArewardNum.setText("获赏 "+o.getExceptionalCount());
+                            mExceptionalCount = o.getExceptionalCount();
                         }
 
 
@@ -473,6 +476,10 @@ public class MineFragment extends CommonFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BBSArewardEvent event) {
+        if (mExceptionalCount !=-1 && TextUtils.equals(mUserId,event.beUserId)){
+            mExceptionalCount = mExceptionalCount + event.arewardNum;
+            mArewardNum.setText("获赏 "+mExceptionalCount);
+        }
         if (mAdapter !=null){
             List<PostAndReplyBean> list = mAdapter.getList();
             if (list !=null && list.size() > 0){

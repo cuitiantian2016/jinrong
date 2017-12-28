@@ -6,5 +6,6 @@ package com.honglu.future.events;
 
 public class BBSArewardEvent {
     public String circleId; //帖子id
+    public String beUserId; //被打赏人id
     public int arewardNum;  //数量
 }

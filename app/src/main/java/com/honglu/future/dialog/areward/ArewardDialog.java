@@ -331,6 +331,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         if (TextUtils.equals(AREWARD_CIRCLE_TYPE,mArewardType)){
             BBSArewardEvent bbsArewardEvent = new BBSArewardEvent();
             bbsArewardEvent.arewardNum = score;
+            bbsArewardEvent.beUserId = mBeUserId;
             bbsArewardEvent.circleId = mPostId;
             EventBus.getDefault().post(bbsArewardEvent);
         }else {
