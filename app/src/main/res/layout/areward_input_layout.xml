@@ -30,7 +30,7 @@
              android:layout_gravity="bottom"
              android:layout_marginBottom="@dimen/dimen_11dp"/>
 
-
+         <!--android:textCursorDrawable="@drawable/color_cursor"-->
          <EditText
              android:id="@+id/et_input"
              android:layout_width="match_parent"
