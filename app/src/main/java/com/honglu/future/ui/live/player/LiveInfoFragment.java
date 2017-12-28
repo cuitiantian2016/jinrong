@@ -1,7 +1,12 @@
 package com.honglu.future.ui.live.player;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +58,9 @@ public class LiveInfoFragment extends Fragment {
                 ImageUtil.display(liveBean.liveTeacherICon, head, R.mipmap.img_head);
                 name.setText(liveBean.liveTeacher);
                 teacherInfo.setText(liveBean.liveTeacherDes);
-                liveInfo.setText(liveBean.liveDes);
+                SpannableString ss = new SpannableString("#"+liveBean.liveTitle+"# " +liveBean.liveDes);
+                ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_live_info_text)), 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                liveInfo.setText(ss);
             }
         }
     }

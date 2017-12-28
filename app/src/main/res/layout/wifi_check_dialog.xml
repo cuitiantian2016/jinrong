@@ -31,10 +31,12 @@
 
         <TextView
             android:id="@+id/tv_audio_only"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimen_12dp"
+            android:paddingTop="@dimen/dimen_12dp"
+            android:paddingBottom="@dimen/dimen_12dp"
+            android:gravity="center"
             android:text="仅播播放音频"
             android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_18sp" />
@@ -42,15 +44,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginTop="@dimen/dimen_12dp"
             android:background="@color/color_line" />
 
         <TextView
             android:id="@+id/tv_next"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimen_12dp"
+            android:paddingTop="@dimen/dimen_12dp"
+            android:paddingBottom="@dimen/dimen_12dp"
+            android:gravity="center"
             android:text="继续"
             android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_18sp" />
@@ -58,16 +61,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_1dp_half"
-            android:layout_marginTop="@dimen/dimen_12dp"
             android:background="@color/color_line" />
 
         <TextView
             android:id="@+id/tv_exit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/dimen_12dp"
-            android:layout_marginTop="@dimen/dimen_12dp"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimen_12dp"
+            android:paddingBottom="@dimen/dimen_12dp"
             android:text="退出"
             android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_18sp" />

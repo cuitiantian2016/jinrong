@@ -46,7 +46,9 @@ import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.WifiCheckDialog;
 import com.honglu.future.ui.live.bean.LiveListBean;
+import com.honglu.future.util.NetUtil;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
@@ -62,7 +64,7 @@ import java.util.List;
  * 直播页面
  * Created by zq on 2017/12/22.
  */
-public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener, OnChatListener {
+public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener,OnChatListener {
 
     private static final String TAG = "PlayerDemoActivity";
     private SharedPreferences preferences;
@@ -90,9 +92,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private boolean mIsShowToast;
     private boolean mIsPlaying;
 
-
     private int videoWidth = 320, videoHeight = 180;
-
 
     private AudioManager manager;
     private boolean bJoinSuccess = false;
@@ -100,7 +100,6 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private Intent serviceIntent;
 
     private int inviteMediaType;
-
 
     interface HANDlER {
         int USERINCREASE = 1;
@@ -211,11 +210,11 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         mIvShare = (ImageView) findViewById(R.id.iv_share);
         mIvShare.setOnClickListener(this);
         mTvRoomName = (TextView) findViewById(R.id.tv_name);
+
         videoViewNormalSize();
 
         mPlayer = new Player();
         mPlayer.setOnChatListener(this);
-
 
         mFragmentManager = getSupportFragmentManager();
         //添加tab实体
@@ -677,7 +676,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                         finish();
                     }
                 });
-                if(!isFinishing()) {
+                if (!isFinishing()) {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.setCanceledOnTouchOutside(false);
                     alertDialog.show();

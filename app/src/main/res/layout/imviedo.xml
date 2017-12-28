@@ -42,7 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dimen_10dp"
-        android:layout_marginTop="@dimen/dimen_40dp"
         android:padding="@dimen/dimen_10dp"
         android:src="@mipmap/ic_player_more" />
 

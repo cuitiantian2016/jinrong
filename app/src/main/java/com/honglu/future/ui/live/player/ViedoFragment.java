@@ -26,6 +26,8 @@ import com.gensee.player.Player;
 import com.gensee.player.VideoRate;
 import com.gensee.view.GSVideoViewEx;
 import com.honglu.future.R;
+import com.honglu.future.dialog.WifiCheckDialog;
+import com.honglu.future.util.NetUtil;
 import com.honglu.future.widget.popupwind.PlayerChangePopWin;
 
 import java.util.ArrayList;
@@ -34,19 +36,20 @@ import java.util.List;
 //import com.gensee.entity.Reward;
 
 @SuppressLint("ValidFragment")
-public class ViedoFragment extends Fragment implements OnClickListener, PlayerChangePopWin.OnPopItemClickListener {
+public class ViedoFragment extends Fragment implements OnClickListener, PlayerChangePopWin.OnPopItemClickListener, WifiCheckDialog.OnItemClickListener {
 
     private Player mPlayer;
     private View mView;
     private GSVideoViewEx mGSViedoView;
     private TextView txtVideo, txtAudio, txtMic, txtHand, txtIdc, txtReword, tvNum;
-    private ImageView mIvMore,mIvFull,mIvNormal;
+    private ImageView mIvMore, mIvFull, mIvNormal;
     private RelativeLayout mRlAudio;
     private LinearLayout mLiveTip;
     private Spinner spinnerRate;
     private Runnable handRun = null;
     private List<PingEntity> idcs;
     private PlayerChangePopWin mPlayerChangePopWin;
+    private WifiCheckDialog mWifiCheckDialog;
     private boolean isVideo = true;
     private Handler mHandler = new Handler();
     private Runnable mRunable = new Runnable() {
@@ -86,6 +89,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         mGSViedoView = (GSVideoViewEx) mView.findViewById(R.id.imvideoview);
         mGSViedoView.setRenderMode(RenderMode.RM_FILL_XY);
         mGSViedoView.setOnClickListener(this);
+
         txtVideo.setOnClickListener(this);
         txtAudio.setOnClickListener(this);
         txtMic.setOnClickListener(this);
@@ -97,9 +101,10 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         mPlayerChangePopWin.setOnPopItemClickListener(this);
         mLiveTip = (LinearLayout) mView.findViewById(R.id.ll_live_tip);
         mHandler.postDelayed(mRunable, 5000);
-        mPlayer.setGSVideoView(mGSViedoView);
+
         return mView;
     }
+
 
     public void onJoin(boolean isJoined) {
         if (txtAudio != null) {
@@ -109,6 +114,39 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
             txtIdc.setEnabled(isJoined);
             txtReword.setEnabled(isJoined);
         }
+
+        if (!NetUtil.isWifi(getActivity())) {
+            mWifiCheckDialog = new WifiCheckDialog(getActivity());
+            mWifiCheckDialog.setOnItemClickListener(this);
+            mWifiCheckDialog.show();
+        } else {
+            mPlayer.setGSVideoView(mGSViedoView);
+        }
+    }
+
+    @Override
+    public void onAudioOnlylClick() {
+        mWifiCheckDialog.dismiss();
+        mPlayer.setGSVideoView(mGSViedoView);
+        if (mPlayer != null) {
+            if (isVideo) {
+                mPlayer.videoSet(true);
+                mRlAudio.setVisibility(View.VISIBLE);
+                isVideo = false;
+            }
+        }
+    }
+
+    @Override
+    public void onNextClick() {
+        mWifiCheckDialog.dismiss();
+        mPlayer.setGSVideoView(mGSViedoView);
+    }
+
+    @Override
+    public void onExitClick() {
+        mWifiCheckDialog.dismiss();
+        getActivity().finish();
     }
 
     public void setUserNum(String userNum) {
@@ -270,11 +308,11 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         txtHand.setSelected(false);
     }
 
-    public void setFullImage(boolean isFull){
-        if(isFull){
+    public void setFullImage(boolean isFull) {
+        if (isFull) {
             mIvNormal.setVisibility(View.VISIBLE);
             mIvFull.setVisibility(View.GONE);
-        } else{
+        } else {
             mIvNormal.setVisibility(View.GONE);
             mIvFull.setVisibility(View.VISIBLE);
         }

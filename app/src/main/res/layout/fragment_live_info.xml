@@ -1,104 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/dimen_16dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.honglu.future.widget.CircleImageView
-                android:id="@+id/iv_teacher_head"
-                android:layout_width="@dimen/dimen_60dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:src="@mipmap/img_head" />
-
-            <TextView
-                android:id="@+id/tv_teacher_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_8dp"
-                android:text="洪江龙"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_19dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="老师简介"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_teacher_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_6dp"
-                android:text="简介内容"
-                android:textColor="#979899"
-                android:textSize="@dimen/dimen_12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_10dp"
-        android:background="@color/color_line" />
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/dimen_16dp">
+        android:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/tv_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="节目介绍"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_live_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_info"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:text="介绍内容"
-            android:textColor="#3D3E3F"
-            android:textSize="@dimen/dimen_12sp" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:text="以上仅代表个人观点，请自主决策 | 投资有风险，入市需谨慎！"
-            android:textColor="@color/color_CACBCC"
-            android:textSize="@dimen/dimen_12sp" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen_16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.honglu.future.widget.CircleImageView
+                        android:id="@+id/iv_teacher_head"
+                        android:layout_width="@dimen/dimen_60dp"
+                        android:layout_height="@dimen/dimen_60dp"
+                        android:src="@mipmap/img_head" />
+
+                    <TextView
+                        android:id="@+id/tv_teacher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:text="洪江龙"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_19dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="老师简介"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/dimen_14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_teacher_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_6dp"
+                        android:text="简介内容"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen_12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_10dp"
+                android:background="@color/color_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dimen_16dp">
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dimen_16dp"
+                    android:paddingRight="@dimen/dimen_16dp"
+                    android:text="节目介绍"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_live_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_info"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:paddingLeft="@dimen/dimen_16dp"
+                    android:paddingRight="@dimen/dimen_16dp"
+                    android:text="介绍内容"
+                    android:paddingBottom="@dimen/dimen_50dp"
+                    android:textColor="#3D3E3F"
+                    android:textSize="@dimen/dimen_12sp" />
 
 
-</LinearLayout>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen_10dp"
+        android:paddingTop="@dimen/dimen_10dp"
+        android:text="以上仅代表个人观点，请自主决策 | 投资有风险，入市需谨慎！"
+        android:textColor="@color/color_CACBCC"
+        android:textSize="@dimen/dimen_12sp" />
+</RelativeLayout>
