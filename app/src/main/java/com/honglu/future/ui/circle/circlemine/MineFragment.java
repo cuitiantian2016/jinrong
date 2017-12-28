@@ -220,6 +220,17 @@ public class MineFragment extends CommonFragment {
             }
         });
 
+
+        mArewardDialog.setOnArewardSuccessListener(new ArewardDialog.OnArewardSuccessListener() {
+            @Override
+            public void onArewardSuccess(String beUserId, int score) {
+                if (mExceptionalCount !=-1 && TextUtils.equals(mUserId,beUserId)){
+                    mExceptionalCount = mExceptionalCount + score;
+                    mArewardNum.setText("获赏 "+mExceptionalCount);
+                }
+            }
+        });
+
         rows = 0;
         topicIndexThread(true);
     }

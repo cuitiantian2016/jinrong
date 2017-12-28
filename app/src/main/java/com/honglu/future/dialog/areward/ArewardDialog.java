@@ -336,7 +336,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
             EventBus.getDefault().post(bbsArewardEvent);
         }else {
             if (mListener !=null){
-                mListener.onArewardSuccess(score);
+                mListener.onArewardSuccess(mBeUserId,score);
             }
         }
     }
@@ -347,7 +347,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
     }
     private OnArewardSuccessListener mListener;
     public interface OnArewardSuccessListener{
-        void onArewardSuccess(int score);
+        void onArewardSuccess(String beUserId,int score);
     }
 
 
