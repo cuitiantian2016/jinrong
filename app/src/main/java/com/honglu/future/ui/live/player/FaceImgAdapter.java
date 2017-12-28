@@ -2,12 +2,14 @@ package com.honglu.future.ui.live.player;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.gensee.chat.gif.SpanResource;
 import com.honglu.future.R;
 import com.honglu.future.ui.live.bean.PictureBean;
 
@@ -28,6 +30,7 @@ public class FaceImgAdapter extends BaseAdapter {
         super();
         this.context = context;
         for (Map.Entry<String, Drawable> entry : faceMap.entrySet()) {
+            Log.i("testGif", SpanResource.convertToSendRichText("【愤怒】"));
             mFace = new PictureBean(entry.getKey(), entry.getValue());
             mList.add(mFace);
         }

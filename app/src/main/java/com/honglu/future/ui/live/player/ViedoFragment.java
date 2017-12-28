@@ -150,7 +150,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     }
 
     public void setUserNum(String userNum) {
-        tvNum.setText(userNum + "人在观看");
+        tvNum.setText(userNum + "人在看");
     }
 
 

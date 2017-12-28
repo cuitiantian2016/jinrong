@@ -34,9 +34,9 @@
             android:textSize="@dimen/dimen_12sp"
             android:paddingBottom="@dimen/dimen_7dp"
             android:paddingTop="@dimen/dimen_7dp"
-            android:drawablePadding="5dp"
+            android:drawablePadding="6dp"
             android:layout_marginTop="@dimen/dimen_11dp"
-            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/dimen_15dp"
             android:drawableLeft="@mipmap/combinedshape"
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/dimen_18sp"
-                android:layout_marginLeft="@dimen/dimen_8dp"
+                android:layout_marginLeft="@dimen/dimen_15dp"
                 android:text="直播中"
                 android:textColor="@color/color_white"/>
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/dimen_12sp"
-                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:layout_weight="1"
                     android:textColor="#CACBCC"
                     android:text="内容"/>
@@ -150,12 +150,12 @@
             android:background="@color/color_line"/>
     </RelativeLayout>
     <TextView
-        android:paddingBottom="@dimen/dimen_3dp"
-        android:paddingTop="@dimen/dimen_3dp"
+        android:paddingBottom="@dimen/dimen_6dp"
+        android:paddingTop="@dimen/dimen_6dp"
         android:id="@+id/tv_teach_des"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="3dp"
+        android:lineSpacingExtra="4dp"
         android:textColor="#979899"
         android:paddingLeft="15dp"
         android:paddingRight="@dimen/dimen_15dp"

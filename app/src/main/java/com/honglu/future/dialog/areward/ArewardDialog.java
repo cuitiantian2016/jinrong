@@ -37,7 +37,9 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.KeyBordUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -200,7 +202,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         mDefaultLayout.setVisibility(View.VISIBLE);
         mInputLayout.setVisibility(View.GONE);
         mIntegralNum = SD_NIUBI;
-        mInput.setText("0");
+//        mInput.setText("0");
         mImgSmall.setVisibility(View.INVISIBLE);
         mImgSd.setVisibility(View.VISIBLE);
         mImgBig.setVisibility(View.INVISIBLE);
@@ -232,20 +234,25 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                     mInputLayout.setVisibility(View.VISIBLE);
                     mInput.setSelection(getTextLength(mInput));
                     mQieHuan.setText(R.string.default_text);
+                    KeyBordUtil.showSoftKeyboard(mInput);
                 }else {
                     mDefaultLayout.setVisibility(View.VISIBLE);
                     mInputLayout.setVisibility(View.GONE);
                     mQieHuan.setText(R.string.custom_text);
+                    KeyBordUtil.hideSoftKeyboard(mInput);
                 }
                break;
            case R.id.tv_areward: //打赏
+               if(DeviceUtils.isFastDoubleClick()){
+                   return;
+               }
                int integralNum = mDefaultLayout.getVisibility() == View.VISIBLE ? mIntegralNum : getTextNum(mInput);
                if (integralNum <= 0){ToastUtil.show("打赏牛币必须大于0");return;}
 
                if (integralNum > 1000){ToastUtil.show("打赏牛币不能大于1000");return;}
 
                if (mArewardScore < integralNum){
-                   mArewardHintDialog.showArewardHint(ArewardHintDialog.AREWARD_HINT,R.mipmap.icon_hint,"牛币不足","投资可以获得相应金额的牛币哦");
+                   mArewardHintDialog.showArewardHint(ArewardHintDialog.AREWARD_HINT,R.mipmap.icon_hint,"牛币不足","更多赚取牛币的方法敬请期待");
                }else {
                    if (AREWARD_USER_TYPE.equals(mArewardType)) { //对用户进行打赏
                        mPresenter.getReward(SpUtil.getString(Constant.CACHE_TAG_UID), mPostId, mBeUserId, integralNum,1);

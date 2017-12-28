@@ -355,22 +355,22 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
             case JOIN_OK:
                 msg = "加入成功";
                 mHandler.sendEmptyMessage(HANDlER.SUCCESSJOIN);
-                toastMsg(msg);
+                //toastMsg(msg);
                 break;
             case JOIN_CONNECTING:
                 msg = "正在加入";
                 break;
             case JOIN_CONNECT_FAILED:
                 msg = "连接失败";
-                toastMsg(msg);
+                //toastMsg(msg);
                 break;
             case JOIN_RTMP_FAILED:
                 msg = "连接服务器失败";
-                toastMsg(msg);
+                //toastMsg(msg);
                 break;
             case JOIN_TOO_EARLY:
                 msg = "直播还未开始";
-                toastMsg(msg);
+                //toastMsg(msg);
                 break;
             case JOIN_LICENSE:
                 msg = "人数已满";
@@ -539,7 +539,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
         showTip(false, "");
         if (msg != null) {
-            toastMsg(msg);
+            //toastMsg(msg);
         }
     }
 
@@ -637,11 +637,11 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onBackPressed() {
-        if (bJoinSuccess) {
-            dialogLeave();
-        } else {
+//        if (bJoinSuccess) {
+//            dialogLeave();
+//        } else {
             super.onBackPressed();
-        }
+//        }
     }
 
     @Override
@@ -739,7 +739,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onChatWithPublic(final ChatMsg chatMsg) {
-        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent() + ",,," + chatMsg.getTimeStamp());
+        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent() +",,,"+chatMsg.getRichText() +",,," + chatMsg.getTimeStamp());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -767,7 +767,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     @Override
     public void onPublish(boolean isPlaying) {
         if (!mIsShowToast || mIsPlaying != isPlaying) {
-            toastMsg(isPlaying ? "直播中" : "直播暂停");
+//            toastMsg(isPlaying ? "直播中" : "直播暂停");
             mIsShowToast = true;
             mIsPlaying = isPlaying;
         }

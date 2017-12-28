@@ -50,7 +50,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
     private ChatListAdapter mChatListAdapter;
     private List<ChatMsg> mChatList;
     private List<ChatMsg> mChatSubList;
-    private ImageButton mSendBtn;
+    private TextView mSendBtn;
     private UserInfo mSelfInfo;
     private ChatEditText mChatEditText;
     private Player mPlayer;
@@ -91,7 +91,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
 
         mChatList = new ArrayList<>();
         mChatSubList = new ArrayList<>();
-        mSendBtn = (ImageButton) mView.findViewById(R.id.sendbutton);
+        mSendBtn = (TextView) mView.findViewById(R.id.sendbutton);
         mSendBtn.setOnClickListener(this);
         mChatEditText = (ChatEditText) mView.findViewById(R.id.edittalking);
         mChatEditText.setOnClickListener(this);
@@ -107,6 +107,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
 
     private void initFaceBar() {
         Map<String, Drawable> faceMap = SpanResource.getBrowMap(mContext);
+
         FaceImgAdapter adapter = new FaceImgAdapter(faceMap, mContext);
         mFaceGrid.setOnItemClickListener(this);
         mFaceGrid.setAdapter(adapter);

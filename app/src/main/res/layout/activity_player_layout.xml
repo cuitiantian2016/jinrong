@@ -34,18 +34,18 @@
                 app:tl_indicator_gravity="BOTTOM"
                 app:tl_indicator_height="@dimen/dimen_3dp"
                 app:tl_indicator_style="NORMAL"
-                app:tl_indicator_width="@dimen/dimen_30dp"
+                app:tl_indicator_width="@dimen/dimen_35dp"
                 app:tl_special_select_color_blue="true"
-                app:tl_textBold="BOTH"
+                app:tl_textBold="SELECT"
                 app:tl_textSelectColor="@color/color_008EFF"
-                app:tl_textUnselectColor="@color/color_323232"
+                app:tl_textUnselectColor="@color/color_A7A7A7"
                 app:tl_textsize="@dimen/dimen_16sp"
                 app:tl_underline_color="@color/color_F7F8F9"
                 app:tl_underline_height="@dimen/dimen_1dp_half" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_3dp"
+                android:layout_height="@dimen/dimen_1dp"
                 android:background="@color/color_line" />
 
             <FrameLayout
@@ -114,7 +114,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/dimen_5dp"
         android:paddingRight="@dimen/dimen_10dp">
 
         <ImageView
