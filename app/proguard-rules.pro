@@ -72,6 +72,8 @@
 -keep class com.honglu.future.ui.trade.bean.** { *; }
 -keep class com.honglu.future.ui.usercenter.bean.** { *; }
 -keep class com.honglu.future.ui.circle.bean.** { *; }
+-keep class com.honglu.future.ui.live.bean.** { *; }
+-keep class com.gensee.** { *; }
 
 #网络层混淆
 -keep class com.honglu.future.http.** {*;}
@@ -449,6 +451,8 @@
 
 -keep class com.google.zxing.client.** {*;}
 -dontwarn com.google.zxing.client.**
+
+-dontwarn com.gensee.**
 
 -keep public class android.net.http.SslError
 

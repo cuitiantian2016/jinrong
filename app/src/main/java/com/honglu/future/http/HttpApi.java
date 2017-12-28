@@ -23,7 +23,7 @@ import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
-import com.honglu.future.ui.live.LiveListBean;
+import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.recharge.bean.AssesData;

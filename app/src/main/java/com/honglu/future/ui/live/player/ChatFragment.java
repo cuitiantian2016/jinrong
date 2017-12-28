@@ -30,7 +30,9 @@ import com.gensee.routine.UserInfo;
 import com.gensee.taskret.OnTaskRet;
 import com.gensee.view.ChatEditText;
 import com.honglu.future.R;
+import com.honglu.future.ui.live.bean.PictureBean;
 import com.honglu.future.util.DeviceUtils;
+import com.honglu.future.util.KeyBordUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
@@ -92,6 +94,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
         mSendBtn = (ImageButton) mView.findViewById(R.id.sendbutton);
         mSendBtn.setOnClickListener(this);
         mChatEditText = (ChatEditText) mView.findViewById(R.id.edittalking);
+        mChatEditText.setOnClickListener(this);
         mTvAll = (TextView) mView.findViewById(R.id.tv_all);
         mTvAll.setOnClickListener(this);
         mFaceGrid = (GridView) mView.findViewById(R.id.face_grid);
@@ -134,8 +137,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
                         mChatSubList.add(mChatList.get(i));
                     }
                 }
-            }
-            else {
+            } else {
                 if (RoleType.isHost(msg.getSenderRole())) {
                     mChatSubList.add(msg);
                 }
@@ -277,14 +279,21 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
                     mRlFace.setVisibility(View.GONE);
                     mIsFaceShow = false;
                 }
+                KeyBordUtil.hideSoftKeyboard(v);
 
+                break;
+            case R.id.edittalking:
+                if (mIsFaceShow) {
+                    mRlFace.setVisibility(View.GONE);
+                    mIsFaceShow = false;
+                }
                 break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        FaceImgAdapter.Picture face = (FaceImgAdapter.Picture) parent.getItemAtPosition(position);
+        PictureBean face = (PictureBean) parent.getItemAtPosition(position);
         mChatEditText.insertAvatar(face.getKey(), 0);
     }
 }

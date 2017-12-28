@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white_circle_side"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/dimen_32dp"
+            android:layout_marginRight="@dimen/dimen_32dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:gravity="center"
+            android:text="当前为非WiFi网络，继续观看
+会消耗手机流量"
+            android:textColor="#3C383F"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp_half"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:background="@color/color_line" />
+
+        <TextView
+            android:id="@+id/tv_audio_only"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:text="仅播播放音频"
+            android:textColor="@color/color_008EFF"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp_half"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:background="@color/color_line" />
+
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:text="继续"
+            android:textColor="@color/color_008EFF"
+            android:textSize="@dimen/dimen_18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp_half"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:background="@color/color_line" />
+
+        <TextView
+            android:id="@+id/tv_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dimen_12dp"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:text="退出"
+            android:textColor="@color/color_008EFF"
+            android:textSize="@dimen/dimen_18sp" />
+    </LinearLayout>
+
+</LinearLayout>

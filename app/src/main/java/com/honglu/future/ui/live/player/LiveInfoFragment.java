@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.ui.live.LiveListBean;
+import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.CircleImageView;
 

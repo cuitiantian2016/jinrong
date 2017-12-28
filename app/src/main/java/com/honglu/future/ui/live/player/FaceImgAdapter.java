@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.live.bean.PictureBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +21,14 @@ import java.util.Map;
 
 public class FaceImgAdapter extends BaseAdapter {
     private Context context;
-    private List<Picture> mList = new ArrayList<>();
-    private Picture mFace;
+    private List<PictureBean> mList = new ArrayList<>();
+    private PictureBean mFace;
 
     public FaceImgAdapter(Map<String, Drawable> faceMap, Context context) {
         super();
         this.context = context;
         for (Map.Entry<String, Drawable> entry : faceMap.entrySet()) {
-            mFace = new Picture(entry.getKey(), entry.getValue());
+            mFace = new PictureBean(entry.getKey(), entry.getValue());
             mList.add(mFace);
         }
     }
@@ -75,7 +76,7 @@ public class FaceImgAdapter extends BaseAdapter {
         }
 
         // 给组件设置资源
-        Picture picture = mList.get(position);
+        PictureBean picture = mList.get(position);
         viewHolder.image.setImageDrawable(picture.getImage());
         return convertView;
     }
@@ -86,23 +87,6 @@ public class FaceImgAdapter extends BaseAdapter {
 
     public class Picture {
 
-        private String key;
-        private Drawable image;
-
-        public Picture(String key, Drawable image) {
-            this.image = image;
-            this.key = key;
-        }
-
-        public String getKey()
-
-        {
-            return key;
-        }
-
-        public Drawable getImage() {
-            return image;
-        }
 
     }
 }

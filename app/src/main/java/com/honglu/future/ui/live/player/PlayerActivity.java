@@ -46,7 +46,7 @@ import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
-import com.honglu.future.ui.live.LiveListBean;
+import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;

@@ -1,4 +1,4 @@
-package com.honglu.future.ui.live;
+package com.honglu.future.ui.live.bean;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
+import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.ui.live.player.PlayerActivity;
-import com.honglu.future.ui.register.activity.RegisterActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -35,7 +34,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class LiveAdapter extends CommonAdapter<LiveListBean> {

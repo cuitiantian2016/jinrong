@@ -2,8 +2,6 @@ package com.honglu.future.ui.live;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.honglu.future.R;
@@ -13,15 +11,13 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
-import com.honglu.future.ui.main.contract.AccountContract;
+import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
