@@ -15,8 +15,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/live_gif"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/dimen_11dp"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/live"/>
         <TextView
             android:id="@+id/tv_live_state"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_12sp"
@@ -31,6 +43,7 @@
             android:text="直播中"
             android:background="@drawable/bg_live"
             android:textColor="@color/color_white"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
@@ -130,6 +133,8 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
         TextView tv_teach_des;
         @BindView(R.id.view_unable)
         View view_unable;
+        @BindView(R.id.live_gif)
+        ImageView live_gif;
         @BindView(R.id.view_able)
         View view_able;
         Context context;
@@ -167,13 +172,13 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
             if (item.isLive() && !TextUtils.isEmpty(item.liveNum)) {
                 tv_live_num.setVisibility(View.VISIBLE);
                 tv_live_num.setText(context.getString(R.string.live_num, item.liveNum));
-                tv_live_state.setText("直播中");
-                tv_live_state.setTextColor(context.getResources().getColor(R.color.color_white));
-                tv_live_state.setBackground(context.getResources().getDrawable(R.drawable.bg_live));
-                Drawable drawable = context.getResources().getDrawable(R.drawable.combinedshape);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_live_state.setCompoundDrawables(drawable, null, null, null);
+                tv_live_state.setVisibility(View.GONE);
+                live_gif.setVisibility(View.VISIBLE);
+                Glide.with(context).load(R.mipmap.live).diskCacheStrategy(DiskCacheStrategy.ALL).into(
+                        new GlideDrawableImageViewTarget(live_gif)) ;
             } else if (item.roomStatus == 2){
+                tv_live_state.setVisibility(View.VISIBLE);
+                live_gif.setVisibility(View.GONE);
                 tv_live_num.setVisibility(View.GONE);
                 tv_live_state.setText(item.liveTime);
                 tv_live_state.setTextColor(context.getResources().getColor(R.color.color_E6E6E6));
@@ -182,6 +187,8 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_live_state.setCompoundDrawables(drawable, null, null, null);
             }else if (item.roomStatus == 3){
+                tv_live_state.setVisibility(View.VISIBLE);
+                live_gif.setVisibility(View.GONE);
                 tv_live_num.setVisibility(View.GONE);
                 tv_live_state.setText("已结束");
                 tv_live_state.setTextColor(context.getResources().getColor(R.color.color_E6E6E6));
