@@ -127,7 +127,7 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                     }else if (homeIcons.title.equals("新手教学")){
                         MobclickAgent.onEvent(mContext,"shouye_xinshoujiaoxue_click","首页_新手教学");
                         Intent intentTeach = new Intent(mContext, WebViewActivity.class);
-                        intentTeach.putExtra("title", "新手学堂");
+                        intentTeach.putExtra("title", "新手教学");
                         intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                         mContext.startActivity(intentTeach);
                     }else if (homeIcons.title.equals("主力合约")){

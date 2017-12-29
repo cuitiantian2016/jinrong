@@ -234,7 +234,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_novice:
                 clickTab("wode_xinshourumen_click","我的_新手入门");
                 Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
-                intentTeach.putExtra("title", "新手学堂");
+                intentTeach.putExtra("title", "新手教学");
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                 startActivity(intentTeach);
                 break;
