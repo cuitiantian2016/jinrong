@@ -51,9 +51,11 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -899,4 +901,15 @@ public interface HttpApi {
     @POST("futures-userlive-api/userLive/getLiveListInfo")
     Observable<BaseResponse<List<LiveListBean>>> getLiveData(
             @Field("userId") String userId);
+
+    /**
+     * 埋点
+     * 测试环境 http://192.168.6.21:8000/apis/v1/dataprobe/
+     *  生产地址 http://open.xiaoniu.com/apis/v1/dataprobe/
+     * @return
+     */
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @FormUrlEncoded
+    @POST("http://192.168.6.21:8000/apis/v1/dataprobe/")
+    Observable<JsonNull> postMaiDian(@Body RequestBody route);
 }
