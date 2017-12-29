@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Spannable;
@@ -202,11 +203,17 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
         mDefaultLayout.setVisibility(View.VISIBLE);
         mInputLayout.setVisibility(View.GONE);
         mIntegralNum = SD_NIUBI;
-//        mInput.setText("0");
+        mInput.setText("");
         mImgSmall.setVisibility(View.INVISIBLE);
         mImgSd.setVisibility(View.VISIBLE);
         mImgBig.setVisibility(View.INVISIBLE);
         mQieHuan.setText(R.string.custom_text);
+        if (mInputMethodManager.isActive()){
+            IBinder ibinder = mInput.getWindowToken();
+            if (ibinder != null) {
+                mInputMethodManager.hideSoftInputFromWindow(ibinder, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     @Override
@@ -232,14 +239,20 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                 if (mDefaultLayout.getVisibility() == View.VISIBLE){
                     mDefaultLayout.setVisibility(View.GONE);
                     mInputLayout.setVisibility(View.VISIBLE);
-                    mInput.setSelection(getTextLength(mInput));
+                    mInput.setText("");
+                    mInput.setSelection(0);
                     mQieHuan.setText(R.string.default_text);
-                    KeyBordUtil.showSoftKeyboard(mInput);
+                    mInputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 }else {
                     mDefaultLayout.setVisibility(View.VISIBLE);
                     mInputLayout.setVisibility(View.GONE);
                     mQieHuan.setText(R.string.custom_text);
-                    KeyBordUtil.hideSoftKeyboard(mInput);
+                    if (mInputMethodManager.isActive()){
+                        IBinder ibinder = mInput.getWindowToken();
+                        if (ibinder != null) {
+                            mInputMethodManager.hideSoftInputFromWindow(ibinder, InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
+                    }
                 }
                break;
            case R.id.tv_areward: //打赏
