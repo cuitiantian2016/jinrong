@@ -30,9 +30,11 @@ import com.gensee.routine.UserInfo;
 import com.gensee.taskret.OnTaskRet;
 import com.gensee.view.ChatEditText;
 import com.honglu.future.R;
+import com.honglu.future.dialog.WifiCheckDialog;
 import com.honglu.future.ui.live.bean.PictureBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.KeyBordUtil;
+import com.honglu.future.util.NetUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.recycler.DividerItemDecoration;
 
@@ -177,6 +179,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
             case R.id.sendbutton:
                 if (TextUtils.isEmpty(mChatEditText.getChatText().trim())) {
                     ToastUtil.show("不能发送空消息");
+                    return;
+                }
+                if(mSelfInfo == null){
                     return;
                 }
                 String msgId = UUID.randomUUID().toString();

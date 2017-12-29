@@ -46,8 +46,10 @@ import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.WifiCheckDialog;
 import com.honglu.future.ui.live.bean.LiveListBean;
+import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.NetUtil;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
@@ -370,7 +372,15 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
                 break;
             case JOIN_TOO_EARLY:
                 msg = "直播还未开始";
-                //toastMsg(msg);
+                new AlertFragmentDialog.Builder(this).setContent(msg)
+                        .setRightBtnText("知道了")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String inputString) {
+                                onBackPressed();
+                            }
+                        })
+                        .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
             case JOIN_LICENSE:
                 msg = "人数已满";

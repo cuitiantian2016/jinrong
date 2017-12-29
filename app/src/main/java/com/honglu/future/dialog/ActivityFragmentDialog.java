@@ -89,8 +89,9 @@ public class ActivityFragmentDialog extends DialogFragment {
                 Window window = getDialog().getWindow();
                 WindowManager.LayoutParams lp = window.getAttributes();
                 lp.width = AndroidUtil.dip2px(getContext(), 260);
-                lp.height = AndroidUtil.dip2px(getContext(), (int) ((1 * 260) + 85));
+                lp.height = AndroidUtil.dip2px(getContext(), (int) ((1 * 260) + 125));
                 window.setAttributes(lp);
+                mIvClose.setVisibility(View.VISIBLE);
             }
         });
     }
