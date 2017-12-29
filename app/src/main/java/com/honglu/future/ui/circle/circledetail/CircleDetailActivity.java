@@ -1,5 +1,6 @@
 package com.honglu.future.ui.circle.circledetail;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -298,6 +299,13 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                     mInput.setHint("回复：" + mCommentBean.nickName);
                 }
                  mHelper.toggleSoftInput(mInput);
+            }
+        });
+
+        mArewardDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mHelper.hideSoftInputFromWindow(mInput);
             }
         });
     }
