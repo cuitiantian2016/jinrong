@@ -176,7 +176,7 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
             @Override
             public void onCancel(String showType) {
                 if (TextUtils.equals(ArewardHintDialog.AREWARD_HINT,showType)){
-
+                    dismiss();
                 }else {
                     dismiss();
                 }
