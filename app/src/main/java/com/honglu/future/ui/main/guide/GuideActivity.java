@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,25 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonNull;
-import com.google.gson.annotations.SerializedName;
 import com.honglu.future.R;
-import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
-import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
-import com.honglu.future.http.HttpManager;
 import com.honglu.future.ui.main.activity.MainActivity;
-import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.SpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.RequestBody;
-import rx.Subscriber;
 
 /**
  * 引导页
@@ -67,25 +57,6 @@ public class GuideActivity extends BaseActivity {
 //        maidianBean.data.clickNum = 1;
 //        maidianBean.data.buriedRemark = "首次下载并打开APP的用户    注册日期相同的首次下载并打开APP的用户人数合计";
 //        maidianBean.data.key = "jihuo_shoucidakai";
-//        String route= gson.toJson(maidianBean);//通过Gson将Bean转化为Json字符串形式
-//        Log.d(TAG, "initPresenter: route--->"+route);
-//        RequestBody body= RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),route);
-//        HttpManager.getApi().postMaiDian(body).subscribe(new Subscriber<JsonNull>() {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void onNext(JsonNull jsonNull) {
-//
-//            }
-//        });
     }
 
     @Override
