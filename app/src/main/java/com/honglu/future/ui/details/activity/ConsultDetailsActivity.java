@@ -99,6 +99,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private boolean isRefrsh;
     private boolean isComm;
     private String shareTitle;
+    private String homePic;
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
         Intent intent = new Intent(context,ConsultDetailsActivity.class);
         intent.putExtra(KEY_MESSAGE_ITEM,item);
@@ -140,7 +141,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(shareTitle)){
                     String title = shareTitle.length() >=23 ? shareTitle.substring(0,22)+"..." : shareTitle;
-                    ShareUtils.getIntance().share(ConsultDetailsActivity.this, "", ConfigUtil.baseH5Url+"connector/infoShare?informationId="+informationId, title, "投资达人喜欢的社区");
+                    ShareUtils.getIntance().share(ConsultDetailsActivity.this, homePic+"?x-oss-process=image/resize,m_fixed,h_100,w_100", ConfigUtil.baseH5Url+"connector/infoShare?informationId="+informationId, title, "投资达人喜欢的社区");
                 }
             }
         });
@@ -194,6 +195,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.userAvatar, mUserIcon, R.mipmap.img_head);
             mTvTitle.setText(item.title);
             shareTitle = item.title;
+            homePic = item.homePic;
             mPosition = item.position;
             mTvName.setText(item.nickname);
             mTopicAdapter.setNickName(item.nickname);
