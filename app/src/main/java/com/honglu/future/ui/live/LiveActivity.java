@@ -62,6 +62,11 @@ public class LiveActivity extends BaseActivity {
         liveAdapter = new LiveAdapter(lv_listView);
         lv_listView.setAdapter(liveAdapter);
         lv_listView.setDividerHeight(AndroidUtil.dip2px(this,10));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         refresh();
     }
 
