@@ -240,7 +240,9 @@ public class ArewardDialog extends BaseDialog<ArewardPresenter> implements Arewa
                     mDefaultLayout.setVisibility(View.GONE);
                     mInputLayout.setVisibility(View.VISIBLE);
                     mInput.setText("");
-                    mInput.setSelection(0);
+                    mInput.setFocusable(true);
+                    mInput.setFocusableInTouchMode(true);
+                    mInput.requestFocus();
                     mQieHuan.setText(R.string.default_text);
                     mInputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 }else {
