@@ -114,8 +114,8 @@
 
                     <ImageButton
                         android:id="@+id/expressionbuttton"
-                        android:layout_width="@dimen/dimen_23dp"
-                        android:layout_height="@dimen/dimen_23dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:background="@null"
