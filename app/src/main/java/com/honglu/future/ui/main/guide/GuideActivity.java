@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.bean.MaidianBean;
+import com.honglu.future.bean.MaidianReturn;
 import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.util.SpUtil;
 
@@ -26,6 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 /**
  * 引导页
@@ -49,15 +60,17 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-//        MaidianBean maidianBean = new MaidianBean();
-//        Gson gson = new Gson();
-//        maidianBean.page_name = "激活";
-//        maidianBean.even_name = "激活";
-//        maidianBean.data.buriedName ="激活";
-//        maidianBean.data.clickNum = 1;
-//        maidianBean.data.buriedRemark = "首次下载并打开APP的用户    注册日期相同的首次下载并打开APP的用户人数合计";
-//        maidianBean.data.key = "jihuo_shoucidakai";
+        MaidianBean maidianBean = new MaidianBean();
+        maidianBean.page_name = "激活";
+        maidianBean.even_name = "激活";
+        MaidianBean.Data data = new MaidianBean.Data();
+        data.buriedName ="激活";
+        data.buriedRemark = "首次下载并打开APP的用户    注册日期相同的首次下载并打开APP的用户人数合计";
+        data.key = "jihuo_shoucidakai";
+        maidianBean.data = data;
+        MaidianBean.postMaiDian(maidianBean);
     }
+
 
     @Override
     public void loadData() {

@@ -38,6 +38,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.events.FragmentRefreshEvent;
@@ -252,6 +253,15 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
          */
         @JavascriptInterface
         public void openAccount(String brokerId, String channel) {
+            MaidianBean maidianBean = new MaidianBean();
+            maidianBean.page_name = "申请开户";
+            maidianBean.even_name = "申请开户";
+            MaidianBean.Data data = new MaidianBean.Data();
+            data.buriedName ="申请开户";
+            data.buriedRemark = "人数合计    注册日期相同的点击“立即开户”（进入开户云）的人数";
+            data.key = "shenqingkaihu";
+            maidianBean.data = data;
+            MaidianBean.postMaiDian(maidianBean);
             MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
             Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
             intent.putExtra("brokerId", brokerId);

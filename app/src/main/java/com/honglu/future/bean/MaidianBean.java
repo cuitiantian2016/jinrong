@@ -16,6 +16,7 @@ import java.util.UUID;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by hefei on 2017/12/29
@@ -50,15 +51,15 @@ public class MaidianBean implements Serializable{
     public String even_name;
     public Data data;
 
-    public class Data{
+    public static class Data{
         public String buriedName;
-        public int clickNum;
         public String buriedRemark;
         public String deviceId = AndroidUtil.getIMEI(App.getContext());
         public String key;
         public String mobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
 
     }
+
 
     public static void postMaiDian(MaidianBean maidianBean){
         if (maidianBean==null){
@@ -68,20 +69,20 @@ public class MaidianBean implements Serializable{
         String route= gson.toJson(maidianBean);//通过Gson将Bean转化为Json字符串形式
         Log.d("MaidianBean", "initPresenter: route--->"+route);
         RequestBody body= RequestBody.create(MediaType.parse("application/json; charset=utf-8"),route);
-        HttpManager.getApi().postMaiDian(body).subscribe(new Subscriber<JsonNull>() {
+        HttpManager.getApi().postMaiDian(body).subscribeOn(Schedulers.io()).subscribe(new Subscriber<MaidianReturn>() {
             @Override
             public void onCompleted() {
-
+                Log.d("MaidianBean", "onCompleted: ");
             }
 
             @Override
             public void onError(Throwable e) {
-
+                Log.d("MaidianBean", "onError: ");
             }
 
             @Override
-            public void onNext(JsonNull jsonNull) {
-
+            public void onNext(MaidianReturn data) {
+                Log.d("MaidianBean", "onNext:--》 "+data);
             }
         });
     }

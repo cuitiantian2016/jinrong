@@ -4,6 +4,7 @@ import com.google.gson.JsonNull;
 import com.honglu.future.bean.ActivityPopupBean;
 import com.honglu.future.bean.BaseResponse;
 import com.honglu.future.bean.CheckAccountBean;
+import com.honglu.future.bean.MaidianReturn;
 import com.honglu.future.bean.UpdateBean;
 import com.honglu.future.ui.circle.bean.ArewardListBean;
 import com.honglu.future.ui.circle.bean.AttentionBean;
@@ -904,12 +905,11 @@ public interface HttpApi {
 
     /**
      * 埋点
-     * 测试环境 http://192.168.6.21:8000/apis/v1/dataprobe/
+     * 测试环境 http://192.168.6.103:8000/apis/v1/dataprobe/
      *  生产地址 http://open.xiaoniu.com/apis/v1/dataprobe/
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @FormUrlEncoded
-    @POST("http://192.168.6.21:8000/apis/v1/dataprobe/")
-    Observable<JsonNull> postMaiDian(@Body RequestBody route);
+    @POST("http://192.168.6.103:8000/apis/v1/dataprobe/")
+    Observable<MaidianReturn> postMaiDian(@Body RequestBody route);
 }
