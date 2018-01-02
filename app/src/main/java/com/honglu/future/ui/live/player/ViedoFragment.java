@@ -51,6 +51,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
     private PlayerChangePopWin mPlayerChangePopWin;
     private WifiCheckDialog mWifiCheckDialog;
     private boolean isVideo = true;
+    private boolean mIsWifi = true;
     private Handler mHandler = new Handler();
     private Runnable mRunable = new Runnable() {
         @Override
@@ -101,7 +102,9 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
         mPlayerChangePopWin.setOnPopItemClickListener(this);
         mLiveTip = (LinearLayout) mView.findViewById(R.id.ll_live_tip);
         mHandler.postDelayed(mRunable, 5000);
-
+        if (!NetUtil.isWifi(getActivity())) {
+            mIsWifi = false;
+        }
         return mView;
     }
 
@@ -115,7 +118,7 @@ public class ViedoFragment extends Fragment implements OnClickListener, PlayerCh
             txtReword.setEnabled(isJoined);
         }
 
-        if (!NetUtil.isWifi(getActivity())) {
+        if (!mIsWifi) {
             mWifiCheckDialog = new WifiCheckDialog(getActivity());
             mWifiCheckDialog.setOnItemClickListener(this);
             mWifiCheckDialog.show();

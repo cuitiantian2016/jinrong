@@ -70,6 +70,7 @@ public class ActivityFragmentDialog extends DialogFragment {
     private void initDialog() {
         getDialog().getWindow().setGravity(Gravity.CENTER);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));
+        getDialog().setCanceledOnTouchOutside(false);
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         getDialog().getWindow().setLayout((int) (dm.widthPixels * 0.8), getDialog().getWindow().getAttributes().height);
