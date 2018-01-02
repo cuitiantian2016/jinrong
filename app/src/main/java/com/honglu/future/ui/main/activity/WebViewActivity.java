@@ -260,6 +260,11 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             data.buriedName ="申请开户";
             data.buriedRemark = "人数合计    注册日期相同的点击“立即开户”（进入开户云）的人数";
             data.key = "shenqingkaihu";
+            if ("0107".equals(brokerId)){
+                data.company = "MEIERYA";
+            }else if ("0101".equals(brokerId)){
+                data.company = "GUOFU";
+            }
             maidianBean.data = data;
             MaidianBean.postMaiDian(maidianBean);
             MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");

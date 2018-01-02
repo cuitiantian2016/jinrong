@@ -57,6 +57,7 @@ public class MaidianBean implements Serializable{
         public String buriedRemark;
         public String deviceId = ViewUtil.getDeviceId(App.getContext());
         public String key;
+        public String company ;
         public String mobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
 
     }
