@@ -905,8 +905,9 @@ public interface HttpApi {
 
     /**
      * 埋点
-     * 测试环境 http://192.168.6.103:8000/apis/v1/dataprobe/
+     * 开发环境 http://192.168.6.103:8000/apis/v1/dataprobe/
      *  生产地址 http://open.xiaoniu.com/apis/v1/dataprobe/
+     *  测试环境 http://testopen.xnshandai.net/apis/v1/dataprobe/
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
