@@ -9,6 +9,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ViewUtil;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -54,7 +55,7 @@ public class MaidianBean implements Serializable{
     public static class Data{
         public String buriedName;
         public String buriedRemark;
-        public String deviceId = AndroidUtil.getIMEI(App.getContext());
+        public String deviceId = ViewUtil.getDeviceId(App.getContext());
         public String key;
         public String mobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
 
