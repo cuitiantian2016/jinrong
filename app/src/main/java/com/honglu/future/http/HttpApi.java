@@ -910,6 +910,6 @@ public interface HttpApi {
      * @return
      */
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST("http://192.168.6.103:8000/apis/v1/dataprobe/")
+    @POST("http://open.xiaoniu.com/apis/v1/dataprobe/")
     Observable<MaidianReturn> postMaiDian(@Body RequestBody route);
 }
