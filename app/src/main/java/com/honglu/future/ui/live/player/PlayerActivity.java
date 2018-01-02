@@ -195,6 +195,17 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
         setContentView(R.layout.activity_player_layout);
         preferences = getPreferences(MODE_PRIVATE);
+        if(!NetUtil.isConnected(this)){
+            new AlertFragmentDialog.Builder(this).setContent("网络异常,请检查网络连接...")
+                    .setRightBtnText("知道了")
+                    .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                        @Override
+                        public void dialogRightBtnClick(String inputString) {
+                            onBackPressed();
+                        }
+                    })
+                    .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+        }
         initWidget();
     }
 
