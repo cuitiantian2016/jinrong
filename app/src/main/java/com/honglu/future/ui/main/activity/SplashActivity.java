@@ -32,8 +32,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
     @BindView(R.id.rl_splash)
     RelativeLayout mRlSplash;
     private boolean isRequesting;//为了避免在onResume中多次请求权限
-    private String[] permissions = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            , Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_CONTACTS};
+    private String[] permissions = {Manifest.permission.READ_PHONE_STATE};
 
     @Override
     public int getLayoutId() {
@@ -66,36 +65,29 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
     @Override
     protected void onResume() {
         super.onResume();
-        //if (!isRequesting) {
+        if (!isRequesting) {
         mRlSplash.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (SpUtil.getInt(Constant.CACHE_IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
-                    startActivity(GuideActivity.class);
-                    finish();
-                } else {
-                    startActivity(MainActivity.class);
-                    finish();
-                }
+
+                requestPermissions(permissions, mListener);
             }
         }, 800);
-        //  isRequesting = true;
-        //}
+          isRequesting = true;
+        }
     }
 
     private PermissionsListener mListener = new PermissionsListener() {
         @Override
         public void onGranted() {
             isRequesting = false;
-            if (App.getConfig().isDebug()) {
-                startActivity(MainActivity.class);
-                //startActivity(UrlSelectorActivity.class);
+            if (SpUtil.getInt(Constant.CACHE_IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
+                startActivity(GuideActivity.class);
+                finish();
             } else {
                 startActivity(MainActivity.class);
-                //为了测试修改过
-                //startActivity(UrlSelectorActivity.class);
+                finish();
             }
-            finish();
             /*if (SpUtil.getInt(Constant.CACHE_IS_FIRST_LOGIN,Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
                 mLoginOutPresenter.loginOut();
                 updateDeviceReport();
@@ -114,38 +106,46 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
 
         @Override
         public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
-            if (!isNeverAsk) {//请求权限没有全被勾选不再提示然后拒绝
-                new AlertFragmentDialog.Builder(mActivity)
-                        .setLeftBtnText("退出").setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                    @Override
-                    public void dialogLeftBtnClick() {
-                        finish();
-                    }
-                }).setContent("为了能正常使用\"" + App.getAPPName() + "\"，请授予所需权限")
-                        .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                    @Override
-                    public void dialogRightBtnClick(String string) {
-                        requestPermissions(permissions, mListener);
-                    }
-                }).build();
-            } else {//全被勾选不再提示
-                new AlertFragmentDialog.Builder(mActivity)
-                        .setLeftBtnText("退出").setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                    @Override
-                    public void dialogLeftBtnClick() {
-                        finish();
-                    }
-                }).setContent("\"" + App.getAPPName() + "\"缺少必要权限\n请手动授予\"" + App.getAPPName() + "\"访问您的权限")
-                        .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                    @Override
-                    public void dialogRightBtnClick(String string) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.setData(Uri.parse("package:" + getPackageName()));
-                        startActivity(intent);
-                        isRequesting = false;
-                    }
-                }).build();
+            isRequesting = false;
+            if (SpUtil.getInt(Constant.CACHE_IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
+                startActivity(GuideActivity.class);
+                finish();
+            } else {
+                startActivity(MainActivity.class);
+                finish();
             }
+//            if (!isNeverAsk) {//请求权限没有全被勾选不再提示然后拒绝
+//                new AlertFragmentDialog.Builder(mActivity)
+//                        .setLeftBtnText("退出").setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+//                    @Override
+//                    public void dialogLeftBtnClick() {
+//                        finish();
+//                    }
+//                }).setContent("为了能正常使用\"" + App.getAPPName() + "\"，请授予所需权限")
+//                        .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+//                    @Override
+//                    public void dialogRightBtnClick(String string) {
+//                        requestPermissions(permissions, mListener);
+//                    }
+//                }).build();
+//            } else {//全被勾选不再提示
+//                new AlertFragmentDialog.Builder(mActivity)
+//                        .setLeftBtnText("退出").setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+//                    @Override
+//                    public void dialogLeftBtnClick() {
+//                        finish();
+//                    }
+//                }).setContent("\"" + App.getAPPName() + "\"缺少必要权限\n请手动授予\"" + App.getAPPName() + "\"访问您的权限")
+//                        .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+//                    @Override
+//                    public void dialogRightBtnClick(String string) {
+//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                        intent.setData(Uri.parse("package:" + getPackageName()));
+//                        startActivity(intent);
+//                        isRequesting = false;
+//                    }
+//                }).build();
+//            }
         }
     };
 
