@@ -423,20 +423,6 @@ public class AndroidUtil {
 
     private static ThreadLocal<SimpleDateFormat> DateLocal = new ThreadLocal<SimpleDateFormat>();
 
-
-    /**
-     * 获得设备识别认证码
-     *
-     * @return
-     */
-    public static String getIMEI(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
-        if (tm == null) {
-            return null;
-        }
-        return tm.getDeviceId();
-    }
-
     private static String preMsg = "";
 
 
