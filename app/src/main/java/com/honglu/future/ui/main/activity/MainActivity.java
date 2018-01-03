@@ -455,7 +455,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     this,
                     isForced,
                     title,
-                    bean.getChangeDesc(),
+                    bean.getChangeDesc().replace("\\n", "\n"),
                     AppUtils.getVersionCode(),
                     bean.getVersionNumber(),
                     bean.getDownloadUrl(),
