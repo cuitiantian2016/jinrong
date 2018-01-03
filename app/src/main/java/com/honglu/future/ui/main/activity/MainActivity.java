@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     //哞一下宽度
     private int mMomWidth;
     //哞一下位置
-    private int mMomPosition = 2;
+    private int mMomPosition = 1;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 startActivity(PublishActivity.class);
             }
         });
-        mAverageWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+        mAverageWidth = DeviceUtils.getScreenWidth(mContext) / 4;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mMomOutLy.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 }
             });
         } else {
-            mMomWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+            mMomWidth = DeviceUtils.getScreenWidth(mContext) / 4;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -196,15 +196,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
             check(FragmentFactory.FragmentStatus.Home);
         } else if (this.select == 1) {
-            MobclickAgent.onEvent(mContext, "shouye_hangqing_click", "行情");
-            check(FragmentFactory.FragmentStatus.Market);
-        } else if (this.select == 2) {
             MobclickAgent.onEvent(mContext, "shouye_quanzi_click", "牛圈");
             check(FragmentFactory.FragmentStatus.Circle);
-        } else if (this.select == 3) {
+        } else if (this.select == 2) {
             MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
-        } else if (this.select == 4) {
+        } else if (this.select == 3) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
         }
@@ -236,11 +233,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     changeTab(FragmentFactory.FragmentStatus.Home);
                     /*Logs.e("首页111");*/
                     oldTabId = oldCheckId = R.id.rb_home;
-                    break;
-                case R.id.rb_market:
-                    toTabIndex = FragmentFactory.FragmentStatus.Market;
-                    oldTabId = oldCheckId = R.id.rb_market;
-                    changeTab(FragmentFactory.FragmentStatus.Market);
                     break;
                 case R.id.rb_trade:
                     toTabIndex = FragmentFactory.FragmentStatus.Trade;
@@ -319,10 +311,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
-                mChangeTabType = 2;
-                mHandler.postDelayed(mRunable, 300);
-            } else if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Market)) {
-                mChangeTabType = 1;
+                if(event.getCode().equals("trade_market")){
+                    mChangeTabType = 1;
+                } else{
+                    mChangeTabType = 2;
+                }
                 mHandler.postDelayed(mRunable, 300);
             }
             changeTab(((ChangeTabMainEvent) event).getTab());
@@ -349,9 +342,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         switch (status) {
             case Home:
                 id = R.id.rb_home;
-                break;
-            case Market:
-                id = R.id.rb_market;
                 break;
             case Trade:
                 id = R.id.rb_trade;

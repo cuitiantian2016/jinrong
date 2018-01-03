@@ -122,10 +122,12 @@
     <string name="storage">存储</string>
     <string name="call_phone">拨打电话</string>
     <string name="sd_card_not_use">SD卡不可用</string>
+    <string name="trade_market">行情</string>
     <string name="trade_build">建仓</string>
     <string name="trade_hold">持仓</string>
     <string name="trade_closed">已平仓</string>
     <string name="trade_agent">委托中</string>
+    <string name="trade_market_type">hangqing</string>
     <string name="trade_build_type">jiancang</string>
     <string name="trade_hold_type">chicang</string>
     <string name="trade_closed_type">yipingcang</string>

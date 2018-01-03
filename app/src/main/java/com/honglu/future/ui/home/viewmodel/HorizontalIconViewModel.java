@@ -132,7 +132,7 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                         mContext.startActivity(intentTeach);
                     }else if (homeIcons.title.equals("主力合约")){
                         MobclickAgent.onEvent(mContext,"shouye_zhuliheyue_click","首页_主力合约");
-                        EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Market));
+                        EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade,"trade_market","trade_market_zhuli"));
                     }else if (homeIcons.title.equals("咨询客服")){
                         MobclickAgent.onEvent(mContext,"shouye_zixunkefu_click","首页_咨询客服");
                         AndroidUtil.startKF(mContext);

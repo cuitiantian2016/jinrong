@@ -36,12 +36,6 @@
             app:rbDrawableTop="@drawable/selector_menu_1" />
 
         <com.honglu.future.widget.MyRadioButton
-            android:id="@+id/rb_market"
-            style="@style/menu_tab"
-            android:text="行情 "
-            app:rbDrawableTop="@drawable/selector_menu_2" />
-
-        <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_circle"
             style="@style/menu_tab"
             android:text="牛圈"

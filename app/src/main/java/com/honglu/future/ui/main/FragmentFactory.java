@@ -26,7 +26,6 @@ public class FragmentFactory {
     public enum FragmentStatus {
         None,
         Home,
-        Market,
         Trade,
         Circle,
         Account
@@ -56,9 +55,6 @@ public class FragmentFactory {
                 return;
             case Home:
                 selectFragment = HomeFragment.getInstance();
-                break;
-            case Market:
-                selectFragment = MarketFragment.getInstance();
                 break;
             case Trade:
                 selectFragment = TradeFragment.getInstance();

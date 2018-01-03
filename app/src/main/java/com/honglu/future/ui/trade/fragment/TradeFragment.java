@@ -15,6 +15,7 @@ import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
 import com.honglu.future.util.Tool;
@@ -47,6 +48,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     private ClosePositionFragment mClosePositionFragment;
     //private EntrustFragment mEntrustFragment;
     private EntrustFragment mEntrustFragment;
+    private MarketFragment mMarketFragment;
     private int currentPosition;
 
     public static TradeFragment tradeFragment;
@@ -99,6 +101,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_market), mContext.getString(R.string.trade_market_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_build), mContext.getString(R.string.trade_build_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold), mContext.getString(R.string.trade_hold_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed), mContext.getString(R.string.trade_closed_type)));
@@ -109,6 +112,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         if (mFragments == null) {
             mFragments = new ArrayList<>();
         }
+        mMarketFragment = new MarketFragment();//行情
+        mFragments.add(mMarketFragment);
         mOpenTransactionFragment = new OpenTransactionFragment();//建仓
         mFragments.add(mOpenTransactionFragment);
         mPositionFragment = new PositionFragment();
