@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.app.AppManager;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
@@ -32,7 +33,6 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
-import com.honglu.future.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.math.BigDecimal;
@@ -328,20 +328,20 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             // 先计算一手手续费的金额
             double oneSlSXF = 0;
             if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
-                mTvSxfCal.setText(String.valueOf(shouShu) +"x" + mProductListBean.getOpenRatioByVolume());
+                mTvSxfCal.setText(String.valueOf(shouShu) + "x" + mProductListBean.getOpenRatioByVolume());
                 oneSlSXF = Double.parseDouble(mProductListBean.getOpenRatioByVolume());
             } else {
                 if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
                     //国富
                     if (mIsStopChangePrice) {
-                        mTvSxfCal.setText(mPrice.getText().toString().trim() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                        mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                         oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                     } else {
                         if (mBuyType.equals("1")) {//买跌
-                            mTvSxfCal.setText(mProductListBean.getBidPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
-                            mTvSxfCal.setText(mProductListBean.getAskPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         }
                     }
@@ -350,18 +350,18 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     if (mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_AU) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_NI)
                             || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_MA) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_M)
                             || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_C)) {
-                        mTvSxfCal.setText(String.valueOf(shouShu) +"x"+mProductListBean.getOpenRatioByMoney());
+                        mTvSxfCal.setText(String.valueOf(shouShu) + "x" + mProductListBean.getOpenRatioByMoney());
                         oneSlSXF = new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue();
                     } else {
                         if (mIsStopChangePrice) {
-                            mTvSxfCal.setText(mPrice.getText().toString().trim() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
                             if (mBuyType.equals("1")) {//买跌
-                                mTvSxfCal.setText(mProductListBean.getBidPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                                mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             } else {
-                                mTvSxfCal.setText(mProductListBean.getAskPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
+                                mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             }
                         }
@@ -498,24 +498,44 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         return;
                     }
                 }
-
-                new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
-                        , R.color.color_A4A5A6, R.dimen.dimen_14sp)
-                        .setRightBtnText("确定")
-                        .setLeftBtnText("取消")
-                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                            @Override
-                            public void dialogRightBtnClick(String string) {
-                                mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
-                                        mBuyType,
-                                        mPrice.getText().toString(),
-                                        instrumentId,
-                                        SpUtil.getString(Constant.CACHE_TAG_UID),
-                                        SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                                        SpUtil.getString(Constant.COMPANY_TYPE)
-                                );
-                            }
-                        }).build();
+                if (!SpUtil.getBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED)) {
+                    new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
+                            , R.color.color_A4A5A6, R.dimen.dimen_14sp)
+                            .setRightBtnText("确定")
+                            .setLeftBtnText("取消")
+                            .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                                @Override
+                                public void dialogRightBtnClick(String string) {
+                                    mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
+                                            mBuyType,
+                                            mPrice.getText().toString(),
+                                            instrumentId,
+                                            SpUtil.getString(Constant.CACHE_TAG_UID),
+                                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                                            SpUtil.getString(Constant.COMPANY_TYPE)
+                                    );
+                                }
+                            })
+                            .setCheckChangeCallBack(new AlertFragmentDialog.CheckChangeCallBack() {
+                                @Override
+                                public void dialogCheckChange(boolean isChecked) {
+                                    if (isChecked) {
+                                        SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, true);
+                                    } else {
+                                        SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, false);
+                                    }
+                                }
+                            }).create(AlertFragmentDialog.Builder.TYPE_WITH_CHECK_BOX);
+                } else {
+                    mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
+                            mBuyType,
+                            mPrice.getText().toString(),
+                            instrumentId,
+                            SpUtil.getString(Constant.CACHE_TAG_UID),
+                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                            SpUtil.getString(Constant.COMPANY_TYPE)
+                    );
+                }
                 break;
             case R.id.btn_go_recharge:
                 MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_click", "交易_" + mProductListBean.getInstrumentName() + "_去充值");
@@ -649,14 +669,42 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     @Override
     public void showErrorMsg(String msg, String type) {
         showToast(msg);
+        if (type.equals("build")) {
+            String buyTypeStr = "";
+            if (mBuyType.equals("1")) {
+                buyTypeStr = "买跌";
+            } else {
+                buyTypeStr = "买涨";
+            }
+            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
+                    .setRightBtnText("确定").setContent(instrumentName + " " + buyTypeStr + mHands.getText().toString() + "手").setTitle("建仓失败").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+        }
     }
 
     @Override
-    public void buildTransactionSuccess() {
-        if (mIsStopChangePrice) {
-            ToastUtil.showToast("委托建仓成功");
+    public void buildTransactionSuccess(String type, String hands) {
+        String buyTypeStr = "";
+        if (type.equals("1")) {
+            buyTypeStr = "买跌";
         } else {
-            ToastUtil.showToast("快速建仓成功");
+            buyTypeStr = "买涨";
+        }
+        if (mIsStopChangePrice) {
+            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
+                    .setRightBtnText("查看委托").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                @Override
+                public void dialogRightBtnClick(String inputString) {
+                    // TODO: 2018/1/3 跳转委托界面
+                }
+            }).setContent(instrumentName + " " + buyTypeStr + hands + "手").setTitle("委托中").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+        } else {
+            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
+                    .setRightBtnText("查看持仓").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                @Override
+                public void dialogRightBtnClick(String inputString) {
+                    // TODO: 2018/1/3 跳转持仓界面
+                }
+            }).setContent(instrumentName + " " + buyTypeStr + hands + "手").setTitle("建仓成功").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
         }
         dismiss();
     }

@@ -54,6 +54,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
     private LeftClickCallBack mLeftCallBack;
     private RightClickCallBack mRightCallBack;
     private RightClickInputCallBack rightClickInputCallBack;
+    private CheckChangeCallBack mCheckChangeCallBack;
     private Builder builder;
 
     public void setLeftCallBack(LeftClickCallBack mLeftCallBack) {
@@ -66,6 +67,10 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
 
     public void setRightClickInputCallBack(RightClickInputCallBack rightCallBack) {
         this.rightClickInputCallBack = rightCallBack;
+    }
+
+    public void setCheckChangeCallBack(CheckChangeCallBack checkChangeCallBack) {
+        this.mCheckChangeCallBack = checkChangeCallBack;
     }
 
 
@@ -231,10 +236,8 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked){
-            SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,true);
-        } else{
-            SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,false);
+        if (mCheckChangeCallBack != null) {
+            mCheckChangeCallBack.dialogCheckChange(isChecked);
         }
     }
 
@@ -253,6 +256,13 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         ft.commitAllowingStateLoss();
     }
 
+
+    /**
+     * checkBox变化回调
+     */
+    public interface CheckChangeCallBack {
+        void dialogCheckChange(boolean isChecked);
+    }
 
     /**
      * 右边按钮点击回调
@@ -309,6 +319,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
         private LeftClickCallBack leftCallBack;
         private RightClickCallBack rightCallBack;
         private RightClickInputCallBack rightClickInputCallBack;
+        private CheckChangeCallBack mCheckChangeCallBack;
         private boolean isCancel = true;
         private int imageRes;
         private int titleImg;
@@ -398,6 +409,11 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             return this;
         }
 
+        public Builder setCheckChangeCallBack(CheckChangeCallBack checkChangeCallBack) {
+            this.mCheckChangeCallBack = checkChangeCallBack;
+            return this;
+        }
+
         /**
          * 是否可取消 （默认为不可取消）
          *
@@ -420,6 +436,7 @@ public class AlertFragmentDialog extends DialogFragment implements View.OnClickL
             dialogFragment.setLeftCallBack(leftCallBack);
             dialogFragment.setRightCallBack(rightCallBack);
             dialogFragment.setRightClickInputCallBack(rightClickInputCallBack);
+            dialogFragment.setCheckChangeCallBack(mCheckChangeCallBack);
             dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.TAG);
             return dialogFragment;
         }

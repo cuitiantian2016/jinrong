@@ -70,6 +70,16 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                 if(!SpUtil.getBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED)) {
                     new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
                             .setRightBtnText("知道了").setContent("您已长时间未发生交易，为保证资金安全，已退出交易账户").setTitle("安全提示")
+                            .setCheckChangeCallBack(new AlertFragmentDialog.CheckChangeCallBack() {
+                                @Override
+                                public void dialogCheckChange(boolean isChecked) {
+                                    if(isChecked){
+                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,true);
+                                    } else{
+                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,false);
+                                    }
+                                }
+                            })
                             .create(AlertFragmentDialog.Builder.TYPE_WITH_CHECK_BOX);
                 }
             } else if (((ApiException) e).getCode() == ERROR_ACCOUNT_OTHER_LOGIN) {

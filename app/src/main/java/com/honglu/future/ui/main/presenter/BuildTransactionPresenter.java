@@ -1,7 +1,9 @@
 package com.honglu.future.ui.main.presenter;
 
+import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.main.contract.BuildTransactionContract;
@@ -14,7 +16,7 @@ import com.honglu.future.util.SpUtil;
 
 public class BuildTransactionPresenter extends BasePresenter<BuildTransactionContract.View> implements BuildTransactionContract.Presenter {
     @Override
-    public void buildTransaction(boolean isFast, String orderNumber, String type, String price, String instrumentId, String userId, String token, String company) {
+    public void buildTransaction(boolean isFast, final String orderNumber, final String type, String price, String instrumentId, String userId, String token, String company) {
         rx.Observable ob;
         if (isFast) {
             ob = HttpManager.getApi().fastTransaction(orderNumber, type, price, instrumentId, userId, token, company);
@@ -29,12 +31,12 @@ public class BuildTransactionPresenter extends BasePresenter<BuildTransactionCon
 
             @Override
             protected void _onNext(Object o) {
-                mView.buildTransactionSuccess();
+                mView.buildTransactionSuccess(type,orderNumber);
             }
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorMsg(message, null);
+                mView.showErrorMsg(message, "build");
             }
 
             @Override

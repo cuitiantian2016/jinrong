@@ -9,7 +9,7 @@ import com.honglu.future.ui.trade.bean.ProductListBean;
 
 public interface BuildTransactionContract {
     interface View extends BaseView {
-        void buildTransactionSuccess();
+        void buildTransactionSuccess(String type,String hands);
         void getProductDetailSuccess(ProductListBean bean);
     }
 
