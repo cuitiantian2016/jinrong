@@ -62,6 +62,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private ImageView mReduceHands, mAddHands;
     private TextView mBuild;
     private TextView isClose;
+    private TextView mTvBzjCal, mTvSxfCal;
     private String instrumentName;
     private String instrumentId;
     private String lowerLimitPrice;
@@ -120,8 +121,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         if (!mIsStopChangePrice) {
             mProductListBean = bean;
             if (mTvRise != null) {
-                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),bean.getAskPrice1()));
-                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),bean.getBidPrice1()));
+//                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),bean.getAskPrice1()));
+//                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),bean.getBidPrice1()));
                 if (mBuyType.equals("2")) {
                     mPrice.setText(bean.getAskPrice1());
                 } else {
@@ -139,10 +140,10 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         TextView name = (TextView) findViewById(R.id.tv_name);
         name.setText(mProductListBean.getInstrumentName());
         mTvRise = (TextView) findViewById(R.id.tv_rise);
-        mTvRise.setText(String.format(mContext.getString(R.string.buy_rise), mProductListBean.getAskPrice1()));
+//        mTvRise.setText(String.format(mContext.getString(R.string.buy_rise), mProductListBean.getAskPrice1()));
         mTvRise.setOnClickListener(this);
         mTvDown = (TextView) findViewById(R.id.tv_down);
-        mTvDown.setText(String.format(mContext.getString(R.string.buy_down), mProductListBean.getBidPrice1()));
+//        mTvDown.setText(String.format(mContext.getString(R.string.buy_down), mProductListBean.getBidPrice1()));
         mTvDown.setOnClickListener(this);
         text_create_tips = (TextView) findViewById(R.id.text_create_tips);
 //        TextView riseRadio = (TextView) findViewById(R.id.tv_rise_radio);
@@ -194,6 +195,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         marginMoney = (TextView) findViewById(R.id.tv_margin_money);
         sxf = (TextView) findViewById(R.id.tv_sxf);
         mTotal = (TextView) findViewById(R.id.tv_total);
+        mTvBzjCal = (TextView) findViewById(R.id.tv_bzj_cal);
+        mTvSxfCal = (TextView) findViewById(R.id.tv_sxf_cal);
 
         TextView goRecharge = (TextView) findViewById(R.id.btn_go_recharge);
         goRecharge.setOnClickListener(this);
@@ -300,18 +303,21 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             // 先计算一手保证金的金额
             double oneSlBZj = 0;
             if (mIsStopChangePrice) {
+                mTvBzjCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getLongMarginRatioByMoney());
                 oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
             } else {
                 if (mBuyType.equals("1")) {//买跌
 //                if (TextUtils.isEmpty(mProductListBean.getLongMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getLongMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getLongMarginRatioByVolume());
 //                } else {
+                    mTvBzjCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getShortMarginRatioByMoney());
                     oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 } else {//买涨
 //                if (TextUtils.isEmpty(mProductListBean.getShortMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getShortMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getShortMarginRatioByVolume());
 //                } else {
+                    mTvBzjCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getLongMarginRatioByMoney());
                     oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 }
@@ -322,16 +328,20 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             // 先计算一手手续费的金额
             double oneSlSXF = 0;
             if (TextUtils.isEmpty(mProductListBean.getOpenRatioByMoney()) || Double.parseDouble(mProductListBean.getOpenRatioByMoney()) == 0) {
+                mTvSxfCal.setText(String.valueOf(shouShu) +"x" + mProductListBean.getOpenRatioByVolume());
                 oneSlSXF = Double.parseDouble(mProductListBean.getOpenRatioByVolume());
             } else {
                 if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
                     //国富
                     if (mIsStopChangePrice) {
+                        mTvSxfCal.setText(mPrice.getText().toString().trim() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                         oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                     } else {
                         if (mBuyType.equals("1")) {//买跌
+                            mTvSxfCal.setText(mProductListBean.getBidPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
+                            mTvSxfCal.setText(mProductListBean.getAskPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         }
                     }
@@ -340,14 +350,18 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                     if (mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_AU) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_NI)
                             || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_MA) || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_M)
                             || mProductListBean.getProductId().equals(Constant.PRODUCT_SPECIAL_C)) {
+                        mTvSxfCal.setText(String.valueOf(shouShu) +"x"+mProductListBean.getOpenRatioByMoney());
                         oneSlSXF = new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue();
                     } else {
                         if (mIsStopChangePrice) {
+                            mTvSxfCal.setText(mPrice.getText().toString().trim() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
                             if (mBuyType.equals("1")) {//买跌
+                                mTvSxfCal.setText(mProductListBean.getBidPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             } else {
+                                mTvSxfCal.setText(mProductListBean.getAskPrice1() +"x" + String.valueOf(shouShu) +"x"+mProductListBean.getVolumeMultiple() +"x"+mProductListBean.getOpenRatioByMoney());
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             }
                         }
@@ -531,23 +545,25 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             }
             mPrice.setSelection(mPrice.getText().toString().length());
             setTotalMoney();
-        } else {
-            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),mPrice.getText().toString().trim()));
-            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),mPrice.getText().toString().trim()));
         }
 
-        if (TextUtils.isEmpty(mPrice.getText().toString()) || mPrice.getText().toString().equals(".")) {
-            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
-            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
-        } else {
-            if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
-                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
-                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
-            } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
-                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),upperLimitPrice));
-                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),upperLimitPrice));
-            }
-        }
+//        else {
+//            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),mPrice.getText().toString().trim()));
+//            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),mPrice.getText().toString().trim()));
+//        }
+
+//        if (TextUtils.isEmpty(mPrice.getText().toString()) || mPrice.getText().toString().equals(".")) {
+//            mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
+//            mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
+//        } else {
+//            if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
+//                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),lowerLimitPrice));
+//                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),lowerLimitPrice));
+//            } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
+//                mTvRise.setText(String.format(mContext.getString(R.string.buy_rise),upperLimitPrice));
+//                mTvDown.setText(String.format(mContext.getString(R.string.buy_down),upperLimitPrice));
+//            }
+//        }
     }
 
     /**
