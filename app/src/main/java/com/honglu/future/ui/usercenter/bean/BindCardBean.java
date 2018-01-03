@@ -21,6 +21,7 @@ public class BindCardBean implements Serializable {
     public int balanceFlag; //查询 1 代表需要 2 代表不需要
     private String rechargeTime; //充值时间
     private String cashoutTime; //提现时间
+    public boolean isSelect;//标记是否选中
 
     public String getBankId() {
         return bankId;

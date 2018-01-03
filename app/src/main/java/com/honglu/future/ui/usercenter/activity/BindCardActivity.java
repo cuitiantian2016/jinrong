@@ -1,4 +1,6 @@
 package com.honglu.future.ui.usercenter.activity;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import com.honglu.future.ui.usercenter.bean.BindCardBean;
 import com.honglu.future.ui.usercenter.contract.BindCardContract;
 import com.honglu.future.ui.usercenter.presenter.BindCardPresenter;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -31,6 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.honglu.future.ui.recharge.activity.PayAndOutGoldFragment.RESULT_KEY;
+import static com.honglu.future.ui.recharge.activity.PayAndOutGoldFragment.RESULT_POSITION;
 
 /**
  * 绑卡列表（银行卡列表）
@@ -45,16 +51,18 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
     @BindView(R.id.bindcard_smart_view)
     SmartRefreshLayout mRefreshView;
     private static final String KEY_LIST = "KEY_LIST";
+    private static final String KEY_POSITION = "KEY_POSITION";
 
     private BindCardAdapter mAdapter;
 
-    public static void startBindCardActivity(Context context,List<BindCardBean> json){
+    public static void startBindCardActivityForResult(Context context, List<BindCardBean> json, int position, int code) {
         Intent intent = new Intent(context, BindCardActivity.class);
-        if (json !=null){
+        if (json != null) {
             String string = new Gson().toJson(json);
-            intent.putExtra(KEY_LIST,string);
+            intent.putExtra(KEY_LIST, string);
+            intent.putExtra(KEY_POSITION, position);
         }
-        context.startActivity(intent);
+        ((Activity) context).startActivityForResult(intent, code);
     }
 
     @Override
@@ -64,7 +72,7 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
 
     @Override
     public void initPresenter() {
-          mPresenter.init(this);
+        mPresenter.init(this);
     }
 
     @Override
@@ -75,24 +83,34 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
         mAdapter = new BindCardAdapter();
         mRecyclerView.setAdapter(mAdapter);
         Intent intent = getIntent();
-        if (intent!=null){
+        if (intent != null) {
             String stringExtra = intent.getStringExtra(KEY_LIST);
-            if (!TextUtils.isEmpty(stringExtra)){
+            if (!TextUtils.isEmpty(stringExtra)) {
                 Type type = new TypeToken<List<BindCardBean>>() {
                 }.getType();
                 List<BindCardBean> list = new Gson().fromJson(stringExtra, type);
+                list.get(getIntent().getIntExtra(KEY_POSITION, 0)).isSelect = true;
                 mAdapter.addData(list);
             }
         }
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mPresenter.getBindCardInfo(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+                mPresenter.getBindCardInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
                 mRefreshView.finishRefresh();
             }
         });
-
-        mPresenter.getBindCardInfo(SpUtil.getString(Constant.CACHE_TAG_UID),SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+        mPresenter.getBindCardInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(View view, int position) {
+                BindCardBean bean = mAdapter.getData().get(position);
+                Intent intent1 = new Intent();
+                intent1.putExtra(RESULT_KEY, bean);
+                intent1.putExtra(RESULT_POSITION, position);
+                setResult(Activity.RESULT_OK, intent1);
+            }
+        });
     }
 
     @OnClick({R.id.tv_add_card})
@@ -105,8 +123,9 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
 
     @Override
     public void getBindCardInfo(List<BindCardBean> list) {
-        if (list !=null){
+        if (list != null) {
             mAdapter.getData().clear();
+            list.get(getIntent().getIntExtra(KEY_POSITION, 0)).isSelect = true;
             mAdapter.addData(list);
         }
     }

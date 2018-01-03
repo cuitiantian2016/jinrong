@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="交易账号："
+                android:text="资金账号："
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 

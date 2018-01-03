@@ -1,6 +1,7 @@
 package com.honglu.future.ui.recharge.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
@@ -51,10 +53,16 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> implements PayAndOutGoldContract.View {
     private static final String KEY = "key";
+
+    private static final int RESULT_CODE = 100;
+    public static final String RESULT_KEY = "DATA";
+    public static final String RESULT_POSITION = "POSITION";
     @BindView(R.id.et_check_bank_asses)
     TextView mCheckAsses;
     @BindView(R.id.tv_type_asses)
     TextView mTypeAsses;
+    @BindView(R.id.ll_close)
+    LinearLayout mLLClose;
     @BindView(R.id.et_pay_asses)
     EditText mEtPayAsses;
     @BindView(R.id.et_asses_password)
@@ -78,6 +86,10 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
     private List<BindCardBean> mList;
+    private ImageView icon;
+    private TextView tvBank;
+    private TextView tvBankNum;
+    private int position;
 
     /**
      * @param isPay 充值
@@ -189,6 +201,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
      */
     private void initView() {
         if (mIsPay) {
+            mLLClose.setVisibility(View.GONE);
             mCheckAsses.setText(getString(R.string.check_bank_asses));
             mCheckAsses.setTextColor(getResources().getColor(R.color.color_008EFF));
             mTypeAsses.setText(getString(R.string.put_assess));
@@ -196,6 +209,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mCheckAsses.setEnabled(true);
             mEtPayAsses.setHint("请填写充值金额");
         } else {
+            mLLClose.setVisibility(View.VISIBLE);
             String string = SpUtil.getString(Constant.CACHE_USER_ASSES);
             mCheckAsses.setText(getString(R.string.can_bank_asses, string));
             mTypeAsses.setText(getString(R.string.get_assess));
@@ -335,41 +349,47 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         if (list != null && list.size() > 0) {
             //  SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
             mrlCard.removeAllViews();
+            position = 0;
             mBean = list.get(0);
-            if (mBean.rechargeFlag == 1 || mBean.cashoutFlag == 1) {
-                ll_bank_password.setVisibility(View.GONE);
-            } else {
-                ll_bank_password.setVisibility(View.VISIBLE);
-            }
-            for (BindCardBean bean : list) {
-                View cardItem = View.inflate(getActivity(), R.layout.item_card_layout, null);
-                ImageView icon = (ImageView) cardItem.findViewById(R.id.icon_bank_card);
-                ImageUtil.display(getContext(), bean.getBankIcon(), icon, R.mipmap.bank_card);
-                TextView tvBank = (TextView) cardItem.findViewById(R.id.tv_bank);
-                tvBank.setText(bean.getBankName());
-                TextView tvBankNum = (TextView) cardItem.findViewById(R.id.tv_bank_number);
-                tvBankNum.setText(NumberUtil.bankNameFilter(bean.getBankAccount()));
-                cardItem.setTag(bean);
-                cardItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mBean = (BindCardBean) view.getTag();
-                        if (mBean.rechargeFlag == 1 || mBean.cashoutFlag == 1) {
-                            ll_bank_password.setVisibility(View.GONE);
-                        } else {
-                            ll_bank_password.setVisibility(View.VISIBLE);
-                        }
-                        BindCardActivity.startBindCardActivity(getActivity(), mList);
-                    }
-                });
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(AndroidUtil.dip2px(getContext(), 15), 0, AndroidUtil.dip2px(getContext(), 15), 0);
-                mrlCard.addView(cardItem, params);
-            }
+            View cardItem = View.inflate(getActivity(), R.layout.item_card_layout, null);
+            icon = (ImageView) cardItem.findViewById(R.id.icon_bank_card);
+            tvBank = (TextView) cardItem.findViewById(R.id.tv_bank);
+            tvBankNum = (TextView) cardItem.findViewById(R.id.tv_bank_number);
+            bindData();
+            cardItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BindCardActivity.startBindCardActivityForResult(getActivity(), mList, position, RESULT_CODE);
+                }
+            });
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(AndroidUtil.dip2px(getContext(), 15), 0, AndroidUtil.dip2px(getContext(), 15), 0);
+            mrlCard.addView(cardItem, params);
         } else {
             SpUtil.putString(Constant.CACHE_TAG_BANK_LIST, "");
             mrlCard.removeAllViews();
             bindBankErr("您没有绑定银行卡");
+        }
+    }
+
+    private void bindData() {
+        if (mBean.rechargeFlag == 1 || mBean.cashoutFlag == 1) {
+            ll_bank_password.setVisibility(View.GONE);
+        } else {
+            ll_bank_password.setVisibility(View.VISIBLE);
+        }
+        ImageUtil.display(getContext(), mBean.getBankIcon(), icon, R.mipmap.bank_card);
+        tvBank.setText(mBean.getBankName());
+        tvBankNum.setText(NumberUtil.bankNameFilter(mBean.getBankAccount()));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == RESULT_CODE) {
+            mBean = (BindCardBean) data.getSerializableExtra(RESULT_KEY);
+            position = data.getIntExtra(RESULT_POSITION, 0);
+            bindData();
         }
     }
 
