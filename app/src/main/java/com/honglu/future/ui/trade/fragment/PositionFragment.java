@@ -1,6 +1,7 @@
 package com.honglu.future.ui.trade.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
@@ -90,6 +92,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             mHandler.postDelayed(this, 3000);
         }
     };
+
+    public String mRedirect;
 
     private Runnable mPositionRunnable = new Runnable() {
         @Override
@@ -272,6 +276,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         }
         mAccountLoginDialog.dismiss();
         startRun();
+        if (!TextUtils.isEmpty(mRedirect)) {
+            ARouter.getInstance().build(Uri.parse(mRedirect)).navigation(getActivity());
+            mRedirect = null;
+        }
     }
 
     @Override

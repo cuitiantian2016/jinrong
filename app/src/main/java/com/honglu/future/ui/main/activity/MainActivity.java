@@ -76,6 +76,10 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     RelativeLayout mMomOutLy;
     @Autowired(name = "select")
     public int select;
+    @Autowired(name = "redirect")
+    public String redirect;
+    @Autowired(name = "isTrade")
+    public String isTrade;
     //平均宽度
     private int mAverageWidth;
     //哞一下宽度
@@ -111,8 +115,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             savedInstanceState = null;
         }
         super.onCreate(savedInstanceState);
-        if(TextUtils.isEmpty(SpUtil.getString(Constant.COMPANY_TYPE))){
-            SpUtil.putString(Constant.COMPANY_TYPE,Constant.COMPANY_TYPE_GUOFU);
+        if (TextUtils.isEmpty(SpUtil.getString(Constant.COMPANY_TYPE))) {
+            SpUtil.putString(Constant.COMPANY_TYPE, Constant.COMPANY_TYPE_GUOFU);
         }
         JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
     }
@@ -191,6 +195,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         Log.d("Tag", "select-->" + select);
         if (intent != null) {
             select = intent.getIntExtra("select", 0);
+            redirect = intent.getStringExtra("redirect");
+            isTrade = intent.getStringExtra("isTrade");
         }
         if (this.select == 0) {
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
@@ -201,6 +207,17 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         } else if (this.select == 2) {
             MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
+            if (!TextUtils.isEmpty(redirect)) {
+                ChangeTabEvent changeTabEvent = new ChangeTabEvent(1);
+                changeTabEvent.redirect = redirect;
+                changeTabEvent.isStick = true;
+                EventBus.getDefault().postSticky(changeTabEvent);
+            }
+            if (!TextUtils.isEmpty(isTrade)) {
+                ChangeTabEvent changeTabEvent = new ChangeTabEvent(1);
+                changeTabEvent.isStick = true;
+                EventBus.getDefault().postSticky(changeTabEvent);
+            }
         } else if (this.select == 3) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
@@ -240,11 +257,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     changeTab(FragmentFactory.FragmentStatus.Trade);
                     break;
                 case R.id.rb_circle:
-                    if(App.getConfig().getLoginStatus()) {
+                    if (App.getConfig().getLoginStatus()) {
                         toTabIndex = FragmentFactory.FragmentStatus.Circle;
                         oldTabId = oldCheckId = R.id.rb_circle;
                         changeTab(FragmentFactory.FragmentStatus.Circle);
-                    } else{
+                    } else {
                         startActivity(LoginActivity.class);
                         ((RadioButton) findViewById(oldTabId)).setChecked(true);
                         toTabIndex = FragmentFactory.FragmentStatus.Circle;
@@ -277,12 +294,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             if (code == UIBaseEvent.EVENT_LOGIN)//登录
             {
                 JPushInterface.setAlias(this, SpUtil.getString(Constant.CACHE_TAG_UID), null);
-                if(toTabIndex== FragmentFactory.FragmentStatus.Circle){
+                if (toTabIndex == FragmentFactory.FragmentStatus.Circle) {
 
                     oldTabId = oldCheckId = R.id.rb_circle;
                     changeTab(toTabIndex);
                     ((RadioButton) findViewById(getCheckIdByStatus(toTabIndex))).setChecked(true);
-                }else {
+                } else {
                     if (toTabIndex != odlState)//切换
                     {
                         changeTab(toTabIndex);
@@ -311,9 +328,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
-                if(event.getCode().equals("trade_market")){
+                if (event.getCode().equals("trade_market")) {
                     mChangeTabType = 1;
-                } else{
+                } else {
                     mChangeTabType = 2;
                 }
                 mHandler.postDelayed(mRunable, 300);
@@ -323,7 +340,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         }
     }
 
-    private void hideRedMsg(){
+    private void hideRedMsg() {
         int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
         if (tag != 2) {
             mRbCircle.setTag(2);

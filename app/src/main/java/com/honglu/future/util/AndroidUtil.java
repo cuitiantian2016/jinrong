@@ -775,14 +775,14 @@ public class AndroidUtil {
     /**
      * 获取是否需要account登录
      */
-    public static void putAccountMineLogin(boolean isLogin){
+    public static void putTradeMineLogin(boolean isLogin){
         SpUtil.putBoolean("SAVE_ACCOUNT_LOGIN",isLogin);
     }
 
     /**
      * 获取是否需要account登录
      */
-    public static boolean getAccountMineLogin(){
+    public static boolean getTradeMineLogin(){
        return SpUtil.getBoolean("SAVE_ACCOUNT_LOGIN",false);
     }
 }

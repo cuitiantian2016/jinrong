@@ -32,6 +32,9 @@ public class CheckAccount extends IBaseView<CheckAccountBean> {
         mContext = context;
     }
 
+    public CheckAccount() {
+    }
+
     @Override
     public void bindData(CheckAccountBean bean) {
 

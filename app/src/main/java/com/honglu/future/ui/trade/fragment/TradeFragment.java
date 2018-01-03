@@ -87,7 +87,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
 
     @Override
     public void loadData() {
-        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -96,6 +95,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         addTabEntities();
         //添加fragment
         addFragments();
+        EventBus.getDefault().register(this);
     }
 
     private void addTabEntities() {
@@ -177,7 +177,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onResume() {
         super.onResume();
         if (!isHidden() && isVisible()) {
-           if (currentPosition == 1) {
+            if (currentPosition == 1) {
                 mPositionFragment.startRun();
             }
         }
@@ -186,10 +186,15 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEventMainThread(UIBaseEvent event) {
         if (event instanceof ChangeTabEvent) {
+            if (((ChangeTabEvent) event).isStick) {
+                EventBus.getDefault().removeStickyEvent(event);
+            }
+            mPositionFragment.mRedirect = ((ChangeTabEvent) event).redirect;
             mCommonTabLayout.setCurrentTab(((ChangeTabEvent) event).getLoanType());
+
         } else if (event instanceof RefreshUIEvent) {
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户

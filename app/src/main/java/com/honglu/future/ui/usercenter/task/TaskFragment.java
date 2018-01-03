@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * author:ayb
  * time:2017/6/15
  */
-public class TaskFragment extends BaseFragment{
+public class TaskFragment extends BaseFragment {
     public static final String EXTRA_IS_NEW = "EXTRA_IS_NEW";
     private boolean isRequesting;//是否正在请求中
 
@@ -34,37 +34,32 @@ public class TaskFragment extends BaseFragment{
     private boolean isMore;
     private int rows = 0;
 
-    String[] urls = {"xiaoniuqihuo://future/future/main","xiaoniuqihuo://future/future/main?select=1","xiaoniuqihuo://future/future/main?select=2","xiaoniuqihuo://future/future/main?select=3"
-    ,"xiaoniuqihuo://future/future/main?select=4","xiaoniuqihuo://future/future/webview?title=开户&url=https://qihuo.xnsudai.com/initAccount","xiaoniuqihuo://future/future/modify","xiaoniuqihuo://future/trade/pay"};
-
+    String[] urls = {"xiaoniuqihuo://future/future/main",
+            "xiaoniuqihuo://future/future/main?select=1",
+            "xiaoniuqihuo://future/future/main?select=2&isTrade=true",
+            "xiaoniuqihuo://future/future/main?select=3"
+            , "kaihu",
+            "xiaoniuqihuo://future/future/modify", "xiaoniuqihuo://future/trade/pay"};
 
 
     boolean mIsRefresh;
     int count;
+
     private void getFriendList(final boolean isRefresh) {
-        if (isRequesting)return;
+        if (isRequesting) return;
         isRequesting = true;
         mIsRefresh = isRefresh;
-        if (mIsRefresh){
+        if (mIsRefresh) {
             rows = 0;
         }
         ArrayList<TaskBean> taskBeenlist = new ArrayList<>();
-        for (String url:urls) {
+        for (String url : urls) {
             TaskBean taskBean = new TaskBean();
             ++count;
-            taskBean.title = ""+count;
-            taskBean.content = count+"牛逼";
+            taskBean.title = url;
+            taskBean.content = count + "牛逼";
             taskBean.isComplete = false;
             taskBean.url = url;
-            if (count ==6){
-                taskBean.title = "开户"+count;
-            }
-            if (count == 7){
-                taskBean.title = "修改头像"+count;
-            }
-            if (count == 8){
-                taskBean.title = "充值"+count;
-            }
             taskBeenlist.add(taskBean);
         }
         mAdapter.setDatas(taskBeenlist);
@@ -111,11 +106,11 @@ public class TaskFragment extends BaseFragment{
 
     @Override
     public void loadData() {
-        if (getArguments() != null){
+        if (getArguments() != null) {
             mIsNew = getArguments().getBoolean(EXTRA_IS_NEW);
         }
-        mPullToRefreshView= (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
-        mLLEmpty= mView.findViewById(R.id.ll_empty);
+        mPullToRefreshView = (SmartRefreshLayout) mView.findViewById(R.id.srl_refreshView);
+        mLLEmpty = mView.findViewById(R.id.ll_empty);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -125,18 +120,18 @@ public class TaskFragment extends BaseFragment{
         mPullToRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                if (isMore){
+                if (isMore) {
                     getFriendList(false);
-                }else {
+                } else {
                     mPullToRefreshView.finishLoadmore();
                 }
             }
         });
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head,null);
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head, null);
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
         listView.addHeaderView(headView);
         listView.setEmptyView(mLLEmpty);
-        mAdapter=new TaskAdapter();
+        mAdapter = new TaskAdapter();
         listView.setAdapter(mAdapter);
         getFriendList(true);
     }
