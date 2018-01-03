@@ -1,8 +1,8 @@
-package com.honglu.future.ui.circle.circlemsg;
+package com.honglu.future.ui.msg.circlemsg;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.base.BaseView;
-import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.CircleMsgBean;
 
 import java.util.List;
 

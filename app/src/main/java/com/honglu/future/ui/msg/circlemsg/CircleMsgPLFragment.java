@@ -1,9 +1,7 @@
-package com.honglu.future.ui.circle.circlemsg;
+package com.honglu.future.ui.msg.circlemsg;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,17 +15,15 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.Constant;
-import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.CircleMsgBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
-import com.honglu.future.widget.recycler.DividerItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

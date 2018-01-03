@@ -1,6 +1,5 @@
-package com.honglu.future.ui.circle.circlemsg;
+package com.honglu.future.ui.msg.circlemsg;
 
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;

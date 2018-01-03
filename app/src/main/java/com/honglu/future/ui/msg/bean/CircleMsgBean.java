@@ -1,4 +1,4 @@
-package com.honglu.future.ui.circle.bean;
+package com.honglu.future.ui.msg.bean;
 
 /**
  * Created by zhuaibing on 2017/12/8

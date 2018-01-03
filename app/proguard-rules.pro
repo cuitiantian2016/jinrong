@@ -73,6 +73,7 @@
 -keep class com.honglu.future.ui.usercenter.bean.** { *; }
 -keep class com.honglu.future.ui.circle.bean.** { *; }
 -keep class com.honglu.future.ui.live.bean.** { *; }
+-keep class com.honglu.future.ui.msg.bean.** { *; }
 -keep class com.gensee.** { *; }
 
 #网络层混淆

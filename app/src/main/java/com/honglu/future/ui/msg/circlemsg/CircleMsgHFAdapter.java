@@ -1,4 +1,4 @@
-package com.honglu.future.ui.circle.circlemsg;
+package com.honglu.future.ui.msg.circlemsg;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
-import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.CircleMsgBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
@@ -28,16 +28,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 收到的评论
  * Created by zhuaibing on 2017/12/7
  */
 
-public class CircleMsgPLAdapter extends BaseAdapter{
-
+public class CircleMsgHFAdapter extends BaseAdapter {
     private Context mContext;
     private List<CircleMsgBean> mList;
     private String mYear;
 
-    public CircleMsgPLAdapter(Context context){
+    public CircleMsgHFAdapter(Context context){
         this.mContext = context;
         this.mList = new ArrayList<>();
         this.mYear =  getYear();;
@@ -90,15 +90,16 @@ public class CircleMsgPLAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        CircleMsgHFAdapter.ViewHolder holder = null;
+        ViewHolder holder = null;
         if (convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_circle_msg_layout,null);
-            holder = new CircleMsgHFAdapter.ViewHolder(convertView);
-            convertView.setTag(holder);
+           convertView = LayoutInflater.from(mContext).inflate(R.layout.item_circle_msg_layout,null);
+           holder = new ViewHolder(convertView);
+           convertView.setTag(holder);
         }else {
-            holder = (CircleMsgHFAdapter.ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
         final CircleMsgBean circleMsgBean = mList.get(position);
+
         ImageUtil.display(ConfigUtil.baseImageUserUrl+ circleMsgBean.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
         //回复人昵称
@@ -135,7 +136,6 @@ public class CircleMsgPLAdapter extends BaseAdapter{
         });
 
         //回复详情 跳转帖子详情
-
         holder.mHuifuDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,9 +147,6 @@ public class CircleMsgPLAdapter extends BaseAdapter{
         });
         return convertView;
     }
-
-
-
 
     static class ViewHolder {
         @BindView(R.id.civ_head)
@@ -173,14 +170,14 @@ public class CircleMsgPLAdapter extends BaseAdapter{
     }
 
     private void setText(TextView view,String text){
-        if (!TextUtils.isEmpty(text)){
-            view.setText(text);
-        }else {
-            view.setText("");
-        }
+      if (!TextUtils.isEmpty(text)){
+          view.setText(text);
+      }else {
+          view.setText("");
+      }
     }
 
-    private Spannable getSpannableContent(String text1, String text2, String text3 , String text4){
+    private Spannable getSpannableContent(String text1,String text2,String text3 ,String text4){
         int text1Start = 0;
         int text1End = getLength(text1);
 

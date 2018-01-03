@@ -1,10 +1,10 @@
-package com.honglu.future.ui.circle.circlemsg;
+package com.honglu.future.ui.msg.circlemsg;
 import com.google.gson.JsonNull;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
-import com.honglu.future.ui.circle.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.CircleMsgBean;
 import com.honglu.future.util.SpUtil;
 
 import java.util.List;
