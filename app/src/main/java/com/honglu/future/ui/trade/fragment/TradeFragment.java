@@ -43,7 +43,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     CommonTabLayout mCommonTabLayout;
     private ArrayList<CustomTabEntity> mTabList;
     private ArrayList<Fragment> mFragments;
-    private OpenTransactionFragment mOpenTransactionFragment;
     private PositionFragment mPositionFragment;
     private ClosePositionFragment mClosePositionFragment;
     //private EntrustFragment mEntrustFragment;
@@ -102,7 +101,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     private void addTabEntities() {
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_market), mContext.getString(R.string.trade_market_type)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_build), mContext.getString(R.string.trade_build_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold), mContext.getString(R.string.trade_hold_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed), mContext.getString(R.string.trade_closed_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent), mContext.getString(R.string.trade_agent_type)));
@@ -114,8 +112,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         }
         mMarketFragment = new MarketFragment();//行情
         mFragments.add(mMarketFragment);
-        mOpenTransactionFragment = new OpenTransactionFragment();//建仓
-        mFragments.add(mOpenTransactionFragment);
         mPositionFragment = new PositionFragment();
         mFragments.add(mPositionFragment);
         mClosePositionFragment = new ClosePositionFragment();
@@ -158,17 +154,13 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            mOpenTransactionFragment.stopRun();
             mPositionFragment.stopRun();
             MPushUtil.pauseRequest();
         } else {
             if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME) && currentPosition == 0) {
                 MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
             }
-            if (currentPosition == 0) {
-                mOpenTransactionFragment.refreshProductList();
-                mOpenTransactionFragment.startRun();
-            } else if (currentPosition == 1) {
+            if (currentPosition == 1) {
                 mPositionFragment.startRun();
             }
         }
@@ -177,7 +169,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     @Override
     public void onPause() {
         super.onPause();
-        mOpenTransactionFragment.stopRun();
         mPositionFragment.stopRun();
         MPushUtil.pauseRequest();
     }
@@ -186,9 +177,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onResume() {
         super.onResume();
         if (!isHidden() && isVisible()) {
-            if (currentPosition == 0) {
-                mOpenTransactionFragment.startRun();
-            } else if (currentPosition == 1) {
+           if (currentPosition == 1) {
                 mPositionFragment.startRun();
             }
         }
