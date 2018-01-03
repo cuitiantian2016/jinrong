@@ -87,13 +87,15 @@ public class BakSourceInterface {
     static {
         specialklineCycleList.add(new KlineCycle("分时", PARAM_KLINE_TIME_WEIPAN));
         specialklineCycleList.add(new KlineCycle("日线", PARAM_KLINE_1D_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("1分钟", PARAM_KLINE_1M_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("5分钟", PARAM_KLINE_5M_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("15分钟", PARAM_KLINE_15M_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("30分钟", PARAM_KLINE_30M_WEIPAN));
-        specialklineCycleList.add(new KlineCycle("1小时", PARAM_KLINE_60M_WEIPAN));
-//        specialklineCycleList.add(new KlineCycle("2小时", PARAM_KLINE_2H_WEIPAN));
         specialklineCycleList.add(new KlineCycle("4小时", PARAM_KLINE_4H_WEIPAN));
+        specialklineCycleList.add(new KlineCycle("1小时", PARAM_KLINE_60M_WEIPAN));
+        specialklineCycleList.add(new KlineCycle("30分钟", PARAM_KLINE_30M_WEIPAN));
+        specialklineCycleList.add(new KlineCycle("15分钟", PARAM_KLINE_15M_WEIPAN));
+        specialklineCycleList.add(new KlineCycle("5分钟", PARAM_KLINE_5M_WEIPAN));
+        specialklineCycleList.add(new KlineCycle("1分钟", PARAM_KLINE_1M_WEIPAN));
+
+//        specialklineCycleList.add(new KlineCycle("2小时", PARAM_KLINE_2H_WEIPAN));
+
         //specialklineCycleList.add(new KlineCycle("周线", PARAM_KLINE_WEEK_WEIPAN));
 //        klineCycleList.add(new KlineCycle("月线", PARAM_KLINE_MONTH)_WEIPAN);
     }

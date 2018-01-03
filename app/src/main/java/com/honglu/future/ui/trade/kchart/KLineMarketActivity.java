@@ -675,7 +675,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     @OnClick({R.id.iv_pull, R.id.iv_back, R.id.buy_up, R.id.buy_down, R.id.hold_position, R.id.iv_full_screen,
-            R.id.iv_show_popup, R.id.show_tip})
+            R.id.iv_show_popup})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pull:
@@ -764,16 +764,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             case R.id.iv_show_popup:
                 mKLinePopupWin.showPopupWind(v);
                 break;
-            case R.id.show_tip:
-                if (DeviceUtils.isFastDoubleClick()) {
-                    return;
-                }
-                if (mProductRuleDialog != null) {
-                    mProductRuleDialog.show();
-                } else {
-                    showToast("暂未获取数据");
-                }
-                break;
         }
     }
 
@@ -828,6 +818,18 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    @Override
+    public void onProductInfo() {
+        if (DeviceUtils.isFastDoubleClick()) {
+            return;
+        }
+        if (mProductRuleDialog != null) {
+            mProductRuleDialog.show();
+        } else {
+            showToast("暂未获取数据");
         }
     }
 

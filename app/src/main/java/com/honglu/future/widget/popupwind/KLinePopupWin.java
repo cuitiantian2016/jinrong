@@ -21,12 +21,14 @@ public class KLinePopupWin extends PopupWindow {
     private TextView mTvFull;
     private TextView mTvQhsy;
     private TextView mTvZjsy;
+    private TextView mTvPzjs;
 
     private View conentView;
     private Context context;
 
     public interface OnPopItemClickListener {
         void onFullScreeClick();
+        void onProductInfo();
     }
 
     private OnPopItemClickListener mListener;
@@ -61,6 +63,7 @@ public class KLinePopupWin extends PopupWindow {
         mTvFull = (TextView) conentView.findViewById(R.id.tv_full);
         mTvQhsy = (TextView) conentView.findViewById(R.id.tv_qhsy);
         mTvZjsy = (TextView) conentView.findViewById(R.id.tv_zjsy);
+        mTvPzjs = (TextView) conentView.findViewById(R.id.tv_pzjs);
 
         mTvFull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,13 @@ public class KLinePopupWin extends PopupWindow {
                 intent.putExtra("title", "资金术语");
                 intent.putExtra("url", ConfigUtil.ZIJIN_SHUYU);
                 context.startActivity(intent);
+            }
+        });
+
+        mTvPzjs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onProductInfo();
             }
         });
     }

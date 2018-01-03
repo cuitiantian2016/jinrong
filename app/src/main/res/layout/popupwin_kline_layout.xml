@@ -40,6 +40,22 @@
             android:background="@color/color_line" />
 
         <TextView
+            android:id="@+id/tv_pzjs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/dimen_10dp"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimen_10dp"
+            android:text="品种介绍"
+            android:textColor="@color/color_333333" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp_half"
+            android:background="@color/color_line" />
+
+        <TextView
             android:id="@+id/tv_qhsy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

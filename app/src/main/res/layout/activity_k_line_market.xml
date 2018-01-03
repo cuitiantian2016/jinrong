@@ -41,14 +41,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dimen_18sp" />
 
-            <ImageView
-                android:id="@+id/show_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="3dp"
-                android:src="@mipmap/ic_name_arrow" />
-
             <TextView
                 android:id="@+id/tv_closed"
                 android:layout_width="@dimen/dimen_50dp"
@@ -66,7 +58,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:gravity="right|center">
+                android:gravity="right|center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_5dp"
+                    android:src="@mipmap/right_arrow_grey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自选"
+                    android:padding="@dimen/dimen_5dp"
+                    android:textColor="@android:color/white"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_show_popup"
@@ -182,9 +189,9 @@
                 android:visibility="gone" />
 
             <RelativeLayout
-                android:layout_toLeftOf="@+id/iv_full_screen"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/iv_full_screen">
 
                 <LinearLayout
                     android:id="@+id/ll_firstline"
@@ -198,12 +205,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="买价："
+                        android:text="成交量："
                         android:textColor="@color/color_B1B3B2"
                         android:textSize="@dimen/dimen_13sp" />
 
                     <com.honglu.future.widget.DinTextView
-                        android:id="@+id/tv_buy_price"
+                        android:id="@+id/tv_vol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_8dp"
@@ -216,56 +223,6 @@
 
                     <TextView
                         android:id="@+id/text_open"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="成交量："
-                        android:textColor="@color/color_B1B3B2"
-                        android:textSize="@dimen/dimen_13sp" />
-
-                    <com.honglu.future.widget.DinTextView
-                        android:id="@+id/tv_vol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_15dp"
-                        android:gravity="left|center_vertical"
-                        android:minHeight="16dp"
-                        android:minWidth="50dp"
-                        android:text="--"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/dimen_13sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/ll_firstline"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/sell_text_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="卖价："
-                        android:textColor="@color/color_B1B3B2"
-                        android:textSize="@dimen/dimen_13sp" />
-
-                    <com.honglu.future.widget.DinTextView
-                        android:id="@+id/tv_sell_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_8dp"
-                        android:gravity="left|center_vertical"
-                        android:minHeight="16dp"
-                        android:minWidth="40dp"
-                        android:text="--"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/dimen_13sp" />
-
-                    <TextView
-                        android:id="@+id/text_close"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="持仓量："
@@ -283,6 +240,36 @@
                         android:text="--"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dimen_13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/ll_firstline"
+                    android:layout_below="@+id/ll_firstline"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="建仓保证金预估："
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_13sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_open_price_yugu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_8dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="16dp"
+                        android:minWidth="40dp"
+                        android:text="--"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/dimen_13sp" />
+
                 </LinearLayout>
             </RelativeLayout>
 
@@ -550,6 +537,72 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="买价"
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_buy_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_20dp"
+                        android:text="--"
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="卖价"
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_sell_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_20dp"
+                        android:minWidth="@dimen/dimen_45dp"
+                        android:text="--"
+                        android:textColor="@color/color_B1B3B2"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
@@ -648,7 +701,8 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/dimen_16sp" />
+                            android:textSize="@dimen/dimen_16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -674,7 +728,8 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/dimen_16sp" />
+                            android:textSize="@dimen/dimen_16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
