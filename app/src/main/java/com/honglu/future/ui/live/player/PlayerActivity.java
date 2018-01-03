@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gensee.common.ServiceType;
+import com.gensee.db.PlayerChatDataBaseManager;
 import com.gensee.entity.ChatMsg;
 import com.gensee.entity.InitParam;
 import com.gensee.entity.LiveInfo;
@@ -47,9 +48,7 @@ import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
-import com.honglu.future.dialog.WifiCheckDialog;
 import com.honglu.future.ui.live.bean.LiveListBean;
-import com.honglu.future.util.AESUtils;
 import com.honglu.future.util.NetUtil;
 import com.honglu.future.util.ShareUtils;
 import com.honglu.future.util.SpUtil;
@@ -66,7 +65,7 @@ import java.util.List;
  * 直播页面
  * Created by zq on 2017/12/22.
  */
-public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener,OnChatListener {
+public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener, OnChatListener {
 
     private static final String TAG = "PlayerDemoActivity";
     private SharedPreferences preferences;
@@ -157,6 +156,17 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     };
 
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int orientation = getRequestedOrientation();
+            if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                    || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                videoViewNormalSize();
+            }
+        }
+    };
+
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(Constant.PARAMS_JOINSUCCESS, bJoinSuccess);
         outState.putBoolean(
@@ -195,7 +205,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
         setContentView(R.layout.activity_player_layout);
         preferences = getPreferences(MODE_PRIVATE);
-        if(!NetUtil.isConnected(this)){
+        if (!NetUtil.isConnected(this)) {
             new AlertFragmentDialog.Builder(this).setContent("网络异常,请检查网络连接...")
                     .setRightBtnText("知道了")
                     .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
@@ -263,7 +273,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         initParam.setLiveId(number);
         // 设置显示昵称 不能为空,请传入正确的昵称，有显示和统计的作用
         // 设置显示昵称，如果设置为空，请确保
-        initParam.setNickName(nickName);
+        initParam.setNickName(nickName + "|" + SpUtil.getString(Constant.CACHE_TAG_UID));
         // 设置加入口令（根据配置可选）
         initParam.setJoinPwd(joinPwd);
         // 设置服务类型，如果站点是webcast类型则设置为ServiceType.ST_CASTLINE，
@@ -661,12 +671,13 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 //        if (bJoinSuccess) {
 //            dialogLeave();
 //        } else {
-            super.onBackPressed();
+        super.onBackPressed();
 //        }
     }
 
     @Override
     protected void onDestroy() {
+        mHandler.removeCallbacks(mRunnable);
         releasePlayer();
         // onFinshAll();
         super.onDestroy();
@@ -675,7 +686,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private void releasePlayer() {
         if (null != mPlayer && bJoinSuccess) {
             mPlayer.leave();
-            mPlayer.release(this);
+            mPlayer.release(getApplicationContext());
             bJoinSuccess = false;
         }
 
@@ -760,7 +771,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     @Override
     public void onChatWithPublic(final ChatMsg chatMsg) {
-        Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent() +",,,"+chatMsg.getRichText() +",,," + chatMsg.getTimeStamp());
+        //Log.i("testUrl", chatMsg.getSender() + ":" + chatMsg.getContent() +",,,"+chatMsg.getRichText() +",,," + chatMsg.getTimeStamp());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -922,17 +933,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         if (videoHeight != height || videoWidth != width) {
             videoHeight = height;
             videoWidth = width;
-            mHandler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    int orientation = getRequestedOrientation();
-                    if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-                            || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                        videoViewNormalSize();
-                    }
-                }
-            });
+            mHandler.post(mRunnable);
         }
     }
 

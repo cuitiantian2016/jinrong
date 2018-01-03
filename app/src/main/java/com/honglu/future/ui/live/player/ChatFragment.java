@@ -148,7 +148,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
             mChatListAdapter.clearData();
             mChatListAdapter.addData(mChatSubList);
             if (mChatListAdapter.getItemCount() >= 1) {
-                mChatListView.smoothScrollToPosition(mChatListAdapter.getItemCount() - 1);
+                mChatListView.scrollToPosition(mChatListAdapter.getItemCount() - 1);
             }
         } else {
             mChatList.add(msg);
@@ -164,7 +164,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
             mChatListAdapter.clearData();
             mChatListAdapter.addData(mChatSubList);
             if (mChatListAdapter.getItemCount() >= 1) {
-                mChatListView.smoothScrollToPosition(mChatListAdapter.getItemCount() - 1);
+                mChatListView.scrollToPosition(mChatListAdapter.getItemCount() - 1);
             }
         }
     }
@@ -220,7 +220,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
                                     mChatListAdapter.clearData();
                                     mChatListAdapter.addData(mChatSubList);
                                     if (mChatListAdapter.getItemCount() >= 1) {
-                                        mChatListView.smoothScrollToPosition(mChatListAdapter.getItemCount() - 1);
+                                        mChatListView.scrollToPosition(mChatListAdapter.getItemCount() - 1);
                                     }
 
                                 }
@@ -252,7 +252,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
                     mChatListAdapter.clearData();
                     mChatListAdapter.addData(mChatSubList);
                     if (mChatListAdapter.getItemCount() >= 1) {
-                        mChatListView.smoothScrollToPosition(mChatListAdapter.getItemCount() - 1);
+                        mChatListView.scrollToPosition(mChatListAdapter.getItemCount() - 1);
                     }
                     mIsTeacher = true;
                 } else {
@@ -272,7 +272,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, Adap
                     mChatListAdapter.clearData();
                     mChatListAdapter.addData(mChatSubList);
                     if (mChatListAdapter.getItemCount() >= 1) {
-                        mChatListView.smoothScrollToPosition(mChatListAdapter.getItemCount() - 1);
+                        mChatListView.scrollToPosition(mChatListAdapter.getItemCount() - 1);
                     }
                     mIsTeacher = false;
                 }

@@ -4,12 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gensee.common.RoleType;
 import com.gensee.entity.ChatMsg;
 import com.gensee.view.MyTextViewEx;
 import com.honglu.future.R;
+import com.honglu.future.config.Constant;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
@@ -45,31 +48,74 @@ public class ChatListAdapter extends BaseRecyclerAdapter<ChatListAdapter.ViewHol
 
     @Override
     public void mOnBindViewHolder(ViewHolder holder, final int position) {
-        holder.name.setText(item.getSender());
-        holder.time.setText(TimeUtil.formatData(TimeUtil.dateFormatHM, item.getTimeStamp() / 1000));
-        if (RoleType.isHost(item.getSenderRole())) {
-            holder.content.setTextColor(mContext.getResources().getColor(R.color.chat_select_self));
-        } else {
-            holder.content.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+        int size = item.getSender().split("\\|").length;
+        String userId = "";
+        String userName = "";
+        if (size >= 2) {
+            userId = item.getSender().split("\\|")[size - 1];
+            userName = item.getSender().substring(0, item.getSender().length() - userId.length()-1);
+        } else if (size == 1) {
+            userName = item.getSender().split("\\|")[0];
+        } else if (size == 0) {
+            userName = item.getSender();
         }
+        if (userId.equals(SpUtil.getString(Constant.CACHE_TAG_UID))) {
+            holder.rlLeft.setVisibility(View.GONE);
+            holder.rlRight.setVisibility(View.VISIBLE);
+            holder.nameRight.setText(userName);
+            holder.timeRight.setText(TimeUtil.formatData(TimeUtil.dateFormatHM, item.getTimeStamp() / 1000));
+            if (RoleType.isHost(item.getSenderRole())) {
+                holder.contentRight.setTextColor(mContext.getResources().getColor(R.color.chat_select_self));
+            } else {
+                holder.contentRight.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            }
 
-        String richText = "";
-        mFaceList = getFaceKey(item.getContent());
-        if (mFaceList != null && mFaceList.size() != 0) {
-            richText = item.getContent();
-            for (int i = 0; i < mFaceList.size(); i++) {
-                if (!TextUtils.isEmpty(faceMap.get(mFaceList.get(i)))) {
-                    richText = richText.replace("【" + mFaceList.get(i) + "】", "<IMG src=\"" + faceMap.get(mFaceList.get(i)) + "\" custom=\"false\">");
+            String richText = "";
+            mFaceList = getFaceKey(item.getContent());
+            if (mFaceList != null && mFaceList.size() != 0) {
+                richText = item.getContent();
+                for (int i = 0; i < mFaceList.size(); i++) {
+                    if (!TextUtils.isEmpty(faceMap.get(mFaceList.get(i)))) {
+                        richText = richText.replace("【" + mFaceList.get(i) + "】", "<IMG src=\"" + faceMap.get(mFaceList.get(i)) + "\" custom=\"false\">");
+                    }
                 }
             }
-        }
-        if (TextUtils.isEmpty(richText)) {
-            richText = item.getContent();
-        } else {
-            richText = "<SPAN>" + richText + "</SPAN>";
-        }
+            if (TextUtils.isEmpty(richText)) {
+                richText = item.getContent();
+            } else {
+                richText = "<SPAN>" + richText + "</SPAN>";
+            }
 
-        holder.content.setChatContent(item.getContent(), richText);
+            holder.contentRight.setChatContent(item.getContent(), richText);
+        } else {
+            holder.rlLeft.setVisibility(View.VISIBLE);
+            holder.rlRight.setVisibility(View.GONE);
+            holder.name.setText(userName);
+            holder.time.setText(TimeUtil.formatData(TimeUtil.dateFormatHM, item.getTimeStamp() / 1000));
+            if (RoleType.isHost(item.getSenderRole())) {
+                holder.content.setTextColor(mContext.getResources().getColor(R.color.chat_select_self));
+            } else {
+                holder.content.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+            }
+
+            String richText = "";
+            mFaceList = getFaceKey(item.getContent());
+            if (mFaceList != null && mFaceList.size() != 0) {
+                richText = item.getContent();
+                for (int i = 0; i < mFaceList.size(); i++) {
+                    if (!TextUtils.isEmpty(faceMap.get(mFaceList.get(i)))) {
+                        richText = richText.replace("【" + mFaceList.get(i) + "】", "<IMG src=\"" + faceMap.get(mFaceList.get(i)) + "\" custom=\"false\">");
+                    }
+                }
+            }
+            if (TextUtils.isEmpty(richText)) {
+                richText = item.getContent();
+            } else {
+                richText = "<SPAN>" + richText + "</SPAN>";
+            }
+
+            holder.content.setChatContent(item.getContent(), richText);
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,6 +125,17 @@ public class ChatListAdapter extends BaseRecyclerAdapter<ChatListAdapter.ViewHol
         TextView time;
         @BindView(R.id.chatcontexttextview)
         MyTextViewEx content;
+        @BindView(R.id.rl_left)
+        RelativeLayout rlLeft;
+        @BindView(R.id.rl_right)
+        RelativeLayout rlRight;
+        @BindView(R.id.chatnametext_right)
+        TextView nameRight;
+        @BindView(R.id.chattimetext_right)
+        TextView timeRight;
+        @BindView(R.id.chatcontexttextview_right)
+        MyTextViewEx contentRight;
+
 
         ViewHolder(View view) {
             super(view);
