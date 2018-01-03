@@ -498,7 +498,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         return;
                     }
                 }
-                if (!SpUtil.getBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED)) {
+                if (!SpUtil.getBoolean(Constant.BUILD_TRANSACTION_CHECKED)) {
                     new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
                             , R.color.color_A4A5A6, R.dimen.dimen_14sp)
                             .setRightBtnText("确定")
