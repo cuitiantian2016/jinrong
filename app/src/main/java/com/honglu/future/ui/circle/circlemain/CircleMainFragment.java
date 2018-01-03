@@ -127,6 +127,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
             @Override
             public void onClick(View view) {
                 if (!signPopWind.isShowing()){
+                    signPopWind.getSigleData();
                     bg_image.setVisibility(View.VISIBLE);
                     signPopWind.showPopupWind(rl_title);
                 }
