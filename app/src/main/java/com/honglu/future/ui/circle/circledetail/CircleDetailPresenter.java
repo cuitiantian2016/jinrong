@@ -124,8 +124,8 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
 
     //评论回复
     @Override
-    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId, final int replyType ,String replyNickName,String postUserId,String fatherCircleReplyId,String layCircleReplyId) {
-        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName,postUserId,fatherCircleReplyId,layCircleReplyId), new HttpSubscriber<JsonNull>() {
+    public void getCommentContent(String userId, String circleId, String content, String beReplyUserId, final int replyType , String replyNickName, String postUserId, final String fatherCircleReplyId, String layCircleReplyId, final String nickName) {
+        toSubscribe(HttpManager.getApi().getCommentContent(userId,circleId,content,beReplyUserId,replyType,replyNickName,postUserId,fatherCircleReplyId,layCircleReplyId), new HttpSubscriber<String>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("发表中...");
@@ -137,9 +137,9 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
                 mView.getCommentContentError();
             }
             @Override
-            protected void _onNext(JsonNull jsonNull) {
+            protected void _onNext(String circleReplyId) {
                 mView.stopLoading();
-                mView.getCommentContent(jsonNull,replyType);
+                mView.getCommentContent(nickName,fatherCircleReplyId,circleReplyId,replyType);
             }
         });
     }

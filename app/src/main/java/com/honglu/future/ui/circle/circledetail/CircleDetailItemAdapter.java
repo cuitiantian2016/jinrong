@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.ui.circle.bean.LayCommentListBean;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ import java.util.List;
 
 public class CircleDetailItemAdapter extends BaseAdapter{
     private CircleDetailActivity mActivity;
-    private List<CommentBean.LayCommentListBean> mList;
+    private List<LayCommentListBean> mList;
 
-    public CircleDetailItemAdapter(CircleDetailActivity activity,List<CommentBean.LayCommentListBean> list){
+    public CircleDetailItemAdapter(CircleDetailActivity activity,List<LayCommentListBean> list){
       this.mActivity = activity;
       this.mList = list;
     }
@@ -55,9 +56,9 @@ public class CircleDetailItemAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CommentBean.LayCommentListBean bean = mList.get(position);
+        LayCommentListBean bean = mList.get(position);
 
-        Spannable spannableContent = getSpannableContent(bean.nickName, "回复", bean.beReplyNickName);
+        Spannable spannableContent = getSpannableContent(bean.nickName, " 回复 ", bean.beReplyNickName);
         holder.mHintText.setText(spannableContent);
 
         setTextGone(holder.mContent,bean.replyContent);
@@ -97,13 +98,13 @@ public class CircleDetailItemAdapter extends BaseAdapter{
         int text3End = text2End + getLength(text3);
 
         Spannable spannable = new SpannableString(text1+text2+text3);
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_86A2B0)), text1Start, text1End,
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_979899)), text1Start, text1End,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_979899)),text2Start, text2End,
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_86A2B0)),text2Start, text2End,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_333333)), text3Start,text3End ,
+        spannable.setSpan(new ForegroundColorSpan(mActivity.getResources().getColor(R.color.color_979899)), text3Start,text3End ,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
     }

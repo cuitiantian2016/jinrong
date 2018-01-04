@@ -2,7 +2,9 @@ package com.honglu.future.ui.circle.circledetail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
+import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -26,10 +29,14 @@ import com.honglu.future.events.BBSArewardEvent;
 import com.honglu.future.events.BBSCommentContentEvent;
 import com.honglu.future.events.BBSCommentEvent;
 import com.honglu.future.events.BBSFlownEvent;
+import com.honglu.future.events.BBSLayCommentEvent;
 import com.honglu.future.events.BBSPraiseEvent;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.ui.circle.bean.CommentBosAllBean;
+import com.honglu.future.ui.circle.bean.LayCommentBean;
+import com.honglu.future.ui.circle.bean.LayCommentListBean;
 import com.honglu.future.ui.circle.bean.PraiseListBean;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.circle.morecomment.MoreCommentActivity;
@@ -48,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,6 +137,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private String mBeReplyUserId; //被回复人id
     private String mFatherCircleReplyId; //对一级回复时主id;
     private String mLayCircleReplyId; //对层级回复时id(当为一级时 传mFatherCircleReplyId);
+    private String mNickName;
 
     @Override
     public void initPresenter() {
@@ -329,6 +338,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             setCommentDataInit();
             mInput.setHint(getString(R.string.circle_input_hint));
         }else {
+            mNickName = name;
             mBeReplyUserId = replyUserId;
             mFatherCircleReplyId = fatherCircleReplyId;
             mLayCircleReplyId = layCircleReplyId;
@@ -339,13 +349,25 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     /**
      * 跳转到更多回复
-     * @param bean
+     * @param mCommentBean
      */
-    public void startMoreCommentActivity(CommentBean bean){
+    public void startMoreCommentActivity(CommentBean mCommentBean){
+        CommentBosAllBean mAllBean = new CommentBosAllBean();
+        mAllBean.avatarPic = mCommentBean.avatarPic;
+        mAllBean.nickName = mCommentBean.nickName;
+        mAllBean.createTime = mCommentBean.createTime;
+        mAllBean.replyContent = mCommentBean.replyContent;
+        mAllBean.circleReplyId = String.valueOf(mCommentBean.circleReplyId);
+        mAllBean.fatherCircleReplyId = String.valueOf(mCommentBean.circleReplyId);
+        mAllBean.layCircleReplyId = String.valueOf(mCommentBean.circleReplyId);
+        mAllBean.replyUserId = mCommentBean.replyUserId;
+        mAllBean.pType = mCommentBean.replyUserId;
+
         Intent intent = new Intent(mActivity, MoreCommentActivity.class);
-        intent.putExtra(MoreCommentActivity.COMMENTBEAN_KEY, bean);
+        intent.putExtra(MoreCommentActivity.COMMENTBOSALLBEAN_KEY,mAllBean);
         intent.putExtra(MoreCommentActivity.CIRCLEID_KEY,mCircleId);
         intent.putExtra(MoreCommentActivity.POST_USER_KEY,mPostUserId);
+        intent.putExtra(MoreCommentActivity.CONTENT_KEY,mHelper.getText(mContnet));
         mActivity.startActivity(intent);
     }
 
@@ -360,12 +382,12 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 }
                 mSend.setEnabled(false);
                 if (COMMENT_AUTH.equals(getCommentType())) {
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mPostUserId, REPLYTYPE_1, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,"","");
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mPostUserId, REPLYTYPE_1, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,"","", "");
                 } else {
                     if (isCommentData()) {
-                        mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mBeReplyUserId, REPLYTYPE_2, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,mFatherCircleReplyId,mLayCircleReplyId);
+                        mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mBeReplyUserId, REPLYTYPE_2, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,mFatherCircleReplyId,mLayCircleReplyId,mNickName);
                     } else {
-                        mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mPostUserId, REPLYTYPE_1, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,"","");
+                        mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID), mCircleId, content, mPostUserId, REPLYTYPE_1, SpUtil.getString(Constant.CACHE_TAG_USERNAME), mPostUserId,"","" ,"");
                     }
                 }
                 break;
@@ -639,7 +661,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
 
     //评论回复
     @Override
-    public void getCommentContent(JsonNull jsonNull, int replyType) {
+    public void getCommentContent(String nickName,String fatherCircleReplyId,String circleReplyId, int replyType) {
         mSend.setEnabled(true);
         mCommentCountAll++;
         String content =mHelper.geInputText(mInput);
@@ -679,8 +701,14 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
             if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(mPostUserId)) {
                 mIsCommentAuth = false;
             }
-            mCommentRows = 0;
-            getCirleComment(mCommentRows, "");
+
+            //回复不重新调用接口，评论重新调用接口
+            if (replyType == REPLYTYPE_1){
+                mCommentRows = 0;
+                getCirleComment(mCommentRows, "");
+            }else {
+                layCommentContnet(nickName,fatherCircleReplyId,circleReplyId,content);
+            }
         }
 
         if (replyType == REPLYTYPE_1){
@@ -690,6 +718,38 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
         }
     }
 
+
+    /**
+     * 刷新回复
+     * @param content
+     */
+    private void  layCommentContnet(String nickName,String fatherCircleReplyId,String circleReplyId,String content){
+        if (mAdapter !=null && mAdapter.getCount() > 0){
+        for (CommentBean commentBean : mAdapter.getList()) {
+            if (commentBean.circleReplyId == Integer.parseInt(fatherCircleReplyId)) {
+                LayCommentBean layComment = commentBean.getLayComment();
+                layComment.count = layComment.count + 1;
+                List<LayCommentListBean> layList = layComment.getLayList();
+                if (layList.size() > 2){
+                   layList = layList.subList(0,2);
+                }
+                LayCommentListBean commentListBean = new LayCommentListBean();
+                commentListBean.avatarPic = ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR);
+                commentListBean.nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
+                commentListBean.beReplyNickName = nickName;
+                commentListBean.replyContent = content;
+                commentListBean.replyUserId = SpUtil.getString(Constant.CACHE_TAG_UID);
+                commentListBean.fatherCircleReplyId = String.valueOf(commentBean.circleReplyId);
+                commentListBean.layCircleReplyId = circleReplyId;
+                commentListBean.circleReplyId = circleReplyId;
+                layList.add(0, commentListBean);
+                layComment.layList = layList;
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+        }
+    }
 
 
     /**
@@ -778,5 +838,26 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
            mImgAreward.setImageResource(R.mipmap.icon_areward_suc);
            mHelper.setText(mTextAreward,mCircleDetailBean.circleIndexBo.exceptionalCount+"次打赏");
        }
+    }
+
+    /**
+     * 回复监听
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BBSLayCommentEvent event) {
+         if (mAdapter !=null && mAdapter.getCount() > 0){
+             if (!TextUtils.isEmpty(event.fatherCircleReplyId)) {
+                 mCommentCountAll++;
+                 mComment.setText(String.format(getString(R.string.comment_all),mCommentCountAll));
+                 //判断是否楼主发的评论/回复
+                 if (SpUtil.getString(Constant.CACHE_TAG_UID).equals(mPostUserId)) {
+                     mCommentCountAuth++;
+                     mSeeOwner.setText(String.format(getString(R.string.comment_auth),mCommentCountAuth));
+                     mIsCommentAuth = false;
+                 }
+                 layCommentContnet(event.nickName,event.fatherCircleReplyId,event.circleReplyId,event.content);
+             }
+         }
     }
 }

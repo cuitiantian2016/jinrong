@@ -1,14 +1,12 @@
 package com.honglu.future.ui.circle.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * 更多回复bean
- * Created by zhuaibing on 2018/1/3
+ * Created by zhuaibing on 2018/1/4
  */
 
-public class CommentBosAllBean implements Serializable{
+public class LayCommentListBean implements Serializable {
     public String avatarPic;
     public String beReplyAvatarPic;
     public String beReplyNickName;
@@ -18,12 +16,10 @@ public class CommentBosAllBean implements Serializable{
     public String isPraise;
     public String layCircleReplyId;
     public String layComment;
-    public String replyType;
     public String nickName;
     public String praiseCount;
     public String replyContent;
+    public String replyType;
     public String replyUserId;
     public String userRole;
-    public String pType;
-
 }

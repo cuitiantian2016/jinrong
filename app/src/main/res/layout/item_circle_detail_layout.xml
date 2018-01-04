@@ -86,16 +86,22 @@
         tools:text="回复 小牛1232：有道理，学习了。"/>
 
       <LinearLayout
+          android:id="@+id/ll_morecomment"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/dimen_50dp"
           android:layout_marginRight="@dimen/dimen_15dp"
-          android:orientation="vertical">
+          android:layout_marginTop="@dimen/dimen_12dp"
+          android:orientation="vertical"
+          android:background="@drawable/shape_f7f8f9_2dp">
 
           <com.honglu.future.widget.AllListView
               android:id="@+id/lv_listView"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginRight="@dimen/dimen_9dp"
+              android:layout_marginLeft="@dimen/dimen_9dp"
+              android:layout_marginTop="@dimen/dimen_8dp"
               android:clickable="true"
               android:listSelector="@android:color/transparent"
               android:divider="@null"
@@ -105,8 +111,11 @@
               android:id="@+id/tv_layHuiFu"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:textSize="@dimen/dimen_15sp"
-              android:layout_marginTop="@dimen/dimen_15dp"
+              android:textSize="@dimen/dimen_13sp"
+              android:layout_marginBottom="@dimen/dimen_8dp"
+              android:textColor="@color/color_008EFF"
+              android:layout_marginRight="@dimen/dimen_9dp"
+              android:layout_marginLeft="@dimen/dimen_9dp"
               android:drawableRight="@mipmap/ic_right_blue_arrow"
               tools:text="共6条回复"/>
       </LinearLayout>

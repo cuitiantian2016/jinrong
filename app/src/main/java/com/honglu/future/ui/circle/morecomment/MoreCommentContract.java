@@ -13,7 +13,7 @@ import java.util.List;
 public interface MoreCommentContract {
     interface View extends BaseView {
         void getLayComment(List<CommentBosAllBean> list);
-        void  getCommentContent(JsonNull jsonNull, int replyType);//评论回复
+        void  getCommentContent(String circleReplyId, int replyType);//评论回复
         void  getCommentContentError();
     }
 

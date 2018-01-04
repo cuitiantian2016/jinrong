@@ -10,11 +10,7 @@
         android:id="@+id/tv_hintText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/dimen_13sp"
-        android:textColor="@color/color_979899"
-        android:layout_marginRight="@dimen/dimen_10dp"
-        android:layout_marginLeft="@dimen/dimen_10dp"
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:textSize="@dimen/dimen_11sp"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="小牛小牛小牛小牛小牛小牛" />
@@ -23,10 +19,8 @@
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/dimen_15sp"
+        android:textSize="@dimen/dimen_13sp"
         android:textColor="@color/color_333333"
-        android:layout_marginRight="@dimen/dimen_10dp"
-        android:layout_marginLeft="@dimen/dimen_10dp"
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
         tools:text="有道理，学习了。"/>
 </LinearLayout>

@@ -83,7 +83,12 @@ public class MoreCommentAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-       final CommentBosAllBean listBean = mList.get(position);
+        if (position == 0 || position == getCount()-1){
+            holder.mLine.setVisibility(View.VISIBLE);
+        }else {
+            holder.mLine.setVisibility(View.GONE);
+        }
+        final CommentBosAllBean listBean = mList.get(position);
 
         ImageUtil.display(listBean.avatarPic, holder.mCivHead, R.mipmap.img_head);
 
@@ -120,12 +125,14 @@ public class MoreCommentAdapter extends BaseAdapter{
         TextView mName;
         TextView mTime;
         TextView mContent;
+        View mLine;
 
       public ViewHolder(View v){
           mCivHead = (CircleImageView) v.findViewById(R.id.civ_head);
           mName = (TextView) v.findViewById(R.id.tv_name);
           mTime = (TextView) v.findViewById(R.id.tv_time);
           mContent = (TextView) v.findViewById(R.id.tv_content);
+          mLine = v.findViewById(R.id.v_line);
       }
     }
 
