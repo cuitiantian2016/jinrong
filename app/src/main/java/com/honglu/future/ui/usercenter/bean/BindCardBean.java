@@ -1,8 +1,5 @@
 package com.honglu.future.ui.usercenter.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**

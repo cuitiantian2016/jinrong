@@ -76,7 +76,8 @@ public class EventController {
                     EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_LOGIN));//是点哪个页面跳转的登录，登录后就跳转到点击的页面
                 }
             } else if (event instanceof LogoutEvent)//退出
-            {
+           {
+                JPushInterface.setAlias(context, null, null);
                 logOut((LogoutEvent) event);
             } else if (event instanceof LoginNoRefreshUIEvent) {//启动app时保存用户数据
                 saveUserInfo(((LoginNoRefreshUIEvent) event).getBean(), ((LoginNoRefreshUIEvent) event).getContext());

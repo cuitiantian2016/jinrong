@@ -35,8 +35,11 @@ public class TaskFragment extends BaseFragment {
     private int rows = 0;
 
     String[] urls = {"xiaoniuqihuo://future/future/main",
-            "xiaoniuqihuo://future/future/main?select=1",
-            "xiaoniuqihuo://future/future/main?select=2&isTrade=true",
+            "xiaoniuqihuo://future/future/main?select=2",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=0",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=1",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=2",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=3",
             "xiaoniuqihuo://future/future/main?select=3"
             , "kaihu",
             "xiaoniuqihuo://future/future/modify", "xiaoniuqihuo://future/trade/pay"};

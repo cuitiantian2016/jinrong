@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     @Autowired(name = "redirect")
     public String redirect;
     @Autowired(name = "isTrade")
-    public String isTrade;
+    public int isTrade = -1;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         if (intent != null) {
             select = intent.getIntExtra("select", 0);
             redirect = intent.getStringExtra("redirect");
-            isTrade = intent.getStringExtra("isTrade");
+            isTrade = intent.getIntExtra("isTrade",-1);
         }
         if (this.select == 0) {
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
@@ -152,8 +152,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 changeTabEvent.isStick = true;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }
-            if (!TextUtils.isEmpty(isTrade)) {
-                ChangeTabEvent changeTabEvent = new ChangeTabEvent(1);
+            if (isTrade>-1) {
+                ChangeTabEvent changeTabEvent = new ChangeTabEvent(isTrade);
                 changeTabEvent.isStick = true;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }

@@ -75,7 +75,7 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
                         }
                         if (TRADE_FRAGMENT.equals(item.url)) {
                             if (!App.getConfig().getAccountLoginStatus()) {
-                                item.url = "xiaoniuqihuo://future/future/main?select=2&redirect=xiaoniuqihuo://future/trade/pay";
+                                item.url = "xiaoniuqihuo://future/future/main?select=1&redirect=xiaoniuqihuo://future/trade/pay";
                             }
                         }
                         ARouter.getInstance()
