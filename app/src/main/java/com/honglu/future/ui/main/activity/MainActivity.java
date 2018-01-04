@@ -71,21 +71,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     RadioGroup mGroup;
     @BindView(R.id.rb_circle)
     MyRadioButton mRbCircle;
-    //哞一下布局
-    @BindView(R.id.tv_mom_outline)
-    RelativeLayout mMomOutLy;
     @Autowired(name = "select")
     public int select;
     @Autowired(name = "redirect")
     public String redirect;
     @Autowired(name = "isTrade")
     public String isTrade;
-    //平均宽度
-    private int mAverageWidth;
-    //哞一下宽度
-    private int mMomWidth;
-    //哞一下位置
-    private int mMomPosition = 1;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -134,61 +125,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         mGroup.setOnCheckedChangeListener(changeListener);
         // check(FragmentFactory.FragmentStatus.Home);
         select(getIntent());
-        mMomOutLy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (DeviceUtils.isFastDoubleClick()) return;
-                startActivity(PublishActivity.class);
-            }
-        });
-        mAverageWidth = DeviceUtils.getScreenWidth(mContext) / 4;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mMomOutLy.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    mMomWidth = mMomOutLy.getMeasuredWidth();
-                    if (mMomWidth > 0) {
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                        params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
-                        mMomOutLy.setLayoutParams(params);
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        mMomOutLy.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-            });
-        } else {
-            mMomWidth = DeviceUtils.getScreenWidth(mContext) / 4;
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
-            mMomOutLy.setLayoutParams(params);
-        }
         oldTabId = R.id.rb_home;
         mPresenter.loadActivity();
         mPresenter.getUpdateVersion();
-    }
-
-    //tab切换动画
-    private void startChangedImageAnim(FragmentFactory.FragmentStatus status) {
-        if (status == FragmentFactory.FragmentStatus.Circle) {
-            //牛圈哞一下
-            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_in);
-            mMomOutLy.startAnimation(animation);
-            mMomOutLy.setVisibility(View.VISIBLE);
-        } else {
-            if (mMomOutLy.isShown()) {
-                Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_out);
-                mMomOutLy.startAnimation(animation);
-            }
-            mMomOutLy.setVisibility(View.INVISIBLE);
-        }
-
     }
 
     private void select(Intent intent) {
@@ -201,10 +140,10 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         if (this.select == 0) {
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
             check(FragmentFactory.FragmentStatus.Home);
-        } else if (this.select == 1) {
+        } else if (this.select == 2) {
             MobclickAgent.onEvent(mContext, "shouye_quanzi_click", "牛圈");
             check(FragmentFactory.FragmentStatus.Circle);
-        } else if (this.select == 2) {
+        } else if (this.select == 1) {
             MobclickAgent.onEvent(mContext, "shouye_jiaoyi_click", "交易");
             check(FragmentFactory.FragmentStatus.Trade);
             if (!TextUtils.isEmpty(redirect)) {
@@ -390,7 +329,6 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 //        }
         FragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
         odlState = status;
-        startChangedImageAnim(status);
     }
 
 

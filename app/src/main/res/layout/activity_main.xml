@@ -36,17 +36,16 @@
             app:rbDrawableTop="@drawable/selector_menu_1" />
 
         <com.honglu.future.widget.MyRadioButton
-            android:id="@+id/rb_circle"
-            style="@style/menu_tab"
-            android:text="牛圈"
-            android:textColor="@color/color_B2B2B2"
-            app:rbDrawableTop="@mipmap/icon_menu_5_normal" />
-
-        <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_trade"
             style="@style/menu_tab"
             android:text="交易"
             app:rbDrawableTop="@drawable/selector_menu_3" />
+
+        <com.honglu.future.widget.MyRadioButton
+            android:id="@+id/rb_circle"
+            style="@style/menu_tab"
+            android:text="牛圈"
+            app:rbDrawableTop="@drawable/selector_menu_5" />
 
         <com.honglu.future.widget.MyRadioButton
             android:id="@+id/rb_account"
@@ -54,29 +53,5 @@
             android:text="我的"
             app:rbDrawableTop="@drawable/selector_menu_4" />
     </RadioGroup>
-
-    <RelativeLayout
-        android:id="@+id/tv_mom_outline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:clickable="true"
-        android:clipChildren="false"
-        android:visibility="invisible"
-        tools:visibility="visible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_1dp"
-            android:gravity="bottom|center"
-            android:background="@mipmap/ic_circle_tab_bg"
-            android:paddingBottom="@dimen/dimen_3dp"
-            android:text="哞一下"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dimen_11sp" />
-
-    </RelativeLayout>
 </RelativeLayout>
 

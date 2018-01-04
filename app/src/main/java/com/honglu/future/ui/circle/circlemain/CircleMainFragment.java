@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.honglu.future.ui.circle.bean.SignBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.circle.circlemain.adapter.BBSFragmentAdapter;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
+import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.msg.circlemsg.CircleMsgActivity;
 import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.util.DeviceUtils;
@@ -72,6 +74,8 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
    View rl_title;
     @BindView(R.id.bg_image)
    View bg_image;
+    @BindView(R.id.iv_publish)
+    ImageView mIvPublish;
     //是否查询签到 0 没请求/请求失败 1 请求中  2 请求成功
     private int isQuerySignState = 0;
     List<TopicFilter> topicFilters = null;
@@ -131,6 +135,13 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                     bg_image.setVisibility(View.VISIBLE);
                     signPopWind.showPopupWind(rl_title);
                 }
+            }
+        });
+
+        mIvPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(new Intent(mActivity,PublishActivity.class));
             }
         });
     }

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,8 +47,8 @@
                     android:layout_height="@dimen/dimen_36dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dimen_4dp"
                     android:layout_marginLeft="@dimen/dimen_4dp"
+                    android:layout_marginRight="@dimen/dimen_4dp"
                     android:clipChildren="false"
                     android:gravity="center"
                     tools:visibility="visible">
@@ -59,12 +59,12 @@
                         android:layout_height="@dimen/dimen_18dp"
                         android:src="@drawable/ic_bbs_msg_label" />
 
-                     <View
-                         android:id="@+id/v_red"
-                         android:layout_width="@dimen/dimen_8dp"
-                         android:layout_height="@dimen/dimen_8dp"
-                         android:background="@drawable/shape_red"
-                         android:layout_marginLeft="@dimen/dimen_13dp" />
+                    <View
+                        android:id="@+id/v_red"
+                        android:layout_width="@dimen/dimen_8dp"
+                        android:layout_height="@dimen/dimen_8dp"
+                        android:layout_marginLeft="@dimen/dimen_13dp"
+                        android:background="@drawable/shape_red" />
 
                 </RelativeLayout>
 
@@ -72,29 +72,29 @@
                     android:id="@+id/tv_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_centerInParent="true"
                     android:layout_toLeftOf="@+id/ly_message_hint"
                     android:background="@drawable/bg_btn_sign"
+                    android:orientation="horizontal"
                     android:paddingBottom="3.5dp"
-                    android:paddingTop="3.5dp"
+                    android:paddingLeft="@dimen/dimen_9dp"
                     android:paddingRight="@dimen/dimen_9dp"
-                    android:paddingLeft="@dimen/dimen_9dp">
+                    android:paddingTop="3.5dp">
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_12dp"
-                    android:layout_height="@dimen/dimen_11dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/sign"/>
+                    <ImageView
+                        android:layout_width="@dimen/dimen_12dp"
+                        android:layout_height="@dimen/dimen_11dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/sign" />
 
                     <TextView
-                        android:text="签到"
-                        android:layout_marginLeft="@dimen/dimen_5dp"
-                        android:textColor="@color/color_white"
-                        android:textSize="@dimen/dimen_11sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:text="签到"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/dimen_11sp" />
                 </LinearLayout>
 
 
@@ -102,11 +102,13 @@
 
 
         </RelativeLayout>
+
         <com.honglu.future.widget.ExpandableLayout
             android:id="@+id/ebl_expandable"
             android:layout_width="match_parent"
-            app:el_expanded="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:el_expanded="true">
+
             <LinearLayout
                 android:id="@+id/ll_sign"
                 android:layout_width="match_parent"
@@ -115,43 +117,47 @@
                 android:background="@color/color_FFBC37"
                 android:orientation="horizontal" />
         </com.honglu.future.widget.ExpandableLayout>
+
         <TextView
             android:id="@+id/tv_click"
-            android:visibility="gone"
-            android:gravity="center"
-            android:textColor="@color/actionsheet_blue"
-            android:textSize="@dimen/dimen_17sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="点击收起" />
+            android:gravity="center"
+            android:text="点击收起"
+            android:textColor="@color/actionsheet_blue"
+            android:textSize="@dimen/dimen_17sp"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <com.honglu.future.widget.SlidingTabImageLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="52dp"
-            app:tl_indicator_color="@color/color_ff9300"
-            app:tl_indicator_height="@dimen/dimen_2dp"
-            app:tl_indicator_width="60dp"
-            app:tl_tab_width="84dp"
-            app:tl_textSelectColor="@color/color_323232"
-            app:tl_textUnselectColor="@color/color_323232"
-            app:tl_textsize="@dimen/dimen_12sp"
-            app:tl_underline_color="@color/color_d8d7d7"
-            app:tl_underline_height="@dimen/dimen_1dp_half" />
 
-        <com.honglu.future.widget.kchart.ViewPagerEx
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-            <View
-                android:visibility="gone"
-                android:id="@+id/bg_image"
-                android:background="#80000000"
+            <com.honglu.future.widget.SlidingTabImageLayout
+                android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:minHeight="52dp"
+                app:tl_indicator_color="@color/color_ff9300"
+                app:tl_indicator_height="@dimen/dimen_2dp"
+                app:tl_indicator_width="60dp"
+                app:tl_tab_width="84dp"
+                app:tl_textSelectColor="@color/color_323232"
+                app:tl_textUnselectColor="@color/color_323232"
+                app:tl_textsize="@dimen/dimen_12sp"
+                app:tl_underline_color="@color/color_d8d7d7"
+                app:tl_underline_height="@dimen/dimen_1dp_half" />
+
+            <com.honglu.future.widget.kchart.ViewPagerEx
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/bg_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -183,5 +189,15 @@
             tools:text="严禁传递手机\微信\QQ等信息, 违者会被禁言" />
 
     </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/iv_publish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/dimen_15dp"
+        android:paddingBottom="@dimen/dimen_10dp"
+        android:src="@mipmap/ic_publish" />
 
 </RelativeLayout>
