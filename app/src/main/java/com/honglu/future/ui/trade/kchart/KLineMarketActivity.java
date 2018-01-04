@@ -10,14 +10,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
@@ -34,6 +40,7 @@ import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
+import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -44,6 +51,7 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.ProFormatConfig;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.StringUtil;
 import com.honglu.future.widget.RiseNumberTextView;
 import com.honglu.future.widget.kchart.entity.KlineCycle;
 import com.honglu.future.widget.kchart.fragment.KLineFragment;
@@ -144,6 +152,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     RelativeLayout mHeadLaout;
     @BindView(R.id.tv_open_price_yugu)
     TextView mTvBzjYugu;
+    @BindView(R.id.add_zixuan)
+    CheckBox mAddZixuan;
 
     private String mExcode;
     private String mCode;
@@ -296,6 +306,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             mHandler.postDelayed(mRunnable, 300);
         }
         MPushUtil.requestMarket(mExcode + "|" + mCode);
+
     }
 
     @Override
@@ -543,6 +554,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             return;
         }
         mBean = bean.getList().get(0);
+
         mTvName.setText(mBean.getName());
 
         mTvNameLand.setText(mBean.getName());
@@ -559,7 +571,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         //未登录默认国富规则计算保证金
         double oneSlBZj = NumberUtil.multiply(new BigDecimal(bean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * bean.getVolumeMultiple();
         String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
-        mTvBzjYugu.setText(BZJStr + "元/手");
+        mTvBzjYugu.setText(StringUtil.forNumber2(new BigDecimal(BZJStr).doubleValue()) + "元/手");
 //        }
     }
 
@@ -571,7 +583,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             //未登录默认国富规则计算保证金
             double oneSlBZj = NumberUtil.multiply(new BigDecimal(productListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * productListBean.getVolumeMultiple();
             String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
-            mTvBzjYugu.setText(BZJStr + "元/手");
+            mTvBzjYugu.setText(StringUtil.forNumber2(new BigDecimal(BZJStr).doubleValue()) + "元/手");
 //            }
         }
         if (mTvBuyPrice != null)

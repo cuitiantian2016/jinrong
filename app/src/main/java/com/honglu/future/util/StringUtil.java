@@ -46,6 +46,17 @@ public class StringUtil {
         return df.format(number);
     }
 
+    /**
+     * 数字格式化
+     *
+     * @param number
+     * @return
+     */
+    public static String forNumber2(double number) {
+        DecimalFormat df = new DecimalFormat("####.##");
+        return df.format(number);
+    }
+
     // unicode转中文
     public static String decode(String unicodeStr) {
         if (unicodeStr == null) {

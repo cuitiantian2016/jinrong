@@ -61,20 +61,21 @@
                 android:gravity="right|center"
                 android:orientation="horizontal">
 
-                <ImageView
+                <CheckBox
+                    android:id="@+id/add_zixuan"
+                    style="@style/StarCheckedTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5dp"
-                    android:src="@mipmap/ic_star_normal" />
+                    android:gravity="center"
+                    android:padding="@dimen/dimen_5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="自选"
                     android:padding="@dimen/dimen_5dp"
+                    android:text="自选"
                     android:textColor="@android:color/white"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/iv_show_popup"
