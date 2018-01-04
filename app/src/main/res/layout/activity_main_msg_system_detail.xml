@@ -10,7 +10,7 @@
 
     <include layout="@layout/layout_circle_main_item_head"/>
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_msg_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#333333"

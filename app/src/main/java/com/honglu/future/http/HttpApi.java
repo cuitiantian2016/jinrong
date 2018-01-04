@@ -28,6 +28,7 @@ import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.bean.RechangeDetailData;
 import com.honglu.future.ui.trade.bean.AccountBean;
@@ -933,4 +934,17 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("fatherCircleReplyId") String fatherCircleReplyId,
             @Field("rows") int rows);
+
+
+    /**
+     * 系统消息列表
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/imageList")
+    Observable<BaseResponse<List<SystemMsgBean>>> getSystemMsgList(
+            @Field("userId") String userId
+    ,@Field("rows") int rows);
 }

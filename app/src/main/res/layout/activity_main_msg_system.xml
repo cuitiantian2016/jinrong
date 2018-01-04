@@ -6,8 +6,6 @@
 
     <include  layout="@layout/layout_toolbar"
         android:paddingRight="@dimen/dimen_15dp"/>
-
-    <include layout="@layout/layout_circle_main_item_head"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl_refreshView"
         android:layout_width="match_parent"
