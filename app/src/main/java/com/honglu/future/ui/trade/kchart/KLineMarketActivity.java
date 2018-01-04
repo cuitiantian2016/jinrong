@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -141,6 +142,8 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     View mLineView;
     @BindView(R.id.rl_numHeadLayout)
     RelativeLayout mHeadLaout;
+    @BindView(R.id.tv_open_price_yugu)
+    TextView mTvBzjYugu;
 
     private String mExcode;
     private String mCode;
@@ -549,7 +552,28 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         initViewPager();
     }
 
+    private void setBzjYugu(ProductListBean bean) {
+//        if (App.getConfig().getLoginStatus()) {
+//
+//        } else {
+        //未登录默认国富规则计算保证金
+        double oneSlBZj = NumberUtil.multiply(new BigDecimal(bean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * bean.getVolumeMultiple();
+        String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
+        mTvBzjYugu.setText(BZJStr + "元/手");
+//        }
+    }
+
     public void setTextValue(RealTimeBean.Data bean) {
+        if (productListBean != null) {
+//            if (App.getConfig().getLoginStatus()) {
+//
+//            } else {
+            //未登录默认国富规则计算保证金
+            double oneSlBZj = NumberUtil.multiply(new BigDecimal(productListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * productListBean.getVolumeMultiple();
+            String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
+            mTvBzjYugu.setText(BZJStr + "元/手");
+//            }
+        }
         if (mTvBuyPrice != null)
             mTvBuyPrice.setText(bean.getBidPrice1());
         if (mTvVol != null)
@@ -665,6 +689,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         productListBean = bean;
+        setBzjYugu(bean);
         isClosed = bean.getIsClosed();
         if (bean.getIsClosed().equals("2")) {
             mTvClosed.setVisibility(View.VISIBLE);
@@ -789,7 +814,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 if (isLandScape()) {
