@@ -10,17 +10,17 @@ import java.io.Serializable;
  */
 
 public class BindCardBean implements Serializable {
-    private String bankId;  //银行编码
-    private String bankBranchId; //银行分支机构编码
-    private String bankAccount;//银行帐号
-    private String brokerBranchId; //期货公司分支机构编码
-    private String bankName; //银行名称
-    private String bankIcon;//图片地址
+    public String bankId;  //银行编码
+    public String bankBranchId; //银行分支机构编码
+    public String bankAccount;//银行帐号
+    public String brokerBranchId; //期货公司分支机构编码
+    public String bankName; //银行名称
+    public String bankIcon;//图片地址
     public int rechargeFlag;// 充值 1 代表需要 2 代表不需要
     public int cashoutFlag; //提现 1 代表需要 2 代表不需要
     public int balanceFlag; //查询 1 代表需要 2 代表不需要
-    private String rechargeTime; //充值时间
-    private String cashoutTime; //提现时间
+    public String rechargeTime; //充值时间
+    public String cashoutTime; //提现时间
     public boolean isSelect;//标记是否选中
 
     public String getBankId() {

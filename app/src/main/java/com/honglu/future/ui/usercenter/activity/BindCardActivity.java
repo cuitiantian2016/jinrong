@@ -16,6 +16,7 @@ import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.BankSelectEvent;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.usercenter.adapter.BindCardAdapter;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
@@ -26,6 +27,8 @@ import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -54,15 +57,17 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
     private static final String KEY_POSITION = "KEY_POSITION";
 
     private BindCardAdapter mAdapter;
+    private int mPosition;
+    private List<BindCardBean> mList;
 
-    public static void startBindCardActivityForResult(Context context, List<BindCardBean> json, int position, int code) {
+    public static void startBindCardActivityForResult(Context context, List<BindCardBean> json, int position) {
         Intent intent = new Intent(context, BindCardActivity.class);
         if (json != null) {
             String string = new Gson().toJson(json);
             intent.putExtra(KEY_LIST, string);
             intent.putExtra(KEY_POSITION, position);
         }
-        ((Activity) context).startActivityForResult(intent, code);
+        context.startActivity(intent);
     }
 
     @Override
@@ -88,9 +93,10 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
             if (!TextUtils.isEmpty(stringExtra)) {
                 Type type = new TypeToken<List<BindCardBean>>() {
                 }.getType();
-                List<BindCardBean> list = new Gson().fromJson(stringExtra, type);
-                list.get(getIntent().getIntExtra(KEY_POSITION, 0)).isSelect = true;
-                mAdapter.addData(list);
+                mList = new Gson().fromJson(stringExtra, type);
+                mPosition = getIntent().getIntExtra(KEY_POSITION, 0);
+                mList.get(mPosition).isSelect = true;
+                mAdapter.addData(mList);
             }
         }
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
@@ -105,10 +111,14 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
             @Override
             public void onItemClick(View view, int position) {
                 BindCardBean bean = mAdapter.getData().get(position);
-                Intent intent1 = new Intent();
-                intent1.putExtra(RESULT_KEY, bean);
-                intent1.putExtra(RESULT_POSITION, position);
-                setResult(Activity.RESULT_OK, intent1);
+                BankSelectEvent bankSelectEvent = new BankSelectEvent();
+                bankSelectEvent.bean = bean;
+                mAdapter.getData().get(mPosition).isSelect = false;
+                mPosition = position;
+                mAdapter.getData().get(mPosition).isSelect = true;
+                mAdapter.notifyDataSetChanged();
+                bankSelectEvent.position = position;
+                EventBus.getDefault().post(bankSelectEvent);
             }
         });
     }
@@ -125,8 +135,9 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
     public void getBindCardInfo(List<BindCardBean> list) {
         if (list != null) {
             mAdapter.getData().clear();
-            list.get(getIntent().getIntExtra(KEY_POSITION, 0)).isSelect = true;
-            mAdapter.addData(list);
+            mList=list;
+            mList.get(mPosition).isSelect = true;
+            mAdapter.addData(mList);
         }
     }
 }

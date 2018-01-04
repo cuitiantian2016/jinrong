@@ -25,6 +25,8 @@ import com.honglu.future.base.PermissionsListener;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
+import com.honglu.future.events.BankSelectEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.recharge.bean.AssesData;
 import com.honglu.future.ui.recharge.contract.PayAndOutGoldContract;
@@ -38,7 +40,12 @@ import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -117,6 +124,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         Bundle arguments = getArguments();
         if (arguments != null) {
             mIsPay = arguments.getBoolean(KEY);
@@ -142,6 +150,12 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         initView();
         mBtnPay.setEnabled(false);
         setListener();
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 
     private void setListener() {
@@ -363,7 +377,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BindCardActivity.startBindCardActivityForResult(getActivity(), mList, position, RESULT_CODE);
+                    BindCardActivity.startBindCardActivityForResult(getActivity(), mList, position);
                 }
             });
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -387,14 +401,16 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         tvBankNum.setText(NumberUtil.bankNameFilter(mBean.getBankAccount()));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == RESULT_CODE) {
-            mBean = (BindCardBean) data.getSerializableExtra(RESULT_KEY);
-            position = data.getIntExtra(RESULT_POSITION, 0);
-            bindData();
-        }
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BankSelectEvent event) {
+        mBean = event.bean;
+        position =event.position;
+        bindData();
     }
 
     boolean isReQuest = false;
