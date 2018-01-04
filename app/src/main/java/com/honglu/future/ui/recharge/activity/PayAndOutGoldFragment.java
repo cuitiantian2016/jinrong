@@ -83,6 +83,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
     ImageView mIvComp;
     @BindView(R.id.tv_comp)
     TextView mTvComp;
+    @BindView(R.id.line_two)
+    View line_two;
     private boolean mIsPay = true;//默认是充值页面
     private BindCardBean mBean;
     private List<BindCardBean> mList;
@@ -201,7 +203,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
      */
     private void initView() {
         if (mIsPay) {
-            mLLClose.setVisibility(View.GONE);
+            line_two.setVisibility(View.GONE);
+            mCheckAsses.setVisibility(View.GONE);
             mCheckAsses.setText(getString(R.string.check_bank_asses));
             mCheckAsses.setTextColor(getResources().getColor(R.color.color_008EFF));
             mTypeAsses.setText(getString(R.string.put_assess));
@@ -209,7 +212,8 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             mCheckAsses.setEnabled(true);
             mEtPayAsses.setHint("请填写充值金额");
         } else {
-            mLLClose.setVisibility(View.VISIBLE);
+            line_two.setVisibility(View.VISIBLE);
+            mCheckAsses.setVisibility(View.VISIBLE);
             String string = SpUtil.getString(Constant.CACHE_USER_ASSES);
             mCheckAsses.setText(getString(R.string.can_bank_asses, string));
             mTypeAsses.setText(getString(R.string.get_assess));

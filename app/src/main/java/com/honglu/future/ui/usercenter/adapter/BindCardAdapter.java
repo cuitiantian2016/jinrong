@@ -50,6 +50,11 @@ public class BindCardAdapter extends BaseRecyclerAdapter<BindCardAdapter.ViewHol
         }else {
             holder.mLayoutBg.setBackgroundResource(bgResourceId);
         }
+        if (item.isSelect){
+            holder.image_select.setImageResource(R.mipmap.bank_select);
+        }else {
+            holder.image_select.setImageResource(R.mipmap.select_moren);
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,6 +66,8 @@ public class BindCardAdapter extends BaseRecyclerAdapter<BindCardAdapter.ViewHol
         TextView mBankCard;
         @BindView(R.id.layout_bg)
         LinearLayout mLayoutBg;
+        @BindView(R.id.image_select)
+        ImageView image_select;
 
         ViewHolder(View view) {
             super(view);

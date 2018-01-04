@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@mipmap/bg_bank_13_ceb"
         android:layout_marginRight="@dimen/dimen_20dp"
         android:layout_marginLeft="@dimen/dimen_20dp"
         android:layout_marginTop="@dimen/dimen_20dp">
@@ -21,7 +22,7 @@
              android:layout_marginLeft="@dimen/dimen_22dp"/>
 
 
-         <LinearLayout
+         <RelativeLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:layout_gravity="center_vertical"
@@ -29,21 +30,30 @@
              android:orientation="vertical">
 
              <TextView
+                 android:paddingTop="@dimen/dimen_10dp"
                  android:id="@+id/tv_bank_name"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textColor="@color/color_white"
                  android:textSize="@dimen/dimen_14sp"
                  android:text="中国银行"/>
+             <ImageView
+                 android:layout_marginRight="@dimen/dimen_15dp"
+                 android:id="@+id/image_select"
+                 android:layout_alignParentRight="true"
+                 android:layout_width="@dimen/dimen_20dp"
+                 android:layout_height="@dimen/dimen_20dp"
+                 android:src="@mipmap/select_moren"/>
 
              <TextView
                  android:id="@+id/tv_bank_card"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_below="@+id/tv_bank_name"
                  android:textColor="@color/color_white"
                  android:textSize="@dimen/dimen_20sp"
                  android:layout_marginTop="@dimen/dimen_11dp"
                  android:text="622 **** **** 4761"/>
-         </LinearLayout>
+         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>
