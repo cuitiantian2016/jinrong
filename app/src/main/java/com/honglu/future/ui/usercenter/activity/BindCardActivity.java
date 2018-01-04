@@ -1,9 +1,7 @@
 package com.honglu.future.ui.usercenter.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,15 +29,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.honglu.future.ui.recharge.activity.PayAndOutGoldFragment.RESULT_KEY;
-import static com.honglu.future.ui.recharge.activity.PayAndOutGoldFragment.RESULT_POSITION;
 
 /**
  * 绑卡列表（银行卡列表）
@@ -55,17 +48,19 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
     SmartRefreshLayout mRefreshView;
     private static final String KEY_LIST = "KEY_LIST";
     private static final String KEY_POSITION = "KEY_POSITION";
+    private static final String KEY_IS_PAY = "KEY_IS_PAY";
 
     private BindCardAdapter mAdapter;
     private int mPosition;
     private List<BindCardBean> mList;
 
-    public static void startBindCardActivityForResult(Context context, List<BindCardBean> json, int position) {
+    public static void startBindCardActivityForResult(Context context, List<BindCardBean> json, int position,boolean isPay) {
         Intent intent = new Intent(context, BindCardActivity.class);
         if (json != null) {
             String string = new Gson().toJson(json);
             intent.putExtra(KEY_LIST, string);
             intent.putExtra(KEY_POSITION, position);
+            intent.putExtra(KEY_IS_PAY, isPay);
         }
         context.startActivity(intent);
     }
@@ -113,6 +108,7 @@ public class BindCardActivity extends BaseActivity<BindCardPresenter> implements
                 BindCardBean bean = mAdapter.getData().get(position);
                 BankSelectEvent bankSelectEvent = new BankSelectEvent();
                 bankSelectEvent.bean = bean;
+                bankSelectEvent.isPay = getIntent().getBooleanExtra(KEY_IS_PAY,false);
                 mAdapter.getData().get(mPosition).isSelect = false;
                 mPosition = position;
                 mAdapter.getData().get(mPosition).isSelect = true;

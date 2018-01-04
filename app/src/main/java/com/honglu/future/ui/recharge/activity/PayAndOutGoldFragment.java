@@ -367,7 +367,9 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
         if (list != null && list.size() > 0) {
             //  SpUtil.putString(Constant.CACHE_TAG_BANK_LIST,new Gson().toJson(list));
             mrlCard.removeAllViews();
-            position = 0;
+            if (position ==0){
+                position = 0;
+            }
             mBean = list.get(0);
             View cardItem = View.inflate(getActivity(), R.layout.item_card_layout, null);
             icon = (ImageView) cardItem.findViewById(R.id.icon_bank_card);
@@ -377,7 +379,7 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
             cardItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BindCardActivity.startBindCardActivityForResult(getActivity(), mList, position);
+                    BindCardActivity.startBindCardActivityForResult(getActivity(), mList, position,mIsPay);
                 }
             });
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -408,9 +410,20 @@ public class PayAndOutGoldFragment extends BaseFragment<PayAndOutGoldPresent> im
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BankSelectEvent event) {
-        mBean = event.bean;
-        position =event.position;
-        bindData();
+        if (mIsPay){
+            if (event.isPay){
+                mBean = event.bean;
+                position =event.position;
+                bindData();
+            }
+        }else {
+            if (!event.isPay){
+                mBean = event.bean;
+                position =event.position;
+                bindData();
+            }
+        }
+
     }
 
     boolean isReQuest = false;

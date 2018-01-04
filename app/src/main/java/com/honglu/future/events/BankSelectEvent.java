@@ -5,5 +5,6 @@ import com.honglu.future.ui.usercenter.bean.BindCardBean;
 public class BankSelectEvent {
 	public int position;
 	public BindCardBean bean;
+	public boolean isPay;
 }
 
