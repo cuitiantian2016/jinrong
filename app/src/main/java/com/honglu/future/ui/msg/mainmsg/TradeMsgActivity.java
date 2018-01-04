@@ -12,10 +12,11 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.msg.adapter.SystemMsgAdapter;
+import com.honglu.future.ui.msg.adapter.TradeMsgAdapter;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
+import com.honglu.future.ui.msg.bean.TradeMsgBean;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
-import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -27,11 +28,11 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 系统消息
+ * 交易提醒
  * Created by hefei on 2018/1/2
  */
 
-public class SystemMsgActivity extends BaseActivity implements MainMsgContract.View{
+public class TradeMsgActivity extends BaseActivity implements MainMsgContract.View{
     @BindView(R.id.tv_right)
     TextView mTvRight;
     private View empty_view;
@@ -47,7 +48,7 @@ public class SystemMsgActivity extends BaseActivity implements MainMsgContract.V
 
     @Override
     public void loadData() {
-        mTitle.setTitle(false, R.color.color_white,"系统通知");
+        mTitle.setTitle(false, R.color.color_white,"交易提醒");
         mTvRight.setText("清空");
         mTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,23 +80,24 @@ public class SystemMsgActivity extends BaseActivity implements MainMsgContract.V
             }
         });
         listView = (ListView)findViewById(R.id.lv_listView);
-        mAdapter = new SystemMsgAdapter();
+        mAdapter = new TradeMsgAdapter();
         listView.setAdapter(mAdapter);
         listView.setDividerHeight(AndroidUtil.dip2px(this,10));
         empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
         TextView textView = (TextView) empty_view.findViewById(R.id.empty_tv);
         textView.setText("暂无消息");
-        SystemMsgBean systemMsgBean = new SystemMsgBean();
+        TradeMsgBean systemMsgBean = new TradeMsgBean();
         systemMsgBean.content = "shdisdhfsaisfhsiadfh";
         systemMsgBean.time = "q2-33 333--4444";
-        systemMsgBean.title = "小照顾";
-        ArrayList<SystemMsgBean> systemMsgBeen = new ArrayList<>();
-        systemMsgBeen.add(systemMsgBean);
+        ArrayList<TradeMsgBean> systemMsgBeen = new ArrayList<>();
+        for (int i =0;i<10;i++){
+            systemMsgBeen.add(systemMsgBean);
+        }
         mAdapter.refreshDatas(systemMsgBeen);
     }
 
     private SmartRefreshLayout mPullToRefreshView;
-    private SystemMsgAdapter mAdapter;
+    private TradeMsgAdapter mAdapter;
     private boolean isMore;
     private int rows = 0;
     private boolean isRequesting;//是否正在请求中
@@ -107,10 +109,10 @@ public class SystemMsgActivity extends BaseActivity implements MainMsgContract.V
         if (mIsRefresh){
             rows = 0;
         }
-        HttpManager.getApi().getSystemMsgList(SpUtil.getString(Constant.CACHE_TAG_UID),rows).compose(RxHelper.<List<SystemMsgBean>>handleSimplyResult())
-                .subscribe(new HttpSubscriber<List<SystemMsgBean>>() {
+        HttpManager.getApi().getTradeMsgList(SpUtil.getString(Constant.CACHE_TAG_UID),rows).compose(RxHelper.<List<TradeMsgBean>>handleSimplyResult())
+                .subscribe(new HttpSubscriber<List<TradeMsgBean>>() {
                     @Override
-                    protected void _onNext(List<SystemMsgBean> userLists) {
+                    protected void _onNext(List<TradeMsgBean> userLists) {
                         super._onNext(userLists);
                         isRequesting = false;
                         if (mIsRefresh){

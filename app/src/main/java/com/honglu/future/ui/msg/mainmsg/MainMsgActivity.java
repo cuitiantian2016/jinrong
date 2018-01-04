@@ -60,7 +60,7 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
         if (R.id.rl_msg_system== id){
             startActivity(SystemMsgActivity.class);
         }else if (R.id.rl_msg_trade == id){
-
+            startActivity(TradeMsgActivity.class);
         }
     }
 }
