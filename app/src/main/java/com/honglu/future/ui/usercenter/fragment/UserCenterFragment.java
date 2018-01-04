@@ -75,7 +75,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  */
 
 public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implements
-        UserCenterContract.View, AccountContract.View, BillConfirmDialog.OnConfirmClickListener {
+        UserCenterContract.View, BillConfirmDialog.OnConfirmClickListener {
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
@@ -87,42 +87,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     CircleImageView mHead;
     @BindView(R.id.tv_mobphone)
     TextView mMobphone;
-    @BindView(R.id.tv_signin)
-    TextView mSignin;
-    @BindView(R.id.ll_signin_layout)
-    LinearLayout mSigninLayout;
-    @BindView(R.id.ex_expandableView)
-    ExpandableLayout mExpandableView;
-    @BindView(R.id.tv_signout)
-    TextView mSignout;
-    @BindView(R.id.tv_danger_chance)
-    TextView mDangerChance;
-    @BindView(R.id.ll_leftAccount)
-    LinearLayout mLeftAccountView;
-    @BindView(R.id.tv_money)
-    TextView mMoney;
-    @BindView(R.id.tv_rights_interests)
-    TextView mRightsInterests;
-    @BindView(R.id.tv_profit_loss)
-    TextView mProfitLoss;
-    @BindView(R.id.tv_withdrawals)
-    TextView mWithdrawals;
-    @BindView(R.id.tv_recharge)
-    TextView mRecharge;
-    @BindView(R.id.tv_position)
-    TextView mPosition;
-    @BindView(R.id.tv_account_manage)
-    TextView mAccountManage;
-    @BindView(R.id.tv_bond_query)
-    TextView mBondQuery;
-    @BindView(R.id.tv_trade_details)
-    TextView mTradeDetails;
-    @BindView(R.id.tv_bill_details)
-    TextView mBillDetails;
-    @BindView(R.id.tv_history_bill)
-    TextView mHistoryBill;
-    @BindView(R.id.ll_signin_account_layout)
-    LinearLayout mSigninAccountLayout;
     @BindView(R.id.tv_open_account)
     TextView mOpenAccount;
     @BindView(R.id.tv_novice)
@@ -137,7 +101,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     FrameLayout mFlConfig;
     @BindView(R.id.ll_viper)
     RelativeLayout mViper;
-    private AccountLoginDialog mAccountLoginDialog;
+
     private AccountPresenter mAccountPresenter;
     private BillConfirmDialog billConfirmDialog;
     private CheckAccount mCheckAccount;
@@ -177,29 +141,19 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void initPresenter() {
         mPresenter.init(this);
         mAccountPresenter = new AccountPresenter();
-        mAccountPresenter.init(this);
+
     }
 
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
         mCheckAccount = new CheckAccount(mContext);
-        int screenWidth = ViewUtil.getScreenWidth(getActivity());
-        int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
-        int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLeftAccountView.getLayoutParams();
-        params.width = (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;
-        mLeftAccountView.setLayoutParams(params);
 
         if (App.getConfig().getLoginStatus()) {
             setViperVisible();
-        }
-
-        if (!App.getConfig().getAccountLoginStatus()) {
-            signinExpandCollapse(false);
-        } else {
-            startRun();
-            signinExpandCollapse(true);
+            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            mLoginRegister.setVisibility(View.GONE);
+            mSigninSucLayout.setVisibility(View.VISIBLE);
         }
         setAvatar();
     }
@@ -208,11 +162,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHead, R.mipmap.img_head);
     }
 
-    @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_trade_details, R.id.tv_account_manage,
-            R.id.tv_bill_details, R.id.tv_position, R.id.ll_signin_layout, R.id.tv_signout,
-            R.id.tv_my_account, R.id.ll_account, R.id.tv_history_bill, R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_phone, R.id.tv_aboutus,
-            R.id.tv_bond_query, R.id.iv_setup, R.id.ll_viper , R.id.tv_shop_mall,R.id.tv_task})
+    @OnClick({R.id.fl_config, R.id.tv_novice,
+              R.id.tv_open_account,
+            R.id.tv_kefu, R.id.tv_phone, R.id.tv_aboutus,
+             R.id.iv_setup, R.id.ll_viper , R.id.tv_shop_mall,R.id.tv_task})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -238,56 +191,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
                 startActivity(intentTeach);
                 break;
-            case R.id.tv_trade_details:
-                clickTab("wode_account_jiaoyimingxi","我的_我的交易明细");
-                stopRun();
-                startActivity(new Intent(mActivity, TradeRecordActivity.class));
-                break;
-            case R.id.tv_account_manage:
-                clickTab("wode_account_qihuoaccountguanli","我的_期货账户管理");
-                startActivity(new Intent(mActivity, FutureAccountActivity.class));
-                break;
-            case R.id.tv_bill_details:
-                clickTab("wode_account_churujinmingxi","我的_出入金明细");
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 2);
-                break;
-            case R.id.tv_position:
-                clickTab("wode_account_chicang","我的_我的持仓");
-                EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
-                break;
-            case R.id.ll_signin_layout:
-                clickTab("wode_qudenglu_click","去登录");
-                if (!App.getConfig().getLoginStatus()) {
-                    Intent loginActivity = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(loginActivity);
-                } else {
-                    mAccountLoginDialog = new AccountLoginDialog(mActivity, mAccountPresenter);
-                    mAccountLoginDialog.show();
-                }
-                break;
-            case R.id.tv_signout:
-                if (DeviceUtils.isFastDoubleClick()) {
-                    return;
-                }
-                new AlertFragmentDialog.Builder(mActivity).setContent("确定退出期货账户吗？")
-                        .setRightBtnText("确定")
-                        .setLeftBtnText("取消")
-                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                            @Override
-                            public void dialogRightBtnClick(String string) {
-                                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
-                            }
-                        }).build();
-                break;
-            case R.id.tv_my_account:
-            case R.id.ll_account:
-                clickTab("wode_myaccount_click","我的_我的账户");
-                startActivity(UserAccountActivity.class);
-                break;
-            case R.id.tv_history_bill:
-                clickTab("wode_account_lishizhangdan","我的_历史账单查询");
-                startActivity(HistoryBillActivity.class);
-                break;
+
             case R.id.tv_open_account:
                 if (App.getConfig().getLoginStatus()){
                     clickTab("wode_lijikaihu_click","我的_立即开户");
@@ -299,23 +203,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.tv_kefu:
                 clickTab("wode_zaixiankefu_click","我的_在线客服");
                 AndroidUtil.startKF(getActivity());
-                break;
-            case R.id.tv_withdrawals:
-                clickTab("wode_myaccount_tixian","我的_我的账户_提现");
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 1);
-                break;
-            case R.id.tv_recharge:
-                clickTab("wode_myaccount_chongzhi","我的_我的账户_充值");
-                InAndOutGoldActivity.startInAndOutGoldActivity(getActivity(), 0);
-                break;
-            case R.id.fl_config:
-                if (App.getConfig().getLoginStatus()) {
-                    clickTab("wode_zhanghuguanli_click","我的_账户管理");
-                    Intent intent = new Intent(mActivity, ModifyUserActivity.class);
-                    startActivity(intent);
-                } else {
-                    toLogin();
-                }
                 break;
             case R.id.tv_phone:
                 //联系客服
@@ -330,13 +217,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
                 intentAbout.putExtra("title", "关于我们");
                 startActivity(intentAbout);
-                break;
-            case R.id.tv_bond_query:
-                clickTab("wode_account_jiancezhongxin","我的_保证金检测中心查询");
-                Intent intentQuery = new Intent(mActivity, WebViewActivity.class);
-                intentQuery.putExtra("url", ConfigUtil.QUERY_FUTURE);
-                intentQuery.putExtra("title", "保证金监控中心查询");
-                startActivity(intentQuery);
                 break;
             case R.id.iv_setup:
                 clickTab("wode_shezhi_click","我的_设置");
@@ -358,6 +238,15 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
                     }
                 }).create(AlertFragmentDialog.Builder.TYPE_TITLE_WITH_RIGHT_IMAGE);
+                break;
+            case R.id.fl_config:
+                if (App.getConfig().getLoginStatus()) {
+                    clickTab("wode_zhanghuguanli_click","我的_账户管理");
+                    Intent intent = new Intent(mActivity, ModifyUserActivity.class);
+                    startActivity(intent);
+                } else {
+                    toLogin();
+                }
                 break;
 
         }
@@ -393,30 +282,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             }
         }
     };
-
-    //isSignin true  登录期货账号成功
-    private void signinExpandCollapse(boolean isSignin) {
-        if (!isSignin) {
-            mSigninAccountLayout.setVisibility(View.GONE);
-            mExpandableView.expand();
-        } else {
-            mSigninAccountLayout.setVisibility(View.VISIBLE);
-            if (mExpandableView.isExpanded()) {
-                mExpandableView.collapse(true);
-            }
-        }
-        if (App.getConfig().getLoginStatus()) {
-            mSigninSucLayout.setVisibility(View.VISIBLE);
-            mLoginRegister.setVisibility(View.GONE);
-//
-//            if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
-//                mMobphone.setMaxEms(6);
-//                mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-//            }
-            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-        }
-    }
-
 
     private void toLogin() {
         String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
@@ -459,9 +324,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 //                    mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
 //                }
                 mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
-            } else if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//token失效或者被挤掉
-                signinExpandCollapse(false);
-                stopRun();
             }
         }
     }
@@ -469,11 +331,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentRefreshEvent event) {
         if (UIBaseEvent.EVENT_LOGOUT == event.getType()) {
-            stopRun();
             mSigninSucLayout.setVisibility(View.GONE);
             mLoginRegister.setVisibility(View.VISIBLE);
             mViper.setVisibility(View.GONE);
-            signinExpandCollapse(false);
         }
     }
 
@@ -492,104 +352,20 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         userCenterFragment = null;
     }
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            getAccountBasicInfo();//每隔3秒刷一次
-            mHandler.postDelayed(this, 3000);
-        }
-    };
-
-    @Override
-    public void loginSuccess(AccountBean bean) {
-        if (billConfirmDialog != null && billConfirmDialog.isShowing()) {
-            billConfirmDialog.dismiss();
-        }
-        mAccountLoginDialog.dismiss();
-        signinExpandCollapse(true);
-        startRun();
-    }
-
-    @Override
-    public void showSettlementDialog(SettlementInfoBean bean) {
-        billConfirmDialog = new BillConfirmDialog(mContext, bean);
-        billConfirmDialog.setOnConfirmClickListenerr(this);
-        billConfirmDialog.show();
-    }
-
-    /**
-     * 开始刷新用户信息
-     */
-    public void startRun() {
-        if (App.getConfig().getAccountLoginStatus()) {
-            mHandler.removeCallbacks(mRunnable);
-            mHandler.post(mRunnable);
-        }
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {
-            stopRun();
-        } else {
-            if (!App.getConfig().getAccountLoginStatus()) {
-                signinExpandCollapse(false);
-                stopRun();
-            } else {
-                startRun();
-                signinExpandCollapse(true);
-            }
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isHidden() && isVisible()) {
-            startRun();
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopRun();
-    }
-
-    public void stopRun() {
-        mHandler.removeCallbacks(mRunnable);
-    }
-
-    @Override
-    public void getAccountInfoSuccess(AccountInfoBean bean) {
-        mDangerChance.setText(bean.getCapitalProportion());
-        mRightsInterests.setText(StringUtil.forNumber(new BigDecimal(bean.getRightsInterests()).doubleValue()));
-        mMoney.setText(StringUtil.forNumber(new BigDecimal(bean.getAvailable()).doubleValue()));
-
-        if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() > 0) {
-            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_FB4F4F));
-            mProfitLoss.setText("+" + StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
-        } else if (new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue() < 0) {
-            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_2CC593));
-            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
-        } else {
-            mProfitLoss.setTextColor(getActivity().getResources().getColor(R.color.color_333333));
-            mProfitLoss.setText(StringUtil.forNumber(new BigDecimal(ConvertUtil.NVL(bean.getPositionProfit(), "0")).doubleValue()));
-        }
-    }
-
-    @Override
-    public void accountLogoutSuccess() {
-        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
-        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
-        signinExpandCollapse(false);
-        stopRun();
-    }
-
-    private void getAccountBasicInfo() {
-        mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
     }
 
     @Override

@@ -39,4 +39,29 @@ public class UserAccountPresenter extends BasePresenter<UserAccountContract.View
             }
         });
     }
+
+    @Override
+    public void accountLogout(String userId, String token, String company) {
+        toSubscribe(HttpManager.getApi().accountLogout(userId, token, company), new HttpSubscriber() {
+            @Override
+            public void _onStart() {
+                mView.showLoading("安全退出中...");
+            }
+
+            @Override
+            protected void _onNext(Object o) {
+                mView.accountLogoutSuccess();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
 }

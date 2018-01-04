@@ -133,7 +133,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="400-9610211"
+            android:text="400 961 0211"
             android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_12sp" />
 
@@ -145,7 +145,7 @@
         android:layout_marginTop="@dimen/dimen_8dp"
         android:paddingLeft="@dimen/dimen_15dp"
         android:paddingRight="@dimen/dimen_15dp"
-        android:text="客服时间：工作日早上9:00-下午17:00"
+        android:text="客服时间：00:00-24:00"
         android:textColor="@color/color_A4A5A6"
         android:textSize="@dimen/dimen_12sp" />
 </LinearLayout>

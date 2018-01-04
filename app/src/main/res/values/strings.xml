@@ -96,8 +96,8 @@
     <string name="text_user_bill_details">出入金明细</string>
     <string name="text_user_history_bill">历史账单查询</string>
     <string name="user_account">我的账户</string>
-    <string name="user_account_kymoney">可用资金 (元)</string>
-    <string name="user_account_profit_loss">总持仓盈亏 (元)</string>
+    <string name="user_account_kymoney">可用资金</string>
+    <string name="user_account_profit_loss">总持仓盈亏</string>
     <string name="user_account_position_profit_loss">平仓盈亏</string>
     <string name="user_account_take_bond">可取保证金</string>
     <string name="user_account_occupy_bond">占用保证金</string>

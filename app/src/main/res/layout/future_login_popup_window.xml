@@ -81,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_9dp"
-                    android:text="国富期货"
                     android:paddingBottom="@dimen/dimen_1dp"
+                    android:text="国富期货"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
 
@@ -92,8 +92,8 @@
                     android:layout_height="@dimen/dimen_19dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_14dp"
-                    android:visibility="gone"
-                    android:src="@mipmap/ic_trade_tip" />
+                    android:src="@mipmap/ic_trade_tip"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView
@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="期货账户"
+                android:text="资金账号"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -201,16 +201,32 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_forget_pwd"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/dimen_10dp"
-            android:padding="@dimen/dimen_10dp"
-            android:text="忘记密码"
-            android:textColor="@color/color_008EFF"
-            android:textSize="@dimen/dimen_14sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_fxgz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@mipmap/ic_login_tip"
+                android:drawablePadding="@dimen/dimen_4dp"
+                android:text="风险告知"
+                android:textColor="@color/color_86A2B0"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:padding="@dimen/dimen_10dp"
+                android:text="忘记密码"
+                android:textColor="@color/color_008EFF"
+                android:textSize="@dimen/dimen_14sp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/btn_login_account"

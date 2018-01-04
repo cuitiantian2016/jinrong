@@ -28,6 +28,7 @@ import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -108,6 +109,8 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         selectComp.setOnClickListener(this);
         mForgetPwd = (TextView) findViewById(R.id.tv_forget_pwd);
         mForgetPwd.setOnClickListener(this);
+        TextView mFxgz = (TextView) findViewById(R.id.tv_fxgz);
+        mFxgz.setOnClickListener(this);
         mAccount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -199,6 +202,10 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
                         .setRightBtnText("知道了").setContent("请在工作日8:30-17:00拨打小牛智投\n" +
                         "客服电话：400 961 0211").setTitle("忘记密码")
                         .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+                break;
+            case R.id.tv_fxgz:
+                ToastUtil.show("风险告知");
+                // TODO: 2018/1/4 风险告知跳转 
                 break;
         }
     }

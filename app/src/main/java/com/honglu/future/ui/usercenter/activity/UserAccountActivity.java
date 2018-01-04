@@ -1,5 +1,6 @@
 package com.honglu.future.ui.usercenter.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,18 +10,30 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.TradeTipDialog;
+import com.honglu.future.events.ChangeTabMainEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.main.FragmentFactory;
+import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
+import com.honglu.future.ui.trade.activity.TradeRecordActivity;
+import com.honglu.future.ui.trade.historybill.HistoryBillActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
 import com.honglu.future.util.ConvertUtil;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 
@@ -46,22 +59,28 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     TextView mProfitLoss;
     @BindView(R.id.tv_position_profit_loss)
     TextView mPositionProfitLoss;
-    @BindView(R.id.tv_take_bond)
-    TextView mTakeBond;
-    @BindView(R.id.tv_occupy_bond)
-    TextView mOccupyBond;
-    @BindView(R.id.tv_frozen_bond)
-    TextView mFrozenBond;
     @BindView(R.id.tv_service_charge)
     TextView mServiceCharge;
-    @BindView(R.id.tv_frozen_service_charge)
-    TextView mFrozenServiceCharge;
     @BindView(R.id.tv_withdrawals)
     TextView mWithdrawals;
     @BindView(R.id.tv_recharge)
     TextView mRecharge;
     @BindView(R.id.ll_leftAccount)
     LinearLayout mLeftAccountView;
+    @BindView(R.id.tv_position)
+    TextView mPosition;
+    @BindView(R.id.tv_trade_details)
+    TextView mTradeDetails;
+    @BindView(R.id.tv_bill_details)
+    TextView mBillDetails;
+    @BindView(R.id.tv_bond_query)
+    TextView mBondQuery;
+    @BindView(R.id.tv_history_bill)
+    TextView mHistoryBill;
+    @BindView(R.id.tv_account_manage)
+    TextView mAccountManage;
+    @BindView(R.id.tv_signout)
+    TextView mSignout;
 
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -79,7 +98,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
 
     @Override
     public void loadData() {
-        mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, getResources().getString(R.string.user_account));
+        mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, "账户管理");
         mTitle.setRightTitle(R.mipmap.ic_trade_tip, this);
 
         int screenWidth = ViewUtil.getScreenWidth(UserAccountActivity.this);
@@ -92,7 +111,8 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         startRun();
     }
 
-    @OnClick({R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_right})
+    @OnClick({R.id.tv_withdrawals, R.id.tv_recharge, R.id.tv_right, R.id.tv_history_bill, R.id.tv_position,
+            R.id.tv_trade_details, R.id.tv_bill_details, R.id.tv_bond_query,R.id.tv_account_manage,R.id.tv_signout})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_withdrawals:
@@ -106,6 +126,48 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
             case R.id.tv_right:
                 TradeTipDialog tipDialog = new TradeTipDialog(mContext, R.layout.layout_my_account_tip);
                 tipDialog.show();
+                break;
+            case R.id.tv_history_bill:
+                clickTab("wode_account_lishizhangdan", "我的_历史账单查询");
+                startActivity(HistoryBillActivity.class);
+                break;
+            case R.id.tv_position:
+                clickTab("wode_account_chicang", "我的_我的持仓");
+                EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                break;
+            case R.id.tv_trade_details:
+                clickTab("wode_account_jiaoyimingxi", "我的_我的交易明细");
+                stopRun();
+                startActivity(new Intent(mActivity, TradeRecordActivity.class));
+                break;
+            case R.id.tv_bill_details:
+                clickTab("wode_account_churujinmingxi", "我的_出入金明细");
+                InAndOutGoldActivity.startInAndOutGoldActivity(mActivity, 2);
+                break;
+            case R.id.tv_bond_query:
+                clickTab("wode_account_jiancezhongxin", "我的_保证金检测中心查询");
+                Intent intentQuery = new Intent(mActivity, WebViewActivity.class);
+                intentQuery.putExtra("url", ConfigUtil.QUERY_FUTURE);
+                intentQuery.putExtra("title", "保证金监控中心查询");
+                startActivity(intentQuery);
+                break;
+            case R.id.tv_account_manage:
+                clickTab("wode_account_qihuoaccountguanli","我的_期货账户管理");
+                startActivity(new Intent(mActivity, FutureAccountActivity.class));
+                break;
+            case R.id.tv_signout:
+                if (DeviceUtils.isFastDoubleClick()) {
+                    return;
+                }
+                new AlertFragmentDialog.Builder(mActivity).setContent("确定退出期货账户吗？")
+                        .setRightBtnText("确定")
+                        .setLeftBtnText("取消")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String string) {
+                                mPresenter.accountLogout(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
+                            }
+                        }).build();
                 break;
         }
     }
@@ -152,7 +214,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
 
         if (new BigDecimal(bean.getCloseProfit()).doubleValue() > 0) {
             mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_FB4F4F));
-            mPositionProfitLoss.setText("+"+StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
+            mPositionProfitLoss.setText("+" + StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
         } else if (new BigDecimal(bean.getCloseProfit()).doubleValue() < 0) {
             mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_2CC593));
             mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
@@ -160,11 +222,14 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
             mPositionProfitLoss.setTextColor(getResources().getColor(R.color.color_333333));
             mPositionProfitLoss.setText(StringUtil.forNumber(new BigDecimal(bean.getCloseProfit()).doubleValue()));
         }
-        mTakeBond.setText(NumberUtils.formatFloatNumber(bean.getWithdrawQuota()));
-        mOccupyBond.setText(String.valueOf(bean.getCurrMargin()));
-        mFrozenBond.setText(bean.getFrozenCash() + "");
         mServiceCharge.setText(String.valueOf(bean.getCommission()));
-        mFrozenServiceCharge.setText(String.valueOf(bean.getFrozenCommission()));
+    }
+
+    @Override
+    public void accountLogoutSuccess() {
+        SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
+        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
+        stopRun();
     }
 
     private void getAccountBasicInfo() {

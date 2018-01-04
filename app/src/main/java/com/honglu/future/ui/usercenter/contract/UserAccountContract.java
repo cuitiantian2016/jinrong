@@ -11,9 +11,11 @@ public interface UserAccountContract {
 
     interface View extends BaseView {
         void getAccountInfoSuccess(AccountInfoBean bean);
+        void accountLogoutSuccess();
     }
 
     interface Presenter {
         void getAccountInfo(String userId, String token, String company);
+        void accountLogout(String userId, String token, String company);
     }
 }
