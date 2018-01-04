@@ -65,8 +65,6 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     TextView mWithdrawals;
     @BindView(R.id.tv_recharge)
     TextView mRecharge;
-    @BindView(R.id.ll_leftAccount)
-    LinearLayout mLeftAccountView;
     @BindView(R.id.tv_position)
     TextView mPosition;
     @BindView(R.id.tv_trade_details)
@@ -99,14 +97,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     @Override
     public void loadData() {
         mTitle.setTitle(true, R.mipmap.ic_back_black, R.color.white, "账户管理");
-        mTitle.setRightTitle(R.mipmap.ic_trade_tip, this);
-
-        int screenWidth = ViewUtil.getScreenWidth(UserAccountActivity.this);
-        int dimen_10dp = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
-        int dimen_20dp = getResources().getDimensionPixelSize(R.dimen.dimen_20dp);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mLeftAccountView.getLayoutParams();
-        params.width = (screenWidth - dimen_10dp * 2 - dimen_20dp * 2) / 2;
-        mLeftAccountView.setLayoutParams(params);
+//        mTitle.setRightTitle(R.mipmap.ic_trade_tip, this);
 
         startRun();
     }
@@ -134,6 +125,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
             case R.id.tv_position:
                 clickTab("wode_account_chicang", "我的_我的持仓");
                 EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
+                finish();
                 break;
             case R.id.tv_trade_details:
                 clickTab("wode_account_jiaoyimingxi", "我的_我的交易明细");

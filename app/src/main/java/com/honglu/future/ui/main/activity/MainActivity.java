@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         @Override
         public void run() {
             if (mChangeTabType == 1) {
-                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI));
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE));
             } else if (mChangeTabType == 2) {
                 EventBus.getDefault().post(new ChangeTabEvent(1));
             }

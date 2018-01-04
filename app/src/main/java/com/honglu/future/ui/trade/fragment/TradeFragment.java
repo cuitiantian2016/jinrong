@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.honglu.future.R;
@@ -11,9 +12,11 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
+import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.market.fragment.MarketFragment;
 import com.honglu.future.ui.trade.contract.TradeContract;
@@ -201,9 +204,14 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
                 if (!App.getConfig().getAccountLoginStatus()) {
                     mCommonTabLayout.setCurrentTab(0);
                 }
+            } else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE) {//首页跳转主力合约
+                mCommonTabLayout.setCurrentTab(0);
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI));
             }
         }
     }
+
+
 
 
     @Override
