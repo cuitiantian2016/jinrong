@@ -222,6 +222,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
         SpUtil.putString(Constant.CACHE_ACCOUNT_TOKEN, "");
         EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_ACCOUNT_LOGOUT));
         stopRun();
+        finish();
     }
 
     private void getAccountBasicInfo() {
