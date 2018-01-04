@@ -2,32 +2,40 @@ package com.honglu.future.ui.msg.mainmsg;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.util.ToastUtil;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 消息中心main
- * Created by zhuaibing on 2018/1/2
+ * 系统消息详情
+ * Created by hefei on 2018/1/2
  */
 
-public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements MainMsgContract.View{
+public class SystemMsgDetailActivity extends BaseActivity implements MainMsgContract.View{
 
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
+    @BindView(R.id.tv_content)
+    TextView tv_content;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main_msg;
+        return R.layout.activity_main_msg_system_detail;
     }
 
 
     @Override
     public void showLoading(String content) {
         if (!TextUtils.isEmpty(content)) {
-            App.loadingContent(MainMsgActivity.this, content);
+            App.loadingContent(SystemMsgDetailActivity.this, content);
         }
     }
 
@@ -46,21 +54,11 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
 
     @Override
     public void initPresenter() {
-        mPresenter.init(this);
     }
 
     @Override
     public void loadData() {
-        mTitle.setTitle(false, R.color.color_white,"消息中心");
+        mTitle.setTitle(false, R.color.color_white,"详情");
     }
 
-    @OnClick({R.id.rl_msg_trade, R.id.rl_msg_system})
-    public void onClick(View v){
-        int id = v.getId();
-        if (R.id.rl_msg_system== id){
-            startActivity(SystemMsgActivity.class);
-        }else if (R.id.rl_msg_trade == id){
-
-        }
-    }
 }

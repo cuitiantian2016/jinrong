@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include  layout="@layout/layout_toolbar"
+        android:paddingRight="@dimen/dimen_15dp"/>
+
+    <include layout="@layout/layout_circle_main_item_head"/>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="关于2018年元旦休市通知"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_marginTop="@dimen/dimen_5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:text="09-27  13:45"
+        android:textColor="#CACBCC"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_marginTop="@dimen/dimen_30dp"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:paddingBottom="@dimen/dimen_20dp"
+        android:text="交易能样的疑惑。小牛智投提供最，采用多情走势。根据市场交投现状，实时跟踪盘面变化，给予可操作性指导，助力客户财富增值。"/>
+    </ScrollView>
+</LinearLayout>

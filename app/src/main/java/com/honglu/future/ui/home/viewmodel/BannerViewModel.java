@@ -16,6 +16,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.main.activity.WebViewActivity;
+import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
@@ -47,7 +48,7 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         mView.findViewById(R.id.rl_home_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtil.show("点击设置");
+                mContext.startActivity(new Intent(mContext,MainMsgActivity.class));
             }
         });
         setAdapter();
