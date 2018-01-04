@@ -4,9 +4,12 @@ package com.honglu.future.ui.circle.bean;
  * Created by zhuaibing on 2017/12/11
  */
 
+import com.google.gson.JsonNull;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class CommentBean {
+public class CommentBean implements Serializable{
     /**
      * avatarPic : 评论人头像
      * beReplyAvatarPic : 被评论人头像
@@ -33,4 +36,28 @@ public class CommentBean {
     public String replyContent;
     public String replyUserId;
     public String userRole;
+    public LayCommentBean layComment;
+
+    public class LayCommentBean implements Serializable{
+       public int count;
+       public List<LayCommentListBean>  layList;
+    }
+
+    public class LayCommentListBean implements Serializable{
+        public String avatarPic;
+        public String beReplyAvatarPic;
+        public String beReplyNickName;
+        public String circleReplyId;
+        public String createTime;
+        public String fatherCircleReplyId;
+        public String isPraise;
+        public String layCircleReplyId;
+        public String layComment;
+        public String nickName;
+        public String praiseCount;
+        public String replyContent;
+        public String replyType;
+        public String replyUserId;
+        public String userRole;
+    }
 }

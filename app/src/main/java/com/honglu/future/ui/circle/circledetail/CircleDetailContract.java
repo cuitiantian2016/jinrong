@@ -29,6 +29,6 @@ public interface CircleDetailContract {
         void  getCirleCommentAuth(String userId,String circleId,String postUserId,int rows); //楼主
         void  getCirleFocus(String postUserId,String userId,String attentionState);//关注
         void  getCirlePraise(String postUserId,String userId,boolean praiseFlag,String circleId);//点赞
-        void  getCommentContent(String userId, String circleId, String content,String beReplyUserId, int replyType ,String replyNickName,String postUserId);//评论回复
+        void  getCommentContent(String userId, String circleId, String content,String beReplyUserId, int replyType ,String replyNickName,String postUserId,String fatherCircleReplyId,String layCircleReplyId);//评论回复
     }
 }

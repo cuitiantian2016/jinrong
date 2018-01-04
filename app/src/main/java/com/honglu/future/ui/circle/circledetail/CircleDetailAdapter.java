@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,11 +19,14 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.ui.circle.bean.CommentBean;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
+import com.honglu.future.ui.circle.morecomment.MoreCommentActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TextViewUtil;
 import com.honglu.future.util.ViewUtil;
+import com.honglu.future.widget.AllListView;
 import com.honglu.future.widget.CircleImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +106,7 @@ public class CircleDetailAdapter extends BaseAdapter{
         if (position == getCount()-1){
             holder.mLine.setVisibility(View.INVISIBLE);
         }else {
+
             holder.mLine.setVisibility(View.VISIBLE);
         }
 
@@ -159,6 +164,25 @@ public class CircleDetailAdapter extends BaseAdapter{
             holder.mName.setLayoutParams(params);
         }
 
+        if (bean.layComment !=null && bean.layComment.count > 0){
+            CircleDetailItemAdapter mItemAdapter = new CircleDetailItemAdapter(mActivity,bean.layComment.layList);
+            holder.mListView.setVisibility(View.VISIBLE);
+            holder.mListView.setAdapter(mItemAdapter);
+            if (bean.layComment.count > 3){
+                holder.mLayHuiFu.setVisibility(View.VISIBLE);
+                holder.mLayHuiFu.setText("共"+bean.layComment.count+"条回复");
+            }else {
+                holder.mLayHuiFu.setVisibility(View.GONE);
+                holder.mLayHuiFu.setText("");
+            }
+        }else {
+            holder.mListView.setAdapter(null);
+            holder.mListView.setVisibility(View.GONE);
+            holder.mLayHuiFu.setText("");
+            holder.mLayHuiFu.setVisibility(View.GONE);
+        }
+
+
         holder.mCivHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,19 +194,46 @@ public class CircleDetailAdapter extends BaseAdapter{
             }
         });
 
+        holder.mLlRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.onItemClick(bean.nickName,bean.replyUserId,String.valueOf(bean.circleReplyId),String.valueOf(bean.circleReplyId));
+            }
+        });
+
+        holder.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              CommentBean.LayCommentListBean layCommentListBean = (CommentBean.LayCommentListBean) parent.getItemAtPosition(position);
+              mActivity.onItemClick(layCommentListBean.nickName,layCommentListBean.replyUserId,String.valueOf(bean.circleReplyId),layCommentListBean.layCircleReplyId);
+            }
+        });
+
+        //查看更多回复
+        holder.mLayHuiFu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              mActivity.startMoreCommentActivity(bean);
+            }
+        });
+
         return convertView;
     }
 
     static class ViewHolder{
+        View mLlRootView;
         CircleImageView mCivHead;
         TextView mName;
         TextView mUserLabel;
         TextView mLZhu;
         TextView mTime;
         TextView mContent;
+        AllListView mListView;
+        TextView mLayHuiFu;
         View mLine;
 
         public ViewHolder(View v){
+            mLlRootView = v.findViewById(R.id.ll_rootView);
             mCivHead = (CircleImageView) v.findViewById(R.id.civ_head);
             mName = (TextView) v.findViewById(R.id.tv_name);
             mUserLabel = (TextView) v.findViewById(R.id.tv_user_label);
@@ -190,6 +241,8 @@ public class CircleDetailAdapter extends BaseAdapter{
             mTime = (TextView) v.findViewById(R.id.tv_time);
             mContent = (TextView) v.findViewById(R.id.tv_content);
             mLine = v.findViewById(R.id.v_line);
+            mListView = (AllListView) v.findViewById(R.id.lv_listView);
+            mLayHuiFu = (TextView) v.findViewById(R.id.tv_layHuiFu);
         }
     }
 

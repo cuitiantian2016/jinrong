@@ -13,6 +13,7 @@ import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CircleMineBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.ui.circle.bean.CommentBosAllBean;
 import com.honglu.future.ui.circle.bean.SignBean;
 import com.honglu.future.ui.circle.bean.TopicFilter;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
@@ -798,6 +799,8 @@ public interface HttpApi {
      * @param content
      * @param beReplyUserId 被回复人id|
      * @param replyType     |int|类型 1 帖子回复 2 评论回复|
+     * @param fatherCircleReplyId 是|int|主评论id 1.2.1及以上版本必传|
+     * @param layCircleReplyId 没存在层级关系时与  fatherCircleReplyId 相同 反之传层级id
      * @return
      */
     @FormUrlEncoded
@@ -809,7 +812,9 @@ public interface HttpApi {
             @Field("beReplyUserId") String beReplyUserId,
             @Field("replyType") int replyType,
             @Field("replyNickName") String replyNickName,
-            @Field("postUserId") String postUserId);
+            @Field("postUserId") String postUserId,
+            @Field("fatherCircleReplyId") String fatherCircleReplyId,
+            @Field("layCircleReplyId") String layCircleReplyId);
 
     /**
      * 点赞列表
@@ -913,4 +918,19 @@ public interface HttpApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("http://open.xiaoniu.com/apis/v1/dataprobe/")
     Observable<MaidianReturn> postMaiDian(@Body RequestBody route);
+
+
+    /**
+     * circle 查看更多回复
+     * @param userId
+     * @param fatherCircleReplyId 父评论id
+     * @param rows
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/getLayComment")
+    Observable<BaseResponse<List<CommentBosAllBean>>> getLayComment(
+            @Field("userId") String userId,
+            @Field("fatherCircleReplyId") String fatherCircleReplyId,
+            @Field("rows") int rows);
 }
