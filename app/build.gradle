@@ -15,7 +15,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 4
-        versionName "1.2.0"
+        versionName "1.2.1"
         multiDexEnabled true
 //        resValue "string", "tray__authority", "com.honglu.future.tray"
         ndk {
