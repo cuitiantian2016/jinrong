@@ -17,6 +17,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.util.ImageUtil;
+import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
 import com.honglu.future.widget.banner.Banner;
 import com.umeng.analytics.MobclickAgent;
@@ -43,6 +44,12 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         mContext = context;
         mView = View.inflate(context, R.layout.view_modle_banner, null);
         mBanner = (Banner) mView.findViewById(R.id.banner);
+        mView.findViewById(R.id.rl_home_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.show("点击设置");
+            }
+        });
         setAdapter();
         refreshData();
 
