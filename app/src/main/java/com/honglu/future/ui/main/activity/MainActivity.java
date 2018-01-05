@@ -152,10 +152,15 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 changeTabEvent.isStick = true;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }
-            if (isTrade>-1) {
+            if (isTrade>-1 && isTrade!=0) {
                 ChangeTabEvent changeTabEvent = new ChangeTabEvent(isTrade);
                 changeTabEvent.isStick = true;
                 EventBus.getDefault().postSticky(changeTabEvent);
+            }
+            if (isTrade ==0){
+                RefreshUIEvent refreshUIEvent = new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML);
+                refreshUIEvent.isStick = true;
+                EventBus.getDefault().postSticky(refreshUIEvent);
             }
         } else if (this.select == 3) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");

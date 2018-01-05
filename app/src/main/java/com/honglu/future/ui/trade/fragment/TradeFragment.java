@@ -207,6 +207,12 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             } else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE) {//首页跳转主力合约
                 mCommonTabLayout.setCurrentTab(0);
                 EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI));
+            }else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML){//跳转到自选
+                if (((RefreshUIEvent) event).isStick){
+                    EventBus.getDefault().removeStickyEvent(event);
+                }
+                mCommonTabLayout.setCurrentTab(0);
+                EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZX));
             }
         }
     }

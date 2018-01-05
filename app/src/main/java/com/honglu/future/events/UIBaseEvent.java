@@ -20,7 +20,9 @@ public class UIBaseEvent {
     public final static int EVENT_CIRCLE_MSG_RED_VISIBILITY = 26; //红点显示
     public final static int EVENT_CIRCLE_MSG_RED_GONE = 27; //红点隐藏
     public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE = 28;//首页图标跳转交易主力合约
+    public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML = 31;//首页图标跳转交易主力合约
     public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI = 29;//首页图标跳转交易主力合约
+    public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZX = 30;//首页图标跳转交易自选
 
     private String code;
     private String message;

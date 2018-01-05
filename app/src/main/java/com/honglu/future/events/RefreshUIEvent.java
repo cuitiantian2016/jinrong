@@ -3,6 +3,7 @@ package com.honglu.future.events;
 public class RefreshUIEvent extends UIBaseEvent {
 
 	private int type =  EVENT_DEFAULT;
+	public boolean isStick;
 	public RefreshUIEvent(int type)
 	{
 		this.type = type;

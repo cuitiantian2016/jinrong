@@ -161,6 +161,8 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI) {//首页跳转主力合约
                 mCommonTab.setCurrentTab(1);
+            }else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZX){//跳转自选
+                mCommonTab.setCurrentTab(0);
             }
         }
     }
