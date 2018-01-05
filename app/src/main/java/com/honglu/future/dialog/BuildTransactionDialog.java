@@ -33,6 +33,7 @@ import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.math.BigDecimal;
@@ -669,42 +670,24 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     @Override
     public void showErrorMsg(String msg, String type) {
         showToast(msg);
-        if (type.equals("build")) {
-            String buyTypeStr = "";
-            if (mBuyType.equals("1")) {
-                buyTypeStr = "买跌";
-            } else {
-                buyTypeStr = "买涨";
-            }
-            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
-                    .setRightBtnText("确定").setContent(instrumentName + " " + buyTypeStr + mHands.getText().toString() + "手").setTitle("建仓失败").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
-        }
+//        if (type.equals("build")) {
+//            String buyTypeStr = "";
+//            if (mBuyType.equals("1")) {
+//                buyTypeStr = "买跌";
+//            } else {
+//                buyTypeStr = "买涨";
+//            }
+//            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
+//                    .setRightBtnText("确定").setContent(instrumentName + " " + buyTypeStr + mHands.getText().toString() + "手").setTitle("建仓失败").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+//        }
     }
 
     @Override
     public void buildTransactionSuccess(String type, String hands) {
-        String buyTypeStr = "";
-        if (type.equals("1")) {
-            buyTypeStr = "买跌";
-        } else {
-            buyTypeStr = "买涨";
-        }
         if (mIsStopChangePrice) {
-            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
-                    .setRightBtnText("查看委托").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                @Override
-                public void dialogRightBtnClick(String inputString) {
-                    // TODO: 2018/1/3 跳转委托界面
-                }
-            }).setContent(instrumentName + " " + buyTypeStr + hands + "手").setTitle("委托中").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+            ToastUtil.showToast("委托建仓成功");
         } else {
-            new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
-                    .setRightBtnText("查看持仓").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                @Override
-                public void dialogRightBtnClick(String inputString) {
-                    // TODO: 2018/1/3 跳转持仓界面
-                }
-            }).setContent(instrumentName + " " + buyTypeStr + hands + "手").setTitle("建仓成功").create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+            ToastUtil.showToast("快速建仓成功");
         }
         dismiss();
     }
