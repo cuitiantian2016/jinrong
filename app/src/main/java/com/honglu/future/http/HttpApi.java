@@ -28,6 +28,7 @@ import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.PraiseMsgListBean;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.ui.msg.bean.TradeMsgBean;
 import com.honglu.future.ui.recharge.bean.AssesData;
@@ -960,4 +961,27 @@ public interface HttpApi {
     Observable<BaseResponse<List<TradeMsgBean>>> getTradeMsgList(
             @Field("userId") String userId
             ,@Field("rows") int rows);
+
+
+    /**
+     * 点赞消息
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/getPraiseList")
+    Observable<BaseResponse<List<PraiseMsgListBean>>> getPraiseList(
+            @Field("userId") String userId
+            ,@Field("rows") int rows);
+
+
+    /**
+     * 清空赞列表
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/circle/getUpdateEmpty")
+    Observable<BaseResponse<JsonNull>> getClearPraiseMsg(
+            @Field("userId") String userId);
 }

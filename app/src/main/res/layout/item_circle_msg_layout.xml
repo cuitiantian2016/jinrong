@@ -37,7 +37,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_gravity="center_vertical"
-                 android:textColor="@color/color_979899"
+                 android:textColor="@color/color_333333"
                  android:textSize="@dimen/dimen_13sp"
                  android:layout_weight="1"
                  tools:text="小牛5906"/>

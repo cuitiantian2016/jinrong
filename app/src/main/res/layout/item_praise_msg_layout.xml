@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10dp"
+        android:background="@color/color_F7F8F9"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_35dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:orientation="horizontal">
+
+        <com.honglu.future.widget.CircleImageView
+            android:id="@+id/civ_head"
+            android:layout_width="@dimen/dimen_35dp"
+            android:layout_height="@dimen/dimen_35dp"
+            tools:src="@mipmap/img_head" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_10dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dimen_13sp"
+                android:layout_weight="1"
+                tools:text="小牛5906"/>
+
+
+            <TextView
+                android:id="@+id/tv_tiem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/color_CACBCC"
+                android:textSize="@dimen/dimen_11sp"
+                tools:text="13:45 09-27"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dimen_15sp"
+        android:layout_marginLeft="@dimen/dimen_60dp"
+        android:layout_marginTop="@dimen/dimen_4dp"
+        android:textColor="@color/color_333333"
+        android:text="赞了你的帖子"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginBottom="@dimen/dimen_15dp"
+        android:background="@drawable/shape_f7f8f9_2dp"
+        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingBottom="@dimen/dimen_10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:background="@drawable/shape_white_2dp_bg">
+
+            <ImageView
+                android:id="@+id/iv_circle_img"
+                android:layout_width="@dimen/dimen_68dp"
+                android:layout_height="@dimen/dimen_68dp"
+                tools:src="@mipmap/icon_nb_sd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:layout_marginTop="@dimen/dimen_7dp"
+                android:layout_marginBottom="@dimen/dimen_7dp">
+
+                <TextView
+                    android:id="@+id/tv_circle_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_323232"
+                    android:textSize="@dimen/dimen_13sp"
+                    tools:text="wahcc"/>
+
+                <TextView
+                    android:id="@+id/tv_circle_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_11sp"
+                    android:textColor="@color/color_979899"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="这是帖子内容啊这是帖子内容这是帖子内容啊这是帖子内容"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
