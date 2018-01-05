@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -118,31 +119,31 @@ public class CircleMsgPLAdapter extends BaseAdapter{
             holder.mTiem.setText("");
         }
 
-        //回复内容
-        setText(holder.mHuifuContent,circleMsgBean.replyContent);
+        //评论内容
+        setText(holder.mReplyNameText,circleMsgBean.replyContent);
+        holder.mCommentNameText.setVisibility(View.GONE);
 
-        //内容
-        setText(holder.mContent,circleMsgBean.content);
+        //发帖人name
+        setText(holder.mCircleName,circleMsgBean.postNickName);
+
+        //发帖内容
+        setText(holder.mCircleContent,circleMsgBean.content);
+
+
+        if (TextUtils.isEmpty(circleMsgBean.picOne)){
+            holder.mCircleImg.setVisibility(View.GONE);
+        }else {
+            holder.mCircleImg.setVisibility(View.VISIBLE);
+            ImageUtil.display(circleMsgBean.picOne, holder.mCircleImg, R.mipmap.img_head);
+        }
 
         //回复按钮
-        holder.mHuifu.setOnClickListener(new View.OnClickListener() {
+        holder.mReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener !=null){
                     mListener.onHuifuClick(position);
                 }
-            }
-        });
-
-        //回复详情 跳转帖子详情
-
-        holder.mHuifuDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CircleDetailActivity.class);
-                intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleMsgBean.postUserId);
-                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(circleMsgBean.circleId));
-                mContext.startActivity(intent);
             }
         });
         return convertView;
@@ -152,23 +153,26 @@ public class CircleMsgPLAdapter extends BaseAdapter{
 
 
     static class ViewHolder {
-        @BindView(R.id.civ_head)
         CircleImageView mCivHead;
-        @BindView(R.id.tv_name)
         TextView mName;
-        @BindView(R.id.tv_tiem)
         TextView mTiem;
-        @BindView(R.id.tv_huifu_content)
-        TextView mHuifuContent;
-        @BindView(R.id.tv_content)
-        TextView mContent;
-        @BindView(R.id.tv_huifu)
-        TextView mHuifu;
-        @BindView(R.id.tv_huifu_detail)
-        TextView mHuifuDetail;
+        TextView mReply;
+        TextView mReplyNameText;
+        TextView mCommentNameText;
+        ImageView mCircleImg;
+        TextView mCircleName;
+        TextView mCircleContent;
 
         ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            mCivHead = (CircleImageView) view.findViewById(R.id.civ_head);
+            mName = (TextView) view.findViewById(R.id.tv_name);
+            mTiem = (TextView) view.findViewById(R.id.tv_tiem);
+            mReply = (TextView) view.findViewById(R.id.tv_reply);
+            mReplyNameText = (TextView) view.findViewById(R.id.tv_reply_name_text);
+            mCommentNameText = (TextView) view.findViewById(R.id.tv_comment_name_text);
+            mCircleImg = (ImageView) view.findViewById(R.id.iv_circle_img);
+            mCircleName = (TextView) view.findViewById(R.id.tv_circle_name);
+            mCircleContent = (TextView) view.findViewById(R.id.tv_circle_content);
         }
     }
 

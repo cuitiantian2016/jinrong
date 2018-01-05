@@ -16,7 +16,7 @@ import java.util.List;
 public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> implements CircleMsgContract.Presenter{
 
     @Override
-    public void getCircleRevert(int rows) {//收到评论
+    public void getCircleRevert(int rows) {//收到的回复
         //22
       toSubscribe(HttpManager.getApi().getCircleRevert(SpUtil.getString(Constant.CACHE_TAG_UID), rows), new HttpSubscriber<List<CircleMsgBean>>() {
           @Override
@@ -38,7 +38,7 @@ public class CircleMsgPresenter extends BasePresenter<CircleMsgContract.View> im
     }
 
     @Override
-    public void getCircleCommentaries(int rows) {//发出的评论
+    public void getCircleCommentaries(int rows) {//收到的评论
         //22
         toSubscribe(HttpManager.getApi().getCircleCommentaries(SpUtil.getString(Constant.CACHE_TAG_UID),rows), new HttpSubscriber<List<CircleMsgBean>>() {
             @Override

@@ -1,7 +1,6 @@
 package com.honglu.future.ui.msg.circlemsg;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -10,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
-import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -24,11 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * 收到的评论
+ * 收到的回复
  * Created by zhuaibing on 2017/12/7
  */
 
@@ -119,14 +115,30 @@ public class CircleMsgHFAdapter extends BaseAdapter {
             holder.mTiem.setText("");
         }
 
-        //回复内容
-        setText(holder.mHuifuContent,circleMsgBean.replyContent);
+        //回复
+        Spannable replyNameText = getSpannableContent("回复 ", circleMsgBean.beNickName + ":", circleMsgBean.replyContent);
+        holder.mReplyNameText.setText(replyNameText);
+
+        //评论
+        Spannable commentNameText = getSpannableContent(circleMsgBean.oldNickName+":", circleMsgBean.oldReplyContent);
+        holder.mCommentNameText.setText(commentNameText);
 
         //内容
-        setText(holder.mContent,circleMsgBean.content);
+        if (TextUtils.isEmpty(circleMsgBean.picOne)){
+            holder.mCircleImg.setVisibility(View.GONE);
+        }else {
+            holder.mCircleImg.setVisibility(View.VISIBLE);
+            ImageUtil.display(circleMsgBean.picOne, holder.mCircleImg, R.mipmap.img_head);
+        }
+
+        //发帖人name
+        setText(holder.mCircleName,circleMsgBean.postNickName);
+
+        //发帖内容
+        setText(holder.mCircleContent,circleMsgBean.content);
 
         //回复按钮
-        holder.mHuifu.setOnClickListener(new View.OnClickListener() {
+        holder.mReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener !=null){
@@ -134,38 +146,30 @@ public class CircleMsgHFAdapter extends BaseAdapter {
                 }
             }
         });
-
-        //回复详情 跳转帖子详情
-        holder.mHuifuDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CircleDetailActivity.class);
-                intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleMsgBean.postUserId);
-                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(circleMsgBean.circleId));
-                mContext.startActivity(intent);
-            }
-        });
         return convertView;
     }
 
     static class ViewHolder {
-        @BindView(R.id.civ_head)
         CircleImageView mCivHead;
-        @BindView(R.id.tv_name)
         TextView mName;
-        @BindView(R.id.tv_tiem)
         TextView mTiem;
-        @BindView(R.id.tv_huifu_content)
-        TextView mHuifuContent;
-        @BindView(R.id.tv_content)
-        TextView mContent;
-        @BindView(R.id.tv_huifu)
-        TextView mHuifu;
-        @BindView(R.id.tv_huifu_detail)
-        TextView mHuifuDetail;
+        TextView mReply;
+        TextView mReplyNameText;
+        TextView mCommentNameText;
+        ImageView mCircleImg;
+        TextView mCircleName;
+        TextView mCircleContent;
 
         ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            mCivHead = (CircleImageView) view.findViewById(R.id.civ_head);
+            mName = (TextView) view.findViewById(R.id.tv_name);
+            mTiem = (TextView) view.findViewById(R.id.tv_tiem);
+            mReply = (TextView) view.findViewById(R.id.tv_reply);
+            mReplyNameText = (TextView) view.findViewById(R.id.tv_reply_name_text);
+            mCommentNameText = (TextView) view.findViewById(R.id.tv_comment_name_text);
+            mCircleImg = (ImageView) view.findViewById(R.id.iv_circle_img);
+            mCircleName = (TextView) view.findViewById(R.id.tv_circle_name);
+            mCircleContent = (TextView) view.findViewById(R.id.tv_circle_content);
         }
     }
 
@@ -177,7 +181,7 @@ public class CircleMsgHFAdapter extends BaseAdapter {
       }
     }
 
-    private Spannable getSpannableContent(String text1,String text2,String text3 ,String text4){
+    private Spannable getSpannableContent(String text1,String text2,String text3){
         int text1Start = 0;
         int text1End = getLength(text1);
 
@@ -187,23 +191,35 @@ public class CircleMsgHFAdapter extends BaseAdapter {
         int text3Start = text2End;
         int text3End = text3Start + getLength(text3);
 
-        int text4Start = text3End;
-        int text4End = text4Start + getLength(text4);
+        Spannable spannable = new SpannableString(text1+text2+text3);
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_86A2B0)), text1Start, text1End,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        Spannable spannable = new SpannableString(text1+text2+text3+text4);
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)),text2Start, text2End,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_333333)), text3Start,text3End ,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
+
+    private Spannable getSpannableContent(String text1,String text2){
+        int text1Start = 0;
+        int text1End = getLength(text1);
+
+        int text2Start = text1End;
+        int text2End = text2Start + getLength(text2);
+
+        Spannable spannable = new SpannableString(text1+text2);
         spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)), text1Start, text1End,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_333333)),text2Start, text2End,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_979899)), text3Start,text3End ,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_333333)), text4Start,text4End ,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
     }
+
+
 
     private int getLength(String text){
         return TextUtils.isEmpty(text) ? 0 : text.length();

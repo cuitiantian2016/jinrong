@@ -6,9 +6,14 @@
     android:layout_height="wrap_content"
     android:background="@color/color_white">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10dp"
+        android:background="@color/color_F7F8F9"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_35dp"
         android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
         android:layout_marginTop="@dimen/dimen_15dp"
@@ -16,93 +21,134 @@
 
         <com.honglu.future.widget.CircleImageView
             android:id="@+id/civ_head"
-            android:layout_width="@dimen/dimen_25dp"
-            android:layout_height="@dimen/dimen_25dp"
+            android:layout_width="@dimen/dimen_35dp"
+            android:layout_height="@dimen/dimen_35dp"
             tools:src="@mipmap/img_head" />
 
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:layout_weight="1"
+             android:layout_marginLeft="@dimen/dimen_10dp">
+
+             <TextView
+                 android:id="@+id/tv_name"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
+                 android:textColor="@color/color_979899"
+                 android:textSize="@dimen/dimen_13sp"
+                 android:layout_weight="1"
+                 tools:text="小牛5906"/>
+
+
+             <TextView
+                 android:id="@+id/tv_tiem"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
+                 android:textColor="@color/color_CACBCC"
+                 android:textSize="@dimen/dimen_11sp"
+                 tools:text="13:45 09-27"/>
+         </LinearLayout>
+
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/color_979899"
+            android:background="@drawable/shape_follow_008eff_btn_bg"
+            android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_13sp"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_weight="1"
-            tools:text="小牛5906"/>
-
-
-        <TextView
-            android:id="@+id/tv_tiem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/color_CACBCC"
-            android:textSize="@dimen/dimen_11sp"
-            tools:text="13:45 09-27"/>
+            android:paddingRight="@dimen/dimen_10dp"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingTop="@dimen/dimen_2dp"
+            android:paddingBottom="@dimen/dimen_2dp"
+            android:text="回复"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_huifu_content"
+        android:id="@+id/tv_reply_name_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_4dp"
         android:textColor="@color/color_333333"
         android:maxLines="3"
         android:ellipsize="end"
         android:textSize="@dimen/dimen_15sp"
-        android:layout_marginTop="@dimen/dimen_5dp"
-        tools:text="这是回复内容"/>
+        tools:text="回复 小牛2253：必须平仓啊！"/>
 
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="@dimen/dimen_50dp"
+           android:layout_marginLeft="@dimen/dimen_15dp"
            android:layout_marginRight="@dimen/dimen_15dp"
-           android:layout_marginTop="@dimen/dimen_15dp"
+           android:layout_marginTop="@dimen/dimen_8dp"
+           android:layout_marginBottom="@dimen/dimen_15dp"
            android:background="@drawable/shape_f7f8f9_2dp"
+           android:paddingRight="@dimen/dimen_10dp"
+           android:paddingLeft="@dimen/dimen_10dp"
+           android:paddingBottom="@dimen/dimen_10dp"
            android:orientation="vertical">
 
            <TextView
-               android:id="@+id/tv_content"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textSize="@dimen/dimen_13sp"
-               android:textColor="@color/color_666666"
-               android:maxLines="3"
-               android:ellipsize="end"
-               android:layout_margin="@dimen/dimen_10dp"
-               tools:text="这是内容文"/>
-
-
-           <TextView
-               android:id="@+id/tv_huifu_detail"
+               android:id="@+id/tv_comment_name_text"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textColor="@color/color_008EFF"
                android:textSize="@dimen/dimen_13sp"
-               android:layout_marginRight="@dimen/dimen_15dp"
-               android:layout_marginTop="@dimen/dimen_6dp"
-               android:layout_marginBottom="@dimen/dimen_6dp"
-               android:layout_gravity="right"
-               android:text="回复详情>>"/>
-       </LinearLayout>
+               android:maxLines="3"
+               android:ellipsize="end"
+               android:layout_marginTop="@dimen/dimen_10dp"
+               tools:text="小牛2253：需要平仓吗，兄弟们？"/>
 
-    <TextView
-        android:id="@+id/tv_huifu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_follow_008eff_btn_bg"
-        android:textColor="@color/color_008EFF"
-        android:textSize="@dimen/dimen_13sp"
-        android:layout_marginLeft="@dimen/dimen_50dp"
-        android:layout_marginTop="@dimen/dimen_15dp"
-        android:layout_marginBottom="@dimen/dimen_15dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingTop="@dimen/dimen_2dp"
-        android:paddingBottom="@dimen/dimen_2dp"
-        android:text="回复"/>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginTop="@dimen/dimen_10dp"
+               android:background="@drawable/shape_white_2dp_bg">
+
+               <ImageView
+                   android:id="@+id/iv_circle_img"
+                   android:layout_width="@dimen/dimen_68dp"
+                   android:layout_height="@dimen/dimen_68dp"
+                   tools:src="@mipmap/icon_nb_sd" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimen_10dp"
+                    android:layout_marginRight="@dimen/dimen_10dp"
+                    android:layout_marginTop="@dimen/dimen_7dp"
+                    android:layout_marginBottom="@dimen/dimen_7dp">
+
+                    <TextView
+                        android:id="@+id/tv_circle_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_323232"
+                        android:textSize="@dimen/dimen_13sp"
+                        tools:text="wahcc"/>
+
+                    <TextView
+                        android:id="@+id/tv_circle_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/dimen_11sp"
+                        android:textColor="@color/color_979899"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="这是帖子内容啊这是帖子内容这是帖子内容啊这是帖子内容"/>
+                </LinearLayout>
+
+
+           </LinearLayout>
+
+       </LinearLayout>
 
 </LinearLayout>

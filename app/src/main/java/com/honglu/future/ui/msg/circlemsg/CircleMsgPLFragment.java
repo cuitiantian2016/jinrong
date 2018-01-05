@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 发出的评论
+ * 收到的评论
  * Created by zhuaibing on 2017/12/7
  */
 
@@ -108,6 +109,18 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
                   mRows = 0;
                   mPresenter.getCircleCommentaries(0);
                   mRefreshView.finishRefresh();
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //跳转帖子详情
+                CircleMsgBean circleMsgBean = (CircleMsgBean) parent.getItemAtPosition(position);
+                Intent intent = new Intent(mContext, CircleDetailActivity.class);
+                intent.putExtra(CircleDetailActivity.POST_USER_KEY,circleMsgBean.postUserId);
+                intent.putExtra(CircleDetailActivity.CIRCLEID_KEY,String.valueOf(circleMsgBean.circleId));
+                mContext.startActivity(intent);
             }
         });
 

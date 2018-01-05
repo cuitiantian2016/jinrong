@@ -41,5 +41,15 @@ public class CircleMsgBean {
     public String userRole;
     public String hfType; // 0 没回复 1 回复 自己定义
     public String postUserId;
+    public String postAvatarPic;
+    public String postNickName; //发帖人名字
+    public String picOne; //图片
+    public String oldReplyUserId;//原评论回复用户id
+    public String oldBeReplyUserId;//原评论被回复人用户id
+    public String oldReplyContent;//原评论回复内容
+    public String oldAvatarPic;//原评论回复头像
+    public String oldNickName;//原评论回复昵称
+    public String oldBeAvatarPic;//原评论被回复头像
+    public String oldBeNickName;//原评论被回复昵称
 
 }
