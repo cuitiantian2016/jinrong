@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
 import com.honglu.future.ui.circle.circledetail.CircleDetailActivity;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.TimeUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -144,6 +146,20 @@ public class CircleMsgPLAdapter extends BaseAdapter{
                 if (mListener !=null){
                     mListener.onHuifuClick(position);
                 }
+            }
+        });
+
+        holder.mCivHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
+                Intent intent = new Intent(mContext, CircleMineActivity.class);
+                intent.putExtra("userId", String.valueOf(circleMsgBean.replyUserId));
+                intent.putExtra("imgHead", ConfigUtil.baseImageUserUrl+ circleMsgBean.avatarPic);
+                intent.putExtra("nickName", circleMsgBean.nickName);
+                mContext.startActivity(intent);
             }
         });
         return convertView;
