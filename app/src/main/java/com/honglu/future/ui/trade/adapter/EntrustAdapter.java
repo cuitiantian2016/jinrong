@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolder, EntrustBean> {
     public interface OnCancelClickListener {
         void onCancelClick(EntrustBean bean);
+        void onUpdateClick(EntrustBean bean);
     }
 
     private OnCancelClickListener mListener;
@@ -63,6 +64,12 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
                 mListener.onCancelClick(getData().get(position));
             }
         });
+        holder.mTvUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onUpdateClick(getData().get(position));
+            }
+        });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,6 +91,8 @@ public class EntrustAdapter extends BaseRecyclerAdapter<EntrustAdapter.ViewHolde
         TextView mBtnEntrust;
         @BindView(R.id.tv_chedan)
         TextView mTvChedan;
+        @BindView(R.id.tv_update)
+        TextView mTvUpdate;
 
 
         ViewHolder(View view) {
