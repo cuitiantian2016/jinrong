@@ -153,7 +153,8 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
                 CircleMsgBean circleMsgBean = mAdapter.getCircleBean(mPosition);
                 if (circleMsgBean !=null){
                     mSend.setEnabled(false);
-                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),String.valueOf(circleMsgBean.circleId),contnet,String.valueOf(circleMsgBean.replyUserId),2,SpUtil.getString(Constant.CACHE_TAG_USERNAME),circleMsgBean.postUserId);
+                    mPresenter.getCommentContent(SpUtil.getString(Constant.CACHE_TAG_UID),String.valueOf(circleMsgBean.circleId),contnet,String.valueOf(circleMsgBean.replyUserId),
+                            2,SpUtil.getString(Constant.CACHE_TAG_USERNAME),circleMsgBean.postUserId,String.valueOf(circleMsgBean.circleReplyId),String.valueOf(circleMsgBean.circleReplyId));
                 }
             }
         });
@@ -206,7 +207,7 @@ public class CircleMsgPLFragment extends BaseFragment<CircleMsgPresenter> implem
 
     //评论回复
     @Override
-    public void getCommentContent(JsonNull jsonNull, int replyType) {
+    public void getCommentContent(String circleReplyId, int replyType) {
         mSend.setEnabled(true);
         CircleMsgBean circleBean = mAdapter.getCircleBean(mPosition);
         mInput.setHint(R.string.circle_input_hint);

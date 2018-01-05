@@ -51,5 +51,7 @@ public class CircleMsgBean {
     public String oldNickName;//原评论回复昵称
     public String oldBeAvatarPic;//原评论被回复头像
     public String oldBeNickName;//原评论被回复昵称
+    public String fatherCircleReplyId;
+    public String layCircleReplyId;
 
 }
