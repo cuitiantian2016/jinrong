@@ -165,6 +165,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             }
             if (currentPosition == 1) {
                 mPositionFragment.startRun();
+            } else if(currentPosition == 0){
+                mMarketFragment.startPush();
             }
         }
     }
