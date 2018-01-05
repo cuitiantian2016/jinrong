@@ -1,6 +1,7 @@
 package com.honglu.future.ui.home.fragment;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.honglu.future.R;
@@ -8,6 +9,8 @@ import com.honglu.future.base.BaseFragment;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.LoginEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
@@ -35,6 +38,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.home_smart_view)
     SmartRefreshLayout mSmartRefreshView; //刷新
     public static HomeFragment homeFragment;
+    private BannerViewModel bannerViewModel;
 
     public static HomeFragment getInstance() {
         if (homeFragment == null) {
@@ -88,6 +92,19 @@ public class HomeFragment extends BaseFragment {
             homeBottomTabViewModel.refreshData();
         }
     }
+    /*******
+     * 将事件交给事件派发controller处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(RefreshUIEvent event) {
+        if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){//显示
+            bannerViewModel.v_red.setVisibility(View.VISIBLE);
+        }else  if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){//点击
+            bannerViewModel.v_red.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -135,7 +152,7 @@ public class HomeFragment extends BaseFragment {
     private HomeMarketPriceViewModel homeMarketPriceViewModel;
 
     private void initView() {
-        BannerViewModel bannerViewModel = new BannerViewModel(getContext());
+        bannerViewModel = new BannerViewModel(getContext());
         homeMarketPriceViewModel = new HomeMarketPriceViewModel(getContext());
         HorizontalIconViewModel horizontalIconViewModel = new HorizontalIconViewModel(getContext());
         homeBottomTabViewModel = new HomeBottomTabViewModel(getContext(), mSmartRefreshView);

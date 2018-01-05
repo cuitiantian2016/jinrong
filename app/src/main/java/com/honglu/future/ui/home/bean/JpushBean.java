@@ -13,7 +13,7 @@ public class JpushBean {
 
     private String url;
     private String from;
-    private String type;
+    public boolean type;//true为显示小红点
     private String jump;
 
     public String getUrl() {
@@ -30,13 +30,6 @@ public class JpushBean {
 
     public void setFrom(String from) {
         this.from = from;
-    }
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getJump() {

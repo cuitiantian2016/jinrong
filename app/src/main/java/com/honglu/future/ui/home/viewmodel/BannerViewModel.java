@@ -40,11 +40,13 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
 
     private AutoFlingBannerAdapter mAutoFlingBannerAdapter;
     private final Banner mBanner;
+    public View v_red;
 
     public BannerViewModel(Context context) {
         mContext = context;
         mView = View.inflate(context, R.layout.view_modle_banner, null);
         mBanner = (Banner) mView.findViewById(R.id.banner);
+        v_red = mView.findViewById(R.id.v_red);
         mView.findViewById(R.id.rl_home_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
