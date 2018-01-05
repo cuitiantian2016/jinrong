@@ -276,13 +276,13 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 EventBus.getDefault().post(new FragmentRefreshEvent(code));
 
             } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {//红点显示
-                int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
-                if (tag != 1) {// 1显示红点
-                    mRbCircle.setTag(1);
-                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal_red), null, null);
-                }
+//                int tag = mRbCircle.getTag() != null ? (Integer) mRbCircle.getTag() : 0;
+//                if (tag != 1) {// 1显示红点
+//                    mRbCircle.setTag(1);
+//                    mRbCircle.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_menu_5_normal_red), null, null);
+//                }
             } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {//红点隐藏
-                hideRedMsg();
+//                hideRedMsg();
             }
         } else if (event instanceof ChangeTabMainEvent) {
             if (((ChangeTabMainEvent) event).getTab().equals(FragmentFactory.FragmentStatus.Trade)) {
