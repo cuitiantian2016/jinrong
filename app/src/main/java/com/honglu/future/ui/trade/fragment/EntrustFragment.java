@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +17,6 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
-import com.honglu.future.dialog.trade.StopLossDialog;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
@@ -27,7 +25,6 @@ import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.adapter.EntrustAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
-import com.honglu.future.ui.trade.bean.ConfirmBean;
 import com.honglu.future.ui.trade.bean.EntrustBean;
 import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.contract.EntrustContract;
@@ -80,7 +77,6 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
 
     private BillConfirmDialog billConfirmDialog;
     private AccountLoginDialog mAccountLoginDialog;
-    private StopLossDialog mStopLossDialog;
     private AccountPresenter mAccountPresenter;
     private EntrustAdapter mEntrustAdapter;
     private boolean mIsShowFilter;
@@ -172,7 +168,6 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                getPositionList();
             }
         });
-        mStopLossDialog = StopLossDialog.getInstance(mActivity);
     }
 
     private void getPositionList() {
@@ -341,7 +336,7 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     @Override
     public void onUpdateClick(EntrustBean bean) {
         // TODO: 2018/1/5 修改止盈止损委托单
-        mStopLossDialog.show();
+
     }
 
     @Override
