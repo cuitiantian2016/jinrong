@@ -303,21 +303,21 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
             // 先计算一手保证金的金额
             double oneSlBZj = 0;
             if (mIsStopChangePrice) {
-                mTvBzjCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getLongMarginRatioByMoney());
+                mTvBzjCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue()*100)+"%");
                 oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
             } else {
                 if (mBuyType.equals("1")) {//买跌
 //                if (TextUtils.isEmpty(mProductListBean.getLongMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getLongMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getLongMarginRatioByVolume());
 //                } else {
-                    mTvBzjCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getShortMarginRatioByMoney());
+                    mTvBzjCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getShortMarginRatioByMoney()).doubleValue()*100)+"%");
                     oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 } else {//买涨
 //                if (TextUtils.isEmpty(mProductListBean.getShortMarginRatioByMoney()) || Double.parseDouble(mProductListBean.getShortMarginRatioByMoney()) == 0) {
 //                    oneSlBZj = Double.parseDouble(mProductListBean.getShortMarginRatioByVolume());
 //                } else {
-                    mTvBzjCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + mProductListBean.getLongMarginRatioByMoney());
+                    mTvBzjCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + String.valueOf(mProductListBean.getVolumeMultiple()) + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue()*100)+"%");
                     oneSlBZj = NumberUtil.multiply(new BigDecimal(mProductListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
 //                }
                 }
@@ -334,14 +334,14 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
                     //国富
                     if (mIsStopChangePrice) {
-                        mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                        mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                         oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                     } else {
                         if (mBuyType.equals("1")) {//买跌
-                            mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
-                            mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         }
                     }
@@ -354,14 +354,14 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                         oneSlSXF = new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue();
                     } else {
                         if (mIsStopChangePrice) {
-                            mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                            mTvSxfCal.setText(mPrice.getText().toString().trim() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                             oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mPrice.getText().toString().trim()).doubleValue()) * mProductListBean.getVolumeMultiple();
                         } else {
                             if (mBuyType.equals("1")) {//买跌
-                                mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                                mTvSxfCal.setText(mProductListBean.getBidPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getBidPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             } else {
-                                mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + mProductListBean.getOpenRatioByMoney());
+                                mTvSxfCal.setText(mProductListBean.getAskPrice1() + "x" + String.valueOf(shouShu) + "x" + mProductListBean.getVolumeMultiple() + "x" + NumberUtil.moveLast0(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue()*10000)+"%%");
                                 oneSlSXF = NumberUtil.multiply(new BigDecimal(mProductListBean.getOpenRatioByMoney()).doubleValue(), new BigDecimal(mProductListBean.getAskPrice1()).doubleValue()) * mProductListBean.getVolumeMultiple();
                             }
                         }

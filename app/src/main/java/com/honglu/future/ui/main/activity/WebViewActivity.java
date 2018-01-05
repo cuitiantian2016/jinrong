@@ -264,6 +264,8 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 data.company = "MEIERYA";
             }else if ("0101".equals(brokerId)){
                 data.company = "GUOFU";
+            } else if("0127".equals(brokerId)){
+                data.company = "DONGFANG";
             }
             maidianBean.data = data;
             MaidianBean.postMaiDian(maidianBean);
