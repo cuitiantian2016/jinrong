@@ -700,7 +700,8 @@ public interface HttpApi {
             @Field("postUserId") String postUserId,
             @Field("userId") String userId,
             @Field("praiseFlag") boolean praiseFlag,
-            @Field("circleId") String circleId);
+            @Field("circleId") String circleId,
+            @Field("nickName") String nickName);
 
     /**
      * 加载我的关注列表

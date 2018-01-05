@@ -480,7 +480,7 @@ public class BBSAdapter extends BaseAdapter {
      */
     private void declareForTopicThread(final LinearLayout self, final BBS item) {
         self.setEnabled(false);
-        HttpManager.getApi().praise(item.uid, SpUtil.getString(Constant.CACHE_TAG_UID), true, item.topic_id).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+        HttpManager.getApi().praise(item.uid, SpUtil.getString(Constant.CACHE_TAG_UID), true, item.topic_id,SpUtil.getString(Constant.CACHE_TAG_USERNAME)).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onNext(JsonNull jsonNull) {
                 super._onNext(jsonNull);

@@ -103,7 +103,7 @@ public class ThumbsListFragment extends BaseFragment {
                 return;
             }
             String uid = SpUtil.getString(Constant.CACHE_TAG_UID);
-            HttpManager.getApi().praise(uid,uid,true,mTopicId).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            HttpManager.getApi().praise(uid,uid,true,mTopicId,SpUtil.getString(Constant.CACHE_TAG_USERNAME)).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
                 @Override
                 protected void _onNext(JsonNull jsonNull) {
                     super._onNext(jsonNull);

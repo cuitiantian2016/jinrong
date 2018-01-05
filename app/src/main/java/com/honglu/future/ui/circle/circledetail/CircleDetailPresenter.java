@@ -2,11 +2,13 @@ package com.honglu.future.ui.circle.circledetail;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.circle.bean.CircleDetailBean;
 import com.honglu.future.ui.circle.bean.CommentAllBean;
 import com.honglu.future.ui.circle.bean.CommentBean;
+import com.honglu.future.util.SpUtil;
 
 import java.util.List;
 
@@ -103,7 +105,7 @@ public class CircleDetailPresenter extends BasePresenter<CircleDetailContract.Vi
     //点赞
     @Override
     public void getCirlePraise(String postUserId, String userId, boolean praiseFlag, String circleId) {
-        toSubscribe(HttpManager.getApi().praise(postUserId,userId,praiseFlag,circleId), new HttpSubscriber<JsonNull>() {
+        toSubscribe(HttpManager.getApi().praise(postUserId,userId,praiseFlag,circleId,SpUtil.getString(Constant.CACHE_TAG_USERNAME)), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onStart() {
                 mView.showLoading("点赞中...");
