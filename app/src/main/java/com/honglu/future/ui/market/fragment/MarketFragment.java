@@ -140,6 +140,14 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         }
     }
 
+    public void startPush(){
+        requestMarket(mPushCode);
+        if (mHttpState == 0 || mHttpState==2 && mPresenter != null) {
+            mHttpState = 1;
+            mPresenter.getMarketData();
+        }
+    }
+
     /*******
      * 将事件交给事件派发controller处理
      *
