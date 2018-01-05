@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.service.PathReplaceService;
 import com.honglu.future.config.Constant;
+import com.honglu.future.ui.main.activity.MainActivity;
 import com.honglu.future.util.SpUtil;
 
 /**
@@ -28,6 +29,10 @@ public class PathReplaceServiceImpl implements PathReplaceService {
 
     @Override
     public Uri forUri(Uri uri) {
+        if (!MainActivity.isStart){
+            String url = "xiaoniuqihuo://future/future/main?uri"+"=" + Uri.encode(uri.toString());
+            return Uri.parse(url);
+        }
         String isLogin = uri.getQueryParameter("isLogin");
         if (Boolean.parseBoolean(isLogin)){
             String userID = SpUtil.getString(Constant.CACHE_TAG_UID);

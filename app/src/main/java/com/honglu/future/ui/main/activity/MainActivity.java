@@ -3,6 +3,7 @@ package com.honglu.future.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -65,6 +67,8 @@ import cn.jpush.android.api.JPushInterface;
  */
 @Route(path = "/future/main")
 public class MainActivity extends BaseActivity<ActivityPresenter> implements ActivityContract.View {
+
+    public static boolean isStart = false;
     @BindView(R.id.container)
     FrameLayout mContainer;
     @BindView(R.id.group)
@@ -75,6 +79,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public int select;
     @Autowired(name = "redirect")
     public String redirect;
+    @Autowired(name = "uri")
+    public String uri;
     @Autowired(name = "isTrade")
     public int isTrade = -1;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
@@ -101,7 +107,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+        isStart = true;
         if (savedInstanceState != null) {
             savedInstanceState = null;
         }
@@ -135,7 +141,15 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         if (intent != null) {
             select = intent.getIntExtra("select", 0);
             redirect = intent.getStringExtra("redirect");
+            uri = intent.getStringExtra("uri");
             isTrade = intent.getIntExtra("isTrade",-1);
+        }
+        if (!TextUtils.isEmpty(uri)){
+            Log.d("MAIN","URI------->"+uri);
+            MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
+            check(FragmentFactory.FragmentStatus.Home);
+            ARouter.getInstance().build(Uri.parse(uri)).navigation(this);
+            return;
         }
         if (this.select == 0) {
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
@@ -352,6 +366,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isStart = false;
         App.mApp.setIsMainDestroy(true);
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().AppExit(this);
