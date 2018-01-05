@@ -105,8 +105,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_market), mContext.getString(R.string.trade_market_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_hold), mContext.getString(R.string.trade_hold_type)));
-        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed), mContext.getString(R.string.trade_closed_type)));
         mTabList.add(new TabEntity(mContext.getString(R.string.trade_agent), mContext.getString(R.string.trade_agent_type)));
+        mTabList.add(new TabEntity(mContext.getString(R.string.trade_closed), mContext.getString(R.string.trade_closed_type)));
     }
 
     private void addFragments() {

@@ -141,10 +141,15 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     }
 
     public void startPush(){
-        requestMarket(mPushCode);
-        if (mHttpState == 0 || mHttpState==2 && mPresenter != null) {
-            mHttpState = 1;
-            mPresenter.getMarketData();
+        mPosition = 1;
+        clickTab(1);
+        if (mFragments != null && mFragments.size() > 0) {
+            MarketItemFragment fragment = (MarketItemFragment) mFragments.get(1);
+            fragment.setOnAddAptionalListener(MarketFragment.this);
+            mPushCode = fragment.getPushCode();
+            mTabSelectType = fragment.getTabSelectType();
+            requestMarket(mPushCode);
+            fragment.getRealTimeData();
         }
     }
 

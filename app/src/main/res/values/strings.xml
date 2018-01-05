@@ -125,8 +125,8 @@
     <string name="trade_market">行情</string>
     <string name="trade_build">建仓</string>
     <string name="trade_hold">持仓</string>
-    <string name="trade_closed">已平仓</string>
-    <string name="trade_agent">委托中</string>
+    <string name="trade_closed">成交</string>
+    <string name="trade_agent">委托</string>
     <string name="trade_market_type">hangqing</string>
     <string name="trade_build_type">jiancang</string>
     <string name="trade_hold_type">chicang</string>
