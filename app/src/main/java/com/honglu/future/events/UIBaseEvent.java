@@ -23,6 +23,7 @@ public class UIBaseEvent {
     public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML = 31;//首页图标跳转交易主力合约
     public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI = 29;//首页图标跳转交易主力合约
     public final static int EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZX = 30;//首页图标跳转交易自选
+    public final static int EVENT_HOME_REFRESH = 32;//首页最新消息刷新
 
     private String code;
     private String message;

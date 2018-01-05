@@ -9,6 +9,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.CommentEvent;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
+import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.honglu.future.events.UIBaseEvent.EVENT_HOME_REFRESH;
 
 /**
  * deprecation:海豚专栏
@@ -116,6 +119,16 @@ public class NewsColumnFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ClickPraiseEvent event) {
         praise(event.position);
+    }
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(RefreshUIEvent event) {
+      if (event.getType() == EVENT_HOME_REFRESH){
+          refresh();
+      }
     }
 
 

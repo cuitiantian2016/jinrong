@@ -30,6 +30,7 @@ import cn.jpush.android.api.JPushInterface;
 public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
     public static final String CIRCLE_DETAIL_URL = "xiaoniuqihuo://future/circle/Detail";
+    public static final String NEW_DETAIL_URL = "xiaoniuqihuo://future/future/newsdetail";//新闻消息推送到来了
     private static String url = "";
     private static String jump = "";
 
@@ -61,9 +62,12 @@ public class JPushReceiver extends BroadcastReceiver {
                 url = jpushBean.getUrl();
                 jump = jpushBean.getJump();
                 if (!App.mApp.isMainDestroy()
-                        && !TextUtils.isEmpty(jump)
-                        && jump.startsWith(CIRCLE_DETAIL_URL)){
-                    EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY));
+                        && !TextUtils.isEmpty(jump)){
+                    if (jump.startsWith(CIRCLE_DETAIL_URL)){
+                        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY));
+                    }else if (jump.startsWith(NEW_DETAIL_URL)){
+                        EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_REFRESH));
+                    }
                 }
                 Log.d(TAG, "=====onReceive: jump--->" + jump + "url--->" + url);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

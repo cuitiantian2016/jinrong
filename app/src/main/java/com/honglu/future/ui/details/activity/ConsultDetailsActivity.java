@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -68,6 +70,7 @@ import static com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils.comp
  * Created by hc on 2017/10/24.
  */
 
+@Route(path = "/future/newsdetail")
 public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter> implements ConsultDetailsContract.View {
     private static final String KEY_MESSAGE_ITEM = "KEY_MESSAGE_ITEM";
     WebView mContentWv;
@@ -91,10 +94,12 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     EditText mInputEdit;
     @BindView(R.id.btn_publish)
     TextView mPublishBtn;
-    private String informationId;
+    @Autowired(name = "informationId")
+    public String informationId;
     private int praiseCounts;
     private int commentNum;
-    private int mPosition;
+    @Autowired(name = "position")
+    public int mPosition;
     private TopicAdapter mTopicAdapter;
     private boolean isRefrsh;
     private boolean isComm;
@@ -188,32 +193,35 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         Intent intent = getIntent();
         if (intent!=null){
             HomeMessageItem item = (HomeMessageItem) intent.getSerializableExtra(KEY_MESSAGE_ITEM);
-            if (item ==null){
-                return;
-            }
-            ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
-            ImageUtil.display(ConfigUtil.baseImageUserUrl+ item.userAvatar, mUserIcon, R.mipmap.img_head);
-            mTvTitle.setText(item.title);
-            shareTitle = item.title;
-            homePic = item.homePic;
-            mPosition = item.position;
-            mTvName.setText(item.nickname);
-            mTopicAdapter.setNickName(item.nickname);
-            mTvPosition.setText(item.userRole);
-            commentNum = item.commentNum;
-            mTvComment.setText(commentNum+ "条评论");
-            pinglun_num.setText(""+commentNum);
-            praiseCounts = item.praiseCounts;
-            mTvSupportNum.setText(praiseCounts+"人点赞");
-            if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
-                mTvTime.setText(computingTime(item.showTime));
-            }
-            informationId = item.informationId;
-            mPresenter.getMessageData(informationId);
-            if (item.isPraise>0){
-                mSupportIv.setImageResource(R.mipmap.icon_support_click);
+            if (item !=null) {
+                ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
+                ImageUtil.display(ConfigUtil.baseImageUserUrl + item.userAvatar, mUserIcon, R.mipmap.img_head);
+                mTvTitle.setText(item.title);
+                shareTitle = item.title;
+                homePic = item.homePic;
+                mPosition = item.position;
+                mTvName.setText(item.nickname);
+                mTopicAdapter.setNickName(item.nickname);
+                mTvPosition.setText(item.userRole);
+                commentNum = item.commentNum;
+                mTvComment.setText(commentNum + "条评论");
+                pinglun_num.setText("" + commentNum);
+                praiseCounts = item.praiseCounts;
+                mTvSupportNum.setText(praiseCounts + "人点赞");
+                if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
+                    mTvTime.setText(computingTime(item.showTime));
+                }
+                informationId = item.informationId;
+                mPresenter.getMessageData(informationId);
+                if (item.isPraise > 0) {
+                    mSupportIv.setImageResource(R.mipmap.icon_support_click);
+                } else {
+                    mSupportIv.setImageResource(R.mipmap.icon_support_normal);
+                }
             }else {
-                mSupportIv.setImageResource(R.mipmap.icon_support_normal);
+                informationId = getIntent().getStringExtra("informationId");
+                mPosition = getIntent().getIntExtra("position",0);
+                mPresenter.getMessageData(informationId);
             }
         }
         mSupportIv.setOnClickListener(new View.OnClickListener() {
@@ -314,6 +322,27 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     @Override
     public void bindData(ConsultDetailsBean bean) {
         isRefrsh = true;
+        ImageUtil.display(bean.homePic, mImageHead, R.mipmap.other_empty);
+        ImageUtil.display(ConfigUtil.baseImageUserUrl+ bean.userAvatar, mUserIcon, R.mipmap.img_head);
+        mTvTitle.setText(bean.title);
+        shareTitle = bean.title;
+        homePic = bean.homePic;
+        mTvName.setText(bean.nickname);
+        mTopicAdapter.setNickName(bean.nickname);
+        mTvPosition.setText(bean.userRole);
+        commentNum = bean.commentNum;
+        mTvComment.setText(commentNum+ "条评论");
+        pinglun_num.setText(""+commentNum);
+        praiseCounts = bean.praiseCounts;
+        mTvSupportNum.setText(praiseCounts+"人点赞");
+        if (!TextUtils.isEmpty(bean.showTime) && bean.showTime.length() > 16) {
+            mTvTime.setText(computingTime(bean.showTime));
+        }
+        if (bean.isPraise>0){
+            mSupportIv.setImageResource(R.mipmap.icon_support_click);
+        }else {
+            mSupportIv.setImageResource(R.mipmap.icon_support_normal);
+        }
         mPresenter.getReplyList(informationId);
         //设置字体大小
         WebSettings webSettings = mContentWv.getSettings();
