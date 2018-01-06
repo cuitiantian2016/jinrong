@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.ui.usercenter.bean.TaskBean;
+import com.honglu.future.util.AndroidUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -132,12 +133,11 @@ public class TaskFragment extends BaseFragment {
                 }
             }
         });
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_circle_friend_head, null);
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
-        listView.addHeaderView(headView);
         listView.setEmptyView(mLLEmpty);
         mAdapter = new TaskAdapter();
         listView.setAdapter(mAdapter);
+        listView.setDividerHeight(AndroidUtil.dip2px(getContext(), 10));
         getFriendList(true);
     }
 

@@ -49,21 +49,23 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
 
     class ViewHolder {
         TextView tv_title, tv_content;
-        ImageView iv_attention;
+        TextView iv_attention;
         View mLine;
+        View image_dengbao;
 
         public ViewHolder(View convertView) {
             tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             tv_content = (TextView) convertView.findViewById(R.id.tv_content);
-            iv_attention = (ImageView) convertView.findViewById(R.id.iv_complete);
+            iv_attention = (TextView) convertView.findViewById(R.id.iv_complete);
+            image_dengbao = convertView.findViewById(R.id.image_dengbao);
             mLine = convertView.findViewById(R.id.v_line);
         }
 
         public void bindView(final TaskBean item, final View mContext, final int position) {
             tv_title.setText(item.title);
             tv_content.setText(item.content);
-            int resId = item.isComplete() ? R.mipmap.already_recommend : R.mipmap.add_recommend;
-            iv_attention.setImageResource(resId);
+            iv_attention.setEnabled(!item.isComplete());
+            image_dengbao.setVisibility(item.isShowDengBao() ? View.VISIBLE : View.GONE);
             iv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
