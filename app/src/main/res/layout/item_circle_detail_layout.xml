@@ -116,7 +116,7 @@
               android:textColor="@color/color_008EFF"
               android:layout_marginRight="@dimen/dimen_9dp"
               android:layout_marginLeft="@dimen/dimen_9dp"
-              android:drawableRight="@mipmap/ic_right_blue_arrow"
+              android:drawableRight="@mipmap/ic_right_blue_small_arrow"
               tools:text="共6条回复"/>
       </LinearLayout>
 
