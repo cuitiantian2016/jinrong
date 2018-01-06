@@ -79,15 +79,10 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                 mRefreshView.finishRefresh();
             }
         });
+
+        mPresenter.getHasUnreadMsg(SpUtil.getString(Constant.CACHE_TAG_UID));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mPresenter !=null) {
-            mPresenter.getHasUnreadMsg(SpUtil.getString(Constant.CACHE_TAG_UID));
-        }
-    }
 
     @OnClick({R.id.ll_msg_trade, R.id.ll_msg_system,R.id.ll_msg_comment,R.id.ll_msg_praise})
     public void onClick(View v) {
