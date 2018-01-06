@@ -180,7 +180,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
-            mTvBuildDate.setText(bean.createTime);
+            mTvBuildDate.setText(bean.cancelTime);
         }
 
         void bindView(HistoryClosePositionBean bean) {
