@@ -1,18 +1,18 @@
 package com.honglu.future.ui.live.player;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.widget.CircleImageView;
@@ -28,6 +28,7 @@ public class LiveInfoFragment extends Fragment {
     private TextView teacherInfo;
     private TextView liveInfo;
     private LiveListBean liveBean;
+    private CircleImageView mHead;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,19 @@ public class LiveInfoFragment extends Fragment {
         name = (TextView) mView.findViewById(R.id.tv_teacher_name);
         teacherInfo = (TextView) mView.findViewById(R.id.tv_teacher_content);
         liveInfo = (TextView) mView.findViewById(R.id.tv_live_content);
+        mHead = (CircleImageView) mView.findViewById(R.id.iv_teacher_head);
+        mHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(liveBean!=null) {
+                    Intent intent = new Intent(getActivity(), CircleMineActivity.class);
+                    intent.putExtra("userId", liveBean.liveTeacherID);
+                    intent.putExtra("imgHead",liveBean.liveTeacherICon);
+                    intent.putExtra("nickName", liveBean.liveTeacher);
+                    startActivity(intent);
+                }
+            }
+        });
         return mView;
     }
 

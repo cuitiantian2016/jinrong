@@ -295,9 +295,15 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                     }
                     break;
                 case R.id.rb_live:
-                    toTabIndex = FragmentFactory.FragmentStatus.Live;
-                    oldTabId = oldCheckId = R.id.rb_live;
-                    changeTab(FragmentFactory.FragmentStatus.Live);
+                    if (App.getConfig().getLoginStatus()) {
+                        toTabIndex = FragmentFactory.FragmentStatus.Live;
+                        oldTabId = oldCheckId = R.id.rb_live;
+                        changeTab(FragmentFactory.FragmentStatus.Live);
+                    } else {
+                        startActivity(LoginActivity.class);
+                        ((RadioButton) findViewById(oldTabId)).setChecked(true);
+                        toTabIndex = FragmentFactory.FragmentStatus.Live;
+                    }
                     break;
                 case R.id.rb_account:
 //                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);

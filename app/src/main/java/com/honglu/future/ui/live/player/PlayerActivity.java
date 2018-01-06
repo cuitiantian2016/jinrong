@@ -98,6 +98,7 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
 
     private AudioManager manager;
     private boolean bJoinSuccess = false;
+    private LiveListBean mLiveBean;
 
     private Intent serviceIntent;
 
@@ -231,6 +232,8 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
     }
 
     public void initWidget() {
+        Bundle bundle = getIntent().getExtras();
+        mLiveBean = (LiveListBean) bundle.getSerializable("liveBean");
         topFrameLayout = (FrameLayout) findViewById(R.id.top_framelayout);
         midtabsLayout = (LinearLayout) findViewById(R.id.ly_midtabs);
         rlBottom = findViewById(R.id.top3_rl);
@@ -263,15 +266,13 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
     }
 
     private void setInitParam() {
-        Bundle bundle = getIntent().getExtras();
-        LiveListBean bean = (LiveListBean) bundle.getSerializable("liveBean");
-        mTvRoomName.setText(bean.liveTitle);
-        mLiveInfoFragment.setLiveInfo(bean);
-        String domain = bean.domainUrl;
-        String number = bean.chatRoomId;
+        mTvRoomName.setText(mLiveBean.liveTitle);
+        mLiveInfoFragment.setLiveInfo(mLiveBean);
+        String domain = mLiveBean.domainUrl;
+        String number = mLiveBean.chatRoomId;
         String nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
-        String joinPwd = bean.roomJoinPassword;
-        mRoomId = bean.chatRoomId;
+        String joinPwd = mLiveBean.roomJoinPassword;
+        mRoomId = mLiveBean.chatRoomId;
         if ("".equals(domain) || "".equals(number) || "".equals(nickName)) {
             ToastUtil.show("域名/编号/昵称 都不能为空");
             return;
