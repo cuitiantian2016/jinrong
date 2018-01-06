@@ -9,22 +9,31 @@
 
     <include  layout="@layout/layout_toolbar"/>
 
-    <com.honglu.future.widget.kchart.SlidingTabLayout
-        android:id="@+id/ly_tabs"
+    <com.honglu.future.widget.tab.CommonTabLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/reward_record_tab"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_48dp"
-        app:tl_indicator_color="@color/color_ff9300"
-        app:tl_indicator_corner_radius="@dimen/dimen_1dp"
-        app:tl_indicator_height="@dimen/dimen_2dp"
-        app:tl_indicator_width="140dp"
-        app:tl_tab_space_equal="true"
-        app:tl_textSelectColor="@color/color_ff9300"
+        android:layout_height="@dimen/dimen_50dp"
+        app:tl_iconVisible="false"
+        app:tl_indicator_width="@dimen/dimen_20dp"
+        app:tl_indicator_anim_duration="400"
+        app:tl_indicator_anim_enable="true"
+        app:tl_indicator_corner_radius="2dp"
+        app:tl_indicator_color="@color/color_008EFF"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="@dimen/dimen_3dp"
+        app:tl_indicator_style="NORMAL"
+        app:tl_special_select_color_blue="true"
+        app:tl_textSelectColor="@color/color_008EFF"
         app:tl_textUnselectColor="@color/color_323232"
-        app:tl_textsize="@dimen/dimen_14sp"
-        app:tl_underline_height="@dimen/dimen_1dp_half" />
+        android:background="@color/color_white"
+        app:tl_textsize="@dimen/dimen_16sp"
+        app:tl_textBold="BOTH"
+        app:tl_underline_color="@color/color_F7F8F9"
+        app:tl_underline_height="@dimen/dimen_1dp_half"  />
 
-    <com.honglu.future.widget.kchart.ViewPagerEx
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
