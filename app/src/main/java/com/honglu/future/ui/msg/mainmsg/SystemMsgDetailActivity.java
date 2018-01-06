@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.util.ToastUtil;
 
@@ -85,4 +86,9 @@ public class SystemMsgDetailActivity extends BaseActivity implements MainMsgCont
         }
     }
 
+
+    @Override
+    public void hasUnreadMsg(HasUnreadMsgBean bean) {
+
+    }
 }

@@ -6,8 +6,11 @@ import android.view.View;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
+import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.circlemsg.CircleMsgActivity;
 import com.honglu.future.ui.msg.praisemsg.PraiseMsgActivity;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -72,10 +75,18 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                mPresenter.getHasUnreadMsg(SpUtil.getString(Constant.CACHE_TAG_UID));
                 mRefreshView.finishRefresh();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPresenter !=null) {
+            mPresenter.getHasUnreadMsg(SpUtil.getString(Constant.CACHE_TAG_UID));
+        }
     }
 
     @OnClick({R.id.ll_msg_trade, R.id.ll_msg_system,R.id.ll_msg_comment,R.id.ll_msg_praise})
@@ -83,16 +94,57 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
         switch (v.getId()) {
             case R.id.ll_msg_system://系统通知
                 startActivity(SystemMsgActivity.class);
+                mMsgSystemRed.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_msg_trade://交易提醒
                 startActivity(TradeMsgActivity.class);
+                mMsgTradeRed.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_msg_comment: //评论回复
                 startActivity(CircleMsgActivity.class);
+                mMsgCommentRed.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_msg_praise: //赞
                 startActivity(PraiseMsgActivity.class);
+                mMsgPraiseRed.setVisibility(View.INVISIBLE);
                 break;
         }
+    }
+
+
+
+
+    @Override
+    public void hasUnreadMsg(HasUnreadMsgBean bean) {
+         if (bean !=null){
+
+             //交易红点
+             if (bean.transMsgNoticeFlag){
+                 mMsgTradeRed.setVisibility(View.VISIBLE);
+             }else {
+                 mMsgTradeRed.setVisibility(View.INVISIBLE);
+             }
+
+             //评论回复红点
+             if (bean.commentAndReplyMsgNoticeFlag){
+                 mMsgCommentRed.setVisibility(View.VISIBLE);
+             }else {
+                 mMsgCommentRed.setVisibility(View.INVISIBLE);
+             }
+
+             //点赞红点
+             if (bean.praiseMsgNoticeFlag){
+                 mMsgPraiseRed.setVisibility(View.VISIBLE);
+             }else {
+                 mMsgPraiseRed.setVisibility(View.INVISIBLE);
+             }
+
+             //系统通知
+             if (bean.sysMsgNoticeFlag){
+                 mMsgSystemRed.setVisibility(View.VISIBLE);
+             }else {
+                 mMsgSystemRed.setVisibility(View.INVISIBLE);
+             }
+         }
     }
 }

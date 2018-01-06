@@ -13,6 +13,7 @@ import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.msg.adapter.SystemMsgAdapter;
 import com.honglu.future.ui.msg.adapter.TradeMsgAdapter;
+import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.ui.msg.bean.TradeMsgBean;
 import com.honglu.future.util.AndroidUtil;
@@ -160,4 +161,10 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
     }
 
 
+
+
+    @Override
+    public void hasUnreadMsg(HasUnreadMsgBean bean) {
+
+    }
 }

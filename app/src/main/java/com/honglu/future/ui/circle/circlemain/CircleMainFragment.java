@@ -30,6 +30,7 @@ import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.circle.publish.PublishActivity;
 import com.honglu.future.ui.msg.circlemsg.CircleMsgActivity;
 import com.honglu.future.ui.main.activity.MainActivity;
+import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.SpUtil;
@@ -348,7 +349,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 //隐藏main 红点
                 EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
                 //跳转消息
-                startActivity(new Intent(getActivity(), CircleMsgActivity.class));
+                startActivity(new Intent(getActivity(), MainMsgActivity.class));
             }
         };
     }

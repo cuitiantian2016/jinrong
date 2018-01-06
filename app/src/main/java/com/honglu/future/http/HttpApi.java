@@ -28,6 +28,7 @@ import com.honglu.future.ui.live.bean.LiveListBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
+import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.bean.PraiseMsgListBean;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.ui.msg.bean.TradeMsgBean;
@@ -993,6 +994,14 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circle/getUpdateEmpty")
     Observable<BaseResponse<JsonNull>> getClearPraiseMsg(
             @Field("userId") String userId);
+
+    /**
+     * 未读消息红点提示
+     * @param userId
+     * @return
+     */
+    @GET("futures-messages-api/message/hasUnreadMsg")
+    Observable<BaseResponse<HasUnreadMsgBean>> getHasUnreadMsg(@Query("userId") String userId);
 
     /**
      * 消息红点显示逻辑
