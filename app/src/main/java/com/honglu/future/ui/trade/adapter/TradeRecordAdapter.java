@@ -150,6 +150,8 @@ public class TradeRecordAdapter extends BaseAdapter {
         TextView tvNewMoney;
         @BindView(R.id.tv_profitLossMoney)
         TextView tvProfitLossMoney;
+        @BindView(R.id.tv_build_date)
+        TextView mTvBuildDate;
         View view;
 
         ViewHolder(View view) {
@@ -178,6 +180,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
+            mTvBuildDate.setText(bean.createTime);
         }
 
         void bindView(HistoryClosePositionBean bean) {
@@ -195,6 +198,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             tvNewMoney.setText(bean.closePrice);
+            mTvBuildDate.setText(bean.tradeTime);
             setProfitValueAndColor(tvProfitLossMoney, bean.closeProfitLoss);
         }
 
@@ -213,6 +217,7 @@ public class TradeRecordAdapter extends BaseAdapter {
             tvName.setText(bean.instrumentName);
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
+            mTvBuildDate.setText(bean.tradeTime);
         }
 
         private void setProfitValueAndColor(TextView tvProfitLossMoney, String price) {

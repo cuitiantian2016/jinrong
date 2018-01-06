@@ -21,6 +21,7 @@ import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.activity.TradeRecordActivity;
+import com.honglu.future.ui.trade.activity.TradeRecordFragment;
 import com.honglu.future.ui.trade.adapter.ClosePositionAdapter;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -27,10 +26,8 @@ import com.honglu.future.ui.usercenter.contract.UserAccountContract;
 import com.honglu.future.ui.usercenter.presenter.UserAccountPresenter;
 import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
-import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
-import com.honglu.future.util.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;

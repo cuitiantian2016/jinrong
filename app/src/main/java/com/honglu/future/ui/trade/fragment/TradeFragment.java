@@ -11,6 +11,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.RefreshUIEvent;
@@ -19,8 +20,10 @@ import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.market.fragment.MarketFragment;
+import com.honglu.future.ui.trade.activity.TradeRecordFragment;
 import com.honglu.future.ui.trade.contract.TradeContract;
 import com.honglu.future.ui.trade.presenter.TradePresenter;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.Tool;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
@@ -47,7 +50,7 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     private ArrayList<CustomTabEntity> mTabList;
     private ArrayList<Fragment> mFragments;
     private PositionFragment mPositionFragment;
-    private ClosePositionFragment mClosePositionFragment;
+    private TradeRecordFragment mClosePositionFragment;
     //private EntrustFragment mEntrustFragment;
     private EntrustFragment mEntrustFragment;
     private MarketFragment mMarketFragment;
@@ -117,10 +120,11 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
         mFragments.add(mMarketFragment);
         mPositionFragment = new PositionFragment();
         mFragments.add(mPositionFragment);
-        mClosePositionFragment = new ClosePositionFragment();
-        mFragments.add(mClosePositionFragment);
         mEntrustFragment = new EntrustFragment();
         mFragments.add(mEntrustFragment);
+        mClosePositionFragment = new TradeRecordFragment();
+        mFragments.add(mClosePositionFragment);
+
 
         mCommonTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.trade_fragment_container, mFragments);
         mCommonTabLayout.setOnTabSelectListener(new SimpleOnTabSelectListener() {
@@ -165,8 +169,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             }
             if (currentPosition == 1) {
                 mPositionFragment.startRun();
-            } else if(currentPosition == 0){
-                mMarketFragment.startPush();
             }
         }
     }

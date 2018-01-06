@@ -1,10 +1,8 @@
 package com.honglu.future.ui.usercenter.fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -14,55 +12,36 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
-import com.honglu.future.app.AppManager;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.PermissionsListener;
-import com.honglu.future.bean.CheckAccountBean;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
-import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
-import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.FragmentRefreshEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.CheckAccount;
-import com.honglu.future.ui.main.FragmentFactory;
 import com.honglu.future.ui.main.activity.WebViewActivity;
-import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
-import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
-import com.honglu.future.ui.trade.activity.TradeRecordActivity;
-import com.honglu.future.ui.trade.bean.AccountBean;
-import com.honglu.future.ui.trade.bean.SettlementInfoBean;
-import com.honglu.future.ui.trade.historybill.HistoryBillActivity;
-import com.honglu.future.ui.usercenter.activity.FutureAccountActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
-import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
-import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
 import com.honglu.future.util.AndroidUtil;
-import com.honglu.future.util.ConvertUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.LogUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
-import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.Tool;
-import com.honglu.future.util.ViewUtil;
 import com.honglu.future.widget.CircleImageView;
-import com.honglu.future.widget.ExpandableLayout;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
