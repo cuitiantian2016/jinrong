@@ -15,6 +15,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.ChangeTabEvent;
 import com.honglu.future.events.ChangeTabMainEvent;
 import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.TradeRecordEvent;
 import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.main.FragmentFactory;
@@ -201,7 +202,11 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             }
             mPositionFragment.mRedirect = ((ChangeTabEvent) event).redirect;
             mCommonTabLayout.setCurrentTab(((ChangeTabEvent) event).getLoanType());
-
+            if (((ChangeTabEvent) event).getLoanType() == 3 && ((ChangeTabEvent) event).tab > 0) {
+                TradeRecordEvent tradeRecordEvent = new TradeRecordEvent();
+                tradeRecordEvent.position = ((ChangeTabEvent) event).tab;
+                EventBus.getDefault().postSticky(tradeRecordEvent);
+            }
         } else if (event instanceof RefreshUIEvent) {
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
@@ -211,8 +216,8 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             } else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE) {//首页跳转主力合约
                 mCommonTabLayout.setCurrentTab(0);
                 EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI));
-            }else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML){//跳转到自选
-                if (((RefreshUIEvent) event).isStick){
+            } else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML) {//跳转到自选
+                if (((RefreshUIEvent) event).isStick) {
                     EventBus.getDefault().removeStickyEvent(event);
                 }
                 mCommonTabLayout.setCurrentTab(0);
@@ -220,8 +225,6 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             }
         }
     }
-
-
 
 
     @Override

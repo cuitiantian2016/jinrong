@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.annotations.SerializedName;
 import com.honglu.future.ARouter.DebugActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -83,6 +84,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     public String uri;
     @Autowired(name = "isTrade")
     public int isTrade = -1;
+    @Autowired(name = "tab")
+    public int tab = -1;
     private FragmentFactory.FragmentStatus toTabIndex = FragmentFactory.FragmentStatus.None;
     private int oldCheckId = 0;
     private Handler mHandler = new Handler();
@@ -143,6 +146,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             redirect = intent.getStringExtra("redirect");
             uri = intent.getStringExtra("uri");
             isTrade = intent.getIntExtra("isTrade",-1);
+            tab = intent.getIntExtra("tab",-1);
         }
         if (!TextUtils.isEmpty(uri)){
             Log.d("MAIN","URI------->"+uri);
@@ -169,6 +173,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             if (isTrade>-1 && isTrade!=0) {
                 ChangeTabEvent changeTabEvent = new ChangeTabEvent(isTrade);
                 changeTabEvent.isStick = true;
+                changeTabEvent.tab = tab;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }
             if (isTrade ==0){

@@ -1,5 +1,7 @@
 package com.honglu.future.ui.trade.presenter;
 
+import android.text.TextUtils;
+
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
@@ -27,6 +29,9 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
 
     @Override
     public void getHistoryTradeBean(final String dayStart, final String userId, final String token, final String dayEnd) {
+        if (TextUtils.isEmpty(token)){
+            return;
+        }
         HttpSubscriber<HistoryTradeBean> httpSubscriber = new HttpSubscriber<HistoryTradeBean>() {
             @Override
             protected void _onNext(HistoryTradeBean o) {
@@ -47,6 +52,9 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     public void getHistoryMissBean(final String dayStart, final String userId, final String token, final String dayEnd,
                                    final int page,
                                    final int pageSize) {
+        if (TextUtils.isEmpty(token)){
+            return;
+        }
         HttpSubscriber<List<HistoryMissPositionBean>> httpSubscriber = new HttpSubscriber<List<HistoryMissPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryMissPositionBean> o) {
@@ -67,6 +75,9 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     public void getHistoryCloseBean(String dayStart, String userId, String token, String dayEnd,
                                     int page,
                                     int pageSize) {
+        if (TextUtils.isEmpty(token)){
+            return;
+        }
         toSubscribe(HttpManager.getApi().getHistoryCloseBean(dayStart, userId, token, dayEnd, page, pageSize, SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<List<HistoryClosePositionBean>>() {
             @Override
             protected void _onNext(List<HistoryClosePositionBean> o) {
@@ -88,6 +99,9 @@ public class TradeRecordPresenter extends BasePresenter<TradeRecordContract.View
     public void getHistoryBuilderBean(final String dayStart, final String userId, final String token, final String dayEnd,
                                       final int page,
                                       final int pageSize) {
+        if (TextUtils.isEmpty(token)){
+            return;
+        }
         HttpSubscriber<List<HistoryBuiderPositionBean>> httpSubscriber = new HttpSubscriber<List<HistoryBuiderPositionBean>>() {
             @Override
             protected void _onNext(List<HistoryBuiderPositionBean> o) {

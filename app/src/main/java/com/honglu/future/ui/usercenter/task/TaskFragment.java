@@ -36,6 +36,9 @@ public class TaskFragment extends BaseFragment {
             "xiaoniuqihuo://future/future/main?select=1&isTrade=1",
             "xiaoniuqihuo://future/future/main?select=1&isTrade=2",
             "xiaoniuqihuo://future/future/main?select=1&isTrade=3",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=3&tab=0",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=3&tab=1",
+            "xiaoniuqihuo://future/future/main?select=1&isTrade=3&tab=2",
             "xiaoniuqihuo://future/future/systemmsgdetail?msgId=ssdsdasds",
             "xiaoniuqihuo://future/future/newsdetail?informationId=45&position=0",
             "xiaoniuqihuo://future/future/main?select=3"

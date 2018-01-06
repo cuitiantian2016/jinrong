@@ -18,6 +18,9 @@ import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.SingleDateDialog;
 import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.TradeRecordEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -40,8 +43,11 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +59,7 @@ import butterknife.BindView;
  * Created by zhuaibing on 2017/10/26
  */
 
-public class TradeRecordFragment extends BaseFragment<TradeRecordPresenter> implements View.OnClickListener, TradeRecordContract.View, AccountContract.View,BillConfirmDialog.OnConfirmClickListener {
+public class TradeRecordFragment extends BaseFragment<TradeRecordPresenter> implements View.OnClickListener, TradeRecordContract.View, AccountContract.View, BillConfirmDialog.OnConfirmClickListener {
     private static final String START_TIME_TYPE = "start_time_type";
     private static final String END_TIME_TYPE = "end_time_type";
 
@@ -239,6 +245,33 @@ public class TradeRecordFragment extends BaseFragment<TradeRecordPresenter> impl
             clickId = R.id.tab_ccLayout;
             mTabCcLayout.performClick();
         }
+        EventBus.getDefault().register(this);
+    }
+
+    /***********
+     * eventBus 监听
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventMainThread(TradeRecordEvent event) {
+        EventBus.getDefault().removeStickyEvent(event);
+        if (event.position == 1) {
+            clickId = R.id.tab_ccLayout;
+            mTabCcLayout.performClick();
+        } else if (event.position == 0) {
+            clickId = R.id.tab_jcLayout;
+            mTabJcLayout.performClick();
+        } else if (event.position == 2) {
+            clickId = R.id.tab_rLayout;
+            mTabRLayout.performClick();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 
     @Override

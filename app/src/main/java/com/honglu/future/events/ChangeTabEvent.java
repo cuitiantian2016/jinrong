@@ -6,6 +6,7 @@ public class ChangeTabEvent extends UIBaseEvent {
     private int loanType;
     public String redirect;
     public boolean isStick;
+    public int tab;
 
     public ChangeTabEvent(int loanType) {
         super();
