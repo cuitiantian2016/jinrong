@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
+import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
@@ -58,10 +61,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @BindView(R.id.tv_loginRegister)
     TextView mLoginRegister;
-    //    @BindView(R.id.iv_setup)
-//    ImageView mSetup;
-    @BindView(R.id.ll_signin_suc_layout)
-    LinearLayout mSigninSucLayout;
     @BindView(R.id.iv_head)
     CircleImageView mHead;
     @BindView(R.id.tv_mobphone)
@@ -76,10 +75,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mPhone;
     @BindView(R.id.tv_aboutus)
     TextView mAboutus;
-    @BindView(R.id.fl_config)
-    FrameLayout mFlConfig;
-    @BindView(R.id.ll_viper)
-    RelativeLayout mViper;
+    @BindView(R.id.img_vip)
+    ImageView mViper;
+    @BindView(R.id.v_red)
+    View mReadMsg;
 
     private AccountPresenter mAccountPresenter;
     private BillConfirmDialog billConfirmDialog;
@@ -120,31 +119,38 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     public void initPresenter() {
         mPresenter.init(this);
         mAccountPresenter = new AccountPresenter();
-
     }
+
+
 
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
         mCheckAccount = new CheckAccount(mContext);
-
+        mReadMsg.setVisibility(View.INVISIBLE);
         if (App.getConfig().getLoginStatus()) {
             setViperVisible();
-            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            mMobphone.setVisibility(View.VISIBLE);
             mLoginRegister.setVisibility(View.GONE);
-            mSigninSucLayout.setVisibility(View.VISIBLE);
+            mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+            setAvatar(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR));
+            mReadMsg.setVisibility(View.INVISIBLE);
+        }else {
+            mMobphone.setVisibility(View.GONE);
+            mLoginRegister.setVisibility(View.VISIBLE);
+            mReadMsg.setVisibility(View.INVISIBLE);
+            setAvatar("");
         }
-        setAvatar();
+
+
     }
 
-    private void setAvatar() {
-        ImageUtil.display(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR), mHead, R.mipmap.img_head);
+    private void setAvatar(String headUrl) {
+        ImageUtil.display(headUrl, mHead, R.mipmap.img_head);
     }
 
-    @OnClick({R.id.fl_config, R.id.tv_novice,
-              R.id.tv_open_account,
-            R.id.tv_kefu, R.id.tv_phone, R.id.tv_aboutus,
-             R.id.iv_setup, R.id.ll_viper , R.id.tv_shop_mall,R.id.tv_task})
+    @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_open_account,R.id.tv_kefu, R.id.tv_phone, R.id.tv_aboutus,
+             R.id.iv_setup, R.id.img_vip , R.id.tv_shop_mall,R.id.tv_task,R.id.rl_message_hint})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -205,7 +211,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     toLogin();
                 }
                 break;
-            case R.id.ll_viper:
+            case R.id.img_vip:
                 new AlertFragmentDialog.Builder(mActivity)
                         .setLeftBtnText("取消").setContent("享有官方活动优先参与权\n" +
                         "享受积分商城的兑换打折优惠\n" +
@@ -223,6 +229,13 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     clickTab("wode_zhanghuguanli_click","我的_账户管理");
                     Intent intent = new Intent(mActivity, ModifyUserActivity.class);
                     startActivity(intent);
+                } else {
+                    toLogin();
+                }
+                break;
+            case R.id.rl_message_hint: //消息
+                if (App.getConfig().getLoginStatus()) {
+                    startActivity(new Intent(mActivity, MainMsgActivity.class));
                 } else {
                     toLogin();
                 }
@@ -285,23 +298,15 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 // 数据刷新
                 if (App.getConfig().getLoginStatus()) {
-                    mSigninSucLayout.setVisibility(View.VISIBLE);
                     mLoginRegister.setVisibility(View.GONE);
-//                    if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
-//                        mMobphone.setMaxEms(6);
-//                        mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-//                    }
+                    mMobphone.setVisibility(View.VISIBLE);
                     mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                     setViperVisible();
-                    setAvatar();
+                    setAvatar(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR));
                 }
             } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
-                setAvatar();
+                setAvatar(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR));
             } else if (code == UIBaseEvent.EVENT_UPDATE_NICK_NAME) {//修改昵称
-//                if (SpUtil.getString(Constant.CACHE_TAG_USERNAME).length() >= 8) {
-//                    mMobphone.setMaxEms(6);
-//                    mMobphone.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-//                }
                 mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
             }
         }
@@ -310,9 +315,11 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentRefreshEvent event) {
         if (UIBaseEvent.EVENT_LOGOUT == event.getType()) {
-            mSigninSucLayout.setVisibility(View.GONE);
             mLoginRegister.setVisibility(View.VISIBLE);
-            mViper.setVisibility(View.GONE);
+            mMobphone.setVisibility(View.GONE);
+            mViper.setVisibility(View.INVISIBLE);
+            mReadMsg.setVisibility(View.INVISIBLE);
+            setAvatar("");
         }
     }
 
@@ -320,9 +327,24 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Double.parseDouble(SpUtil.getString(Constant.CACHE_TAG_UID)) <= 30000) {
             mViper.setVisibility(View.VISIBLE);
         } else {
-            mViper.setVisibility(View.GONE);
+            mViper.setVisibility(View.INVISIBLE);
         }
     }
+
+
+    /*******
+     *消息红点控制
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(RefreshUIEvent event) {
+        if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {//显示
+            mReadMsg.setVisibility(View.VISIBLE);
+        } else if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {//点击
+            mReadMsg.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -335,11 +357,17 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if (!hidden && mPresenter !=null && App.getConfig().getLoginStatus()){
+            mPresenter.getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID));
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (mPresenter !=null && App.getConfig().getLoginStatus()){
+            mPresenter.getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID));
+        }
     }
 
     @Override
@@ -359,5 +387,19 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
      */
     private void clickTab(String value1 , String value2){
         MobclickAgent.onEvent(mContext,value1, value2);
+    }
+
+
+    /**
+     * 消息是否已读
+     * @param readMsg
+     */
+    @Override
+    public void getMsgRed(boolean readMsg) {
+       if (readMsg){
+           mReadMsg.setVisibility(View.VISIBLE);
+       }else {
+           mReadMsg.setVisibility(View.INVISIBLE);
+       }
     }
 }

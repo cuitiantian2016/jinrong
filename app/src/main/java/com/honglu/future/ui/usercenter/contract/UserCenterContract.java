@@ -10,8 +10,9 @@ import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 
 public interface UserCenterContract {
     interface View extends BaseView {
+        void  getMsgRed(boolean readMsg);
     }
     interface Presenter{
-
+        void  getMsgRed(String userId);
     }
 }

@@ -14,4 +14,20 @@ import com.honglu.future.util.SpUtil;
 
 public class UserCenterPresenter extends BasePresenter<UserCenterContract.View> implements UserCenterContract.Presenter {
 
+
+    @Override
+    public void getMsgRed(String userId) {
+      toSubscribe(HttpManager.getApi().getMsgRed(userId), new HttpSubscriber<Boolean>() {
+
+          @Override
+          protected void _onError(String message, int code) {
+              mView.getMsgRed(false);
+          }
+
+          @Override
+          public void onNext(Boolean aBoolean) {
+              mView.getMsgRed(true);
+          }
+      });
+    }
 }
