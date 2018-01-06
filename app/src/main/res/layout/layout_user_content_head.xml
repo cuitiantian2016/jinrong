@@ -61,7 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@mipmap/ic_viper"
-        android:layout_gravity="center_vertical|right"/>
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="@dimen/dimen_5dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
