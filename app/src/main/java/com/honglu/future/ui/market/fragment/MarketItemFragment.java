@@ -54,6 +54,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     SmartRefreshLayout mRefreshView;
     private View mTitleLine;
     private TextView mQuoteChange;
+    private TextView mHavedPositions;
     private View mEmptyView;
 
     private MarketListAdapter mAdapter;
@@ -209,6 +210,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         TextView mAddAptional = (TextView) footerView.findViewById(R.id.text_add_qptional);
         mEmptyView = footerView.findViewById(R.id.ll_empty_view);
         LinearLayout headView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_market_item_title, null);
+        mHavedPositions = (TextView) headView.findViewById(R.id.text_haved_positions);
         mQuoteChange = (TextView) headView.findViewById(R.id.text_quote_change);
         mTitleLine = headView.findViewById(R.id.v_titleLine);
         mTitleLine.setVisibility(mList.size() > 0 ? View.VISIBLE : View.INVISIBLE);
@@ -245,7 +247,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mQuoteChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAdapter.getCount() > 0) {
+                if (mAdapter !=null && mAdapter.getCount() > 0) {
                     boolean isChange = !mAdapter.getIsChange();
                     if (isChange) {
                         mQuoteChange.setText(mContext.getString(R.string.text_quote_change_value));
@@ -254,6 +256,22 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     }
                     mAdapter.setChangeSelect(isChange);
                 }
+            }
+        });
+
+        //持仓量/成交量切换
+        mHavedPositions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if (mAdapter !=null && mAdapter.getCount() > 0){
+                   boolean isHavedPositions = !mAdapter.getmIsHavedPositions();
+                   if (isHavedPositions){
+                       mHavedPositions.setText("成交量");
+                   }else {
+                       mHavedPositions.setText("持仓量");
+                   }
+                   mAdapter.setHavedPositionsSelect(isHavedPositions);
+               }
             }
         });
 

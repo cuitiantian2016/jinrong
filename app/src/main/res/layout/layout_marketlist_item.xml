@@ -87,14 +87,6 @@
              android:textColor="@color/color_333333"
              android:textSize="@dimen/dimen_14sp"
              android:text="@string/text_haved_positions"/>
-
-         <ImageView
-             android:id="@+id/iv_adddel"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:src="@mipmap/ic_market_optional_add"
-             android:layout_marginLeft="@dimen/dimen_10dp"
-             android:visibility="visible"/>
      </LinearLayout>
     </LinearLayout>
 </LinearLayout>

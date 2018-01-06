@@ -4,35 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.honglu.future.widget.tab.HorizontalTabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/market_common_tab_layout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50dp"
-        android:layout_toLeftOf="@+id/right_layout"
-        app:tl_iconVisible="false"
-        app:tl_indicator_width="@dimen/dimen_20dp"
-        app:tl_indicator_anim_duration="400"
-        app:tl_indicator_anim_enable="true"
-        app:tl_indicator_corner_radius="2dp"
-        app:tl_indicator_color="@color/color_008EFF"
-        app:tl_indicator_gravity="BOTTOM"
-        app:tl_indicator_height="@dimen/dimen_3dp"
-        app:tl_indicator_style="NORMAL"
-        app:tl_leftMargin="@dimen/dimen_20dp"
-        app:tl_rightMargin="@dimen/dimen_20dp"
-        app:tl_special_select_color_blue="true"
-        app:tl_textBold="BOTH"
-        app:tl_textSelectColor="@color/color_008EFF"
-        app:tl_textUnselectColor="@color/color_323232"
-        app:tl_textsize="@dimen/dimen_16sp"
-        app:tl_underline_color="@color/color_E6E6E6"
-        app:tl_windMargin="@dimen/dimen_15dp"
-        app:tl_view_delay="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_F7F8F9"/>
+        android:layout_height="wrap_content"
+        android:scrollbars="none"/>
 
     <FrameLayout
         android:id="@+id/market_fragment_container"

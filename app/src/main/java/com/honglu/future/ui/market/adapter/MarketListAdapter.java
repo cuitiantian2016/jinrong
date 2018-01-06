@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class MarketListAdapter extends BaseAdapter {
     private AnimationDrawable redAnimation;
     private AnimationDrawable greenAnimation;
     private boolean mIsChange = false;
+    private boolean mIsHavedPositions = false;
 
     public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<MarketnalysisBean.ListBean.QuotationDataListBean> list, String title) {
         this.mContext = fragment.getActivity();
@@ -49,8 +51,18 @@ public class MarketListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    //持仓量/成交量切换
+    public void setHavedPositionsSelect(boolean mIsHavedPositions){
+        this.mIsHavedPositions = mIsHavedPositions;
+        notifyDataSetChanged();
+    }
+
     public boolean getIsChange(){
         return mIsChange;
+    }
+
+    public boolean getmIsHavedPositions(){
+        return mIsHavedPositions;
     }
 
     @Override
@@ -97,8 +109,13 @@ public class MarketListAdapter extends BaseAdapter {
 
         holder.mTvContractName.setText(listBean.getName());
         holder.mTvLatestPrice.setText(listBean.getLastPrice());
-        holder.mTvHavedPositions.setText(listBean.getOpenInterest());
-         double mChange = Double.parseDouble(listBean.getChange());
+        double mChange = Double.parseDouble(listBean.getChange());
+
+        if (mIsHavedPositions){
+            holder.mTvHavedPositions.setText(listBean.getVolume());
+        }else {
+            holder.mTvHavedPositions.setText(listBean.getOpenInterest());
+        }
 
         if (mIsChange){
             if (mChange > 0) {
@@ -137,28 +154,8 @@ public class MarketListAdapter extends BaseAdapter {
             holder.mTextXiu.setVisibility(View.INVISIBLE);
         }
 
-        if (mTabSelectType.equals(MarketFragment.ZXHQ_TYPE)) {
-            holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);
-        } else {
-            if ("0".equals(listBean.getIcAdd())) {
-                holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_add);
-            } else {
-                holder.mAddDelIc.setImageResource(R.mipmap.ic_market_optional_delete);
-            }
-        }
 
         final MarketnalysisBean.ListBean.QuotationDataListBean mBean = listBean;
-        holder.mAddDelIc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //img true 没添加  false 已添加
-                if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
-                    mFragment.refresh("1", mBean);
-                } else {
-                    mFragment.refresh(mBean.getIcAdd(), mBean);
-                }
-            }
-        });
 
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,7 +249,6 @@ public class MarketListAdapter extends BaseAdapter {
         TextView mTvContractName;//合约名称
         TextView mTvLatestPrice;//最新价
         View mColorView;
-        ImageView mAddDelIc;
         TextView mTvQuoteChange;//涨幅量
         TextView mTvHavedPositions;//持仓量
         TextView mTextXiu;
@@ -262,7 +258,6 @@ public class MarketListAdapter extends BaseAdapter {
             mTvContractName = (TextView) view.findViewById(R.id.text_contract_name);
             mTvLatestPrice = (TextView) view.findViewById(R.id.text_latest_price);
             mColorView = view.findViewById(R.id.v_color_shansuo);
-            mAddDelIc = (ImageView) view.findViewById(R.id.iv_adddel);
             mTvQuoteChange = (TextView) view.findViewById(R.id.text_quote_change);
             mTvHavedPositions = (TextView) view.findViewById(R.id.text_haved_positions);
             mTextXiu = (TextView) view.findViewById(R.id.text_xiu);
