@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
@@ -18,6 +19,7 @@ import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.ui.msg.bean.TradeMsgBean;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.SpUtil;
+import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -33,7 +35,7 @@ import butterknife.BindView;
  * Created by hefei on 2018/1/2
  */
 
-public class TradeMsgActivity extends BaseActivity implements MainMsgContract.View{
+public class TradeMsgActivity extends BaseActivity {
     @BindView(R.id.tv_right)
     TextView mTvRight;
     private View empty_view;
@@ -43,27 +45,22 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
     public int getLayoutId() {
         return R.layout.activity_main_msg_system;
     }
+
     @Override
     public void initPresenter() {
     }
 
     @Override
     public void loadData() {
-        mTitle.setTitle(false, R.color.color_white,"交易提醒");
+        mTitle.setTitle(false, R.color.color_white, "交易提醒");
         mTvRight.setText("清空");
         mTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAdapter.getCount()>0){
-                    mAdapter.clearDatas();
-                    //空布局
-                    if (listView.getFooterViewsCount() == 0) {
-                        listView.addFooterView(empty_view, null, false);
-                    }
-                }
+                clearMsg();
             }
         });
-        mPullToRefreshView= (SmartRefreshLayout)findViewById(R.id.srl_refreshView);
+        mPullToRefreshView = (SmartRefreshLayout) findViewById(R.id.srl_refreshView);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -73,28 +70,21 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
         mPullToRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                if (isMore){
+                if (isMore) {
                     getSystemMsg(false);
-                }else {
+                } else {
                     mPullToRefreshView.finishLoadmore();
                 }
             }
         });
-        listView = (ListView)findViewById(R.id.lv_listView);
+        listView = (ListView) findViewById(R.id.lv_listView);
         mAdapter = new TradeMsgAdapter();
         listView.setAdapter(mAdapter);
-        listView.setDividerHeight(AndroidUtil.dip2px(this,10));
+        listView.setDividerHeight(AndroidUtil.dip2px(this, 10));
         empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
         TextView textView = (TextView) empty_view.findViewById(R.id.empty_tv);
         textView.setText("暂无消息");
-        TradeMsgBean systemMsgBean = new TradeMsgBean();
-        systemMsgBean.content = "shdisdhfsaisfhsiadfh";
-        systemMsgBean.time = "q2-33 333--4444";
-        ArrayList<TradeMsgBean> systemMsgBeen = new ArrayList<>();
-        for (int i =0;i<10;i++){
-            systemMsgBeen.add(systemMsgBean);
-        }
-        mAdapter.refreshDatas(systemMsgBeen);
+        getSystemMsg(true);
     }
 
     private SmartRefreshLayout mPullToRefreshView;
@@ -103,32 +93,33 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
     private int rows = 0;
     private boolean isRequesting;//是否正在请求中
     boolean mIsRefresh;
+
     public void getSystemMsg(final boolean isRefresh) {
-        if (isRequesting)return;
+        if (isRequesting) return;
         isRequesting = true;
         mIsRefresh = isRefresh;
-        if (mIsRefresh){
+        if (mIsRefresh) {
             rows = 0;
         }
-        HttpManager.getApi().getTradeMsgList(SpUtil.getString(Constant.CACHE_TAG_UID),rows).compose(RxHelper.<List<TradeMsgBean>>handleSimplyResult())
-                .subscribe(new HttpSubscriber<List<TradeMsgBean>>() {
+        HttpManager.getApi().getTradeMsgList(SpUtil.getString(Constant.CACHE_TAG_UID), 2, rows).compose(RxHelper.<List<SystemMsgBean>>handleSimplyResult())
+                .subscribe(new HttpSubscriber<List<SystemMsgBean>>() {
                     @Override
-                    protected void _onNext(List<TradeMsgBean> userLists) {
+                    protected void _onNext(List<SystemMsgBean> userLists) {
                         super._onNext(userLists);
                         isRequesting = false;
-                        if (mIsRefresh){
+                        if (mIsRefresh) {
                             mPullToRefreshView.finishRefresh();
                             mAdapter.refreshDatas(userLists);
-                        }else {
+                        } else {
                             mPullToRefreshView.finishLoadmore();
                             mAdapter.loadMoreDatas(userLists);
                         }
                         isMore = userLists.size() >= 10;
-                        if (isMore){
+                        if (isMore) {
                             ++rows;
                         }
                         if (userLists != null && userLists.size() > 0) {
-                            if (listView.getFooterViewsCount() != 0){
+                            if (listView.getFooterViewsCount() != 0) {
                                 listView.removeFooterView(empty_view);
                             }
                         } else {
@@ -147,7 +138,7 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
                         mPullToRefreshView.finishLoadmore();
                         mPullToRefreshView.finishRefresh();
                         if (mAdapter.getCount() > 0) {
-                            if (listView.getFooterViewsCount() != 0){
+                            if (listView.getFooterViewsCount() != 0) {
                                 listView.removeFooterView(empty_view);
                             }
                         } else {
@@ -160,11 +151,26 @@ public class TradeMsgActivity extends BaseActivity implements MainMsgContract.Vi
                 });
     }
 
+    private void clearMsg() {
+        HttpManager.getApi().getMsgClear(SpUtil.getString(Constant.CACHE_TAG_UID), 2).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+                if (mAdapter.getCount() > 0) {
+                    mAdapter.clearDatas();
+                    //空布局
+                    if (listView.getFooterViewsCount() == 0) {
+                        listView.addFooterView(empty_view, null, false);
+                    }
+                }
+            }
 
-
-
-    @Override
-    public void hasUnreadMsg(HasUnreadMsgBean bean) {
-
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                ToastUtil.show(message);
+            }
+        });
     }
+
 }

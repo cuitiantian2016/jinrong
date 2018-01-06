@@ -953,22 +953,10 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("futures-communtiy-api/app/circle/imageList")
-    Observable<BaseResponse<List<SystemMsgBean>>> getSystemMsgList(
+    @POST("http://192.168.90.139:8080/futures-messages-api/message/notice")
+    Observable<BaseResponse<List<SystemMsgBean>>> getTradeMsgList(
             @Field("userId") String userId
-            , @Field("rows") int rows);
-
-    /**
-     * 系统消息列表
-     *
-     * @param userId
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("futures-communtiy-api/app/circle/imageList")
-    Observable<BaseResponse<List<TradeMsgBean>>> getTradeMsgList(
-            @Field("userId") String userId
-            , @Field("rows") int rows);
+            , @Field("messageType") int messageType, @Field("rows") int rows);
 
 
     /**
@@ -997,6 +985,7 @@ public interface HttpApi {
 
     /**
      * 未读消息红点提示
+     *
      * @param userId
      * @return
      */
@@ -1010,7 +999,29 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("futures-messages-api/message/index")
+    @POST("http://192.168.90.139:8080/futures-messages-api/message/index")
     Observable<BaseResponse<Boolean>> getMsgRed(
             @Field("userId") String userId);
+
+
+    /**
+     * 系统消息列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-messages-api/message/detail")
+    Observable<BaseResponse<SystemMsgBean>> getSystemMsgDetial(@Field("messageId") String messageId);
+
+    /**
+     * 系统消息列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.139:8080/futures-messages-api/message/clear")
+    Observable<BaseResponse<JsonNull>> getMsgClear(@Field("userId") String userId
+            , @Field("messageType") int messageType);
+
+
 }

@@ -87,16 +87,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loadData() {
         redirect = getIntent().getStringExtra("redirect");
-        if (!TextUtils.isEmpty(redirect)){
+        if (!TextUtils.isEmpty(redirect)) {
             redirect = Uri.decode(redirect);
         }
         String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
-        if (!TextUtils.isEmpty(uID)){//说明已经登录
-            if (!goToRedirect()){
+        if (!TextUtils.isEmpty(uID)) {//说明已经登录
+            if (!goToRedirect()) {
                 finish();
             }
         }
-        if(!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))){
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_MOBILE))) {
             mMobile.setText(SpUtil.getString(Constant.CACHE_TAG_MOBILE));
             mMobile.setSelection(mMobile.getText().toString().length());
         }
@@ -148,7 +148,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     /**
      * @param root 最外层布局，需要调整的布局
-     * 输入框，滚动root,使输入框在root可视区域的底部
+     *             输入框，滚动root,使输入框在root可视区域的底部
      */
     private void controlKeyboardLayout(final View root) {
         if (root == null)
@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_login:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 Intent intent = new Intent(this, RegisterActivity.class);
@@ -208,7 +208,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 finish();
                 break;
             case R.id.tv_forget_pwd:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
                 Intent resetPwd = new Intent(this, ResetPwdActivity.class);
@@ -216,10 +216,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 finish();
                 break;
             case R.id.btn_login:
-                if(DeviceUtils.isFastDoubleClick()){
+                if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
-                clickTab("zcdl_denglu_land","我的_登录");
+                clickTab("zcdl_denglu_land", "我的_登录");
                 if (mMobile.length() < 11) {
                     showToast("请输入正确的手机号码");
                     return;
@@ -245,19 +245,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         //得到InputMethodManager的实例
         imm.hideSoftInputFromWindow(mPwd.getWindowToken(), 0);
-       if (!goToRedirect()){
-           finish();
-       }
+        if (!goToRedirect()) {
+            finish();
+        }
     }
 
-    private boolean goToRedirect(){
-        if (!TextUtils.isEmpty(redirect)){
-            Log.d("ARouter",redirect+"--->redirect");
+    private boolean goToRedirect() {
+        if (!TextUtils.isEmpty(redirect)) {
+            Log.d("ARouter", redirect + "--->redirect");
             ARouter.getInstance().build(Uri.parse(redirect)).navigation(this, new NavCallback() {
                 @Override
                 public void onArrival(Postcard postcard) {
                     finish();
                 }
+
                 @Override
                 public void onLost(Postcard postcard) {
                     super.onLost(postcard);
@@ -271,10 +272,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     /**
      * 埋点
+     *
      * @param value1
      * @param value2
      */
-    private void clickTab(String value1 , String value2){
-        MobclickAgent.onEvent(mContext,value1, value2);
+    private void clickTab(String value1, String value2) {
+        MobclickAgent.onEvent(mContext, value1, value2);
     }
 }

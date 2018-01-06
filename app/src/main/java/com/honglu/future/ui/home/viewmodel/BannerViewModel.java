@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.home.bean.BannerData;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
 import com.honglu.future.util.ImageUtil;
@@ -50,7 +52,12 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         mView.findViewById(R.id.rl_home_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext,MainMsgActivity.class));
+                if (App.getConfig().getLoginStatus()) {
+                    mContext.startActivity(new Intent(mContext, MainMsgActivity.class));
+                } else {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                }
             }
         });
         setAdapter();
@@ -89,9 +96,9 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         //Banner条目点击监听
         mAutoFlingBannerAdapter.setOnClickBannerListener(new AutoFlingBannerAdapter.OnClickBannerListener() {
             @Override
-            public void itemClick(String url, String circleColumnName,int position) {
+            public void itemClick(String url, String circleColumnName, int position) {
                 Log.d(TAG, "url-->" + url + "circleColumnName-->" + circleColumnName);
-                MobclickAgent.onEvent(mContext, "sy_" + String.valueOf(position + 1) + "st_banner", "首页_第" + String.valueOf(position + 1)+ "帧banner");
+                MobclickAgent.onEvent(mContext, "sy_" + String.valueOf(position + 1) + "st_banner", "首页_第" + String.valueOf(position + 1) + "帧banner");
                 Intent intentAbout = new Intent(mContext, WebViewActivity.class);
                 intentAbout.putExtra("url", url);
                 if (!TextUtils.isEmpty(circleColumnName)) {

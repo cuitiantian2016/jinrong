@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class TradeMsgAdapter extends CommonAdapter<TradeMsgBean> {
+public class TradeMsgAdapter extends CommonAdapter<SystemMsgBean> {
 
     public TradeMsgAdapter() {
     }
@@ -50,7 +50,7 @@ public class TradeMsgAdapter extends CommonAdapter<TradeMsgBean> {
             this.convertView = convertView;
         }
 
-        public void bindView(final TradeMsgBean item) {
+        public void bindView(final SystemMsgBean item) {
             tv_title.setText(item.content);
             tv_time.setText(item.time);
         }

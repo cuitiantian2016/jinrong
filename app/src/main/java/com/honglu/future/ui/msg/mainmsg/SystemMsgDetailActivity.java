@@ -12,6 +12,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.bean.SystemMsgBean;
 import com.honglu.future.util.ToastUtil;
@@ -24,7 +27,7 @@ import butterknife.OnClick;
  * Created by hefei on 2018/1/2
  */
 @Route(path = "/future/systemmsgdetail")
-public class SystemMsgDetailActivity extends BaseActivity implements MainMsgContract.View{
+public class SystemMsgDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_msg_title)
     TextView tv_title;
@@ -34,12 +37,12 @@ public class SystemMsgDetailActivity extends BaseActivity implements MainMsgCont
     TextView tv_content;
     @Autowired(name = "msgId")
     String msgId;
-    public static final String KEY_SYSTEM ="KEY_SYSTEM";
+    public static final String KEY_SYSTEM = "KEY_SYSTEM";
 
 
-    public static void startSystemMsgDetailActivity(Context context, SystemMsgBean systemMsgBean){
+    public static void startSystemMsgDetailActivity(Context context, SystemMsgBean systemMsgBean) {
         Intent intent = new Intent(context, SystemMsgDetailActivity.class);
-        intent.putExtra(KEY_SYSTEM,systemMsgBean);
+        intent.putExtra(KEY_SYSTEM, systemMsgBean);
         context.startActivity(intent);
     }
 
@@ -75,20 +78,35 @@ public class SystemMsgDetailActivity extends BaseActivity implements MainMsgCont
 
     @Override
     public void loadData() {
-        Log.d("tga",msgId+"---msgId");
-        mTitle.setTitle(false, R.color.color_white,"详情");
+        Log.d("tga", msgId + "---msgId");
+        mTitle.setTitle(false, R.color.color_white, "详情");
         Intent intent = getIntent();
         SystemMsgBean systemMsgBean = (SystemMsgBean) intent.getSerializableExtra(KEY_SYSTEM);
-        if (systemMsgBean!=null){
+        if (systemMsgBean != null) {
             tv_title.setText(systemMsgBean.title);
             tv_time.setText(systemMsgBean.time);
             tv_content.setText(systemMsgBean.content);
         }
+        if (!TextUtils.isEmpty(msgId)) {
+            getMsg();
+        }
     }
 
+    private void getMsg() {
+        HttpManager.getApi().getSystemMsgDetial(msgId).compose(RxHelper.<SystemMsgBean>handleSimplyResult()).subscribe(new HttpSubscriber<SystemMsgBean>() {
+            @Override
+            protected void _onNext(SystemMsgBean systemMsgBean) {
+                super._onNext(systemMsgBean);
+                tv_title.setText(systemMsgBean.title);
+                tv_time.setText(systemMsgBean.time);
+                tv_content.setText(systemMsgBean.content);
+            }
 
-    @Override
-    public void hasUnreadMsg(HasUnreadMsgBean bean) {
-
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+            }
+        });
     }
+
 }
