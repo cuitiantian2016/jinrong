@@ -76,6 +76,9 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
     RadioGroup mGroup;
     @BindView(R.id.rb_circle)
     MyRadioButton mRbCircle;
+    //哞一下布局
+    @BindView(R.id.tv_mom_outline)
+    RelativeLayout mMomOutLy;
     @Autowired(name = "select")
     public int select;
     @Autowired(name = "redirect")
@@ -102,6 +105,12 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 
     private int mChangeTabType = 0;
     private int oldTabId;
+    //平均宽度
+    private int mAverageWidth;
+    //哞一下宽度
+    private int mMomWidth;
+    //哞一下位置
+    private int mMomPosition = 2;
 
     @Override
     public int getLayoutId() {
@@ -134,9 +143,61 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
         mGroup.setOnCheckedChangeListener(changeListener);
         // check(FragmentFactory.FragmentStatus.Home);
         select(getIntent());
+        mMomOutLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DeviceUtils.isFastDoubleClick()) return;
+                startActivity(PublishActivity.class);
+            }
+        });
+        mAverageWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mMomOutLy.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mMomWidth = mMomOutLy.getMeasuredWidth();
+                    if (mMomWidth > 0) {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                        params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
+                        mMomOutLy.setLayoutParams(params);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        mMomOutLy.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                }
+            });
+        } else {
+            mMomWidth = DeviceUtils.getScreenWidth(mContext) / 5;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.leftMargin = (int) ((mMomPosition + 0.5) * mAverageWidth - mMomWidth / 2);
+            mMomOutLy.setLayoutParams(params);
+        }
         oldTabId = R.id.rb_home;
         mPresenter.loadActivity();
         mPresenter.getUpdateVersion();
+    }
+
+    //tab切换动画
+    private void startChangedImageAnim(FragmentFactory.FragmentStatus status) {
+        if (status == FragmentFactory.FragmentStatus.Circle) {
+            //牛圈哞一下
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_in);
+            mMomOutLy.startAnimation(animation);
+            mMomOutLy.setVisibility(View.VISIBLE);
+        } else {
+            if (mMomOutLy.isShown()) {
+                Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.tv_mom_anim_out);
+                mMomOutLy.startAnimation(animation);
+            }
+            mMomOutLy.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void select(Intent intent) {
@@ -181,7 +242,10 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 refreshUIEvent.isStick = true;
                 EventBus.getDefault().postSticky(refreshUIEvent);
             }
-        } else if (this.select == 3) {
+        } else if(this.select == 3){
+            MobclickAgent.onEvent(mContext, "shouye_live_click", "直播");
+            check(FragmentFactory.FragmentStatus.Live);
+        } else if (this.select == 4) {
             MobclickAgent.onEvent(mContext, "shouye_wode_click", "我的");
             check(FragmentFactory.FragmentStatus.Account);
         }
@@ -229,6 +293,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                         ((RadioButton) findViewById(oldTabId)).setChecked(true);
                         toTabIndex = FragmentFactory.FragmentStatus.Circle;
                     }
+                    break;
+                case R.id.rb_live:
+                    toTabIndex = FragmentFactory.FragmentStatus.Live;
+                    oldTabId = oldCheckId = R.id.rb_live;
+                    changeTab(FragmentFactory.FragmentStatus.Live);
                     break;
                 case R.id.rb_account:
 //                    StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, 0, null);
@@ -332,6 +401,8 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             case Account:
                 id = R.id.rb_account;
                 break;
+            case Live:
+                id = R.id.rb_live;
             default:
                 break;
         }
@@ -353,6 +424,7 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
 //        }
         FragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
         odlState = status;
+        startChangedImageAnim(status);
     }
 
 

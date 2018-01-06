@@ -75,8 +75,6 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     View rl_title;
     @BindView(R.id.bg_image)
     View bg_image;
-    @BindView(R.id.iv_publish)
-    ImageView mIvPublish;
     //是否查询签到 0 没请求/请求失败 1 请求中  2 请求成功
     private int isQuerySignState = 0;
     List<TopicFilter> topicFilters = null;
@@ -138,12 +136,6 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
             }
         });
 
-        mIvPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity, PublishActivity.class));
-            }
-        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
