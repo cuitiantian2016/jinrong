@@ -801,10 +801,10 @@ public interface HttpApi {
      * @param userId
      * @param circleId
      * @param content
-     * @param beReplyUserId 被回复人id|
-     * @param replyType     |int|类型 1 帖子回复 2 评论回复|
+     * @param beReplyUserId       被回复人id|
+     * @param replyType           |int|类型 1 帖子回复 2 评论回复|
      * @param fatherCircleReplyId 是|int|主评论id 1.2.1及以上版本必传|
-     * @param layCircleReplyId 没存在层级关系时与  fatherCircleReplyId 相同 反之传层级id
+     * @param layCircleReplyId    没存在层级关系时与  fatherCircleReplyId 相同 反之传层级id
      * @return
      */
     @FormUrlEncoded
@@ -833,6 +833,7 @@ public interface HttpApi {
             @Field("userId") String userId,
             @Field("circleId") String circleId,
             @Field("rows") int rows);
+
     /**
      * 查询用户签到信息
      *
@@ -842,6 +843,7 @@ public interface HttpApi {
     @POST("futures-signScore-api/signScore/getCusSignInfo")
     Observable<BaseResponse<SignBean>> getSignData(
             @Field("mobileNum") String mobile);
+
     /**
      * 保存签到积分接口
      *
@@ -856,12 +858,11 @@ public interface HttpApi {
     );
 
 
-
-
     /**
      * 打赏列表
-     * @param userId  当前用户id
-     * @param postId  帖子id
+     *
+     * @param userId 当前用户id
+     * @param postId 帖子id
      * @param rows   行数
      * @return
      */
@@ -875,6 +876,7 @@ public interface HttpApi {
 
     /**
      * 获取打赏积分
+     *
      * @param userId
      * @return
      */
@@ -886,10 +888,11 @@ public interface HttpApi {
 
     /**
      * 打赏
-     * @param userId  当前登陆用户id
-     * @param postId 帖子id
+     *
+     * @param userId   当前登陆用户id
+     * @param postId   帖子id
      * @param beUserId 被打赏用户id
-     * @param score 牛币
+     * @param score    牛币
      * @return
      */
     @FormUrlEncoded
@@ -905,6 +908,7 @@ public interface HttpApi {
 
     /**
      * 视频直播
+     *
      * @return
      */
     @FormUrlEncoded
@@ -915,17 +919,19 @@ public interface HttpApi {
     /**
      * 埋点
      * 开发环境 http://192.168.6.103:8000/apis/v1/dataprobe/
-     *  生产地址 http://open.xiaoniu.com/apis/v1/dataprobe/
-     *  测试环境 http://testopen.xnshandai.net/apis/v1/dataprobe/
+     * 生产地址 http://open.xiaoniu.com/apis/v1/dataprobe/
+     * 测试环境 http://testopen.xnshandai.net/apis/v1/dataprobe/
+     *
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
     @POST("http://open.xiaoniu.com/apis/v1/dataprobe/")
     Observable<MaidianReturn> postMaiDian(@Body RequestBody route);
 
 
     /**
      * circle 查看更多回复
+     *
      * @param userId
      * @param fatherCircleReplyId 父评论id
      * @param rows
@@ -949,7 +955,7 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circle/imageList")
     Observable<BaseResponse<List<SystemMsgBean>>> getSystemMsgList(
             @Field("userId") String userId
-    ,@Field("rows") int rows);
+            , @Field("rows") int rows);
 
     /**
      * 系统消息列表
@@ -961,11 +967,12 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circle/imageList")
     Observable<BaseResponse<List<TradeMsgBean>>> getTradeMsgList(
             @Field("userId") String userId
-            ,@Field("rows") int rows);
+            , @Field("rows") int rows);
 
 
     /**
      * 点赞消息
+     *
      * @param userId
      * @return
      */
@@ -973,16 +980,28 @@ public interface HttpApi {
     @POST("futures-communtiy-api/app/circle/getPraiseList")
     Observable<BaseResponse<List<PraiseMsgListBean>>> getPraiseList(
             @Field("userId") String userId
-            ,@Field("rows") int rows);
+            , @Field("rows") int rows);
 
 
     /**
      * 清空赞列表
+     *
      * @param userId
      * @return
      */
     @FormUrlEncoded
     @POST("futures-communtiy-api/app/circle/getUpdateEmpty")
     Observable<BaseResponse<JsonNull>> getClearPraiseMsg(
+            @Field("userId") String userId);
+
+    /**
+     * 消息红点显示逻辑
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-messages-api/message/index")
+    Observable<BaseResponse<Boolean>> getMsgRed(
             @Field("userId") String userId);
 }

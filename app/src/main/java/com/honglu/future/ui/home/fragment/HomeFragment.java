@@ -6,17 +6,22 @@ import android.widget.LinearLayout;
 
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.config.Constant;
 import com.honglu.future.events.HomeNotifyRefreshEvent;
 import com.honglu.future.events.LoginEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.viewmodel.BannerViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeBottomTabViewModel;
 import com.honglu.future.ui.home.viewmodel.HomeMarketPriceViewModel;
 import com.honglu.future.ui.home.viewmodel.HorizontalIconViewModel;
+import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -88,10 +93,11 @@ public class HomeFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LoginEvent event) {
-        if (homeBottomTabViewModel!=null){
+        if (homeBottomTabViewModel != null) {
             homeBottomTabViewModel.refreshData();
         }
     }
+
     /*******
      * 将事件交给事件派发controller处理
      *
@@ -99,10 +105,10 @@ public class HomeFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(RefreshUIEvent event) {
-        if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){//显示
+        if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {//显示
             bannerViewModel.v_red.setVisibility(View.VISIBLE);
-        }else  if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){//点击
-            bannerViewModel.v_red.setVisibility(View.GONE);
+        } else if (event.getType() == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {//点击
+            getMsgRed();
         }
     }
 
@@ -113,6 +119,7 @@ public class HomeFragment extends BaseFragment {
         if (hidden) {
             MPushUtil.pauseRequest();
         } else {
+            getMsgRed();
             if (homeMarketPriceViewModel != null) {
                 homeMarketPriceViewModel.refreshData();
             }
@@ -122,6 +129,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        getMsgRed();
         Log.d(TAG, "onResume: ");
         if (homeMarketPriceViewModel != null && !isHidden()) {
             homeMarketPriceViewModel.refreshData();
@@ -163,6 +171,7 @@ public class HomeFragment extends BaseFragment {
         mSmartRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                getMsgRed();
                 homeBottomTabViewModel.refreshData();
                 homeMarketPriceViewModel.refreshData();
             }
@@ -180,5 +189,25 @@ public class HomeFragment extends BaseFragment {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
         homeFragment = null;
+    }
+
+    private void getMsgRed() {
+        HttpManager.getApi().getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID)).compose(RxHelper.<Boolean>handleSimplyResult()).subscribe(new HttpSubscriber<Boolean>() {
+            @Override
+            protected void _onNext(Boolean aBoolean) {
+                super._onNext(aBoolean);
+                if (bannerViewModel != null) {
+                    bannerViewModel.v_red.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                if (bannerViewModel != null) {
+                    bannerViewModel.v_red.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

@@ -69,11 +69,11 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     @BindView(R.id.tv_click)
     TextView tv_click;
     @BindView(R.id.tv_sign)
-   View tv_sign;
+    View tv_sign;
     @BindView(R.id.rl_title)
-   View rl_title;
+    View rl_title;
     @BindView(R.id.bg_image)
-   View bg_image;
+    View bg_image;
     @BindView(R.id.iv_publish)
     ImageView mIvPublish;
     //是否查询签到 0 没请求/请求失败 1 请求中  2 请求成功
@@ -89,21 +89,20 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         }
         return circleMainFragment;
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_circle_main;
     }
+
     @Override
     public void initPresenter() {
     }
+
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
         initViews();
-        int readTag = ((MainActivity) getActivity()).getReadTag();
-        if (readTag == 1){
-            mRendView.setVisibility(View.VISIBLE);
-        }
         tv_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,9 +110,9 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 mEblLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mEblLayout.isExpanded()){
+                        if (mEblLayout.isExpanded()) {
                             tv_click.setText("点击收起");
-                        }else {
+                        } else {
                             tv_click.setText("点击下拉");
                         }
                     }
@@ -130,7 +129,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         tv_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!signPopWind.isShowing()){
+                if (!signPopWind.isShowing()) {
                     signPopWind.getSigleData();
                     bg_image.setVisibility(View.VISIBLE);
                     signPopWind.showPopupWind(rl_title);
@@ -141,7 +140,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         mIvPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity,PublishActivity.class));
+                mActivity.startActivity(new Intent(mActivity, PublishActivity.class));
             }
         });
     }
@@ -150,23 +149,40 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     public void onEventCircleThread(UIBaseEvent event) {
         if (event instanceof RefreshUIEvent) {
             int code = ((RefreshUIEvent) event).getType();
-            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY){
-               //红点显示
-                if (mRendView.getVisibility() != View.VISIBLE){
+            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {
+                //红点显示
+                if (mRendView.getVisibility() != View.VISIBLE) {
                     mRendView.setVisibility(View.VISIBLE);
                 }
-            }else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE){
-                //红点隐藏
-                if (mRendView.getVisibility() != View.INVISIBLE){
-                    mRendView.setVisibility(View.INVISIBLE);
-                }
-            }else if (code == UIBaseEvent.EVENT_LOGIN) {//登录
+            } else if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE) {
+                getMsgRed();
+            } else if (code == UIBaseEvent.EVENT_LOGIN) {//登录
                 setAvatar();
                 signPopWind.getSigleData();
-            }else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
+            } else if (code == UIBaseEvent.EVENT_UPDATE_AVATAR) {//修改头像
                 setAvatar();
             }
         }
+    }
+
+    private void getMsgRed() {
+        HttpManager.getApi().getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID)).compose(RxHelper.<Boolean>handleSimplyResult()).subscribe(new HttpSubscriber<Boolean>() {
+            @Override
+            protected void _onNext(Boolean aBoolean) {
+                super._onNext(aBoolean);
+                if (mRendView != null) {
+                    mRendView.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+                if (mRendView != null) {
+                    mRendView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setAvatar() {
@@ -176,13 +192,14 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden){
+        if (!hidden) {
+            getMsgRed();
             //getSigleData();
-            if (topicFilters == null){
+            if (topicFilters == null) {
                 getTopicList();
-            }else {
+            } else {
                 mTabsIndicatorLy.setCurrentTab(0);
-                currTopicType =Constant.topic_filter.get(0).type;
+                currTopicType = Constant.topic_filter.get(0).type;
                 EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
             }
         }
@@ -205,18 +222,20 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         mViewPager = (ViewPagerEx) mView.findViewById(R.id.viewPager);
         mViewPager.isEnable(false);
         mTabsIndicatorLy = (SlidingTabImageLayout) mView.findViewById(R.id.tablayout);
-        if (Constant.topic_filter != null){
-            topicFilters= Constant.topic_filter;
+        if (Constant.topic_filter != null) {
+            topicFilters = Constant.topic_filter;
             initCircle();
-        }else {
+        } else {
             getTopicList();
         }
         mNQTipLy = mView.findViewById(R.id.ly_nq_tip_container);
         mNQTipContentTV = (TextView) mView.findViewById(R.id.tv_nq_bottom_tip_content);
     }
-   private BasePresenter<CircleMainFragment> basePresenter;
-    private void getTopicList(){
-        if (basePresenter ==null){
+
+    private BasePresenter<CircleMainFragment> basePresenter;
+
+    private void getTopicList() {
+        if (basePresenter == null) {
             basePresenter = new BasePresenter<CircleMainFragment>(CircleMainFragment.this) {
                 @Override
                 public void getData() {
@@ -238,6 +257,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         }
         basePresenter.getData();
     }
+
     /*******
      * 将事件交给事件派发controller处理
      *
@@ -245,26 +265,26 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LoginEvent event) {
-       if (topicFilters!=null&&topicFilters.size()>0){
-           mTabsIndicatorLy.setCurrentTab(0);
-           currTopicType =Constant.topic_filter.get(0).type;
-           EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
-       }else {
-           getTopicList();
-       }
+        if (topicFilters != null && topicFilters.size() > 0) {
+            mTabsIndicatorLy.setCurrentTab(0);
+            currTopicType = Constant.topic_filter.get(0).type;
+            EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
+        } else {
+            getTopicList();
+        }
     }
 
-    private void initCircle(){
+    private void initCircle() {
         if (topicFilters != null && topicFilters.size() > 0) {
             int tabWidth = 0;
             int tabIndicatorWidth = 0;
-            if (topicFilters.size() <= 4){
+            if (topicFilters.size() <= 4) {
                 int screenWidthDip = DeviceUtils.px2dip(getActivity(), DeviceUtils.getScreenWidth(getActivity())) / topicFilters.size();
                 tabWidth = screenWidthDip;
                 tabIndicatorWidth = screenWidthDip / 2;
-            }else {
+            } else {
                 int screenWidthDip = DeviceUtils.px2dip(getActivity(), DeviceUtils.getScreenWidth(getActivity())) / 4;
-                tabWidth = screenWidthDip - (screenWidthDip / 2  / 4);
+                tabWidth = screenWidthDip - (screenWidthDip / 2 / 4);
                 tabIndicatorWidth = (int) (tabWidth / 1.5);
             }
             mTabsIndicatorLy.setTabWidth(tabWidth);
@@ -280,7 +300,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 @Override
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
-                    currTopicType =Constant.topic_filter.get(position).type;
+                    currTopicType = Constant.topic_filter.get(position).type;
                     EventBus.getDefault().post(new BBSIndicatorEvent(currTopicType, true));
                 }
             });
@@ -291,18 +311,20 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                     return false;
                 }
             });
-            if (topicFilters.size()==1){
+            if (topicFilters.size() == 1) {
                 mTabsIndicatorLy.setVisibility(View.GONE);
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         ViewHelper.setVisibility(mMessageHintLy
                 , !TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_TAG_UID)));
-        if (!isHidden()){
+        if (!isHidden()) {
             //getSigleData();
+            getMsgRed();
         }
     }
 
@@ -310,14 +332,15 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,CircleMineActivity.class);
-                intent.putExtra("userId",SpUtil.getString(Constant.CACHE_TAG_UID));
-                intent.putExtra("imgHead",SpUtil.getString(Constant.CACHE_USER_AVATAR));
-                intent.putExtra("nickName",SpUtil.getString(Constant.CACHE_TAG_USERNAME));
+                Intent intent = new Intent(mContext, CircleMineActivity.class);
+                intent.putExtra("userId", SpUtil.getString(Constant.CACHE_TAG_UID));
+                intent.putExtra("imgHead", SpUtil.getString(Constant.CACHE_USER_AVATAR));
+                intent.putExtra("nickName", SpUtil.getString(Constant.CACHE_TAG_USERNAME));
                 startActivity(intent);
             }
         };
     }
+
     private View.OnClickListener getMessageLabelClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -333,27 +356,27 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
     /**
      * 获取签到数据
      */
-    private void getSigleData(){
-        if (!App.getConfig().getLoginStatus()){
+    private void getSigleData() {
+        if (!App.getConfig().getLoginStatus()) {
             return;
         }
-        if (isQuerySignState == 0 || isClickSign){
+        if (isQuerySignState == 0 || isClickSign) {
             mEblLayout.collapse();
         }
-        if (isQuerySignState==2){
-            if (!isClickSign){
-                if (!mEblLayout.isExpanded()){
+        if (isQuerySignState == 2) {
+            if (!isClickSign) {
+                if (!mEblLayout.isExpanded()) {
                     //创建 签到标签
                     mEblLayout.expand();
                     tv_click.setText("点击收起");
                 }
-            }else {
+            } else {
                 mEblLayout.collapse();
                 tv_click.setText("点击下拉");
             }
         }
         //签到
-        if (isQuerySignState == 0){
+        if (isQuerySignState == 0) {
             isQuerySignState = 1;
             String string = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
             //访问接口
@@ -367,36 +390,37 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                     isClickSign = isSign;
                     List<SignBean.SignListBean> signList = signBean.getSignList();
                     int signCount = signBean.count;
-                    for (int i = 0 ; i < signList.size() ; i++){
-                        if (i < signCount){
+                    for (int i = 0; i < signList.size(); i++) {
+                        if (i < signCount) {
                             SignBean.SignListBean bean = signList.get(i);
                             bean.setSign(true);
-                        }else if (i == signCount&&!isSign){
+                        } else if (i == signCount && !isSign) {
                             SignBean.SignListBean bean = signList.get(i);
                             bean.setSignClick(true);
                         }
                     }
-                    if (!isClickSign){
+                    if (!isClickSign) {
                         //创建 签到标签
                         mEblLayout.expand();
                         tv_click.setText("点击收起");
-                    }else {
+                    } else {
                         mEblLayout.collapse();
                         tv_click.setText("点击下拉");
                     }
                     mFlSign.removeAllViews();
-                    for (int i = 0 ; i < signList.size() ; i++){
-                        CircleSignView signView = new CircleSignView(CircleMainFragment.this.getActivity(),i,signList.size(),CircleMainFragment.this);
+                    for (int i = 0; i < signList.size(); i++) {
+                        CircleSignView signView = new CircleSignView(CircleMainFragment.this.getActivity(), i, signList.size(), CircleMainFragment.this);
                         signView.setSignData(signList.get(i));
                         mFlSign.addView(signView);
                     }
                 }
+
                 @Override
                 protected void _onError(String message) {
                     super._onError(message);
                     tv_click.setVisibility(View.GONE);
                     CircleMainFragment.this.isQuerySignState = 0;
-                    Log.d("getSigleData", "_onError: "+message);
+                    Log.d("getSigleData", "_onError: " + message);
                 }
             });
         }
@@ -407,7 +431,7 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         mEblLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mEblLayout.isExpanded()){
+                if (mEblLayout.isExpanded()) {
                     mEblLayout.collapse(true);
                     isClickSign = true;
                     tv_click.setText("点击下拉");
