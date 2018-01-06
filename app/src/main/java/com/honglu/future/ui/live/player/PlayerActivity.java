@@ -46,6 +46,7 @@ import com.gensee.player.Player;
 import com.gensee.routine.UserInfo;
 import com.gensee.utils.GenseeLog;
 import com.honglu.future.R;
+import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.live.bean.LiveListBean;
@@ -65,7 +66,7 @@ import java.util.List;
  * 直播页面
  * Created by zq on 2017/12/22.
  */
-public class PlayerActivity extends FragmentActivity implements OnPlayListener, View.OnClickListener, OnChatListener {
+public class PlayerActivity extends BaseActivity implements OnPlayListener, View.OnClickListener, OnChatListener {
 
     private static final String TAG = "PlayerDemoActivity";
     private SharedPreferences preferences;
@@ -80,7 +81,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 
     private ProgressBar mProgressBar;
     private ChatFragment mChatFragment;
-    //    private MainPointFragment mMainPointFragment;
+    private MainPointFragment mMainPointFragment;
     private ViedoFragment mViedoFragment;
     private LiveInfoFragment mLiveInfoFragment;
     private FragmentManager mFragmentManager;
@@ -101,6 +102,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private Intent serviceIntent;
 
     private int inviteMediaType;
+    private String mRoomId;
 
     interface HANDlER {
         int USERINCREASE = 1;
@@ -196,14 +198,23 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getLayoutId() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.activity_player_layout);
+        return R.layout.activity_player_layout;
+    }
+
+    @Override
+    public void initPresenter() {
+
+    }
+
+    @Override
+    public void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
         if (!NetUtil.isConnected(this)) {
             new AlertFragmentDialog.Builder(this).setContent("网络异常,请检查网络连接...")
@@ -260,6 +271,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         String number = bean.chatRoomId;
         String nickName = SpUtil.getString(Constant.CACHE_TAG_USERNAME);
         String joinPwd = bean.roomJoinPassword;
+        mRoomId = bean.chatRoomId;
         if ("".equals(domain) || "".equals(number) || "".equals(nickName)) {
             ToastUtil.show("域名/编号/昵称 都不能为空");
             return;
@@ -286,7 +298,7 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
     private void addTabEntities() {
         mTabList = new ArrayList<>();
         mTabList.add(new TabEntity("实时互动"));
-//        mTabList.add(new TabEntity("直播重点"));
+        mTabList.add(new TabEntity("直播重点"));
         mTabList.add(new TabEntity("节目信息"));
     }
 
@@ -296,8 +308,8 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
         }
         mChatFragment = new ChatFragment(this, mPlayer);
         mFragments.add(mChatFragment);
-//        mMainPointFragment = new MainPointFragment();
-//        mFragments.add(mMainPointFragment);
+        mMainPointFragment = new MainPointFragment();
+        mFragments.add(mMainPointFragment);
         mLiveInfoFragment = new LiveInfoFragment();
         mFragments.add(mLiveInfoFragment);
 
@@ -311,6 +323,9 @@ public class PlayerActivity extends FragmentActivity implements OnPlayListener, 
 //                } else if (position == 1) {
 //                    mFriendToMyFragment.refresh();
 //                }
+                if(position == 1){
+                    mMainPointFragment.setRoomId(mRoomId);
+                }
             }
         });
     }

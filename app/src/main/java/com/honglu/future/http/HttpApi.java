@@ -25,6 +25,7 @@ import com.honglu.future.ui.home.bean.HomeMessageItem;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.home.bean.NewsFlashData;
 import com.honglu.future.ui.live.bean.LiveListBean;
+import com.honglu.future.ui.live.bean.LivePointBean;
 import com.honglu.future.ui.main.bean.AuditedBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
 import com.honglu.future.ui.msg.bean.CircleMsgBean;
@@ -193,6 +194,11 @@ public interface HttpApi {
     Observable<BaseResponse<List<EntrustBean>>> getEntrustList(@Field("userId") String userId,
                                                                @Field("token") String token,
                                                                @Field("company") String company);
+
+    //获取直播重点
+    @FormUrlEncoded
+    @POST("futures-userlive-api/userLiveOnImport/getLiveOnListInfo")
+    Observable<BaseResponse<List<LivePointBean>>> getLivePointList(@Field("tbLiveRoomId") String tbLiveRoomId);
 
     //委托撤单
     @FormUrlEncoded
