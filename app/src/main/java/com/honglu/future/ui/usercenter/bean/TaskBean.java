@@ -1,22 +1,30 @@
 package com.honglu.future.ui.usercenter.bean;
 
+import android.text.TextUtils;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 
 //任务的bean类
 public class TaskBean implements Serializable {
-
+    @SerializedName("task_link")
     public String url;//跳转链接
+    @SerializedName("task_name")
     public String title;//任务名称
-    public String content;//任务内容
+    @SerializedName("taskTitle")
+    public String content = "2nisdssd";//任务内容
+    public int is_finish;
+    public String task_desc;//是否显示灯泡
     public boolean isComplete; //是否已经完成
-    public boolean isShowDengBao;//是否显示灯泡
+
 
     public boolean isComplete() {
-        return isComplete;
+        return is_finish==1;
     }
 
     public boolean isShowDengBao() {
-        return isShowDengBao = true;
+        return !TextUtils.isEmpty(task_desc);
     }
 }

@@ -173,8 +173,8 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 tv_live_state.setVisibility(View.GONE);
                 live_gif.setVisibility(View.VISIBLE);
                 Glide.with(context).load(R.mipmap.live).diskCacheStrategy(DiskCacheStrategy.ALL).into(
-                        new GlideDrawableImageViewTarget(live_gif)) ;
-            } else if (item.roomStatus == 2){
+                        new GlideDrawableImageViewTarget(live_gif));
+            } else if (item.roomStatus == 2) {
                 tv_live_state.setVisibility(View.VISIBLE);
                 live_gif.setVisibility(View.GONE);
                 tv_live_num.setVisibility(View.GONE);
@@ -184,7 +184,7 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.oval);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tv_live_state.setCompoundDrawables(drawable, null, null, null);
-            }else if (item.roomStatus == 3){
+            } else if (item.roomStatus == 3) {
                 tv_live_state.setVisibility(View.VISIBLE);
                 live_gif.setVisibility(View.GONE);
                 tv_live_num.setVisibility(View.GONE);
@@ -218,7 +218,6 @@ public class LiveAdapter extends CommonAdapter<LiveListBean> {
                     }else if (item.roomStatus == 3){
                         ToastUtil.show("直播已结束");
                     }
-
                 }
             });
         }

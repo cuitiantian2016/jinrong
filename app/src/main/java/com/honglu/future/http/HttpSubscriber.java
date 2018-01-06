@@ -67,16 +67,16 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
             } else if (((ApiException) e).getCode() == ERROR_REQUEST_ERROR) {
                 _onError("请求错误", ERROR_REQUEST_ERROR);
             } else if (((ApiException) e).getCode() == ERROR_ACCOUNT_TIME_OUT) {
-                if(!SpUtil.getBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED)) {
+                if (!SpUtil.getBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED)) {
                     new AlertFragmentDialog.Builder(AppManager.getInstance().currentActivity())
                             .setRightBtnText("知道了").setContent("您已长时间未发生交易，为保证资金安全，已退出交易账户").setTitle("安全提示")
                             .setCheckChangeCallBack(new AlertFragmentDialog.CheckChangeCallBack() {
                                 @Override
                                 public void dialogCheckChange(boolean isChecked) {
-                                    if(isChecked){
-                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,true);
-                                    } else{
-                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED,false);
+                                    if (isChecked) {
+                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED, true);
+                                    } else {
+                                        SpUtil.putBoolean(Constant.ACCOUNT_TIME_OUT_CHECKED, false);
                                     }
                                 }
                             })
@@ -84,7 +84,7 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                 }
             } else if (((ApiException) e).getCode() == ERROR_ACCOUNT_OTHER_LOGIN) {
                 ToastUtil.show("账号已在另一台设备登录，请重新登录", 3000);
-            }else {
+            } else {
                 _onError(e.getMessage(), ((ApiException) e).getCode());
             }
         } else if (e instanceof HttpException) {

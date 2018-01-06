@@ -51,6 +51,7 @@ import com.honglu.future.ui.trade.bean.SettlementInfoBean;
 import com.honglu.future.ui.trade.bean.TickChartBean;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.ui.usercenter.bean.BindCardBean;
+import com.honglu.future.ui.usercenter.bean.TaskBean;
 import com.honglu.future.ui.usercenter.bean.UserInfoBean;
 
 import java.util.List;
@@ -999,7 +1000,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-messages-api/message/index")
+    @POST("futures-messages-api/message/index")
     Observable<BaseResponse<Boolean>> getMsgRed(
             @Field("userId") String userId);
 
@@ -1010,7 +1011,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-messages-api/message/detail")
+    @POST("futures-messages-api/message/detail")
     Observable<BaseResponse<SystemMsgBean>> getSystemMsgDetial(@Field("messageId") String messageId);
 
     /**
@@ -1019,9 +1020,18 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-messages-api/message/clear")
+    @POST("futures-messages-api/message/clear")
     Observable<BaseResponse<JsonNull>> getMsgClear(@Field("userId") String userId
             , @Field("messageType") int messageType);
+    /**
+     * 系统消息列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("http://192.168.90.212:8080/futures-taskscore-api/task/taskList")
+    Observable<BaseResponse<List<TaskBean>>> getTaskList(@Field("userId") String userId
+            , @Field("taskCategory") int taskCategory);
 
 
 }

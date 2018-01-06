@@ -2,6 +2,7 @@ package com.honglu.future.ui.usercenter.task;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
+import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
 import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.usercenter.bean.TaskBean;
@@ -26,6 +28,11 @@ import com.honglu.future.util.ToastUtil;
 public class TaskAdapter extends CommonAdapter<TaskBean> {
     private static String TRADE_FRAGMENT = "xiaoniuqihuo://future/trade/pay";
     private static String KAI_HU = "kaihu";
+    FragmentActivity activity;
+
+    public TaskAdapter(FragmentActivity activity) {
+        this.activity = activity;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -66,6 +73,20 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
             tv_content.setText(item.content);
             iv_attention.setEnabled(!item.isComplete());
             image_dengbao.setVisibility(item.isShowDengBao() ? View.VISIBLE : View.GONE);
+            image_dengbao.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertFragmentDialog.Builder(activity).setContent(item.task_desc)
+                            .setRightBtnText("知道了")
+                            .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                                @Override
+                                public void dialogRightBtnClick(String inputString) {
+
+                                }
+                            })
+                            .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+                }
+            });
             iv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

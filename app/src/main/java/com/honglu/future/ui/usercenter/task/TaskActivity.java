@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
@@ -80,6 +81,16 @@ public class TaskActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void hindTab(){
+        mTabLayout.setVisibility(View.GONE);
+    }
+
+    public void showTab(){
+        if (mTabLayout.getVisibility()!=View.VISIBLE){
+            mTabLayout.setVisibility(View.GONE);
+        }
     }
 
 }
