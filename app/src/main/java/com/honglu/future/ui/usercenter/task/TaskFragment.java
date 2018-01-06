@@ -1,6 +1,5 @@
 package com.honglu.future.ui.usercenter.task;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,9 +10,7 @@ import com.honglu.future.ui.usercenter.bean.TaskBean;
 import com.honglu.future.util.AndroidUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
 
 import java.util.ArrayList;
 
@@ -31,8 +28,6 @@ public class TaskFragment extends BaseFragment {
     private View mLLEmpty;
     private boolean mIsNew;
     private TaskAdapter mAdapter;
-    private TextView mFollowIv;
-    private boolean isMore;
     private int rows = 0;
 
     String[] urls = {"xiaoniuqihuo://future/future/main",
@@ -123,18 +118,7 @@ public class TaskFragment extends BaseFragment {
                 getFriendList(true);
             }
         });
-        mPullToRefreshView.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                if (isMore) {
-                    getFriendList(false);
-                } else {
-                    mPullToRefreshView.finishLoadmore();
-                }
-            }
-        });
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
-        listView.setEmptyView(mLLEmpty);
         mAdapter = new TaskAdapter();
         listView.setAdapter(mAdapter);
         listView.setDividerHeight(AndroidUtil.dip2px(getContext(), 10));

@@ -82,7 +82,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     TextView mTvName;
     TextView mTvPosition;
     TextView mTvComment;
-    TextView mTvTime ,pinglun_num;
+    TextView mTvTime, pinglun_num;
     LinearLayout mLinearPraise;
     LinearLayout mLlAgree;
     LinearLayout mLlPics;
@@ -105,48 +105,59 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private boolean isComm;
     private String shareTitle;
     private String homePic;
-    public static void startConsultDetailsActivity(HomeMessageItem item, Context context){
-        Intent intent = new Intent(context,ConsultDetailsActivity.class);
-        intent.putExtra(KEY_MESSAGE_ITEM,item);
+
+    public static void startConsultDetailsActivity(HomeMessageItem item, Context context) {
+        Intent intent = new Intent(context, ConsultDetailsActivity.class);
+        intent.putExtra(KEY_MESSAGE_ITEM, item);
         context.startActivity(intent);
 
     }
+
     @Override
-    public void showLoading(String content) {}
+    public void showLoading(String content) {
+    }
+
     @Override
-    public void stopLoading() {}
+    public void stopLoading() {
+    }
+
     @Override
     public void showErrorMsg(String msg, String type) {
         mRefreshView.finishRefresh();
-        if (TextUtils.isEmpty(type)&&type.equals(ISComment)){
+        if (TextUtils.isEmpty(type) && type.equals(ISComment)) {
             isComm = false;
         }
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.acticity_consult_details;
     }
+
     @Override
     public void initPresenter() {
         mPresenter.init(this);
     }
+
     @Override
     public void loadData() {
         initView();
     }
+
     @Override
     protected void onDestroy() {
         mPresenter.onDestroy();
         super.onDestroy();
     }
+
     private void initView() {
         mTitle.setTitle(true, R.color.trans, "");
         mTitle.setRightTitle(R.mipmap.ic_share, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.isEmpty(shareTitle)){
-                    String title = shareTitle.length() >=23 ? shareTitle.substring(0,22)+"..." : shareTitle;
-                    ShareUtils.getIntance().share(ConsultDetailsActivity.this, homePic+"?x-oss-process=image/resize,m_fixed,h_100,w_100", ConfigUtil.baseH5Url+"connector/infoShare?informationId="+informationId, title, "投资达人喜欢的社区");
+                if (!TextUtils.isEmpty(shareTitle)) {
+                    String title = shareTitle.length() >= 23 ? shareTitle.substring(0, 22) + "..." : shareTitle;
+                    ShareUtils.getIntance().share(ConsultDetailsActivity.this, homePic + "?x-oss-process=image/resize,m_fixed,h_100,w_100", ConfigUtil.baseH5Url + "connector/infoShare?informationId=" + informationId, title, "投资达人喜欢的社区");
                 }
             }
         });
@@ -191,9 +202,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         //设置监听
         setListener();
         Intent intent = getIntent();
-        if (intent!=null){
+        if (intent != null) {
             HomeMessageItem item = (HomeMessageItem) intent.getSerializableExtra(KEY_MESSAGE_ITEM);
-            if (item !=null) {
+            if (item != null) {
                 ImageUtil.display(item.homePic, mImageHead, R.mipmap.other_empty);
                 ImageUtil.display(ConfigUtil.baseImageUserUrl + item.userAvatar, mUserIcon, R.mipmap.img_head);
                 mTvTitle.setText(item.title);
@@ -218,9 +229,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 } else {
                     mSupportIv.setImageResource(R.mipmap.icon_support_normal);
                 }
-            }else {
+            } else {
                 informationId = getIntent().getStringExtra("informationId");
-                mPosition = getIntent().getIntExtra("position",0);
+                mPosition = getIntent().getIntExtra("position", 0);
                 mPresenter.getMessageData(informationId);
             }
         }
@@ -228,8 +239,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             @Override
             public void onClick(View view) {
                 String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
-                if (isLogin()){
-                    mPresenter.praiseMessage(informationId,uID);
+                if (isLogin()) {
+                    mPresenter.praiseMessage(informationId, uID);
                 }
             }
         });
@@ -239,22 +250,24 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     protected void onResume() {
         super.onResume();
         String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
-        if (!TextUtils.isEmpty(uID)){
+        if (!TextUtils.isEmpty(uID)) {
             mInputEdit.setFocusable(true);
             mInputEdit.setFocusableInTouchMode(true);
             mInputEdit.requestFocus();
         }
     }
 
-    private boolean isLogin(){
+    private boolean isLogin() {
         String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
-        if (TextUtils.isEmpty(uID)){
+        if (TextUtils.isEmpty(uID)) {
             startActivity(new Intent(ConsultDetailsActivity.this, LoginActivity.class));
             return false;
         }
         return true;
     }
+
     private String mStrReplyPostmanId = "";
+
     private void setListener() {
         mRefreshView.setEnableLoadmore(false);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -263,7 +276,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 InformationCommentBean bbs = (InformationCommentBean) parent.getItemAtPosition(position);
                 if (bbs != null) {
-                    if(!isLogin()){
+                    if (!isLogin()) {
                         return;
                     }
                     mInputEdit.setFocusable(true);
@@ -292,7 +305,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLogin()){
+                if (!isLogin()) {
                     return;
                 }
                 if (DeviceUtils.isFastDoubleClick()) {
@@ -300,11 +313,11 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 }
                 if (!TextUtils.isEmpty(mInputEdit.getText().toString().trim())) {
                     String content = mInputEdit.getText().toString();
-                    if (isComm){
+                    if (isComm) {
                         return;
                     }
-                    isComm=true;
-                  mPresenter.commentMessage(SpUtil.getString(Constant.CACHE_TAG_UID),informationId,mStrReplyPostmanId,content);
+                    isComm = true;
+                    mPresenter.commentMessage(SpUtil.getString(Constant.CACHE_TAG_UID), informationId, mStrReplyPostmanId, content);
                 } else {
                     ToastUtil.show("请填写评论内容");
                 }
@@ -323,7 +336,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     public void bindData(ConsultDetailsBean bean) {
         isRefrsh = true;
         ImageUtil.display(bean.homePic, mImageHead, R.mipmap.other_empty);
-        ImageUtil.display(ConfigUtil.baseImageUserUrl+ bean.userAvatar, mUserIcon, R.mipmap.img_head);
+        ImageUtil.display(ConfigUtil.baseImageUserUrl + bean.userAvatar, mUserIcon, R.mipmap.img_head);
         mTvTitle.setText(bean.title);
         shareTitle = bean.title;
         homePic = bean.homePic;
@@ -331,22 +344,22 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mTopicAdapter.setNickName(bean.nickname);
         mTvPosition.setText(bean.userRole);
         commentNum = bean.commentNum;
-        mTvComment.setText(commentNum+ "条评论");
-        pinglun_num.setText(""+commentNum);
+        mTvComment.setText(commentNum + "条评论");
+        pinglun_num.setText("" + commentNum);
         praiseCounts = bean.praiseCounts;
-        mTvSupportNum.setText(praiseCounts+"人点赞");
+        mTvSupportNum.setText(praiseCounts + "人点赞");
         if (!TextUtils.isEmpty(bean.showTime) && bean.showTime.length() > 16) {
             mTvTime.setText(computingTime(bean.showTime));
         }
-        if (bean.isPraise>0){
+        if (bean.isPraise > 0) {
             mSupportIv.setImageResource(R.mipmap.icon_support_click);
-        }else {
+        } else {
             mSupportIv.setImageResource(R.mipmap.icon_support_normal);
         }
         mPresenter.getReplyList(informationId);
         //设置字体大小
         WebSettings webSettings = mContentWv.getSettings();
-        webSettings.setTextZoom (110);
+        webSettings.setTextZoom(110);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//把html中的内容放大webview等宽的一列中
         webSettings.setJavaScriptEnabled(true);//支持js
         webSettings.setBuiltInZoomControls(false); // 显示放大缩小
@@ -368,7 +381,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         updatePraiseUser(bean.praiseAvatars);
     }
 
-    public class MyWebViewClient extends WebViewClient{
+    public class MyWebViewClient extends WebViewClient {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -411,9 +424,11 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 "}" +
                 "})()");
     }
-    public class JavaScriptInterface{
+
+    public class JavaScriptInterface {
         Context context;
-        public JavaScriptInterface(Context context){
+
+        public JavaScriptInterface(Context context) {
             this.context = context;
         }
 
@@ -431,6 +446,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             context.startActivity(intent);
         }
     }
+
     /**
      * 内容中的图片加载
      *
@@ -478,6 +494,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             }
         }
     }
+
     /**
      * 更新点赞列表
      *
@@ -486,9 +503,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private void updatePraiseUser(List<String> praiseUserList) {
         mLinearPraise.removeAllViews();
         if (praiseUserList != null) {
-            if (praiseUserList.size()==0){
+            if (praiseUserList.size() == 0) {
                 mLinearPraise.setVisibility(View.GONE);
-            }else {
+            } else {
                 mLinearPraise.setVisibility(View.VISIBLE);
             }
             for (String praiseUser : praiseUserList) {
@@ -502,9 +519,12 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
             }
         }
     }
+
     private boolean mIsWebLoaded;
+
     /**
      * 解析加载h5代码
+     *
      * @param html
      * @return
      */
@@ -516,6 +536,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         }
         return doc.toString();
     }
+
     @Override
     public void praiseSuccess(List<String> praiseUserList) {
         ToastUtil.show("点赞成功");
@@ -523,18 +544,19 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mSupportIv.setImageResource(R.mipmap.icon_support_click);
         ClickPraiseEvent clickPraiseEvent = new ClickPraiseEvent();
         clickPraiseEvent.position = mPosition;
+        clickPraiseEvent.informationId = informationId;
         EventBus.getDefault().post(clickPraiseEvent);
-        mTvSupportNum.setText(praiseCounts+"人点赞");
+        mTvSupportNum.setText(praiseCounts + "人点赞");
         updatePraiseUser(praiseUserList);
     }
 
     @Override
     public void commentSuccess() {
-        isComm =false;
+        isComm = false;
         mInputEdit.setText("");
         ++commentNum;
-        mTvComment.setText(commentNum+ "条评论");
-        pinglun_num.setText(commentNum+ "");
+        mTvComment.setText(commentNum + "条评论");
+        pinglun_num.setText(commentNum + "");
         CommentEvent clickPraiseEvent = new CommentEvent();
         clickPraiseEvent.position = mPosition;
         EventBus.getDefault().post(clickPraiseEvent);
@@ -544,11 +566,11 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     @Override
     public void bindReplyList(final List<InformationCommentBean> list) {
-        mRefreshView.finishRefresh(0,true);
+        mRefreshView.finishRefresh(0, true);
         mInputEdit.setText("");
         //加载评论列表
         mTopicAdapter.setDatas(list);
-        if (!isRefrsh){
+        if (!isRefrsh) {
             //滚到第一条
             mListView.setSelection(1);
         }

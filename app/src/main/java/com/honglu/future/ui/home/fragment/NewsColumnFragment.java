@@ -1,5 +1,6 @@
 package com.honglu.future.ui.home.fragment;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.honglu.future.R;
@@ -40,34 +41,36 @@ public class NewsColumnFragment extends BaseFragment {
 
     /**
      * 刷新view
+     *
      * @param data
      */
-    private void setDataToView(List<HomeMessageItem> data){
-        if (data == null || data.size()<=0){
+    private void setDataToView(List<HomeMessageItem> data) {
+        if (data == null || data.size() <= 0) {
             return;
         }
         EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
         mListData = data;
         mLinearLayout.removeAllViews();
-        NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
+        NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout, mListData);
     }
 
     /**
      * 错误信息处理
      */
-    private void err(){
-        if (mListData ==null){
+    private void err() {
+        if (mListData == null) {
             mListData = new ArrayList<>();
         }
         EventBus.getDefault().post(new HomeNotifyRefreshEvent(HomeNotifyRefreshEvent.TYPE_REFRESH_FINISH));
         mListData.clear();
-        NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
+        NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout, mListData);
     }
+
     /**
      * 从网上获取数据
      */
-    public void refresh(){
-        if (mBasePresenter == null){
+    public void refresh() {
+        if (mBasePresenter == null) {
             mBasePresenter = new BasePresenter<NewsColumnFragment>(this) {
                 @Override
                 public void getData() {
@@ -100,11 +103,13 @@ public class NewsColumnFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return  R.layout.fragment_news_column;
+        return R.layout.fragment_news_column;
     }
+
     @Override
     public void initPresenter() {
     }
+
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
@@ -114,51 +119,68 @@ public class NewsColumnFragment extends BaseFragment {
 
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ClickPraiseEvent event) {
         praise(event.position);
     }
+
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(RefreshUIEvent event) {
-      if (event.getType() == EVENT_HOME_REFRESH){
-          refresh();
-      }
+        if (event.getType() == EVENT_HOME_REFRESH) {
+            refresh();
+        }
     }
 
 
     /*******
      * 将事件交给事件派发controller处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(CommentEvent event) {
         comment(event.position);
     }
+
     /**
      * 点赞之后刷新布局
      */
-    public void praise(int position){
-        if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem item = mListData.get(position);
-            item.praiseCounts = item.praiseCounts+1;
-            item.isPraise = 1;
-            NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
+    public void praise(int position) {
+        if (mListData != null && mListData.size() > 0) {
+            try {
+                HomeMessageItem item = mListData.get(position);
+                item.praiseCounts = item.praiseCounts + 1;
+                item.isPraise = 1;
+                NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout, mListData);
+            } catch (Exception e) {
+                Log.d("e", e.getMessage());
+                refresh();
+            }
         }
     }
+
     /**
      * 评论之后刷新布局
      */
-    public void comment(int position){
-        if (mListData!=null&&mListData.size()>0){
-            HomeMessageItem item = mListData.get(position);
-            item.commentNum = item.commentNum+1;
-            NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout,mListData);
+    public void comment(int position) {
+        if (mListData != null && mListData.size() > 0) {
+            try {
+                HomeMessageItem item = mListData.get(position);
+                item.commentNum = item.commentNum + 1;
+                NewsCloumnViewUtils.refreshEconomicViews(mLinearLayout, mListData);
+            } catch (Exception e) {
+                Log.d("e", e.getMessage());
+                refresh();
+            }
+
         }
     }
 }
