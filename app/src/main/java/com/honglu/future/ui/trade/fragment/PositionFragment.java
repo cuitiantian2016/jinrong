@@ -1,5 +1,6 @@
 package com.honglu.future.ui.trade.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -38,11 +38,9 @@ import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
-import com.honglu.future.util.NumberUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
-import com.honglu.future.widget.popupwind.PositionPopWind;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -63,7 +61,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/10/26.
  */
 public class PositionFragment extends BaseFragment<PositionPresenter> implements PositionContract.View, AccountContract.View,
-        PositionPopWind.OnButtonClickListener, PositionAdapter.OnShowPopupClickListener, BillConfirmDialog.OnConfirmClickListener {
+        PositionAdapter.OnShowPopupClickListener, BillConfirmDialog.OnConfirmClickListener {
     @BindView(R.id.lv_listView)
     ListView mListView;
     @BindView(R.id.srl_refreshView)
@@ -82,7 +80,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     private PositionDialog mPositionDialog;
     private CloseTransactionDialog mCloseDialog;
     private BillConfirmDialog billConfirmDialog;
-    private PositionPopWind mPopWind;
     private HoldPositionBean mHoldPositionBean;
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -182,7 +179,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
-        mPopWind = new PositionPopWind(mContext);
         mPositionDialog = new PositionDialog(mContext);
         mCloseDialog = new CloseTransactionDialog(getActivity());
         mAdapter = new PositionAdapter(PositionFragment.this);
@@ -212,10 +208,15 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         setEmptyView(true);
 
         mAdapter.setOnShowPopupClickListener(this);
-        mPopWind.setOnButtonClickListener(this);
-        mPopWind.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        mPositionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onDismiss() {
+            public void onDismiss(DialogInterface dialog) {
+                startRun();
+            }
+        });
+        mCloseDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
                 startRun();
             }
         });
@@ -312,24 +313,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mPositionDialog.showPopupWind(mHoldPositionBean, list);
     }
 
-    @Override
-    public void onDetailClick(HoldPositionBean bean) {
-        mHoldPositionBean = bean;
-        mPresenter.getHoldPositionDetail(bean.getInstrumentId(),
-                String.valueOf(bean.getType()),
-                String.valueOf(bean.getTodayPosition()),
-                SpUtil.getString(Constant.CACHE_TAG_UID),
-                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
-    }
-
-    //显示平仓
-    @Override
-    public void onCloseClick(HoldPositionBean bean) {
-        if (bean != null && !TextUtils.isEmpty(bean.getInstrumentId())) {
-            this.mHoldPositionBean = bean;
-            mPresenter.getProductDetail(bean.getInstrumentId());
-        }
-    }
 
     //产品详情
     @Override
@@ -342,7 +325,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void closeOrderSuccess() {
         showToast("平仓成功");
         mCloseDialog.dismiss();
-        mPopWind.dismiss();
         getPositionList();
     }
 
@@ -365,12 +347,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mHandler.postDelayed(mPositionRunnable, 1000);
     }
 
-
-    @Override
-    public void onShowPopupClick(View view, HoldPositionBean bean) {
-        stopRun();
-        mPopWind.showPopupWind(view, bean);
-    }
 
     @Override
     public void onDestroyView() {
@@ -408,5 +384,25 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void onConfirmClick() {
         mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
+
+    @Override
+    public void onClosePositionClick(View view, HoldPositionBean bean) {
+        if (bean != null && !TextUtils.isEmpty(bean.getInstrumentId())) {
+            stopRun();
+            this.mHoldPositionBean = bean;
+            mPresenter.getProductDetail(bean.getInstrumentId());
+        }
+    }
+
+    @Override
+    public void onHoldDetailClick(View view, HoldPositionBean bean) {
+        stopRun();
+        mHoldPositionBean = bean;
+        mPresenter.getHoldPositionDetail(bean.getInstrumentId(),
+                String.valueOf(bean.getType()),
+                String.valueOf(bean.getTodayPosition()),
+                SpUtil.getString(Constant.CACHE_TAG_UID),
+                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN));
     }
 }

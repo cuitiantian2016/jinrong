@@ -12,7 +12,6 @@ import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.fragment.PositionFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
-import com.honglu.future.widget.popupwind.PositionPopWind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,9 @@ public class PositionAdapter extends BaseAdapter {
     private List<HoldPositionBean> mList;
 
     public interface OnShowPopupClickListener {
-        void onShowPopupClick(View view, HoldPositionBean bean);
+        void onClosePositionClick(View view, HoldPositionBean bean);
+
+        void onHoldDetailClick(View view, HoldPositionBean bean);
     }
 
     private OnShowPopupClickListener mListener;
@@ -111,10 +112,10 @@ public class PositionAdapter extends BaseAdapter {
         holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
         holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
 
-        if(Double.parseDouble(holdPositionBean.getTodayProfit())>0){
+        if (Double.parseDouble(holdPositionBean.getTodayProfit()) > 0) {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
-            holder.tvProfitLoss.setText("+"+holdPositionBean.getTodayProfit());
-        } else if(Double.parseDouble(holdPositionBean.getTodayProfit())<0){
+            holder.tvProfitLoss.setText("+" + holdPositionBean.getTodayProfit());
+        } else if (Double.parseDouble(holdPositionBean.getTodayProfit()) < 0) {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
             holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
         } else {
@@ -125,17 +126,34 @@ public class PositionAdapter extends BaseAdapter {
         holder.vBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onShowPopupClick(v, holdPositionBean);
+                Intent intent = new Intent(mContext, KLineMarketActivity.class);
+                intent.putExtra("excode", holdPositionBean.getExcode());
+                intent.putExtra("code", holdPositionBean.getInstrumentId());
+                intent.putExtra("isClosed", "1");
+                mContext.startActivity(intent);
             }
         });
         holder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, KLineMarketActivity.class);
-                intent.putExtra("excode",holdPositionBean.getExcode());
-                intent.putExtra("code",holdPositionBean.getInstrumentId());
-                intent.putExtra("isClosed","1");
+                intent.putExtra("excode", holdPositionBean.getExcode());
+                intent.putExtra("code", holdPositionBean.getInstrumentId());
+                intent.putExtra("isClosed", "1");
                 mContext.startActivity(intent);
+            }
+        });
+        holder.mTvFastClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClosePositionClick(v, holdPositionBean);
+            }
+        });
+
+        holder.mTvHoldDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onHoldDetailClick(v, holdPositionBean);
             }
         });
         return convertView;
@@ -156,6 +174,10 @@ public class PositionAdapter extends BaseAdapter {
         TextView tvProfitLoss;
         @BindView(R.id.v_bootomView)
         View vBottomView;
+        @BindView(R.id.tv_fast_close)
+        TextView mTvFastClose;
+        @BindView(R.id.tv_hold_detail)
+        TextView mTvHoldDetail;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
