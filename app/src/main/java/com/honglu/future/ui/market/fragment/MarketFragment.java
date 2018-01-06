@@ -173,11 +173,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         if (event instanceof RefreshUIEvent) {
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZHULI) {//首页跳转主力合约
-                mPosition = 1;
                 tabAdapter.updateTabSelection(ZLHY_TYPE);
                 setCurrentTab(1);
             }else if (code == UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_ZX){//跳转自选
-                mPosition = 1;
                 tabAdapter.updateTabSelection(ZXHQ_TYPE);
                 setCurrentTab(0);
             }
@@ -336,6 +334,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
 
     //选择对应的mFragments
     private void setCurrentTab(int position){
+        mPosition = position;
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         if (mTabList !=null && mFragments !=null && mTabList.size() == mFragments.size() && mIsInItFragment){
 
