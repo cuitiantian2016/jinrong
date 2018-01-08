@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,11 +24,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dimen_10dp"
-                android:textStyle="bold"
                 android:drawableRight="@mipmap/ic_trade_tip"
                 android:text="------"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_20sp" />
+                android:textSize="@dimen/dimen_20sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/iv_close"
@@ -41,51 +41,124 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_EDEDED"
-            android:layout_marginTop="@dimen/dimen_16dp" />
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:background="@color/color_EDEDED" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_16dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimen_15dp">
 
-            <TextView
-                android:id="@+id/tv_buy_rise"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="bold"
-                android:textColor="@color/color_A4A5A6"
-                android:text="买张-手"
-                android:textSize="@dimen/dimen_16sp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="持仓均价"
-                android:textColor="@color/color_A4A5A6"
-                android:textSize="@dimen/dimen_16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="方向/手数"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_12sp" />
 
-            <com.honglu.future.widget.DinTextView
-                android:id="@+id/tv_chicang_average_price"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_buy_rise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="买涨-手"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_8dp"
-                android:text="---"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/dimen_16sp" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="持仓价"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_chicang_average_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="3788"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最新价"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_last_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="3841"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="持仓盈亏"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_hold_pl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="-795"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_16sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_EDEDED"
             android:layout_marginLeft="@dimen/dimen_15dp"
             android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_16dp" />
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:background="@color/color_EDEDED" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,15 +192,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:minWidth="@dimen/dimen_70dp"
-                android:gravity="center_horizontal"
                 android:background="@drawable/bg_input_edit"
                 android:digits="0123456789."
+                android:gravity="center_horizontal"
+                android:maxLength="10"
+                android:minWidth="@dimen/dimen_70dp"
                 android:paddingBottom="@dimen/dimen_4dp"
                 android:paddingLeft="@dimen/dimen_10dp"
                 android:paddingRight="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_4dp"
-                android:maxLength="10"
                 android:text="0"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_14sp" />
@@ -186,10 +259,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:minWidth="@dimen/dimen_70dp"
-                android:gravity="center_horizontal"
                 android:background="@drawable/bg_input_edit"
+                android:gravity="center_horizontal"
                 android:inputType="number"
+                android:minWidth="@dimen/dimen_70dp"
                 android:paddingBottom="@dimen/dimen_4dp"
                 android:paddingLeft="@dimen/dimen_10dp"
                 android:paddingRight="@dimen/dimen_10dp"
@@ -211,10 +284,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_EDEDED"
-            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_16dp" />
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:background="@color/color_EDEDED" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -242,13 +315,25 @@
                 android:textSize="@dimen/dimen_16sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_sxf_cal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dimen_18dp"
+            android:layout_marginTop="@dimen/dimen_11dp"
+            android:text="3840.0x1x15x4%%"
+            android:textColor="@color/color_A4A5A6"
+            android:textSize="@dimen/dimen_12sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_line"
-            android:background="@color/color_EDEDED"
-            android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/dimen_16dp" />
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:background="@color/color_EDEDED"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -256,7 +341,8 @@
             android:layout_marginLeft="@dimen/dimen_15dp"
             android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_16dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -279,60 +365,66 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16dp">
+            android:layout_marginTop="@dimen/dimen_11dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_60dp"
+                android:layout_gravity="center_vertical"
                 android:background="@color/color_F7F8F9"
-                android:orientation="horizontal"
-                android:layout_gravity="center_vertical">
+                android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="平仓盈亏"
-                    android:textColor="@color/color_A4A5A6"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dimen_15dp"
-                    android:textSize="@dimen/dimen_12sp" />
-
-                <com.honglu.future.widget.DinTextView
-                    android:id="@+id/tv_profit_loss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="---"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/dimen_24sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="平仓盈亏"
+                        android:textColor="@color/color_A4A5A6"
+                        android:textSize="@dimen/dimen_12sp" />
+
+                    <com.honglu.future.widget.DinTextView
+                        android:id="@+id/tv_profit_loss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="---"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/dimen_24sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_fast_close_transaction"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/dimen_20sp"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dimen_30dp"
                     android:paddingRight="@dimen/dimen_30dp"
-                    android:gravity="center_vertical"
+                    android:text="休市中"
                     android:textColor="@color/color_white"
-                    android:text="休市中"/>
+                    android:textSize="@dimen/dimen_20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <android.inputmethodservice.KeyboardView
                 android:id="@+id/kv_keyboardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="@color/color_E6E6E6"
-                android:keyTextColor="@color/color_333333"
-                android:shadowRadius="0"
-                android:labelTextSize="18sp"
-                android:keyTextSize="18sp"
-                android:keyBackground="@color/color_white"
                 android:layout_alignParentBottom="true"
+                android:background="@color/color_E6E6E6"
                 android:focusable="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:keyBackground="@color/color_white"
+                android:keyTextColor="@color/color_333333"
+                android:keyTextSize="18sp"
+                android:labelTextSize="18sp"
+                android:shadowRadius="0"
+                android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

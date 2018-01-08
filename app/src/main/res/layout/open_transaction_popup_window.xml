@@ -405,10 +405,13 @@
 
         <TextView
             android:id="@+id/tv_bzj_cal"
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:text="--"
+            android:textColor="@color/color_979899"
+            android:textSize="@dimen/dimen_12sp"
             />
 
         <View
@@ -450,8 +453,11 @@
             android:id="@+id/tv_sxf_cal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dimen_15dp"
             android:text="--"
+            android:textColor="@color/color_979899"
+            android:textSize="@dimen/dimen_12sp"
             />
 
         <LinearLayout
@@ -464,16 +470,16 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dimen_60dp"
                 android:layout_weight="6"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_15dp"
                 android:background="@color/color_F7F8F9"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_15dp"
                     android:text="总计"
                     android:layout_marginTop="@dimen/dimen_3dp"
-                    android:layout_gravity="center"
                     android:textColor="@color/color_A4A5A6"
                     android:textSize="@dimen/dimen_12sp" />
 
@@ -481,8 +487,6 @@
                     android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_gravity="center"
                     android:text="-----"
                     android:textColor="@color/color_151515"
                     android:textSize="@dimen/dimen_24sp"

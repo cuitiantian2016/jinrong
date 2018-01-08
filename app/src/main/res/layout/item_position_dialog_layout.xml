@@ -72,7 +72,7 @@
                  android:layout_height="wrap_content"
                  android:textSize="@dimen/dimen_13sp"
                  android:textColor="@color/color_A4A5A6"
-                 android:text="当日保证金"/>
+                 android:text="建仓保证金"/>
 
              <com.honglu.future.widget.DinTextView
                  android:id="@+id/tv_bond"

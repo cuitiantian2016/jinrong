@@ -30,9 +30,9 @@ public class PositionAdapter extends BaseAdapter {
     private List<HoldPositionBean> mList;
 
     public interface OnShowPopupClickListener {
-        void onClosePositionClick(View view, HoldPositionBean bean);
+        void onClosePositionClick(View view, HoldPositionBean bean,int position);
 
-        void onHoldDetailClick(View view, HoldPositionBean bean);
+        void onHoldDetailClick(View view, HoldPositionBean bean,int position);
     }
 
     private OnShowPopupClickListener mListener;
@@ -83,7 +83,7 @@ public class PositionAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final HoldPositionBean holdPositionBean = mList.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
@@ -146,14 +146,14 @@ public class PositionAdapter extends BaseAdapter {
         holder.mTvFastClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onClosePositionClick(v, holdPositionBean);
+                mListener.onClosePositionClick(v, holdPositionBean,position);
             }
         });
 
         holder.mTvHoldDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onHoldDetailClick(v, holdPositionBean);
+                mListener.onHoldDetailClick(v, holdPositionBean,position);
             }
         });
         return convertView;

@@ -1,6 +1,7 @@
 package com.honglu.future.util;
 
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 public class TradeUtil {
 
     /**
-     * 平仓手续费
+     * 平仓手续费(需要展示计算公式)
      *
      * @param todayPosition           今日持仓
      * @param closeTodayRatioByMoney
@@ -27,6 +28,62 @@ public class TradeUtil {
      * @param volumeMultiple
      * @return
      */
+    public static double getCloseTradePrice(ProductListBean bean, int todayPosition, String closeTodayRatioByMoney, String closeTodayRatioByVolume, String closeRatioByMoney
+            , String closeRatioByVolume, double price, int tradeNum, int volumeMultiple, TextView view) {
+        double mRate = 0;
+        if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
+            //国富
+            if (todayPosition > 0) {
+                if (!TextUtils.isEmpty(closeTodayRatioByMoney) && Double.parseDouble(closeTodayRatioByMoney) > 0) {
+                    mRate = Double.parseDouble(closeTodayRatioByMoney);
+                } else {
+                    mRate = !TextUtils.isEmpty(closeTodayRatioByVolume) ? Double.parseDouble(closeTodayRatioByVolume) : 0;
+                }
+            } else {
+                if (!TextUtils.isEmpty(closeRatioByMoney) && Double.parseDouble(closeRatioByMoney) > 0) {
+                    mRate = Double.parseDouble(closeRatioByMoney);
+                } else {
+                    mRate = !TextUtils.isEmpty(closeRatioByVolume) ? Double.parseDouble(closeRatioByVolume) : 0;
+                }
+            }
+        } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
+            //美尔雅
+            if (bean.getProductId().equals(Constant.PRODUCT_SPECIAL_AU) || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_NI)
+                    || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_MA) || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_M)
+                    || bean.getProductId().equals(Constant.PRODUCT_SPECIAL_C)) {
+                if (todayPosition > 0) {
+                    view.setText(String.valueOf(tradeNum) +"x" +closeTodayRatioByMoney);
+                    return NumberUtil.multiply(new BigDecimal(closeTodayRatioByMoney).doubleValue(),new BigDecimal(tradeNum).doubleValue());
+                } else {
+                    view.setText(String.valueOf(tradeNum) +"x" +closeRatioByMoney);
+                    return NumberUtil.multiply(new BigDecimal(closeRatioByMoney).doubleValue(),new BigDecimal(tradeNum).doubleValue());
+                }
+            } else {
+                if (todayPosition > 0) {
+                    if (!TextUtils.isEmpty(closeTodayRatioByMoney) && Double.parseDouble(closeTodayRatioByMoney) > 0) {
+                        mRate = Double.parseDouble(closeTodayRatioByMoney);
+                    } else {
+                        mRate = !TextUtils.isEmpty(closeTodayRatioByVolume) ? Double.parseDouble(closeTodayRatioByVolume) : 0;
+                    }
+                } else {
+                    if (!TextUtils.isEmpty(closeRatioByMoney) && Double.parseDouble(closeRatioByMoney) > 0) {
+                        mRate = Double.parseDouble(closeRatioByMoney);
+                    } else {
+                        mRate = !TextUtils.isEmpty(closeRatioByVolume) ? Double.parseDouble(closeRatioByVolume) : 0;
+                    }
+                }
+            }
+        }
+
+        BigDecimal mPriceBig = NumberUtil.getBigDecimal(price);
+        BigDecimal mTradeNumBig = NumberUtil.getBigDecimal(tradeNum);
+        BigDecimal mVolumeMultipleBig = NumberUtil.getBigDecimal(volumeMultiple);
+        BigDecimal mRateBig = NumberUtil.getBigDecimal(mRate);
+        view.setText(String.valueOf(mPriceBig)+"x" +String.valueOf(mTradeNumBig) +"x" +String.valueOf(mVolumeMultipleBig) +"x" +NumberUtil.moveLast0(NumberUtil.multiply(mRateBig.doubleValue(),10000))+"%%");
+
+        return mPriceBig.multiply(mTradeNumBig).multiply(mVolumeMultipleBig).multiply(mRateBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
     public static double getCloseTradePrice(ProductListBean bean, int todayPosition, String closeTodayRatioByMoney, String closeTodayRatioByVolume, String closeRatioByMoney
             , String closeRatioByVolume, double price, int tradeNum, int volumeMultiple) {
         double mRate = 0;

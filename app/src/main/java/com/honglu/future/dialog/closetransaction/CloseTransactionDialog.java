@@ -62,6 +62,9 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     private TextView mFastCloseTransaction;
     private TextView mCloseHands;
     private TextView mProfitLoss;
+    private TextView mTvLastPrice;
+    private TextView mTvCcPl;
+    private TextView mTvSxfCal;
     private KeyboardView mKeyBoardView;
 
     private HoldPositionBean mHoldPositionBean;
@@ -117,6 +120,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                     mPrice.setSelection(mPrice.getText().length());
                 }
             }
+            mTvLastPrice.setText(mLastPrice);
             setTextViewData(getDouble(mPrice), getInt(mSize));
         }
     }
@@ -170,6 +174,9 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         mFastCloseTransaction = (TextView) findViewById(R.id.tv_fast_close_transaction);
         mCloseHands = (TextView) findViewById(R.id.tv_close_hands);
         mProfitLoss = (TextView) findViewById(R.id.tv_profit_loss);
+        mTvLastPrice = (TextView) findViewById(R.id.tv_last_price);
+        mTvCcPl = (TextView) findViewById(R.id.tv_hold_pl);
+        mTvSxfCal = (TextView) findViewById(R.id.tv_sxf_cal);
 
         mKeyBoardView = (KeyboardView) findViewById(R.id.kv_keyboardview);
         mInitKeyBoard = initKeyBoard();
@@ -235,6 +242,8 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         mChicangAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
 
         mPrice.setText(mProductListBean.getLastPrice());
+        mTvLastPrice.setText(mProductListBean.getLastPrice());
+        mTvCcPl.setText(holdPositionBean.getTotalProfit());
 
         mCloseHands.setText("平仓手数（最多" + mMaxCloseTradeNum + "手）");
 
@@ -269,6 +278,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             mCloseTransactionPrice.setText("---");
             mCankaoProfitLoss.setText("---");
             mProfitLoss.setText("---");
+            mTvSxfCal.setText("---");
             mCloseTransactionPrice.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
             mCankaoProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
             mProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
@@ -276,6 +286,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             //平仓手续费
             String closeTradePrice = getCloseTradePrice(price, tradeNum);
             mCloseTransactionPrice.setText(String.format(mContext.getString(R.string.yuan), closeTradePrice));
+
 
             //实际盈亏
             double actualProfitLoss = getActualProfitLoss(price, tradeNum);
@@ -529,7 +540,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         String closeRatioByVolume = mProductListBean.getCloseRatioByVolume();
         int todayPosition = mHoldPositionBean.getTodayPosition();
         try {
-            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean,todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple);
+            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean,todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple,mTvSxfCal);
             return String.valueOf(closeTradePrice);
         } catch (Exception e) {
             e.printStackTrace();
@@ -573,6 +584,10 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public void setCcyk(String todayProfit){
+        mTvCcPl.setText(todayProfit);
     }
 
 

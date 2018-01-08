@@ -33,7 +33,7 @@ public class PositionDialog extends Dialog {
     private TextView mName;
     private TextView mBuyNumber;
     private TextView mPosProfitLoss;
-    private TextView mActualProfitLoss;
+//    private TextView mActualProfitLoss;
     private ListView mListView;
     private PositionDialogAdapter mAdapter;
     private int mScreenHeight;
@@ -61,14 +61,14 @@ public class PositionDialog extends Dialog {
 
         mClose = (ImageView) findViewById(R.id.iv_close);
         final TextView tip = (TextView) findViewById(R.id.tv_tip);
-        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_dialog_position_head, null);
-        mName = (TextView) headView.findViewById(R.id.tv_name);
-        mBuyNumber = (TextView) headView.findViewById(R.id.tv_buy_number);//买入手数
-        mPosProfitLoss = (TextView) headView.findViewById(R.id.tv_position_profit_loss);//持仓盈亏
-        mActualProfitLoss = (TextView) headView.findViewById(R.id.tv_actual_profit_loss);//实际盈亏
+//        View headView = LayoutInflater.from(mContext).inflate(R.layout.layout_dialog_position_head, null);
+        mName = (TextView) findViewById(R.id.tv_name);
+        mBuyNumber = (TextView) findViewById(R.id.tv_buy_number);//买入手数
+        mPosProfitLoss = (TextView) findViewById(R.id.tv_position_profit_loss);//持仓盈亏
+        //mActualProfitLoss = (TextView) headView.findViewById(R.id.tv_actual_profit_loss);//实际盈亏
 
         mListView = (ListView) findViewById(R.id.lv_listView);
-        mListView.addHeaderView(headView);
+        //mListView.addHeaderView(headView);
         mAdapter = new PositionDialogAdapter(mContext, null);
         mListView.setAdapter(mAdapter);
 
@@ -102,23 +102,16 @@ public class PositionDialog extends Dialog {
             mBuyNumber.setText("买涨" + bean.getPosition() + "手");
             mBuyNumber.setTextColor(mRedColor);
         }
-        mPosProfitLoss.setText(bean.getTodayProfit());
-        if (Double.parseDouble(bean.getTodayProfit()) > 0) {
-            mPosProfitLoss.setTextColor(mRedColor);
-        } else if (Double.parseDouble(bean.getTodayProfit()) < 0) {
-            mPosProfitLoss.setTextColor(mGreenColor);
-        } else {
-            mPosProfitLoss.setTextColor(mNormalColor);
-        }
-        mActualProfitLoss.setText(bean.getTotalProfit());
-
-        if (Double.parseDouble(bean.getTotalProfit()) > 0) {
-            mActualProfitLoss.setTextColor(mRedColor);
-        } else if (Double.parseDouble(bean.getTotalProfit()) < 0) {
-            mActualProfitLoss.setTextColor(mGreenColor);
-        } else {
-            mActualProfitLoss.setTextColor(mNormalColor);
-        }
+        setCjyk(bean.getTodayProfit());
+//        mActualProfitLoss.setText(bean.getTotalProfit());
+//
+//        if (Double.parseDouble(bean.getTotalProfit()) > 0) {
+//            mActualProfitLoss.setTextColor(mRedColor);
+//        } else if (Double.parseDouble(bean.getTotalProfit()) < 0) {
+//            mActualProfitLoss.setTextColor(mGreenColor);
+//        } else {
+//            mActualProfitLoss.setTextColor(mNormalColor);
+//        }
 
         if (list != null && list.size() >= 6) {
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
@@ -130,6 +123,17 @@ public class PositionDialog extends Dialog {
             mListView.setLayoutParams(params);
         }
         mAdapter.notifyDataChanged(list);
+    }
+
+    public void setCjyk(String todayProfit){
+        mPosProfitLoss.setText(todayProfit);
+        if (Double.parseDouble(todayProfit) > 0) {
+            mPosProfitLoss.setTextColor(mRedColor);
+        } else if (Double.parseDouble(todayProfit) < 0) {
+            mPosProfitLoss.setTextColor(mGreenColor);
+        } else {
+            mPosProfitLoss.setTextColor(mNormalColor);
+        }
     }
 
 
