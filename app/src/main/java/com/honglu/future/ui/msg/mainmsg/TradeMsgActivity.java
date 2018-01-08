@@ -2,6 +2,7 @@ package com.honglu.future.ui.msg.mainmsg;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -81,10 +82,10 @@ public class TradeMsgActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.lv_listView);
         mAdapter = new TradeMsgAdapter();
         listView.setAdapter(mAdapter);
-        listView.setDividerHeight(AndroidUtil.dip2px(this, 10));
-        empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
+        empty_view = LayoutInflater.from(this).inflate(R.layout.msg_empty, null);
+        ImageView empty_iv = (ImageView) empty_view.findViewById(R.id.empty_iv);
         TextView textView = (TextView) empty_view.findViewById(R.id.empty_tv);
-        textView.setText("暂无消息");
+        textView.setText("暂无交易提醒哦~");
         getSystemMsg(true);
     }
 
@@ -103,6 +104,7 @@ public class TradeMsgActivity extends BaseActivity {
         if (mIsRefresh) {
             rows = 0;
         }
+
         HttpManager.getApi().getTradeMsgList(SpUtil.getString(Constant.CACHE_TAG_UID), 2, rows).compose(RxHelper.<List<SystemMsgBean>>handleSimplyResult())
                 .subscribe(new HttpSubscriber<List<SystemMsgBean>>() {
                     @Override

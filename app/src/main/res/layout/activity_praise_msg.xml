@@ -5,11 +5,14 @@
 
     <include  layout="@layout/layout_toolbar"/>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_F7F8F9">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -26,4 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+       <TextView
+           android:id="@+id/tv_emptyView"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="@dimen/dimen_16sp"
+           android:textColor="@color/color_979899"
+           android:layout_marginTop="@dimen/dimen_150dp"
+           android:gravity="center"
+           android:layout_gravity="center_horizontal"
+           android:drawableTop="@mipmap/ic_empty_friend"
+           android:drawablePadding="@dimen/dimen_16dp"
+           android:text="暂无赞哦~"/>
+    </FrameLayout>
 </LinearLayout>

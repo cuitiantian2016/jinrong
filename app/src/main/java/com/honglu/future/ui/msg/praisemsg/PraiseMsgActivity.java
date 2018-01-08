@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -33,6 +34,8 @@ public class PraiseMsgActivity extends BaseActivity<PraiseMsgPresenter> implemen
     SmartRefreshLayout mRefreshView;
     @BindView(R.id.lv_listView)
     ListView mListView;
+    @BindView(R.id.tv_emptyView)
+    TextView mEmptyView;
 
     private PraiseMsgAdapter mPraiseMsgAdapter;
     private int mRows = 0;
@@ -73,6 +76,7 @@ public class PraiseMsgActivity extends BaseActivity<PraiseMsgPresenter> implemen
         mTitle.setTitle(false, R.color.color_white,"赞");
         mTitle.setRightTitle(R.color.color_979899,"清空",this);
         mRefreshView.setEnableLoadmore(false);
+        mListView.setEmptyView(mEmptyView);
         mPraiseMsgAdapter = new PraiseMsgAdapter(PraiseMsgActivity.this);
         mListView.setAdapter(mPraiseMsgAdapter);
 
