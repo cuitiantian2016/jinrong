@@ -21,7 +21,7 @@ import com.honglu.future.util.SpUtil;
 public class TradeGuideDialog extends Dialog {
     private ImageView mIvGuide;
     private int mCurImg = 1;
-    private static final int[] imgRes = {R.mipmap.guide_trade01, R.mipmap.guide_trade02, R.mipmap.guide_trade03, R.mipmap.guide_trade04};
+    private static final int[] imgRes = {R.mipmap.guide_trade01, R.mipmap.guide_trade02, R.mipmap.guide_trade03};
 
     public TradeGuideDialog(@NonNull Context context) {
         super(context, R.style.trade_guide_dialog);
@@ -42,10 +42,10 @@ public class TradeGuideDialog extends Dialog {
         mIvGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCurImg <= 3) {
+                if (mCurImg <= 2) {
                     mIvGuide.setImageResource(imgRes[mCurImg]);
                     mCurImg++;
-                } else if (mCurImg == 4) {
+                } else if (mCurImg == 3) {
 
                     dismiss();
                 }
