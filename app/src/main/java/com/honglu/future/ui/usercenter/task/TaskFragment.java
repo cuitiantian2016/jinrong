@@ -32,11 +32,12 @@ public class TaskFragment extends BaseFragment {
     private TaskAdapter mAdapter;
     boolean mIsRefresh;
 
-    private void getFriendList(final boolean isRefresh ,int id) {
+    private void getFriendList(final boolean isRefresh, int id) {
         if (isRequesting) return;
         isRequesting = true;
         mIsRefresh = isRefresh;
-        HttpManager.getApi().getTaskList(SpUtil.getString(Constant.CACHE_TAG_UID),id).compose(RxHelper.<List<TaskBean>>handleSimplyResult())
+        //SpUtil.getString(Constant.CACHE_TAG_UID)
+        HttpManager.getApi().getTaskList(14 + "", id).compose(RxHelper.<List<TaskBean>>handleSimplyResult())
                 .subscribe(new HttpSubscriber<List<TaskBean>>() {
                     @Override
                     protected void _onNext(List<TaskBean> userLists) {
@@ -50,6 +51,10 @@ public class TaskFragment extends BaseFragment {
                         if (userLists == null || userLists.size() <= 0) {
                             if (mIsNew) {
                                 ((TaskActivity) getActivity()).hindTab();
+                            }
+                        } else {
+                            if (mIsNew) {
+                                ((TaskActivity) getActivity()).showTab();
                             }
                         }
                         mAdapter.setDatas(userLists);
@@ -83,24 +88,29 @@ public class TaskFragment extends BaseFragment {
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                int id = mIsNew?1:2;
-                getFriendList(true,id);
+                int id = mIsNew ? 1 : 2;
+                getFriendList(true, id);
             }
         });
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
         mAdapter = new TaskAdapter(getActivity());
         listView.setAdapter(mAdapter);
         listView.setDividerHeight(AndroidUtil.dip2px(getContext(), 10));
-        int id = mIsNew?1:2;
-        getFriendList(true,id);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        int id = mIsNew ? 1 : 2;
+        getFriendList(true, id);
     }
 
     /**
      * 刷新
      */
-    public void refreshData(){
-        int id = mIsNew?1:2;
-        getFriendList(true,id);
+    public void refreshData() {
+        int id = mIsNew ? 1 : 2;
+        getFriendList(true, id);
     }
 
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
@@ -94,6 +95,7 @@ public class SystemMsgActivity extends BaseActivity {
 
     public void getSystemMsg(final boolean isRefresh) {
         if (isRequesting) return;
+        App.loadingContent(this, "加载中");
         isRequesting = true;
         mIsRefresh = isRefresh;
         if (mIsRefresh) {
@@ -104,6 +106,7 @@ public class SystemMsgActivity extends BaseActivity {
                     @Override
                     protected void _onNext(List<SystemMsgBean> userLists) {
                         super._onNext(userLists);
+                        App.hideLoading();
                         isRequesting = false;
                         if (mIsRefresh) {
                             mPullToRefreshView.finishRefresh();
@@ -132,6 +135,7 @@ public class SystemMsgActivity extends BaseActivity {
                     @Override
                     protected void _onError(String message) {
                         super._onError(message);
+                        App.hideLoading();
                         isRequesting = false;
                         mPullToRefreshView.finishLoadmore();
                         mPullToRefreshView.finishRefresh();

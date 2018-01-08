@@ -28,6 +28,7 @@
         app:tl_textSelectColor="@color/color_008EFF"
         app:tl_textUnselectColor="@color/color_323232"
         app:tl_textsize="@dimen/dimen_16sp"
+        android:visibility="gone"
         app:tl_underline_color="@color/color_F7F8F9"
         app:tl_underline_height="@dimen/dimen_1dp_half" />
 

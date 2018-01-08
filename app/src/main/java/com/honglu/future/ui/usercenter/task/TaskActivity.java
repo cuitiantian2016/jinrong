@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -33,6 +34,7 @@ import butterknife.BindView;
 public class TaskActivity extends BaseActivity {
 
     private static final String[] TAB_TITLES = new String[]{"新手任务", "每日任务"};
+    private TaskFragment taskFragment;
 
     public static void startTaskActivity(Context context) {
         Intent intent = new Intent(context, TaskActivity.class);
@@ -67,7 +69,7 @@ public class TaskActivity extends BaseActivity {
         mFragments.add(taskFragmentOne);
         mTabList.add(new TabEntity("新手任务"));
 
-        final TaskFragment taskFragment = new TaskFragment();
+        taskFragment = new TaskFragment();
         Bundle bundle2 = new Bundle();
         bundle2.putBoolean(TaskFragment.EXTRA_IS_NEW, false);
         taskFragment.setArguments(bundle2);
@@ -78,6 +80,7 @@ public class TaskActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
+                Log.d("tag", position + "position");
                 if (position == 0) {
                     taskFragmentOne.refreshData();
                 } else if (position == 1) {
@@ -89,12 +92,15 @@ public class TaskActivity extends BaseActivity {
     }
 
     public void hindTab() {
-        mTabLayout.setVisibility(View.GONE);
+        mTabLayout.setCurrentTab(1);
+        if (mTabLayout.getVisibility() == View.VISIBLE) {
+            mTabLayout.setVisibility(View.GONE);
+        }
     }
 
     public void showTab() {
         if (mTabLayout.getVisibility() != View.VISIBLE) {
-            mTabLayout.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.VISIBLE);
         }
     }
 

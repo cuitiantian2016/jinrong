@@ -78,6 +78,7 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
                 public void onClick(View view) {
                     new AlertFragmentDialog.Builder(activity).setContent(item.task_desc)
                             .setRightBtnText("知道了")
+                            .setTitle("提示")
                             .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                                 @Override
                                 public void dialogRightBtnClick(String inputString) {
@@ -106,7 +107,7 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
                                 .navigation(mContext.getContext(), new NavCallback() {
                                     @Override
                                     public void onArrival(Postcard postcard) {
-                                        ((Activity) mContext.getContext()).finish();
+                                        //((Activity) mContext.getContext()).finish();
                                     }
                                 });
                     }
