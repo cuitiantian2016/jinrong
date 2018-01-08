@@ -27,7 +27,7 @@
             android:textStyle="bold"
             android:text="铁矿石：供需矛盾依旧，多空争夺激烈，需要加强风险"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_22sp" />
+            android:textSize="@dimen/dimen_20sp" />
         <include
             layout="@layout/layout_consult_details_publish_man"/>
         <View

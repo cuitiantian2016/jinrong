@@ -94,6 +94,11 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     EditText mInputEdit;
     @BindView(R.id.btn_publish)
     TextView mPublishBtn;
+    @BindView(R.id.iv_left)
+    ImageView mIvLeft;
+    @BindView(R.id.iv_right)
+    ImageView mIvRight;
+
     @Autowired(name = "informationId")
     public String informationId;
     private int praiseCounts;
@@ -151,16 +156,23 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     }
 
     private void initView() {
-        mTitle.setTitle(true, R.color.trans, "");
-        mTitle.setRightTitle(R.mipmap.ic_details_shape, new View.OnClickListener() {
+        mIvLeft.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mIvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (!TextUtils.isEmpty(shareTitle)) {
                     String title = shareTitle.length() >= 23 ? shareTitle.substring(0, 22) + "..." : shareTitle;
                     ShareUtils.getIntance().share(ConsultDetailsActivity.this, homePic + "?x-oss-process=image/resize,m_fixed,h_100,w_100", ConfigUtil.baseH5Url + "connector/infoShare?informationId=" + informationId, title, "投资达人喜欢的社区");
                 }
             }
         });
+        
         LinearLayout headerView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.news_detail_header, null);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
