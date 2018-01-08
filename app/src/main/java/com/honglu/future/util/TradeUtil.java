@@ -79,7 +79,7 @@ public class TradeUtil {
         BigDecimal mTradeNumBig = NumberUtil.getBigDecimal(tradeNum);
         BigDecimal mVolumeMultipleBig = NumberUtil.getBigDecimal(volumeMultiple);
         BigDecimal mRateBig = NumberUtil.getBigDecimal(mRate);
-        view.setText(String.valueOf(mPriceBig)+"x" +String.valueOf(mTradeNumBig) +"x" +String.valueOf(mVolumeMultipleBig) +"x" +NumberUtil.moveLast0(NumberUtil.multiply(mRateBig.doubleValue(),10000))+"%%");
+        view.setText(NumberUtil.moveLast0(mPriceBig.doubleValue())+"x" +NumberUtil.moveLast0(mTradeNumBig.doubleValue()) +"x" +NumberUtil.moveLast0(mVolumeMultipleBig.doubleValue()) +"x" +NumberUtil.moveLast0(NumberUtil.multiply(mRateBig.doubleValue(),10000))+"%%");
 
         return mPriceBig.multiply(mTradeNumBig).multiply(mVolumeMultipleBig).multiply(mRateBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
