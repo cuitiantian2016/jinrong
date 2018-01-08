@@ -117,13 +117,20 @@
                 android:background="@color/color_F7F8F9"
                 android:layout_gravity="center_vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_15dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textSize="@dimen/dimen_12sp"
                     android:textColor="@color/color_A4A5A6"
-                    android:text="平仓盈亏"/>
+                    android:text="持仓总盈亏"/>
 
                 <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_ykprice"
@@ -131,10 +138,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/dimen_24sp"
                     android:textColor="@color/color_B1B1B3"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_weight="1"
-                    android:text="---"/>
 
+                    android:text="---"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/tv_pingcang"
                     android:layout_width="wrap_content"
