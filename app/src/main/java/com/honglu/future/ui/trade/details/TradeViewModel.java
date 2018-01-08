@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
+import com.honglu.future.util.TimeUtil;
 
 import java.util.List;
 
@@ -41,8 +42,14 @@ public class TradeViewModel {
                 num = mContext.getString(R.string.buy_up_num, data.position);
             }
             mExpBuyRise.setText(num);
-            mExpJiancangPrice.setText("建仓价 " + data.openPrice);
-            mExpTime.setText(data.openTime);
+            mExpJiancangPrice.setText("建仓保证金 " + data.useMargin);
+            String dateStr = "";
+            if(data.openTime.length()>16){
+                dateStr = data.openTime.substring(0,16);
+            } else {
+                dateStr = data.openTime;
+            }
+            mExpTime.setText("时间" + dateStr);
             mExpBaodanNum.setText("报单编号 " + data.orderSysId);
             mBuildSXF.setText("建仓手续费 " + data.openSxf);
             mTradeId.setText("成交编号 " + data.tradeId);

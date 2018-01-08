@@ -30,6 +30,8 @@ public class OpenTransactionDetailsActivity extends BaseActivity{
     TextView tvBaoDanNum;
     @BindView(R.id.tv_chengdan_num)
     TextView tvChengdanNum;
+    @BindView(R.id.tv_use_margin)
+    TextView mUseMargin;
 
     private static final String KEY_DATA = "KEY_DATA";
 
@@ -71,6 +73,7 @@ public class OpenTransactionDetailsActivity extends BaseActivity{
                 tvServiceCharge.setText(bean.sxf);
                 tvBaoDanNum.setText(bean.orderSysId);
                 tvChengdanNum.setText(bean.tradeId);
+                mUseMargin.setText(bean.useMargin);
             }
         }
     }

@@ -180,7 +180,13 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
-            mTvBuildDate.setText(bean.cancelTime);
+            String dateStr = "";
+            if(bean.cancelTime.length()>16){
+                dateStr = bean.cancelTime.substring(0,16);
+            } else {
+                dateStr = bean.cancelTime;
+            }
+            mTvBuildDate.setText(dateStr);
         }
 
         void bindView(HistoryClosePositionBean bean) {
@@ -198,7 +204,13 @@ public class TradeRecordAdapter extends BaseAdapter {
             }
             tvPurchaseSize.setText(num);
             tvNewMoney.setText(bean.closePrice);
-            mTvBuildDate.setText(bean.tradeTime);
+            String dateStr = "";
+            if(bean.tradeTime.length()>16){
+                dateStr = bean.tradeTime.substring(0,16);
+            } else {
+                dateStr = bean.tradeTime;
+            }
+            mTvBuildDate.setText(dateStr);
             setProfitValueAndColor(tvProfitLossMoney, bean.closeProfitLoss);
         }
 
@@ -217,7 +229,13 @@ public class TradeRecordAdapter extends BaseAdapter {
             tvName.setText(bean.instrumentName);
             tvProfitLossMoney.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             tvProfitLossMoney.setText(bean.price);
-            mTvBuildDate.setText(bean.tradeTime);
+            String dateStr = "";
+            if(bean.tradeTime.length()>16){
+                dateStr = bean.tradeTime.substring(0,16);
+            } else {
+                dateStr = bean.tradeTime;
+            }
+            mTvBuildDate.setText(dateStr);
         }
 
         private void setProfitValueAndColor(TextView tvProfitLossMoney, String price) {

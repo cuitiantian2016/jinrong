@@ -32,14 +32,7 @@
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_20sp" />
 
-                <TextView
-                    android:id="@+id/tv_buy_rise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_8dp"
-                    android:text="买涨 1手"
-                    android:textColor="@color/color_FB4F4F"
-                    android:textSize="@dimen/dimen_14sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -49,10 +42,18 @@
                 android:layout_marginLeft="@dimen/dimen_20dp"
                 android:layout_marginBottom="@dimen/dimen_20dp"
                 android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_buy_rise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
+                    android:text="买涨 1手"
+                    android:textColor="@color/color_FB4F4F"
+                    android:textSize="@dimen/dimen_16sp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_19dp"
                     android:text="平仓盈亏"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/dimen_16sp" />
@@ -68,6 +69,7 @@
 
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_40dp"
@@ -79,6 +81,7 @@
                     android:id="@+id/real_profit_loss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/dimen_8dp"
                     android:text="+430"
                     android:textColor="@color/color_FB4F4F"
@@ -93,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_15dp"
         android:layout_marginRight="@dimen/dimen_15dp"
-        android:layout_marginTop="@dimen/dimen_52dp"
+        android:layout_marginTop="@dimen/dimen_28dp"
         android:orientation="horizontal">
 
 
@@ -106,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="持仓均价"
+                android:visibility="gone"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -113,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_17dp"
-                android:text="建仓均价"
+                android:text="建仓价"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
         </LinearLayout>
@@ -129,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3634"
+                android:visibility="gone"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
