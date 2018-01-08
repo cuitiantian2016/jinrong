@@ -236,6 +236,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             case R.id.rl_message_hint: //消息
                 if (App.getConfig().getLoginStatus()) {
                     startActivity(new Intent(mActivity, MainMsgActivity.class));
+                    mReadMsg.setVisibility(View.INVISIBLE);
                 } else {
                     toLogin();
                 }
