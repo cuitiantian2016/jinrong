@@ -33,16 +33,14 @@
         <View
             style="@style/small_line_style"
             android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:visibility="gone"/>
+            android:layout_marginRight="@dimen/dimen_15dp" />
 
         <TextView
             android:id="@+id/tv_task"
             style="@style/user_content_bottom_widget"
             android:drawableLeft="@mipmap/ic_user_task"
             android:drawableRight="@mipmap/ic_user_right_arrow"
-            android:text="@string/text_user_task"
-            android:visibility="gone"/>
+            android:text="@string/text_user_task" />
 
 
         <View
