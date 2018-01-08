@@ -115,6 +115,7 @@
               android:layout_marginBottom="@dimen/dimen_8dp"
               android:textColor="@color/color_008EFF"
               android:layout_marginRight="@dimen/dimen_9dp"
+              android:drawablePadding="@dimen/dimen_2dp"
               android:layout_marginLeft="@dimen/dimen_9dp"
               android:drawableRight="@mipmap/ic_right_blue_small_arrow"
               tools:text="共6条回复"/>
