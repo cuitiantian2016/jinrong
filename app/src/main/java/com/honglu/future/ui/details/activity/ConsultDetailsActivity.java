@@ -152,7 +152,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
 
     private void initView() {
         mTitle.setTitle(true, R.color.trans, "");
-        mTitle.setRightTitle(R.mipmap.ic_share, new View.OnClickListener() {
+        mTitle.setRightTitle(R.mipmap.ic_details_shape, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(shareTitle)) {
