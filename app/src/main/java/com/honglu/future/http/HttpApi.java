@@ -392,7 +392,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST("futures-mobile-api/app/information/informationDetail")
-    Observable<BaseResponse<ConsultDetailsBean>> getMessageData(@Field("informationId") String informationId);
+    Observable<BaseResponse<ConsultDetailsBean>> getMessageData(@Field("informationId") String informationId,@Field("userId") String userId);
 
     /**
      * https://www.showdoc.cc/1673161?page_id=15533135
@@ -1036,7 +1036,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.212:8080/futures-taskscore-api/task/taskList")
+    @POST("futures-taskscore-api/task/taskList")
     Observable<BaseResponse<List<TaskBean>>> getTaskList(@Field("userId") String userId
             , @Field("taskCategory") int taskCategory);
 

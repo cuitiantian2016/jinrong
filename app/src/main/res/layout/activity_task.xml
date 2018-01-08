@@ -22,7 +22,7 @@
         app:tl_indicator_gravity="BOTTOM"
         app:tl_indicator_height="@dimen/dimen_3dp"
         app:tl_indicator_style="NORMAL"
-        app:tl_indicator_width="@dimen/dimen_20dp"
+        app:tl_indicator_width="@dimen/dimen_30dp"
         app:tl_special_select_color_blue="true"
         app:tl_textBold="BOTH"
         app:tl_textSelectColor="@color/color_008EFF"

@@ -94,7 +94,6 @@ public class TaskFragment extends BaseFragment {
         ListView listView = (ListView) mView.findViewById(R.id.lv_listView);
         mAdapter = new TaskAdapter(getActivity());
         listView.setAdapter(mAdapter);
-        listView.setDividerHeight(AndroidUtil.dip2px(getContext(), 10));
     }
 
     @Override

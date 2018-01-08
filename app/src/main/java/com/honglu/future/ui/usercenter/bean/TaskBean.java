@@ -13,10 +13,10 @@ public class TaskBean implements Serializable {
     public String url;//跳转链接
     @SerializedName("task_name")
     public String title;//任务名称
-    @SerializedName("gift_give_desc")
+    @SerializedName("task_title")
     public String content;//任务内容
     public int is_finish;
-    public String task_desc;//是否显示灯泡
+    public String warn_word;//是否显示灯泡
     public boolean isComplete; //是否已经完成
 
 
@@ -25,6 +25,6 @@ public class TaskBean implements Serializable {
     }
 
     public boolean isShowDengBao() {
-        return !TextUtils.isEmpty(task_desc);
+        return !TextUtils.isEmpty(warn_word);
     }
 }

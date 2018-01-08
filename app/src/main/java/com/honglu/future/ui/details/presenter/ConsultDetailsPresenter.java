@@ -2,11 +2,13 @@ package com.honglu.future.ui.details.presenter;
 
 import com.google.gson.JsonNull;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 
 import java.util.List;
@@ -16,11 +18,12 @@ import java.util.List;
  */
 
 public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContract.View>
-        implements ConsultDetailsContract.Presenter{
-    public static final String ISComment ="ISComment";
+        implements ConsultDetailsContract.Presenter {
+    public static final String ISComment = "ISComment";
+
     @Override
     public void getMessageData(String messageId) {
-        toSubscribe(HttpManager.getApi().getMessageData(messageId), new HttpSubscriber<ConsultDetailsBean>() {
+        toSubscribe(HttpManager.getApi().getMessageData(messageId, SpUtil.getString(Constant.CACHE_TAG_UID)), new HttpSubscriber<ConsultDetailsBean>() {
             @Override
             protected void _onNext(ConsultDetailsBean o) {
                 super._onNext(o);
@@ -45,22 +48,25 @@ public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContrac
             }
         });
     }
+
     @Override
-    public void commentMessage(String userID, String messageId, String repayUserID,String content) {
+    public void commentMessage(String userID, String messageId, String repayUserID, String content) {
         toSubscribe(HttpManager.getApi().getInformationReply(messageId, userID, repayUserID, content), new HttpSubscriber<JsonNull>() {
             @Override
             protected void _onNext(JsonNull o) {
                 super._onNext(o);
                 mView.commentSuccess();
             }
+
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                mView.showErrorMsg(message,ISComment);
+                mView.showErrorMsg(message, ISComment);
             }
         });
 
     }
+
     @Override
     public void getReplyList(final String messageId) {
         toSubscribe(HttpManager.getApi().getInformationComment(messageId), new HttpSubscriber<List<InformationCommentBean>>() {
@@ -73,7 +79,7 @@ public class ConsultDetailsPresenter extends BasePresenter<ConsultDetailsContrac
             @Override
             protected void _onError(String message) {
                 super._onError(message);
-                mView.showErrorMsg(message,null);
+                mView.showErrorMsg(message, null);
             }
         });
     }

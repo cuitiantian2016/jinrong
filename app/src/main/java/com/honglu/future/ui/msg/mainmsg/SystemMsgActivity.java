@@ -101,7 +101,8 @@ public class SystemMsgActivity extends BaseActivity {
         if (mIsRefresh) {
             rows = 0;
         }
-        HttpManager.getApi().getTradeMsgList(SpUtil.getString(Constant.CACHE_TAG_UID), 1, rows).compose(RxHelper.<List<SystemMsgBean>>handleSimplyResult())
+        //SpUtil.getString(Constant.CACHE_TAG_UID)
+        HttpManager.getApi().getTradeMsgList(43 + "", 1, rows).compose(RxHelper.<List<SystemMsgBean>>handleSimplyResult())
                 .subscribe(new HttpSubscriber<List<SystemMsgBean>>() {
                     @Override
                     protected void _onNext(List<SystemMsgBean> userLists) {

@@ -31,6 +31,7 @@ import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
 import com.honglu.future.ui.usercenter.activity.ModifyUserActivity;
 import com.honglu.future.ui.usercenter.contract.UserCenterContract;
 import com.honglu.future.ui.usercenter.presenter.UserCenterPresenter;
+import com.honglu.future.ui.usercenter.task.TaskActivity;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
@@ -122,7 +123,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     }
 
 
-
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
@@ -135,7 +135,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             mMobphone.setText(SpUtil.getString(Constant.CACHE_TAG_USERNAME));
             setAvatar(ConfigUtil.baseImageUserUrl + SpUtil.getString(Constant.CACHE_USER_AVATAR));
             mReadMsg.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             mMobphone.setVisibility(View.GONE);
             mLoginRegister.setVisibility(View.VISIBLE);
             mReadMsg.setVisibility(View.INVISIBLE);
@@ -149,8 +149,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         ImageUtil.display(headUrl, mHead, R.mipmap.img_head);
     }
 
-    @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_open_account,R.id.tv_kefu, R.id.tv_phone, R.id.tv_aboutus,
-             R.id.iv_setup, R.id.img_vip , R.id.tv_shop_mall,R.id.tv_task,R.id.rl_message_hint})
+    @OnClick({R.id.fl_config, R.id.tv_novice, R.id.tv_open_account, R.id.tv_kefu, R.id.tv_phone, R.id.tv_aboutus,
+            R.id.iv_setup, R.id.img_vip, R.id.tv_shop_mall, R.id.tv_task, R.id.rl_message_hint})
     public void onClick(View view) {
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
@@ -158,7 +158,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 if (!App.getConfig().getLoginStatus()) {
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
-                }else {
+                } else {
                     Intent intentShopMall = new Intent(mActivity, WebViewActivity.class);
                     intentShopMall.putExtra("url", ConfigUtil.SHOP_MALL);
                     intentShopMall.putExtra("title", "牛币商城");
@@ -167,10 +167,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_task://任务中心
-
+                TaskActivity.startTaskActivity(getActivity());
                 break;
             case R.id.tv_novice:
-                clickTab("wode_xinshourumen_click","我的_新手入门");
+                clickTab("wode_xinshourumen_click", "我的_新手入门");
                 Intent intentTeach = new Intent(mActivity, WebViewActivity.class);
                 intentTeach.putExtra("title", "新手教学");
                 intentTeach.putExtra("url", ConfigUtil.NEW_USER_TEACH);
@@ -178,33 +178,33 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
 
             case R.id.tv_open_account:
-                if (App.getConfig().getLoginStatus()){
-                    clickTab("wode_lijikaihu_click","我的_立即开户");
+                if (App.getConfig().getLoginStatus()) {
+                    clickTab("wode_lijikaihu_click", "我的_立即开户");
                     mCheckAccount.checkAccount();
-                } else{
+                } else {
                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 }
                 break;
             case R.id.tv_kefu:
-                clickTab("wode_zaixiankefu_click","我的_在线客服");
+                clickTab("wode_zaixiankefu_click", "我的_在线客服");
                 AndroidUtil.startKF(getActivity());
                 break;
             case R.id.tv_phone:
                 //联系客服
                 if (!DeviceUtils.isFastDoubleClick()) {
-                    clickTab("wode_kefudianhua_click","我的_客服电话");
+                    clickTab("wode_kefudianhua_click", "我的_客服电话");
                     showCallPhoneDialog();
                 }
                 break;
             case R.id.tv_aboutus:
-                clickTab("wode_guanyuwomen_click","我的_关于我们");
+                clickTab("wode_guanyuwomen_click", "我的_关于我们");
                 Intent intentAbout = new Intent(mActivity, WebViewActivity.class);
                 intentAbout.putExtra("url", ConfigUtil.ABOUT_US);
                 intentAbout.putExtra("title", "关于我们");
                 startActivity(intentAbout);
                 break;
             case R.id.iv_setup:
-                clickTab("wode_shezhi_click","我的_设置");
+                clickTab("wode_shezhi_click", "我的_设置");
                 if (App.getConfig().getLoginStatus()) {
                     startActivity(ModifyUserActivity.class);
                 } else {
@@ -226,7 +226,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 break;
             case R.id.fl_config:
                 if (App.getConfig().getLoginStatus()) {
-                    clickTab("wode_zhanghuguanli_click","我的_账户管理");
+                    clickTab("wode_zhanghuguanli_click", "我的_账户管理");
                     Intent intent = new Intent(mActivity, ModifyUserActivity.class);
                     startActivity(intent);
                 } else {
@@ -334,7 +334,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
 
     /*******
-     *消息红点控制
+     * 消息红点控制
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -358,7 +359,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden && mPresenter !=null && App.getConfig().getLoginStatus()){
+        if (!hidden && mPresenter != null && App.getConfig().getLoginStatus()) {
             mPresenter.getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID));
         }
     }
@@ -366,7 +367,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter !=null && App.getConfig().getLoginStatus()){
+        if (mPresenter != null && App.getConfig().getLoginStatus()) {
             mPresenter.getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID));
         }
     }
@@ -383,24 +384,26 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     /**
      * 埋点
+     *
      * @param value1
      * @param value2
      */
-    private void clickTab(String value1 , String value2){
-        MobclickAgent.onEvent(mContext,value1, value2);
+    private void clickTab(String value1, String value2) {
+        MobclickAgent.onEvent(mContext, value1, value2);
     }
 
 
     /**
      * 消息是否已读
+     *
      * @param readMsg
      */
     @Override
     public void getMsgRed(boolean readMsg) {
-       if (readMsg){
-           mReadMsg.setVisibility(View.VISIBLE);
-       }else {
-           mReadMsg.setVisibility(View.INVISIBLE);
-       }
+        if (readMsg) {
+            mReadMsg.setVisibility(View.VISIBLE);
+        } else {
+            mReadMsg.setVisibility(View.INVISIBLE);
+        }
     }
 }

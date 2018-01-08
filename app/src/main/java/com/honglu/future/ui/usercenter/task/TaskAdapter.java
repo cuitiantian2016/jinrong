@@ -72,11 +72,12 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
             tv_title.setText(item.title);
             tv_content.setText(item.content);
             iv_attention.setEnabled(!item.isComplete());
+            iv_attention.setText(item.isComplete()?"已完成":"去完成");
             image_dengbao.setVisibility(item.isShowDengBao() ? View.VISIBLE : View.GONE);
             image_dengbao.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertFragmentDialog.Builder(activity).setContent(item.task_desc)
+                    new AlertFragmentDialog.Builder(activity).setContent(item.warn_word)
                             .setRightBtnText("知道了")
                             .setTitle("提示")
                             .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {

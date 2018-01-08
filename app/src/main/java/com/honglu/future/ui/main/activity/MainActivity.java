@@ -206,11 +206,11 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
             select = intent.getIntExtra("select", 0);
             redirect = intent.getStringExtra("redirect");
             uri = intent.getStringExtra("uri");
-            isTrade = intent.getIntExtra("isTrade",-1);
-            tab = intent.getIntExtra("tab",-1);
+            isTrade = intent.getIntExtra("isTrade", -1);
+            tab = intent.getIntExtra("tab", -1);
         }
-        if (!TextUtils.isEmpty(uri)){
-            Log.d("MAIN","URI------->"+uri);
+        if (!TextUtils.isEmpty(uri)) {
+            Log.d("MAIN", "URI------->" + uri);
             MobclickAgent.onEvent(mContext, "shouye_anniu_click", "首页");
             check(FragmentFactory.FragmentStatus.Home);
             ARouter.getInstance().build(Uri.parse(uri)).navigation(this);
@@ -231,18 +231,18 @@ public class MainActivity extends BaseActivity<ActivityPresenter> implements Act
                 changeTabEvent.isStick = true;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }
-            if (isTrade>-1 && isTrade!=0) {
+            if (isTrade > -1) {
                 ChangeTabEvent changeTabEvent = new ChangeTabEvent(isTrade);
                 changeTabEvent.isStick = true;
                 changeTabEvent.tab = tab;
                 EventBus.getDefault().postSticky(changeTabEvent);
             }
-            if (isTrade ==0){
-                RefreshUIEvent refreshUIEvent = new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML);
-                refreshUIEvent.isStick = true;
-                EventBus.getDefault().postSticky(refreshUIEvent);
-            }
-        } else if(this.select == 3){
+//            if (isTrade ==0){
+//                RefreshUIEvent refreshUIEvent = new RefreshUIEvent(UIBaseEvent.EVENT_HOME_TO_MARKET_ZHULI_TRADE_SCHEML);
+//                refreshUIEvent.isStick = true;
+//                EventBus.getDefault().postSticky(refreshUIEvent);
+//            }
+        } else if (this.select == 3) {
             MobclickAgent.onEvent(mContext, "shouye_live_click", "直播");
             check(FragmentFactory.FragmentStatus.Live);
         } else if (this.select == 4) {
