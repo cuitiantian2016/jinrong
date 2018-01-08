@@ -26,7 +26,7 @@ public class UserCenterPresenter extends BasePresenter<UserCenterContract.View> 
 
           @Override
           public void onNext(Boolean aBoolean) {
-              mView.getMsgRed(true);
+              mView.getMsgRed(aBoolean);
           }
       });
     }
