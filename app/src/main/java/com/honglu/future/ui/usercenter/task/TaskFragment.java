@@ -36,8 +36,7 @@ public class TaskFragment extends BaseFragment {
         if (isRequesting) return;
         isRequesting = true;
         mIsRefresh = isRefresh;
-        //SpUtil.getString(Constant.CACHE_TAG_UID)
-        HttpManager.getApi().getTaskList(14 + "", id).compose(RxHelper.<List<TaskBean>>handleSimplyResult())
+        HttpManager.getApi().getTaskList(SpUtil.getString(Constant.CACHE_TAG_UID), id).compose(RxHelper.<List<TaskBean>>handleSimplyResult())
                 .subscribe(new HttpSubscriber<List<TaskBean>>() {
                     @Override
                     protected void _onNext(List<TaskBean> userLists) {
