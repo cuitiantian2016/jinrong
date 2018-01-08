@@ -2,7 +2,9 @@
 <resources>
     <color name="chat_divide_line">#ededed</color>
     <color name="chat_edit_view">#aaaaaa</color>
-    <color name="chat_select_self">#626262</color>
+    <color name="chat_msg_name">#979899</color>
+    <color name="chat_msg_time">#CACBCC</color>
+    <color name="chat_select_self">#86A2B0</color>
     <color name="chat_system_message">#ffb6322c</color>
     <color name="chat_view_bg">#f5f5f5</color>
     <color name="item_ly_pop_normal">#ffffff</color>
@@ -25,13 +27,13 @@
     <dimen name="chat_bottom_padding">5dp</dimen>
     <dimen name="chat_editview_context">12sp</dimen>
     <dimen name="chat_editview_context_left">4dp</dimen>
-    <dimen name="chat_listview_content_top">10dp</dimen>
-    <dimen name="chat_listview_context">14sp</dimen>
+    <dimen name="chat_listview_content_top">8dp</dimen>
+    <dimen name="chat_listview_context">13sp</dimen>
     <dimen name="chat_listview_context_bottom">15dp</dimen>
     <dimen name="chat_listview_context_left">19dp</dimen>
-    <dimen name="chat_listview_name">14sp</dimen>
+    <dimen name="chat_listview_name">13sp</dimen>
     <dimen name="chat_listview_name_left">19dp</dimen>
-    <dimen name="chat_listview_time">14sp</dimen>
+    <dimen name="chat_listview_time">12sp</dimen>
     <dimen name="chat_listview_time_right">19dp</dimen>
     <dimen name="chat_padding_top">10dp</dimen>
     <dimen name="chat_select_name_size">14sp</dimen>

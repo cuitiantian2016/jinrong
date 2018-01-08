@@ -42,7 +42,7 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void loadData() {
         mTitle.setTitle(false, R.color.color_white,"消息");
-        mTitle.setRightTitle(R.color.color_333333,"清空",this);
+        mTitle.setRightTitle(R.color.color_979899,"清空",this);
 
         ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
         mTabList.add(new TabEntity("收到的回复"));
