@@ -960,7 +960,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.139:8080/futures-messages-api/message/notice")
+    @POST("futures-messages-api/message/notice")
     Observable<BaseResponse<List<SystemMsgBean>>> getTradeMsgList(
             @Field("userId") String userId
             , @Field("messageType") int messageType, @Field("rows") int rows);
@@ -1029,6 +1029,7 @@ public interface HttpApi {
     @POST("futures-messages-api/message/clear")
     Observable<BaseResponse<JsonNull>> getMsgClear(@Field("userId") String userId
             , @Field("messageType") int messageType);
+
     /**
      * 系统消息列表
      *
