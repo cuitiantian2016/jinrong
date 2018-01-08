@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
@@ -27,7 +28,10 @@ import butterknife.BindView;
  * deprecation:任务
  * author:ayb
  * time:2017/6/14
+ * <p>
+ * "xiaoniuqihuo://future/future/live"
  */
+@Route(path = "/future/live")
 public class LiveActivity extends BaseActivity {
 
     @BindView(R.id.srl_refreshView)
@@ -42,9 +46,11 @@ public class LiveActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_live;
     }
+
     @Override
     public void initPresenter() {
     }
+
     @Override
     public void loadData() {
         initViews();
@@ -61,7 +67,7 @@ public class LiveActivity extends BaseActivity {
         empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
         liveAdapter = new LiveAdapter(lv_listView);
         lv_listView.setAdapter(liveAdapter);
-        lv_listView.setDividerHeight(AndroidUtil.dip2px(this,10));
+        lv_listView.setDividerHeight(AndroidUtil.dip2px(this, 10));
     }
 
     @Override
@@ -70,8 +76,8 @@ public class LiveActivity extends BaseActivity {
         refresh();
     }
 
-    private void refresh(){
-        if (isLoading){
+    private void refresh() {
+        if (isLoading) {
             return;
         }
         App.loadingContent(this, "正在加载");
@@ -81,14 +87,14 @@ public class LiveActivity extends BaseActivity {
             protected void _onNext(List<LiveListBean> liveListBean) {
                 super._onNext(liveListBean);
                 isLoading = false;
-                if (srl_refreshView ==null){
+                if (srl_refreshView == null) {
                     return;
                 }
                 App.hideLoading();
                 srl_refreshView.finishRefresh();
                 liveAdapter.setDatas(liveListBean);
                 if (liveListBean != null && liveListBean.size() > 0) {
-                    if (lv_listView.getFooterViewsCount() != 0){
+                    if (lv_listView.getFooterViewsCount() != 0) {
                         lv_listView.removeFooterView(empty_view);
                     }
                 } else {
@@ -103,13 +109,13 @@ public class LiveActivity extends BaseActivity {
             protected void _onError(String message) {
                 super._onError(message);
                 isLoading = false;
-                if (srl_refreshView ==null){
+                if (srl_refreshView == null) {
                     return;
                 }
                 App.hideLoading();
                 srl_refreshView.finishRefresh();
                 if (liveAdapter.getCount() > 0) {
-                    if (lv_listView.getFooterViewsCount() != 0){
+                    if (lv_listView.getFooterViewsCount() != 0) {
                         lv_listView.removeFooterView(empty_view);
                     }
                 } else {

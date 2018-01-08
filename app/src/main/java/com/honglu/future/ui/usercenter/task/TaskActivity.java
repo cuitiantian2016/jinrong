@@ -60,17 +60,17 @@ public class TaskActivity extends BaseActivity {
         mTitle.setTitle(false, R.color.white, "任务中心");
         ArrayList<Fragment> mFragments = new ArrayList<>();
         ArrayList<CustomTabEntity> mTabList = new ArrayList<>();
-        TaskFragment taskFragmentOne = new TaskFragment();
+        final TaskFragment taskFragmentOne = new TaskFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(TaskFragment.EXTRA_IS_NEW, true);
         taskFragmentOne.setArguments(bundle);
         mFragments.add(taskFragmentOne);
         mTabList.add(new TabEntity("新手任务"));
 
-        TaskFragment taskFragment = new TaskFragment();
-        Bundle bundle1 = new Bundle();
-        bundle.putBoolean(TaskFragment.EXTRA_IS_NEW, false);
-        taskFragmentOne.setArguments(bundle1);
+        final TaskFragment taskFragment = new TaskFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putBoolean(TaskFragment.EXTRA_IS_NEW, false);
+        taskFragment.setArguments(bundle2);
         mFragments.add(taskFragment);
         mTabList.add(new TabEntity("每日任务"));
         mTabLayout.setTabData(mTabList, (FragmentActivity) mContext, R.id.fl_content, mFragments);
@@ -78,17 +78,22 @@ public class TaskActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
+                if (position == 0) {
+                    taskFragmentOne.refreshData();
+                } else if (position == 1) {
+                    taskFragment.refreshData();
+                }
             }
         });
 
     }
 
-    public void hindTab(){
+    public void hindTab() {
         mTabLayout.setVisibility(View.GONE);
     }
 
-    public void showTab(){
-        if (mTabLayout.getVisibility()!=View.VISIBLE){
+    public void showTab() {
+        if (mTabLayout.getVisibility() != View.VISIBLE) {
             mTabLayout.setVisibility(View.GONE);
         }
     }

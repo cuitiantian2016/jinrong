@@ -90,7 +90,7 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
             iv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!item.isComplete() && !TextUtils.isEmpty(item.url)) {
+                    if (!item.isComplete() && !TextUtils.isEmpty(item.url) && isScheam(item.url)) {
                         if (KAI_HU.equals(item.url)) {
                             CheckAccount mCheckAccount = new CheckAccount();
                             mCheckAccount.checkAccount();
@@ -112,6 +112,10 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
                     }
                 }
             });
+        }
+
+        private boolean isScheam(String url) {
+            return url.startsWith("xiaoniuqihuo");
         }
     }
 
