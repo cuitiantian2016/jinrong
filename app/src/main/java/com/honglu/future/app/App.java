@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
 import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
@@ -30,6 +31,7 @@ import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
+import com.sobot.chat.SobotApi;
 import com.sobot.chat.api.model.Information;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -252,6 +254,8 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
 //            info.setInitModeType(-1);
         }
+        Gson infoGson = new Gson();
+        SobotApi.saveInfomation(mApp,infoGson.toJson(info));
         return info;
     }
 

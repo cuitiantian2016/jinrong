@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
+import com.sobot.chat.activity.SobotChatActivity;
 import com.sobot.chat.api.apiUtils.GsonUtil;
 import com.sobot.chat.api.apiUtils.ZhiChiConstants;
 import com.sobot.chat.api.enumtype.CustomerState;
@@ -304,7 +305,7 @@ public class SobotSessionServer extends Service {
 
         if (notification_flag) {
             String notificationTitle = "客服提示";
-            NotificationUtils.createNotification(getApplicationContext(), null, notificationTitle, content, content, getNotificationId());
+            NotificationUtils.createNotification(getApplicationContext(), SobotChatActivity.class, notificationTitle, content, content, getNotificationId());
         }
     }
 

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.sobot.chat.activity.SobotChatActivity;
 import com.sobot.chat.api.ZhiChiApi;
+import com.sobot.chat.api.apiUtils.GsonUtil;
 import com.sobot.chat.api.enumtype.SobotChatTitleDisplayMode;
 import com.sobot.chat.api.model.CommonModel;
 import com.sobot.chat.api.model.Information;
@@ -72,6 +73,10 @@ public class SobotApi {
 		} else {
 			return SharedPreferencesUtil.getIntData(context,"sobot_unread_count",0);
 		}
+	}
+
+	public static void saveInfomation(Context context,String information){
+		SharedPreferencesUtil.saveStringData(context,"chatInformation",information);
 	}
 
 	/**

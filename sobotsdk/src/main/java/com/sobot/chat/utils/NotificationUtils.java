@@ -9,6 +9,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.sobot.chat.api.apiUtils.GsonUtil;
+import com.sobot.chat.api.model.Information;
+
+import java.util.UUID;
 
 public class NotificationUtils {
 
@@ -17,12 +25,16 @@ public class NotificationUtils {
     public static void createNotification(Context context, Class<?> cls, String title, String content, String ticker, int id){
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent detailIntent = context.getPackageManager().getLaunchIntentForPackage(CommonUtils
-                .getPackageName(context));
+        Intent detailIntent =  new Intent(context,cls);
+        Bundle bundle = new Bundle();
+        Gson gson = new Gson();
+        Information information = gson.fromJson(SharedPreferencesUtil.getStringData(context,"chatInformation",""),Information.class);
+        bundle.putSerializable("info", information);
+        detailIntent.putExtra("informationBundle", bundle);
 //        detailIntent.setPackage((String)null);
         detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0,
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(context, UUID.randomUUID().hashCode(),
                 detailIntent, 0);
         int smallicon = SharedPreferencesUtil.getIntData(context, ZhiChiConstant
                 .SOBOT_NOTIFICATION_SMALL_ICON, ResourceUtils.getIdByName(context, "drawable", "sobot_logo_small_icon"));
