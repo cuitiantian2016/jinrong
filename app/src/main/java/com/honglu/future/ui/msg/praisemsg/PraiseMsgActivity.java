@@ -71,7 +71,7 @@ public class PraiseMsgActivity extends BaseActivity<PraiseMsgPresenter> implemen
     @Override
     public void loadData() {
         mTitle.setTitle(false, R.color.color_white,"赞");
-        mTitle.setRightTitle(R.color.color_333333,"清空",this);
+        mTitle.setRightTitle(R.color.color_979899,"清空",this);
         mRefreshView.setEnableLoadmore(false);
         mPraiseMsgAdapter = new PraiseMsgAdapter(PraiseMsgActivity.this);
         mListView.setAdapter(mPraiseMsgAdapter);
