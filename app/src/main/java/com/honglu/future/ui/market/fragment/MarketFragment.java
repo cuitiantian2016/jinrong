@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.honglu.future.R;
 import com.honglu.future.app.App;
@@ -92,51 +93,6 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
         this.mHttpState = httpState;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        MPushUtil.pauseRequest();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!isHidden()) {
-            requestMarket(mPushCode);
-            if (mHttpState == 0 || mHttpState == 2 && mPresenter != null) {
-                mHttpState = 1;
-                mPresenter.getMarketData();
-            }
-        }
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            MPushUtil.pauseRequest();
-        } else {
-            requestMarket(mPushCode);
-            if (mHttpState == 0 || mHttpState==2 && mPresenter != null) {
-                mHttpState = 1;
-                mPresenter.getMarketData();
-            }
-        }
-    }
-
-    public void startPush(){
-        mPosition = 1;
-        clickTab(1);
-        if (mFragments != null && mFragments.size() > 0) {
-            MarketItemFragment fragment =  mFragments.get(1);
-            fragment.setOnAddAptionalListener(MarketFragment.this);
-            mPushCode = fragment.getPushCode();
-            mTabSelectType = fragment.getTabSelectType();
-            requestMarket(mPushCode);
-            fragment.getRealTimeData();
-        }
-    }
-
     /*******
      * 接受mpush消息
      * @param event
@@ -164,6 +120,23 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestMarketData();
+    }
+
+    public void requestMarketData(){
+        if (!isHidden()) {
+            requestMarket(mPushCode);
+            if (mHttpState == 0 || mHttpState==2 && mPresenter != null) {
+                mHttpState = 1;
+                mPresenter.getMarketData();
+            }
+        }
+    }
+
 
     //MPush
     public void requestMarket(String productList) {
