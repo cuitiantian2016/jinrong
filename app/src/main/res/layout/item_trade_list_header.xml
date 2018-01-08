@@ -2,22 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_10dp"
-        android:background="@color/color_F7F8F9" />
 
     <LinearLayout
         android:id="@+id/ll_trade_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dimen_15dp"
+        android:layout_marginBottom="@dimen/dimen_10dp"
         android:layout_marginLeft="@dimen/dimen_10dp"
         android:layout_marginRight="@dimen/dimen_10dp"
-        android:layout_marginTop="@dimen/dimen_12dp"
+        android:layout_marginTop="@dimen/dimen_13dp"
         android:background="@mipmap/bg_trade_head"
         android:orientation="horizontal">
 
