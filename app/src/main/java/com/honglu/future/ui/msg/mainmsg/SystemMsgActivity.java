@@ -2,6 +2,7 @@ package com.honglu.future.ui.msg.mainmsg;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -79,10 +80,10 @@ public class SystemMsgActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.lv_listView);
         mAdapter = new SystemMsgAdapter();
         listView.setAdapter(mAdapter);
-        listView.setDividerHeight(AndroidUtil.dip2px(this, 10));
-        empty_view = LayoutInflater.from(this).inflate(R.layout.live_empty, null);
+        //listView.setDividerHeight(AndroidUtil.dip2px(this, 10));
+        empty_view = LayoutInflater.from(this).inflate(R.layout.msg_empty, null);
         TextView textView = (TextView) empty_view.findViewById(R.id.empty_tv);
-        textView.setText("暂无消息");
+        textView.setText("暂无系统通知哦~");
         getSystemMsg(true);
     }
 
