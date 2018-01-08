@@ -11,13 +11,14 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/dimen_12dp"
+        android:paddingRight="@dimen/dimen_12dp"
         android:paddingTop="@dimen/dimen_8dp"
         android:paddingBottom="@dimen/dimen_8dp"
-        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_12dp"
         android:layout_marginTop="@dimen/dimen_8dp"
         android:layout_marginBottom="@dimen/dimen_8dp"
+        android:textSize="@dimen/dimen_13sp"
         android:gravity="center"
         tools:text="主力合约" />
 

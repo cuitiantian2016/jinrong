@@ -66,6 +66,7 @@
                     android:background="@drawable/star_check_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_5dp"
                     android:gravity="center" />
 
                 <TextView
