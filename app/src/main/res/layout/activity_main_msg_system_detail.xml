@@ -8,11 +8,18 @@
     <include  layout="@layout/layout_toolbar"
         android:paddingRight="@dimen/dimen_15dp"/>
 
-    <include layout="@layout/layout_circle_main_item_head"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:background="@color/color_EDEDED"/>
+
     <TextView
         android:id="@+id/tv_msg_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
         android:textColor="#333333"
         android:textSize="18sp"
         android:gravity="center"
