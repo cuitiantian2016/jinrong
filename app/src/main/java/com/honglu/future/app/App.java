@@ -61,6 +61,8 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     public boolean mIsMainDestroy = true; //标记页面是否销毁
 
+    public boolean mIsMarketInit = false;
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -414,5 +416,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     public boolean getAudited() {
         return mIsAudited;
+    }
+
+
+    public boolean getIsMarketInit(){
+        return mIsMarketInit;
+    }
+    public void setIsMarketInit(){
+        this.mIsMarketInit = true;
     }
 }

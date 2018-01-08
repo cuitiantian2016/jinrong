@@ -10,12 +10,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,6 +30,8 @@ import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.dialog.klineposition.KLinePositionDialog;
+import com.honglu.future.events.EventBusConstant;
+import com.honglu.future.events.MarketRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
@@ -40,7 +39,7 @@ import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
-import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.market.bean.QuotationDataListBean;
 import com.honglu.future.ui.trade.bean.AccountBean;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -153,7 +152,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @BindView(R.id.tv_open_price_yugu)
     TextView mTvBzjYugu;
     @BindView(R.id.add_zixuan)
-    CheckBox mAddZixuan;
+    TextView mAddZixuan;
 
     private String mExcode;
     private String mCode;
@@ -179,10 +178,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private RequestMarketMessage mRequestBean;
     private ProductListBean productListBean = null;
     private BillConfirmDialog billConfirmDialog;
+    private List<QuotationDataListBean> mZxMarketList;
+    private boolean mMarketSelected;
+
     private int selectPos = 0;
     private View selectTextView = null, currentDKView = null;
     public static final String CODE_DK_SHOCK = "shock";
     public static final String CODE_DK_FUTURE = "future";
+
 
     @Override
     public int getLayoutId() {
@@ -302,11 +305,16 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mPresenter.getProductDetail(mCode);
         mPresenter.getProductRealTime(mExcode + "|" + mCode);
 
+        mZxMarketList = getZxMarketList();
+        mMarketSelected = isAddZXMarket(mZxMarketList, mExcode, mCode);
+        mAddZixuan.setSelected(mMarketSelected);
+
         if (App.getConfig().getAccountLoginStatus()) {
             mHandler.postDelayed(mRunnable, 300);
         }
         MPushUtil.requestMarket(mExcode + "|" + mCode);
 
+        mAddZixuan.setOnClickListener(getOnClickListener());
     }
 
     @Override
@@ -899,5 +907,149 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     @Override
     public void onConfirmClick() {
         mAccountPresenter.settlementConfirm(SpUtil.getString(Constant.CACHE_TAG_UID));
+    }
+
+
+    //自选
+    private View.OnClickListener getOnClickListener(){
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBean !=null && !TextUtils.isEmpty(mExcode)&& !TextUtils.isEmpty(mCode)) {
+                    if (!DeviceUtils.isFastDoubleClick()) {
+                        if (App.mApp.getIsMarketInit()){
+                            if (mMarketSelected) {
+                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_DEL_MARKET,mExcode,mCode,null));
+                                mMarketSelected = false;
+                                mAddZixuan.setSelected(mMarketSelected);
+                            } else {
+                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_ADD_MARKET,mExcode,mCode,null));
+                                mMarketSelected = true;
+                                mAddZixuan.setSelected(mMarketSelected);
+                            }
+                        }else {
+                            if (mMarketSelected) {
+                               if (delZXMarket(mZxMarketList,mExcode,mCode)){
+                                   saveZXMarket(mZxMarketList);
+                                   mMarketSelected = false;
+                                   mAddZixuan.setSelected(mMarketSelected);
+                               }
+                            }else {
+                                if (mZxMarketList !=null && mBean !=null && isSaveZXBean(mZxMarketList,mExcode,mCode)){
+                                    QuotationDataListBean marketBean = getMarketBean(mExcode, mCode);
+                                    mZxMarketList.add(marketBean);
+                                    saveZXMarket(mZxMarketList);
+                                    mMarketSelected = true;
+                                    mAddZixuan.setSelected(mMarketSelected);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        return listener;
+    }
+
+    //获取自选数据
+    private List<QuotationDataListBean> getZxMarketList() {
+        String zxMarketJson = SpUtil.getString(Constant.ZX_MARKET_KEY);
+        if (!TextUtils.isEmpty(zxMarketJson)) {
+            Gson gson = new Gson();
+            try {
+                List<QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
+                        new TypeToken<List<QuotationDataListBean>>() {
+                        }.getType());
+                return mZxMarketList;
+            } catch (JsonSyntaxException e) {
+            }
+        }
+        return new ArrayList<>();
+    }
+
+
+    //判断当前产品是否已经添加自选
+    private boolean isAddZXMarket(List<QuotationDataListBean> list,String exchangeID,String instrumentID){
+        boolean mIsZxMarket = false;
+        if (list !=null
+                && list.size() >0
+                && !TextUtils.isEmpty(exchangeID)
+                && !TextUtils.isEmpty(instrumentID)){
+           for (QuotationDataListBean listBean : list){
+
+               if (TextUtils.equals(exchangeID,listBean.getExchangeID())
+                       && TextUtils.equals(instrumentID,listBean.getInstrumentID())){
+                   mIsZxMarket = true;
+                   break;
+               }
+           }
+        }
+        return mIsZxMarket;
+    }
+
+    //保存自选
+    private void saveZXMarket(List<QuotationDataListBean> zxList){
+        if (zxList != null && zxList.size() > 0) {
+            Gson gson = new Gson();
+            String toJson = gson.toJson(zxList);
+            SpUtil.putString(Constant.ZX_MARKET_KEY, toJson);
+        } else {
+            SpUtil.putString(Constant.ZX_MARKET_KEY, "");
+        }
+    }
+
+
+    //删除自选
+    private boolean delZXMarket(List<QuotationDataListBean> list,String exchangeID,String instrumentID){
+        boolean isRemove = false;
+        if (list !=null
+                && list.size() >0
+                && !TextUtils.isEmpty(exchangeID)
+                && !TextUtils.isEmpty(instrumentID)){
+
+            ListIterator<QuotationDataListBean> iterator = list.listIterator();
+            while (iterator.hasNext()) {
+                QuotationDataListBean bean = iterator.next();
+                if (TextUtils.equals(exchangeID,bean.getExchangeID()) && TextUtils.equals(instrumentID,bean.getInstrumentID())) {
+                    iterator.remove();
+                    isRemove = true;
+                    break;
+                }
+            }
+        }
+        return isRemove;
+    }
+
+
+    private boolean isSaveZXBean(List<QuotationDataListBean> zxList,String exchangeID,String instrumentID){
+        boolean isSave = true;
+        if (TextUtils.isEmpty(exchangeID) || TextUtils.isEmpty(instrumentID)){
+            isSave = false;
+        }else  if (zxList !=null
+                && zxList.size() >0){
+            for (QuotationDataListBean listBean : zxList) {
+                if (exchangeID.equals(listBean.getExchangeID()) && instrumentID.equals(listBean.getInstrumentID())) {
+                    isSave = false;
+                    break;
+                }
+            }
+        }
+        return isSave;
+    }
+
+    //拼接自选数据
+    private QuotationDataListBean getMarketBean(String exchangeID,String instrumentID){
+        QuotationDataListBean listBean = new QuotationDataListBean();
+        listBean.setExchangeID(exchangeID);
+        listBean.setExcode(exchangeID);
+        listBean.setInstrumentID(instrumentID);
+        listBean.setName(mBean.getName());
+        listBean.setChange(mBean.getChange());
+        listBean.setChg(mBean.getChg());
+        listBean.setOpenInterest(mBean.getOpenInterest());
+        listBean.setVolume(mBean.getVolume());
+        listBean.setLastPrice(mBean.getLastPrice());
+        listBean.setIsClosed(mBean.getIsClosed());
+        return  listBean;
     }
 }

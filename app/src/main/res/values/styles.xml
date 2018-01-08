@@ -244,9 +244,7 @@
         <item name="android:button">@drawable/check_box_bg</item>
     </style>
 
-    <style name="StarCheckedTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/star_check_selector</item>
-    </style>
+
 
     <style name="areward_animation">
         <item name="android:windowEnterAnimation">@anim/anim_areward_scale_in</item>

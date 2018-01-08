@@ -2,7 +2,6 @@ package com.honglu.future.ui.market.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,7 +17,9 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.EventBusConstant;
 import com.honglu.future.events.MarketRefreshEvent;
 import com.honglu.future.ui.market.adapter.MarketListAdapter;
+import com.honglu.future.ui.market.bean.ListBean;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.market.bean.QuotationDataListBean;
 import com.honglu.future.ui.market.contract.MarketItemContract;
 import com.honglu.future.ui.market.presenter.MarketItemPresenter;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
@@ -59,6 +60,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
     private MarketListAdapter mAdapter;
     private List<RealTimeBean.Data> mRealTimeList;
+    private List<ListBean> mAllList;
     private String mTabSelectType;
     private String title;
     private String mPushCode;
@@ -66,11 +68,14 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
 
-    public Bundle setArgumentData(String mTabSelectType, List<MarketnalysisBean.ListBean.QuotationDataListBean> mList,String title) {
+    public Bundle setArgumentData(String mTabSelectType, List<ListBean> mAllList, List<QuotationDataListBean> mList, String title) {
         Bundle bundle = new Bundle();
         bundle.putString("tab_select", mTabSelectType);
         bundle.putString("title", title);
         bundle.putSerializable("mList", (Serializable) mList);
+        if (TextUtils.equals(MarketFragment.ZXHQ_TYPE,mTabSelectType)){
+            bundle.putSerializable("mAllList", (Serializable) mAllList);
+        }
         return bundle;
     }
 
@@ -92,12 +97,12 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         }
     }
     //获取 adapter数据
-    public List<MarketnalysisBean.ListBean.QuotationDataListBean> getList() {
+    public List<QuotationDataListBean> getList() {
         return mAdapter != null && mAdapter.getData().size() > 0 ? mAdapter.getData() : null;
     }
 
     //添加自选
-    private void addAdapterBean(MarketnalysisBean.ListBean.QuotationDataListBean bean) {
+    private void addAdapterBean(QuotationDataListBean bean) {
         mAdapter.getData().add(bean);
         boolean compareData = compareData(mAdapter.getData(), mRealTimeList);
         if (compareData){mIsPushRefresh = false;}
@@ -142,7 +147,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMarketDataEventMainThread(MarketRefreshEvent event) {
+    public void onEventMainThread(MarketRefreshEvent event) {
         if (event.type.equals(EventBusConstant.OPTIONALQUOTES_ADD_MARKET)
                 || event.type.equals(EventBusConstant.ITEMFRAGMENT_ADD_MARKET)) {
             //OptionalQuotesActivity 自选行情添加
@@ -153,8 +158,6 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     saveData();
                     setEmptyView(mAdapter.getData());
                 }
-            } else {
-                refreshState("1", event.bean.getExchangeID(), event.bean.getInstrumentID());
             }
         } else if (event.type.equals(EventBusConstant.OPTIONALQUOTES_DEL_MARKET)
                 || event.type.equals(EventBusConstant.ITEMFRAGMENT_DEL_MARKET)) {
@@ -164,13 +167,32 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
                 saveData();
                 setEmptyView(mAdapter.getData());
-            } else {
-                refreshState("0", event.bean.getExchangeID(), event.bean.getInstrumentID());
             }
         } else if (event.type.equals(EventBusConstant.OPTIONALQUOTES_SORT_MARKET)) {
             //排序
             if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
                 mAdapter.notifyDataChanged(true,getZxMarketList());
+            }
+        }else if (event.type.equals(EventBusConstant.KLINE_MARKET_ADD_MARKET)){
+            //添加自选择
+            if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
+                  String exchangeID = event.mTabSelectType;
+                  String instrumentID = event.mInstrumentID;
+                  if (isSaveZXBean(exchangeID,instrumentID)){
+                      addZXMarketItem(exchangeID,instrumentID);
+                      saveData();
+                      setEmptyView(mAdapter.getData());
+                  }
+            }
+        }else if (event.type.equals(EventBusConstant.KLINE_MARKET_DEL_MARKET)){
+            //删除自选
+            if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)) {
+                String exchangeID = event.mTabSelectType;
+                String instrumentID = event.mInstrumentID;
+                delAdapterBean(exchangeID,instrumentID);
+                mTitleLine.setVisibility(mAdapter.getData().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+                saveData();
+                setEmptyView(mAdapter.getData());
             }
         }
     }
@@ -178,7 +200,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
     private void saveData(){
         if (mAdapter != null) {
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxList = mAdapter.getData();
+            List<QuotationDataListBean> zxList = mAdapter.getData();
             if (zxList != null && zxList.size() > 0) {
                 Gson gson = new Gson();
                 String toJson = gson.toJson(zxList);
@@ -190,7 +212,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
 
-    private void setEmptyView(List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
+    private void setEmptyView(List<QuotationDataListBean> list){
         if (list == null || list.size() == 0){
             mEmptyView.setVisibility(View.VISIBLE);
         }else {
@@ -203,7 +225,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         EventBus.getDefault().register(this);
         mTabSelectType = getArguments().getString("tab_select");
         title = getArguments().getString("title");
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> mList = (List<MarketnalysisBean.ListBean.QuotationDataListBean>) getArguments().getSerializable("mList");
+        if (TextUtils.equals(MarketFragment.ZXHQ_TYPE,mTabSelectType)){
+            mAllList = (List<ListBean>) getArguments().getSerializable("mAllList");
+        }
+        List<QuotationDataListBean> mList = (List<QuotationDataListBean>) getArguments().getSerializable("mList");
         if (mList == null){mList = new ArrayList<>(); }
         mPushCode = mosaicMPushCode(mList);
         LinearLayout footerView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_quotes_optional_add, null);
@@ -281,7 +306,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 mPresenter.getRealTimeData(mPushCode);
             }
         }else if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)){
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = getZxMarketList();
+            List<QuotationDataListBean> zxMarketList = getZxMarketList();
             if (zxMarketList == null || zxMarketList.size() <=0){
                 mPresenter.getRealTimeData(mPushCode);
             }
@@ -324,10 +349,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
     public interface OnZXMarketListListener {
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> onZXMarketList();
+        List<QuotationDataListBean> onZXMarketList();
     }
 
-    public void refresh(String isAdd, MarketnalysisBean.ListBean.QuotationDataListBean bean) {
+    public void refresh(String isAdd,QuotationDataListBean bean) {
         if ("1".equals(isAdd)) {
             EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.ITEMFRAGMENT_DEL_MARKET, mTabSelectType, bean));
         } else {
@@ -335,21 +360,28 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         }
     }
 
-    public void refreshState(String isAdd, String excode, String instrumentID) {
-        //img true 没添加  false 已添加
-        if (!TextUtils.isEmpty(excode)
-                && !TextUtils.isEmpty(instrumentID)
-                && mAdapter !=null
-                && mAdapter.getData().size() > 0) {
-            //取反向值
-            for (MarketnalysisBean.ListBean.QuotationDataListBean bean : mAdapter.getData()) {
-                if (excode.equals(bean.getExchangeID()) && instrumentID.equals(bean.getInstrumentID())) {
-                    bean.setIcAdd(isAdd);
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
+
+    //添加自选
+    private void addZXMarketItem(String excode,String instrumentID) {
+         if (mAllList !=null && mAllList.size() > 0){
+             boolean isFor = true;
+             for (ListBean listBean : mAllList){
+                 if (TextUtils.equals(listBean.getExcode(),excode)
+                         && listBean.getQuotationDataList() !=null
+                         && listBean.getQuotationDataList().size() > 0){
+                     for (QuotationDataListBean dataBean : listBean.getQuotationDataList()){
+                         if (TextUtils.equals(instrumentID,dataBean.getInstrumentID())){
+                             isFor = false;
+                             addAdapterBean(dataBean);
+                             break;
+                         }
+                     }
+                     if (!isFor){
+                         break;
+                     }
+                 }
+             }
+         }
     }
 
     //删除自选数据
@@ -359,9 +391,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 && !TextUtils.isEmpty(instrumentID)
                 && mAdapter !=null
                 && mAdapter.getData().size() > 0) {
-            ListIterator<MarketnalysisBean.ListBean.QuotationDataListBean> iterator = mAdapter.getData().listIterator();
+            ListIterator<QuotationDataListBean> iterator = mAdapter.getData().listIterator();
             while (iterator.hasNext()) {
-                MarketnalysisBean.ListBean.QuotationDataListBean bean = iterator.next();
+                QuotationDataListBean bean = iterator.next();
                 if (excode.equals(bean.getExchangeID()) && instrumentID.equals(bean.getInstrumentID())) {
                     iterator.remove();
                     isRemove = true;
@@ -374,13 +406,13 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
     //是否能保存当前自选bean
-    private boolean isSaveZXBean(MarketnalysisBean.ListBean.QuotationDataListBean bean) {
+    private boolean isSaveZXBean(QuotationDataListBean bean) {
         boolean isSave = true;
         if (mAdapter !=null && mAdapter.getData().size() > 0
                 && bean != null
                 && !TextUtils.isEmpty(bean.getExchangeID())
                 && !TextUtils.isEmpty(bean.getInstrumentID())) {
-            for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : mAdapter.getData()) {
+            for (QuotationDataListBean listBean : mAdapter.getData()) {
                 if (bean.getExchangeID().equals(listBean.getExchangeID()) && bean.getInstrumentID().equals(listBean.getInstrumentID())) {
                     isSave = false;
                     break;
@@ -390,12 +422,30 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         return isSave;
     }
 
+
+   private boolean isSaveZXBean(String exchangeID,String instrumentID){
+       boolean isSave = true;
+       if (TextUtils.isEmpty(exchangeID) || TextUtils.isEmpty(instrumentID)){
+           isSave = false;
+       }else  if (mAdapter !=null
+               && mAdapter.getData() !=null
+               && mAdapter.getData().size() >0){
+           for (QuotationDataListBean listBean : mAdapter.getData()) {
+               if (exchangeID.equals(listBean.getExchangeID()) && instrumentID.equals(listBean.getInstrumentID())) {
+                   isSave = false;
+                   break;
+               }
+           }
+       }
+       return isSave;
+   }
+
     //拼接 MPush code
-    private String mosaicMPushCode(List<MarketnalysisBean.ListBean.QuotationDataListBean> list) {
+    private String mosaicMPushCode(List<QuotationDataListBean> list) {
         StringBuilder builder = new StringBuilder();
         if (list != null && list.size() > 0) {
 
-            for (MarketnalysisBean.ListBean.QuotationDataListBean bean : list) {
+            for (QuotationDataListBean bean : list) {
                 if (!TextUtils.isEmpty(bean.getExchangeID()) && !TextUtils.isEmpty(bean.getInstrumentID())) {
                     if (builder.length() > 0) {
                         builder.append(",");
@@ -438,7 +488,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         TextView mTvLatestPrice = (TextView) view.findViewById(R.id.text_latest_price);
                         TextView mTvHavedPositions = (TextView) view.findViewById(R.id.text_haved_positions);
                         View mColorView = view.findViewById(R.id.v_color_shansuo);
-                        MarketnalysisBean.ListBean.QuotationDataListBean listBean = mAdapter.getData().get(updatePosition);
+                        QuotationDataListBean listBean = mAdapter.getData().get(updatePosition);
                         String mOldChg = listBean.getChg();
                         String mOldLastPrice = listBean.getLastPrice();
                         String mOldopenInterest = listBean.getOpenInterest();
@@ -455,13 +505,13 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
     //获取自选数据
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZxMarketList() {
+    private List<QuotationDataListBean> getZxMarketList() {
         String zxMarketJson = SpUtil.getString(Constant.ZX_MARKET_KEY);
         if (!TextUtils.isEmpty(zxMarketJson)) {
             Gson gson = new Gson();
             try {
-                List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
-                        new TypeToken<List<MarketnalysisBean.ListBean.QuotationDataListBean>>() {
+                List<QuotationDataListBean> mZxMarketList = gson.fromJson(zxMarketJson,
+                        new TypeToken<List<QuotationDataListBean>>() {
                         }.getType());
                 return mZxMarketList;
             } catch (JsonSyntaxException e) {
@@ -472,9 +522,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
     //获取主力合约
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> getZlhyMarketList(List<MarketnalysisBean.ListBean> list) {
-        List<MarketnalysisBean.ListBean.QuotationDataListBean> mZlhyMarketList = new ArrayList<>();
-        for (MarketnalysisBean.ListBean bean : list) {
+    private List<QuotationDataListBean> getZlhyMarketList(List<ListBean> list) {
+        List<QuotationDataListBean> mZlhyMarketList = new ArrayList<>();
+        for (ListBean bean : list) {
             if (bean.getQuotationDataList() != null && bean.getQuotationDataList().size() > 0) {
                 mZlhyMarketList.addAll(bean.getQuotationDataList());
             }
@@ -484,15 +534,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
     //给每条数据添加 Excode
-    private List<MarketnalysisBean.ListBean> addItemDataExcode(List<MarketnalysisBean.ListBean> list, List<MarketnalysisBean.ListBean.QuotationDataListBean> mZxMarketList) {
+    private List<ListBean> addItemDataExcode(List<ListBean> list, List<QuotationDataListBean> mZxMarketList) {
         if (mZxMarketList != null && mZxMarketList.size() > 0) {
-            for (MarketnalysisBean.ListBean listBean : list) {
+            for (ListBean listBean : list) {
                 if (!TextUtils.isEmpty(listBean.getExcode())
                         && listBean.getQuotationDataList() != null
                         && listBean.getQuotationDataList().size() > 0) {
 
-                    for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
-                        for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : mZxMarketList) {
+                    for (QuotationDataListBean mBean : listBean.getQuotationDataList()) {
+                        for (QuotationDataListBean zxBean : mZxMarketList) {
                             if (!TextUtils.isEmpty(mBean.getInstrumentID()) && mBean.getInstrumentID().equals(zxBean.getInstrumentID())) {
                                 //已经存在自选 img 显示删除
                                 mBean.setIcAdd("1");
@@ -508,13 +558,13 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 }
             }
         } else {
-            for (MarketnalysisBean.ListBean listBean : list) {
+            for (ListBean listBean : list) {
 
                 if (!TextUtils.isEmpty(listBean.getExcode())
                         && listBean.getQuotationDataList() != null
                         && listBean.getQuotationDataList().size() > 0) {
 
-                    for (MarketnalysisBean.ListBean.QuotationDataListBean mBean : listBean.getQuotationDataList()) {
+                    for (QuotationDataListBean mBean : listBean.getQuotationDataList()) {
                         mBean.setIcAdd("0");
                     }
                 }
@@ -552,13 +602,13 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
 
 
         if (MarketFragment.ZXHQ_TYPE.equals(mTabSelectType)){
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxDataList = mAdapter.getData();
-            for (MarketnalysisBean.ListBean.QuotationDataListBean zxBean : zxDataList){
+            List<QuotationDataListBean> zxDataList = mAdapter.getData();
+            for (QuotationDataListBean zxBean : zxDataList){
 
-                for (MarketnalysisBean.ListBean listBean : alysiBean.getList()){
+                for (ListBean listBean : alysiBean.getList()){
 
                     if (zxBean.getExchangeID().equals(listBean.getExcode())){
-                        for (MarketnalysisBean.ListBean.QuotationDataListBean allBean : listBean.getQuotationDataList()){
+                        for (QuotationDataListBean allBean : listBean.getQuotationDataList()){
 
                             if (zxBean.getInstrumentID().equals(allBean.getInstrumentID())){
                                 zxBean.setLastPrice(allBean.getLastPrice());
@@ -575,18 +625,18 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                 getRealTimeData();
             }
         }else {
-            List<MarketnalysisBean.ListBean.QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
-            List<MarketnalysisBean.ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
+            List<QuotationDataListBean> zxMarketList = zxMarketListListener.onZXMarketList();
+            List<ListBean> allList = addItemDataExcode(alysiBean.getList(), zxMarketList);
             if (MarketFragment.ZLHY_TYPE.equals(mTabSelectType)) {
-                List<MarketnalysisBean.ListBean.QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
+                List<QuotationDataListBean> zlhyMarketList = getZlhyMarketList(allList);
                 mAdapter.notifyDataChanged(true,zlhyMarketList);
                 if (mAdapter.getData() !=null && mAdapter.getData().size() > 0){
                     getRealTimeData();
                 }
             } else {
-                for (MarketnalysisBean.ListBean listBean : allList) {
+                for (ListBean listBean : allList) {
                     if (mTabSelectType.equals(listBean.getExcode())) {
-                        List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList = listBean.getQuotationDataList();
+                        List<QuotationDataListBean> dataList = listBean.getQuotationDataList();
                         mAdapter.notifyDataChanged(true,dataList);
                         if (mAdapter.getData() !=null && mAdapter.getData().size() > 0){
                             getRealTimeData();
@@ -617,7 +667,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
     }
 
     //排序
-    private boolean compareData(List<MarketnalysisBean.ListBean.QuotationDataListBean> dataList,List<RealTimeBean.Data> realTimeList){
+    private boolean compareData(List<QuotationDataListBean> dataList,List<RealTimeBean.Data> realTimeList){
          if (realTimeList == null
                  || realTimeList.size()== 0
                  || dataList == null
@@ -625,7 +675,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
              return false;
          }
          //循环添加休市标记
-         for (MarketnalysisBean.ListBean.QuotationDataListBean listBean : dataList){
+         for (QuotationDataListBean listBean : dataList){
 
              for (RealTimeBean.Data realTimeBean : realTimeList){
                   if (realTimeBean.getExchangeID().equals(listBean.getExchangeID()) && listBean.getInstrumentID().equals(realTimeBean.getInstrumentID())){
@@ -634,9 +684,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
              }
          }
 
-        Collections.sort(dataList, new Comparator<MarketnalysisBean.ListBean.QuotationDataListBean>() {
+        Collections.sort(dataList, new Comparator<QuotationDataListBean>() {
             @Override
-            public int compare(MarketnalysisBean.ListBean.QuotationDataListBean o1, MarketnalysisBean.ListBean.QuotationDataListBean o2) {
+            public int compare(QuotationDataListBean o1, QuotationDataListBean o2) {
                 //1 开市 2 休市  o1 - o2 升序（从小到大） o2 - 01 降序（从大到小）
                 return o1.getIsClosed() - o2.getIsClosed();
             }

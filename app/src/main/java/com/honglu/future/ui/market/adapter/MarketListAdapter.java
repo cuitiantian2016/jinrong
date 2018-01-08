@@ -3,17 +3,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honglu.future.R;
-import com.honglu.future.ui.market.bean.MarketnalysisBean;
-import com.honglu.future.ui.market.fragment.MarketFragment;
+import com.honglu.future.ui.market.bean.QuotationDataListBean;
 import com.honglu.future.ui.market.fragment.MarketItemFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 import com.umeng.analytics.MobclickAgent;
@@ -28,7 +25,7 @@ public class MarketListAdapter extends BaseAdapter {
     private MarketItemFragment mFragment;
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<MarketnalysisBean.ListBean.QuotationDataListBean> mList;
+    private List<QuotationDataListBean> mList;
     private String mTabSelectType;
     private String mTitle;
     private AnimationDrawable redAnimation;
@@ -36,7 +33,7 @@ public class MarketListAdapter extends BaseAdapter {
     private boolean mIsChange = false;
     private boolean mIsHavedPositions = false;
 
-    public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<MarketnalysisBean.ListBean.QuotationDataListBean> list, String title) {
+    public MarketListAdapter(MarketItemFragment fragment, String tabSelectType ,List<QuotationDataListBean> list, String title) {
         this.mContext = fragment.getActivity();
         this.mInflater =LayoutInflater.from(fragment.getActivity());
         this.mList = list;
@@ -80,11 +77,11 @@ public class MarketListAdapter extends BaseAdapter {
         return position;
     }
 
-    public List<MarketnalysisBean.ListBean.QuotationDataListBean> getData(){
+    public List<QuotationDataListBean> getData(){
         return mList;
     }
 
-    public void notifyDataChanged(boolean isClear,List<MarketnalysisBean.ListBean.QuotationDataListBean> list){
+    public void notifyDataChanged(boolean isClear,List<QuotationDataListBean> list){
        if (isClear && mList.size() > 0){
            mList.clear();
        }
@@ -105,7 +102,7 @@ public class MarketListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        MarketnalysisBean.ListBean.QuotationDataListBean listBean = mList.get(position);
+        QuotationDataListBean listBean = mList.get(position);
 
         holder.mTvContractName.setText(listBean.getName());
         holder.mTvLatestPrice.setText(listBean.getLastPrice());
@@ -155,7 +152,7 @@ public class MarketListAdapter extends BaseAdapter {
         }
 
 
-        final MarketnalysisBean.ListBean.QuotationDataListBean mBean = listBean;
+        final QuotationDataListBean mBean = listBean;
 
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +175,7 @@ public class MarketListAdapter extends BaseAdapter {
         int mPosition = -1;
         if (mList != null && mList.size() > 0) {
             for (int i = 0; i < mList.size(); i++) {
-                MarketnalysisBean.ListBean.QuotationDataListBean listBean = mList.get(i);
+                QuotationDataListBean listBean = mList.get(i);
                 if (listBean.getInstrumentID().equals(instrumentID)) {
                     mPosition = i;
                     break;

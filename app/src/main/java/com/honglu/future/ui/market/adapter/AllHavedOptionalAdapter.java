@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.market.bean.QuotationDataListBean;
 import com.honglu.future.widget.recycler.BaseRecyclerAdapter;
 
 import butterknife.BindView;
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by hc on 2017/10/26.
  */
 
-public class AllHavedOptionalAdapter extends BaseRecyclerAdapter<AllHavedOptionalAdapter.ViewHolder, MarketnalysisBean.ListBean.QuotationDataListBean> {
+public class AllHavedOptionalAdapter extends BaseRecyclerAdapter<AllHavedOptionalAdapter.ViewHolder, QuotationDataListBean> {
     @Override
     public ViewHolder mOnCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(mInflater.inflate(R.layout.layout_optional_quotes_item, parent, false));
@@ -28,7 +29,7 @@ public class AllHavedOptionalAdapter extends BaseRecyclerAdapter<AllHavedOptiona
         holder.mName.setText(item.getName());
     }
 
-    public void addItemData(MarketnalysisBean.ListBean.QuotationDataListBean bean){
+    public void addItemData(QuotationDataListBean bean){
         getData().add(bean);
         notifyDataSetChanged();
     }

@@ -61,13 +61,12 @@
                 android:gravity="right|center"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <TextView
                     android:id="@+id/add_zixuan"
-                    style="@style/StarCheckedTheme"
+                    android:background="@drawable/star_check_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/dimen_5dp" />
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"

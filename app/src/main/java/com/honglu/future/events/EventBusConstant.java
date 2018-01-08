@@ -15,6 +15,9 @@ public class EventBusConstant {
     public static final String ITEMFRAGMENT_ADD_MARKET = "itemfragment_add_market";
 
     public static final String OPTIONALQUOTES_SORT_MARKET = "optionalquotes_sort_market";
-    //JPushReceiver to MainActivity
-    public static final String TO_MAIN_EVENT_JPUSH_NEW_MSG="to_main_event_jpush_new_msg";
+    //KLineMarketActivity - MarketItemFragment
+    public static final String KLINE_MARKET_ADD_MARKET="kline_market_add_market";
+
+    //KLineMarketActivity - MarketItemFragment
+    public static final String KLINE_MARKET_DEL_MARKET="kline_market_del_market";
 }

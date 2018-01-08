@@ -1,6 +1,5 @@
 package com.honglu.future.events;
-
-import com.honglu.future.ui.market.bean.MarketnalysisBean;
+import com.honglu.future.ui.market.bean.QuotationDataListBean;
 
 /**
  * Created by zhuaibing on 2017/11/10
@@ -8,13 +7,21 @@ import com.honglu.future.ui.market.bean.MarketnalysisBean;
 
 public class MarketRefreshEvent {
     public String mTabSelectType;
+    public String mInstrumentID;
     public String type;
-    public MarketnalysisBean.ListBean.QuotationDataListBean bean;
+    public QuotationDataListBean bean;
 
     public MarketRefreshEvent(String type,String mTabSelectType
-            ,MarketnalysisBean.ListBean.QuotationDataListBean bean){
+            ,QuotationDataListBean bean){
         this.type = type;
         this.mTabSelectType = mTabSelectType;
+        this.bean = bean;
+    }
+
+    public MarketRefreshEvent(String type,String mTabSelectType,String instrumentID,QuotationDataListBean bean){
+        this.type = type;
+        this.mTabSelectType = mTabSelectType;
+        this.mInstrumentID = instrumentID;
         this.bean = bean;
     }
 }
