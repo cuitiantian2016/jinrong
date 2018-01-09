@@ -66,11 +66,6 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
                 mPosition = position;
-                if (mPosition ==0){
-                    read(3);
-                }else {
-                    read(4);
-                }
                 AndroidUtil.hideInputKeyboard(CircleMsgActivity.this);
             }
         });
