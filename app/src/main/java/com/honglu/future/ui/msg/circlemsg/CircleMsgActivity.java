@@ -4,9 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.util.AndroidUtil;
+import com.honglu.future.util.SpUtil;
 import com.honglu.future.widget.tab.CommonTabLayout;
 import com.honglu.future.widget.tab.CustomTabEntity;
 import com.honglu.future.widget.tab.SimpleOnTabSelectListener;
@@ -60,9 +66,15 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
             public void onTabSelect(int position) {
                 super.onTabSelect(position);
                 mPosition = position;
+                if (mPosition ==0){
+                    read(3);
+                }else {
+                    read(4);
+                }
                 AndroidUtil.hideInputKeyboard(CircleMsgActivity.this);
             }
         });
+        read(3);
     }
 
     @Override
@@ -76,5 +88,19 @@ public class CircleMsgActivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+    private void read(int type){
+        HttpManager.getApi().updateReplyStatus(SpUtil.getString(Constant.CACHE_TAG_UID),type).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+            }
+        });
     }
 }

@@ -3,10 +3,14 @@ package com.honglu.future.ui.msg.mainmsg;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.honglu.future.ui.msg.bean.HasUnreadMsgBean;
 import com.honglu.future.ui.msg.circlemsg.CircleMsgActivity;
 import com.honglu.future.ui.msg.praisemsg.PraiseMsgActivity;
@@ -95,6 +99,7 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                 mMsgSystemRed.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_msg_trade://交易提醒
+                read(2);
                 startActivity(TradeMsgActivity.class);
                 mMsgTradeRed.setVisibility(View.INVISIBLE);
                 break;
@@ -103,6 +108,7 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                 mMsgCommentRed.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_msg_praise: //赞
+                read(5);
                 startActivity(PraiseMsgActivity.class);
                 mMsgPraiseRed.setVisibility(View.INVISIBLE);
                 break;
@@ -144,5 +150,18 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                  mMsgSystemRed.setVisibility(View.INVISIBLE);
              }
          }
+    }
+    private void read(int type){
+        HttpManager.getApi().updateReplyStatus(SpUtil.getString(Constant.CACHE_TAG_UID),type).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+            @Override
+            protected void _onNext(JsonNull jsonNull) {
+                super._onNext(jsonNull);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                super._onError(message);
+            }
+        });
     }
 }

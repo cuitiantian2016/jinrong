@@ -1040,5 +1040,17 @@ public interface HttpApi {
     Observable<BaseResponse<List<TaskBean>>> getTaskList(@Field("userId") String userId
             , @Field("taskCategory") int taskCategory);
 
+    /**
+     * 系统消息列表
+     *|messageType |是|int |消息类型 1 系统通知 ,2 交易通知 3 回复通知, 4 评论通知,5 点赞通知
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-messages-api/message/updateReplyStatus")
+    Observable<BaseResponse<JsonNull>> updateReplyStatus(@Field("userId") String userId
+            , @Field("messageType") int messageType);
+
+
+
 
 }
