@@ -1,5 +1,7 @@
 package com.honglu.future.ui.home.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class HomeMessageItem implements Serializable{
     public int isAttention;
     public String modifyMan;
     public String modifyTime;
+    @SerializedName("praise")
     public int isPraise;
     public String createTime;
     public String nickname;

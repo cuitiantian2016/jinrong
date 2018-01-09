@@ -1,5 +1,7 @@
 package com.honglu.future.ui.details.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -11,6 +13,7 @@ public class ConsultDetailsBean {
     public ArrayList<String> praiseAvatars;
     public ArrayList<String> picList;
     public String content;
+    @SerializedName("praise")
     public int isPraise;
     public String homePic;//顶部图片
     public String title;//消息标题
