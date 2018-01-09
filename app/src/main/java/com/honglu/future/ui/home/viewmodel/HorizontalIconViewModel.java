@@ -113,7 +113,7 @@ public class HorizontalIconViewModel extends IBaseView<List<HomeIcon>> {
                 Glide.with(mContext).load(homeIcons.image).diskCacheStrategy(DiskCacheStrategy.ALL).into(
                         new GlideDrawableImageViewTarget(circleImageView)) ;
             }else {
-                ImageUtil.display(homeIcons.image, circleImageView, R.mipmap.img_head);
+                ImageUtil.display(homeIcons.image, circleImageView, R.mipmap.icon_home_error_img);
             }
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
