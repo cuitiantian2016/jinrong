@@ -52,7 +52,6 @@ public class HomeMessageItem implements Serializable{
     public int isAttention;
     public String modifyMan;
     public String modifyTime;
-    @SerializedName("praise")
     public int isPraise;
     public String createTime;
     public String nickname;
