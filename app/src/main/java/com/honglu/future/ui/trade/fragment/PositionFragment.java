@@ -301,6 +301,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         }
     }
 
+    public void stopAccountRun() {
+        mHandler.removeCallbacks(mRunnable);
+    }
+
 
     @Override
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
@@ -318,6 +322,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void getHoldDetailListSuccess(List<HoldDetailBean> list) {
+        startRun();
         mPositionDialog.showPopupWind(mHoldPositionBean, list);
     }
 
@@ -398,7 +403,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     public void onClosePositionClick(View view, HoldPositionBean bean,int position) {
         mPosition = position;
         if (bean != null && !TextUtils.isEmpty(bean.getInstrumentId())) {
-//            stopRun();
             this.mHoldPositionBean = bean;
             mPresenter.getProductDetail(bean.getInstrumentId());
         }
@@ -407,7 +411,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void onHoldDetailClick(View view, HoldPositionBean bean,int position) {
         mPosition = position;
-//        stopRun();
+        stopAccountRun();
         mHoldPositionBean = bean;
         mPresenter.getHoldPositionDetail(bean.getInstrumentId(),
                 String.valueOf(bean.getType()),
