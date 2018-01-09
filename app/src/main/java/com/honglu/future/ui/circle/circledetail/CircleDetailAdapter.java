@@ -98,6 +98,10 @@ public class CircleDetailAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (mActivity == null || mActivity.isDestroyed()){
+            return convertView;
+        }
+
         if (position == getCount()-1){
             holder.mLine.setVisibility(View.INVISIBLE);
         }else {
