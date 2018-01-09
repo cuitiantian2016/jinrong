@@ -122,7 +122,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             }
             mTvLastPrice.setText(mLastPrice);
             setTextViewData(getDouble(mPrice), getInt(mSize));
-            setCcykText(getDouble(mPrice), getInt(mSize));
+            setCcykText(getDouble(mPrice), mMaxCloseTradeNum);
         }
     }
 

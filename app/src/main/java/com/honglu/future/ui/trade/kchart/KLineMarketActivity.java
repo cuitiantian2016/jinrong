@@ -901,6 +901,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         } else {
             showToast("暂未获取数据");
         }
+        mKLinePopupWin.dismiss();
     }
 
 

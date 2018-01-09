@@ -63,7 +63,7 @@
             android:paddingBottom="@dimen/dimen_10dp"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_10dp"
-            android:text="期货术语"
+            android:text="交易术语"
             android:textColor="@color/color_333333" />
 
         <View

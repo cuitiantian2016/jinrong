@@ -77,7 +77,7 @@ public class KLinePopupWin extends PopupWindow {
             public void onClick(View v) {
                 dismiss();
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("title", "期货术语");
+                intent.putExtra("title", "交易术语");
                 intent.putExtra("url", ConfigUtil.FUTURE_SHUYU);
                 context.startActivity(intent);
             }
