@@ -86,10 +86,9 @@ public class SystemMsgDetailActivity extends BaseActivity {
             tv_title.setText(systemMsgBean.title);
             tv_time.setText(systemMsgBean.time);
             tv_content.setText(systemMsgBean.content);
+            msgId = systemMsgBean.meaageId;
         }
-        if (!TextUtils.isEmpty(msgId)) {
-            getMsg();
-        }
+        getMsg();
     }
 
     private void getMsg() {
