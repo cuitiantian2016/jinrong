@@ -12,6 +12,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -19,6 +20,7 @@ import com.honglu.future.ui.home.bean.BannerData;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.activity.WebViewActivity;
 import com.honglu.future.ui.msg.mainmsg.MainMsgActivity;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.banner.AutoFlingBannerAdapter;
@@ -52,12 +54,24 @@ public class BannerViewModel extends IBaseView<List<BannerData>> {
         mView.findViewById(R.id.rl_home_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (App.getConfig().getLoginStatus()) {
                     mContext.startActivity(new Intent(mContext, MainMsgActivity.class));
                 } else {
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
                 }
+                MaidianBean maidianBean = new MaidianBean();
+                maidianBean.page_name = "首页";
+                maidianBean.even_name = "消息中心";
+                MaidianBean.Data data = new MaidianBean.Data();
+                data.buriedName ="消息中心";
+                data.buriedRemark = "点击消息中心的数据";
+                data.key = "qihuo_msgCenter_info";
+                maidianBean.data = data;
+                MaidianBean.postMaiDian(maidianBean);
             }
         });
         setAdapter();

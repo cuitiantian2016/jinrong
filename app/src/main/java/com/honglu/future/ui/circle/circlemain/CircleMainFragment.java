@@ -14,6 +14,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.BasePresenter;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.BBSIndicatorEvent;
@@ -338,10 +339,22 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 //隐藏main 红点
                 EventBus.getDefault().post(new RefreshUIEvent(UIBaseEvent.EVENT_CIRCLE_MSG_RED_GONE));
                 //跳转消息
                 startActivity(new Intent(getActivity(), MainMsgActivity.class));
+                MaidianBean maidianBean = new MaidianBean();
+                maidianBean.page_name = "牛圈";
+                maidianBean.even_name = "消息中心";
+                MaidianBean.Data data = new MaidianBean.Data();
+                data.buriedName ="消息中心";
+                data.buriedRemark = "点击消息中心的数据";
+                data.key = "qihuo_msgCenter_info";
+                maidianBean.data = data;
+                MaidianBean.postMaiDian(maidianBean);
             }
         };
     }

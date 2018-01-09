@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.events.EventBusConstant;
 import com.honglu.future.events.MarketRefreshEvent;
@@ -23,6 +24,7 @@ import com.honglu.future.ui.market.bean.QuotationDataListBean;
 import com.honglu.future.ui.market.contract.MarketItemContract;
 import com.honglu.future.ui.market.presenter.MarketItemPresenter;
 import com.honglu.future.ui.trade.bean.RealTimeBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -272,6 +274,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mQuoteChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (mAdapter !=null && mAdapter.getCount() > 0) {
                     boolean isChange = !mAdapter.getIsChange();
                     if (isChange) {
@@ -280,6 +285,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         mQuoteChange.setText(mContext.getString(R.string.text_quote_change));
                     }
                     mAdapter.setChangeSelect(isChange);
+                    MaidianBean maidianBean = new MaidianBean();
+                    maidianBean.page_name = "行情";
+                    maidianBean.even_name = "涨跌值与涨跌幅切换";
+                    MaidianBean.Data data = new MaidianBean.Data();
+                    data.buriedName ="行情";
+                    data.buriedRemark = "涨跌值与涨跌幅的切换数据";
+                    data.key = "qihuo_upperLowerValueOrRate";
+                    maidianBean.data = data;
+                    MaidianBean.postMaiDian(maidianBean);
                 }
             }
         });
@@ -288,6 +302,9 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
         mHavedPositions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                if (mAdapter !=null && mAdapter.getCount() > 0){
                    boolean isHavedPositions = !mAdapter.getmIsHavedPositions();
                    if (isHavedPositions){
@@ -296,6 +313,15 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                        mHavedPositions.setText("持仓量");
                    }
                    mAdapter.setHavedPositionsSelect(isHavedPositions);
+                   MaidianBean maidianBean = new MaidianBean();
+                   maidianBean.page_name = "行情";
+                   maidianBean.even_name = "持仓量与成交量切换";
+                   MaidianBean.Data data = new MaidianBean.Data();
+                   data.buriedName ="行情";
+                   data.buriedRemark = "持仓量与成交量的切换数据";
+                   data.key = "qihuo_holdValueOrTradeValue";
+                   maidianBean.data = data;
+                   MaidianBean.postMaiDian(maidianBean);
                }
             }
         });

@@ -15,6 +15,7 @@ import com.honglu.future.BuildConfig;
 import com.honglu.future.R;
 import com.honglu.future.base.BasePresenter;
 import com.honglu.future.base.IBaseView;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
@@ -22,6 +23,7 @@ import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.home.bean.HomeMarketCodeBean;
 import com.honglu.future.ui.home.bean.MarketData;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
@@ -206,12 +208,24 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
                     .rl_product.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(DeviceUtils.isFastDoubleClick()){
+                        return;
+                    }
                     Intent intent = new Intent(mContext, KLineMarketActivity.class);
                     intent.putExtra("excode", optional.exchangeID);
                     intent.putExtra("code", optional.instrumentID);
                     MobclickAgent.onEvent(mContext,"shouye_"+optional.instrumentID+"_click","首页_"+optional.name);
                     intent.putExtra("isClosed", "1");
                     mContext.startActivity(intent);
+                    MaidianBean maidianBean = new MaidianBean();
+                    maidianBean.page_name = "首页";
+                    maidianBean.even_name = "点击品种";
+                    MaidianBean.Data data = new MaidianBean.Data();
+                    data.buriedName ="点击品种";
+                    data.buriedRemark = "用户从首页点击品种查看品种走势的数据";
+                    data.key = "qihuo_home_quotationInfo";
+                    maidianBean.data = data;
+                    MaidianBean.postMaiDian(maidianBean);
                 }
             });
         }

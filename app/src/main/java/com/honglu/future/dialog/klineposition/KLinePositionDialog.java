@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.ConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
@@ -29,6 +30,7 @@ import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.util.ViewUtil;
@@ -140,6 +142,9 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
         mPingcang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
 
                     HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
@@ -206,7 +211,15 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                     }).showDialog();
 
                 }
-
+                MaidianBean maidianBean = new MaidianBean();
+                maidianBean.page_name = "行情走势";
+                maidianBean.even_name = "快速平仓";
+                MaidianBean.Data data = new MaidianBean.Data();
+                data.buriedName ="快速平仓";
+                data.buriedRemark = "用户通过行情走势页面点击快速平仓的数据";
+                data.key = "qihuo_quotation_closeInfo";
+                maidianBean.data = data;
+                MaidianBean.postMaiDian(maidianBean);
             }
         });
 

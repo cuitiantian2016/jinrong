@@ -16,6 +16,7 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
 import com.honglu.future.base.PermissionsListener;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AlertFragmentDialog;
@@ -155,6 +156,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         if (Tool.isFastDoubleClick()) return;
         switch (view.getId()) {
             case R.id.tv_shop_mall: //牛币商城
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
@@ -165,14 +169,36 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     intentShopMall.putExtra("is_tool_bar", false);
                     startActivity(intentShopMall);
                 }
+                MaidianBean maidianBean = new MaidianBean();
+                maidianBean.page_name = "我的";
+                maidianBean.even_name = "积分商城";
+                MaidianBean.Data data = new MaidianBean.Data();
+                data.buriedName ="积分商城";
+                data.buriedRemark = "用户在我的页面点击积分商城的数据";
+                data.key = "qihuo_mypage_mallInfo";
+                maidianBean.data = data;
+                MaidianBean.postMaiDian(maidianBean);
                 break;
             case R.id.tv_task://任务中心
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (!App.getConfig().getLoginStatus()) {
                     Intent loginActivity = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(loginActivity);
                 } else{
                     TaskActivity.startTaskActivity(getActivity());
                 }
+
+                MaidianBean taskBean = new MaidianBean();
+                taskBean.page_name = "我的";
+                taskBean.even_name = "任务中心";
+                MaidianBean.Data taskData = new MaidianBean.Data();
+                taskData.buriedName ="任务中心";
+                taskData.buriedRemark = "用户在我的页面点击每日任务的数据";
+                taskData.key = "qihuo_mypage_dailyTaskInfo";
+                taskBean.data = taskData;
+                MaidianBean.postMaiDian(taskBean);
                 break;
             case R.id.tv_novice:
                 clickTab("wode_xinshourumen_click", "我的_新手入门");
@@ -239,12 +265,25 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.rl_message_hint: //消息
+                if(DeviceUtils.isFastDoubleClick()){
+                    return;
+                }
                 if (App.getConfig().getLoginStatus()) {
                     startActivity(new Intent(mActivity, MainMsgActivity.class));
                     mReadMsg.setVisibility(View.INVISIBLE);
                 } else {
                     toLogin();
                 }
+
+                MaidianBean msgBean = new MaidianBean();
+                msgBean.page_name = "我的";
+                msgBean.even_name = "消息中心";
+                MaidianBean.Data msgData = new MaidianBean.Data();
+                msgData.buriedName ="消息中心";
+                msgData.buriedRemark = "点击消息中心的数据";
+                msgData.key = "qihuo_msgCenter_info";
+                msgBean.data = msgData;
+                MaidianBean.postMaiDian(msgBean);
                 break;
 
         }

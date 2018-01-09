@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseFragment;
+import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
 import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.BillConfirmDialog;
@@ -38,6 +39,7 @@ import com.honglu.future.ui.trade.contract.PositionContract;
 import com.honglu.future.ui.trade.presenter.PositionPresenter;
 import com.honglu.future.ui.usercenter.activity.UserAccountActivity;
 import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
 import com.honglu.future.util.ViewUtil;
@@ -259,6 +261,16 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                         startActivity(UserAccountActivity.class);
                     }
                 }
+
+                MaidianBean maidianBean = new MaidianBean();
+                maidianBean.page_name = "账户管理";
+                maidianBean.even_name = "账户管理";
+                MaidianBean.Data data = new MaidianBean.Data();
+                data.buriedName ="账户管理";
+                data.buriedRemark = "点击账户管理的数据";
+                data.key = "qihuo_account_info";
+                maidianBean.data = data;
+                MaidianBean.postMaiDian(maidianBean);
             }
         });
     }
@@ -398,11 +410,23 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void onClosePositionClick(View view, HoldPositionBean bean,int position) {
+        if(DeviceUtils.isFastDoubleClick()){
+            return;
+        }
         mPosition = position;
         if (bean != null && !TextUtils.isEmpty(bean.getInstrumentId())) {
             this.mHoldPositionBean = bean;
             mPresenter.getProductDetail(bean.getInstrumentId());
         }
+        MaidianBean maidianBean = new MaidianBean();
+        maidianBean.page_name = "持仓";
+        maidianBean.even_name = "快速平仓";
+        MaidianBean.Data maidianData = new MaidianBean.Data();
+        maidianData.buriedName ="快速平仓";
+        maidianData.buriedRemark = "用户在持仓页面点击快速平仓的数据";
+        maidianData.key = "qihuo_hold_closeInfo";
+        maidianBean.data = maidianData;
+        MaidianBean.postMaiDian(maidianBean);
     }
 
     @Override
