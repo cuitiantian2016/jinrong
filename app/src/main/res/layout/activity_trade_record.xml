@@ -1,86 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/color_F7F8F9">
+    android:background="@color/color_F7F8F9"
+    android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/color_white"
-        android:orientation="horizontal"
-        app:layout_scrollFlags="scroll">
-
-        <TextView
-            android:id="@+id/tv_startTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/dimen_11dp"
-            android:drawableRight="@mipmap/ic_arrow_down"
-            android:background="@drawable/bg_input_edit"
-            android:paddingTop="@dimen/dimen_8dp"
-            android:paddingBottom="@dimen/dimen_8dp"
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            tools:text="2107-10-17"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_14dp"
-            android:layout_marginRight="@dimen/dimen_14dp"
-            android:text="至"
-            android:textColor="@color/color_A4A5A6"
-            android:textSize="@dimen/dimen_12sp" />
-
-        <TextView
-            android:id="@+id/tv_endTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/dimen_11dp"
-            android:drawableRight="@mipmap/ic_arrow_down"
-            android:background="@drawable/bg_input_edit"
-            android:paddingTop="@dimen/dimen_8dp"
-            android:paddingBottom="@dimen/dimen_8dp"
-            android:paddingRight="@dimen/dimen_12dp"
-            android:paddingLeft="@dimen/dimen_12dp"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            tools:text="2107-10-17"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/dimen_12sp" />
-    </LinearLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-        <ListView
-            android:id="@+id/lv_listView"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="scroll">
+
+                <TextView
+                    android:id="@+id/tv_startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_13dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@drawable/bg_input_edit"
+                    android:drawablePadding="@dimen/dimen_11dp"
+                    android:drawableRight="@mipmap/ic_arrow_down"
+                    android:paddingBottom="@dimen/dimen_8dp"
+                    android:paddingLeft="@dimen/dimen_12dp"
+                    android:paddingRight="@dimen/dimen_12dp"
+                    android:paddingTop="@dimen/dimen_8dp"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_12sp"
+                    tools:text="2107-10-17" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_14dp"
+                    android:layout_marginRight="@dimen/dimen_14dp"
+                    android:text="至"
+                    android:textColor="@color/color_A4A5A6"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_endTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_13dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@drawable/bg_input_edit"
+                    android:drawablePadding="@dimen/dimen_11dp"
+                    android:drawableRight="@mipmap/ic_arrow_down"
+                    android:paddingBottom="@dimen/dimen_8dp"
+                    android:paddingLeft="@dimen/dimen_12dp"
+                    android:paddingRight="@dimen/dimen_12dp"
+                    android:paddingTop="@dimen/dimen_8dp"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/dimen_12sp"
+                    tools:text="2107-10-17" />
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/lv_listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent" />
+        </LinearLayout>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:listSelector="@android:color/transparent"
-            android:divider="@null"/>
-
-         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

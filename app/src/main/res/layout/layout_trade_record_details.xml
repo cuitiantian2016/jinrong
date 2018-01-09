@@ -8,13 +8,12 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_F7F8F9">
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_15dp"
-        android:background="@drawable/shape_white_2dp_bg"
+        android:background="@mipmap/ic_miss_header_bg"
         android:orientation="horizontal">
 
         <TextView
@@ -44,8 +43,7 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:orientation="horizontal"
-          android:layout_marginLeft="@dimen/dimen_15dp"
-          android:layout_marginTop="@dimen/dimen_15dp">
+          android:layout_marginLeft="@dimen/dimen_15dp">
 
           <LinearLayout
               android:layout_width="wrap_content"

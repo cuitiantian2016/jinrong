@@ -6,9 +6,15 @@
 
     <LinearLayout
         android:id="@+id/ll_expandable_content"
+        android:background="@drawable/shape_grey_2dp_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_30dp"
+        android:paddingBottom="@dimen/dimen_15dp"
+        android:paddingLeft="@dimen/dimen_15dp"
+        android:paddingRight="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
         android:orientation="vertical">
     </LinearLayout>
 

@@ -7,13 +7,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_F7F8F9">
+        android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_15dp"
-        android:background="@drawable/shape_white_2dp_bg"
+        android:background="@mipmap/ic_build_detai_header_bgl"
         android:orientation="vertical">
 
         <TextView

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
@@ -10,10 +11,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_white_2dp_bg"
-        android:layout_margin="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_15dp"
+        android:layout_marginRight="@dimen/dimen_15dp"
         android:paddingTop="@dimen/dimen_15dp"
+        android:background="@mipmap/ic_deal_header_bg"
         android:paddingBottom="@dimen/dimen_15dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
