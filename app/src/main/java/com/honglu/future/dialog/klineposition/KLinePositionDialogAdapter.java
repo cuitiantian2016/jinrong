@@ -181,7 +181,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         }
 
         //持仓均价
-        holder.mPriced.setText(item.getHoldAvgPrice());
+        holder.mPriced.setText(item.getOpenAvgPrice());
 
         //持仓盈亏
         if (Double.parseDouble(item.getTodayProfit()) > 0) {

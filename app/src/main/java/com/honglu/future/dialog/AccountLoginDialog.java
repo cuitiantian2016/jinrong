@@ -95,8 +95,11 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         ImageView ivTip = (ImageView) findViewById(R.id.iv_open_account_tip);
         ivTip.setOnClickListener(this);
         mAccount = (EditText) findViewById(R.id.et_account);
-        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))) {
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME)) && mCompType.equals(SelectCompDialog.COMP_TYPE_GUOFU)) {
             mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
+        }
+        if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA)) && mCompType.equals(SelectCompDialog.COMP_TYPE_MEY)) {
+            mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA));
         }
         mIvComp = (ImageView) findViewById(R.id.iv_comp);
         mTvComp = (TextView) findViewById(R.id.tv_comp);

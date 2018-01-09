@@ -29,7 +29,8 @@ public class Constant {
     public static final String CACHE_ACCOUNT_DANGER_HAS_ALERT = "CACHE_ACCOUNT_DANGER_HAS_ALERT"; //风险率高于80%当天是否弹窗
 
     public static final String CACHE_ACCOUNT_TOKEN = "CACHE_ACCOUNT_TOKEN"; //期货账号token
-    public static final String CACHE_ACCOUNT_USER_NAME = "CACHE_ACCOUNT_USER_NAME"; //期货账号
+    public static final String CACHE_ACCOUNT_USER_NAME = "CACHE_ACCOUNT_USER_NAME"; //国富期货账号
+    public static final String CACHE_ACCOUNT_USER_NAME_MEIERYA = "CACHE_ACCOUNT_USER_NAME_MEIERYA"; //美尔雅期货账号
 
     public static final String CUSTOMER_PHONE = "4009610211";//客服电话
     public static final String CUSTOMER_PHONE_TEXT = "400-961-0211";//客服电话

@@ -1,5 +1,6 @@
 package com.honglu.future.ui.usercenter.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import com.honglu.future.R;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.SelectCompDialog;
 import com.honglu.future.ui.recharge.activity.PasswordResetActivity;
 import com.honglu.future.ui.usercenter.contract.FutureAccountContract;
 import com.honglu.future.ui.usercenter.presenter.FutureAccountPresenter;
@@ -62,11 +64,13 @@ public class FutureAccountActivity extends BaseActivity<FutureAccountPresenter> 
     private void initViews() {
         mIvBack.setVisibility(View.VISIBLE);
         mTitle.setTitle(false, R.color.white, "期货账户管理");
-        mTvAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
+
         if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
             mCompName.setText("国富期货公司");
+            mTvAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
         } else if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)) {
             mCompName.setText("美尔雅期货公司");
+            mTvAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA));
         }
     }
 

@@ -59,7 +59,12 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
             @Override
             protected void _onNext(final AccountBean bean) {
                 mBean = bean;
-                SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                if(company.equals(Constant.COMPANY_TYPE_GUOFU)){
+                    SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                } else if(company.equals(Constant.COMPANY_TYPE_MEIERYA)){
+                    SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA, account);
+                }
+
                 SpUtil.putString(Constant.COMPANY_TYPE, company);
                 tv_pass.postDelayed(new Runnable() {
                     @Override
@@ -79,7 +84,11 @@ public class AccountPresenter extends BasePresenter<AccountContract.View> implem
                 if ("首次登录必须修改密码，请修改密码后重新登录".equals(message)) {//首次登录
                     tv_pass.setText("");
                     SpUtil.putString(Constant.COMPANY_TYPE, company);
-                    SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                    if(company.equals(Constant.COMPANY_TYPE_GUOFU)){
+                        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME, account);
+                    } else if(company.equals(Constant.COMPANY_TYPE_MEIERYA)){
+                        SpUtil.putString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA, account);
+                    }
                     new AlertFragmentDialog.Builder((FragmentActivity) context)
                             .setLeftBtnText("取消").setContent("首次登录必须修改交易密码，请修改密码后重新登录", R.color.color_A4A5A6, R.dimen.dimen_15sp).setTitle("修改交易密码", R.color.color_333333, R.dimen.dimen_18sp)
                             .setRightBtnText("去修改").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {

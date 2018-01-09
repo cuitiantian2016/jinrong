@@ -109,7 +109,7 @@ public class PositionAdapter extends BaseAdapter {
             holder.tvBuyCount.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
         }
 
-        holder.tvAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
+        holder.tvAveragePrice.setText(holdPositionBean.getOpenAvgPrice());
         holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
 
         if (Double.parseDouble(holdPositionBean.getTodayProfit()) > 0) {

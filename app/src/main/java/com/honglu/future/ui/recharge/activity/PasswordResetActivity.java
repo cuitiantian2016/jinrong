@@ -73,7 +73,13 @@ public class PasswordResetActivity extends BaseActivity {
             public void getData() {
                 super.getData();
                 int flag = -1;
-                String account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME);
+                String account = "";
+                if (SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_GUOFU)) {
+                    account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME);
+                } else if(SpUtil.getString(Constant.COMPANY_TYPE).equals(Constant.COMPANY_TYPE_MEIERYA)){
+                    account = SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA);
+                }
+
                 if (TextUtils.isEmpty(account)) {
                     ToastUtil.show("请登录期货账户后重试");
                     return;
@@ -92,8 +98,8 @@ public class PasswordResetActivity extends BaseActivity {
                     toSubscribe(HttpManager.getApi().resetMarketPwd(
                             account, AESUtils.encrypt(mOldPwd),
                             account_token,
-                            AESUtils.encrypt(mNewPwd),flag,
-                            userId,SpUtil.getString(Constant.COMPANY_TYPE)),
+                            AESUtils.encrypt(mNewPwd), flag,
+                            userId, SpUtil.getString(Constant.COMPANY_TYPE)),
                             new HttpSubscriber<JsonNull>() {
                                 @Override
                                 protected void _onNext(JsonNull o) {
@@ -106,7 +112,7 @@ public class PasswordResetActivity extends BaseActivity {
                                 @Override
                                 protected void _onError(String message) {
                                     super._onError(message);
-                                     mBtn.setEnabled(true);
+                                    mBtn.setEnabled(true);
                                     if (!TextUtils.isEmpty(message)) {
                                         ToastUtil.show(message);
                                     }
@@ -116,7 +122,7 @@ public class PasswordResetActivity extends BaseActivity {
                     toSubscribe(HttpManager.getApi().resetAssesPwd(
                             account, AESUtils.encrypt(mOldPwd),
                             account_token, AESUtils.encrypt(mNewPwd),
-                            userId,SpUtil.getString(Constant.COMPANY_TYPE)),
+                            userId, SpUtil.getString(Constant.COMPANY_TYPE)),
                             new HttpSubscriber<JsonNull>() {
                                 @Override
                                 protected void _onNext(JsonNull o) {
@@ -194,14 +200,14 @@ public class PasswordResetActivity extends BaseActivity {
 
     @OnClick({R.id.btn_pay})
     public void onClick(View view) {
-        if (DeviceUtils.isFastDoubleClick()){
+        if (DeviceUtils.isFastDoubleClick()) {
             return;
         }
-        if (mNewPwd.length()<8){
+        if (mNewPwd.length() < 8) {
             ToastUtil.show("数字和英文字母组合，8-16位");
             return;
         }
-        if (!(mConformPwd.equals(mNewPwd))){
+        if (!(mConformPwd.equals(mNewPwd))) {
             ToastUtil.show("两次密码输入不一致请重新输入");
             return;
         }
