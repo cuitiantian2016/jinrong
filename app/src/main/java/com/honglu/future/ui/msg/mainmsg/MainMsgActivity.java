@@ -8,6 +8,8 @@ import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.Constant;
+import com.honglu.future.events.RefreshUIEvent;
+import com.honglu.future.events.UIBaseEvent;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.http.RxHelper;
@@ -19,6 +21,10 @@ import com.honglu.future.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,6 +80,7 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
 
     @Override
     public void loadData() {
+        EventBus.getDefault().register(this);
         mTitle.setTitle(false, R.color.color_white, "消息中心");
         mRefreshView.setEnableLoadmore(false);
         mRefreshView.setOnRefreshListener(new OnRefreshListener() {
@@ -83,6 +90,12 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                 mRefreshView.finishRefresh();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -112,6 +125,16 @@ public class MainMsgActivity extends BaseActivity<MainMsgPresenter> implements M
                 startActivity(PraiseMsgActivity.class);
                 mMsgPraiseRed.setVisibility(View.INVISIBLE);
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventCircleThread(UIBaseEvent event) {
+        if (event instanceof RefreshUIEvent) {
+            int code = ((RefreshUIEvent) event).getType();
+            if (code == UIBaseEvent.EVENT_CIRCLE_MSG_RED_VISIBILITY) {
+                mPresenter.getHasUnreadMsg(SpUtil.getString(Constant.CACHE_TAG_UID));
+            }
         }
     }
 
