@@ -186,14 +186,16 @@ public class MarketListAdapter extends BaseAdapter {
     }
 
     public void updateItemView(TextView mTvQuoteChange, TextView mTvLatestPrice, TextView mTvHavedPositions, View mColorView
-            , String mOldChg, String mOldLastPrice, String mOldopenInterest, String mChg, String mLastPrice, String openInterest ,String change) {
-        //double oldChe = string2Double(mOldChg);
+            , String mOldLastPrice, String mChg, String mLastPrice, String openInterest ,String change ,String volume) {
         double oldLastPrice = string2Double(mOldLastPrice);
-        //double che = string2Double(mChg);
         double lastPrice = string2Double(mLastPrice);
-        //mTvQuoteChange.setText(mChg);
         mTvLatestPrice.setText(mLastPrice);
-        mTvHavedPositions.setText(openInterest);
+
+        if (mIsHavedPositions){
+            mTvHavedPositions.setText(volume);
+        }else {
+            mTvHavedPositions.setText(openInterest);
+        }
 
         double mChange = Double.parseDouble(change);
         if (mIsChange){

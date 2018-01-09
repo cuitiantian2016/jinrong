@@ -467,7 +467,7 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
      * @param chg          涨跌幅
      * @param openInterest 持仓量
      */
-    public void mPushRefresh(final String instrumentID, final String lastPrice, final String chg, final String openInterest , final String change) {
+    public void mPushRefresh(final String instrumentID, final String lastPrice, final String chg, final String openInterest , final String change,final String volume) {
         if (isHidden() || mAdapter ==null ||  mAdapter.getData().size() <= 0 || TextUtils.isEmpty(instrumentID)){
             return;
         }
@@ -489,15 +489,14 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                         TextView mTvHavedPositions = (TextView) view.findViewById(R.id.text_haved_positions);
                         View mColorView = view.findViewById(R.id.v_color_shansuo);
                         QuotationDataListBean listBean = mAdapter.getData().get(updatePosition);
-                        String mOldChg = listBean.getChg();
                         String mOldLastPrice = listBean.getLastPrice();
-                        String mOldopenInterest = listBean.getOpenInterest();
                         listBean.setChg(chg);
                         listBean.setLastPrice(lastPrice);
                         listBean.setOpenInterest(openInterest);
                         listBean.setChange(change);
+                        listBean.setVolume(volume);
                         if (mIsPushRefresh){
-                            mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldChg,mOldLastPrice,mOldopenInterest,chg,lastPrice,openInterest,change);
+                            mAdapter.updateItemView(mTvQuoteChange,mTvLatestPrice,mTvHavedPositions,mColorView,mOldLastPrice,chg,lastPrice,openInterest,change,volume);
                         }
                 }
             }
