@@ -3,7 +3,12 @@ package com.honglu.future.util;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.google.gson.JsonNull;
 import com.honglu.future.R;
+import com.honglu.future.config.Constant;
+import com.honglu.future.http.HttpManager;
+import com.honglu.future.http.HttpSubscriber;
+import com.honglu.future.http.RxHelper;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -53,6 +58,22 @@ public class ShareUtils {
                     public void onResult(SHARE_MEDIA share_media) {
                         // TODO: 2017/12/9 分享成功通知服务器
                         ToastUtil.show("分享成功");
+                        HttpManager.getApi().share(SpUtil.getString(Constant.CACHE_TAG_UID)).compose(RxHelper.<JsonNull>handleSimplyResult()).subscribe(new HttpSubscriber<JsonNull>() {
+                            @Override
+                            protected void _onStart() {
+                                super._onStart();
+                            }
+
+                            @Override
+                            protected void _onNext(JsonNull jsonNull) {
+                                super._onNext(jsonNull);
+                            }
+
+                            @Override
+                            protected void _onError(String message) {
+                                super._onError(message);
+                            }
+                        });
                     }
 
                     @Override

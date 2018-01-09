@@ -1036,7 +1036,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("futures-taskscore-api/task/taskList")
+    @POST("http://192.168.90.212:8080/futures-taskscore-api/task/taskList")
     Observable<BaseResponse<List<TaskBean>>> getTaskList(@Field("userId") String userId
             , @Field("taskCategory") int taskCategory);
 
@@ -1049,6 +1049,13 @@ public interface HttpApi {
     @POST("futures-messages-api/message/updateReplyStatus")
     Observable<BaseResponse<JsonNull>> updateReplyStatus(@Field("userId") String userId
             , @Field("messageType") int messageType);
+    /**
+     * 文章分享回调-V1.2.1
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("futures-communtiy-api/app/article/share/callBack")
+    Observable<BaseResponse<JsonNull>> share(@Field("userId") String userId);
 
 
 
