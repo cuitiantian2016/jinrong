@@ -122,6 +122,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             }
             mTvLastPrice.setText(mLastPrice);
             setTextViewData(getDouble(mPrice), getInt(mSize));
+            setCcykText(getDouble(mPrice), getInt(mSize));
         }
     }
 
@@ -130,6 +131,11 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         if (!TextUtils.isEmpty(content)) {
             App.loadingContent(mContext, content);
         }
+    }
+
+    private void setCcykText(double price, int hands) {
+        double closeProfitLoss = getCloseProfitLoss(price, hands);
+        mTvCcPl.setText(String.valueOf(closeProfitLoss));
     }
 
     @Override
@@ -225,7 +231,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         this.mExcode = holdPositionBean.getExcode();
         this.mLastPrice = mProductListBean.getLastPrice();
         this.mKeyboardComplete = false;
-        this.mIsClosed =  "2".equals(mProductListBean.getIsClosed());
+        this.mIsClosed = "2".equals(mProductListBean.getIsClosed());
 
         mKeyBoardView.setVisibility(View.GONE);
         mPrice.setFocusableInTouchMode(true);
@@ -252,7 +258,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         mPricePrompt.setText("≥" + mLowerLimitPrice + " 跌停价 且 ≤" + mUpperLimitPrice + "涨停价");
 
         setTextViewData(Double.parseDouble(mProductListBean.getLastPrice()), mMaxCloseTradeNum);
-
+        setCcykText(Double.parseDouble(mProductListBean.getLastPrice()), mMaxCloseTradeNum);
 
         if (mIsClosed) {
             mFastCloseTransaction.setEnabled(false);
@@ -295,7 +301,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                 mCankaoProfitLoss.setText(String.format(mContext.getString(R.string.z_yuan), String.valueOf(actualProfitLoss)));
             } else if (actualProfitLoss < 0) {
                 mCankaoProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_2CC593));
-                mCankaoProfitLoss.setText(String.valueOf(actualProfitLoss).replace("-",mContext.getString(R.string.f_yuan)));
+                mCankaoProfitLoss.setText(String.valueOf(actualProfitLoss).replace("-", mContext.getString(R.string.f_yuan)));
             } else {
                 mCankaoProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
                 mCankaoProfitLoss.setText(String.format(mContext.getString(R.string.yuan), String.valueOf(actualProfitLoss)));
@@ -308,7 +314,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
                 mProfitLoss.setText(String.format(mContext.getString(R.string.z_yuan), String.valueOf(closeProfitLoss)));
             } else if (closeProfitLoss < 0) {
                 mProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_2CC593));
-                mProfitLoss.setText( String.valueOf(closeProfitLoss).replace("-",mContext.getString(R.string.f_yuan)));
+                mProfitLoss.setText(String.valueOf(closeProfitLoss).replace("-", mContext.getString(R.string.f_yuan)));
             } else {
                 mProfitLoss.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
                 mProfitLoss.setText(String.format(mContext.getString(R.string.yuan), String.valueOf(closeProfitLoss)));
@@ -325,7 +331,6 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         //设置字体
         editText.setTypeface(tf);
     }
-
 
 
     @Override
@@ -500,12 +505,12 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
     }
 
 
-    private void setKeyboardComplete(boolean mKeyboardComplete){
+    private void setKeyboardComplete(boolean mKeyboardComplete) {
         this.mKeyboardComplete = mKeyboardComplete;
-        if (!mIsClosed){
-            if (!mKeyboardComplete){
+        if (!mIsClosed) {
+            if (!mKeyboardComplete) {
                 mFastCloseTransaction.setText(mContext.getString(R.string.kuaisu_pingcang));
-            }else {
+            } else {
                 mFastCloseTransaction.setText(mContext.getString(R.string.weituo_pingcang));
             }
         }
@@ -540,7 +545,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         String closeRatioByVolume = mProductListBean.getCloseRatioByVolume();
         int todayPosition = mHoldPositionBean.getTodayPosition();
         try {
-            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean,todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple,mTvSxfCal);
+            double closeTradePrice = TradeUtil.getCloseTradePrice(mProductListBean, todayPosition, closeTodayRatioByMoney, closeTodayRatioByVolume, closeRatioByMoney, closeRatioByVolume, price, tradeNum, volumeMultiple, mTvSxfCal);
             return String.valueOf(closeTradePrice);
         } catch (Exception e) {
             e.printStackTrace();
@@ -586,9 +591,6 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
         }
     }
 
-    public void setCcyk(String todayProfit){
-        mTvCcPl.setText(todayProfit);
-    }
 
 
     @Override

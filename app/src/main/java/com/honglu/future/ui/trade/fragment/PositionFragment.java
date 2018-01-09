@@ -313,9 +313,6 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             mPositionDialog.setCjyk(list.get(mPosition).getTodayProfit());
         }
 
-        if(mCloseDialog!=null && mCloseDialog.isShowing() && list!=null && list.size()>0){
-            mCloseDialog.setCcyk(list.get(mPosition).getTodayProfit());
-        }
         mAdapter.notifyDataChanged(false, list);
         mRefreshView.finishRefresh();
     }
