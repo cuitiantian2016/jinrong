@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -409,15 +410,15 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
                 break;
             case JOIN_TOO_EARLY:
                 msg = "直播还未开始";
-                new AlertFragmentDialog.Builder(this).setContent(msg)
-                        .setRightBtnText("知道了")
-                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                            @Override
-                            public void dialogRightBtnClick(String inputString) {
-                                onBackPressed();
-                            }
-                        })
-                        .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+//                new AlertFragmentDialog.Builder(this).setContent(msg)
+//                        .setRightBtnText("知道了")
+//                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+//                            @Override
+//                            public void dialogRightBtnClick(String inputString) {
+//                                onBackPressed();
+//                            }
+//                        })
+//                        .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
             case JOIN_LICENSE:
                 msg = "人数已满";
@@ -595,7 +596,11 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
-                onBackPressed();
+                if (isLandScape()) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                } else {
+                    onBackPressed();
+                }
                 break;
             case R.id.iv_share:
                 ShareUtils.getIntance().share(this, "", "http://www.baidu.com", "直播间", "直播间分享");
@@ -603,6 +608,28 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (isLandScape()) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                } else {
+                    onBackPressed();
+                }
+                return true;
+            default:
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public boolean isLandScape() {
+        return Configuration.ORIENTATION_LANDSCAPE == getResources()
+                .getConfiguration().orientation;
     }
 
     private void processVideoFragment(FragmentTransaction ft) {
