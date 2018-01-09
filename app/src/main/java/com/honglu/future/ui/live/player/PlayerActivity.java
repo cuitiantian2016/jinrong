@@ -410,15 +410,15 @@ public class PlayerActivity extends BaseActivity implements OnPlayListener, View
                 break;
             case JOIN_TOO_EARLY:
                 msg = "直播还未开始";
-//                new AlertFragmentDialog.Builder(this).setContent(msg)
-//                        .setRightBtnText("知道了")
-//                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-//                            @Override
-//                            public void dialogRightBtnClick(String inputString) {
-//                                onBackPressed();
-//                            }
-//                        })
-//                        .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
+                new AlertFragmentDialog.Builder(this).setContent(msg)
+                        .setRightBtnText("知道了")
+                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                            @Override
+                            public void dialogRightBtnClick(String inputString) {
+                                onBackPressed();
+                            }
+                        })
+                        .setCancel(false).create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
             case JOIN_LICENSE:
                 msg = "人数已满";
