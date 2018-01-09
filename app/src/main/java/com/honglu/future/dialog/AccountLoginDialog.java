@@ -2,6 +2,7 @@ package com.honglu.future.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -82,6 +83,12 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         params.gravity = Gravity.BOTTOM;
         mWindow.setAttributes(params);
         setCanceledOnTouchOutside(false);
+        setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mPwd.setText("");
+            }
+        });
         selectCompDialog = new SelectCompDialog(mContext);
         selectCompDialog.setOnSelectCompListener(this);
         mCompType = SelectCompDialog.COMP_TYPE_GUOFU;
@@ -127,7 +134,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mAccount.getText().toString().length() >= 6 && mPwd.getText().toString().length() >= 6) {
+                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
                     mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
@@ -150,7 +157,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mAccount.getText().toString().length() >= 6 && mPwd.getText().toString().length() >= 6) {
+                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
                     mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
@@ -240,9 +247,15 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
         if (comp.equals(SelectCompDialog.COMP_TYPE_GUOFU)) {
             mIvComp.setImageResource(R.mipmap.ic_guofu);
             mTvComp.setText("国富期货");
+            if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME))) {
+                mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME));
+            }
         } else if (comp.equals(SelectCompDialog.COMP_TYPE_MEY)) {
             mIvComp.setImageResource(R.mipmap.ic_mey);
             mTvComp.setText("美尔雅期货");
+            if (!TextUtils.isEmpty(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA))) {
+                mAccount.setText(SpUtil.getString(Constant.CACHE_ACCOUNT_USER_NAME_MEIERYA));
+            }
         }
         selectCompDialog.dismiss();
     }
@@ -251,4 +264,6 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
     public void onFail() {
         setBtnEnable();
     }
+
+
 }
