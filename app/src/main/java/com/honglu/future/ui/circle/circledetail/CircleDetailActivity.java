@@ -124,8 +124,7 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
     private int mCommentAuthRows = 0;
     private boolean mCommentMore = false;
     private boolean mCommentAuthMore = false;
-    //点回复对应bean
-    //private CommentBean mCommentBean;
+
     private int mCommentCountAll = 0;
     private int mCommentCountAuth = 0;
 
@@ -289,30 +288,6 @@ public class CircleDetailActivity extends BaseActivity<CircleDetailPresenter> im
                 mRefreshView.finishLoadmore();
             }
         });
-
-        //条目点击事件
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == 0) {
-//                    //addHead
-//                    return;
-//                }
-//                if (mListView.getFooterViewsCount() > 0 && mAdapter.getCount() == 0){
-//                    //addFooter
-//                    return;
-//                }
-//                if (COMMENT_AUTH.equals(getCommentType())) {
-//                    mCommentBean = null;
-//                    mInput.setHint(getString(R.string.circle_input_hint));
-//                } else {
-//                    CommentBean commentBean = (CommentBean) parent.getItemAtPosition(position);
-//                    mCommentBean = commentBean;
-//                    mInput.setHint("回复：" + mCommentBean.nickName);
-//                }
-//
-//            }
-//        });
 
         mArewardDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
