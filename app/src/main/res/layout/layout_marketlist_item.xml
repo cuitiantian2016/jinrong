@@ -78,13 +78,12 @@
          android:layout_height="@dimen/dimen_25dp"
          android:orientation="horizontal"
          android:gravity="right|center_vertical"
-         android:layout_marginRight="@dimen/dimen_8dp"
          android:layout_weight="1">
 
          <com.honglu.future.widget.DinTextView
              android:id="@+id/text_haved_positions"
              android:layout_width="wrap_content"
-             android:gravity="center"
+             android:gravity="right|center_vertical"
              android:layout_height="wrap_content"
              android:minWidth="@dimen/dimen_50dp"
              android:textColor="@color/color_333333"
