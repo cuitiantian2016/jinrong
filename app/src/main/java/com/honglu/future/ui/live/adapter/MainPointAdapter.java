@@ -28,15 +28,17 @@ public class MainPointAdapter extends BaseRecyclerAdapter<MainPointAdapter.ViewH
     @Override
     public void mOnBindViewHolder(MainPointAdapter.ViewHolder holder, final int position) {
         holder.mTvContent.setText(item.messageDescribe);
-        //设置字体大小
-
-
+        holder.mTvTitle.setText(item.messageTitle);
+        holder.mTvTime.setText(item.createTime);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_content)
         TextView mTvContent;
-
+        @BindView(R.id.tv_time)
+        TextView mTvTime;
+        @BindView(R.id.tv_title)
+        TextView mTvTitle;
 
         ViewHolder(View view) {
             super(view);

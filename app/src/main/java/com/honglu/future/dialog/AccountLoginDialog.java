@@ -124,7 +124,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
+                if (mAccount.getText().toString().length() >= 6 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
                     mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
@@ -147,7 +147,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mAccount.getText().toString().length() >= 8 && mPwd.getText().toString().length() >= 6) {
+                if (mAccount.getText().toString().length() >= 6 && mPwd.getText().toString().length() >= 6) {
                     mLoginAccount.setEnabled(true);
                     mLoginAccount.setBackgroundResource(R.drawable.account_login_btn_bg);
                 } else {
