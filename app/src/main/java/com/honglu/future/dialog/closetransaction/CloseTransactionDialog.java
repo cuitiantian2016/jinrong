@@ -135,7 +135,17 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
     private void setCcykText(double price, int hands) {
         double closeProfitLoss = getCloseProfitLoss(price, hands);
-        mTvCcPl.setText(String.valueOf(closeProfitLoss));
+
+        if (closeProfitLoss > 0) {
+            mTvCcPl.setTextColor(ContextCompat.getColor(mContext, R.color.color_FB4F4F));
+            mTvCcPl.setText("+" + String.valueOf(closeProfitLoss));
+        } else if (closeProfitLoss < 0) {
+            mTvCcPl.setTextColor(ContextCompat.getColor(mContext, R.color.color_2CC593));
+            mTvCcPl.setText(String.valueOf(closeProfitLoss));
+        } else {
+            mTvCcPl.setTextColor(ContextCompat.getColor(mContext, R.color.color_333333));
+            mTvCcPl.setText(String.valueOf(closeProfitLoss));
+        }
     }
 
     @Override
@@ -249,7 +259,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
         mPrice.setText(mProductListBean.getLastPrice());
         mTvLastPrice.setText(mProductListBean.getLastPrice());
-        mTvCcPl.setText(holdPositionBean.getTotalProfit());
+        setCcykText(getDouble(mProductListBean.getLastPrice()),mMaxCloseTradeNum);
 
         mCloseHands.setText("平仓手数（最多" + mMaxCloseTradeNum + "手）");
 
@@ -590,7 +600,6 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             return 0;
         }
     }
-
 
 
     @Override
