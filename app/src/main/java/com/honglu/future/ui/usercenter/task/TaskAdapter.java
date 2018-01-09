@@ -1,14 +1,11 @@
 package com.honglu.future.ui.usercenter.task;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.Postcard;
@@ -20,9 +17,6 @@ import com.honglu.future.dialog.AlertFragmentDialog;
 import com.honglu.future.ui.circle.circlemain.adapter.CommonAdapter;
 import com.honglu.future.ui.main.CheckAccount;
 import com.honglu.future.ui.usercenter.bean.TaskBean;
-import com.honglu.future.util.AndroidUtil;
-import com.honglu.future.util.DeviceUtils;
-import com.honglu.future.util.ToastUtil;
 
 
 public class TaskAdapter extends CommonAdapter<TaskBean> {
@@ -70,6 +64,14 @@ public class TaskAdapter extends CommonAdapter<TaskBean> {
 
         public void bindView(final TaskBean item, final View mContext, final int position) {
             tv_title.setText(item.title);
+            tv_title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   if (item.isShowDengBao()){
+                       image_dengbao.performClick();
+                   }
+                }
+            });
             tv_content.setText(item.content);
             iv_attention.setEnabled(!item.isComplete());
             iv_attention.setText(item.isComplete()?"已完成":"去完成");

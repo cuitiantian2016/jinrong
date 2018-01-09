@@ -53,7 +53,7 @@ public class SystemMsgAdapter extends CommonAdapter<SystemMsgBean> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.bindView(getItem(position));
+        holder.bindView(getItem(position) ,this);
         return convertView;
     }
 
@@ -62,6 +62,8 @@ public class SystemMsgAdapter extends CommonAdapter<SystemMsgBean> {
         TextView tv_title;
         @BindView(R.id.tv_time)
         TextView tv_time;;
+        @BindView(R.id.v_msg_system_red)
+       View view;
         View convertView;
         Context context;
 
@@ -71,13 +73,16 @@ public class SystemMsgAdapter extends CommonAdapter<SystemMsgBean> {
             this.convertView = convertView;
         }
 
-        public void bindView(final SystemMsgBean item) {
+        public void bindView(final SystemMsgBean item, final SystemMsgAdapter adapter) {
             tv_title.setText(item.title);
             tv_time.setText(item.time);
+            view.setVisibility(item.isRead()?View.VISIBLE:View.INVISIBLE);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(!TextUtils.isEmpty(item.content)){
+                        item.status = 1;
+                        adapter.notifyDataSetChanged();
                         SystemMsgDetailActivity.startSystemMsgDetailActivity(context,item);
                     }
                 }

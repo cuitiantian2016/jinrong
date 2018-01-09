@@ -167,7 +167,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
                 break;
             case R.id.tv_task://任务中心
-                TaskActivity.startTaskActivity(getActivity());
+                if (!App.getConfig().getLoginStatus()) {
+                    Intent loginActivity = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(loginActivity);
+                } else{
+                    TaskActivity.startTaskActivity(getActivity());
+                }
                 break;
             case R.id.tv_novice:
                 clickTab("wode_xinshourumen_click", "我的_新手入门");

@@ -19,4 +19,8 @@ public class SystemMsgBean implements Serializable {
     public String time;
     public String content;
     public String meaageId;
+    public int status = -1 ;
+    public boolean isRead(){
+        return status==0;
+    }
 }

@@ -41,7 +41,7 @@ public class ImageUtil {
         if (errorImgResouce == null) {
             errorImgResouce = R.mipmap.img_head;
         }
-        if (imageView.getContext()==null){
+        if (imageView ==null || imageView.getContext()==null){
             return;
         }
         Glide.with(imageView.getContext()).load(imageUrl).asBitmap().centerCrop().
