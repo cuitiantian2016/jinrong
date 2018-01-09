@@ -74,6 +74,16 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private int minSl;
     private String isClosed;
 
+    public interface OnBuildClickListener {
+        void onBuildClick();
+    }
+
+    private OnBuildClickListener mListener;
+
+    public void setOnBuildClickListener(OnBuildClickListener listener) {
+        mListener = listener;
+    }
+
     public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean) {
         super(context, R.style.DateDialog);
         this.mContext = (AppCompatActivity) context;
@@ -537,6 +547,8 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                             SpUtil.getString(Constant.COMPANY_TYPE)
                     );
                 }
+
+                mListener.onBuildClick();
                 break;
             case R.id.btn_go_recharge:
                 MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_click", "交易_" + mProductListBean.getInstrumentName() + "_去充值");

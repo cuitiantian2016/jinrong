@@ -78,7 +78,7 @@ import static com.honglu.future.util.ToastUtil.showToast;
  * Created by zq on 2017/11/7.
  */
 
-public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View, KLinePopupWin.OnPopItemClickListener, BillConfirmDialog.OnConfirmClickListener {
+public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> implements KLineMarketContract.View, AccountContract.View, KLinePopupWin.OnPopItemClickListener, BillConfirmDialog.OnConfirmClickListener, BuildTransactionDialog.OnBuildClickListener {
     @BindView(R.id.ll_pull_view)
     LinearLayout mLlPullView;
     @BindView(R.id.iv_pull)
@@ -454,6 +454,30 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
     }
 
+    @Override
+    public void onBuildClick() {
+        if (mBean != null && !TextUtils.isEmpty(mExcode) && !TextUtils.isEmpty(mCode)) {
+            if (App.mApp.getIsMarketInit()) {
+                if (!mMarketSelected) {
+                    EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_ADD_MARKET, mExcode, mCode, null));
+                    mMarketSelected = true;
+                    mAddZixuan.setSelected(true);
+                }
+            } else {
+                if (!mMarketSelected) {
+                    if (mZxMarketList != null && mBean != null && isSaveZXBean(mZxMarketList, mExcode, mCode)) {
+                        QuotationDataListBean marketBean = getMarketBean(mExcode, mCode);
+                        mZxMarketList.add(marketBean);
+                        saveZXMarket(mZxMarketList);
+                        mMarketSelected = true;
+                        mAddZixuan.setSelected(true);
+                    }
+                }
+            }
+
+        }
+    }
+
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         List<KlineCycle> goodsList;
@@ -748,6 +772,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     if (App.getConfig().getAccountLoginStatus()) {
                         if (productListBean != null) {
                             mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
+                            mBuildTransactionDialog.setOnBuildClickListener(this);
                             mBuildTransactionDialog.show();
                         } else {
                             showToast("暂未获取数据");
@@ -768,6 +793,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     if (App.getConfig().getAccountLoginStatus()) {
                         if (productListBean != null) {
                             mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
+                            mBuildTransactionDialog.setOnBuildClickListener(this);
                             mBuildTransactionDialog.show();
                         } else {
                             showToast("暂未获取数据");
@@ -911,31 +937,31 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
 
     //自选
-    private View.OnClickListener getOnClickListener(){
+    private View.OnClickListener getOnClickListener() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBean !=null && !TextUtils.isEmpty(mExcode)&& !TextUtils.isEmpty(mCode)) {
+                if (mBean != null && !TextUtils.isEmpty(mExcode) && !TextUtils.isEmpty(mCode)) {
                     if (!DeviceUtils.isFastDoubleClick()) {
-                        if (App.mApp.getIsMarketInit()){
+                        if (App.mApp.getIsMarketInit()) {
                             if (mMarketSelected) {
-                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_DEL_MARKET,mExcode,mCode,null));
+                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_DEL_MARKET, mExcode, mCode, null));
                                 mMarketSelected = false;
                                 mAddZixuan.setSelected(mMarketSelected);
                             } else {
-                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_ADD_MARKET,mExcode,mCode,null));
+                                EventBus.getDefault().post(new MarketRefreshEvent(EventBusConstant.KLINE_MARKET_ADD_MARKET, mExcode, mCode, null));
                                 mMarketSelected = true;
                                 mAddZixuan.setSelected(mMarketSelected);
                             }
-                        }else {
+                        } else {
                             if (mMarketSelected) {
-                               if (delZXMarket(mZxMarketList,mExcode,mCode)){
-                                   saveZXMarket(mZxMarketList);
-                                   mMarketSelected = false;
-                                   mAddZixuan.setSelected(mMarketSelected);
-                               }
-                            }else {
-                                if (mZxMarketList !=null && mBean !=null && isSaveZXBean(mZxMarketList,mExcode,mCode)){
+                                if (delZXMarket(mZxMarketList, mExcode, mCode)) {
+                                    saveZXMarket(mZxMarketList);
+                                    mMarketSelected = false;
+                                    mAddZixuan.setSelected(mMarketSelected);
+                                }
+                            } else {
+                                if (mZxMarketList != null && mBean != null && isSaveZXBean(mZxMarketList, mExcode, mCode)) {
                                     QuotationDataListBean marketBean = getMarketBean(mExcode, mCode);
                                     mZxMarketList.add(marketBean);
                                     saveZXMarket(mZxMarketList);
@@ -969,26 +995,26 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
 
     //判断当前产品是否已经添加自选
-    private boolean isAddZXMarket(List<QuotationDataListBean> list,String exchangeID,String instrumentID){
+    private boolean isAddZXMarket(List<QuotationDataListBean> list, String exchangeID, String instrumentID) {
         boolean mIsZxMarket = false;
-        if (list !=null
-                && list.size() >0
+        if (list != null
+                && list.size() > 0
                 && !TextUtils.isEmpty(exchangeID)
-                && !TextUtils.isEmpty(instrumentID)){
-           for (QuotationDataListBean listBean : list){
+                && !TextUtils.isEmpty(instrumentID)) {
+            for (QuotationDataListBean listBean : list) {
 
-               if (TextUtils.equals(exchangeID,listBean.getExchangeID())
-                       && TextUtils.equals(instrumentID,listBean.getInstrumentID())){
-                   mIsZxMarket = true;
-                   break;
-               }
-           }
+                if (TextUtils.equals(exchangeID, listBean.getExchangeID())
+                        && TextUtils.equals(instrumentID, listBean.getInstrumentID())) {
+                    mIsZxMarket = true;
+                    break;
+                }
+            }
         }
         return mIsZxMarket;
     }
 
     //保存自选
-    private void saveZXMarket(List<QuotationDataListBean> zxList){
+    private void saveZXMarket(List<QuotationDataListBean> zxList) {
         if (zxList != null && zxList.size() > 0) {
             Gson gson = new Gson();
             String toJson = gson.toJson(zxList);
@@ -1000,17 +1026,17 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
 
     //删除自选
-    private boolean delZXMarket(List<QuotationDataListBean> list,String exchangeID,String instrumentID){
+    private boolean delZXMarket(List<QuotationDataListBean> list, String exchangeID, String instrumentID) {
         boolean isRemove = false;
-        if (list !=null
-                && list.size() >0
+        if (list != null
+                && list.size() > 0
                 && !TextUtils.isEmpty(exchangeID)
-                && !TextUtils.isEmpty(instrumentID)){
+                && !TextUtils.isEmpty(instrumentID)) {
 
             ListIterator<QuotationDataListBean> iterator = list.listIterator();
             while (iterator.hasNext()) {
                 QuotationDataListBean bean = iterator.next();
-                if (TextUtils.equals(exchangeID,bean.getExchangeID()) && TextUtils.equals(instrumentID,bean.getInstrumentID())) {
+                if (TextUtils.equals(exchangeID, bean.getExchangeID()) && TextUtils.equals(instrumentID, bean.getInstrumentID())) {
                     iterator.remove();
                     isRemove = true;
                     break;
@@ -1021,12 +1047,12 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
 
-    private boolean isSaveZXBean(List<QuotationDataListBean> zxList,String exchangeID,String instrumentID){
+    private boolean isSaveZXBean(List<QuotationDataListBean> zxList, String exchangeID, String instrumentID) {
         boolean isSave = true;
-        if (TextUtils.isEmpty(exchangeID) || TextUtils.isEmpty(instrumentID)){
+        if (TextUtils.isEmpty(exchangeID) || TextUtils.isEmpty(instrumentID)) {
             isSave = false;
-        }else  if (zxList !=null
-                && zxList.size() >0){
+        } else if (zxList != null
+                && zxList.size() > 0) {
             for (QuotationDataListBean listBean : zxList) {
                 if (exchangeID.equals(listBean.getExchangeID()) && instrumentID.equals(listBean.getInstrumentID())) {
                     isSave = false;
@@ -1038,7 +1064,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     }
 
     //拼接自选数据
-    private QuotationDataListBean getMarketBean(String exchangeID,String instrumentID){
+    private QuotationDataListBean getMarketBean(String exchangeID, String instrumentID) {
         QuotationDataListBean listBean = new QuotationDataListBean();
         listBean.setExchangeID(exchangeID);
         listBean.setExcode(exchangeID);
@@ -1050,6 +1076,6 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         listBean.setVolume(mBean.getVolume());
         listBean.setLastPrice(mBean.getLastPrice());
         listBean.setIsClosed(mBean.getIsClosed());
-        return  listBean;
+        return listBean;
     }
 }

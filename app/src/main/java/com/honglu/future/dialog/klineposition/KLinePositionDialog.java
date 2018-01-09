@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.honglu.future.dialog.ConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
-import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.DeviceUtils;
@@ -63,7 +61,6 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private KLinePositionDialogAdapter mAdapter;
     private ConfirmDialog mConfirmDialog = null;
     private KeyboardView mKeyBoardView;
-
 
     @Override
     public void showLoading(String content) {
