@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/dimen_12sp"
                     android:textColor="@color/color_A4A5A6"
-                    android:text="持仓总盈亏"/>
+                    android:text="平仓盈亏"/>
 
                 <com.honglu.future.widget.DinTextView
                     android:id="@+id/tv_ykprice"
