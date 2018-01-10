@@ -301,7 +301,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");
         isClosed = getIntent().getStringExtra("isClosed");//是否休市
-        mKLinePositionDialog = new KLinePositionDialog(KLineMarketActivity.this);
+        mKLinePositionDialog = new KLinePositionDialog(KLineMarketActivity.this,mAccountPresenter);
         mKLinePopupWin = new KLinePopupWin(this);
         mKLinePopupWin.setOnPopItemClickListener(this);
         mPresenter.getProductDetail(mCode);
@@ -778,7 +778,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 } else {
                     if (App.getConfig().getAccountLoginStatus()) {
                         if (productListBean != null) {
-                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean);
+                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_RISE, productListBean,mAccountPresenter);
                             mBuildTransactionDialog.setOnBuildClickListener(this);
                             mBuildTransactionDialog.show();
                         } else {
@@ -799,7 +799,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                 } else {
                     if (App.getConfig().getAccountLoginStatus()) {
                         if (productListBean != null) {
-                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean);
+                            mBuildTransactionDialog = new BuildTransactionDialog(mContext, BuildTransactionDialog.TRADE_BUY_DOWN, productListBean,mAccountPresenter);
                             mBuildTransactionDialog.setOnBuildClickListener(this);
                             mBuildTransactionDialog.show();
                         } else {

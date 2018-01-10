@@ -26,6 +26,7 @@ import com.honglu.future.app.App;
 import com.honglu.future.app.AppManager;
 import com.honglu.future.config.Constant;
 import com.honglu.future.ui.main.contract.BuildTransactionContract;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.bean.ProductListBean;
@@ -75,6 +76,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private int maxSl;
     private int minSl;
     private String isClosed;
+    private AccountPresenter mAccountPresenter;
 
     public interface OnBuildClickListener {
         void onBuildClick();
@@ -103,6 +105,25 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         isClosed = bean.getIsClosed();
         mBuildTransactionPresenter = new BuildTransactionPresenter();
         mBuildTransactionPresenter.init(this);
+    }
+
+    public BuildTransactionDialog(@NonNull Context context, String buyRiseOrDown, ProductListBean bean, AccountPresenter accountPresenter) {
+        super(context, R.style.DateDialog);
+        this.mContext = (AppCompatActivity) context;
+        mBuyRiseOrDown = buyRiseOrDown;
+        mProductListBean = bean;
+        instrumentName = bean.getInstrumentName();
+        instrumentId = bean.getInstrumentId();
+        lowerLimitPrice = bean.getLowerLimitPrice();
+        upperLimitPrice = bean.getUpperLimitPrice();
+        priceTick = bean.getPriceTick();
+        volumeMultiple = bean.getVolumeMultiple();
+        maxSl = bean.getMaxSl();
+        minSl = bean.getMinSl();
+        isClosed = bean.getIsClosed();
+        mBuildTransactionPresenter = new BuildTransactionPresenter();
+        mBuildTransactionPresenter.init(this);
+        mAccountPresenter = accountPresenter;
     }
 
 
@@ -490,68 +511,72 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 if (DeviceUtils.isFastDoubleClick()) {
                     return;
                 }
-                String buyTypeStr;
-                if (mBuyType.equals("1")) {
-                    buyTypeStr = "买跌";
-                } else {
-                    buyTypeStr = "买涨";
-                }
-                MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_jiancang_click", "交易_" + mProductListBean.getInstrumentName() + "_建仓");
-                if (TextUtils.isEmpty(mPrice.getText().toString())) {
-                    mPrice.setText(lowerLimitPrice);
-                    showToast("委托价低于跌停价，已经帮您调整至跌停价");
-                    return;
-                } else {
-                    if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
+                if(App.getConfig().getAccountLoginStatus()) {
+                    String buyTypeStr;
+                    if (mBuyType.equals("1")) {
+                        buyTypeStr = "买跌";
+                    } else {
+                        buyTypeStr = "买涨";
+                    }
+                    MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_jiancang_click", "交易_" + mProductListBean.getInstrumentName() + "_建仓");
+                    if (TextUtils.isEmpty(mPrice.getText().toString())) {
                         mPrice.setText(lowerLimitPrice);
                         showToast("委托价低于跌停价，已经帮您调整至跌停价");
                         return;
-                    } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
-                        mPrice.setText(upperLimitPrice);
-                        showToast("委托价高于涨停价，已经帮您调整至涨停价");
-                        return;
+                    } else {
+                        if (Double.parseDouble(mPrice.getText().toString()) < Double.parseDouble(lowerLimitPrice)) {
+                            mPrice.setText(lowerLimitPrice);
+                            showToast("委托价低于跌停价，已经帮您调整至跌停价");
+                            return;
+                        } else if (Double.parseDouble(mPrice.getText().toString()) > Double.parseDouble(upperLimitPrice)) {
+                            mPrice.setText(upperLimitPrice);
+                            showToast("委托价高于涨停价，已经帮您调整至涨停价");
+                            return;
+                        }
                     }
-                }
-                if (!SpUtil.getBoolean(Constant.BUILD_TRANSACTION_CHECKED)) {
-                    new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
-                            , R.color.color_A4A5A6, R.dimen.dimen_14sp)
-                            .setRightBtnText("确定")
-                            .setLeftBtnText("取消")
-                            .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
-                                @Override
-                                public void dialogRightBtnClick(String string) {
-                                    mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
-                                            mBuyType,
-                                            mPrice.getText().toString(),
-                                            instrumentId,
-                                            SpUtil.getString(Constant.CACHE_TAG_UID),
-                                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                                            SpUtil.getString(Constant.COMPANY_TYPE)
-                                    );
-                                }
-                            })
-                            .setCheckChangeCallBack(new AlertFragmentDialog.CheckChangeCallBack() {
-                                @Override
-                                public void dialogCheckChange(boolean isChecked) {
-                                    if (isChecked) {
-                                        SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, true);
-                                    } else {
-                                        SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, false);
+                    if (!SpUtil.getBoolean(Constant.BUILD_TRANSACTION_CHECKED)) {
+                        new AlertFragmentDialog.Builder(mContext).setTitle("确认建仓").setContent(instrumentName + " " + buyTypeStr + " " + mHands.getText().toString() + "手 总计 " + mTotal.getText().toString()
+                                , R.color.color_A4A5A6, R.dimen.dimen_14sp)
+                                .setRightBtnText("确定")
+                                .setLeftBtnText("取消")
+                                .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+                                    @Override
+                                    public void dialogRightBtnClick(String string) {
+                                        mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
+                                                mBuyType,
+                                                mPrice.getText().toString(),
+                                                instrumentId,
+                                                SpUtil.getString(Constant.CACHE_TAG_UID),
+                                                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                                                SpUtil.getString(Constant.COMPANY_TYPE)
+                                        );
                                     }
-                                }
-                            }).create(AlertFragmentDialog.Builder.TYPE_WITH_CHECK_BOX);
-                } else {
-                    mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
-                            mBuyType,
-                            mPrice.getText().toString(),
-                            instrumentId,
-                            SpUtil.getString(Constant.CACHE_TAG_UID),
-                            SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
-                            SpUtil.getString(Constant.COMPANY_TYPE)
-                    );
-                }
+                                })
+                                .setCheckChangeCallBack(new AlertFragmentDialog.CheckChangeCallBack() {
+                                    @Override
+                                    public void dialogCheckChange(boolean isChecked) {
+                                        if (isChecked) {
+                                            SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, true);
+                                        } else {
+                                            SpUtil.putBoolean(Constant.BUILD_TRANSACTION_CHECKED, false);
+                                        }
+                                    }
+                                }).create(AlertFragmentDialog.Builder.TYPE_WITH_CHECK_BOX);
+                    } else {
+                        mBuildTransactionPresenter.buildTransaction(!mIsStopChangePrice, mHands.getText().toString(),
+                                mBuyType,
+                                mPrice.getText().toString(),
+                                instrumentId,
+                                SpUtil.getString(Constant.CACHE_TAG_UID),
+                                SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN),
+                                SpUtil.getString(Constant.COMPANY_TYPE)
+                        );
+                    }
 
-                mListener.onBuildClick();
+                    mListener.onBuildClick();
+                } else {
+                    showAccountLoginDialog();
+                }
                 break;
             case R.id.btn_go_recharge:
                 MobclickAgent.onEvent(mContext, "jy_" + mProductListBean.getInstrumentId() + "_click", "交易_" + mProductListBean.getInstrumentName() + "_去充值");
@@ -570,6 +595,12 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
                 lessAddHands(true);
                 break;
         }
+    }
+
+    private void showAccountLoginDialog() {
+        AccountLoginDialog mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
+        mAccountLoginDialog.show();
+        dismiss();
     }
 
     private void setTextChange() {

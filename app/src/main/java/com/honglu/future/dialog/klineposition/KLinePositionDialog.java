@@ -22,10 +22,12 @@ import com.honglu.future.app.App;
 import com.honglu.future.base.BaseDialog;
 import com.honglu.future.bean.MaidianBean;
 import com.honglu.future.config.Constant;
+import com.honglu.future.dialog.AccountLoginDialog;
 import com.honglu.future.dialog.ConfirmDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.ui.main.presenter.AccountPresenter;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
 import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.util.DeviceUtils;
@@ -61,6 +63,7 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
     private KLinePositionDialogAdapter mAdapter;
     private ConfirmDialog mConfirmDialog = null;
     private KeyboardView mKeyBoardView;
+    private AccountPresenter mAccountPresenter;
 
     @Override
     public void showLoading(String content) {
@@ -86,8 +89,9 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
             ToastUtil.show(msg);
     }
 
-    public KLinePositionDialog(@NonNull Activity mContext) {
+    public KLinePositionDialog(@NonNull Activity mContext, AccountPresenter accountPresenter) {
         super(mContext, R.style.DateDialog);
+        mAccountPresenter = accountPresenter;
     }
 
     @Override
@@ -142,84 +146,94 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
                 if(DeviceUtils.isFastDoubleClick()){
                     return;
                 }
-                if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
+                if(App.getConfig().getAccountLoginStatus()) {
+                    if (mAdapter.getData() != null && mAdapter.getData().size() > 0 && mAdapter.getData().size() > mAdapter.getMPosition()) {
 
-                    HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
-                    final double exPrice = mAdapter.getExPrice(); //价格
-                    final int exPcNum = mAdapter.getExpcNum(); //手数
-                    final double lastPrice =  Double.parseDouble(mLastPrice.trim());//最新价
-                    final int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
-                    final int type = holdPositionBean.getType();  //1 跌  2涨
-                    final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
-                    final String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
-                    final String instrumentId = holdPositionBean.getInstrumentId();
-                    final String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
-                    final String company = SpUtil.getString(Constant.COMPANY_TYPE);
+                        HoldPositionBean holdPositionBean = mAdapter.getData().get(mAdapter.getMPosition());
+                        final double exPrice = mAdapter.getExPrice(); //价格
+                        final int exPcNum = mAdapter.getExpcNum(); //手数
+                        final double lastPrice = Double.parseDouble(mLastPrice.trim());//最新价
+                        final int todayPosition = holdPositionBean.getTodayPosition(); //今日持仓
+                        final int type = holdPositionBean.getType();  //1 跌  2涨
+                        final String userId = SpUtil.getString(Constant.CACHE_TAG_UID);
+                        final String token = SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN);
+                        final String instrumentId = holdPositionBean.getInstrumentId();
+                        final String holdAvgPrice = holdPositionBean.getHoldAvgPrice();
+                        final String company = SpUtil.getString(Constant.COMPANY_TYPE);
 
-                    double lowerLimitPrice = mAdapter.getLowerLimitPrice();
-                    double upperLimitPrice = mAdapter.getUpperLimitPrice();
-                    final boolean keyboardComplete = mAdapter.getKeyboardComplete();
-                    if (exPrice <= 0 || exPrice < lowerLimitPrice || exPrice > upperLimitPrice){
-                        showErrorMsg("平仓委托价必须≥"+lowerLimitPrice +"且≤"+upperLimitPrice,null);
-                        return;
-                    }
-                    if (exPcNum <= 0) {
-                        showErrorMsg("手数必须大于0",null);
-                        return;
-                    }
-                    if (mConfirmDialog == null) {
-                        mConfirmDialog = new ConfirmDialog(mContext);
-                    }
-
-                    String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌" : "买涨";
-                    String ykprice = mYkprice.getText().toString();
-                    String content = String.format(mContext.getString(R.string.close_trade_hint), mNameValue, typeStr, exPcNum, ykprice);
-                    mConfirmDialog.setTitle("确认平仓")
-                            .setContent(content).setRightListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mConfirmDialog.dismiss();
-                            //当价格等于
-                            if (!keyboardComplete) {
-                                mPresenter.ksCloseOrder(
-                                        String.valueOf(todayPosition),
-                                        userId,
-                                        token,
-                                        String.valueOf(exPcNum),
-                                        String.valueOf(type),
-                                        String.valueOf(exPrice),
-                                        instrumentId,
-                                        holdAvgPrice,
-                                        company);
-                            } else {
-                                mPresenter.closeOrder(
-                                        String.valueOf(todayPosition),
-                                        userId,
-                                        token,
-                                        String.valueOf(exPcNum),
-                                        String.valueOf(type),
-                                        String.valueOf(exPrice),
-                                        instrumentId,
-                                        holdAvgPrice,
-                                        company);
-                            }
-
+                        double lowerLimitPrice = mAdapter.getLowerLimitPrice();
+                        double upperLimitPrice = mAdapter.getUpperLimitPrice();
+                        final boolean keyboardComplete = mAdapter.getKeyboardComplete();
+                        if (exPrice <= 0 || exPrice < lowerLimitPrice || exPrice > upperLimitPrice) {
+                            showErrorMsg("平仓委托价必须≥" + lowerLimitPrice + "且≤" + upperLimitPrice, null);
+                            return;
                         }
-                    }).showDialog();
+                        if (exPcNum <= 0) {
+                            showErrorMsg("手数必须大于0", null);
+                            return;
+                        }
+                        if (mConfirmDialog == null) {
+                            mConfirmDialog = new ConfirmDialog(mContext);
+                        }
 
+                        String typeStr = Constant.TYPE_BUY_DOWN == type ? "买跌" : "买涨";
+                        String ykprice = mYkprice.getText().toString();
+                        String content = String.format(mContext.getString(R.string.close_trade_hint), mNameValue, typeStr, exPcNum, ykprice);
+                        mConfirmDialog.setTitle("确认平仓")
+                                .setContent(content).setRightListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mConfirmDialog.dismiss();
+                                //当价格等于
+                                if (!keyboardComplete) {
+                                    mPresenter.ksCloseOrder(
+                                            String.valueOf(todayPosition),
+                                            userId,
+                                            token,
+                                            String.valueOf(exPcNum),
+                                            String.valueOf(type),
+                                            String.valueOf(exPrice),
+                                            instrumentId,
+                                            holdAvgPrice,
+                                            company);
+                                } else {
+                                    mPresenter.closeOrder(
+                                            String.valueOf(todayPosition),
+                                            userId,
+                                            token,
+                                            String.valueOf(exPcNum),
+                                            String.valueOf(type),
+                                            String.valueOf(exPrice),
+                                            instrumentId,
+                                            holdAvgPrice,
+                                            company);
+                                }
+
+                            }
+                        }).showDialog();
+
+                    }
+                    MaidianBean maidianBean = new MaidianBean();
+                    maidianBean.page_name = "行情走势";
+                    maidianBean.even_name = "快速平仓";
+                    MaidianBean.Data data = new MaidianBean.Data();
+                    data.buriedName = "快速平仓";
+                    data.buriedRemark = "用户通过行情走势页面点击快速平仓的数据";
+                    data.key = "qihuo_quotation_closeInfo";
+                    maidianBean.data = data;
+                    MaidianBean.postMaiDian(maidianBean);
+                } else {
+                    showAccountLoginDialog();
                 }
-                MaidianBean maidianBean = new MaidianBean();
-                maidianBean.page_name = "行情走势";
-                maidianBean.even_name = "快速平仓";
-                MaidianBean.Data data = new MaidianBean.Data();
-                data.buriedName ="快速平仓";
-                data.buriedRemark = "用户通过行情走势页面点击快速平仓的数据";
-                data.key = "qihuo_quotation_closeInfo";
-                maidianBean.data = data;
-                MaidianBean.postMaiDian(maidianBean);
             }
         });
 
+    }
+
+    private void showAccountLoginDialog() {
+        AccountLoginDialog mAccountLoginDialog = new AccountLoginDialog(mContext, mAccountPresenter);
+        mAccountLoginDialog.show();
+        dismiss();
     }
 
 

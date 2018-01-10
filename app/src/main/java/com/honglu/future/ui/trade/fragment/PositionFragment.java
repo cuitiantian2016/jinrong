@@ -170,6 +170,13 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 startActivity(LoginActivity.class);
             }
         } else {
+            if(mPositionDialog!=null&& mPositionDialog.isShowing()){
+                mPositionDialog.dismiss();
+            }
+
+            if(mCloseDialog!=null && mCloseDialog.isShowing()){
+                mCloseDialog.dismiss();
+            }
             stopRun();
         }
     }
