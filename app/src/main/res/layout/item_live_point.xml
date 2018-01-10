@@ -8,28 +8,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:layout_marginBottom="@dimen/dimen_10dp"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/dimen_16dp">
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:orientation="horizontal">
 
             <View
+                android:id="@+id/view_line"
                 android:layout_width="@dimen/dimen_5dp"
                 android:layout_height="@dimen/dimen_15dp"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:background="@color/color_008EFF" />
+
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_10dp"
-                android:text="--"
+                android:layout_toRightOf="@+id/view_line"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="标题标题标题标题标题标题标题标"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_16sp" />
 
@@ -37,11 +43,23 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_14dp"
-                android:text="--"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:padding="@dimen/dimen_10dp"
+                android:layout_toRightOf="@+id/tv_title"
+                android:text="17:15:18"
                 android:textColor="@color/color_CACBCC"
                 android:textSize="@dimen/dimen_12sp" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_time"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dimen_10dp"
+                android:src="@mipmap/ic_down" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_content"
@@ -51,8 +69,24 @@
             android:layout_marginRight="@dimen/dimen_15dp"
             android:layout_marginTop="@dimen/dimen_7dp"
             android:paddingBottom="@dimen/dimen_14dp"
-            android:text="--"
-            android:textColor="@color/color_151515"
+            android:text="内容内容内容"
+            android:textColor="#979899"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:visibility="gone"
+            android:textSize="@dimen/dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_content_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_7dp"
+            android:paddingBottom="@dimen/dimen_14dp"
+            android:text="内容内容内容"
+            android:visibility="gone"
+            android:textColor="#979899"
             android:textSize="@dimen/dimen_14sp" />
     </LinearLayout>
 </LinearLayout>
