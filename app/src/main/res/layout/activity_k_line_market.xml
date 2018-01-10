@@ -124,7 +124,7 @@
                         android:maxLines="1"
                         android:text="0"
                         android:textColor="@color/color_opt_gt"
-                        android:textSize="40sp" />
+                        android:textSize="36sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
