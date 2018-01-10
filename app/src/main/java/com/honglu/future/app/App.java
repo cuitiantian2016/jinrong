@@ -426,7 +426,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public boolean getIsMarketInit(){
         return mIsMarketInit;
     }
-    public void setIsMarketInit(){
-        this.mIsMarketInit = true;
+    public void setIsMarketInit(boolean isMarketInit){
+        this.mIsMarketInit = isMarketInit;
     }
 }

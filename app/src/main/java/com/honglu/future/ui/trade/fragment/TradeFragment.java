@@ -180,7 +180,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
     public void onResume() {
         super.onResume();
         if (currentPosition == 0){
-            //MarketFragment 里面的onResume 处理
+            //create MarketFragment 里面的onResume 处理
+            if (!isHidden() && isVisible() && mMarketFragment !=null && App.mApp.getIsMarketInit()){
+                mMarketFragment.requestMarketData();
+            }
         }else if (currentPosition == 1){
             if (!isHidden() && isVisible()) {
                 mPositionFragment.startRun();

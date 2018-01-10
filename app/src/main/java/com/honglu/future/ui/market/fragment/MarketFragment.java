@@ -124,7 +124,9 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     @Override
     public void onResume() {
         super.onResume();
-        requestMarketData();
+        if (!App.mApp.getIsMarketInit()){
+            requestMarketData();
+        }
     }
 
     public void requestMarketData(){
@@ -148,6 +150,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        App.mApp.setIsMainDestroy(false);
         EventBus.getDefault().unregister(this);
     }
 
@@ -266,7 +269,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> implements Mar
                 setTabData(mPosition);
                 mPushCode = mMarketHelper.mosaicMPushCode(zlhyMarketList);
             }
-            App.mApp.setIsMarketInit();
+            App.mApp.setIsMarketInit(true);
             requestMarket(mPushCode);
         }
     }
