@@ -411,7 +411,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter != null && App.getConfig().getLoginStatus()) {
+        if (!isHidden() && mPresenter != null && App.getConfig().getLoginStatus()) {
             mPresenter.getMsgRed(SpUtil.getString(Constant.CACHE_TAG_UID));
         }
     }
