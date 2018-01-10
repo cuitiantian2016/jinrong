@@ -129,10 +129,12 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getMsgRed();
-        Log.d(TAG, "onResume: ");
-        if (homeMarketPriceViewModel != null && !isHidden()) {
-            homeMarketPriceViewModel.refreshData();
+        if (!isHidden()){
+            Log.d(TAG, "onResume: ");
+            getMsgRed();
+            if (homeMarketPriceViewModel != null && !isHidden()) {
+                homeMarketPriceViewModel.refreshData();
+            }
         }
     }
 
