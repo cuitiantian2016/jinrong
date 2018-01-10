@@ -93,6 +93,7 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 mViewHolder.mEtPrice.setText(lastPrice);
             }
         }
+        notifyDataSetChanged();
     }
 
     //当前展开的 position
@@ -184,14 +185,15 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         holder.mPriced.setText(item.getOpenAvgPrice());
 
         //持仓盈亏
-        if (Double.parseDouble(item.getTodayProfit()) > 0) {
-            holder.mProfitLoss.setText("+" + item.getTodayProfit());
+        double ccYk = getCloseProfitLoss(Double.parseDouble(mLastPrice),mMaxCloseTradeNum,item);
+        if (ccYk > 0) {
+            holder.mProfitLoss.setText("+" + String.valueOf(ccYk));
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-        } else if (Double.parseDouble(item.getTodayProfit()) < 0) {
-            holder.mProfitLoss.setText(item.getTodayProfit());
+        } else if (ccYk < 0) {
+            holder.mProfitLoss.setText(String.valueOf(ccYk));
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
-            holder.mProfitLoss.setText(item.getTodayProfit());
+            holder.mProfitLoss.setText(String.valueOf(ccYk));
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
 

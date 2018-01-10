@@ -608,7 +608,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 //
 //        } else {
         //未登录默认国富规则计算保证金
-        double oneSlBZj = NumberUtil.multiply(new BigDecimal(bean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * bean.getVolumeMultiple();
+        double oneSlBZj = NumberUtil.multiply(new BigDecimal(bean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getLastPrice()).doubleValue()) * bean.getVolumeMultiple();
         String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
         mTvBzjYugu.setText(StringUtil.forNumber2(new BigDecimal(BZJStr).doubleValue()) + "元/手");
 //        }
@@ -620,7 +620,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 //
 //            } else {
             //未登录默认国富规则计算保证金
-            double oneSlBZj = NumberUtil.multiply(new BigDecimal(productListBean.getShortMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getBidPrice1()).doubleValue()) * productListBean.getVolumeMultiple();
+            double oneSlBZj = NumberUtil.multiply(new BigDecimal(productListBean.getLongMarginRatioByMoney()).doubleValue(), new BigDecimal(bean.getLastPrice()).doubleValue()) * productListBean.getVolumeMultiple();
             String BZJStr = NumberUtil.moveLast0(NumberUtil.multiply(oneSlBZj, new BigDecimal(1).doubleValue()));
             mTvBzjYugu.setText(StringUtil.forNumber2(new BigDecimal(BZJStr).doubleValue()) + "元/手");
 //            }

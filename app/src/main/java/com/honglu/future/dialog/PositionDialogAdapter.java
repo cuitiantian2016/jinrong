@@ -72,7 +72,7 @@ public class PositionDialogAdapter extends BaseAdapter {
             holder.tvBuyHands.setText("买涨" + holdDetailBean.getCount() + "手");
             holder.tvBuyHands.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
         }
-        holder.tvTime.setText("建仓时间："+holdDetailBean.getOpenTime());
+        holder.tvTime.setText(holdDetailBean.getOpenTime());
         holder.tvPrice.setText(holdDetailBean.getCreatePrice());
         holder.tvBond.setText(holdDetailBean.getUseMargin());
         holder.tvServiceCharge.setText(holdDetailBean.getSxf());
