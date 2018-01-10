@@ -29,6 +29,7 @@ import com.honglu.future.ui.main.contract.BuildTransactionContract;
 import com.honglu.future.ui.main.presenter.BuildTransactionPresenter;
 import com.honglu.future.ui.recharge.activity.InAndOutGoldActivity;
 import com.honglu.future.ui.trade.bean.ProductListBean;
+import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
@@ -64,6 +65,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     private TextView mBuild;
     private TextView isClose;
     private TextView mTvBzjCal, mTvSxfCal;
+    private TextView mUseAbleMoney;
     private String instrumentName;
     private String instrumentId;
     private String lowerLimitPrice;
@@ -76,6 +78,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
     public interface OnBuildClickListener {
         void onBuildClick();
+        void onBuildSuccess();
     }
 
     private OnBuildClickListener mListener;
@@ -146,6 +149,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
     }
 
     private void showDialogData(ProductListBean bean) {
+        mBuildTransactionPresenter.getAccountInfo();
         mProductListBean = bean;
 
         TextView name = (TextView) findViewById(R.id.tv_name);
@@ -201,8 +205,7 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
         TextView limitPrice = (TextView) findViewById(R.id.tv_limit_price);
         limitPrice.setText("≥" + mProductListBean.getLowerLimitPrice() + " 跌停价 且 ≤" + mProductListBean.getUpperLimitPrice() + " 涨停价");
-        TextView useAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
-        useAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_AVAILABLE_MONEY));
+        mUseAbleMoney = (TextView) findViewById(R.id.tv_use_able_money);
         marginMoney = (TextView) findViewById(R.id.tv_margin_money);
         sxf = (TextView) findViewById(R.id.tv_sxf);
         mTotal = (TextView) findViewById(R.id.tv_total);
@@ -681,7 +684,11 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
 
     @Override
     public void showErrorMsg(String msg, String type) {
-        showToast(msg);
+        if(type.equals(Constant.CACHE_USER_AVAILABLE_MONEY)){
+            mUseAbleMoney.setText(SpUtil.getString(Constant.CACHE_USER_AVAILABLE_MONEY));
+        } else {
+            showToast(msg);
+        }
 //        if (type.equals("build")) {
 //            String buyTypeStr = "";
 //            if (mBuyType.equals("1")) {
@@ -701,11 +708,17 @@ public class BuildTransactionDialog extends Dialog implements View.OnClickListen
         } else {
             ToastUtil.showToast("快速建仓成功");
         }
+        mListener.onBuildSuccess();
         dismiss();
     }
 
     @Override
     public void getProductDetailSuccess(ProductListBean bean) {
         showDialogData(bean);
+    }
+
+    @Override
+    public void getAccountInfoSuccess(AccountInfoBean bean) {
+        mUseAbleMoney.setText(StringUtil.forNumber(new BigDecimal(bean.getAvailable()).doubleValue()));
     }
 }

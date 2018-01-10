@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
@@ -123,7 +124,7 @@ public class PositionAdapter extends BaseAdapter {
             holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
         }
 
-        holder.vBottomView.setOnClickListener(new View.OnClickListener() {
+        holder.mLlView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, KLineMarketActivity.class);
@@ -133,16 +134,7 @@ public class PositionAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
-        holder.tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, KLineMarketActivity.class);
-                intent.putExtra("excode", holdPositionBean.getExcode());
-                intent.putExtra("code", holdPositionBean.getInstrumentId());
-                intent.putExtra("isClosed", "1");
-                mContext.startActivity(intent);
-            }
-        });
+
         holder.mTvFastClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +170,8 @@ public class PositionAdapter extends BaseAdapter {
         TextView mTvFastClose;
         @BindView(R.id.tv_hold_detail)
         TextView mTvHoldDetail;
+        @BindView(R.id.ll_view)
+        LinearLayout mLlView;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -172,6 +172,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         @Override
         public void run() {
             getPositionList();
+            mHandler.postDelayed(mRunnable,3000);
         }
     };
     private RealTimeBean.Data mBean;
@@ -196,6 +197,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     protected void onDestroy() {
         super.onDestroy();
         mKLinePositionDialog.onDestroy();
+        mHandler.removeCallbacks(mRunnable);
         EventBus.getDefault().unregister(this);
     }
 
@@ -476,6 +478,11 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
             }
 
         }
+    }
+
+    @Override
+    public void onBuildSuccess() {
+        mHandler.postDelayed(mRunnable,300);
     }
 
 
