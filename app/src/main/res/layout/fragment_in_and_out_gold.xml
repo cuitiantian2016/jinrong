@@ -243,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/dimen_2dp"
                 android:paddingTop="@dimen/dimen_2dp"
-                android:text="4009610211"
+                android:text="400 115 0707"
                 android:textColor="#008EFF"
                 android:textSize="@dimen/dimen_12sp" />
         </LinearLayout>

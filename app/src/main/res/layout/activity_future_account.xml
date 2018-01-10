@@ -133,7 +133,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="400 961 0211"
+            android:text="400 115 0707"
             android:textColor="@color/color_008EFF"
             android:textSize="@dimen/dimen_12sp" />
 

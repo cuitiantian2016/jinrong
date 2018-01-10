@@ -210,7 +210,7 @@ public class AccountLoginDialog extends Dialog implements View.OnClickListener, 
             case R.id.tv_forget_pwd:
                 new AlertFragmentDialog.Builder((FragmentActivity) mContext)
                         .setRightBtnText("知道了").setContent("请在工作日8:30-17:00拨打小牛智投\n" +
-                        "客服电话：400 961 0211").setTitle("忘记密码")
+                        "客服电话：400 115 0707").setTitle("忘记密码")
                         .create(AlertFragmentDialog.Builder.TYPE_NORMAL);
                 break;
             case R.id.tv_fxgz:

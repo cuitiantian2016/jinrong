@@ -32,8 +32,8 @@ public class Constant {
     public static final String CACHE_ACCOUNT_USER_NAME = "CACHE_ACCOUNT_USER_NAME"; //国富期货账号
     public static final String CACHE_ACCOUNT_USER_NAME_MEIERYA = "CACHE_ACCOUNT_USER_NAME_MEIERYA"; //美尔雅期货账号
 
-    public static final String CUSTOMER_PHONE = "4009610211";//客服电话
-    public static final String CUSTOMER_PHONE_TEXT = "400-961-0211";//客服电话
+    public static final String CUSTOMER_PHONE = "400 115 0707";//客服电话
+    public static final String CUSTOMER_PHONE_TEXT = "400 115 0707";//客服电话
     public static final String KEY_OPEN_WEB_TITLE = "webTitle";//打开web页面的titel
 
     public static final String CACHE_TAG_COUNT_DOWN = "showCountDown";    //显示倒计时页面

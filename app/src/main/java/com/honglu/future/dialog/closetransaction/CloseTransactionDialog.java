@@ -255,7 +255,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             mBuyRise.setText("买涨" + mMaxCloseTradeNum + "手");
         }
 
-        mChicangAveragePrice.setText(holdPositionBean.getHoldAvgPrice());
+        mChicangAveragePrice.setText(holdPositionBean.getOpenAvgPrice());
 
         mPrice.setText(mProductListBean.getLastPrice());
         mTvLastPrice.setText(mProductListBean.getLastPrice());
