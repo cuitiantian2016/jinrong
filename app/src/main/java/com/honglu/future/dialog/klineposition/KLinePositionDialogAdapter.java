@@ -93,7 +93,6 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
                 mViewHolder.mEtPrice.setText(lastPrice);
             }
         }
-        notifyDataSetChanged();
     }
 
     //当前展开的 position
@@ -185,15 +184,14 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
         holder.mPriced.setText(item.getOpenAvgPrice());
 
         //持仓盈亏
-        double ccYk = getCloseProfitLoss(Double.parseDouble(mLastPrice),mMaxCloseTradeNum,item);
-        if (ccYk > 0) {
-            holder.mProfitLoss.setText("+" + String.valueOf(ccYk));
+        if (Double.parseDouble(item.getTodayProfit()) > 0) {
+            holder.mProfitLoss.setText("+" + item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-        } else if (ccYk < 0) {
-            holder.mProfitLoss.setText(String.valueOf(ccYk));
+        } else if (Double.parseDouble(item.getTodayProfit()) < 0) {
+            holder.mProfitLoss.setText(item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
         } else {
-            holder.mProfitLoss.setText(String.valueOf(ccYk));
+            holder.mProfitLoss.setText(item.getTodayProfit());
             holder.mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
         }
 
@@ -392,14 +390,14 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
             mHolder.mEtPrice.setOnKeyboardListener(new KeyBoardEditText.OnKeyboardListener() {
                 @Override
                 public void onComplete() {
-                   double  mExPrice = getDoubleText(mHolder.mEtPrice);
-                   double mCompletePrice = mExPrice < mLowerLimitPrice ? mLowerLimitPrice : (mExPrice > mUpperLimitPrice ? mUpperLimitPrice : 0);
-                   if (mCompletePrice != 0){
-                       mHolder.mEtPrice.setText(mLastPrice);
-                       setKeyboardComplete(false);
-                   }else {
-                       setKeyboardComplete(true);
-                   }
+                    double  mExPrice = getDoubleText(mHolder.mEtPrice);
+                    double mCompletePrice = mExPrice < mLowerLimitPrice ? mLowerLimitPrice : (mExPrice > mUpperLimitPrice ? mUpperLimitPrice : 0);
+                    if (mCompletePrice != 0){
+                        mHolder.mEtPrice.setText(mLastPrice);
+                        setKeyboardComplete(false);
+                    }else {
+                        setKeyboardComplete(true);
+                    }
                 }
 
                 @Override
@@ -413,8 +411,8 @@ public class KLinePositionDialogAdapter extends BaseRecyclerAdapter<KLinePositio
 
     //设置平仓文字
     public void setKeyboardComplete(boolean mKeyboardComplete){
-         this.mKeyboardComplete = mKeyboardComplete;
-         mDialog.setPingCangText(mKeyboardComplete);
+        this.mKeyboardComplete = mKeyboardComplete;
+        mDialog.setPingCangText(mKeyboardComplete);
     }
 
     private int getIntText(EditText mText) {
