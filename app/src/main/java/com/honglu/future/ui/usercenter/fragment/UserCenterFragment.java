@@ -170,10 +170,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                     startActivity(intentShopMall);
                 }
                 MaidianBean maidianBean = new MaidianBean();
-                maidianBean.page_name = "我的";
-                maidianBean.even_name = "积分商城";
+                maidianBean.page_name = "用户在我的页面点击积分商城的数据";
+                maidianBean.even_name = "用户在我的页面点击积分商城的数据";
                 MaidianBean.Data data = new MaidianBean.Data();
-                data.buriedName ="积分商城";
+                data.buriedName ="用户在我的页面点击积分商城的数据";
                 data.buriedRemark = "用户在我的页面点击积分商城的数据";
                 data.key = "qihuo_mypage_mallInfo";
                 maidianBean.data = data;
@@ -191,10 +191,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
 
                 MaidianBean taskBean = new MaidianBean();
-                taskBean.page_name = "我的";
-                taskBean.even_name = "任务中心";
+                taskBean.page_name = "用户在我的页面点击每日任务的数据";
+                taskBean.even_name = "用户在我的页面点击每日任务的数据";
                 MaidianBean.Data taskData = new MaidianBean.Data();
-                taskData.buriedName ="任务中心";
+                taskData.buriedName ="用户在我的页面点击每日任务的数据";
                 taskData.buriedRemark = "用户在我的页面点击每日任务的数据";
                 taskData.key = "qihuo_mypage_dailyTaskInfo";
                 taskBean.data = taskData;
@@ -276,10 +276,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                 }
 
                 MaidianBean msgBean = new MaidianBean();
-                msgBean.page_name = "我的";
-                msgBean.even_name = "消息中心";
+                msgBean.page_name = "点击消息中心的数据";
+                msgBean.even_name = "点击消息中心的数据";
                 MaidianBean.Data msgData = new MaidianBean.Data();
-                msgData.buriedName ="消息中心";
+                msgData.buriedName ="点击消息中心的数据";
                 msgData.buriedRemark = "点击消息中心的数据";
                 msgData.key = "qihuo_msgCenter_info";
                 msgBean.data = msgData;

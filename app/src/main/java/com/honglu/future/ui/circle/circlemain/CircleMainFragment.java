@@ -347,10 +347,10 @@ public class CircleMainFragment extends BaseFragment implements CircleSignView.O
                 //跳转消息
                 startActivity(new Intent(getActivity(), MainMsgActivity.class));
                 MaidianBean maidianBean = new MaidianBean();
-                maidianBean.page_name = "牛圈";
-                maidianBean.even_name = "消息中心";
+                maidianBean.page_name = "点击消息中心的数据";
+                maidianBean.even_name = "点击消息中心的数据";
                 MaidianBean.Data data = new MaidianBean.Data();
-                data.buriedName ="消息中心";
+                data.buriedName ="点击消息中心的数据";
                 data.buriedRemark = "点击消息中心的数据";
                 data.key = "qihuo_msgCenter_info";
                 maidianBean.data = data;

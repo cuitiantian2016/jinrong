@@ -286,10 +286,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                     }
                     mAdapter.setChangeSelect(isChange);
                     MaidianBean maidianBean = new MaidianBean();
-                    maidianBean.page_name = "行情";
-                    maidianBean.even_name = "涨跌值与涨跌幅切换";
+                    maidianBean.page_name = "涨跌值与涨跌幅的切换数据";
+                    maidianBean.even_name = "涨跌值与涨跌幅的切换数据";
                     MaidianBean.Data data = new MaidianBean.Data();
-                    data.buriedName ="行情";
+                    data.buriedName ="涨跌值与涨跌幅的切换数据";
                     data.buriedRemark = "涨跌值与涨跌幅的切换数据";
                     data.key = "qihuo_upperLowerValueOrRate";
                     maidianBean.data = data;
@@ -314,10 +314,10 @@ public class MarketItemFragment extends BaseFragment<MarketItemPresenter> implem
                    }
                    mAdapter.setHavedPositionsSelect(isHavedPositions);
                    MaidianBean maidianBean = new MaidianBean();
-                   maidianBean.page_name = "行情";
-                   maidianBean.even_name = "持仓量与成交量切换";
+                   maidianBean.page_name = "持仓量与成交量的切换数据";
+                   maidianBean.even_name = "持仓量与成交量的切换数据";
                    MaidianBean.Data data = new MaidianBean.Data();
-                   data.buriedName ="行情";
+                   data.buriedName ="持仓量与成交量的切换数据";
                    data.buriedRemark = "持仓量与成交量的切换数据";
                    data.key = "qihuo_holdValueOrTradeValue";
                    maidianBean.data = data;

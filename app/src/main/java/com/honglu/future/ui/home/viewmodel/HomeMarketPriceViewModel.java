@@ -218,10 +218,10 @@ public class HomeMarketPriceViewModel extends IBaseView<MarketData> {
                     intent.putExtra("isClosed", "1");
                     mContext.startActivity(intent);
                     MaidianBean maidianBean = new MaidianBean();
-                    maidianBean.page_name = "首页";
-                    maidianBean.even_name = "点击品种";
+                    maidianBean.page_name = "用户从首页点击品种查看品种走势的数据";
+                    maidianBean.even_name = "用户从首页点击品种查看品种走势的数据";
                     MaidianBean.Data data = new MaidianBean.Data();
-                    data.buriedName ="点击品种";
+                    data.buriedName ="用户从首页点击品种查看品种走势的数据";
                     data.buriedRemark = "用户从首页点击品种查看品种走势的数据";
                     data.key = "qihuo_home_quotationInfo";
                     maidianBean.data = data;

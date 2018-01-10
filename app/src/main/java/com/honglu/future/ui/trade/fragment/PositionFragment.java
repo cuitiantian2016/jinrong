@@ -270,10 +270,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 }
 
                 MaidianBean maidianBean = new MaidianBean();
-                maidianBean.page_name = "账户管理";
-                maidianBean.even_name = "账户管理";
+                maidianBean.page_name = "点击账户管理的数据";
+                maidianBean.even_name = "点击账户管理的数据";
                 MaidianBean.Data data = new MaidianBean.Data();
-                data.buriedName ="账户管理";
+                data.buriedName ="点击账户管理的数据";
                 data.buriedRemark = "点击账户管理的数据";
                 data.key = "qihuo_account_info";
                 maidianBean.data = data;
@@ -426,10 +426,10 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             mPresenter.getProductDetail(bean.getInstrumentId());
         }
         MaidianBean maidianBean = new MaidianBean();
-        maidianBean.page_name = "持仓";
-        maidianBean.even_name = "快速平仓";
+        maidianBean.page_name = "用户在持仓页面点击快速平仓的数据";
+        maidianBean.even_name = "用户在持仓页面点击快速平仓的数据";
         MaidianBean.Data maidianData = new MaidianBean.Data();
-        maidianData.buriedName ="快速平仓";
+        maidianData.buriedName ="用户在持仓页面点击快速平仓的数据";
         maidianData.buriedRemark = "用户在持仓页面点击快速平仓的数据";
         maidianData.key = "qihuo_hold_closeInfo";
         maidianBean.data = maidianData;

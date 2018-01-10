@@ -214,10 +214,10 @@ public class KLinePositionDialog extends BaseDialog<KLinePositionDialogPresenter
 
                     }
                     MaidianBean maidianBean = new MaidianBean();
-                    maidianBean.page_name = "行情走势";
-                    maidianBean.even_name = "快速平仓";
+                    maidianBean.page_name = "用户通过行情走势页面点击快速平仓的数据";
+                    maidianBean.even_name = "用户通过行情走势页面点击快速平仓的数据";
                     MaidianBean.Data data = new MaidianBean.Data();
-                    data.buriedName = "快速平仓";
+                    data.buriedName = "用户通过行情走势页面点击快速平仓的数据";
                     data.buriedRemark = "用户通过行情走势页面点击快速平仓的数据";
                     data.key = "qihuo_quotation_closeInfo";
                     maidianBean.data = data;
