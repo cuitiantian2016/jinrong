@@ -1036,7 +1036,7 @@ public interface HttpApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("http://192.168.90.212:8080/futures-taskscore-api/task/taskList")
+    @POST("futures-taskscore-api/task/taskList")
     Observable<BaseResponse<List<TaskBean>>> getTaskList(@Field("userId") String userId
             , @Field("taskCategory") int taskCategory);
 
