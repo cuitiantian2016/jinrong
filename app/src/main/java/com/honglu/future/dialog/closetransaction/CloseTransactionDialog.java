@@ -122,7 +122,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
             }
             mTvLastPrice.setText(mLastPrice);
             setTextViewData(getDouble(mPrice), getInt(mSize));
-            setCcykText(getDouble(mPrice), mMaxCloseTradeNum);
+            setCcykText(getDouble(mLastPrice), mMaxCloseTradeNum);
         }
     }
 
@@ -259,7 +259,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
 
         mPrice.setText(mProductListBean.getLastPrice());
         mTvLastPrice.setText(mProductListBean.getLastPrice());
-        setCcykText(getDouble(mProductListBean.getLastPrice()),mMaxCloseTradeNum);
+
 
         mCloseHands.setText("平仓手数（最多" + mMaxCloseTradeNum + "手）");
 
