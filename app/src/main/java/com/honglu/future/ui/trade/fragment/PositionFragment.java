@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,8 +25,10 @@ import com.honglu.future.dialog.PositionDialog;
 import com.honglu.future.dialog.TradeTipDialog;
 import com.honglu.future.dialog.closetransaction.CloseTransactionDialog;
 import com.honglu.future.events.ChangeTabEvent;
+import com.honglu.future.events.ReceiverMarketMessageEvent;
 import com.honglu.future.events.RefreshUIEvent;
 import com.honglu.future.events.UIBaseEvent;
+import com.honglu.future.mpush.MPushUtil;
 import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.ui.main.contract.AccountContract;
 import com.honglu.future.ui.main.presenter.AccountPresenter;
@@ -42,10 +45,13 @@ import com.honglu.future.ui.usercenter.bean.AccountInfoBean;
 import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.StringUtil;
+import com.honglu.future.util.ToastUtil;
+import com.honglu.future.util.TradeUtil;
 import com.honglu.future.util.ViewUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.xulu.mpush.message.RequestMarketMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,7 +59,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -94,6 +102,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     public String mRedirect;
     private int mPosition;
+    private Map<String, String> productMap;
+    private Map<String, String> priceMap;
 
     private Runnable mPositionRunnable = new Runnable() {
         @Override
@@ -162,19 +172,25 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                     }
                 } else {
                     if (isVisible()) {
-                        startRun();
+
+                        mPresenter.getProductList();
                     }
                 }
             } else {
                 EventBus.getDefault().post(new ChangeTabEvent(0));
                 startActivity(LoginActivity.class);
             }
+
+            if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
+                MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+            }
         } else {
-            if(mPositionDialog!=null&& mPositionDialog.isShowing()){
+            MPushUtil.pauseRequest();
+            if (mPositionDialog != null && mPositionDialog.isShowing()) {
                 mPositionDialog.dismiss();
             }
 
-            if(mCloseDialog!=null && mCloseDialog.isShowing()){
+            if (mCloseDialog != null && mCloseDialog.isShowing()) {
                 mCloseDialog.dismiss();
             }
             stopRun();
@@ -186,9 +202,67 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         mHandler.removeCallbacks(mPositionRunnable);
     }
 
+    /*******
+     * 将事件交给事件派发controller处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ReceiverMarketMessageEvent event) {
+        if (MPushUtil.CODES_TRADE_HOME == null || !MPushUtil.CODES_TRADE_HOME.equals(MPushUtil.requestCodes) || isHidden()
+                || mList == null) {
+            return;
+        }
+        List<HoldPositionBean> data = mList;
+        int index = -1;
+        RequestMarketMessage marketMessage = event.marketMessage;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getInstrumentId().equals(marketMessage.getInstrumentID())) {
+                index = i;
+                break;
+            }
+        }
+        HoldPositionBean productListBean = null;
+        if (index >= 0) {
+            productListBean = data.get(index);
+            data.set(index, productListBean);
+            int visiblePosition = mListView.getFirstVisiblePosition();
+//                Log.e(TAG,optional.getName()+"=====");
+            int visibleLastPosition = mListView.getLastVisiblePosition();
+
+            //只有当要更新的view在可见的位置时才更新，不可见时，跳过不更新
+            int itemIndex = mAdapter.getProductIndex(marketMessage.getInstrumentID()) + mListView.getHeaderViewsCount();
+            if (itemIndex - visiblePosition >= 0 && itemIndex < visibleLastPosition + mListView.getHeaderViewsCount()) {
+                //得到要更新的item的view
+                View view = mListView.getChildAt(itemIndex - visiblePosition);
+//                    //调用adapter更新界面
+//                    dateAdapter.updateView(view, itemIndex);
+                TextView tv_new_price = (TextView) view.findViewById(R.id.tv_new_price);
+                TextView tv_profit_loss = (TextView) view.findViewById(R.id.tv_profit_loss);
+                tv_new_price.setText(marketMessage.getLastPrice());
+                if (!TextUtils.isEmpty(productMap.get(data.get(index).getInstrumentId()))) {
+                    String ccYk = String.valueOf(getCloseProfitLoss(Double.parseDouble(marketMessage.getLastPrice()), productListBean.getPosition(), productMap.get(data.get(index).getInstrumentId()), productListBean));
+                    tv_profit_loss.setText(ccYk);
+
+                if (Double.parseDouble(ccYk) > 0) {
+                    tv_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
+                    tv_profit_loss.setText("+" + ccYk);
+                } else if (Double.parseDouble(ccYk) < 0) {
+                    tv_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
+                    tv_profit_loss.setText(ccYk);
+                } else {
+                    tv_profit_loss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
+                    tv_profit_loss.setText(ccYk);
+                }
+                }
+            }
+        }
+
+    }
+
     @Override
     public void loadData() {
         EventBus.getDefault().register(this);
+        mList = new ArrayList<>();
         mPositionDialog = new PositionDialog(mContext);
         mCloseDialog = new CloseTransactionDialog(getActivity());
         mAdapter = new PositionAdapter(PositionFragment.this);
@@ -273,7 +347,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                 maidianBean.page_name = "点击账户管理的数据";
                 maidianBean.even_name = "点击账户管理的数据";
                 MaidianBean.Data data = new MaidianBean.Data();
-                data.buriedName ="点击账户管理的数据";
+                data.buriedName = "点击账户管理的数据";
                 data.buriedRemark = "点击账户管理的数据";
                 data.key = "qihuo_account_info";
                 maidianBean.data = data;
@@ -288,6 +362,23 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     private void getAccountInfo() {
         mPresenter.getAccountInfo(SpUtil.getString(Constant.CACHE_TAG_UID), SpUtil.getString(Constant.CACHE_ACCOUNT_TOKEN), SpUtil.getString(Constant.COMPANY_TYPE));
+    }
+
+    /**
+     * 平仓盈亏
+     *
+     * @param tradeNum 手数
+     * @return
+     */
+    private double getCloseProfitLoss(double price, int tradeNum, String volumeMultiple, HoldPositionBean holdPositionBean) {
+        String holdAvgPrice = holdPositionBean.getOpenAvgPrice();
+        int type = holdPositionBean.getType();
+        try {
+            return TradeUtil.getCloseProfitLoss(type, holdAvgPrice, "1", Integer.parseInt(volumeMultiple), price, tradeNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override
@@ -320,6 +411,20 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         }
     }
 
+    public void requestMarketData(){
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
+    }
+
     public void stopAccountRun() {
         mHandler.removeCallbacks(mRunnable);
     }
@@ -327,8 +432,17 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
 
     @Override
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
-        mList = list;
-        if(mPositionDialog!=null&&mPositionDialog.isShowing() && list!=null && list.size()>0){
+        mList.clear();
+        if(priceMap == null){
+            mList = list;
+        } else {
+            for (HoldPositionBean bean : list) {
+                bean.setCcProfit(String.valueOf(getCloseProfitLoss(Double.parseDouble(priceMap.get(bean.getInstrumentId())), bean.getPosition(), productMap.get(bean.getInstrumentId()), bean)));
+                bean.setLastPrice(priceMap.get(bean.getInstrumentId()));
+                mList.add(bean);
+            }
+        }
+        if (mPositionDialog != null && mPositionDialog.isShowing() && list != null && list.size() > 0) {
             mPositionDialog.setCjyk(list.get(mPosition).getTodayProfit());
         }
 
@@ -347,6 +461,20 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void getProductDetailSuccess(ProductListBean productListBean) {
         mCloseDialog.showDialog(mHoldPositionBean, productListBean);
+    }
+
+    @Override
+    public void getProductListSuccess(List<ProductListBean> bean) {
+        productMap = new HashMap<>();
+        priceMap = new HashMap<>();
+        for (int i = 0; i < bean.size(); i++) {
+            productMap.put(bean.get(i).getInstrumentId(), String.valueOf(bean.get(i).getVolumeMultiple()));
+            priceMap.put(bean.get(i).getInstrumentId(),bean.get(i).getLastPrice());
+        }
+        if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
+            MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
+        }
+        startRun();
     }
 
 
@@ -416,8 +544,8 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     }
 
     @Override
-    public void onClosePositionClick(View view, HoldPositionBean bean,int position) {
-        if(DeviceUtils.isFastDoubleClick()){
+    public void onClosePositionClick(View view, HoldPositionBean bean, int position) {
+        if (DeviceUtils.isFastDoubleClick()) {
             return;
         }
         mPosition = position;
@@ -429,7 +557,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         maidianBean.page_name = "用户在持仓页面点击快速平仓的数据";
         maidianBean.even_name = "用户在持仓页面点击快速平仓的数据";
         MaidianBean.Data maidianData = new MaidianBean.Data();
-        maidianData.buriedName ="用户在持仓页面点击快速平仓的数据";
+        maidianData.buriedName = "用户在持仓页面点击快速平仓的数据";
         maidianData.buriedRemark = "用户在持仓页面点击快速平仓的数据";
         maidianData.key = "qihuo_hold_closeInfo";
         maidianBean.data = maidianData;
@@ -437,7 +565,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     }
 
     @Override
-    public void onHoldDetailClick(View view, HoldPositionBean bean,int position) {
+    public void onHoldDetailClick(View view, HoldPositionBean bean, int position) {
         mPosition = position;
         stopAccountRun();
         mHoldPositionBean = bean;

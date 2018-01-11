@@ -160,7 +160,10 @@ public class TradeFragment extends BaseFragment<TradePresenter> implements Trade
             MPushUtil.pauseRequest();
         } else {
             if (currentPosition == 1) {
-                mPositionFragment.startRun();
+                if(mPositionFragment!=null) {
+                    mPositionFragment.startRun();
+                    mPositionFragment.requestMarketData();
+                }
             }else if (currentPosition == 0){
                 if (mMarketFragment !=null){
                     mMarketFragment.requestMarketData();

@@ -155,4 +155,29 @@ public class PositionPresenter extends BasePresenter<PositionContract.View> impl
         });
 
     }
+
+    @Override
+    public void getProductList() {
+        toSubscribe(HttpManager.getApi().getProductList(SpUtil.getString(Constant.COMPANY_TYPE)), new HttpSubscriber<List<ProductListBean>>() {
+            @Override
+            public void _onStart() {
+                //mView.showLoading("查询产品列表中...");
+            }
+
+            @Override
+            protected void _onNext(List<ProductListBean> bean) {
+                mView.getProductListSuccess(bean);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorMsg(message, null);
+            }
+
+            @Override
+            protected void _onCompleted() {
+                mView.stopLoading();
+            }
+        });
+    }
 }

@@ -33,6 +33,26 @@ public class HoldPositionBean {
     private String useMargin;
     private int ydPosition;
 
+    public String getLastPrice() {
+        return lastPrice;
+    }
+
+    public void setLastPrice(String lastPrice) {
+        this.lastPrice = lastPrice;
+    }
+
+    private String lastPrice;
+
+    public String getCcProfit() {
+        return ccProfit;
+    }
+
+    public void setCcProfit(String ccProfit) {
+        this.ccProfit = ccProfit;
+    }
+
+    private String ccProfit;
+
     public void setAccount(String account) {
         this.account = account;
     }

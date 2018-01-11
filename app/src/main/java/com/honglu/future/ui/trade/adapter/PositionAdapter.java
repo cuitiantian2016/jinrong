@@ -2,6 +2,7 @@ package com.honglu.future.ui.trade.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.HoldPositionBean;
+import com.honglu.future.ui.trade.bean.ProductListBean;
 import com.honglu.future.ui.trade.fragment.PositionFragment;
 import com.honglu.future.ui.trade.kchart.KLineMarketActivity;
 
@@ -46,6 +48,15 @@ public class PositionAdapter extends BaseAdapter {
         this.mFragment = fragment;
         this.mContext = mFragment.getActivity();
         this.mList = new ArrayList<>();
+    }
+
+    public int getProductIndex(String codes) {
+        for (HoldPositionBean productObj : mList) {
+            if (codes.equals(productObj.getInstrumentId())) {
+                return mList.indexOf(productObj);
+            }
+        }
+        return 0;
     }
 
 
@@ -111,17 +122,17 @@ public class PositionAdapter extends BaseAdapter {
         }
 
         holder.tvAveragePrice.setText(holdPositionBean.getOpenAvgPrice());
-        holder.tvNewPrice.setText(holdPositionBean.getSettlementPrice());
+        holder.tvNewPrice.setText(holdPositionBean.getLastPrice());
 
-        if (Double.parseDouble(holdPositionBean.getTodayProfit()) > 0) {
+        if (Double.parseDouble(holdPositionBean.getCcProfit()) > 0) {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_gt));
-            holder.tvProfitLoss.setText("+" + holdPositionBean.getTodayProfit());
-        } else if (Double.parseDouble(holdPositionBean.getTodayProfit()) < 0) {
+            holder.tvProfitLoss.setText("+" + holdPositionBean.getCcProfit());
+        } else if (Double.parseDouble(holdPositionBean.getCcProfit()) < 0) {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_opt_lt));
-            holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
+            holder.tvProfitLoss.setText(holdPositionBean.getCcProfit());
         } else {
             holder.tvProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
-            holder.tvProfitLoss.setText(holdPositionBean.getTodayProfit());
+            holder.tvProfitLoss.setText(holdPositionBean.getCcProfit());
         }
 
         holder.mLlView.setOnClickListener(new View.OnClickListener() {

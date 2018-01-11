@@ -19,6 +19,7 @@ public interface PositionContract {
         void closeOrderSuccess();
         void getAccountInfoSuccess(AccountInfoBean bean);
         void getProductDetailSuccess(ProductListBean bean);
+        void getProductListSuccess(List<ProductListBean> bean);
     }
 
     interface Presenter {
@@ -28,5 +29,6 @@ public interface PositionContract {
                         String instrumentId, String holdAvgPrice, String company);
         void getAccountInfo(String userId, String token, String company);
         void getProductDetail(String instrumentId);
+        void getProductList();
     }
 }
