@@ -38,7 +38,7 @@
             android:src="@mipmap/ic_trade_tip" />
 
     </RelativeLayout>
-
+    <include layout="@layout/layout_pop_norecord_style"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -53,9 +53,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.honglu.future.widget.loading.LoadingLayout
-                android:id="@+id/loading_layout"
-                style="@style/MatchMatch">
+            <!--<com.honglu.future.widget.loading.LoadingLayout-->
+                <!--android:id="@+id/loading_layout"-->
+                <!--style="@style/MatchMatch">-->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_entrust_list_view"
@@ -63,7 +63,7 @@
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
                     android:scrollbars="none"></android.support.v7.widget.RecyclerView>
-            </com.honglu.future.widget.loading.LoadingLayout>
+            <!--</com.honglu.future.widget.loading.LoadingLayout>-->
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <LinearLayout
@@ -124,6 +124,5 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
 
 </LinearLayout>

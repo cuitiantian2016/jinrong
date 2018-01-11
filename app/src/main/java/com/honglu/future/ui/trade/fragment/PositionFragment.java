@@ -172,7 +172,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
                     }
                 } else {
                     if (isVisible()) {
-
+                        startRun();
                         mPresenter.getProductList();
                     }
                 }
@@ -387,6 +387,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             billConfirmDialog.dismiss();
         }
         mAccountLoginDialog.dismiss();
+        mPresenter.getProductList();
         startRun();
         if (!TextUtils.isEmpty(mRedirect)) {
             ARouter.getInstance().build(Uri.parse(mRedirect)).navigation(getActivity());
@@ -433,13 +434,15 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
     @Override
     public void getHoldPositionListSuccess(List<HoldPositionBean> list) {
         mList.clear();
-        if(priceMap == null){
-            mList = list;
-        } else {
-            for (HoldPositionBean bean : list) {
-                bean.setCcProfit(String.valueOf(getCloseProfitLoss(Double.parseDouble(priceMap.get(bean.getInstrumentId())), bean.getPosition(), productMap.get(bean.getInstrumentId()), bean)));
-                bean.setLastPrice(priceMap.get(bean.getInstrumentId()));
-                mList.add(bean);
+        if(list!=null&& list.size()>0) {
+            if (priceMap == null) {
+                mList = list;
+            } else {
+                for (HoldPositionBean bean : list) {
+                        bean.setCcProfit(String.valueOf(getCloseProfitLoss(Double.parseDouble(priceMap.get(bean.getInstrumentId())), bean.getPosition(), productMap.get(bean.getInstrumentId()), bean)));
+                        bean.setLastPrice(priceMap.get(bean.getInstrumentId()));
+                    mList.add(bean);
+                }
             }
         }
         if (mPositionDialog != null && mPositionDialog.isShowing() && list != null && list.size() > 0) {
@@ -474,7 +477,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
         if (!TextUtils.isEmpty(MPushUtil.CODES_TRADE_HOME)) {
             MPushUtil.requestMarket(MPushUtil.CODES_TRADE_HOME);
         }
-        startRun();
+        mHandler.postDelayed(mPositionRunnable, 1000);
     }
 
 
@@ -501,7 +504,7 @@ public class PositionFragment extends BaseFragment<PositionPresenter> implements
             mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));
             mProfitLoss.setText(bean.getPositionProfit());
         }
-        mHandler.postDelayed(mPositionRunnable, 1000);
+            mHandler.postDelayed(mPositionRunnable, 1000);
     }
 
 

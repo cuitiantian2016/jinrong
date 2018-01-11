@@ -66,8 +66,10 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
     TextView mClosed;
     @BindView(R.id.iv_tip)
     ImageView mIvTip;
-    @BindView(R.id.loading_layout)
-    LoadingLayout mLoadingLayout;
+    @BindView(R.id.rl_noRecord)
+    RelativeLayout mRlEmpty;
+//    @BindView(R.id.loading_layout)
+//    LoadingLayout mLoadingLayout;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mSmartRefreshLayout;
     @BindView(R.id.tv_see_all)
@@ -213,14 +215,17 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
                 if (mAllList == null || mAllList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
                     return;
                 }
-                mLoadingLayout.setStatus(LoadingLayout.Success);
+//                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mRlEmpty.setVisibility(View.GONE);
                 mEntrustAdapter.clearData();
                 mEntrustAdapter.addData(mAllList);
                 if (mAllList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
                 }
             }
         });
@@ -237,7 +242,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
                 if (mAllList == null || mAllList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
                     return;
                 }
                 mOpenList = new ArrayList<>();
@@ -246,11 +252,13 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                         mOpenList.add(bean);
                     }
                 }
-                mLoadingLayout.setStatus(LoadingLayout.Success);
+//                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mRlEmpty.setVisibility(View.GONE);
                 mEntrustAdapter.clearData();
                 mEntrustAdapter.addData(mOpenList);
                 if (mOpenList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
                 }
 
             }
@@ -268,7 +276,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                 mLlFilter.setVisibility(View.GONE);
                 mIsShowFilter = false;
                 if (mAllList == null || mAllList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
                     return;
                 }
                 mCloseList = new ArrayList<>();
@@ -278,11 +287,13 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
                     }
                 }
 
-                mLoadingLayout.setStatus(LoadingLayout.Success);
+//                mLoadingLayout.setStatus(LoadingLayout.Success);
+                mRlEmpty.setVisibility(View.GONE);
                 mEntrustAdapter.clearData();
                 mEntrustAdapter.addData(mCloseList);
                 if (mCloseList.size() == 0) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
                 }
             }
         });
@@ -314,11 +325,13 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             if (mAllList != null && mAllList.size() > 0) {
                 mAllList.clear();
             }
-            mLoadingLayout.setStatus(LoadingLayout.Empty);
+            mRlEmpty.setVisibility(View.VISIBLE);
+//            mLoadingLayout.setStatus(LoadingLayout.Empty);
             return;
         }
         mAllList = list;
-        mLoadingLayout.setStatus(LoadingLayout.Success);
+        mRlEmpty.setVisibility(View.GONE);
+//        mLoadingLayout.setStatus(LoadingLayout.Success);
         mEntrustAdapter.getData().clear();
         mEntrustAdapter.addData(list);
     }
@@ -355,7 +368,8 @@ public class EntrustFragment extends BaseFragment<EntrustPresenter> implements E
             int code = ((RefreshUIEvent) event).getType();
             if (code == UIBaseEvent.EVENT_ACCOUNT_LOGOUT) {//安全退出期货账户
                 if (!App.getConfig().getAccountLoginStatus()) {
-                    mLoadingLayout.setStatus(LoadingLayout.Empty);
+                    mRlEmpty.setVisibility(View.VISIBLE);
+//                    mLoadingLayout.setStatus(LoadingLayout.Empty);
                     mEntrustAdapter.clearData();
                 }
             }
