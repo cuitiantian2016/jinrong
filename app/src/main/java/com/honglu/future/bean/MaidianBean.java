@@ -9,6 +9,8 @@ import com.honglu.future.app.App;
 import com.honglu.future.config.Constant;
 import com.honglu.future.http.HttpManager;
 import com.honglu.future.util.AndroidUtil;
+import com.honglu.future.util.AppUtils;
+import com.honglu.future.util.DeviceUtils;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ViewUtil;
 
@@ -61,7 +63,12 @@ public class MaidianBean implements Serializable {
         public String company;
         public int clickNum = 1;//埋点点击数量默认是1.需要时候++
         public String mobile = SpUtil.getString(Constant.CACHE_TAG_MOBILE);
-
+        public String mobileType = ViewUtil.getDeviceName();
+        public String appChannel = AppUtils.getMarketId(App.getContext());
+        public String appVersion = ViewUtil.getAppVersion(App.getContext());
+        public String mobileResolution = DeviceUtils.getScreenDensity();
+        public String mobileVersion = ViewUtil.getOsVersion();
+        public long reqTime = System.currentTimeMillis();
     }
 
 

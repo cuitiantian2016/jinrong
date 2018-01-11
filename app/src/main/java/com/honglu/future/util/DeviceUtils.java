@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
@@ -13,6 +14,8 @@ import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.honglu.future.app.App;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -86,10 +89,11 @@ public class DeviceUtils {
     /**
      * 将毫秒转化成固定格式的时间
      * 时间格式: yyyy-MM-dd HH:mm:ss
+     *
      * @param millisecond
      * @return
      */
-    public static String getDateTimeFromMillisecond(Long millisecond){
+    public static String getDateTimeFromMillisecond(Long millisecond) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         Date date = new Date(millisecond);
         String dateStr = simpleDateFormat.format(date);
@@ -198,7 +202,7 @@ public class DeviceUtils {
         inputMethodManager.showSoftInputFromInputMethod(windowToken, 0);
     }
 
-    public static void changeKb(Context context){
+    public static void changeKb(Context context) {
         InputMethodManager inputMgr = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMgr.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
@@ -287,9 +291,18 @@ public class DeviceUtils {
                     break;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return isAppRunning;
+    }
+
+    public static String getScreenDensity() {
+        DisplayMetrics mDisplayMetrics = App.getContext().getResources().getDisplayMetrics();
+        int width = mDisplayMetrics.widthPixels;
+        int height = mDisplayMetrics.heightPixels;
+        float density = mDisplayMetrics.density;
+        int densityDpi = mDisplayMetrics.densityDpi;
+        return height + "*" + width;
     }
 
 }
