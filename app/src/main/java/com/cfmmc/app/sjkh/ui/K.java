@@ -93,7 +93,7 @@ public  class k extends WebViewClient {
                 public void run() {
                     view.loadUrl("javascript:(function(){"  +"var id = document.getElementsByName(\"val1\")[0];"+"var my_company = document.title;"+
                             "var id2 =document.getElementsByName(\"val2\")[0];"+"console.log(id);"+"console.log(id2);"+"console.log(my_company);"+
-                            "if(id){if(my_company==\"美尔雅期货\"){id.value = \"上海翡鹿\"}else if(my_company==\"国富期货\"){id.value = \"国富期货大连分公司\"}};"+"if(id2){if(my_company==\"美尔雅期货\"){id2.value = \"3145\"}else if(my_company==\"国富期货\"){id2.value = \"088\"}else{id2.value = \"088\"}};"+
+                            "if(id){if(my_company==\"美尔雅期货\"){id.value = \"上海翡鹿\";id.readOnly= true;}else if(my_company==\"国富期货\"){id.value = \"国富期货大连分公司\";id.readOnly= true;}};"+"if(id2){if(my_company==\"美尔雅期货\"){id2.value = \"3145\";id2.readOnly= true;}else if(my_company==\"国富期货\"){id2.value = \"088\";id2.readOnly= true;}};"+
                             "})()");
                 }
             },500);
