@@ -11,10 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.bean.onIconClickListener;
+import com.honglu.future.ui.login.activity.LoginActivity;
 import com.honglu.future.util.AndroidUtil;
 import com.honglu.future.util.ImageUtil;
 import com.honglu.future.util.ViewHelper;
@@ -107,14 +109,20 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
             userIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (TextUtils.isEmpty(item.getPostmanId())) {
-                        return;
+                    if (App.getConfig().getLoginStatus()) {
+                        if (TextUtils.isEmpty(item.getPostmanId())) {
+                            return;
+                        }
+                        Intent intent = new Intent(userIv.getContext(), CircleMineActivity.class);
+                        intent.putExtra("userId", item.getPostmanId());
+                        intent.putExtra("imgHead", ConfigUtil.baseImageUserUrl + item.getUserAvatar());
+                        intent.putExtra("nickName", item.getNickname());
+                        userIv.getContext().startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(userIv.getContext(), LoginActivity.class);
+                        userIv.getContext().startActivity(intent);
                     }
-                    Intent intent = new Intent(userIv.getContext(), CircleMineActivity.class);
-                    intent.putExtra("userId", item.getPostmanId());
-                    intent.putExtra("imgHead", ConfigUtil.baseImageUserUrl + item.getUserAvatar());
-                    intent.putExtra("nickName", item.getNickname());
-                    userIv.getContext().startActivity(intent);
+
                 }
             });
 

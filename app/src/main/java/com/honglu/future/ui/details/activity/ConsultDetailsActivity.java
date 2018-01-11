@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.honglu.future.R;
+import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
 import com.honglu.future.config.ConfigUtil;
 import com.honglu.future.config.Constant;
@@ -264,13 +265,18 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         mUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.isEmpty(uId)) {
-                    Intent intent = new Intent(mContext, CircleMineActivity.class);
-                    intent.putExtra("userId", uId);
-                    intent.putExtra("imgHead", homePic);
-                    intent.putExtra("nickName", nickname);
-                    startActivity(intent);
+                if (App.getConfig().getLoginStatus()){
+                    if (!TextUtils.isEmpty(uId)) {
+                        Intent intent = new Intent(mContext, CircleMineActivity.class);
+                        intent.putExtra("userId", uId);
+                        intent.putExtra("imgHead", homePic);
+                        intent.putExtra("nickName", nickname);
+                        startActivity(intent);
+                    }
+                }else {
+                    startActivity(LoginActivity.class);
                 }
+
             }
         });
     }
