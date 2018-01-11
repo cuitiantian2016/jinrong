@@ -34,6 +34,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.honglu.future.KaiHuActivity;
 import com.honglu.future.R;
 import com.honglu.future.app.App;
 import com.honglu.future.base.BaseActivity;
@@ -270,7 +271,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             maidianBean.data = data;
             MaidianBean.postMaiDian(maidianBean);
             MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
-            Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
+            Intent intent = new Intent(WebViewActivity.this, KaiHuActivity.class);
             intent.putExtra("brokerId", brokerId);
             if (!TextUtils.isEmpty(channel)) {
                 intent.putExtra("channel", channel);
@@ -289,7 +290,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         @JavascriptInterface
         public void openAccount() {
             MobclickAgent.onEvent(mContext, "shouye_lijikaihu", "首页_“立即开户”按钮");
-            Intent intent = new Intent(WebViewActivity.this, com.cfmmc.app.sjkh.MainActivity.class);
+            Intent intent = new Intent(WebViewActivity.this, KaiHuActivity.class);
             intent.putExtra("brokerId", "0101");
             intent.putExtra("channel", "@200$088-2");
             intent.putExtra("packName", "com.honglu.future");
