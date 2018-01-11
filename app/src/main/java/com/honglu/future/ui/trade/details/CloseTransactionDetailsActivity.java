@@ -15,6 +15,7 @@ import com.honglu.future.http.HttpManager;
 import com.honglu.future.http.HttpSubscriber;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
 import com.honglu.future.ui.trade.bean.HistoryClosePositionBean;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.SpUtil;
 import com.honglu.future.util.ToastUtil;
 import com.honglu.future.widget.ExpandableLayout;
@@ -137,7 +138,7 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                     num = mContext.getString(R.string.buy_up_num, bean.position);
                 }
                 mBuyRise.setText(num);
-                mServiceCharge.setText(bean.closeSxf);
+                mServiceCharge.setText(NumberUtil.beautifulDouble(Double.parseDouble(bean.closeSxf),2));
                 mProfitLoss.setText(bean.profitLoss);
                 if (Double.parseDouble(bean.closeProfitLoss) > 0) {
                     mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));

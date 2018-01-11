@@ -211,7 +211,7 @@ public class TradeRecordAdapter extends BaseAdapter {
                 dateStr = bean.tradeTime;
             }
             mTvBuildDate.setText(dateStr);
-            setProfitValueAndColor(tvProfitLossMoney, bean.closeProfitLoss);
+            setProfitValueAndColor(tvProfitLossMoney, bean.profitLoss);
         }
 
         void bindView(final HistoryBuiderPositionBean bean) {

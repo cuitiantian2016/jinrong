@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.ui.trade.bean.CloseBuiderBean;
+import com.honglu.future.util.NumberUtil;
 import com.honglu.future.util.TimeUtil;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class TradeViewModel {
             }
             mExpTime.setText("时间" + dateStr);
             mExpBaodanNum.setText("报单编号 " + data.orderSysId);
-            mBuildSXF.setText("建仓手续费 " + data.openSxf);
+            mBuildSXF.setText("建仓手续费 " + NumberUtil.beautifulDouble(Double.parseDouble(data.openSxf),2));
             mTradeId.setText("成交编号 " + data.tradeId);
             layout.addView(inflate);
         }
