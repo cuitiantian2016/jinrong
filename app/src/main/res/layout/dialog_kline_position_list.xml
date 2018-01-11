@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/top_left_right_radius_white">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/dimen_16dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-----"
+                android:textStyle="bold"
+                android:textColor="@color/color_333333"
+                android:drawableRight="@mipmap/ic_trade_tip"
+                android:drawablePadding="@dimen/dimen_10dp"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_close_fork" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_line"
+            android:background="@color/color_EDEDED"
+            android:layout_marginTop="@dimen/dimen_16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:layout_marginLeft="@dimen/dimen_50dp"
+            android:layout_marginRight="@dimen/dimen_15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:textColor="@color/color_A4A5A6"
+                android:text="@string/buy_type_num"/>
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/color_A4A5A6"
+                android:text="@string/chicang_priced"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:textColor="@color/color_A4A5A6"
+                android:text="@string/chicang_profit_loss"/>
+
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/lv_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@color/transparent"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:divider="@null"/>
+
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/dimen_70dp"
+             android:orientation="horizontal"
+             android:background="@color/color_F7F8F9">
+
+
+             <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:layout_weight="1"
+                 android:layout_marginLeft="@dimen/dimen_15dp"
+                 android:layout_gravity="center_vertical">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_12sp"
+                     android:textColor="@color/color_A4A5A6"
+                     android:text="持仓总盈亏 "/>
+
+                 <com.honglu.future.widget.DinTextView
+                     android:id="@+id/tv_ykprice"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/dimen_24sp"
+                     android:textColor="@color/color_B1B1B3"
+                     android:text="---"/>
+
+             </LinearLayout>
+
+
+             <TextView
+                 android:id="@+id/tv_pingcang"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:textStyle="bold"
+                 android:textSize="@dimen/dimen_20sp"
+                 android:paddingLeft="@dimen/dimen_30dp"
+                 android:paddingRight="@dimen/dimen_30dp"
+                 android:gravity="center_vertical"
+                 android:background="@color/color_B1B1B3"
+                 android:textColor="@color/color_white"
+                 android:text="休市中"/>
+
+         </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

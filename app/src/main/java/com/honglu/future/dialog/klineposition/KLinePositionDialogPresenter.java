@@ -67,6 +67,7 @@ public class KLinePositionDialogPresenter extends BasePresenter<KLinePositionDia
             @Override
             protected void _onCompleted() {
                 mView.stopLoading();
+                mView.closeOrderSuccess();
             }
         });
     }

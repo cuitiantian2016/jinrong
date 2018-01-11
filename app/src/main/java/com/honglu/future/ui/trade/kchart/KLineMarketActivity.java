@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.honglu.future.dialog.BillConfirmDialog;
 import com.honglu.future.dialog.BuildTransactionDialog;
 import com.honglu.future.dialog.ProductRuleDialog;
 import com.honglu.future.dialog.klineposition.KLinePositionDialog;
+import com.honglu.future.dialog.klineposition.KLinePositionListDialog;
 import com.honglu.future.events.EventBusConstant;
 import com.honglu.future.events.MarketRefreshEvent;
 import com.honglu.future.events.ReceiverMarketMessageEvent;
@@ -165,7 +167,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
     private AccountLoginDialog mAccountLoginDialog;
     private KLinePopupWin mKLinePopupWin;
     private ProductRuleDialog mProductRuleDialog;
-    private KLinePositionDialog mKLinePositionDialog;
+    private KLinePositionListDialog mKLinePositionDialog;
     private List<HoldPositionBean> mChiCangList;//持仓列表
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -220,7 +222,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
 
             if (mKLinePositionDialog != null
                     && mKLinePositionDialog.isShowing()) {
-                mKLinePositionDialog.pushRefresh(mRequestBean.getLowerLimitPrice(), mRequestBean.getUpperLimitPrice(), mRequestBean.getLastPrice());
+                mKLinePositionDialog.mPushRefresh(mRequestBean.getExchangeID(),mRequestBean.getInstrumentID(),mRequestBean.getLastPrice());
             }
 
             if (mBuildTransactionDialog != null
@@ -301,7 +303,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         mCode = getIntent().getStringExtra("code");
         mClosed = getIntent().getStringExtra("close");
         isClosed = getIntent().getStringExtra("isClosed");//是否休市
-        mKLinePositionDialog = new KLinePositionDialog(KLineMarketActivity.this,mAccountPresenter);
+        mKLinePositionDialog = new KLinePositionListDialog(KLineMarketActivity.this,mAccountPresenter);
         mKLinePopupWin = new KLinePopupWin(this);
         mKLinePopupWin.setOnPopItemClickListener(this);
         mPresenter.getProductDetail(mCode);
@@ -314,6 +316,7 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
         if (App.getConfig().getAccountLoginStatus()) {
             mHandler.postDelayed(mRunnable, 300);
         }
+        Log.d("wahcc","======mExcode=="+mExcode+"===mCode==="+mCode);
         MPushUtil.requestMarket(mExcode + "|" + mCode);
 
         mAddZixuan.setOnClickListener(getOnClickListener());
@@ -818,13 +821,14 @@ public class KLineMarketActivity extends BaseActivity<KLineMarketPresenter> impl
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
                 } else {
+
                     if (App.getConfig().getAccountLoginStatus()) {
 
                         String mName = mTvName.getText().toString();
                         if (!TextUtils.isEmpty(mName)) {
                             if (mChiCangList != null && mChiCangList.size() > 0) {
                                 boolean mClosed = "2".equals(isClosed);
-                                mKLinePositionDialog.setPositionData(mClosed, mExcode, mCode, mName, mChiCangList).showDialog();
+                                mKLinePositionDialog.showPositionDialog(mClosed, mExcode, mCode, mName, mChiCangList);
                             } else {
                                 //getPositionList();
 //                            EventBus.getDefault().post(new ChangeTabMainEvent(FragmentFactory.FragmentStatus.Trade));
