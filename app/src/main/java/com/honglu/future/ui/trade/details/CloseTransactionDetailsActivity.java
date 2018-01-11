@@ -138,10 +138,10 @@ public class CloseTransactionDetailsActivity extends BaseActivity {
                 }
                 mBuyRise.setText(num);
                 mServiceCharge.setText(bean.closeSxf);
-                mProfitLoss.setText(bean.closeProfitLoss);
+                mProfitLoss.setText(bean.profitLoss);
                 if (Double.parseDouble(bean.closeProfitLoss) > 0) {
                     mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_FB4F4F));
-                } else if (Double.parseDouble(bean.closeProfitLoss) < 0) {
+                } else if (Double.parseDouble(bean.profitLoss) < 0) {
                     mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_2CC593));
                 } else {
                     mProfitLoss.setTextColor(mContext.getResources().getColor(R.color.color_333333));

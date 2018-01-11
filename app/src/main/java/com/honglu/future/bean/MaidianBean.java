@@ -53,6 +53,7 @@ public class MaidianBean implements Serializable {
     public String user_id = SpUtil.getString(Constant.CACHE_TAG_UID);
     public String page_name;
     public String even_name;
+    public long reqTime = System.currentTimeMillis();
     public Data data;
 
     public static class Data {
@@ -68,7 +69,6 @@ public class MaidianBean implements Serializable {
         public String appVersion = ViewUtil.getAppVersion(App.getContext());
         public String mobileResolution = DeviceUtils.getScreenDensity();
         public String mobileVersion = ViewUtil.getOsVersion();
-        public long reqTime = System.currentTimeMillis();
     }
 
 
