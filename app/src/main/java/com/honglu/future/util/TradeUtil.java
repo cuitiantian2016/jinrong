@@ -155,9 +155,9 @@ public class TradeUtil {
         BigDecimal mVolumeMultipleBig = NumberUtil.getBigDecimal(volumeMultiple);
         BigDecimal mPriceTickBig = NumberUtil.getBigDecimal(Double.parseDouble(priceTick));
         if (type == Constant.TYPE_BUY_UP) {
-            return mPriceBig.subtract(mholdAvgPriceBig).divide(mPriceTickBig).multiply(mPriceTickBig).multiply(mVolumeMultipleBig).multiply(mTradeNumBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            return mPriceBig.subtract(mholdAvgPriceBig).divide(mPriceTickBig).multiply(mVolumeMultipleBig).multiply(mTradeNumBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         } else {
-            return mholdAvgPriceBig.subtract(mPriceBig).divide(mPriceTickBig).multiply(mPriceTickBig).multiply(mVolumeMultipleBig).multiply(mTradeNumBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            return mholdAvgPriceBig.subtract(mPriceBig).divide(mPriceTickBig).multiply(mVolumeMultipleBig).multiply(mTradeNumBig).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
     }
 

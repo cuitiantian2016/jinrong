@@ -589,7 +589,7 @@ public class CloseTransactionDialog extends BaseDialog<CloseTransactionPresenter
      * @return
      */
     private double getCloseProfitLoss(double price, int tradeNum) {
-        String holdAvgPrice = mHoldPositionBean.getHoldAvgPrice();
+        String holdAvgPrice = mHoldPositionBean.getOpenAvgPrice();
         String priceTick = mProductListBean.getPriceTick();
         int volumeMultiple = mProductListBean.getVolumeMultiple();
         int type = mHoldPositionBean.getType();
