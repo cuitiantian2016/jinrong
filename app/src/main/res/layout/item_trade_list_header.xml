@@ -51,7 +51,16 @@
                         android:textColor="@color/color_B1B1B3"
                         android:textSize="@dimen/dimen_12sp" />
                 </LinearLayout>
-
+                <ImageView
+                    android:id="@+id/iv_trade_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:paddingTop="@dimen/dimen_6dp"
+                    android:paddingLeft="@dimen/dimen_10dp"
+                    android:paddingRight="@dimen/dimen_10dp"
+                    android:paddingBottom="@dimen/dimen_10dp"
+                    android:src="@mipmap/ic_trade_tip" />
                 <ImageView
                     android:id="@+id/iv_fx_tip"
                     android:layout_width="wrap_content"
@@ -126,17 +135,6 @@
                         android:textColor="@color/color_B1B1B3"
                         android:textSize="@dimen/dimen_12sp" />
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_trade_tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:paddingTop="@dimen/dimen_6dp"
-                    android:paddingLeft="@dimen/dimen_10dp"
-                    android:paddingRight="@dimen/dimen_10dp"
-                    android:paddingBottom="@dimen/dimen_10dp"
-                    android:src="@mipmap/ic_trade_tip" />
 
             </LinearLayout>
 
