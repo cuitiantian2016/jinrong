@@ -33,6 +33,7 @@ import com.honglu.future.config.Constant;
 import com.honglu.future.events.ClickPraiseEvent;
 import com.honglu.future.events.CommentEvent;
 import com.honglu.future.ui.circle.circlemain.OnClickThrottleListener;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.bean.ConsultDetailsBean;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.contract.ConsultDetailsContract;
@@ -110,6 +111,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
     private boolean isComm;
     private String shareTitle;
     private String homePic;
+    private String uId;
+    private String nickname;
 
     public static void startConsultDetailsActivity(HomeMessageItem item, Context context) {
         Intent intent = new Intent(context, ConsultDetailsActivity.class);
@@ -172,7 +175,7 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 }
             }
         });
-        
+
         LinearLayout headerView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.news_detail_header, null);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -222,7 +225,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 mTvTitle.setText(item.title);
                 shareTitle = item.title;
                 homePic = item.homePic;
+                uId = item.authorId;
                 mPosition = item.position;
+                nickname = item.nickname;
                 mTvName.setText(item.nickname);
                 mTopicAdapter.setNickName(item.nickname);
                 mTvPosition.setText(item.userRole);
@@ -253,6 +258,18 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 String uID = SpUtil.getString(Constant.CACHE_TAG_UID);
                 if (isLogin()) {
                     mPresenter.praiseMessage(informationId, uID);
+                }
+            }
+        });
+        mUserIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(uId)) {
+                    Intent intent = new Intent(mContext, CircleMineActivity.class);
+                    intent.putExtra("userId", uId);
+                    intent.putExtra("imgHead", homePic);
+                    intent.putExtra("nickName", nickname);
+                    startActivity(intent);
                 }
             }
         });
@@ -351,7 +368,9 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         ImageUtil.display(ConfigUtil.baseImageUserUrl + bean.userAvatar, mUserIcon, R.mipmap.img_head);
         mTvTitle.setText(bean.title);
         shareTitle = bean.title;
+        uId = bean.authorId;
         homePic = bean.homePic;
+        nickname = bean.nickname;
         mTvName.setText(bean.nickname);
         mTopicAdapter.setNickName(bean.nickname);
         mTvPosition.setText(bean.userRole);

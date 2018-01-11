@@ -1,5 +1,6 @@
 package com.honglu.future.ui.details.presenter;
 
+import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.honglu.future.R;
 import com.honglu.future.config.ConfigUtil;
+import com.honglu.future.ui.circle.circlemine.CircleMineActivity;
 import com.honglu.future.ui.details.bean.InformationCommentBean;
 import com.honglu.future.ui.details.bean.onIconClickListener;
 import com.honglu.future.util.AndroidUtil;
@@ -38,9 +40,10 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
         void onScrollToLast(Integer pos);
     }
 
-    public TopicAdapter() {}
+    public TopicAdapter() {
+    }
 
-    public void setNickName(String nickName){
+    public void setNickName(String nickName) {
         this.nickName = nickName;
         notifyDataSetChanged();
     }
@@ -96,19 +99,25 @@ public class TopicAdapter extends CommonAdapter<InformationCommentBean> {
             ViewHelper.safelySetText(userNameTv, item.getNickname());
             ViewHelper.safelySetText(announceTimeTv, AndroidUtil.splitDateNew(item.getModifyTime()));
             if (!TextUtils.isEmpty(item.getReplyNickname())) {
-                contentTv.setText(Html.fromHtml("<font color='#86A2B0'>" +"回复"+ "</font>" + "<font color='#979899'>" + item.getReplyNickname() + "</font>" + ": " + item.getCommentContent()));
+                contentTv.setText(Html.fromHtml("<font color='#86A2B0'>" + "回复" + "</font>" + "<font color='#979899'>" + item.getReplyNickname() + "</font>" + ": " + item.getCommentContent()));
             } else {
                 ViewHelper.safelySetText(contentTv, item.getCommentContent());
             }
             //头像点击
             userIv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if (mOnIconClickListener !=null){
-                        mOnIconClickListener.clickIcon(item.getPostmanId());
+                public void onClick(View view) {
+                    if (TextUtils.isEmpty(item.getPostmanId())) {
+                        return;
                     }
+                    Intent intent = new Intent(userIv.getContext(), CircleMineActivity.class);
+                    intent.putExtra("userId", item.getPostmanId());
+                    intent.putExtra("imgHead", ConfigUtil.baseImageUserUrl + item.getUserAvatar());
+                    intent.putExtra("nickName", item.getNickname());
+                    userIv.getContext().startActivity(intent);
                 }
             });
+
         }
     }
 

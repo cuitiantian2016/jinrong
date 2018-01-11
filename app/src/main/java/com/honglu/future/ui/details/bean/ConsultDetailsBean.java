@@ -24,4 +24,5 @@ public class ConsultDetailsBean {
     public int position;//当前的位置
     public int praiseCounts;//点赞数
     public String feiTime;
+    public String authorId;
 }
