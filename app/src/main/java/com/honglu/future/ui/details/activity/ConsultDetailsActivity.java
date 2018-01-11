@@ -64,7 +64,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.honglu.future.ui.details.presenter.ConsultDetailsPresenter.ISComment;
-import static com.honglu.future.ui.home.HomeTabViewUtil.NewsCloumnViewUtils.computingTime;
+
 
 /**
  * Created by hc on 2017/10/24.
@@ -231,8 +231,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
                 pinglun_num.setText("" + commentNum);
                 praiseCounts = item.praiseCounts;
                 mTvSupportNum.setText(praiseCounts + "人点赞");
-                if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
-                    mTvTime.setText(computingTime(item.showTime));
+                if (!TextUtils.isEmpty(item.feiTime)) {
+                    mTvTime.setText(item.feiTime);
                 }
                 informationId = item.informationId;
                 mPresenter.getMessageData(informationId);
@@ -360,8 +360,8 @@ public class ConsultDetailsActivity extends BaseActivity<ConsultDetailsPresenter
         pinglun_num.setText("" + commentNum);
         praiseCounts = bean.praiseCounts;
         mTvSupportNum.setText(praiseCounts + "人点赞");
-        if (!TextUtils.isEmpty(bean.showTime) && bean.showTime.length() > 16) {
-            mTvTime.setText(computingTime(bean.showTime));
+        if (!TextUtils.isEmpty(bean.feiTime)) {
+            mTvTime.setText(bean.feiTime);
         }
         if (bean.isPraise > 0) {
             mSupportIv.setImageResource(R.mipmap.icon_support_click);

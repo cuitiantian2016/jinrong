@@ -188,8 +188,8 @@ public class NewsCloumnViewUtils {
             super.bindView(item, position);
             ImageUtil.display(item.homePic, newest_content_iv, R.mipmap.other_empty);
             ImageUtil.display(ConfigUtil.baseImageUserUrl + item.userAvatar, mIvAvatar, R.mipmap.img_head);
-            if (!TextUtils.isEmpty(item.showTime) && item.showTime.length() > 16) {
-                tv_time.setText(computingTime(item.showTime));
+            if (!TextUtils.isEmpty(item.feiTime)) {
+                tv_time.setText(item.feiTime);
             }
             if (!TextUtils.isEmpty(item.nickname)) {
                 mTvName.setText(item.nickname);
@@ -270,7 +270,7 @@ public class NewsCloumnViewUtils {
             llp.width = DeviceUtils.getScreenWidth(mContext) - DeviceUtils.dip2px(mContext, 20);
             llp.height = llp.width * 316 / 702;
             typetwonewest_content_iv.setLayoutParams(llp);
-            tv_timetype2.setText(computingTime(item.showTime));
+            tv_timetype2.setText(item.feiTime);
             tv_praisetype2.setText(String.valueOf(item.praiseCounts));
             if (item.isPraise > 0) {
                 profit_icon.setImageResource(R.mipmap.ic_support);
